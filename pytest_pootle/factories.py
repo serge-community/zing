@@ -229,3 +229,9 @@ class DueDateFactory(factory.django.DjangoModelFactory):
 
     class Meta(object):
         model = 'pootle.DueDate'
+
+
+class PaidTaskFactory(factory.django.DjangoModelFactory):
+
+    class Meta(object):
+        model = 'reports.PaidTask'

@@ -671,7 +671,7 @@ def reject_suggestion(request, unit, suggid):
     # 1. Have `review` rights, or
     # 2. Be the author of the suggestion being rejected
     if (not check_permission('review', request) and
-        (request.user.is_anonymous() or request.user != sugg.user)):
+        (request.user.is_anonymous or request.user != sugg.user)):
         raise PermissionDenied(_('Insufficient rights to access review mode.'))
 
     unit.reject_suggestion(sugg, request.translation_project, request.user)

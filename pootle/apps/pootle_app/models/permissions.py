@@ -66,7 +66,7 @@ def get_permissions_by_username(username, directory):
 
 
 def get_matching_permissions(user, directory):
-    if user.is_authenticated():
+    if user.is_authenticated:
         permissions = get_permissions_by_username(user.username,
                                                   directory)
         if permissions is not None:

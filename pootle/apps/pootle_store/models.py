@@ -1200,9 +1200,6 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
 
     @property
     def units(self):
-        if hasattr(self, '_units'):
-            return self._units
-
         return self.unit_set.filter(state__gt=OBSOLETE).order_by('index')
 
     @units.setter
@@ -1246,17 +1243,6 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
         if created:
             store_log(user='system', action=STORE_ADDED,
                       path=self.pootle_path, store=self.id)
-
-        if hasattr(self, '_units'):
-            index = self.max_index() + 1
-            revision = None
-            if created:
-                revision = Revision.incr()
-            for i, unit in enumerate(self._units):
-                unit.store = self
-                unit.index = index + i
-                unit.save(revision=revision)
-
         if update_cache:
             self.update_dirty_cache()
 
@@ -1470,18 +1456,6 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
 
         if self.id:
             newunit.save(revision=update_revision, user=user)
-        else:
-            # We can't save the unit if the store is not in the
-            # database already, so let's keep it in temporary list
-            if not hasattr(self, '_units'):
-                class FakeQuerySet(list):
-                    def iterator(self):
-                        return self.__iter__()
-
-                self._units = FakeQuerySet()
-
-            self._units.append(newunit)
-
         return newunit
 
     def findunits(self, source, obsolete=False):

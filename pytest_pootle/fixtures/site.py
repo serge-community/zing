@@ -72,7 +72,7 @@ def translations_directory():
     settings.POOTLE_TRANSLATION_DIRECTORY = tempfile.mkdtemp()
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture
 def clear_cache():
     """Currently tests only use one cache so this clears all"""
 

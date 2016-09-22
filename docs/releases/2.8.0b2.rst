@@ -41,6 +41,7 @@ Changes in Requirements
 
 - Django>=1.8.13,<1.9
 - zlib1g-dev required for lxml
+- MySQL support uses mysqlclient instead of MySQLdb
 
 
 Major Changes
@@ -61,6 +62,8 @@ information.
 Details of changes
 ==================
 
+- MySQL now uses the mysqlclient database driver instead of MySQLdb, this is
+  Django's preferred database driver.
 - Undertook a security audit
 - Improved editor performance
 - Added pluggable search backend

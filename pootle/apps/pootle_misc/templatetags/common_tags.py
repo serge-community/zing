@@ -15,14 +15,6 @@ from django.contrib.auth import get_user_model
 register = template.Library()
 
 
-@register.inclusion_tag('browser/_table.html', takes_context=True)
-def display_table(context, table):
-    return {
-        'can_translate': context["can_translate"],
-        'table': table,
-    }
-
-
 @register.filter
 @template.defaultfilters.stringfilter
 def cssid(value):

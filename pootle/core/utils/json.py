@@ -40,4 +40,4 @@ def jsonify(obj):
     else:
         indent = None
 
-    return json.dumps(obj, indent=indent, cls=PootleJSONEncoder)
+    return json.dumps(obj, indent=indent, cls=PootleJSONEncoder, sort_keys=True)

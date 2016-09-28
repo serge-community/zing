@@ -139,7 +139,8 @@ var config = {
   output: {
     path: __dirname,
     publicPath: process.env.WEBPACK_PUBLIC_PATH,
-    filename: './[name]/app.bundle.js'
+    filename: '[name]/app.bundle.js',
+    chunkFilename: '[name]/app.bundle.js'
   },
   module: {
     loaders: [

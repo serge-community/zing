@@ -152,8 +152,8 @@ const stats = {
 
     ReactDOM.render(
       <Stats
-        hasMoreContributors={options.topContributorsData.has_more_items}
-        topContributors={options.topContributorsData.items}
+        hasMoreContributors={options.topContributorsData.has_more_items || false}
+        topContributors={options.topContributorsData.items || []}
         pootlePath={this.pootlePath}
       />,
       q('#js-mnt-top-contributors')
@@ -214,7 +214,7 @@ const stats = {
   },
 
   updateAction($action, count) {
-    $action.toggleClass('non-zero', !(count === 0));
+    $action.toggleClass('non-zero', count > 0);
     $action.find('.counter').text(count !== null ? count : '—');
   },
 

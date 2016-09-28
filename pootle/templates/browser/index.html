@@ -158,11 +158,11 @@
 </div>
 {% endif %}
 
+{% comment %}
 {% if vfolders %}
-<div class="browsing-table-wrapper bd vfolders" lang="{{ LANGUAGE_CODE }}">
-  {% display_table vfolders %}
-</div>
+{# TODO: vfolders should be rendered along with the main table without any `if vfolders` #}
 {% endif %}
+{% endcomment %}
 
 {% if table %}
 <div class="browsing-table-wrapper bd" lang="{{ LANGUAGE_CODE }}">

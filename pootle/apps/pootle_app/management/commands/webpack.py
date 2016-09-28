@@ -90,7 +90,7 @@ class Command(BaseCommand):
             # `webpack.config.js` file
             custom_static_dirs = map(lambda x: os.path.join(x, 'js/'),
                                      custom_static_dirs)
-            os.environ['WEBPACK_ROOT'] = ':'.join(custom_static_dirs)
+            os.environ['WEBPACK_ROOT'] = ';'.join(custom_static_dirs)
 
         try:
             subprocess.call(webpack_args)

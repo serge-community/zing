@@ -32,10 +32,9 @@ SourceString.propTypes = {
 const UserEvent = React.createClass({
 
   propTypes: {
-    displayDatetime: PropTypes.string.isRequired,
-    displayName: PropTypes.string.isRequired,
+    displayName: PropTypes.string,
     email: PropTypes.string.isRequired,
-    isoDatetime: PropTypes.string.isRequired,
+    timestamp: PropTypes.number,
     type: PropTypes.number.isRequired,
     unitSource: PropTypes.string.isRequired,
     unitUrl: PropTypes.string.isRequired,
@@ -43,7 +42,7 @@ const UserEvent = React.createClass({
     checkName: PropTypes.string,
     checkDisplayName: PropTypes.string,
     translationActionType: PropTypes.number,
-    username: PropTypes.string,
+    username: PropTypes.string.isRequired,
   },
 
   mixins: [PureRenderMixin],
@@ -130,7 +129,7 @@ const UserEvent = React.createClass({
     const avatar = (
       <Avatar
         email={this.props.email}
-        label={this.props.displayName}
+        label={this.props.displayName || this.props.username}
         size={20}
         username={this.props.username}
       />
@@ -146,8 +145,7 @@ const UserEvent = React.createClass({
         </span>
         {' '}
         <TimeSince
-          title={this.props.displayDatetime}
-          dateTime={this.props.isoDatetime}
+          timestamp={this.props.timestamp}
         />
       </div>
     );

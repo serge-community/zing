@@ -9,14 +9,14 @@
 import React, { PropTypes } from 'react';
 import { PureRenderMixin } from 'react-addons-pure-render-mixin';
 
-import { relativeTime } from 'utils/relativeTime';
+// FIXME: avoid relative import
+import { relativeDate } from '../../utils';
 
 
 const TimeSince = React.createClass({
 
   propTypes: {
-    dateTime: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
+    timestamp: PropTypes.number,
   },
 
   mixins: [PureRenderMixin],
@@ -28,7 +28,7 @@ const TimeSince = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.dateTime !== this.props.dateTime) {
+    if (nextProps.timestamp !== this.props.timestamp) {
       this.cleanup();
     }
   },
@@ -45,7 +45,7 @@ const TimeSince = React.createClass({
   },
 
   tick(opts = { refresh: true }) {
-    const past = Date.parse(this.props.dateTime);
+    const past = new Date(this.props.timestamp * 1000);
     const now = Date.now();
     const seconds = Math.round(Math.abs(now - past) / 1000);
 
@@ -69,14 +69,20 @@ const TimeSince = React.createClass({
   },
 
   render() {
+    if (!this.props.timestamp) {
+      return (<span/>);
+    }
+
+    var d = new Date(this.props.timestamp * 1000);
+
     return (
       <time
         className="extra-item-meta"
-        title={this.props.title}
-        dateTime={this.props.dateTime}
+        title={d.toUTCString()}
+        dateTime={d.toUTCString()}
         {...this.props}
       >
-        {relativeTime(this.props.dateTime)}
+        {relativeDate(d)}
       </time>
     );
   },

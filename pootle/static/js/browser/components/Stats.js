@@ -58,17 +58,21 @@ const Stats = React.createClass({
   },
 
   render() {
-    if (!this.state.topContributors.length) {
-      return null;
-    }
+    var content = (!this.state.topContributors.length) ? (
+      <label className="placeholder">
+        {t('There was no activity here for the past 30 days')}
+      </label>
+    ) : (
+      <TopContributorsTable
+        items={this.state.topContributors}
+      />
+    );
 
     return (
       <div className="summary-2-col">
         <h3 className="top">{t('Contributors, 30 Days')}</h3>
         <div className="bd">
-          <TopContributorsTable
-            items={this.state.topContributors}
-          />
+          {content}
           {this.renderLoadMoreButton()}
         </div>
       </div>

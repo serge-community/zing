@@ -47,6 +47,9 @@ node_modules/
 *.bundle.js
 *.bundle.js.map
 
+# Minified CSS
+*.min.*.css
+
 # Temporary/local files
 ~*
 

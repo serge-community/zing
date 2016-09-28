@@ -12,7 +12,6 @@ import ReactDOM from 'react-dom';
 
 import 'jquery-utils';
 import assign from 'object-assign';
-import 'sorttable';
 
 import StatsAPI from 'api/StatsAPI';
 import LastActivity from 'components/LastActivity';
@@ -21,6 +20,7 @@ import TimeSince from 'components/TimeSince';
 import cookie from 'utils/cookie';
 import { q } from 'utils/dom';
 
+import BrowserTable from './browser/components/BrowserTable';
 import Stats from './browser/components/Stats';
 import VisibilityToggle from './browser/components/VisibilityToggle';
 import msg from './msg';
@@ -48,6 +48,34 @@ function setTdWidth($td, w) {
     $td.hide();
   } else {
     $td.css('width', `${w}%`).show();
+  }
+}
+
+function updateBrowserTableData(stats) {
+  var children = stats.children;
+  if (!children) {
+    return;
+  }
+
+  for (var key in children) {
+    var item = children[key];
+
+    item.critical = item.critical || 0;
+    item.suggestions = item.suggestions || 0;
+    item.lastaction = item.lastaction || {};
+    item.lastaction.mtime = item.lastaction.mtime || 0;
+
+    var pootle_path = item.pootle_path || '';
+    var pathitems = pootle_path.split('/'); // pootle_path starts with the slash
+    pathitems.shift(); // remove the first empty item
+    var lang = pathitems.shift();
+    var project = pathitems.shift();
+    item.translate_url = ['', lang, project, 'translate', pathitems].join('/');
+
+    var total = item.total || 0;
+    var translated = item.translated || 0;
+    item.progress = total > 0 ? translated / total : 1;
+    item.incomplete = total - translated;
   }
 }
 
@@ -127,6 +155,16 @@ const stats = {
         pootlePath={this.pootlePath}
       />,
       q('#js-mnt-top-contributors')
+    );
+
+    // calculate additional fields for the provided data
+    updateBrowserTableData(options.initialData);
+
+    ReactDOM.render(
+        <BrowserTable
+            items={options.initialData.children || []}
+        />,
+        q('.browsing-table-container')
     );
 
     // Retrieve async data if needed
@@ -377,19 +415,6 @@ const stats = {
         } else {
           $vfoldersTable.show();
         }
-      }
-
-      // Sort columns based on previously-made selections
-      const columnSort = sorttable.getSortCookie($table.data('sort-cookie'));
-      if (columnSort !== null) {
-        const $th = $(`#${columnSort.columnId}`);
-        $th.removeClass('sorttable_sorted sorttable_sorted_reverse');
-        setTimeout(() => {
-          $th.click();
-          if (columnSort.order === 'desc') {
-            $th.click();
-          }
-        }, 1);
       }
     }
   },

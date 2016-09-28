@@ -16,8 +16,7 @@ import TimeSince from 'components/TimeSince';
 const LastUpdate = React.createClass({
 
   propTypes: {
-    displayDatetime: PropTypes.string.isRequired,
-    isoDatetime: PropTypes.string.isRequired,
+    timestamp: PropTypes.number.isRequired,
     unitSource: PropTypes.string.isRequired,
     unitUrl: PropTypes.string.isRequired,
   },
@@ -37,8 +36,7 @@ const LastUpdate = React.createClass({
     return (
       <div className="last-action">
         <TimeSince
-          title={this.props.displayDatetime}
-          dateTime={this.props.isoDatetime}
+          timestamp={this.props.timestamp}
         />{' '}
         <span
           className="action-text"

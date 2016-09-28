@@ -250,8 +250,7 @@ const stats = {
     }
 
     const props = {
-      displayDatetime: data.display_datetime,
-      isoDatetime: data.iso_datetime,
+      timestamp: data.creation_time,
       unitSource: data.unit_source,
       unitUrl: data.unit_url,
     };

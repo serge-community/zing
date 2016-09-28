@@ -8,7 +8,6 @@
 # AUTHORS file for copyright and authorship information.
 
 from django import template
-from django.utils.html import escapejs
 from django.utils.safestring import mark_safe
 
 from ..utils.docs import get_docs_url
@@ -21,9 +20,10 @@ register = template.Library()
 @register.filter
 def to_js(value):
     """Returns a string which leaves the value readily available for JS
-    consumption.
+    consumption; breaks closing HTML tags into concatenated strings
+    to avoid '</script> inside JS string' problem
     """
-    return mark_safe('JSON.parse("%s")' % escapejs(jsonify(value)))
+    return mark_safe(jsonify(value).replace('</', '</"+"'))
 
 
 @register.filter

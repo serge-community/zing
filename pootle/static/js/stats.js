@@ -15,9 +15,9 @@ import assign from 'object-assign';
 import 'sorttable';
 
 import StatsAPI from 'api/StatsAPI';
+import LastActivity from 'components/LastActivity';
 import LastUpdate from 'components/LastUpdate';
 import TimeSince from 'components/TimeSince';
-import UserEvent from 'components/UserEvent';
 import cookie from 'utils/cookie';
 import { q } from 'utils/dom';
 
@@ -200,21 +200,7 @@ const stats = {
     if (data.mtime === 0) {
       return false;
     }
-
-    const props = {
-      checkName: data.check_name,
-      checkDisplayName: data.check_display_name,
-      displayName: data.displayname,
-      email: data.email,
-      displayDatetime: data.display_datetime,
-      isoDatetime: data.iso_datetime,
-      type: data.type,
-      translationActionType: data.translation_action_type,
-      unitSource: data.unit_source,
-      unitUrl: data.unit_url,
-      username: data.username,
-    };
-    ReactDOM.render(<UserEvent {...props} />, el);
+    ReactDOM.render(<LastActivity {...data} />, el);
     return true;
   },
 

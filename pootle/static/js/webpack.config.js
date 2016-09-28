@@ -68,7 +68,7 @@ var resolve = {
 // and merge the entry definitions from the manifest files
 var root = process.env.WEBPACK_ROOT;
 if (root !== undefined) {
-  var customPaths = root.split(':');
+  var customPaths = root.split(';');
   resolve.root = [path.join(__dirname, 'node_modules')].concat(customPaths);
 
   function mergeWithArrays(target, source) {
@@ -140,7 +140,8 @@ var config = {
   output: {
     path: __dirname,
     publicPath: process.env.WEBPACK_PUBLIC_PATH,
-    filename: './[name]/app.bundle.js'
+    filename: '[name]/app.bundle.js',
+    chunkFilename: '[name]/app.bundle.js'
   },
   module: {
     loaders: [

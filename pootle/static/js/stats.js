@@ -22,7 +22,7 @@ import { q } from 'utils/dom';
 
 import BrowserTable from './browser/components/BrowserTable';
 import Stats from './browser/components/Stats';
-import VisibilityToggle from './browser/components/VisibilityToggle';
+import StatsCollapsed from './browser/components/StatsCollapsed';
 import msg from './msg';
 
 
@@ -143,10 +143,12 @@ const stats = {
       }
     });
 
-    if (this.isAdmin && options.hasDisabledItems) {
-      ReactDOM.render(<VisibilityToggle uiLocaleDir={options.uiLocaleDir} />,
-                      q('.js-mnt-visibility-toggle'));
-    }
+    ReactDOM.render(
+        <StatsCollapsed
+            topContributors={options.topContributorsData.items || []}
+        />,
+        q('.path-summary-collapsed')
+    );
 
     ReactDOM.render(
       <Stats

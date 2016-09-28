@@ -233,17 +233,16 @@ class Submission(models.Model):
 
         if self.unit is not None:
             result.update({
-                'unit_source': truncatechars(self.unit, 50),
-                'unit_url': self.unit.get_translate_url(),
+                'source': truncatechars(self.unit, 50),
+                'unit': self.unit.id,
             })
 
             if self.quality_check is not None:
                 check_name = self.quality_check.name
                 result.update({
-                    'check_name': check_name,
-                    'check_display_name': check_names.get(check_name,
-                                                          check_name),
-                    'checks_url': reverse('pootle-checks-descriptions'),
+                    'check': check_name,
+                    'check_displayname': check_names.get(check_name,
+                                                         check_name),
                 })
 
         if (self.suggestion and
@@ -261,12 +260,9 @@ class Submission(models.Model):
                 displayuser = User.objects.get_nobody_user()
 
         result.update({
-            "profile_url": displayuser.get_absolute_url(),
             "email": displayuser.email_hash,
             "displayname": displayuser.display_name,
             "username": displayuser.username,
-            "display_datetime": dateformat.format(self.creation_time),
-            "iso_datetime": self.creation_time.isoformat(),
             "type": self.type,
             "mtime": int(dateformat.format(self.creation_time, 'U')),
         })

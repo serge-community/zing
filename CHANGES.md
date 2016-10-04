@@ -4,6 +4,11 @@ Zing Changelog
 v0.1.5 (in development)
 -----------------------
 
+* Editor:
+  * Reworked the way unit fetching is done (#8).
+  * The list of units always takes up the entire screen.
+  * Navigating between units now preserves the editor's vertical position.
+  * New easy way to preview context rows by just hovering over the unit link.
 * Optimized terminology access (#144).
 
 

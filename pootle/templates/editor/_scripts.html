@@ -5,9 +5,6 @@
 <script id="tm_suggestions" type="text/template">
 {% include_raw "editor/units/xhr_tm.html" %}
 </script>
-<script id="editCtx" type="text/template">
-{% include_raw "editor/units/xhr_edit_ctx.html" %}
-</script>
 <script id="js-editor-msg" type="text/template">
 {% include_raw "editor/msg.html" %}
 </script>
@@ -20,7 +17,6 @@ $(function() {
     pootlePath: '{{ pootle_path }}',
     ctxPath: '{{ ctx_path }}',
     resourcePath: '{{ resource_path }}',
-    chunkSize: {{ request.user.get_unit_rows }},
     isAdmin: {{ has_admin_access|yesno:"true,false" }},
     isAnonymous: {{ request.user.is_anonymous|yesno:"true,false" }},
     userId: {{ request.user.id }},

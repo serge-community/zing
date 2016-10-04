@@ -31,16 +31,14 @@ import assign from 'object-assign';
 
 import StatsAPI from 'api/StatsAPI';
 import UnitAPI from 'api/UnitAPI';
-import cookie from 'utils/cookie';
 import diff from 'utils/diff';
 import { q, qAll } from 'utils/dom';
-import { t } from 'utils/i18n';
+import { nt, t } from 'utils/i18n';
 import linkHashtags from 'utils/linkHashtags';
 
 import SuggestionFeedbackForm from './components/SuggestionFeedbackForm';
 
 import captcha from '../captcha';
-import { UnitSet } from '../collections';
 import helpers from '../helpers';
 import msg from '../msg';
 import score from '../score';
@@ -51,16 +49,14 @@ import {
 } from './utils';
 
 import ReactEditor from './index';
+import UnitList from './UnitList';
 
 // Make the react-based editor available to templates. Long term, `index` would
 // be the actual entry point, entirely superseding the `app` module.
 PTL.reactEditor = ReactEditor;
 
-
-const CTX_STEP = 1;
-
 const ALLOWED_SORTS = ['oldest', 'newest', 'default'];
-
+const SHOW_CONTEXT_ROWS_TIMEOUT = 200;
 
 const filterSelectOpts = {
   dropdownAutoWidth: true,
@@ -75,11 +71,11 @@ const sortSelectOpts = assign({
 const mtProviders = [];
 
 
-function highlightSuggestionsDiff(currentUnit) {
+function highlightSuggestionsDiff(unit) {
   qAll('.js-suggestion-text').forEach(
     (translationTextNode) => {
       // eslint-disable-next-line no-param-reassign
-      translationTextNode.innerHTML = diff(currentUnit.get('target')[0],
+      translationTextNode.innerHTML = diff(unit.targetText()[0],
                                            translationTextNode.dataset.string);
     }
   );
@@ -115,7 +111,11 @@ PTL.editor = {
     /* Cached elements */
     this.backToBrowserEl = q('.js-back-to-browser');
     this.$editorActivity = $('#js-editor-act');
-    this.$editorBody = $('.js-editor-body');
+    this.$viewRowsBefore = $('.js-view-rows-before');
+    this.$contextRowsBefore = $('.js-context-rows-before');
+    this.$editorRow = $('.js-editor-row');
+    this.$viewRowsAfter = $('.js-view-rows-after');
+    this.$contextRowsAfter = $('.js-context-rows-after');
     this.editorTableEl = q('.js-editor-table');
     this.$filterStatus = $('#js-filter-status');
     this.$filterChecks = $('#js-filter-checks');
@@ -124,31 +124,30 @@ PTL.editor = {
     this.$msgOverlay = $('#js-editor-msg-overlay');
     this.$navNext = $('#js-nav-next');
     this.$navPrev = $('#js-nav-prev');
+    this.unitPositionEl = q('.js-unit-position');
     this.unitCountEl = q('.js-unit-count');
-    this.unitIndexEl = q('.js-unit-index');
-    this.offsetRequested = 0;
 
     /* Initialize variables */
-    this.units = new UnitSet([], {
-      chunkSize: this.settings.chunkSize,
-    });
-    this.editorRow = null;
 
     this.filter = 'all';
     this.checks = [];
     this.sortBy = 'default';
     this.modifiedSince = null;
     this.user = null;
-    this.ctxGap = 0;
-    this.ctxQty = parseInt(cookie('ctxQty'), 10) || 1;
     this.preventNavigation = false;
-
     this.isUnitDirty = false;
+    this.editorIsClosed = false;
+    this.contextTimer = null;
+    this.lastFilter = null;
+
+    this.units = new UnitList({
+      onUnitChange: uid => this.handleUnitChange(uid),
+      onContextData: (uid, ctx) => this.handleContextData(uid, ctx),
+      onFetchError: (xhr, status) => this.error(xhr, status),
+    });
 
     this.isLoading = true;
     this.showActivity();
-
-    this.fetchingOffsets = [];
 
     /* Levenshtein word comparer */
     this.wordComparer = new Levenshtein({ compare: 'words' });
@@ -157,7 +156,6 @@ PTL.editor = {
     this.tmpl = {
       vUnit: _.template($('#view_unit').html()),
       tm: _.template($('#tm_suggestions').html()),
-      editCtx: _.template($('#editCtx').html()),
       msg: _.template($('#js-editor-msg').html()),
     };
 
@@ -203,6 +201,12 @@ PTL.editor = {
     $('#editor').on('input', '#id_translator_comment',
                    () => this.handleTranslationChange());
 
+    /* Context row preview */
+    $('#editor').on('mouseover', '.js-permalink',
+                    (e) => this.handlePermalinkMouseover(e));
+    $('#editor').on('mouseout', '.js-permalink',
+                    (e) => this.handlePermalinkMouseout(e));
+
     /* Suggest / submit */
     $('#editor').on('click', '.switch-suggest-mode a',
                    (e) => this.toggleSuggestMode(e));
@@ -240,7 +244,7 @@ PTL.editor = {
     });
 
     /* Editor navigation/submission */
-    $('#editor').on('mouseup', 'tr.view-row, tr.ctx-row', this.gotoUnit);
+    $('#editor').on('mouseup', 'tr.view-row', this.gotoUnit);
     $('#editor').on('click', 'input.submit', (e) => {
       e.preventDefault();
       this.handleSubmit();
@@ -271,10 +275,6 @@ PTL.editor = {
     $('#editor').on('click', '.js-toggle-check', (e) => {
       this.toggleCheck(e.currentTarget.dataset.checkId);
     });
-    $('#editor').on('click', '.js-more-ctx', () => this.moreContext());
-    $('#editor').on('click', '.js-less-ctx', () => this.lessContext());
-    $('#editor').on('click', '.js-show-ctx', () => this.showContext());
-    $('#editor').on('click', '.js-hide-ctx', () => this.hideContext());
 
     /* Commenting */
     $('#editor').on('click', '.js-editor-comment', (e) => {
@@ -321,7 +321,9 @@ PTL.editor = {
       e.preventDefault();
       if (this.selectedSuggestionId !== undefined) {
         this.closeSuggestion();
+        return;
       }
+      this.hideContextRows();
     });
     // Leave 'ctrl+return' for backward compatibility with Mac
     hotkeys.bind(['mod+return', 'ctrl+return'], (e) => {
@@ -385,40 +387,28 @@ PTL.editor = {
     /* History support */
     $.history.init((hash) => {
       const params = utils.getParsedHash(hash);
-      let isInitial = true;
-      let uId = 0;
-      let initialOffset = 0;
 
       if (this.selectedSuggestionId !== undefined) {
         this.closeSuggestion({ checkIfCanNavigate: false });
       }
 
-      // Walk through known filtering criteria and apply them to the editor object
-
-      if (params.unit) {
-        const uIdParam = parseInt(params.unit, 10);
-
-        if (uIdParam && !isNaN(uIdParam)) {
-          const current = this.units.getCurrent();
-          const newUnit = this.units.get(uIdParam);
-
-          if (newUnit && newUnit !== current) {
-            this.setUnit(newUnit);
-            return;
-          }
-
-          uId = uIdParam;
-          // Don't retrieve initial data if there are existing results
-          isInitial = !this.units.length;
+      // get filter criteria (hash without the 'unit' part)
+      const filterHash = utils.updateHashPart(undefined, undefined, ['unit'], hash);
+      if (filterHash === this.lastFilter) {
+        // if filter criteria are the same, first ensure back/forward buttons
+        // work when unit was specified
+        const unit = params.unit ? parseInt(params.unit, 10) : null;
+        if (unit) {
+          this.units.goto(unit);
+        }
+        // otherwise, if units have already been loaded, exit early...
+        if (this.units.length > 0) {
+          return;
         }
       }
-
-      if (params.offset) {
-        const offset = parseInt(params.offset, 10);
-        if (offset && !isNaN(offset)) {
-          initialOffset = this.getStartOfChunk(offset);
-        }
-      }
+      // ...otherwise, save the filter value for later comparison continue
+      // through the filters and prepare the query to download the units
+      this.lastFilter = filterHash;
 
       // Reset to defaults
       this.filter = 'all';
@@ -534,36 +524,36 @@ PTL.editor = {
       // re-enable normal event handling
       this.preventNavigation = false;
 
-      this.fetchUnits({
-        uId,
-        initialOffset,
-        initial: isInitial,
-      }).then((hasResults) => {
+      // get all the uids and see if the uId is in the list
+      const reqData = {
+        path: this.settings.pootlePath,
+      };
+      assign(reqData, this.getReqData());
+
+      if (params.unit) {
+        reqData.uid = parseInt(params.unit, 10);
+      }
+      this.units.fetchUids(reqData).done((hasResults) => {
         if (!hasResults) {
-          return;
+          this.handleEmptyResults();
         }
-        if (this.units.uIds.indexOf(uId) === -1) {
-          if (this.offsetRequested > this.initialOffset &&
-              this.offsetRequested <= this.getOffsetOfLastUnit()) {
-            uId = this.units.uIds[this.offsetRequested - this.initialOffset - 1];
-          } else {
-            uId = this.units.uIds[0];
-          }
-        }
-        this.offsetRequested = 0;
-        this.setUnit(uId);
+
+        // Ugly syntax but enables running async functions in parallel
+        $.when(
+          this.units.goto(reqData.uid || this.units.uids[0]),
+          this.units.prefetchUnits()
+        );
       });
     }, { unescape: true });
   },
 
   /* Stuff to be done when the editor is ready  */
   ready() {
-    const currentUnit = this.units.getCurrent();
-    if (currentUnit.get('isObsolete')) {
+    if (this.units.unit.is_obsolete) {
       this.displayObsoleteMsg();
     }
 
-    highlightSuggestionsDiff(currentUnit);
+    highlightSuggestionsDiff(this.units.unit);
 
     // set direction of the comment body
     $('.extra-item-comment').filter(':not([dir])').bidi();
@@ -577,8 +567,8 @@ PTL.editor = {
       this.hlSearch();
     }
 
-    if (this.tmData !== null) {
-      const tmContent = this.getTMUnitsContent(this.tmData);
+    if (this.units.unit.tm_suggestions) {
+      const tmContent = this.getTMUnitsContent(this.units.unit.tm_suggestions);
       $('.js-mnt-tm').append(tmContent);
     }
 
@@ -590,12 +580,6 @@ PTL.editor = {
     this.hideActivity();
     this.updateExportLink();
     helpers.updateRelativeDates();
-  },
-
-  /* Things to do when no results are returned */
-  noResults() {
-    this.displayMsg({ body: t('No results.') });
-    this.reDraw();
   },
 
   canNavigate() {
@@ -670,7 +654,7 @@ PTL.editor = {
 
   /* Copies source text(s) into the target textarea(s)*/
   copyOriginal(languageCode) {
-    const sources = this.units.getCurrent().get('sources')[languageCode];
+    const sources = this.units.unit.sources[languageCode];
     for (let i = 0; i < sources.length; i++) {
       ReactEditor.setValueFor(i, sources[i]);
     }
@@ -862,10 +846,10 @@ PTL.editor = {
    */
 
   getSimilarityData() {
-    const currentUnit = this.units.getCurrent();
+    const currentUnit = this.units.unit;
     return {
-      similarity: currentUnit.get('similarityHuman'),
-      mt_similarity: currentUnit.get('similarityMT'),
+      similarity: currentUnit.similarityHuman,
+      mt_similarity: currentUnit.similarityMT,
     };
   },
 
@@ -909,7 +893,6 @@ PTL.editor = {
       return false;
     }
 
-    const currentUnit = this.units.getCurrent();
     const newTranslation = ReactEditor.stateValues[0];
     let simHuman = { max: 0, boxId: null };
     let simMT = { max: 0, boxId: null };
@@ -923,10 +906,8 @@ PTL.editor = {
                                        dataSelectorMT);
     }
 
-    currentUnit.set({
-      similarityHuman: simHuman.max,
-      similarityMT: simMT.max,
-    });
+    this.units.unit.similarityHuman = simHuman.max;
+    this.units.unit.similarityMT = simMT.max;
 
     const similarity = (simHuman.max > simMT.max) ? simHuman : simMT;
     this.highlightBox(similarity.boxId, similarity.max === 1);
@@ -1076,70 +1057,6 @@ PTL.editor = {
    * Misc functions
    */
 
-  /* Gets the offset of a unit in the total result set */
-  getOffsetOfUid(uid) {
-    return this.initialOffset + this.units.uIds.indexOf(uid);
-  },
-
-  /* Gets the start offset for the chunk of a given offset */
-  getStartOfChunk(offset) {
-    return offset - (offset % (2 * this.units.chunkSize));
-  },
-
-  /* Checks whether editor needs the next batch of units */
-  needsNextUnitBatch() {
-    return (
-      this.units.uIds.slice(-7).indexOf(this.units.activeUnit.id) !== -1 &&
-      this.getOffsetOfLastUnit() < this.units.total
-    );
-  },
-
-  /* Checks whether editor needs the previous batch of units */
-  needsPreviousUnitBatch() {
-    return (
-      this.units.uIds.slice(0, 7).indexOf(this.units.activeUnit.id) !== -1 &&
-      this.initialOffset > 0
-    );
-  },
-
-  /* Returns the uids of the last batch of units currently stored */
-  getPreviousUids() {
-    return this.units.uIds.slice(-(2 * this.units.chunkSize));
-  },
-
-  /* Sets the offset in the browser location */
-  setOffset(uid) {
-    $.history.load(utils.updateHashPart(
-      'offset', this.getStartOfChunk(this.getOffsetOfUid(uid)))
-    );
-  },
-
-  /* Gets the offset of the last unit currently held by the client */
-  getOffsetOfLastUnit() {
-    return this.initialOffset + this.units.uIds.length;
-  },
-
-  /* Remembers offsets that are currently being fetched to prevent multiple
-   * calls to same URL
-   */
-  markAsFetching(offset) {
-    this.fetchingOffsets.push(offset);
-  },
-
-  /* Removes remembered offsets once the XHR call has completed */
-  markAsFetched(offset) {
-    if (this.fetchingOffsets.indexOf(offset) !== -1) {
-      this.fetchingOffsets = this.fetchingOffsets.splice(
-        this.fetchingOffsets.indexOf(offset), 1
-      );
-    }
-  },
-
-  /* Returns true if client is awaiting a get_units call with given offset */
-  isBeingFetched(offset) {
-    return this.fetchingOffsets.indexOf(offset) !== -1;
-  },
-
   /* Gets common request data */
   getReqData() {
     const reqData = {};
@@ -1205,145 +1122,222 @@ PTL.editor = {
 
 
   /* Renders a single row */
-  renderRow(unit) {
+  renderViewRow(uid, unit, extraClassName) {
+    if (!unit) {
+      return '';
+    }
+
+    const classNames = cx('view-row', {
+      [extraClassName]: extraClassName,
+    });
+
     return (`
-      <tr id="row${unit.id}" class="view-row">
-        ${this.tmpl.vUnit({ unit: unit.toJSON() })}
+      <tr id="row${uid}" class="${classNames}">
+        ${this.tmpl.vUnit({ unit })}
       </tr>
     `);
   },
 
-  renderEditorRow(unit) {
+  renderEditorRow(uid, unit) {
     const eClass = cx('edit-row', {
-      'fuzzy-unit': unit.get('isfuzzy'),
-      'with-ctx': this.filter !== 'all',
+      'fuzzy-unit': unit.isfuzzy,
     });
 
-    const [ctxRowBefore, ctxRowAfter] = this.renderCtxControls({ hasData: false });
-
     return (`
-      ${this.filter !== 'all' ? ctxRowBefore : ''}
-      <tr id="row${unit.id}" class="${eClass}">
-        ${this.editorRow}
+      <tr id="row${uid}" class="${eClass}">
+        ${this.units.unit.editor}
       </tr>
-      ${this.filter !== 'all' ? ctxRowAfter : ''}
     `);
   },
 
-  /* Renders the editor rows */
-  renderRows() {
-    const unitGroups = this.getUnitGroups();
-    const currentUnit = this.units.getCurrent();
 
-    const rows = [];
-
-    unitGroups.forEach((unitGroup) => {
-      // Don't display a delimiter row if all units have the same origin
-      if (unitGroups.length !== 1) {
-        rows.push(
-          '<tr class="delimiter-row"><td colspan="2">' +
-            `<div class="hd"><h2>${_.escape(unitGroup.path)}</h2></div>` +
-          '</td></tr>'
-        );
-      }
-
-      for (let i = 0; i < unitGroup.units.length; i++) {
-        const unit = unitGroup.units[i];
-
-        if (unit.id === currentUnit.id) {
-          rows.push(this.renderEditorRow(unit));
-        } else {
-          rows.push(this.renderRow(unit));
-        }
-      }
-    });
-
-    return rows.join('');
+  /* Renders the view rows */
+  renderViewRows(uids) {
+    return uids.map(uid => this.renderViewRow(uid, this.units.units[uid]));
   },
 
 
-  /* Renders context rows for units passed as 'units' */
-  renderCtxRows(units, extraCls) {
-    const currentUnit = this.units.getCurrent();
-    let rows = '';
-
+  /* Renders the context rows */
+  renderContextRows(units, rows) {
     for (let i = 0; i < units.length; i++) {
-      // FIXME: Please let's use proper models for context units
-      let unit = units[i];
-      unit = assign({}, currentUnit.toJSON(), unit);
-
-      rows += `<tr id="ctx${unit.id}" class="ctx-row ${extraCls}">`;
-      rows += this.tmpl.vUnit({ unit });
-      rows += '</tr>';
+      const unit = units[i];
+      const uid = unit.id;
+      rows.push(this.renderViewRow(uid, unit, 'ctx'));
     }
-
-    return rows;
   },
 
 
-  /* Returns the unit groups for the current editor state */
-  getUnitGroups() {
-    const limit = parseInt(((this.units.chunkSize - 1) / 2), 10);
-    const unitCount = this.units.length;
-    const currentUnit = this.units.getCurrent();
-    const curIndex = this.units.indexOf(currentUnit);
+  handlePermalinkMouseover() {
+    if (this.filter === 'all') {
+      return;
+    }
+    clearTimeout(this.contextTimer);
+    this.contextTimer = setTimeout(() => {
+      this.units.loadContextRows();
+    }, SHOW_CONTEXT_ROWS_TIMEOUT);
+  },
 
-    let begin = curIndex - limit;
-    let end = curIndex + 1 + limit;
-    let prevPath = null;
 
-    if (begin < 0) {
-      end = end + -begin;
-      begin = 0;
-    } else if (end > unitCount) {
-      if (begin > end - unitCount) {
-        begin = begin + -(end - unitCount);
+  handlePermalinkMouseout(e) {
+    if (this.filter === 'all') {
+      return;
+    }
+    if (!e.ctrlKey) {
+      this.hideContextRows();
+    }
+  },
+
+
+  /* shows the context rows in place of regular view rows */
+  handleContextData(uid, ctx) {
+    if (uid !== this.units.uid) {
+      return;
+    }
+    this.showContextRows(ctx);
+  },
+
+  showContextRows(ctx) {
+    const rowsBefore = [];
+    this.renderContextRows(ctx.before, rowsBefore);
+
+    const rowsAfter = [];
+    this.renderContextRows(ctx.after, rowsAfter);
+
+    // update DOM
+
+    this.$contextRowsBefore.html(rowsBefore.join(''));
+    this.$contextRowsAfter.html(rowsAfter.join(''));
+
+    // hide view rows and show context rows
+
+    this.$viewRowsBefore.addClass('context-mode');
+    this.$contextRowsBefore.addClass('context-mode');
+
+    this.$viewRowsAfter.addClass('context-mode');
+    this.$contextRowsAfter.addClass('context-mode');
+  },
+
+
+  /* hides the context rows */
+  hideContextRows() {
+    clearTimeout(this.contextTimer);
+
+    if (!this.$contextRowsBefore.hasClass('context-mode')) {
+      return; // nothing to do
+    }
+
+    // hide context rows and show view rows
+
+    this.$viewRowsBefore.removeClass('context-mode');
+    this.$contextRowsBefore.removeClass('context-mode');
+
+    this.$viewRowsAfter.removeClass('context-mode');
+    this.$contextRowsAfter.removeClass('context-mode');
+  },
+
+  /* populates lead-in and lead-out row messages */
+  populateLeadInOutMessages() {
+    const leadIn = [];
+    const leadOut = [];
+
+    const canShow = (
+      this.units.uids.length >
+      this.units.visibleRowsBefore + this.units.visibleRowsAfter
+    );
+
+    if (!canShow) {
+      return { leadIn, leadOut };
+    }
+
+    if (this.units.begin === 0) {
+      leadIn.push(nt(
+        'Found %(total)s unit.',
+        'Found %(total)s units.',
+        this.units.total, { total: this.units.total }
+      ));
+    } else {
+      // there are some units above;
+      // this can only happen when filter is set to 'all'
+      leadIn.push(nt(
+        'There are %(count)s more unit above.',
+        'There are %(count)s more units above.',
+        this.units.total, { count: this.units.begin }
+      ));
+
+      leadIn.push(t('Reload the page to see them.'));
+    }
+
+    if (this.units.end === this.units.total) {
+      leadOut.push(t('Congratulations, you went through all units!'));
+    } else {
+      leadOut.push(t('Congratulations, you went through a good number of units!'));
+
+      if (this.filter === 'all') {
+        leadOut.push(t('Reload the page to see some more.'));
+      } else if (this.filter === 'search') {
+        leadOut.push(t(
+          `There were more units that matched your search criteria.
+          Please refine your search.`
+        ));
       } else {
-        begin = 0;
+        leadOut.push(t(
+          `There were more units that matched your filter.
+          Reload the page to see if there is more stuff to go through,
+          or use search to find specific units.`
+        ));
       }
-      end = unitCount;
     }
 
-    return this.units.slice(begin, end).reduce((out, unit) => {
-      const pootlePath = unit.get('store').get('pootlePath');
+    return { leadIn, leadOut };
+  },
 
-      if (pootlePath === prevPath) {
-        out[out.length - 1].units.push(unit);
-      } else {
-        out.push({
-          path: pootlePath,
-          units: [unit],
-        });
-      }
+  /* redraws the translate table view rows */
+  redrawViewRows() {
+    const messages = this.populateLeadInOutMessages();
 
-      prevPath = pootlePath;
+    const rowsBefore = [`
+      <tr>
+        <td colspan="2" class="lead-in-row">
+          <p>${messages.leadIn.join('</p><p>')}</p>
+        </td>
+      </tr>
+    `];
+    rowsBefore.push(this.renderViewRows(this.units.visibleUnitsBefore()));
 
-      return out;
-    }, []);
+    const rowsAfter = [this.renderViewRows(this.units.visibleUnitsAfter())];
+    rowsAfter.push(`
+      <tr>
+        <td colspan="2" class="lead-out-row">
+          <p>${messages.leadOut.join('</p><p>')}</p>
+        </td>
+      </tr>
+    `);
+
+    // update DOM
+
+    this.$viewRowsBefore.html(rowsBefore.join(''));
+    this.$viewRowsAfter.html(rowsAfter.join(''));
   },
 
 
-  /* Sets the edit view for the current active unit */
-  renderUnit() {
-    if (this.units.length) {
-      this.hideMsg();
+  /* redraws the edit row */
+  redrawEditRow() {
+    let editorRow = '';
+    if (this.editorIsClosed) {
+      // When the editor is closed, it is rendered as a view row but in the
+      // context of the editor row section; we need to adjust its background so
+      // that it follows the background stripe pattern of the upper view rows
+      const rowsBefore = this.units.visibleUnitsBefore().length + 1; // add 1 for lead-in-row
+      const className = rowsBefore % 2 === 1 ? 'even' : undefined;
 
-      this.reDraw(this.renderRows());
+      editorRow = this.renderViewRow(this.units.uid, this.units.unit, className);
+    } else {
+      editorRow = this.renderEditorRow(this.units.uid, this.units.unit);
     }
+
+    this.$editorRow.html(editorRow);
+    this.ready();
   },
-
-
-  /* reDraws the translate table rows */
-  reDraw(newTbody) {
-    this.$editorBody.find('tr').remove();
-
-    if (newTbody !== undefined) {
-      this.$editorBody.html(newTbody);
-
-      this.ready();
-    }
-  },
-
 
   /* Updates a `$button` to the `enable` state */
   updateNavButton($button, enable) {
@@ -1365,153 +1359,51 @@ PTL.editor = {
   /* Updates the navigation widget */
   updateNavigation() {
     this.updateNavButton(this.$navPrev,
-                         this.initialOffset !== 0 || this.units.hasPrev());
-    this.updateNavButton(this.$navNext, this.units.hasNext());
+                         !this.units.isOnFirstUnit());
+    this.updateNavButton(this.$navNext, !this.units.isOnLastUnit());
 
-    this.unitCountEl.textContent = this.units.frozenTotal;
-
-    const currentUnit = this.units.getCurrent();
-    if (currentUnit !== undefined) {
-      if (this.offsetRequested === 0) {
-        this.unitIndexEl.textContent = (
-          this.units.uIds.indexOf(currentUnit.id) + 1 + this.initialOffset
-        );
-      }
-    }
+    this.unitPositionEl.textContent = this.units.getPosition();
+    this.unitCountEl.textContent = this.units.total;
   },
 
-  /* Fetches more units in case they are needed */
-  fetchUnits({ initial = false, uId = 0, initialOffset = 0 } = {}) {
-    let offsetToFetch = -1;
-    let uidToFetch = -1;
-    let previousUids = [];
-    if (initial) {
-      this.initialOffset = -1;
-      this.offset = 0;
-      if (uId > 0) {
-        uidToFetch = uId;
-      }
-      if (initialOffset > 0) {
-        offsetToFetch = initialOffset;
-        this.initialOffset = initialOffset;
-      }
-    } else if (this.units.length && this.units.total) {
-      if (this.needsNextUnitBatch()) {
-        // The unit is in the last 7, try and get the next chunk - also sends
-        // the last chunk of uids to allow server to adjust results
-        previousUids = this.getPreviousUids();
-        offsetToFetch = this.offset;
-      } else if (this.needsPreviousUnitBatch()) {
-        // The unit is in the first 7, try and get the previous chunk
-        offsetToFetch = Math.max(this.initialOffset - (2 * this.units.chunkSize), 0);
-      }
-    }
-    if (initial || uidToFetch > -1 ||
-        (offsetToFetch > -1 && !this.isBeingFetched(offsetToFetch))) {
-      const reqData = {
-        path: this.settings.pootlePath,
-      };
-      assign(reqData, this.getReqData());
-      if (offsetToFetch > -1) {
-        this.markAsFetching(offsetToFetch);
-        if (offsetToFetch > 0) {
-          reqData.offset = offsetToFetch;
-        }
-      }
-      if (uidToFetch > -1) {
-        reqData.uids = uidToFetch;
-      }
-      if (previousUids.length > 0) {
-        reqData.previous_uids = previousUids;
-      }
-      return UnitAPI.fetchUnits(reqData)
-        .then(
-          (data) => this.storeUnitData(data, { isInitial: initial }),
-          this.error
-        ).always(() => this.markAsFetched(offsetToFetch));
-    }
-    /* eslint-disable new-cap */
-    return $.Deferred((deferred) => deferred.reject(false));
-    /* eslint-enable new-cap */
-  },
 
-  storeUnitData(data, { isInitial = false } = {}) {
-    const { total } = data;
-    const { start } = data;
-    const { end } = data;
-    let { unitGroups } = data;
-    let prependUnits = false;
+  /* Update edit row, because currently selected unit has changed */
+  handleUnitChange(uid) {
+    this.editorIsClosed = false;
+    // When we're going to the first unit (and change the URL as a consequence),
+    // we want to treat this as an 'internal redirect' and not to push it
+    // into history stack
+    const hashUid = parseInt(utils.getParsedHash().unit, 10);
 
-    if (!unitGroups.length && isInitial) {
-      this.noResults();
-      return false;
+    if (!hashUid) {
+      history.replaceState(undefined, undefined,
+                           `#${utils.updateHashPart('unit', uid)}`);
+    } else if (uid !== hashUid) {
+      history.pushState(undefined, undefined,
+                        `#${utils.updateHashPart('unit', uid)}`);
     }
-    if (this.offset === 0) {
-      this.units.reset();
-      this.units.uIds = [];
-      this.units.frozenTotal = total;
-    }
-    if (this.initialOffset === -1) {
-      this.initialOffset = start;
-      this.units.frozenTotal = total;
-    } else if (start < this.initialOffset) {
-      this.initialOffset = start;
-      prependUnits = true;
-      unitGroups = unitGroups.reverse();
-    }
-    for (let i = 0; i < unitGroups.length; i++) {
-      const unitGroup = unitGroups[i];
-      for (const pootlePath in unitGroup) {
-        if (!unitGroup.hasOwnProperty(pootlePath)) {
-          continue;
-        }
-        const group = unitGroup[pootlePath];
-        const store = assign({ pootlePath }, group.meta);
-        const units = group.units.map(
-          (unit) => assign(unit, { store })  // eslint-disable-line no-loop-func
-        );
-        if (prependUnits) {
-          this.units.set(units, { remove: false, at: 0 });
-          // eslint-disable-next-line no-loop-func
-          units.reverse().map((unit) => this.units.uIds.unshift(unit.id));
-        } else {
-          this.units.set(units, { remove: false, at: this.units.length });
-          // eslint-disable-next-line no-loop-func
-          units.map((unit) => this.units.uIds.push(unit.id));
-        }
-      }
-    }
-    this.offset = end;
-    this.units.total = total;
     this.updateNavigation();
-    return true;
+    this.hideContextRows();
+    this.redrawEditRow();
+    this.redrawViewRows();
   },
 
-  /* Stores editor data for the current unit */
-  setEditUnit(data) {
-    const currentUnit = this.units.getCurrent();
-    currentUnit.set('isObsolete', data.is_obsolete);
-    currentUnit.set('sources', data.sources);
 
-    this.tmData = data.tm_suggestions || null;
-    this.editorRow = data.editor;
-  },
+  /* Handle the 'No units found' case */
+  handleEmptyResults(/* reqData */) {
+    this.editorIsClosed = true;
+    this.isLoading = false;
+    this.hideActivity();
+    this.updateNavigation();
+    this.hideContextRows();
 
-  /* Sets a new unit as the current one, rendering it as well */
-  setUnit(unit) {
-    const newUnit = this.units.setCurrent(unit);
-    const body = {};
-    this.fetchUnits().always(() => {
-      this.updateNavigation();
-      UnitAPI.fetchUnit(newUnit.id, body)
-        .then(
-          (data) => {
-            this.setEditUnit(data);
-            this.renderUnit();
-          },
-          this.error
-        );
-    });
+    this.$viewRowsBefore.html(`
+      <tr>
+        <td colspan="2" class="no-results-row"><p>${t('No units found.')}</p></td>
+      </tr>
+    `);
+    this.$editorRow.html('');
+    this.$viewRowsAfter.html('');
   },
 
   /* Pushes translation submissions and moves to the next unit */
@@ -1577,7 +1469,7 @@ PTL.editor = {
       assign(body, suggData);
     }
 
-    UnitAPI.addTranslation(this.units.getCurrent().id, body)
+    UnitAPI.addTranslation(this.units.uid, body)
       .then(
         (data) => this.processSubmission(data),
         this.error
@@ -1590,9 +1482,9 @@ PTL.editor = {
       return;
     }
 
-    const unit = this.units.getCurrent();
+    const unit = this.units.unit;
     unit.setTranslation(ReactEditor.stateValues);
-    unit.set('isfuzzy', this.isFuzzy());
+    unit.setFuzzy(this.isFuzzy());
 
     const hasCriticalChecks = !!data.checks;
     $('.translate-container').toggleClass('error', hasCriticalChecks);
@@ -1620,7 +1512,7 @@ PTL.editor = {
     const body = assign({}, this.getValueStateData(), this.getReqData(),
                         this.getSimilarityData(), captchaCallbacks);
 
-    UnitAPI.addSuggestion(this.units.getCurrent().id, body)
+    UnitAPI.addSuggestion(this.units.uid, body)
       .then(
         (data) => this.processSuggestion(data),
         this.error
@@ -1639,34 +1531,26 @@ PTL.editor = {
   /* Loads the previous unit */
   gotoPrev() {
     if (!this.canNavigate()) {
-      return false;
+      return;
     }
-
-    const newUnit = this.units.prev();
-    if (newUnit) {
-      const newHash = utils.updateHashPart('unit', newUnit.id);
-      $.history.load(newHash);
-      this.setOffset(newUnit.id);
-    }
-    return true;
+    this.units.gotoPrev();
   },
 
 
   /* Loads the next unit */
   gotoNext(opts = { isSubmission: true }) {
     if (!this.canNavigate()) {
-      return false;
+      return;
     }
-    const newUnit = this.units.next();
-    if (newUnit) {
-      const newHash = utils.updateHashPart('unit', newUnit.id);
-      $.history.load(newHash);
-      this.setOffset(newUnit.id);
-    } else if (opts.isSubmission) {
-      cookie('finished', '1', { path: '/' });
-      window.location.href = this.backToBrowserEl.getAttribute('href');
+    if (this.units.isOnLastUnit()) {
+      if (opts.isSubmission) {
+        // On submitting the last unit in a sequence, 'close' the editor row
+        this.editorIsClosed = true;
+        this.redrawEditRow();
+      }
+      return;
     }
-    return true;
+    this.units.gotoNext();
   },
 
 
@@ -1694,18 +1578,15 @@ PTL.editor = {
 
     // Get clicked unit's uid from the row's id information and
     // try to load it
-    const m = this.id.match(/(row|ctx)([0-9]+)/);
+    const m = this.id.match(/row([0-9]+)/);
     if (m) {
-      const type = m[1];
-      const uid = parseInt(m[2], 10);
-      let newHash;
-      if (type === 'row') {
-        newHash = utils.updateHashPart('unit', uid);
+      const uid = parseInt(m[1], 10);
+      if ($(this).hasClass('ctx')) {
+        // Reset the current filter
+        $.history.load(l(`/unit/${encodeURIComponent(uid)}`));
       } else {
-        newHash = `unit=${encodeURIComponent(uid)}`;
+        PTL.editor.units.goto(uid);
       }
-      $.history.load(newHash);
-      PTL.editor.setOffset(uid);
     }
     return true;
   },
@@ -1852,118 +1733,6 @@ PTL.editor = {
     return true;
   },
 
-  /* Generates the edit context rows' UI */
-  renderCtxControls({ hasData = false }) {
-    const ctxRowBefore = this.tmpl.editCtx({
-      hasData,
-      extraCls: 'before',
-    });
-    const ctxRowAfter = this.tmpl.editCtx({
-      hasData,
-      extraCls: 'after',
-    });
-
-    return [ctxRowBefore, ctxRowAfter];
-  },
-
-  replaceCtxControls(ctx) {
-    const [ctxRowBefore, ctxRowAfter] = ctx;
-
-    $('tr.edit-ctx.before').replaceWith(ctxRowBefore);
-    $('tr.edit-ctx.after').replaceWith(ctxRowAfter);
-  },
-
-  handleContextSuccess(data) {
-    if (!data.ctx.before.length && !data.ctx.after.length) {
-      return undefined;
-    }
-
-    // As we now have got more context rows, increase its gap
-    this.ctxGap += Math.max(data.ctx.before.length,
-                            data.ctx.after.length);
-    cookie('ctxQty', this.ctxGap, { path: '/' });
-
-    // Create context rows HTML
-    const before = this.renderCtxRows(data.ctx.before, 'before');
-    const after = this.renderCtxRows(data.ctx.after, 'after');
-
-    // Append context rows to their respective places
-    const editCtxRows = $('tr.edit-ctx');
-    editCtxRows.first().after(before);
-    editCtxRows.last().before(after);
-    return undefined;
-  },
-
-  /* Gets more context units */
-  moreContext(amount = CTX_STEP) {
-    return (
-      UnitAPI.getContext(this.units.getCurrent().id,
-                         { gap: this.ctxGap, qty: amount })
-        .then(
-          (data) => this.handleContextSuccess(data),
-          this.error
-        )
-    );
-  },
-
-  /* Shrinks context lines */
-  lessContext() {
-    const $before = $('.ctx-row.before');
-    const $after = $('.ctx-row.after');
-
-    // Make sure there are context rows before decreasing the gap and
-    // removing any context rows
-    if ($before.length || $after.length) {
-      if ($before.length === this.ctxGap) {
-        $before.slice(0, CTX_STEP).remove();
-      }
-
-      if ($after.length === this.ctxGap) {
-        $after.slice(-CTX_STEP).remove();
-      }
-
-      this.ctxGap -= CTX_STEP;
-
-      if (this.ctxGap >= 0) {
-        if (this.ctxGap === 0) {
-          this.replaceCtxControls(this.renderCtxControls({ hasData: false }));
-        }
-
-        cookie('ctxQty', this.ctxGap, { path: '/' });
-      }
-    }
-  },
-
-  /* Shows context rows */
-  showContext() {
-    const $before = $('.ctx-row.before');
-    const $after = $('.ctx-row.after');
-
-    if ($before.length || $after.length) {
-      $before.show();
-      $after.show();
-      this.replaceCtxControls(this.renderCtxControls({ hasData: true }));
-    } else if (this.ctxQty > 0) {
-      // This is an initial request for context, reset `ctxGap`
-      this.ctxGap = 0;
-      this.moreContext(this.ctxQty)
-          .then(() => {
-            this.replaceCtxControls(this.renderCtxControls({ hasData: true }));
-          });
-    }
-  },
-
-  /* Hides context rows */
-  hideContext() {
-    const $before = $('.ctx-row.before');
-    const $after = $('.ctx-row.after');
-
-    $before.hide();
-    $after.hide();
-
-    this.replaceCtxControls(this.renderCtxControls({ hasData: false }));
-  },
-
 
   /* Loads the search view */
   onSearch(searchText) {
@@ -1993,7 +1762,7 @@ PTL.editor = {
     e.preventDefault();
     this.updateCommentDefaultProperties();
 
-    UnitAPI.addComment(this.units.getCurrent().id, $(e.target).serializeObject())
+    UnitAPI.addComment(this.units.uid, $(e.target).serializeObject())
       .then(
         (data) => this.processAddComment(data),
         this.error
@@ -2020,7 +1789,7 @@ PTL.editor = {
   removeComment(e) {
     e.preventDefault();
 
-    UnitAPI.removeComment(this.units.getCurrent().id)
+    UnitAPI.removeComment(this.units.uid)
       .then(
         () => $('.js-comment-first').fadeOut(200),
         this.error
@@ -2043,7 +1812,7 @@ PTL.editor = {
     const $node = $('.translate-container');
     $node.spin();
 
-    UnitAPI.getTimeline(this.units.getCurrent().id)
+    UnitAPI.getTimeline(this.units.uid)
       .then(
         (data) => this.renderTimeline(data),
         this.error
@@ -2054,7 +1823,7 @@ PTL.editor = {
   renderTimeline(data) {
     const uid = data.uid;
 
-    if (data.timeline && uid === this.units.getCurrent().id) {
+    if (data.timeline && uid === this.units.uid) {
       if ($('#translator-comment').length) {
         $(data.timeline).hide().insertAfter('#translator-comment')
                         .slideDown(1000, 'easeOutQuad');
@@ -2131,17 +1900,22 @@ PTL.editor = {
 
   /* TM suggestions */
   getTMUnitsContent(data) {
-    const unit = this.units.getCurrent();
-    const store = unit.get('store');
-    const sourceText = unit.get('source')[0];
+    const unit = this.units.unit;
+    // TODO: review
+    if (!unit) {
+      // XXX: when can this happen?
+      return '';
+    }
+    const store = {}; // was: unit.get('store'); TODO: why do we need store for TM?
+    const sourceText = unit.sourceText()[0];
     const filtered = this.filterTMResults(data, sourceText);
     const name = t('Similar translations');
 
     if (filtered.length) {
       return this.tmpl.tm({
         name,
-        store: store.toJSON(),
-        unit: unit.toJSON(),
+        store, // TODO: review
+        unit, // was: unit.toJSON(), TODO: review
         suggs: filtered,
       });
     }
@@ -2155,7 +1929,7 @@ PTL.editor = {
   },
 
   rejectSuggestion(suggId, { requestData = {} } = {}) {
-    UnitAPI.rejectSuggestion(this.units.getCurrent().id, suggId, requestData)
+    UnitAPI.rejectSuggestion(this.units.uid, suggId, requestData)
       .then(
         (data) => this.processRejectSuggestion(data, suggId),
         this.error
@@ -2193,7 +1967,7 @@ PTL.editor = {
   },
 
   acceptSuggestion(suggId, { requestData = {}, skipToNext = false } = {}) {
-    UnitAPI.acceptSuggestion(this.units.getCurrent().id, suggId, requestData)
+    UnitAPI.acceptSuggestion(this.units.uid, suggId, requestData)
     .then(
       (data) => this.processAcceptSuggestion(data, suggId, skipToNext),
       this.error
@@ -2208,9 +1982,9 @@ PTL.editor = {
     }
     this.updateUnitDefaultProperties();
 
-    const unit = this.units.getCurrent();
+    const unit = this.units.unit;
     unit.setTranslation(ReactEditor.stateValues);
-    unit.set('isfuzzy', false);
+    unit.setFuzzy(false);
 
     highlightSuggestionsDiff(unit);
 
@@ -2242,7 +2016,7 @@ PTL.editor = {
     const isFalsePositive = $check.hasClass('false-positive');
 
     const opts = isFalsePositive ? null : { mute: 1 };
-    UnitAPI.toggleCheck(this.units.getCurrent().id, checkId, opts)
+    UnitAPI.toggleCheck(this.units.uid, checkId, opts)
       .then(
         () => this.processToggleCheck(checkId, isFalsePositive),
         this.error
@@ -2264,7 +2038,7 @@ PTL.editor = {
 
   runHooks() {
     mtProviders.forEach((provider) => provider.init({
-      unit: this.units.getCurrent().toJSON(),
+      unit: assign({}, this.units.unit),
     }));
   },
 

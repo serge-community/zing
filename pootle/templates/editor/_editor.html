@@ -3,8 +3,20 @@
   <div id="js-editor-act" class="hide editor-overlay loader"></div>
   <div id="js-editor-msg-overlay"></div>
 
-  <table class="translate-table js-editor-table {% if cansuggest and not cantranslate %} suggest-mode{% endif %}" dir="{% locale_dir %}">
-    <tbody class="js-editor-body">
-    </tbody>
-  </table>
+  <div class="translate-table-wrapper">
+    <div class="view-rows-before-wrapper js-view-rows-before-wrapper">
+      <table class="translate-table view-rows-before js-view-rows-before" dir="{% locale_dir %}">
+      </table>
+      <table class="translate-table context-rows-before js-context-rows-before" dir="{% locale_dir %}">
+      </table>
+    </div>
+    <table class="translate-table js-editor-table js-editor-row {% if cansuggest and not cantranslate %} suggest-mode{% endif %}" dir="{% locale_dir %}">
+    </table>
+    <div class="view-rows-after-wrapper js-view-rows-after-wrapper">
+      <table class="translate-table view-rows-after js-view-rows-after" dir="{% locale_dir %}">
+      </table>
+      <table class="translate-table context-rows-after js-context-rows-after" dir="{% locale_dir %}">
+      </table>
+    </div>
+  </div>
 </div>

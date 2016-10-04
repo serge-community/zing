@@ -23,13 +23,13 @@ from pootle_comment import get_model as get_comment_model
 from pootle_store.constants import TRANSLATED, UNTRANSLATED
 from pootle_store.models import QualityCheck, Suggestion, Unit
 from pootle_statistics.models import Submission, SubmissionTypes
-from pootle_store.views import get_units, toggle_qualitycheck
+from pootle_store.views import get_uids, toggle_qualitycheck
 
 
 @pytest.mark.django_db
-def test_get_units(rf, default):
+def test_get_uids(rf, default):
     """Tests units can be retrieved."""
-    view = get_units
+    view = get_uids
 
     # `path` query parameter missing
     request = create_api_request(rf, user=default)
@@ -43,9 +43,9 @@ def test_get_units(rf, default):
 
 
 @pytest.mark.django_db
-def test_get_units_ordered(rf, default, admin, numbered_po):
+def test_get_uids_ordered(rf, default, admin, numbered_po):
     """Tests units can be retrieved while applying order filters."""
-    view = get_units
+    view = get_uids
     tp = numbered_po.translation_project
     url = (
         '/?path=/%s/%s/&filter=incomplete&sort=newest&initial=true'

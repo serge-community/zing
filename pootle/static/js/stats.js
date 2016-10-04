@@ -17,14 +17,12 @@ import assign from 'object-assign';
 import StatsAPI from 'api/StatsAPI';
 import LastActivity from 'components/LastActivity';
 import TimeSince from 'components/TimeSince';
-import cookie from 'utils/cookie';
 import { q } from 'utils/dom';
 import { toLocaleString } from 'utils/i18n';
 
 import BrowserTable from './browser/components/BrowserTable';
 import Stats from './browser/components/Stats';
 import StatsCollapsed from './browser/components/StatsCollapsed';
-import msg from './msg';
 
 
 function formattedValue(n) {
@@ -84,14 +82,6 @@ function provideStatsDefaults(stats) {
 const stats = {
 
   init(options) {
-    if (cookie('finished')) {
-      msg.show({
-        text: gettext('Congratulations! You have completed this task!'),
-        level: 'success',
-      });
-      cookie('finished', null, { path: '/' });
-    }
-
     this.retries = 0;
     const isExpanded = (options.isInitiallyExpanded ||
                         window.location.search.indexOf('?details') !== -1);

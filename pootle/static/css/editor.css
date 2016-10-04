@@ -15,11 +15,7 @@
 body.translate
 {
     padding: 0;
-}
-
-body.translate #content
-{
-    margin: 1em 0;
+    background: #ddd;
 }
 
 body.translate #body
@@ -41,7 +37,7 @@ textarea#view_unit
     right: 1em;
     z-index: 300; /* show above the main toolbar */
 
-    top: -3.7em;
+    top: -2.7em;
 }
 
 /* When browser size is 950px or less, show navigation toolbar below the main toolbar */
@@ -57,7 +53,7 @@ textarea#view_unit
         border-style: none solid solid;
 
         padding: 10px 8px 5px;
-        top: -1.7em;
+        top: -0.7em;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         border-radius: 5px;
     }
@@ -170,11 +166,72 @@ textarea.translation,
 
 /* TRANSLATE TABLE */
 
+.no-results-row,
+.lead-in-row,
+.lead-out-row
+{
+    height: 15vh;
+    text-align: center;
+    width: 100%;
+    color: #888;
+    font-style: italic;
+    text-shadow: 0 1px 1px #fff;
+}
+
+.lead-in-row
+{
+    border-bottom: 1px solid #ccc;
+}
+
+.lead-out-row
+{
+    border-top: 1px solid #ccc;
+}
+
 table.translate-table
 {
     width: 100%;
     table-layout: fixed;
     margin-top: 0;
+}
+
+div.view-rows-before-wrapper
+{
+    height: 15vh;
+    overflow: hidden;
+    position: relative;
+}
+
+div.view-rows-before-wrapper > *
+{
+    position: absolute;
+    bottom: 0;
+}
+
+div.view-rows-after-wrapper
+{
+    position: relative;
+}
+
+div.view-rows-after-wrapper > *
+{
+    position: absolute;
+    top: 0;
+}
+
+table.js-editor-table
+{
+    position: relative;
+    z-index: 1;
+}
+
+.translate-table-wrapper
+{
+    position: fixed;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
 table.translate-table td
@@ -212,70 +269,65 @@ tr.edit-row.with-ctx
 
 /* Context */
 
-tr.edit-ctx
+.view-rows-before,
+.view-rows-after
 {
-    font-size: 82%;
+    transition: opacity 0.3s;
 }
 
-tr.edit-ctx td
+.view-rows-before.context-mode,
+.view-rows-after.context-mode
 {
-    text-align: center;
-    color: #d9d9d9;
-    padding: 0;
-    overflow: hidden;
+    opacity: 0.2;
+    transition: opacity 0.3s;
 }
 
-tr.edit-ctx a
+.context-rows-before,
+.context-rows-after
 {
-    text-decoration: none;
-
-    opacity: 0.5;
+    visibility: hidden;
+    opacity: 0;
+    background-color: #fff;
+    transform: scale(1, 0.9);
+    transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
 }
 
-tr.edit-ctx a:hover
+.context-rows-before.context-mode,
+.context-rows-after.context-mode
 {
-    text-decoration: none;
-
+    visibility: visible;
     opacity: 1;
+    transform: scale(1, 1);
+    transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
 }
 
-tr.edit-ctx.before .edit-ctx-wrapper
+.context-rows-before
 {
-    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2) inset;
-    padding: 10px 0 20px;
-    margin: 0 -20px -10px;
-    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    transform-origin: bottom;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
-tr.edit-ctx.after .edit-ctx-wrapper
+.context-rows-after
 {
-    box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.2) inset;
-    padding: 20px 0 10px;
-    margin: -10px -20px 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    transform-origin: top;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
 }
 
-tr.ctx-row,
 tr.view-row
 {
     font-size: 92%;
     cursor: pointer;
+    background: #fff;
 }
 
-tr.edit-ctx,
-tr.ctx-row
+/* Override style to control view row background; this is needed in case
+ * when the editor is closed and is rendered as a view row but in the
+ * context of the editor row section; we need to adjust its background
+ * so that it follows the background stripe pattern of the upper view rows
+ */
+tr.view-row.even
 {
-    background-color: #dbe3e4;
-}
-
-tr.ctx-row
-{
-    color: #889294;
-}
-
-tr.ctx-row:hover
-{
-    background-color: #ccdadb;
+    background: none;
 }
 
 tr.view-row:hover

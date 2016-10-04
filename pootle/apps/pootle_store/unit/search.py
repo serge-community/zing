@@ -15,9 +15,11 @@ from pootle_store.models import Unit
 from pootle_store.unit.filters import UnitSearchFilter, UnitTextSearch
 
 
+MAX_RESULTS = 1000
+
+
 class DBSearchBackend(object):
 
-    default_chunk_size = None
     default_order = "store__pootle_path", "index"
     select_related = (
         'store__translation_project__project',
@@ -26,12 +28,6 @@ class DBSearchBackend(object):
     def __init__(self, request_user, **kwargs):
         self.kwargs = kwargs
         self.request_user = request_user
-
-    @property
-    def chunk_size(self):
-        return self.kwargs.get(
-            'count',
-            self.default_chunk_size)
 
     @property
     def project_code(self):
@@ -54,20 +50,16 @@ class DBSearchBackend(object):
         return self.kwargs.get("filter")
 
     @property
-    def offset(self):
-        return self.kwargs.get("offset", None)
-
-    @property
-    def previous_uids(self):
-        return self.kwargs.get("previous_uids", []) or []
-
-    @property
     def sort_by(self):
         return self.kwargs.get("sort_by")
 
     @property
     def sort_on(self):
         return self.kwargs.get("sort_on")
+
+    @property
+    def uid(self):
+        return self.kwargs.get('uid')
 
     @property
     def uids(self):
@@ -142,40 +134,43 @@ class DBSearchBackend(object):
 
     def search(self):
         total = self.results.count()
-        start = self.offset
 
-        if start > total:
-            return total, total, total, self.results.none()
+        start = 0
+        end = min(MAX_RESULTS, total)
 
-        find_unit = (
-            self.language_code
-            and self.project_code
-            and self.filename
-            and self.uids)
-        find_next_slice = (
-            self.previous_uids
-            and self.offset)
-
-        if find_unit:
-            # find the uid in the Store
-            uid_list = list(self.results.values_list("pk", flat=True))
-            if self.chunk_size and self.uids[0] in uid_list:
-                unit_index = uid_list.index(self.uids[0])
-                start = (
-                    int(unit_index / (2 * self.chunk_size))
-                    * (2 * self.chunk_size))
-        elif find_next_slice:
-            # if both previous_uids and offset are set then try to ensure
-            # that the results we are returning start from the end of previous
-            # result set
-            _start = start = max(self.offset - len(self.previous_uids), 0)
-            end = max(self.offset + (2 * self.chunk_size), total)
-            uid_list = self.results[start:end].values_list("pk", flat=True)
-            for i, uid in enumerate(uid_list):
-                if uid in self.previous_uids:
-                    start = _start + i + 1
-        if self.chunk_size is None:
-            return total, 0, total, self.results
-        start = start or 0
-        end = min(start + (2 * self.chunk_size), total)
         return total, start, end, self.results[start:end]
+
+    def get_uids(self):
+        total = self.results.count()
+
+        begin = 0
+        end = min(MAX_RESULTS, total)
+
+        uids = None
+
+        # If there are more results than MAX_RESULTS, and if we're
+        # requesting a specific unit in a specific store, adjust the
+        # results window so that the requested unit is in the middle.
+
+        if (total > MAX_RESULTS and
+            self.language_code and
+            self.project_code and
+            self.filename and
+            self.uid):
+            # find the uid in the Store
+            uid_list = list(self.results.values_list('pk', flat=True))
+            if self.uid in uid_list:
+                begin = max(uid_list.index(self.uid) - MAX_RESULTS / 2, 0)
+                end = min(begin + MAX_RESULTS, total)
+                uids = uid_list[begin:end]
+
+        if not uids:
+            uids = list(self.results[begin:end].values_list('pk', flat=True))
+
+        return begin, end, total, uids
+
+    def get_units(self):
+        if not self.uids:
+            raise ValueError('No uids provided')
+
+        return self.units_qs.filter(id__in=self.uids)

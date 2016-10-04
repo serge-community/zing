@@ -26,52 +26,56 @@ MONTH_AGO = (datetime.now() - relativedelta(months=1))
 TWO_MONTHS_AGO = (datetime.now() - relativedelta(months=2))
 SEVEN_MONTHS_AGO = (datetime.now() - relativedelta(months=7))
 
-BAD_VIEW_TESTS = OrderedDict(
-    (("/foo/bar", dict(code=301, location="/foo/bar/")),
-     ("/foo/bar/", {}),
-     ("/projects", dict(code=301, location="/projects/")),
-     ("/projects/project0",
-      dict(code=301, location="/projects/project0/")),
-     ("/projects/project0/foo.po", {}),
-     ("/projects/projectfoo",
-      dict(code=301, location="/projects/projectfoo/")),
-     ("/projects/projectfoo/", {}),
-     ("/language0/projectfoo",
-      dict(code=301, location="/language0/projectfoo/")),
-     ("/language0/projectfoo/", {}),
-     ("/language0/project0",
-      dict(code=301, location="/language0/project0/")),
-     ("/projects/project0/subdir0/foo.po", {}),
-     # these may not be correct - but are current behaviour
-     ("/language0/project0/foo/",
-      dict(code=302, location="/language0/project0/")),
-     ("/language0/project0/foo",
-      dict(code=302, location="/language0/project0/")),
-     ("/language0/project0/subdir0",
-      dict(code=302, location="/language0/project0/")),
+BAD_VIEW_TESTS = OrderedDict((
+    ('/foo/bar', dict(code=301, location='/foo/bar/')),
+    ('/foo/bar/', {}),
+    ('/projects', dict(code=301, location='/projects/')),
+    ('/projects/project0',
+     dict(code=301, location='/projects/project0/')),
+    ('/projects/project0/foo.po', {}),
+    ('/projects/projectfoo',
+     dict(code=301, location='/projects/projectfoo/')),
+    ('/projects/projectfoo/', {}),
+    ('/language0/projectfoo',
+     dict(code=301, location='/language0/projectfoo/')),
+    ('/language0/projectfoo/', {}),
+    ('/language0/project0',
+     dict(code=301, location='/language0/project0/')),
+    ('/projects/project0/subdir0/foo.po', {}),
+    # these may not be correct - but are current behaviour
+    ('/language0/project0/foo/',
+     dict(code=302, location='/language0/project0/')),
+    ('/language0/project0/foo',
+     dict(code=302, location='/language0/project0/')),
+    ('/language0/project0/subdir0',
+     dict(code=302, location='/language0/project0/')),
 
-     ("/projects/PROJECT0/", {}),
-     ("/language0/PROJECT0/", {}),
-     ("/language0/PROJECT0/subdir0/", {}),
-     ("/language0/PROJECT0/store0.po", {}),
+    ('/projects/PROJECT0/', {}),
+    ('/language0/PROJECT0/', {}),
+    ('/language0/PROJECT0/subdir0/', {}),
+    ('/language0/PROJECT0/store0.po', {}),
 
-     ("/LANGUAGE0/",
-      dict(code=301, location="/language0/")),
-     ("/LANGUAGE0/foo/",
-      dict(code=301, location="/language0/foo/")),
-     ("/LANGUAGE0/project0/",
-      dict(code=301, location="/language0/project0/")),
-     ("/LANGUAGE0/project0/subdir0/",
-      dict(code=301, location="/language0/project0/subdir0/")),
-     ("/LANGUAGE0/project0/store0.po",
-      dict(code=301, location="/language0/project0/store0.po")),
+    ('/LANGUAGE0/',
+     dict(code=301, location='/language0/')),
+    ('/LANGUAGE0/foo/',
+     dict(code=301, location='/language0/foo/')),
+    ('/LANGUAGE0/project0/',
+     dict(code=301, location='/language0/project0/')),
+    ('/LANGUAGE0/project0/subdir0/',
+     dict(code=301, location='/language0/project0/subdir0/')),
+    ('/LANGUAGE0/project0/store0.po',
+     dict(code=301, location='/language0/project0/store0.po')),
 
-     ("/xhr/units/1/edit/", dict(code=400)),
-     ("/xhr/units/?path=/%s" % ("BAD" * 800),
-      dict(ajax=True, code=400)),
-     ("/xhr/units?filter=translated&"
-      "path=/",
-      dict(ajax=True))))
+    ('/xhr/units/1/edit/', dict(code=400)),
+
+    ('/xhr/uids/?path=/%s' % ('BAD' * 800),
+     dict(ajax=True, code=400)),
+    ('/xhr/uids/?filter=translated&path=/',
+     dict(ajax=True)),
+
+    ('/xhr/units/?uids=BOBO',
+     dict(ajax=True, code=400)),
+))
 
 GET_UNITS_TESTS = OrderedDict(
     (("default_path", {}),
@@ -257,13 +261,10 @@ def get_units_views(request, client, request_users):
             username=user.username,
             password=request_users["password"])
 
-    if "uids" in params and callable(params["uids"]):
-        params["uids"] = ",".join(str(uid) for uid in params["uids"]())
-
     url_params = urllib.urlencode(params, True)
     response = client.get(
         "%s?%s"
-        % (reverse("pootle-xhr-units"),
+        % (reverse("pootle-xhr-uids"),
            url_params),
         HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 

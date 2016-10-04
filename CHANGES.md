@@ -5,6 +5,10 @@ v0.1.2 (in development)
 -----------------------
 
 * Editor:
+  * Reworked the way unit fetching is done (#8).
+  * The list of units always takes up the entire screen.
+  * Navigating between units now preserves the editor's vertical position.
+  * New easy way to preview context rows by just hovering over the unit link.
   * Added the ability to select groups of failing checks (#80).
   * Multiple UI tweaks, making better use of the available space.
   * Removed support for the amaGama TM, as the built-in TM suffices (#92).

@@ -70,27 +70,23 @@ class DBSearchBackend(object):
         return self.kwargs.get("sort_on")
 
     @property
-    def qs_kwargs(self):
-        kwargs = {
-            k: getattr(self, k)
-            for k in [
-                "project_code",
-                "language_code",
-                "dir_path",
-                "filename"]}
-        kwargs["user"] = self.request_user
-        return kwargs
-
-    @property
     def uids(self):
         return self.kwargs.get("uids", [])
 
     @property
     def units_qs(self):
+        qs_kwargs = {
+            'project_code': self.project_code,
+            'language_code': self.language_code,
+            'dir_path': self.dir_path,
+            'filename': self.filename,
+            'user': self.request_user,
+        }
         return (
-            Unit.objects.get_translatable(**self.qs_kwargs)
+            Unit.objects.get_translatable(**qs_kwargs)
                         .order_by(*self.default_order)
-                        .select_related(*self.select_related))
+                        .select_related(*self.select_related)
+        )
 
     def sort_qs(self, qs):
         if self.unit_filter and self.sort_by is not None:

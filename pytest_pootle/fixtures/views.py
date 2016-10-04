@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -259,13 +260,10 @@ def get_units_views(request, client, request_users):
             username=user.username,
             password=request_users["password"])
 
-    if "uids" in params and callable(params["uids"]):
-        params["uids"] = ",".join(str(uid) for uid in params["uids"]())
-
     url_params = urllib.urlencode(params, True)
     response = client.get(
         "%s?%s"
-        % (reverse("pootle-xhr-units"),
+        % (reverse("pootle-xhr-uids"),
            url_params),
         HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 

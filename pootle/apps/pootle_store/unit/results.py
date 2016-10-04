@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -68,6 +69,10 @@ class UnitResult(UnitProxy):
                        args=split_pootle_path(self.pootle_path)),
                '#unit=%s' % unicode(self.id)))
 
+    @property
+    def isfuzzy(self):
+        return self.state == FUZZY
+
 
 class StoreResults(object):
 
@@ -132,3 +137,32 @@ class GroupedResults(object):
         for pootle_path, units in units_by_path:
             unit_groups.append({pootle_path: StoreResults(units).data})
         return unit_groups
+
+
+class ViewRowResults(object):
+
+    select_fields = [
+        'id',
+        'source_f',
+        'target_f',
+        'state',
+    ]
+
+    def __init__(self, units_qs):
+        self.units_qs = units_qs
+
+    @property
+    def data(self):
+        result = {}
+        for unit_values in self.units_qs.values(*self.select_fields):
+            unit = UnitResult(unit_values)
+            result[unit.id] = {
+                'source': unit.source.strings,
+                'target': unit.target.strings,
+            }
+            # We don't need to send default values,
+            # so setting members conditionally
+            if unit.isfuzzy:
+                result[unit.id]['isfuzzy'] = True
+
+        return result

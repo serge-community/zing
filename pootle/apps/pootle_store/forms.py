@@ -409,9 +409,7 @@ class UnitSearchForm(forms.Form):
     previous_uids = MultipleArgsField(
         field=forms.IntegerField(),
         required=False)
-    uids = MultipleArgsField(
-        field=forms.IntegerField(),
-        required=False)
+    uid = forms.IntegerField(required=False)
     filter = forms.ChoiceField(
         required=False,
         choices=UNIT_SEARCH_FILTER_CHOICES)
@@ -452,8 +450,6 @@ class UnitSearchForm(forms.Form):
             ('locations', _('Locations'))),
         initial=['source', 'target'])
 
-    default_count = 10
-
     def __init__(self, *args, **kwargs):
         self.request_user = kwargs.pop("user")
         super(UnitSearchForm, self).__init__(*args, **kwargs)
@@ -468,14 +464,6 @@ class UnitSearchForm(forms.Form):
             self.cleaned_data["user"] = self.request_user
         if self.errors:
             return
-        if self.default_count:
-            count = (
-                self.cleaned_data.get("count", self.default_count)
-                or self.default_count)
-            user_count = (
-                self.cleaned_data["user"].get_unit_rows()
-                or self.default_count)
-            self.cleaned_data['count'] = min(count, user_count)
         pootle_path = self.cleaned_data.get("path")
         path_keys = [
             "project_code", "language_code", "dir_path", "filename"]
@@ -528,13 +516,32 @@ class UnitSearchForm(forms.Form):
         raise forms.ValidationError("Unrecognized path")
 
 
+class UnitViewRowsForm(forms.Form):
+
+    uids = MultipleArgsField(
+        field=forms.IntegerField(),
+        required=True,
+    )
+
+    user = forms.ModelChoiceField(
+        queryset=get_user_model().objects.all(),
+        required=False,
+        to_field_name='username',
+    )
+
+    def __init__(self, *args, **kwargs):
+        self.request_user = kwargs.pop('user')
+        super(UnitViewRowsForm, self).__init__(*args, **kwargs)
+
+    def clean_user(self):
+        return self.cleaned_data['user'] or self.request_user
+
+
 class UnitExportForm(UnitSearchForm):
 
     path = forms.CharField(
         max_length=2048,
         required=False)
-
-    default_count = None
 
     def clean_path(self):
         return self.cleaned_data.get("path", "/") or "/"

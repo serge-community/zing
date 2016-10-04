@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -110,7 +111,7 @@ def units_checks_searches(request):
 
     check_type, check_data = request.param.split(":")
     if check_type == "category":
-        return check_type, get_category_id(check_data)
+        return check_type, get_category_id(check_data) or False
     return check_type, check_data.split(",")
 
 

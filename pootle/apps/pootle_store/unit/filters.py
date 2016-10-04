@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -19,8 +20,9 @@ class FilterNotFound(Exception):
 
 class BaseUnitFilter(object):
 
-    def __init__(self, qs, *args_, **kwargs_):
+    def __init__(self, qs, unit_filter, *args_, **kwargs_):
         self.qs = qs
+        self.unit_filter = unit_filter
 
     def filter(self, unit_filter):
         try:
@@ -32,22 +34,24 @@ class BaseUnitFilter(object):
 
 class UnitChecksFilter(BaseUnitFilter):
 
-    def __init__(self, qs, *args, **kwargs):
-        self.qs = qs
+    def __init__(self, qs, unit_filter, *args, **kwargs):
+        super(UnitChecksFilter, self).__init__(qs, unit_filter, *args, **kwargs)
         self.checks = kwargs.get("checks")
         self.category = kwargs.get("category")
 
     def filter_checks(self):
+        if self.unit_filter != 'checks':
+            return self.qs.none()
         if self.checks:
             return self.qs.filter(
                 qualitycheck__false_positive=False,
                 qualitycheck__name__in=self.checks).distinct()
-        elif self.category:
+        elif self.category or self.category is False:
             return self.qs.filter(
                 qualitycheck__false_positive=False,
                 qualitycheck__category=self.category).distinct()
-        return self.qs.none()
-
+        return self.qs.filter(
+            qualitycheck__false_positive=False).distinct()
 
 class UnitStateFilter(BaseUnitFilter):
     """Filter a Unit qs based on unit state"""
@@ -72,8 +76,8 @@ class UnitStateFilter(BaseUnitFilter):
 class UnitContributionFilter(BaseUnitFilter):
     """Filter a Unit qs based on user contributions"""
 
-    def __init__(self, qs, *args, **kwargs):
-        self.qs = qs
+    def __init__(self, qs, unit_filter, *args, **kwargs):
+        super(UnitContributionFilter, self).__init__(qs, unit_filter, *args, **kwargs)
         self.user = kwargs.get("user")
 
     def filter_suggestions(self):
@@ -128,15 +132,14 @@ class UnitContributionFilter(BaseUnitFilter):
 
 class UnitSearchFilter(object):
 
-    filters = (
-        UnitChecksFilter, UnitStateFilter, UnitContributionFilter)
+    filters = (UnitChecksFilter, UnitStateFilter, UnitContributionFilter)
 
     def filter(self, qs, unit_filter, *args, **kwargs):
         for search_filter in self.filters:
             # try each of the filter classes to find one with a method to handle
             # `unit_filter`
             try:
-                return search_filter(qs, *args, **kwargs).filter(unit_filter)
+                return search_filter(qs, unit_filter, *args, **kwargs).filter(unit_filter)
             except FilterNotFound:
                 pass
         # if none match then return the empty qs

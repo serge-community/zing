@@ -287,7 +287,7 @@ export class RawFontAware {
     // processed by the native `input` event (on browsers other than Chrome).
     this.requestUpdate = true;
     this.defer(() => {
-      if (self.requestUpdate) {
+      if (this.requestUpdate) {
         this.update();
       }
     });

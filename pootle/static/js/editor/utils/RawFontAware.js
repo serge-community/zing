@@ -110,6 +110,8 @@ export class RawFontAware {
   destroy() {
     const { element } = this;
 
+    this.clearDeferTimer();
+
     element.removeEventListener('input', this.onInput);
     element.removeEventListener('keydown', this.onKeyDown);
     element.removeEventListener('mousedown', this.onMouseDown);
@@ -120,6 +122,18 @@ export class RawFontAware {
     element.removeEventListener('compositionend', this.onCompositionEnd);
 
     this.element = null;
+  }
+
+  clearDeferTimer() {
+    if (this.deferTimer) {
+      clearTimeout(this.deferTimer);
+      this.deferTimer = undefined;
+    }
+  }
+
+  defer(f) {
+    this.clearDeferTimer();
+    this.deferTimer = setTimeout(f, 0);
   }
 
   setMode({ isRawMode = false } = {}) {
@@ -167,9 +181,9 @@ export class RawFontAware {
     // the mousedown event is processed
     // (because now selectionStart/End are not updated yet,
     // even though the caret is already repositioned)
-    setTimeout(() => {
+    this.defer(() => {
       this.adjustSelection();
-    }, 0);
+    });
   }
 
   onMouseUp() {
@@ -185,9 +199,9 @@ export class RawFontAware {
       e.keyCode === KEY_RIGHT || (e.ctrlKey && e.keyCode === KEY_LETTER_F)
     );
 
-    setTimeout(() => {
+    this.defer(() => {
       this.adjustSelection(moveRight);
-    }, 0);
+    });
 
     let start = target.selectionStart;
     let end = target.selectionEnd;
@@ -272,11 +286,11 @@ export class RawFontAware {
     // event is processed, and will only run updateTextarea() if it wasn't
     // processed by the native `input` event (on browsers other than Chrome).
     this.requestUpdate = true;
-    setTimeout(() => {
+    this.defer(() => {
       if (self.requestUpdate) {
         this.update();
       }
-    }, 0);
+    });
   }
 
   adjustSelection(moveRight) {

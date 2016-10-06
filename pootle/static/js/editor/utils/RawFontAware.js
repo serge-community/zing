@@ -10,7 +10,9 @@ import { CHARACTERS, SYMBOLS, raw2sym, sym2raw } from './font';
 
 const KEY_BACKSPACE = 8;
 const KEY_RIGHT = 39;
+const KEY_LEFT = 37;
 const KEY_DELETE = 46;
+const KEY_LETTER_B = 66;
 const KEY_LETTER_F = 70;
 
 
@@ -93,9 +95,10 @@ export function insertAtCaret(
 
 export class RawFontAware {
 
-  constructor(element, { isRawMode = false } = {}) {
+  constructor(element, { isRawMode = false, isRtlMode = false } = {}) {
     this.element = element;
     this.isRawMode = isRawMode;
+    this.isRtlMode = isRtlMode;
 
     element.addEventListener('input', (e) => this.onInput(e));
     element.addEventListener('keydown', (e) => this.onKeyDown(e));
@@ -136,8 +139,9 @@ export class RawFontAware {
     this.deferTimer = setTimeout(f, 0);
   }
 
-  setMode({ isRawMode = false } = {}) {
+  setMode({ isRawMode = false, isRtlMode = false } = {}) {
     this.isRawMode = isRawMode;
+    this.isRtlMode = isRtlMode;
   }
 
   getValue() {
@@ -194,13 +198,21 @@ export class RawFontAware {
     const { target } = e;
     // request selection adjustment after the keydown event is processed
 
-    // on Mac, there's a Control+F alternative to pressing right arrow
-    const moveRight = (
-      e.keyCode === KEY_RIGHT || (e.ctrlKey && e.keyCode === KEY_LETTER_F)
-    );
+    // on Mac, there's a Control+B/F alternatives to pressing left/right arrows
+    let moveForward;
+
+    if (this.isRtlMode) {
+      moveForward = (
+        e.keyCode === KEY_LEFT || (e.ctrlKey && e.keyCode === KEY_LETTER_B)
+      );
+    } else {
+      moveForward = (
+        e.keyCode === KEY_RIGHT || (e.ctrlKey && e.keyCode === KEY_LETTER_F)
+      );
+    }
 
     this.defer(() => {
-      this.adjustSelection(moveRight);
+      this.adjustSelection(moveForward);
     });
 
     let start = target.selectionStart;
@@ -293,7 +305,7 @@ export class RawFontAware {
     });
   }
 
-  adjustSelection(moveRight) {
+  adjustSelection(moveForward) {
     const { element } = this;
 
     const start = element.selectionStart;
@@ -316,7 +328,7 @@ export class RawFontAware {
     // move it one symbol to the right or to the left
     // depending on the keyCode
     if (insideLF) {
-      element.selectionEnd = moveRight ? end + 1 : end - 1;
+      element.selectionEnd = moveForward ? end + 1 : end - 1;
       if (start === end) {
         element.selectionStart = element.selectionEnd;
       }

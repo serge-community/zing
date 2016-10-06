@@ -227,7 +227,7 @@ setup(
 
     description="An online collaborative localization tool.",
     long_description=open(
-        os.path.join(os.path.dirname(__file__), 'README.rst')
+        os.path.join(os.path.dirname(__file__), 'README.md')
     ).read(),
 
     author="Translate",

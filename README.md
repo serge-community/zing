@@ -1,17 +1,8 @@
 Zing
 ====
 
-.. image:: https://img.shields.io/travis/evernote/zing.svg?style=flat-square
-    :alt: Build Status
-    :target: https://travis-ci.org/evernote/zing
-
-.. image:: https://landscape.io/github/evernote/zing/master/landscape.svg?style=flat-square
-    :target: https://landscape.io/github/evernote/zing/master
-    :alt: Code Health
-
-.. image:: https://img.shields.io/coveralls/evernote/zing/master.svg?style=flat-square
-   :target: https://coveralls.io/github/evernote/zing?branch=master
-   :alt: Test Coverage
+[![build status](https://img.shields.io/travis/evernote/zing.svg?style=flat-square)](https://travis-ci.org/evernote/zing)
+[![test coverage](https://img.shields.io/coveralls/evernote/zing/master.svg?style=flat-square)](https://coveralls.io/github/evernote/zing?branch=master)
 
 [Issues](https://github.com/evernote/zing/issues) |
 [Docs](https://github.com/evernote/zing/blob/master/docs/README.md) |

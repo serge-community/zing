@@ -22,7 +22,7 @@ Installation
 
 We are [currently working](https://github.com/evernote/zing/issues/25) to
 provide an out-of-the-box installation method. In the mean-time, one can
-experiment to run zing from source, although we are not committed to support
+experiment to run Zing from source, although we are not committed to support
 it.
 
 

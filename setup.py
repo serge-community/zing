@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -222,20 +223,19 @@ class BuildChecksTemplatesCommand(Command):
 
 
 setup(
-    name="Pootle",
+    name='Zing',
     version=__version__,
 
-    description="An online collaborative localization tool.",
+    description='An online interface to localizing.',
     long_description=open(
         os.path.join(os.path.dirname(__file__), 'README.md')
     ).read(),
 
-    author="Translate",
-    author_email="dev@translate.org.za",
+    author='Evernote',
+    author_email='l10n-developers@evernote.com',
     license="GNU General Public License 3 or later (GPLv3+)",
-    url="http://pootle.translatehouse.org",
-    download_url="https://github.com/translate/pootle/releases/tag/" +
-        __version__,
+    url='https://github.com/evernote/zing',
+    download_url='https://github.com/evernote/zing/releases/tag/' + __version__,
 
     install_requires=parse_requirements('requirements/base.txt'),
     tests_require=parse_requirements('requirements/tests.txt'),
@@ -259,12 +259,12 @@ setup(
         "Topic :: Text Processing :: Linguistic"
     ],
     zip_safe=False,
-    packages=find_packages(exclude=['deploy*']),
+    packages=find_packages(),
     include_package_data=True,
 
     entry_points={
         'console_scripts': [
-            'pootle = pootle.runner:main',
+            'zing = pootle.runner:main',
         ],
     },
     cmdclass={

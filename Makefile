@@ -56,8 +56,6 @@ travis-assets:
 	fi
 
 docs:
-	# Make sure that the submodule with docs theme is pulled and up-to-date.
-	git submodule update --init
 	# The following creates the HTML docs.
 	# NOTE: cd and make must be in the same line.
 	cd ${DOCS_DIR}; make SPHINXOPTS="-W -q -j 4" html ${TAIL}

@@ -1,10 +1,10 @@
 {
-  "name": "pootle",
+  "name": "zing",
   "version": "0.0.0",
   "license": "GPL-3.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/translate/pootle.git"
+    "url": "git://github.com/evernote/zing.git"
   },
   "scripts": {
     "lint": "eslint .",

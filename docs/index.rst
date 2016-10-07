@@ -1,7 +1,7 @@
-Pootle Documentation
-====================
+Zing Documentation
+==================
 
-Pootle is an online tool that makes the process of translating so much simpler.
+Zing is an online tool that makes the process of translating so much simpler.
 It allows crowd-sourced translations, easy volunteer contribution and gives
 statistics about the ongoing work.
 

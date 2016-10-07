@@ -200,16 +200,20 @@ export class RawFontAware {
   onKeyDown(e) {
     const { target } = e;
 
-    // on Mac, there's a Control+B/F alternatives to pressing left/right arrows
+    // On Mac, there's a Control+B/F alternatives to pressing left/right arrows.
+    // Also avoid triggering the behavior for pressing the end key
+    // (Cmd+Right/Left).
     let moveForward;
 
     if (this.isRtlMode) {
       moveForward = (
-        e.keyCode === KEY_LEFT || (e.ctrlKey && e.keyCode === KEY_LETTER_B)
+        (e.keyCode === KEY_LEFT && !e.metaKey) ||
+        (e.ctrlKey && e.keyCode === KEY_LETTER_B)
       );
     } else {
       moveForward = (
-        e.keyCode === KEY_RIGHT || (e.ctrlKey && e.keyCode === KEY_LETTER_F)
+        (e.keyCode === KEY_RIGHT && !e.metaKey) ||
+        (e.ctrlKey && e.keyCode === KEY_LETTER_F)
       );
     }
 

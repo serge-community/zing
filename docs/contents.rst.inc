@@ -16,14 +16,3 @@ perspectives, server administrator's, and developer's view.
    server/upgrading
    server/index
    developers/index
-
-
-.. _notes:
-
-Additional Notes
-----------------
-
-.. toctree::
-   :maxdepth: 1
-
-   releases/index

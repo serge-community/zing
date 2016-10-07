@@ -43,8 +43,8 @@ before you upgrade.
 Latest changes
 --------------
 
-Before upgrading Pootle familiarize yourself with :doc:`important changes
-</releases/index>` since the version that you are upgrading from.
+Before upgrading Pootle familiarize yourself with important changes since the
+version that you are upgrading from.
 
 
 .. _upgrading#requirements:

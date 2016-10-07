@@ -6,6 +6,7 @@ Zing
 
 [Issues](https://github.com/evernote/zing/issues) |
 [Docs](https://github.com/evernote/zing/blob/master/docs/README.md) |
+[Changes](https://github.com/evernote/zing/blob/master/docs/CHANGES.md) |
 [Contributing](https://github.com/evernote/zing/blob/master/CONTRIBUTING.md) |
 [Vision](https://github.com/evernote/zing/blob/master/GOALS.md)
 

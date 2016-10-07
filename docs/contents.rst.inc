@@ -27,4 +27,3 @@ Additional Notes
    :maxdepth: 1
 
    releases/index
-   license

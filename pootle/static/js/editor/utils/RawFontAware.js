@@ -10,7 +10,9 @@ import { CHARACTERS, SYMBOLS, raw2sym, sym2raw } from './font';
 
 const KEY_BACKSPACE = 8;
 const KEY_RIGHT = 39;
+const KEY_LEFT = 37;
 const KEY_DELETE = 46;
+const KEY_LETTER_B = 66;
 const KEY_LETTER_F = 70;
 
 
@@ -26,8 +28,8 @@ function triggerEvent(element, eventName) {
 }
 
 
-function getValue(element, { isRawMode = false } = {}) {
-  return sym2raw(element.value, { isRawMode });
+function getValue(element) {
+  return sym2raw(element.value);
 }
 
 
@@ -41,7 +43,7 @@ export function setValue(
     triggerEvent(element, 'input');
   }
 
-  return getValue(element, { isRawMode });
+  return getValue(element);
 }
 
 
@@ -57,12 +59,12 @@ function update(
   const sBefore = value.substring(0, adjustedStart);
   const sAfter = value.substring(end);
   const sBeforeNormalized = raw2sym(
-    sym2raw(sBefore + valueToInsert, { isRawMode }),
+    sym2raw(sBefore + valueToInsert),
     { isRawMode }
   );
   const offset = sBeforeNormalized.length - sBefore.length - (end - adjustedStart);
   const newValue = raw2sym(
-    sym2raw(sBefore + valueToInsert + sAfter, { isRawMode }),
+    sym2raw(sBefore + valueToInsert + sAfter),
     { isRawMode }
   );
   if (value === newValue) {
@@ -87,15 +89,16 @@ export function insertAtCaret(
   element, value, { isRawMode = false, triggerChange = false } = {}
 ) {
   update(element, value, { isRawMode, triggerChange });
-  return getValue(element, { isRawMode });
+  return getValue(element);
 }
 
 
 export class RawFontAware {
 
-  constructor(element, { isRawMode = false } = {}) {
+  constructor(element, { isRawMode = false, isRtlMode = false } = {}) {
     this.element = element;
     this.isRawMode = isRawMode;
+    this.isRtlMode = isRtlMode;
 
     element.addEventListener('input', (e) => this.onInput(e));
     element.addEventListener('keydown', (e) => this.onKeyDown(e));
@@ -136,8 +139,13 @@ export class RawFontAware {
     this.deferTimer = setTimeout(f, 0);
   }
 
-  setMode({ isRawMode = false } = {}) {
+  setMode({ isRawMode = false, isRtlMode = false } = {}) {
     this.isRawMode = isRawMode;
+    this.isRtlMode = isRtlMode;
+  }
+
+  focus() {
+    this.element.focus();
   }
 
   getValue() {
@@ -173,14 +181,13 @@ export class RawFontAware {
   }
 
   sym2raw(value) {
-    return sym2raw(value, { isRawMode: this.isRawMode });
+    return sym2raw(value);
   }
 
   onMouseDown() {
-    // request selection adjustment after
-    // the mousedown event is processed
-    // (because now selectionStart/End are not updated yet,
-    // even though the caret is already repositioned)
+    // Request selection adjustment after the mousedown event is processed
+    // (because now selectionStart/End are not updated yet, even though the
+    // caret is already repositioned).
     this.defer(() => {
       this.adjustSelection();
     });
@@ -192,23 +199,35 @@ export class RawFontAware {
 
   onKeyDown(e) {
     const { target } = e;
-    // request selection adjustment after the keydown event is processed
 
-    // on Mac, there's a Control+F alternative to pressing right arrow
-    const moveRight = (
-      e.keyCode === KEY_RIGHT || (e.ctrlKey && e.keyCode === KEY_LETTER_F)
-    );
+    // On Mac, there's a Control+B/F alternatives to pressing left/right arrows.
+    // Also avoid triggering the behavior for pressing the end key
+    // (Cmd+Right/Left).
+    let moveForward;
 
+    if (this.isRtlMode) {
+      moveForward = (
+        (e.keyCode === KEY_LEFT && !e.metaKey) ||
+        (e.ctrlKey && e.keyCode === KEY_LETTER_B)
+      );
+    } else {
+      moveForward = (
+        (e.keyCode === KEY_RIGHT && !e.metaKey) ||
+        (e.ctrlKey && e.keyCode === KEY_LETTER_F)
+      );
+    }
+
+    // Request selection adjustment after the keydown event is processed
     this.defer(() => {
-      this.adjustSelection(moveRight);
+      this.adjustSelection(moveForward);
     });
 
     let start = target.selectionStart;
     let end = target.selectionEnd;
     const { value } = target;
 
-    // IE11 sometimes has start/end set past the actual string length,
-    // so adjust the selection to be able to get proper charBefore/charAfter values
+    // IE11 sometimes has start/end set past the actual string length, so adjust
+    // the selection to be able to get proper charBefore/charAfter values.
     if (start > value.length) {
       start = value.length;
     }
@@ -220,17 +239,15 @@ export class RawFontAware {
     const charAfter = value.substr(end, 1);
 
     if (start === end) {
-      // when there's no selection and Delete key is pressed
-      // before LF symbol, select two characters to the right
-      // to delete them in one step
+      // When there's no selection and Delete key is pressed before LF symbol,
+      // select two characters to the right to delete them in one step
       if (e.keyCode === KEY_DELETE && charAfter === SYMBOLS.LF) {
         target.selectionEnd = end + 2;
         return;
       }
 
-      // when there's no selection and Backspace key is pressed
-      // after newline character, select two characters to the left
-      // to delete them in one step
+      // When there's no selection and Backspace key is pressed after newline
+      // character, select two characters to the left to delete them in one step
       if (e.keyCode === KEY_BACKSPACE && charBefore === CHARACTERS.LF) {
         target.selectionStart = start - 2;
       }
@@ -238,14 +255,13 @@ export class RawFontAware {
   }
 
   onCopyOrCut(e) {
-    // on cut or copy, we want to have raw text in clipboard (without special
+    // On cut or copy, we want to have raw text in clipboard (without special
     // characters) for interoperability with other applications and parts of the
     // UI
     e.preventDefault();
 
     const { target } = e;
 
-    // get selection, convert it and put into clipboard
     const start = target.selectionStart;
     const end = target.selectionEnd;
     const selection = this.sym2raw(target.value.substring(start, end));
@@ -258,9 +274,8 @@ export class RawFontAware {
       window.clipboardData.setData('Text', selection);
     }
 
-    // replace current selection with the empty string
-    // (otherwise with the default event being cancelled
-    // the selection won't be deleted)
+    // Replace current selection with the empty string (otherwise with the
+    // default event being cancelled the selection won't be deleted)
     if (e.type === 'cut') {
       this.insertAtCaret('');
     }
@@ -293,7 +308,7 @@ export class RawFontAware {
     });
   }
 
-  adjustSelection(moveRight) {
+  adjustSelection(moveForward) {
     const { element } = this;
 
     const start = element.selectionStart;
@@ -305,18 +320,17 @@ export class RawFontAware {
     const insideLF = charBefore === SYMBOLS.LF && charAfter === CHARACTERS.LF;
     const selection = value.substring(start, end);
 
-    // if newline is selected via mouse double-click,
-    // expand the selection to include the preceding LF symbol
+    // If newline is selected via mouse double-click, expand the selection to
+    // include the preceding LF symbol
     if (selection === CHARACTERS.LF && value.substr(start - 1, 1) === SYMBOLS.LF) {
       element.selectionStart = element.selectionStart - 1;
       return;
     }
 
-    // if caret is placed between LF symbol and newline,
-    // move it one symbol to the right or to the left
-    // depending on the keyCode
+    // If caret is placed between LF symbol and newline, move it one symbol to
+    // the right or to the left depending on the keyCode
     if (insideLF) {
-      element.selectionEnd = moveRight ? end + 1 : end - 1;
+      element.selectionEnd = moveForward ? end + 1 : end - 1;
       if (start === end) {
         element.selectionStart = element.selectionEnd;
       }

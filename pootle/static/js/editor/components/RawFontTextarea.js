@@ -61,7 +61,10 @@ const RawFontTextarea = React.createClass({
     this.mousetrap.bind(REDO_SHORTCUT, this.handleRedo);
 
     const { isRawMode } = this.props;
-    this.rawFont = new RawFontAware(this._textareaNode, { isRawMode });
+    const isRtlMode = (
+      this.context.currentLocaleDir === 'rtl' && !this.props.isRawMode
+    );
+    this.rawFont = new RawFontAware(this._textareaNode, { isRawMode, isRtlMode });
     this.previousSnapshot = this.rawFont.setSnapshot({
       value: this.props.initialValue,
     });
@@ -69,7 +72,10 @@ const RawFontTextarea = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     if (this.props.isRawMode !== nextProps.isRawMode) {
-      this.rawFont.setMode({ isRawMode: nextProps.isRawMode });
+      const isRtlMode = (
+        this.context.currentLocaleDir === 'rtl' && !nextProps.isRawMode
+      );
+      this.rawFont.setMode({ isRtlMode, isRawMode: nextProps.isRawMode });
       this.rawFont.update();
     }
   },
@@ -83,9 +89,14 @@ const RawFontTextarea = React.createClass({
     // If this implementation ever becomes a measured cause of slowness and the
     // undo/redo stack also grows, consider using immutable data structures.
     return (
-      !_.isEqual(this.state.done, nextState.done) &&
-      !_.isEqual(this.state.undone, nextState.undone)
+      this.isRawMode !== nextProps.isRawMode ||
+      (!_.isEqual(this.state.done, nextState.done) &&
+       !_.isEqual(this.state.undone, nextState.undone))
     );
+  },
+
+  componentDidUpdate() {
+    this.rawFont.focus();
   },
 
   componentWillUnmount() {

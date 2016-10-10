@@ -9,8 +9,7 @@
 import React, { PropTypes } from 'react';
 import { PureRenderMixin } from 'react-addons-pure-render-mixin';
 
-// FIXME: avoid relative import
-import { relativeDate } from '../../utils';
+import { relativeTime } from 'utils/relativeTime';
 
 
 const TimeSince = React.createClass({
@@ -82,7 +81,7 @@ const TimeSince = React.createClass({
         dateTime={d.toUTCString()}
         {...this.props}
       >
-        {relativeDate(d)}
+        {relativeTime(d)}
       </time>
     );
   },

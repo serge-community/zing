@@ -15,6 +15,7 @@ from pootle.core.browser import get_table_headings
 from pootle.core.helpers import (SIDEBAR_COOKIE_NAME,
                                  get_sidebar_announcements_context)
 from pootle.core.url_helpers import split_pootle_path
+from pootle.core.utils.json import (clean_dict)
 from pootle.core.utils.stats import (TOP_CONTRIBUTORS_CHUNK_SIZE,
                                      get_top_scorers_data,
                                      get_translation_states)
@@ -99,11 +100,54 @@ class PootleBrowseView(PootleDetailView):
             limit=TOP_CONTRIBUTORS_CHUNK_SIZE + 1,
         )
 
+        # get stats and top scorers
+        stats = self.stats
+        top_scorers = get_top_scorers_data(
+            top_scorers,
+            TOP_CONTRIBUTORS_CHUNK_SIZE)
+
+        # === BEGIN DATA REARRANGEMENT ===
+        # TODO: generate data in the proper format without combining
+
+        # expand stats with the additional metadata from self.items
+        if self.items:
+            for i in self.items:
+                code = i['code']
+                st = None
+                if code not in stats['children']:
+                    stats['children'][code] = st
+                else:
+                    st = stats['children'][code]
+                st['title'] = i['title']
+                st['is_disabled'] = i['is_disabled']
+                st['pootle_path'] = i['href']
+                # TODO: refactor original code so that it returns tree item type in a numeric form
+                # project = 2, folder = 1, default (file) = 0
+                st['treeitem_type'] = \
+                    (i['icon'] == 'project') * 2 + \
+                    (i['icon'] == 'folder') * 1;
+
+        # get rid of the lastupdated object in children entries
+        # (convert it to timestamp, as this is all we need)
+        for key in stats['children'].keys():
+            i = stats['children'][key]
+            if 'lastupdated' in i:
+                if i['lastupdated'] is not None and 'creation_time' in i['lastupdated']:
+                    i['lastupdated'] = i['lastupdated']['creation_time']
+                else:
+                    del i['lastupdated']
+
+        # convert children into a list
+        # (because we don't need artificial dict keys)
+        stats['children'] = stats['children'].values()
+
+        # === END DATA REARRANGEMENT ===
+
         ctx.update(
             {'page': 'browse',
              'stats_refresh_attempts_count':
                  settings.POOTLE_STATS_REFRESH_ATTEMPTS_COUNT,
-             'stats': self.stats,
+             'stats': clean_dict(stats),
              'translation_states': get_translation_states(self.object),
              'checks': get_qualitycheck_list(self.object),
              'can_translate': can_translate,
@@ -114,10 +158,7 @@ class PootleBrowseView(PootleDetailView):
              'url_action_view_all': url_action_view_all,
              'table': self.table,
              'is_store': self.is_store,
-             'top_scorers': top_scorers,
-             'top_scorers_data': get_top_scorers_data(
-                 top_scorers,
-                 TOP_CONTRIBUTORS_CHUNK_SIZE),
+             'top_scorers': clean_dict(top_scorers),
              'browser_extends': self.template_extends})
 
         return ctx

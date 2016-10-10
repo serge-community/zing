@@ -18,9 +18,7 @@
       <i id="js-expand-icon" class="icon-expand-stats"
          title="{% trans 'Expand details' %}"></i>
     </a>
-    <div class="path-summary-collapsed">
-      {% include 'core/_top_scorers_as_ul.html' %}
-    </div>
+    <div class="path-summary-collapsed"></div>
     <div class="path-summary-expanded">
       <div class="summary-1-col">
         <h3 class="top">{% trans "Translation Statistics" %}</h3>
@@ -158,17 +156,13 @@
 </div>
 {% endif %}
 
+{% comment %}
 {% if vfolders %}
-<div class="browsing-table-wrapper bd vfolders" lang="{{ LANGUAGE_CODE }}">
-  {% display_table vfolders %}
-</div>
+{# TODO: vfolders should be rendered along with the main table without any `if vfolders` #}
 {% endif %}
+{% endcomment %}
 
-{% if table %}
-<div class="browsing-table-wrapper bd" lang="{{ LANGUAGE_CODE }}">
-  {% display_table table %}
-</div>
-{% endif %}
+<div class="browsing-table-container bd" lang="{{ LANGUAGE_CODE }}"></div>
 {% endblock content %}
 
 {% block scripts_extra %}
@@ -179,11 +173,10 @@ $(function () {
   PTL.search.init();
   PTL.stats.init({
     pootlePath: "{{ pootle_path }}",
-    hasDisabledItems: {{ table.disabled_items|yesno:"true,false" }},
     isAdmin: {{ has_admin_access|yesno:"true,false" }},
     isInitiallyExpanded: {{ is_store|yesno:"true,false" }},
     initialData: {{ stats|to_js }},
-    topContributorsData: {{ top_scorers_data|to_js }},
+    topContributorsData: {{ top_scorers|to_js }},
     statsRefreshAttemptsCount: {{ stats_refresh_attempts_count }},
     uiLocaleDir: '{{ LANGUAGE_BIDI|yesno:"rtl,ltr" }}',
   });

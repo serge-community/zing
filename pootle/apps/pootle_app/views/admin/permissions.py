@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -57,11 +58,11 @@ def admin_permissions(request, current_directory, template, ctx):
     base_queryset = User.objects.filter(is_active=1).exclude(
         id__in=current_directory.permission_sets.values_list('user_id',
                                                              flat=True),)
-    querysets = [(None, base_queryset.filter(
+    choice_groups = [(None, base_queryset.filter(
         username__in=('nobody', 'default')
     ))]
 
-    querysets.append((
+    choice_groups.append((
         _('All Users'),
         base_queryset.exclude(username__in=('nobody',
                                             'default')).order_by('username'),
@@ -81,7 +82,7 @@ def admin_permissions(request, current_directory, template, ctx):
         )
         user = GroupedModelChoiceField(
             label=_('Username'),
-            querysets=querysets,
+            choice_groups=choice_groups,
             queryset=User.objects.all(),
             required=True,
             widget=forms.Select(attrs={

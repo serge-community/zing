@@ -33,12 +33,12 @@ class GroupedModelChoiceIterator(ModelChoiceIterator):
 class GroupedModelChoiceField(forms.ModelChoiceField):
     """A `ModelChoiceField` with grouping capabilities.
 
-    :param querysets: List of tuples including the `title` and `queryset` of
+    :param choice_groups: List of tuples including the `title` and `queryset` of
         each individual choice group.
     """
 
-    def __init__(self, querysets, *args, **kwargs):
-        self.querysets = querysets
+    def __init__(self, choice_groups, *args, **kwargs):
+        self.choice_groups = choice_groups
         super(GroupedModelChoiceField, self).__init__(*args, **kwargs)
 
     def _get_choices(self):

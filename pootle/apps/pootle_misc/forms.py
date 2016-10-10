@@ -1,39 +1,50 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
 from django import forms
 from django.core.validators import EMPTY_VALUES
+from django.forms.models import ModelChoiceIterator
 from django.utils.translation import ugettext_lazy as _
 
 
+class GroupedModelChoiceIterator(ModelChoiceIterator):
+    def __init__(self, field):
+        self.field = field
+        self.choice_groups = field.choice_groups
+
+    def __iter__(self):
+        if self.field.empty_label is not None:
+            yield (u'', self.field.empty_label)
+
+        for title, queryset in self.choice_groups:
+            if title is not None:
+                yield (title, [self.choice(choice) for choice in queryset])
+            else:
+                for choice in queryset:
+                    yield self.choice(choice)
+
+
 class GroupedModelChoiceField(forms.ModelChoiceField):
+    """A `ModelChoiceField` with grouping capabilities.
+
+    :param querysets: List of tuples including the `title` and `queryset` of
+        each individual choice group.
+    """
+
     def __init__(self, querysets, *args, **kwargs):
-        super(GroupedModelChoiceField, self).__init__(*args, **kwargs)
         self.querysets = querysets
+        super(GroupedModelChoiceField, self).__init__(*args, **kwargs)
 
     def _get_choices(self):
-        orig_queryset = self.queryset
-        orig_empty_label = self.empty_label
-        if self.empty_label is not None:
-            yield (u"", self.empty_label)
-            self.empty_label = None
-
-        for title, queryset in self.querysets:
-            self.queryset = queryset
-            if title is None:
-                for choice in super(GroupedModelChoiceField, self).choices:
-                    yield choice
-            else:
-                yield (title, [choice for choice in
-                               super(GroupedModelChoiceField, self).choices])
-
-        self.queryset = orig_queryset
-        self.empty_label = orig_empty_label
+        if hasattr(self, '_choices'):
+            return self._choices
+        return GroupedModelChoiceIterator(self)
     choices = property(_get_choices, forms.ModelChoiceField._set_choices)
 
 

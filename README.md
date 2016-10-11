@@ -31,4 +31,5 @@ Copying
 -------
 
 Zing is released under the General Public License, version 3 or later. See the
-LICENSE file for details.
+[LICENSE](https://github.com/evernote/zing/blob/master/LICENSE) file for
+details.

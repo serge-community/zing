@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -168,8 +169,6 @@ def add_items(fs_items_set, db_items, create_or_resurrect_db_item, parent):
         db_items[name].makeobsolete()
     if len(items_to_delete) > 0:
         parent.update_all_cache()
-        for vfolder_treeitem in parent.vfolder_treeitems:
-            vfolder_treeitem.update_all_cache()
 
     for name in db_items_set - items_to_delete:
         items.append(db_items[name])

@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -35,7 +36,6 @@ from pootle_misc.forms import make_search_form
 from pootle_project.models import Project, ProjectResource, ProjectSet
 from pootle_store.forms import UnitExportForm
 from pootle_store.models import Store, Unit
-from virtualfolder.models import VirtualFolderTreeItem
 
 
 def _test_translate_view(project, request, response, kwargs, settings):
@@ -65,16 +65,14 @@ def _test_translate_view(project, request, response, kwargs, settings):
             editor_extends="projects/base.html",
             check_categories=get_qualitycheck_schema(),
             previous_url=get_previous_url(request),
-            display_priority=(
-                VirtualFolderTreeItem.objects.filter(
-                    pootle_path__startswith=pootle_path).exists()),
             cantranslate=check_permission("translate", request),
             cansuggest=check_permission("suggest", request),
             canreview=check_permission("review", request),
             search_form=make_search_form(request=request),
-            current_vfolder_pk="",
             POOTLE_MT_BACKENDS=settings.POOTLE_MT_BACKENDS,
-            AMAGAMA_URL=settings.AMAGAMA_URL))
+            AMAGAMA_URL=settings.AMAGAMA_URL,
+        )
+    )
 
 
 def _test_browse_view(project, request, response, kwargs):
@@ -292,14 +290,13 @@ def test_view_projects_translate(client, settings, request_users):
         editor_extends="projects/all/base.html",
         check_categories=get_qualitycheck_schema(),
         previous_url=get_previous_url(request),
-        display_priority=False,
         cantranslate=check_permission("translate", request),
         cansuggest=check_permission("suggest", request),
         canreview=check_permission("review", request),
         search_form=make_search_form(request=request),
-        current_vfolder_pk="",
         POOTLE_MT_BACKENDS=settings.POOTLE_MT_BACKENDS,
-        AMAGAMA_URL=settings.AMAGAMA_URL)
+        AMAGAMA_URL=settings.AMAGAMA_URL,
+    )
     view_context_test(ctx, **assertions)
 
 

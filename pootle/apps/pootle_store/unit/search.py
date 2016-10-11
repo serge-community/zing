@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -119,10 +120,6 @@ class DBSearchBackend(object):
         search = kwargs['search']
         sfields = kwargs['sfields']
         user = kwargs['user']
-        vfolder = kwargs["vfolder"]
-
-        if vfolder is not None:
-            qs = qs.filter(vfolders=vfolder)
 
         if self.unit_filter:
             qs = UnitSearchFilter().filter(

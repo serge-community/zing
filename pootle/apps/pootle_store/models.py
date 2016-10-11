@@ -40,9 +40,8 @@ from pootle.core.mixins import CachedMethods, CachedTreeItem
 from pootle.core.models import Revision
 from pootle.core.search import SearchBroker
 from pootle.core.storage import PootleFileSystemStorage
-from pootle.core.url_helpers import (
-    get_all_pootle_paths, get_editor_filter, split_pootle_path,
-    to_tp_relative_path)
+from pootle.core.url_helpers import (get_editor_filter, split_pootle_path,
+                                     to_tp_relative_path)
 from pootle.core.utils import dateformat
 from pootle.core.utils.aggregate import max_column
 from pootle.core.utils.timezone import datetime_min, make_aware
@@ -60,7 +59,7 @@ from .fields import (PLURAL_PLACEHOLDER, SEPARATOR, MultiStringField,
 from .managers import StoreManager, SuggestionManager, UnitManager
 from .store.deserialize import StoreDeserialization
 from .store.serialize import StoreSerialization
-from .util import SuggestionStates, vfolders_installed
+from .util import SuggestionStates
 
 
 TM_BROKER = None
@@ -496,24 +495,6 @@ class Unit(models.Model, base.TranslationUnit):
         information from the database as the target format can support.
         """
         return self.unit_syncer.convert(unitclass)
-
-    def calculate_priority(self):
-        if not vfolders_installed():
-            return 1.0
-
-        priority = (
-            self.vfolders.order_by("-priority")
-                         .values_list("priority", flat=True)
-                         .first())
-        if priority is None:
-            return 1.0
-        return priority
-
-    def set_priority(self):
-        priority = self.calculate_priority()
-
-        if priority != self.priority:
-            Unit.objects.filter(pk=self.pk).update(priority=priority)
 
     def sync(self, unit):
         """Sync in file unit with translations from the DB."""
@@ -1514,9 +1495,6 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
         else:
             parents = [self.parent]
 
-        if 'virtualfolder' in settings.INSTALLED_APPS:
-            parents.extend(self.parent_vf_treeitems.all())
-
         return parents
 
     def get_cachekey(self):
@@ -1620,16 +1598,7 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
         """Get cache_key for all parents (to the Language and Project)
         of current TreeItem
         """
-        pootle_paths = super(Store, self).all_pootle_paths()
-        if 'virtualfolder' in settings.INSTALLED_APPS:
-            vftis = self.parent_vf_treeitems.values_list(
-                "vfolder__location", "pootle_path")
-            for location, pootle_path in vftis:
-                pootle_paths.extend(
-                    [p for p
-                     in get_all_pootle_paths(pootle_path)
-                     if p.count('/') > location.count('/')])
-        return pootle_paths
+        return super(Store, self).all_pootle_paths()
 
     # # # /TreeItem
 

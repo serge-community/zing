@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -11,7 +12,6 @@
 from translate.misc.multistring import multistring
 
 from django import forms
-from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import Resolver404, resolve
 from django.utils import timezone
@@ -476,17 +476,7 @@ class UnitSearchForm(forms.Form):
                 self.cleaned_data["user"].get_unit_rows()
                 or self.default_count)
             self.cleaned_data['count'] = min(count, user_count)
-        self.cleaned_data["vfolder"] = None
         pootle_path = self.cleaned_data.get("path")
-        if 'virtualfolder' in settings.INSTALLED_APPS:
-            from virtualfolder.helpers import extract_vfolder_from_path
-            from virtualfolder.models import VirtualFolderTreeItem
-            vfolder, pootle_path = extract_vfolder_from_path(
-                pootle_path,
-                vfti=VirtualFolderTreeItem.objects.select_related(
-                    "directory", "vfolder"))
-            self.cleaned_data["vfolder"] = vfolder
-            self.cleaned_data["pootle_path"] = pootle_path
         path_keys = [
             "project_code", "language_code", "dir_path", "filename"]
         try:

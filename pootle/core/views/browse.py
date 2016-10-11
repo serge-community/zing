@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -36,10 +37,6 @@ class PootleBrowseView(PootleDetailView):
     @property
     def stats(self):
         return self.object.get_stats()
-
-    @property
-    def has_vfolders(self):
-        return False
 
     @cached_property
     def cookie_data(self):
@@ -78,8 +75,6 @@ class PootleBrowseView(PootleDetailView):
         can_translate = False
         can_translate_stats = False
         User = get_user_model()
-        if self.has_vfolders:
-            filters['sort'] = 'priority'
 
         if self.request.user.is_superuser or self.language:
             can_translate = True

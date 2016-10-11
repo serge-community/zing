@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -93,15 +94,15 @@ def _test_translate_view(language, request, response, kwargs, settings):
             editor_extends="languages/base.html",
             check_categories=get_qualitycheck_schema(),
             previous_url=get_previous_url(request),
-            display_priority=False,
             has_admin_access=check_permission('administrate', request),
             cantranslate=check_permission("translate", request),
             cansuggest=check_permission("suggest", request),
             canreview=check_permission("review", request),
             search_form=make_search_form(request=request),
-            current_vfolder_pk="",
             POOTLE_MT_BACKENDS=settings.POOTLE_MT_BACKENDS,
-            AMAGAMA_URL=settings.AMAGAMA_URL))
+            AMAGAMA_URL=settings.AMAGAMA_URL,
+        )
+    )
 
 
 def _test_export_view(language, request, response, kwargs):

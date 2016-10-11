@@ -312,7 +312,6 @@ const stats = {
     const { data } = this.state;
 
     const $table = $('#content table.stats');
-    const $vfoldersTable = $('#content .vfolders table.stats');
     const dirtySelector = '#top-stats, #translate-actions, #autorefresh-notice';
     const now = parseInt(Date.now() / 1000, 10);
     const dirtyStatsRefreshEnabled = this.retries < this.statsRefreshAttemptsCount;
@@ -359,38 +358,6 @@ const stats = {
         const $td = $table.find(`#total-words-${code}`);
 
         this.processTableItem(item, code, $table, $td, now);
-      }
-
-      if ($vfoldersTable.length) {
-        for (const name in data.vfolders) {
-          if (!data.vfolders.hasOwnProperty(name)) {
-            continue;
-          }
-
-          const item = data.vfolders[name];
-          const code = cssId(name);
-          const $td = $vfoldersTable.find(`#total-words-${code}`);
-
-          // Display only the virtual folders that must be displayed.
-          if (this.isAdmin || item.isVisible) {
-            this.processTableItem(item, code, $vfoldersTable, $td, now);
-          } else {
-            // FIXME vfolders might be added or removed since they can become
-            // completely translated or stop being completely translated, so
-            // they might be displayable after the initial load of the
-            // browser.
-            $td.parent().hide();
-          }
-        }
-
-        // If all vfolders have been hidden (only table header is shown), then
-        // also hide the whole table. Otherwise ensure the vfolders table is
-        // displayed.
-        if ($vfoldersTable.find('tr:visible').length === 1) {
-          $vfoldersTable.hide();
-        } else {
-          $vfoldersTable.show();
-        }
       }
 
       // Sort columns based on previously-made selections

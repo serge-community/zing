@@ -1,7 +1,8 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
@@ -105,7 +106,6 @@ PTL.editor = {
     /* Default settings */
     this.settings = {
       mt: [],
-      displayPriority: false,
     };
 
     if (options) {
@@ -165,10 +165,6 @@ PTL.editor = {
     search.init({
       onSearch: this.onSearch,
     });
-
-    if (options.displayPriority) {
-      ALLOWED_SORTS.push('priority');
-    }
 
     /* Select2 */
     this.$filterStatus.select2(filterSelectOpts);
@@ -1535,9 +1531,6 @@ PTL.editor = {
   setUnit(unit) {
     const newUnit = this.units.setCurrent(unit);
     const body = {};
-    if (this.settings.vFolder) {
-      body.vfolder = this.settings.vFolder;
-    }
     this.fetchUnits().always(() => {
       this.updateNavigation();
       UnitAPI.fetchUnit(newUnit.id, body)

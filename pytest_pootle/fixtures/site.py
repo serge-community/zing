@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -18,13 +19,6 @@ def no_projects():
     from pootle_project.models import Project
 
     Project.objects.all().delete()
-
-
-@pytest.fixture
-def no_vfolders():
-    from virtualfolder.models import VirtualFolder
-
-    VirtualFolder.objects.all().delete()
 
 
 @pytest.fixture

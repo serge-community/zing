@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -31,9 +32,6 @@ from pootle_misc.checks import get_qualitycheck_list, get_qualitycheck_schema
 from pootle_misc.forms import make_search_form
 from pootle_store.forms import UnitExportForm
 from pootle_store.models import Store, Unit
-from virtualfolder.helpers import (
-    extract_vfolder_from_path, make_vfolder_treeitem_dict)
-from virtualfolder.helpers import vftis_for_child_dirs
 
 
 def _test_browse_view(tp, request, response, kwargs):
@@ -58,49 +56,22 @@ def _test_browse_view(tp, request, response, kwargs):
         obj = Directory.objects.get(
             pootle_path=pootle_path)
     else:
-        obj = Store.objects.get(
-            pootle_path=pootle_path)
-    if not kwargs.get("filename"):
-        vftis = obj.vf_treeitems.select_related("vfolder")
-        if not ctx["has_admin_access"]:
-            vftis = vftis.filter(vfolder__is_public=True)
-        vfolders = [
-            make_vfolder_treeitem_dict(vfolder_treeitem)
-            for vfolder_treeitem
-            in vftis.order_by('-vfolder__priority')
-            if (ctx["has_admin_access"]
-                or vfolder_treeitem.is_visible)]
-        stats = {"vfolders": {}}
-        for vfolder_treeitem in vfolders or []:
-            stats['vfolders'][
-                vfolder_treeitem['code']] = vfolder_treeitem["stats"]
-            del vfolder_treeitem["stats"]
-        if stats["vfolders"]:
-            stats.update(obj.get_stats())
-        else:
-            stats = obj.get_stats()
-    else:
-        stats = obj.get_stats()
-        vfolders = None
+        obj = Store.objects.get(pootle_path=pootle_path)
+
+    stats = obj.get_stats()
 
     filters = {}
-    if vfolders:
-        filters['sort'] = 'priority'
 
-    dirs_with_vfolders = vftis_for_child_dirs(obj).values_list(
-        "directory__pk", flat=True)
     directories = [
-        make_directory_item(
-            child,
-            **(dict(sort="priority")
-               if child.pk in dirs_with_vfolders
-               else {}))
+        make_directory_item(child)
         for child in obj.get_children()
-        if isinstance(child, Directory)]
+        if isinstance(child, Directory)
+    ]
     stores = [
         make_store_item(child)
         for child in obj.get_children()
-        if isinstance(child, Store)]
+        if isinstance(child, Store)
+    ]
 
     if not kwargs.get("filename"):
         table_fields = [
@@ -148,12 +119,6 @@ def _test_browse_view(tp, request, response, kwargs):
     for k in ["has_sidebar", "is_sidebar_open", "announcements"]:
         assertions[k] = sidebar[0][k]
     view_context_test(ctx, **assertions)
-    if vfolders:
-        for vfolder in ctx["vfolders"]["items"]:
-            assert (vfolder["is_grayed"] and not ctx["has_admin_access"]) is False
-        assert (
-            ctx["vfolders"]["items"]
-            == vfolders)
 
 
 def _test_translate_view(tp, request, response, kwargs, settings):
@@ -162,14 +127,6 @@ def _test_translate_view(tp, request, response, kwargs, settings):
     kwargs["language_code"] = tp.language.code
     resource_path = "%(dir_path)s%(filename)s" % kwargs
     request_path = "%s%s" % (tp.pootle_path, resource_path)
-    vfolder, pootle_path_ = extract_vfolder_from_path(request_path)
-    current_vfolder_pk = (
-        vfolder.pk
-        if vfolder
-        else "")
-    display_priority = (
-        not current_vfolder_pk
-        and not kwargs['filename'] and ctx['object'].has_vfolders)
     assertions = dict(
         page="translate",
         translation_project=tp,
@@ -183,8 +140,6 @@ def _test_translate_view(tp, request, response, kwargs, settings):
         editor_extends="translation_projects/base.html",
         check_categories=get_qualitycheck_schema(),
         previous_url=get_previous_url(request),
-        current_vfolder_pk=current_vfolder_pk,
-        display_priority=display_priority,
         cantranslate=check_permission("translate", request),
         cansuggest=check_permission("suggest", request),
         canreview=check_permission("review", request),
@@ -227,7 +182,6 @@ def _test_export_view(tp, request, response, kwargs, settings):
     view_context_test(ctx, **assertions)
 
 
-@pytest.mark.pootle_vfolders
 @pytest.mark.django_db
 def test_views_tp(tp_views, settings):
     test_type, tp, request, response, kwargs = tp_views

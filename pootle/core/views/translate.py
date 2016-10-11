@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -23,21 +24,11 @@ class PootleTranslateView(PootleDetailView):
     def ctx_path(self):
         return self.pootle_path
 
-    @property
-    def vfolder_pk(self):
-        return ""
-
-    @property
-    def display_vfolder_priority(self):
-        return False
-
     def get_context_data(self, *args, **kwargs):
         ctx = super(PootleTranslateView, self).get_context_data(*args, **kwargs)
         ctx.update(
             {'page': 'translate',
-             'current_vfolder_pk': self.vfolder_pk,
              'ctx_path': self.ctx_path,
-             'display_priority': self.display_vfolder_priority,
              'check_categories': get_qualitycheck_schema(),
              'cantranslate': check_permission("translate", self.request),
              'cansuggest': check_permission("suggest", self.request),

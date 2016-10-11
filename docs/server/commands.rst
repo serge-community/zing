@@ -717,35 +717,6 @@ translation files or if the code is incorrect:
    (env) $ pootle update_tmserver --target-language=af --tm=mozilla --display-name="Foo 1.7" foo.po bar.tmx
 
 
-.. _commands#vfolders:
-
-Virtual Folders
----------------
-
-These commands allow you to perform tasks with virtual folders from the command
-line.
-
-
-.. django-admin:: add_vfolders
-
-add_vfolders
-^^^^^^^^^^^^
-
-.. versionadded:: 2.7
-
-Creates :ref:`virtual folders <virtual_folders>` from a JSON file. If the
-specified virtual folders already exist then they are updated.
-
-The :ref:`vfolder format <virtual_folders#json-format>` defines how to specify
-a virtual folder that fits your needs.
-
-This command requires a mandatory filename argument.
-
-.. code-block:: console
-
-    $ pootle add_vfolders virtual_folders.json
-
-
 .. _commands#manually_installing_pootle:
 
 Manually Installing Pootle

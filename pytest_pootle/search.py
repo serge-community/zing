@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
 from itertools import groupby
 
-from django.conf import settings
 from django.core.urlresolvers import resolve
 from django.db.models import Max
 
@@ -20,8 +20,6 @@ from pootle_store.constants import ALLOWED_SORTS, SIMPLY_SORTED
 from pootle_store.models import Unit
 from pootle_store.unit.filters import UnitSearchFilter, UnitTextSearch
 from pootle_store.unit.results import GroupedResults, StoreResults
-from virtualfolder.helpers import extract_vfolder_from_path
-from virtualfolder.models import VirtualFolderTreeItem
 
 
 def get_max_and_order_fields(sort_by):
@@ -61,17 +59,10 @@ def calculate_search_results(kwargs, user):
     if month:
         month = get_date_interval(month)
 
-    vfolder = None
-    if 'virtualfolder' in settings.INSTALLED_APPS:
-        vfolder, pootle_path = extract_vfolder_from_path(
-            pootle_path,
-            vfti=VirtualFolderTreeItem.objects.select_related(
-                "directory", "vfolder"))
     qs = (
         Unit.objects.get_translatable(user=user, **resolve(pootle_path).kwargs)
-                    .order_by("store", "index"))
-    if vfolder is not None:
-        qs = qs.filter(vfolders=vfolder)
+                    .order_by("store", "index")
+    )
     # if "filter" is present in request vars...
     if unit_filter:
         # filter the results accordingly

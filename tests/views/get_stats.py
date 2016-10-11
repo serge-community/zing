@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -32,7 +33,6 @@ def test_get_stats_store(client, request_users, settings):
     stats = store.get_stats()
     for k, v in result.items():
         assert stats[k] == v
-    assert "vfolders" not in result
 
 
 @pytest.mark.django_db
@@ -51,16 +51,9 @@ def test_get_stats_directory(client, request_users, settings):
     response = client.get(
         "/xhr/stats/?path=%s" % directory.pootle_path,
         HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-    request = response.wsgi_request
     result = json.loads(response.content)
 
     stats = directory.get_stats()
-    stats["vfolders"] = {}
-
-    for vfolder_treeitem in directory.vf_treeitems.iterator():
-        if request.user.is_superuser or vfolder_treeitem.is_visible:
-            vfti_stats = vfolder_treeitem.get_stats(include_children=False)
-            stats['vfolders'][str(vfolder_treeitem.code)] = vfti_stats
 
     for k, v in result.items():
         if isinstance(v, dict):

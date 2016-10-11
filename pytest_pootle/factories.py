@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -202,23 +203,6 @@ class UnitDBFactory(factory.django.DjangoModelFactory):
     @factory.lazy_attribute
     def target_wordcount(self):
         return pootle_store.models.count_words(self.target_f)
-
-
-class VirtualFolderDBFactory(factory.django.DjangoModelFactory):
-
-    class Meta(object):
-        model = 'virtualfolder.VirtualFolder'
-        django_get_or_create = ("location", "is_public", "filter_rules")
-
-    priority = 2
-    is_public = True
-    location = "/{LANG}/{PROJ}/"
-
-    @factory.lazy_attribute
-    def name(self):
-        from virtualfolder.models import VirtualFolder
-
-        return 'virtualfolder%s' % VirtualFolder.objects.count()
 
 
 class AnnouncementFactory(factory.django.DjangoModelFactory):

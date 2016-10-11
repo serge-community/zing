@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
 from functools import wraps
 
-from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.db import connection
@@ -132,26 +132,15 @@ def set_resource(request, path_obj, dir_path, filename):
 
     is_404 = False
 
-    vfolder = None
-    clean_pootle_path = pootle_path
-    if 'virtualfolder' in settings.INSTALLED_APPS:
-        from virtualfolder.helpers import extract_vfolder_from_path
-        # Get a clean pootle path for retrieving the directory or store.
-        # A clean pootle path is a pootle path without any virtual folder name on
-        # it. For example /af/test_vfolders/browser/chrome/ is the corresponding
-        # clean pootle path for /af/test_vfolders/browser/vfolder8/chrome/
-        vfolder, clean_pootle_path = extract_vfolder_from_path(pootle_path)
-
     if filename:
         pootle_path = pootle_path + filename
-        clean_pootle_path = clean_pootle_path + filename
         resource_path = resource_path + filename
 
         try:
             store = Store.objects.live().select_related(
                 'translation_project',
                 'parent',
-            ).get(pootle_path=clean_pootle_path)
+            ).get(pootle_path=pootle_path)
             directory = store.parent
         except Store.DoesNotExist:
             is_404 = True
@@ -160,14 +149,15 @@ def set_resource(request, path_obj, dir_path, filename):
         if dir_path:
             try:
                 directory = Directory.objects.live().get(
-                    pootle_path=clean_pootle_path)
+                    pootle_path=pootle_path,
+                )
             except Directory.DoesNotExist:
                 is_404 = True
         else:
             directory = obj_directory
 
     if is_404:  # Try parent directory
-        language_code, project_code = split_pootle_path(clean_pootle_path)[:2]
+        language_code, project_code = split_pootle_path(pootle_path)[:2]
         if not filename:
             dir_path = dir_path[:dir_path[:-1].rfind('/') + 1]
 
@@ -180,7 +170,6 @@ def set_resource(request, path_obj, dir_path, filename):
     request.store = store
     request.directory = directory
     request.pootle_path = pootle_path
-    request.current_vfolder = getattr(vfolder, 'pk', '')
 
     request.resource_obj = store or (directory if dir_path else path_obj)
     request.resource_path = resource_path

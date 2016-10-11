@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -430,15 +431,10 @@ class UnitEditJSON(PootleUnitJSON):
         return sources
 
     def get_context_data(self, *args, **kwargs):
-        priority = (
-            self.object.priority if 'virtualfolder' in settings.INSTALLED_APPS
-            else None
-        )
         return {
             'unit': self.object,
             'form': self.get_unit_edit_form(),
             'comment_form': self.get_unit_comment_form(),
-            'priority': priority,
             'store': self.store,
             'directory': self.directory,
             'user': self.request.user,
@@ -494,18 +490,7 @@ def get_qualitycheck_stats(request, *args, **kwargs):
 @permission_required('view')
 @get_resource
 def get_stats(request, *args, **kwargs):
-    stats = request.resource_obj.get_stats()
-
-    if (isinstance(request.resource_obj, Directory) and
-        'virtualfolder' in settings.INSTALLED_APPS):
-        stats['vfolders'] = {}
-
-        for vfolder_treeitem in request.resource_obj.vf_treeitems.iterator():
-            if request.user.is_superuser or vfolder_treeitem.is_visible:
-                stats['vfolders'][vfolder_treeitem.code] = \
-                    vfolder_treeitem.get_stats(include_children=False)
-
-    return JsonResponse(stats)
+    return JsonResponse(request.resource_obj.get_stats())
 
 
 @ajax_required

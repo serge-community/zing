@@ -26,12 +26,6 @@
       </td>
       {% endif %}
 
-      {% if 'priority' in table.fields %}
-      <td id="priority-{{ item.code|cssid }}" class="stats-number">
-        {{ item.priority }}
-      </td>
-      {% endif %}
-
       {% if 'progress' in table.fields %}
       <td class="stats-graph">
         <div id="translated-ratio-{{ item.code|cssid }}" class="sortkey"></div>

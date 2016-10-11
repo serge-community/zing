@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -386,17 +387,6 @@ class TranslationProject(models.Model, CachedTreeItem):
     def clear_all_cache(self, children=True, parents=True):
         super(TranslationProject, self).clear_all_cache(children=children,
                                                         parents=parents)
-
-        if 'virtualfolder' in settings.INSTALLED_APPS:
-            # VirtualFolderTreeItem can only have VirtualFolderTreeItem parents
-            # so it is necessary to flush their cache by calling them one by
-            # one.
-            from virtualfolder.models import VirtualFolderTreeItem
-            tp_vfolder_treeitems = VirtualFolderTreeItem.objects.filter(
-                pootle_path__startswith=self.pootle_path
-            )
-            for vfolder_treeitem in tp_vfolder_treeitems.iterator():
-                vfolder_treeitem.clear_all_cache(children=False, parents=False)
 
     # # # /TreeItem
 

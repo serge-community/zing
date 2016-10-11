@@ -59,7 +59,7 @@ const Stats = React.createClass({
   },
 
   render() {
-    var content = (!this.state.topContributors.length) ? (
+    const content = (!this.state.topContributors.length) ? (
       <label className="placeholder">
         {t('There was no activity here for the past 30 days')}
       </label>

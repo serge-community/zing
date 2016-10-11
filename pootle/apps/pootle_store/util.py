@@ -85,15 +85,6 @@ def get_change_str(changes):
     return "no changed"
 
 
-def parse_pootle_revision(store):
-    if hasattr(store, "parseheader"):
-        pootle_revision = store.parseheader().get("X-Pootle-Revision",
-                                                  None)
-        if pootle_revision is not None:
-            return int(pootle_revision)
-    return None
-
-
 def get_state_name(code, default="untranslated"):
     return STATES_NAMES.get(code, default)
 

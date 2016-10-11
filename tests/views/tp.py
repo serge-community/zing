@@ -155,10 +155,6 @@ def _test_browse_view(tp, request, response, kwargs):
             ctx["vfolders"]["items"]
             == vfolders)
 
-    assert (('display_download' in ctx and ctx['display_download']) ==
-            (request.user.is_authenticated()
-             and check_permission('translate', request)))
-
 
 def _test_translate_view(tp, request, response, kwargs, settings):
     ctx = response.context
@@ -262,10 +258,3 @@ def test_view_user_choice(client):
     response = client.get("/foo/bar/baz")
     assert response.status_code == 404
     assert "user-choice" not in response
-
-
-@pytest.mark.django_db
-def test_uploads_tp(revision, tp_uploads):
-    tp_, request_, response, kwargs_, errors = tp_uploads
-    assert response.status_code == 200
-    assert errors.keys() == response.context['upload_form'].errors.keys()

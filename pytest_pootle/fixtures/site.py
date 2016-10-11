@@ -81,13 +81,9 @@ def translations_directory(request):
 @pytest.fixture
 def clear_cache():
     """Currently tests only use one cache so this clears all"""
-
-    from django.core.cache import caches
-
     from django_redis import get_redis_connection
 
     get_redis_connection('default').flushdb()
-    caches["exports"].clear()
 
 
 @pytest.fixture(scope="session")

@@ -16,12 +16,10 @@ import pytest
 from pytest_pootle.factories import (
     LanguageDBFactory, ProjectDBFactory, StoreDBFactory,
     TranslationProjectFactory)
-from pytest_pootle.utils import update_store
 
 from translate.storage.factory import getclass
 
 from django.core.exceptions import ValidationError
-from django.core.files.uploadedfile import SimpleUploadedFile
 
 from pootle.core.delegate import (
     config, format_classes, format_diffs, formats)
@@ -37,28 +35,10 @@ from pootle_format.formats.po import PoStoreSyncer
 from pootle_format.models import Format
 from pootle_language.models import Language
 from pootle_project.models import Project
-from pootle_statistics.models import SubmissionTypes
-from pootle_store.constants import (
-    NEW, OBSOLETE, PARSED, POOTLE_WINS, TRANSLATED)
+from pootle_store.constants import OBSOLETE, PARSED, POOTLE_WINS, TRANSLATED
 from pootle_store.diff import DiffableStore, StoreDiff
 from pootle_store.models import Store
-from pootle_store.util import parse_pootle_revision
 from pootle_translationproject.models import TranslationProject
-
-
-def _update_from_upload_file(store, update_file,
-                             content_type="text/x-gettext-translation",
-                             user=None, submission_type=None):
-    with open(update_file, "r") as f:
-        upload = SimpleUploadedFile(os.path.basename(update_file),
-                                    f.read(),
-                                    content_type)
-    if store.state < PARSED:
-        store.update(store.file.store)
-    test_store = getclass(upload)(upload.read())
-    store_revision = parse_pootle_revision(test_store)
-    store.update(test_store, store_revision=store_revision,
-                 user=user, submission_type=submission_type)
 
 
 def _store_as_string(store):
@@ -273,133 +253,6 @@ def test_update_set_last_sync_revision(project0_nongnu, tp0, store0, test_fs):
     # update from a file
     dbunit = store0.units[item_index]
     assert dbunit.revision == store0.last_sync_revision + 1
-
-
-@pytest.mark.django_db
-def test_update_upload_defaults(store0, system):
-    store0.state = PARSED
-    unit_source = store0.units.first().source
-    update_store(
-        store0,
-        [(unit_source, "%s UPDATED" % unit_source)],
-        user=system,
-        store_revision=Revision.get() + 1)
-    assert store0.units[0].submitted_by == system
-    assert (
-        store0.units[0].submission_set.last().type
-        == SubmissionTypes.SYSTEM)
-
-
-@pytest.mark.django_db
-def test_update_upload_member_user(store0, member):
-    store0.state = PARSED
-    unit_source = store0.units.first().source
-    update_store(
-        store0,
-        [(unit_source, "%s UPDATED" % unit_source)],
-        user=member,
-        store_revision=Revision.get() + 1)
-    assert store0.units[0].submitted_by == member
-
-
-@pytest.mark.django_db
-def test_update_upload_submission_type(store0):
-    store0.state = PARSED
-    unit_source = store0.units.first().source
-    update_store(
-        store0,
-        [(unit_source, "%s UPDATED" % unit_source)],
-        submission_type=SubmissionTypes.UPLOAD,
-        store_revision=Revision.get() + 1)
-    assert (
-        store0.units[0].submission_set.last().type
-        == SubmissionTypes.UPLOAD)
-
-
-@pytest.mark.django_db
-def test_update_upload_new_revision(store0):
-    update_store(
-        store0,
-        [("Hello, world", "Hello, world UPDATED")],
-        submission_type=SubmissionTypes.UPLOAD,
-        store_revision=Revision.get() + 1)
-    assert store0.units[0].target == "Hello, world UPDATED"
-
-
-@pytest.mark.django_db
-def test_update_upload_again_new_revision(store0):
-    store = store0
-    assert store.state == NEW
-    update_store(
-        store,
-        [("Hello, world", "Hello, world UPDATED")],
-        submission_type=SubmissionTypes.UPLOAD,
-        store_revision=Revision.get() + 1)
-    store = Store.objects.get(pk=store.pk)
-    assert store.state == PARSED
-    assert store.units[0].target == "Hello, world UPDATED"
-
-    update_store(
-        store,
-        [("Hello, world", "Hello, world UPDATED AGAIN")],
-        submission_type=SubmissionTypes.UPLOAD,
-        store_revision=Revision.get() + 1)
-    store = Store.objects.get(pk=store.pk)
-    assert store.state == PARSED
-    assert store.units[0].target == "Hello, world UPDATED AGAIN"
-
-
-@pytest.mark.django_db
-def test_update_upload_old_revision_unit_conflict(store0):
-    original_revision = Revision.get()
-    update_store(
-        store0,
-        [("Hello, world", "Hello, world UPDATED")],
-        submission_type=SubmissionTypes.UPLOAD,
-        store_revision=original_revision + 1)
-
-    # load update with expired revision and conflicting unit
-    update_store(
-        store0,
-        [("Hello, world", "Hello, world CONFLICT")],
-        submission_type=SubmissionTypes.UPLOAD,
-        store_revision=original_revision)
-
-    # unit target is not updated
-    assert store0.units[0].target == "Hello, world UPDATED"
-
-    # but suggestion is added
-    suggestion = store0.units[0].get_suggestions()[0].target
-    assert suggestion == "Hello, world CONFLICT"
-
-
-@pytest.mark.django_db
-def test_update_upload_new_revision_new_unit(store0):
-    file_name = "pytest_pootle/data/po/tutorial/en/tutorial_update_new_unit.po"
-    store0.state = PARSED
-
-    _update_from_upload_file(store0, file_name)
-
-    # the new unit has been added
-    assert store0.units.last().target == 'Goodbye, world'
-
-
-@pytest.mark.django_db
-def test_update_upload_old_revision_new_unit(store0):
-    store0.units.delete()
-    store0.state = PARSED
-
-    # load initial update
-    _update_from_upload_file(
-        store0,
-        "pytest_pootle/data/po/tutorial/en/tutorial_update.po")
-
-    # load old revision with new unit
-    file_name = "pytest_pootle/data/po/tutorial/en/tutorial_update_old_unit.po"
-    _update_from_upload_file(store0, file_name)
-
-    # the unit has been added because its not already obsoleted
-    assert store0.units.count() == 2
 
 
 def _test_store_update_indexes(store, *test_args):

@@ -15,7 +15,6 @@ from django.shortcuts import get_object_or_404, redirect
 from django.utils.functional import cached_property
 from django.utils.lru_cache import lru_cache
 
-from import_export.views import handle_upload_form
 from pootle.core.browser import (
     get_parent, get_table_headings, make_directory_item, make_store_item)
 from pootle.core.decorators import get_path_obj, permission_required
@@ -23,8 +22,7 @@ from pootle.core.helpers import get_sidebar_announcements_context
 from pootle.core.views import (
     PootleBrowseView, PootleExportView, PootleTranslateView)
 from pootle_app.models import Directory
-from pootle_app.models.permissions import (
-    check_permission, get_matching_permissions)
+from pootle_app.models.permissions import get_matching_permissions
 from pootle_app.views.admin.permissions import admin_permissions as admin_perms
 from pootle_language.models import Language
 from pootle_store.models import Store
@@ -228,26 +226,9 @@ class TPBrowseBaseView(PootleBrowseView):
 
     def get_context_data(self, *args, **kwargs):
         ctx = super(TPBrowseBaseView, self).get_context_data(*args, **kwargs)
-        ctx.update(self.get_upload_widget())
-        ctx.update(
-            {'parent': get_parent(self.object)})
-        return ctx
-
-    def get_upload_widget(self):
-        ctx = {}
-        has_upload = (
-            "import_export" in settings.INSTALLED_APPS
-            and self.request.user.is_authenticated()
-            and check_permission('translate', self.request))
-        if has_upload:
-            if "po" in self.project.filetype_tool.valid_extensions:
-                ctx.update(handle_upload_form(
-                    self.request,
-                    self.project,
-                    self.language))
-            ctx.update(
-                {'display_download': True,
-                 'has_sidebar': True})
+        ctx.update({
+            'parent': get_parent(self.object),
+        })
         return ctx
 
     def post(self, *args, **kwargs):

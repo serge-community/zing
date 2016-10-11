@@ -6,6 +6,8 @@ Zing Changelog
 
 * Initial version diverging off Pootle.
 * Django 1.9 support.
+* Cleaned up features out of the scope of the project:
+  * Upload/download of user files.
 
 
 Pre 0.1.0

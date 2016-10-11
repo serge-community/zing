@@ -11,7 +11,7 @@ import pytest
 from django.core.management import call_command, get_commands
 
 CORE_APPS_WITH_COMMANDS = (
-    'accounts', 'pootle_app', 'import_export', 'virtualfolder',
+    'accounts', 'pootle_app', 'virtualfolder',
 )
 
 

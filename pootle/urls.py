@@ -6,7 +6,6 @@
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
-from django.conf import settings
 from django.conf.urls import include, url
 from django.views.generic import TemplateView
 
@@ -19,16 +18,7 @@ urlpatterns = [
     # Reports
     url(r'^admin/reports/', include('reports.urls')),
     url(r'', include('reports.profile_urls')),
-]
 
-# XXX should be autodiscovered
-if "import_export" in settings.INSTALLED_APPS:
-    urlpatterns += [
-        # Pootle offline translation support URLs.
-        url(r'', include('import_export.urls')),
-    ]
-
-urlpatterns += [
     # External apps
     url(r'^contact/', include('contact.urls')),
     url(r'', include('pootle_profile.urls')),

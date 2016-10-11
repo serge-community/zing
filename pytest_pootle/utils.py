@@ -127,22 +127,6 @@ def update_store(store, units=None, store_revision=None,
         resolve_conflict=resolve_conflict)
 
 
-def get_translated_storefile(store, pootle_path=None):
-    """Returns file store with added translations for untranslated units."""
-    storeclass = store.syncer.file_class
-    filestore = store.syncer.convert(storeclass)
-    for unit in filestore.units:
-        if not unit.istranslated():
-            unit.target = "Translation of %s" % unit.source
-
-    path = pootle_path if pootle_path is not None else store.pootle_path
-    filestore.updateheader(add=True, X_Pootle_Path=path)
-    filestore.updateheader(add=True,
-                           X_Pootle_Revision=store.get_max_unit_revision())
-
-    return filestore
-
-
 def add_store_fs(store, fs_path, synced=False):
     from pootle_fs.models import StoreFS
 

@@ -35,7 +35,6 @@ Online translation editor
    suggestions
    terminology
    virtual_folders
-   offline
 
 
 .. _features#admin:

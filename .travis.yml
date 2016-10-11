@@ -1,4 +1,3 @@
-# https://travis-ci.org/#!/translate/pootle
 sudo: false
 language: python
 env:
@@ -34,21 +33,6 @@ notifications:
   email:
     on_failure: always
     on_success: change
-  irc:
-    on_failure: always
-    on_success: change
-    channels:
-      - "chat.freenode.net#pootle-dev"
-    use_notice: true
-    skip_join: true
-    template:
-      - "(%{branch} @ %{commit} : %{author}): %{message} %{build_url}"
-  webhooks:
-    urls:
-      - https://webhooks.gitter.im/e/a6e983c90a9617548a6d
-    on_success: change
-    on_failure: always
-    on_start: never
 before_cache:
   # travis is so dumb - https://github.com/travis-ci/travis-ci/issues/4873
   - pip uninstall py pytest -y

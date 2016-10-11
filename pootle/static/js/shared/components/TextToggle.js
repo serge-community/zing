@@ -7,7 +7,6 @@
  * AUTHORS file for copyright and authorship information.
  */
 
-import assign from 'object-assign';
 import React, { PropTypes } from 'react';
 
 

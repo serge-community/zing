@@ -53,31 +53,31 @@ function setTdWidth($td, w) {
 }
 
 function updateBrowserTableData(stats) {
-  var children = stats.children;
+  const children = stats.children;
   if (!children) {
     return;
   }
 
-  for (var key in children) {
-    var item = children[key];
+  Object.keys(children).forEach((key) => {
+    const item = children[key];
 
     item.critical = item.critical || 0;
     item.suggestions = item.suggestions || 0;
     item.lastaction = item.lastaction || {};
     item.lastaction.mtime = item.lastaction.mtime || 0;
 
-    var pootle_path = item.pootle_path || '';
-    var pathitems = pootle_path.split('/'); // pootle_path starts with the slash
-    pathitems.shift(); // remove the first empty item
-    var lang = pathitems.shift();
-    var project = pathitems.shift();
-    item.translate_url = ['', lang, project, 'translate', pathitems].join('/');
+    const pootlePath = item.pootle_path || '';
+    const pathItems = pootlePath.split('/'); // pootlePath starts with the slash
+    pathItems.shift(); // remove the first empty item
+    const lang = pathItems.shift();
+    const project = pathItems.shift();
+    item.translate_url = ['', lang, project, 'translate', pathItems].join('/');
 
-    var total = item.total || 0;
-    var translated = item.translated || 0;
+    const total = item.total || 0;
+    const translated = item.translated || 0;
     item.progress = total > 0 ? translated / total : 1;
     item.incomplete = total - translated;
-  }
+  });
 }
 
 
@@ -145,10 +145,10 @@ const stats = {
     });
 
     ReactDOM.render(
-        <StatsCollapsed
-            topContributors={options.topContributorsData.items || []}
-        />,
-        q('.path-summary-collapsed')
+      <StatsCollapsed
+        topContributors={options.topContributorsData.items || []}
+      />,
+      q('.path-summary-collapsed')
     );
 
     ReactDOM.render(
@@ -164,10 +164,10 @@ const stats = {
     updateBrowserTableData(options.initialData);
 
     ReactDOM.render(
-        <BrowserTable
-            items={options.initialData.children || []}
-        />,
-        q('.browsing-table-container')
+      <BrowserTable
+        items={options.initialData.children || []}
+      />,
+      q('.browsing-table-container')
     );
 
     // Retrieve async data if needed

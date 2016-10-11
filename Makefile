@@ -10,7 +10,7 @@ SPRITE_DIR = ${IMAGES_DIR}/sprite
 FORMATS=--formats=bztar
 TEST_ENV_NAME = pootle_test_env
 
-POOTLE_CMD = $(shell sh -c "command -v pootle")
+POOTLE_CMD = $(shell sh -c "command -v zing")
 ifeq ($(POOTLE_CMD),)
 	POOTLE_CMD=python manage.py
 endif

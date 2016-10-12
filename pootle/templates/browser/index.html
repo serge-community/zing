@@ -18,9 +18,7 @@
       <i id="js-expand-icon" class="icon-expand-stats"
          title="{% trans 'Expand details' %}"></i>
     </a>
-    <div class="path-summary-collapsed">
-      {% include 'core/_top_scorers_as_ul.html' %}
-    </div>
+    <div class="path-summary-collapsed"></div>
     <div class="path-summary-expanded">
       <div class="summary-1-col">
         <h3 class="top">{% trans "Translation Statistics" %}</h3>
@@ -158,11 +156,7 @@
 </div>
 {% endif %}
 
-{% if table %}
-<div class="browsing-table-wrapper bd" lang="{{ LANGUAGE_CODE }}">
-  {% display_table table %}
-</div>
-{% endif %}
+<div class="browsing-table-container bd" lang="{{ LANGUAGE_CODE }}"></div>
 {% endblock content %}
 
 {% block scripts_extra %}

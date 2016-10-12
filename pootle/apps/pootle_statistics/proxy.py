@@ -174,7 +174,7 @@ class SubmissionProxy(object):
         if self.unit is None:
             return info
         info.update(
-            dict(unit_source=truncatechars(self.unit_source, 50),
+            dict(source=truncatechars(self.unit_source, 50),
                  unit_url=self.unit_translate_url))
         if self.qc_name is None:
             return info

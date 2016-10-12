@@ -252,7 +252,7 @@ const stats = {
 
     const props = {
       timestamp: data.creation_time,
-      unitSource: data.unit_source,
+      unitSource: data.source,
       unitUrl: data.unit_url,
     };
     ReactDOM.render(<LastUpdate {...props} />, el);

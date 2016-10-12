@@ -29,7 +29,7 @@ from django.utils.functional import cached_property
 from django.utils.http import urlquote
 from django.utils.translation import ugettext_lazy as _
 
-from pootle.core.delegate import data_tool, format_syncers, format_updaters
+from pootle.core.delegate import format_syncers, format_updaters
 from pootle.core.log import (
     TRANSLATION_ADDED, TRANSLATION_CHANGED, TRANSLATION_DELETED,
     UNIT_ADDED, UNIT_DELETED, UNIT_OBSOLETE, UNIT_RESURRECTED,
@@ -1313,10 +1313,6 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
                 obsoleted += 1
 
         return obsoleted
-
-    @cached_property
-    def data_tool(self):
-        return data_tool.get(self.__class__)(self)
 
     @cached_property
     def updater(self):

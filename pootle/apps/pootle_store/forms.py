@@ -58,9 +58,9 @@ UNIT_SEARCH_FILTER_CHOICES = (
     ("checks", "checks"))
 
 UNIT_SEARCH_SORT_CHOICES = (
-    ('priority', 'priority'),
     ('oldest', 'oldest'),
-    ('newest', 'newest'))
+    ('newest', 'newest'),
+)
 
 # # # # # # #  text cleanup and highlighting # # # # # # # # # # # # #
 

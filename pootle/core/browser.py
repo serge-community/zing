@@ -16,11 +16,6 @@ HEADING_CHOICES = [
         'display_name': _("Name"),
     },
     {
-        'id': 'priority',
-        'class': 'stats-number sorttable_numeric',
-        'display_name': _("Priority"),
-    },
-    {
         'id': 'project',
         'class': 'stats',
         'display_name': _("Project"),

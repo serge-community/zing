@@ -47,7 +47,6 @@ def test_get_edit_unit(project0_nongnu, get_edit_unit, client,
     assert result["is_obsolete"] is False
     assert result["sources"] == sources
     assert response.context["unit"] == unit
-    assert response.context["priority"] == unit.priority
     assert response.context["store"] == store
     assert response.context["filetype"] == filetype
     assert response.context["directory"] == directory

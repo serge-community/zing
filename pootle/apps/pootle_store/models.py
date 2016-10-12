@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -20,7 +21,6 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
-from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import F
 from django.template.defaultfilters import truncatechars
@@ -235,11 +235,6 @@ class Unit(models.Model, base.TranslationUnit):
     reviewed_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True,
                                     db_index=True, related_name='reviewed')
     reviewed_on = models.DateTimeField(db_index=True, null=True)
-
-    # this is calculated from virtualfolders if installed and linked
-    priority = models.FloatField(
-        db_index=True, default=1,
-        validators=[MinValueValidator(0)])
 
     objects = UnitManager()
     simple_objects = models.Manager()

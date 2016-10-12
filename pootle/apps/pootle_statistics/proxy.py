@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -179,19 +180,15 @@ class SubmissionProxy(object):
             return info
         info.update(
             dict(check_name=self.qc_name,
-                 check_display_name=check_names.get(self.qc_name, self.qc_name),
-                 checks_url=reverse('pootle-checks-descriptions')))
+                 check_displayname=check_names.get(self.qc_name, self.qc_name)))
         return info
 
     @property
     def submission_info(self):
         return {
-            "profile_url": self.display_user.get_absolute_url(),
             "email": self.display_user.email_hash,
             "displayname": self.display_user.display_name,
             "username": self.display_user.username,
-            "display_datetime": dateformat.format(self.creation_time),
-            "iso_datetime": self.creation_time.isoformat(),
             "type": self.type,
             "mtime": int(dateformat.format(self.creation_time, 'U'))}
 

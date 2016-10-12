@@ -1,7 +1,8 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
@@ -32,10 +33,9 @@ SourceString.propTypes = {
 const UserEvent = React.createClass({
 
   propTypes: {
-    displayDatetime: PropTypes.string.isRequired,
-    displayName: PropTypes.string.isRequired,
+    displayName: PropTypes.string,
     email: PropTypes.string.isRequired,
-    isoDatetime: PropTypes.string.isRequired,
+    timestamp: PropTypes.number,
     type: PropTypes.number.isRequired,
     unitSource: PropTypes.string.isRequired,
     unitUrl: PropTypes.string.isRequired,
@@ -43,7 +43,7 @@ const UserEvent = React.createClass({
     checkName: PropTypes.string,
     checkDisplayName: PropTypes.string,
     translationActionType: PropTypes.number,
-    username: PropTypes.string,
+    username: PropTypes.string.isRequired,
   },
 
   mixins: [PureRenderMixin],
@@ -73,52 +73,50 @@ const UserEvent = React.createClass({
       );
     }
 
-    /*
-     * NORMAL = 1  # Interactive web editing
-     * REVERT = 2  # Revert action on the web
-     * SUGG_ACCEPT = 3  # Accepting a suggestion
-     * UPLOAD = 4  # Uploading an offline file
-     * SYSTEM = 5  # Batch actions performed offline
-     * MUTE_CHECK = 6  # Mute QualityCheck
-     * UNMUTE_CHECK = 7  # Unmute QualityCheck
-     * SUGG_ADD = 8  # Add new Suggestion
-     * SUGG_REJECT = 9  # Reject Suggestion
-     *
-     * Translation action types:
-     * TRANSLATED = 0
-     * EDITED = 1
-     * PRE_TRANSLATED = 2
-     * REMOVED = 3
-     * REVIEWED = 4
-     * NEEDS_WORK = 5
-     */
+    const NORMAL = 1;       // Regular edit via web UI
+    const REVERT = 2;       // Revert action via web UI
+    const SUGG_ACCEPT = 3;  // Accept a suggestion
+    const UPLOAD = 4;       // Upload an offline file
+    const SYSTEM = 5;       // Batch actions performed offline
+    const MUTE_CHECK = 6;   // Mute quality check
+    const UNMUTE_CHECK = 7; // Unmute quality check
+    const SUGG_ADD = 8;     // Add new suggestion
+    const SUGG_REJECT = 9;  // Reject suggestion
 
-    if (type === 2) {
+    // Translation action types:
+    const TRANSLATED = 0;
+    const EDITED = 1;
+    const PRE_TRANSLATED = 2;
+    const REMOVED = 3;
+    const REVIEWED = 4;
+    const NEEDS_WORK = 5;
+
+    if (type === REVERT) {
       return tct('%(user)s removed translation for %(sourceString)s', { user, sourceString });
-    } else if (type === 3) {
+    } else if (type === SUGG_ACCEPT) {
       return tct('%(user)s accepted suggestion for %(sourceString)s', { user, sourceString });
-    } else if (type === 4) {
+    } else if (type === UPLOAD) {
       return tct('%(user)s uploaded file', { user });
-    } else if (type === 6) {
+    } else if (type === MUTE_CHECK) {
       return tct('%(user)s muted %(check)s for %(sourceString)s', { user, check, sourceString });
-    } else if (type === 7) {
+    } else if (type === UNMUTE_CHECK) {
       return tct('%(user)s unmuted %(check)s for %(sourceString)s', { user, check, sourceString });
-    } else if (type === 8) {
+    } else if (type === SUGG_ADD) {
       return tct('%(user)s added suggestion for %(sourceString)s', { user, sourceString });
-    } else if (type === 9) {
+    } else if (type === SUGG_REJECT) {
       return tct('%(user)s rejected suggestion for %(sourceString)s', { user, sourceString });
-    } else if (type === 1 || type === 5) {
-      if (translationActionType === 0) {
+    } else if (type === NORMAL || type === SYSTEM) {
+      if (translationActionType === TRANSLATED) {
         return tct('%(user)s translated %(sourceString)s', { user, sourceString });
-      } else if (translationActionType === 1) {
+      } else if (translationActionType === EDITED) {
         return tct('%(user)s edited %(sourceString)s', { user, sourceString });
-      } else if (translationActionType === 2) {
+      } else if (translationActionType === PRE_TRANSLATED) {
         return tct('%(user)s pre-translated %(sourceString)s', { user, sourceString });
-      } else if (translationActionType === 3) {
+      } else if (translationActionType === REMOVED) {
         return tct('%(user)s removed translation for %(sourceString)s', { user, sourceString });
-      } else if (translationActionType === 4) {
+      } else if (translationActionType === REVIEWED) {
         return tct('%(user)s reviewed %(sourceString)s', { user, sourceString });
-      } else if (translationActionType === 5) {
+      } else if (translationActionType === NEEDS_WORK) {
         return tct('%(user)s marked as needs work %(sourceString)s', { user, sourceString });
       }
     }
@@ -130,7 +128,7 @@ const UserEvent = React.createClass({
     const avatar = (
       <Avatar
         email={this.props.email}
-        label={this.props.displayName}
+        label={this.props.displayName || this.props.username}
         size={20}
         username={this.props.username}
       />
@@ -146,8 +144,7 @@ const UserEvent = React.createClass({
         </span>
         {' '}
         <TimeSince
-          title={this.props.displayDatetime}
-          dateTime={this.props.isoDatetime}
+          timestamp={this.props.timestamp}
         />
       </div>
     );

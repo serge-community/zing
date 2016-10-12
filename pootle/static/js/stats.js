@@ -1,7 +1,8 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
@@ -12,17 +13,17 @@ import ReactDOM from 'react-dom';
 
 import 'jquery-utils';
 import assign from 'object-assign';
-import 'sorttable';
 
 import StatsAPI from 'api/StatsAPI';
+import LastActivity from 'components/LastActivity';
 import LastUpdate from 'components/LastUpdate';
 import TimeSince from 'components/TimeSince';
-import UserEvent from 'components/UserEvent';
 import cookie from 'utils/cookie';
 import { q } from 'utils/dom';
 
+import BrowserTable from './browser/components/BrowserTable';
 import Stats from './browser/components/Stats';
-import VisibilityToggle from './browser/components/VisibilityToggle';
+import StatsCollapsed from './browser/components/StatsCollapsed';
 import msg from './msg';
 
 
@@ -49,6 +50,34 @@ function setTdWidth($td, w) {
   } else {
     $td.css('width', `${w}%`).show();
   }
+}
+
+function updateBrowserTableData(stats) {
+  const children = stats.children;
+  if (!children) {
+    return;
+  }
+
+  Object.keys(children).forEach((key) => {
+    const item = children[key];
+
+    item.critical = item.critical || 0;
+    item.suggestions = item.suggestions || 0;
+    item.lastaction = item.lastaction || {};
+    item.lastaction.mtime = item.lastaction.mtime || 0;
+
+    const pootlePath = item.pootle_path || '';
+    const pathItems = pootlePath.split('/'); // pootlePath starts with the slash
+    pathItems.shift(); // remove the first empty item
+    const lang = pathItems.shift();
+    const project = pathItems.shift();
+    item.translate_url = ['', lang, project, 'translate', pathItems].join('/');
+
+    const total = item.total || 0;
+    const translated = item.translated || 0;
+    item.progress = total > 0 ? translated / total : 1;
+    item.incomplete = total - translated;
+  });
 }
 
 
@@ -115,18 +144,30 @@ const stats = {
       }
     });
 
-    if (this.isAdmin && options.hasDisabledItems) {
-      ReactDOM.render(<VisibilityToggle uiLocaleDir={options.uiLocaleDir} />,
-                      q('.js-mnt-visibility-toggle'));
-    }
+    ReactDOM.render(
+      <StatsCollapsed
+        topContributors={options.topContributorsData.items || []}
+      />,
+      q('.path-summary-collapsed')
+    );
 
     ReactDOM.render(
       <Stats
-        hasMoreContributors={options.topContributorsData.has_more_items}
-        topContributors={options.topContributorsData.items}
+        hasMoreContributors={options.topContributorsData.has_more_items || false}
+        topContributors={options.topContributorsData.items || []}
         pootlePath={this.pootlePath}
       />,
       q('#js-mnt-top-contributors')
+    );
+
+    // calculate additional fields for the provided data
+    updateBrowserTableData(options.initialData);
+
+    ReactDOM.render(
+      <BrowserTable
+        items={options.initialData.children || []}
+      />,
+      q('.browsing-table-container')
     );
 
     // Retrieve async data if needed
@@ -174,7 +215,7 @@ const stats = {
   },
 
   updateAction($action, count) {
-    $action.toggleClass('non-zero', !(count === 0));
+    $action.toggleClass('non-zero', count > 0);
     $action.find('.counter').text(count !== null ? count : '—');
   },
 
@@ -200,21 +241,7 @@ const stats = {
     if (data.mtime === 0) {
       return false;
     }
-
-    const props = {
-      checkName: data.check_name,
-      checkDisplayName: data.check_display_name,
-      displayName: data.displayname,
-      email: data.email,
-      displayDatetime: data.display_datetime,
-      isoDatetime: data.iso_datetime,
-      type: data.type,
-      translationActionType: data.translation_action_type,
-      unitSource: data.unit_source,
-      unitUrl: data.unit_url,
-      username: data.username,
-    };
-    ReactDOM.render(<UserEvent {...props} />, el);
+    ReactDOM.render(<LastActivity {...data} />, el);
     return true;
   },
 
@@ -224,8 +251,7 @@ const stats = {
     }
 
     const props = {
-      displayDatetime: data.display_datetime,
-      isoDatetime: data.iso_datetime,
+      timestamp: data.creation_time,
       unitSource: data.unit_source,
       unitUrl: data.unit_url,
     };
@@ -391,19 +417,6 @@ const stats = {
         } else {
           $vfoldersTable.show();
         }
-      }
-
-      // Sort columns based on previously-made selections
-      const columnSort = sorttable.getSortCookie($table.data('sort-cookie'));
-      if (columnSort !== null) {
-        const $th = $(`#${columnSort.columnId}`);
-        $th.removeClass('sorttable_sorted sorttable_sorted_reverse');
-        setTimeout(() => {
-          $th.click();
-          if (columnSort.order === 'desc') {
-            $th.click();
-          }
-        }, 1);
       }
     }
   },

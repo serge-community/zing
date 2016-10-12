@@ -1,7 +1,8 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
@@ -16,8 +17,7 @@ import TimeSince from 'components/TimeSince';
 const LastUpdate = React.createClass({
 
   propTypes: {
-    displayDatetime: PropTypes.string.isRequired,
-    isoDatetime: PropTypes.string.isRequired,
+    timestamp: PropTypes.number.isRequired,
     unitSource: PropTypes.string.isRequired,
     unitUrl: PropTypes.string.isRequired,
   },
@@ -37,8 +37,7 @@ const LastUpdate = React.createClass({
     return (
       <div className="last-action">
         <TimeSince
-          title={this.props.displayDatetime}
-          dateTime={this.props.isoDatetime}
+          timestamp={this.props.timestamp}
         />{' '}
         <span
           className="action-text"

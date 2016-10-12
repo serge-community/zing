@@ -1,7 +1,8 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
@@ -405,12 +406,6 @@ td.stats-name a:hover > i + span,
 }
 
 /* End hack */
-
-.browsing-table-wrapper
-{
-    position: relative;
-}
-
 
 /*
  * MAIN DIVs
@@ -1461,7 +1456,7 @@ span.legend.fuzzy
     background-color: #9c9;
 }
 
-/* SORTABLE */
+/* SORTABLE - DEPRECATED */
 
 table.sortable th,
 table tfoot,
@@ -1515,6 +1510,78 @@ html[dir="rtl"] table.sortable th input
 .sortkey
 {
     display: none;
+}
+
+/* BrowserTable React Component */
+
+.browser-table-component th
+{
+    color: #999;
+    font-size: 85%;
+    white-space: nowrap;
+}
+
+.browser-table-component th label
+{
+    cursor: pointer;
+}
+
+.browser-table-component th label:after
+{
+    content: '▼';
+    margin: 0 0.5em;
+    opacity: 0;
+    font-size: 90%;
+}
+
+.browser-table-component th label:hover:after,
+.browser-table-component th label.normal:after,
+.browser-table-component th label.reverse:after
+{
+    opacity: 1;
+}
+
+.browser-table-component th label.normal:after
+{
+    content: '▼';
+}
+
+.browser-table-component th label.reverse:after
+{
+    content: '▲';
+}
+
+.browser-table-component th label.normal,
+.browser-table-component th label.reverse
+{
+    color: #000;
+}
+
+.browser-table-component th,
+.browser-table-component td
+{
+    padding: 5px;
+}
+
+.browser-table-component .toggle.admin {
+    cursor: pointer;
+    color: #c30;
+    margin: 0 1em;
+}
+
+.browser-table-component > tbody > tr:nth-child(odd)
+{
+    background-color: #f5fbfd;
+}
+
+.browser-table-component td.stats-name i
+{
+    margin-right: 0.3em;
+}
+
+.browser-table-component td.stats-number
+{
+    padding-right: 2em !important; /* magic number to put padding between right and left aligned column, and to right-align heading with number */
 }
 
 /* PAGER */
@@ -2149,13 +2216,19 @@ table.stats .item.dirty .last-updated
     opacity: 0.35;
 }
 
-.item.is-grayed,
+.item.is-grayed, /* TODO: is-grayed is obsolete; remove */
 .item.is-disabled
 {
     font-style: italic;
     opacity: 0.5;
 }
 
+.item.is-dirty
+{
+    border-left: 1px solid #fdd;
+}
+
+.zero,
 .muted
 {
     color: #999;

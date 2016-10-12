@@ -1,12 +1,12 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
 
-import assign from 'object-assign';
 import React, { PropTypes } from 'react';
 
 
@@ -17,7 +17,7 @@ const TextToggle = React.createClass({
     labelActive: PropTypes.string,
     labelInactive: PropTypes.string,
     onClick: PropTypes.func,
-    style: PropTypes.object,
+    className: PropTypes.string,
   },
 
   getDefaultProps() {
@@ -44,12 +44,11 @@ const TextToggle = React.createClass({
   render() {
     const label = this.state.isActive ?
       this.props.labelActive : this.props.labelInactive;
-    const style = assign({}, { cursor: 'pointer' }, this.props.style);
 
     return (
       <span
         onClick={this.handleClick}
-        style={style}
+        className={this.props.className}
       >
         {label}
       </span>

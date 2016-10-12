@@ -1,7 +1,8 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
@@ -15,8 +16,7 @@ import { relativeTime } from 'utils/relativeTime';
 const TimeSince = React.createClass({
 
   propTypes: {
-    dateTime: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
+    timestamp: PropTypes.number,
   },
 
   mixins: [PureRenderMixin],
@@ -28,7 +28,7 @@ const TimeSince = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.dateTime !== this.props.dateTime) {
+    if (nextProps.timestamp !== this.props.timestamp) {
       this.cleanup();
     }
   },
@@ -45,7 +45,7 @@ const TimeSince = React.createClass({
   },
 
   tick(opts = { refresh: true }) {
-    const past = Date.parse(this.props.dateTime);
+    const past = new Date(this.props.timestamp * 1000);
     const now = Date.now();
     const seconds = Math.round(Math.abs(now - past) / 1000);
 
@@ -69,14 +69,20 @@ const TimeSince = React.createClass({
   },
 
   render() {
+    const d = new Date(this.props.timestamp * 1000);
+
+    if (!this.props.timestamp) {
+      return (<span />);
+    }
+
     return (
       <time
         className="extra-item-meta"
-        title={this.props.title}
-        dateTime={this.props.dateTime}
+        title={d.toUTCString()}
+        dateTime={d.toUTCString()}
         {...this.props}
       >
-        {relativeTime(this.props.dateTime)}
+        {relativeTime(d)}
       </time>
     );
   },

@@ -1,7 +1,8 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
@@ -58,17 +59,21 @@ const Stats = React.createClass({
   },
 
   render() {
-    if (!this.state.topContributors.length) {
-      return null;
-    }
+    const content = (!this.state.topContributors.length) ? (
+      <label className="placeholder">
+        {t('There was no activity here for the past 30 days')}
+      </label>
+    ) : (
+      <TopContributorsTable
+        items={this.state.topContributors}
+      />
+    );
 
     return (
       <div className="summary-2-col">
         <h3 className="top">{t('Contributors, 30 Days')}</h3>
         <div className="bd">
-          <TopContributorsTable
-            items={this.state.topContributors}
-          />
+          {content}
           {this.renderLoadMoreButton()}
         </div>
       </div>

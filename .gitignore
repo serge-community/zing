@@ -92,3 +92,6 @@ manage
 .cache
 
 pytest_pootle/data/po/.tmp
+
+# Yarn
+yarn.lock

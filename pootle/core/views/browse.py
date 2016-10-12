@@ -48,7 +48,7 @@ class PootleBrowseView(PootleDetailView):
     def sidebar_announcements(self):
         return get_sidebar_announcements_context(
             self.request,
-            (self.object, ))
+            (self.object,))
 
     @property
     def table(self):
@@ -121,18 +121,20 @@ class PootleBrowseView(PootleDetailView):
                 st['title'] = i['title']
                 st['is_disabled'] = i['is_disabled']
                 st['pootle_path'] = i['href']
-                # TODO: refactor original code so that it returns tree item type in a numeric form
+                # TODO: refactor original code so that it returns tree item type
+                # in a numeric form
                 # project = 2, folder = 1, default (file) = 0
                 st['treeitem_type'] = \
                     (i['icon'] == 'project') * 2 + \
-                    (i['icon'] == 'folder') * 1;
+                    (i['icon'] == 'folder') * 1
 
         # get rid of the lastupdated object in children entries
         # (convert it to timestamp, as this is all we need)
         for key in stats['children'].keys():
             i = stats['children'][key]
             if 'lastupdated' in i:
-                if i['lastupdated'] is not None and 'creation_time' in i['lastupdated']:
+                if (i['lastupdated'] is not None
+                        and 'creation_time' in i['lastupdated']):
                     i['lastupdated'] = i['lastupdated']['creation_time']
                 else:
                     del i['lastupdated']

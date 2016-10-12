@@ -9,7 +9,6 @@
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import F
 from django.template.defaultfilters import truncatechars

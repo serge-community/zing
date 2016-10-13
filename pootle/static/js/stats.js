@@ -61,6 +61,7 @@ function updateBrowserTableData(stats) {
   Object.keys(children).forEach((key) => {
     const item = children[key];
 
+    item.treeitem_type = item.treeitem_type || 0;
     item.critical = item.critical || 0;
     item.suggestions = item.suggestions || 0;
     item.lastaction = item.lastaction || {};

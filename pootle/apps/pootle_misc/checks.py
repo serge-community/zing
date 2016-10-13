@@ -242,7 +242,7 @@ fmt = u"\%\{{1}[^\}]+\}{1}"
 percent_brace_placeholders_regex = re.compile(u"(%s)" % fmt, re.U)
 
 plurr_format_regex = re.compile(u'{[^{}]*:.*?}')
-plurr_placeholders_regex = re.compile(u'{([^{}:]*?):.*?}|{([^{}]*?)}')
+plurr_placeholders_regex = re.compile(u'{([^ {}:]*)', re.M)
 plurr_plural_suffix_regex = re.compile(u'_PLURAL$')
 
 
@@ -995,20 +995,14 @@ class ENChecker(checks.UnitChecker):
         if str2 == u'' or not plurr_placeholders_regex.search(str1):
             return True
 
-        placeholders_source = map(
-            clean_plurr_placeholder,
-            filter(None,
-                   reduce(lambda x, y: x + y,
-                          map(list, plurr_placeholders_regex.findall(str1)),
-                          []))
-        )
-        placeholders_target = map(
-            clean_plurr_placeholder,
-            filter(None,
-                   reduce(lambda x, y: x + y,
-                          map(list, plurr_placeholders_regex.findall(str2)),
-                          []))
-        )
+        placeholders_source = [
+            clean_plurr_placeholder(source) for source in
+            plurr_placeholders_regex.findall(str1)
+        ]
+        placeholders_target = [
+            clean_plurr_placeholder(target) for target in
+            plurr_placeholders_regex.findall(str2)
+        ]
         if set(placeholders_source) == set(placeholders_target):
             return True
 

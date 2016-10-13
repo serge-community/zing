@@ -367,12 +367,17 @@ def test_plurr_format(source_string, target_string, should_skip):
     (u'B {BAR_PLURAL:Zero|{BAR}}', u'B {BAR_PLURAL:foo}', True),
     (u'C {BAR_PLURAL:Zero|{BAR}}', u'C {BAR_PLURAL:foo|{BAR}}', True),
     (u'{FOO} {BAR} {BAZ}', u'{FOO} {BAR} {BAZ}', True),
+
     (u'{N:foo|{N}}', u'{N:foo:|bar}', True),
     (u'{N:foo}', u'{N:foo:}', True),
     (u'{N:foo:}', u'{N:foo}', True),
     (u'{N:}', u'{N:foo:}', True),
     (u'{N}', u'{N:}', True),
     (u'{N}', u'{N::::}', True),
+
+    (u'{N:foo {C}|{N_PLURAL:bar {N} in {C}|bar {N} baz {C}}}',
+     u'{N:{C}foo|{N_PLURAL:{C}bar}}',
+     True),
 
     (u'D {BAR_PLURAL:Zero|{BAR}}', u'D {RAB_PLURAL:rab|{RAB} rab}', False),
     (u'F {BAR_PLURAL:Zero|{BAR}}', u'F {BAR_PLURALL:rab|{RAB} rab}', False),

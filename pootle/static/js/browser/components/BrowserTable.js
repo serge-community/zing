@@ -26,6 +26,11 @@ const COL_SUGGESTIONS = 5;
 const COL_INCOMPLETE = 6;
 const COL_LASTACTIVITY = 7;
 
+const ITEM_FILE = 0;
+const ITEM_FOLDER = 1;
+const ITEM_PROJECT = 2;
+const ITEM_LANGUAGE = 3;
+
 const BrowserTable = React.createClass({
 
   propTypes: {
@@ -138,9 +143,11 @@ const BrowserTable = React.createClass({
       'is-dirty': i.is_dirty,
     });
 
-    let itemType = 'file';
-    if (i.treeitem_type === 1) itemType = 'folder';
-    if (i.treeitem_type === 2) itemType = 'project';
+    let itemType;
+    if (i.treeitem_type === ITEM_FILE) itemType = 'file';
+    if (i.treeitem_type === ITEM_FOLDER) itemType = 'folder';
+    if (i.treeitem_type === ITEM_PROJECT) itemType = 'project';
+    if (i.treeitem_type === ITEM_LANGUAGE) itemType = 'language';
 
     return (
       <tr key={key} className={trClasses}>

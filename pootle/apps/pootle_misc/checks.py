@@ -242,7 +242,7 @@ fmt = u"\%\{{1}[^\}]+\}{1}"
 percent_brace_placeholders_regex = re.compile(u"(%s)" % fmt, re.U)
 
 plurr_format_regex = re.compile(u'{[^{}]*:.*?}')
-plurr_placeholders_regex = re.compile(u'{([^{}]*):.*?}|{([^{}]*?)}')
+plurr_placeholders_regex = re.compile(u'{([^{}:]*?):.*?}|{([^{}]*?)}')
 plurr_plural_suffix_regex = re.compile(u'_PLURAL$')
 
 

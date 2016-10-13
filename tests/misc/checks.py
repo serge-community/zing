@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -366,6 +367,12 @@ def test_plurr_format(source_string, target_string, should_skip):
     (u'B {BAR_PLURAL:Zero|{BAR}}', u'B {BAR_PLURAL:foo}', True),
     (u'C {BAR_PLURAL:Zero|{BAR}}', u'C {BAR_PLURAL:foo|{BAR}}', True),
     (u'{FOO} {BAR} {BAZ}', u'{FOO} {BAR} {BAZ}', True),
+    (u'{N:foo|{N}}', u'{N:foo:|bar}', True),
+    (u'{N:foo}', u'{N:foo:}', True),
+    (u'{N:foo:}', u'{N:foo}', True),
+    (u'{N:}', u'{N:foo:}', True),
+    (u'{N}', u'{N:}', True),
+    (u'{N}', u'{N::::}', True),
 
     (u'D {BAR_PLURAL:Zero|{BAR}}', u'D {RAB_PLURAL:rab|{RAB} rab}', False),
     (u'F {BAR_PLURAL:Zero|{BAR}}', u'F {BAR_PLURALL:rab|{RAB} rab}', False),

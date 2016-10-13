@@ -11,7 +11,6 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.utils.functional import cached_property
 
-from pootle.core.browser import get_table_headings
 from pootle.core.helpers import (SIDEBAR_COOKIE_NAME,
                                  get_sidebar_announcements_context)
 from pootle.core.url_helpers import split_pootle_path
@@ -26,18 +25,11 @@ from .base import PootleDetailView
 
 class PootleBrowseView(PootleDetailView):
     template_name = 'browser/index.html'
-    table_id = None
-    table_fields = None
     items = None
-    is_store = False
 
     @property
     def path(self):
         return self.request.path
-
-    @property
-    def stats(self):
-        return self.object.get_stats()
 
     @cached_property
     def cookie_data(self):
@@ -101,7 +93,7 @@ class PootleBrowseView(PootleDetailView):
         )
 
         # get stats and top scorers
-        stats = self.stats
+        stats = self.object.get_stats()
         top_scorers = get_top_scorers_data(
             top_scorers,
             TOP_CONTRIBUTORS_CHUNK_SIZE)
@@ -158,8 +150,6 @@ class PootleBrowseView(PootleDetailView):
              'url_action_fixcritical': url_action_fixcritical,
              'url_action_review': url_action_review,
              'url_action_view_all': url_action_view_all,
-             'table': self.table,
-             'is_store': self.is_store,
              'top_scorers': clean_dict(top_scorers),
              'browser_extends': self.template_extends})
 

@@ -1118,7 +1118,6 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
 
     UnitClass = Unit
     Name = "Model Store"
-    is_dir = False
 
     file = TranslationStoreField(max_length=255, storage=fs, db_index=True,
                                  null=False, editable=False)

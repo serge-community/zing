@@ -56,8 +56,6 @@ class Directory(models.Model, CachedTreeItem):
                                    unique=True, default='/')
     obsolete = models.BooleanField(default=False)
 
-    is_dir = True
-
     objects = DirectoryManager()
 
     class Meta(object):

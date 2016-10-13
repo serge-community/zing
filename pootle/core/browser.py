@@ -1,75 +1,13 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
 from django.utils.translation import ugettext_lazy as _
-
-
-HEADING_CHOICES = [
-    {
-        'id': 'name',
-        'class': 'stats',
-        'display_name': _("Name"),
-    },
-    {
-        'id': 'project',
-        'class': 'stats',
-        'display_name': _("Project"),
-    },
-    {
-        'id': 'language',
-        'class': 'stats',
-        'display_name': _("Language"),
-    },
-    {
-        'id': 'progress',
-        'class': 'stats',
-        # Translators: noun. The graphical representation of translation status
-        'display_name': _("Progress"),
-    },
-    {
-        'id': 'total',
-        'class': 'stats-number sorttable_numeric when-loaded',
-        # Translators: Heading representing the total number of words of a file
-        # or directory
-        'display_name': _("Total"),
-    },
-    {
-        'id': 'last-updated',
-        'class': 'stats sorttable_numeric when-loaded',
-        'display_name': _("Last updated"),
-    },
-    {
-        'id': 'critical',
-        'class': 'stats-number sorttable_numeric when-loaded',
-        'display_name': _("Critical"),
-    },
-    {
-        'id': 'suggestions',
-        'class': 'stats-number sorttable_numeric when-loaded',
-        # Translators: The number of suggestions pending review
-        'display_name': _("Suggestions"),
-    },
-    {
-        'id': 'need-translation',
-        'class': 'stats-number sorttable_numeric when-loaded',
-        'display_name': _("Incomplete"),
-    },
-    {
-        'id': 'activity',
-        'class': 'stats sorttable_numeric when-loaded',
-        'display_name': _("Last Activity"),
-    },
-]
-
-
-def get_table_headings(choices):
-    """Filters the list of available table headings to the given `choices`."""
-    return filter(lambda x: x['id'] in choices, HEADING_CHOICES)
 
 
 def make_generic_item(path_obj, **kwargs):

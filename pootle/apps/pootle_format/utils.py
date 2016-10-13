@@ -9,8 +9,7 @@
 import logging
 import os
 from collections import OrderedDict
-
-from pootle_fs.utils import PathFilter
+from fnmatch import translate
 
 from .exceptions import UnrecognizedFiletype
 
@@ -132,7 +131,7 @@ class ProjectFiletypes(object):
             r"^/%s/%s/%s\.%s$"
             % (tp.language.code,
                tp.project.code,
-               PathFilter().path_regex(matching).rstrip("$"),
+               translate(matching).replace('\Z(?ms)', '$').rstrip("$"),
                r"(%s)" % ("|".join(extensions))))
 
     def set_tp_filetype(self, tp, filetype, from_filetype=None, matching=None):

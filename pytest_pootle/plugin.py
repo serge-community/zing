@@ -20,7 +20,6 @@ from .fixtures import models as fixtures_models
 from .fixtures.core import management as fixtures_core_management
 from .fixtures.core import utils as fixtures_core_utils
 from .fixtures import formats as fixtures_formats
-from .fixtures import pootle_fs as fixtures_fs
 
 
 def _load_fixtures(*modules):
@@ -129,4 +128,5 @@ pytest_plugins = tuple(
         fixtures_core_utils,
         fixtures_formats,
         fixtures_models,
-        fixtures_fs))
+    )
+)

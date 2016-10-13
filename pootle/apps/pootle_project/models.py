@@ -340,11 +340,6 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
         return tp_tool.get(self.__class__)(self)
 
     @property
-    def local_fs_path(self):
-        return os.path.join(
-            settings.POOTLE_FS_PATH, self.code)
-
-    @property
     def name(self):
         return self.fullname
 

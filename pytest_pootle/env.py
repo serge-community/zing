@@ -22,7 +22,7 @@ class PootleTestEnv(object):
         "languages", "site_matrix", "system_users", "permissions",
         "site_permissions", "tps",
         "disabled_project", "subdirs", "submissions", "announcements",
-        "terminology", "fs", "complex_po",
+        "terminology", "complex_po",
     )
 
     def setup(self, **kwargs):
@@ -195,30 +195,6 @@ class PootleTestEnv(object):
             'administrate',
             'Can administrate a TP',
             pootle_content_type)
-
-    def setup_fs(self):
-        from pytest_pootle.utils import add_store_fs
-
-        from django.conf import settings
-
-        from pootle_project.models import Project
-        from pootle_fs.utils import FSPlugin
-
-        settings.POOTLE_FS_PATH = os.path.join(
-            settings.POOTLE_TRANSLATION_DIRECTORY, "__fs_working_dir__")
-        os.mkdir(settings.POOTLE_FS_PATH)
-
-        project = Project.objects.get(code="project0")
-        project.config["pootle_fs.fs_type"] = "localfs"
-        project.config["pootle_fs.translation_paths"] = {
-            "default": "/<language_code>/<dir_path>/<filename>.<ext>"}
-        project.config["pootle_fs.fs_url"] = "/tmp/path/for/setup"
-        plugin = FSPlugin(project)
-        for store in plugin.resources.stores:
-            add_store_fs(
-                store=store,
-                fs_path=plugin.get_fs_path(store.pootle_path),
-                synced=True)
 
     def setup_languages(self):
         from .fixtures.models.language import _require_language

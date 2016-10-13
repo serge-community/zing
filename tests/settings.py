@@ -108,12 +108,6 @@ SILENCED_SYSTEM_CHECKS = [
     'pootle.W011',  # POOTLE_CONTACT_EMAIL has default setting
 ]
 
-try:
-    if "pootle_fs" not in INSTALLED_APPS:
-        INSTALLED_APPS = INSTALLED_APPS + ["pootle_fs"]
-except NameError:
-    INSTALLED_APPS = ["pootle_fs"]
-
 
 try:
     if "debug_toolbar" in INSTALLED_APPS:

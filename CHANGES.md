@@ -9,6 +9,7 @@ Zing Changelog
 * Cleaned up features out of the scope of the project:
   * Upload/download of user files.
   * Virtual folders.
+  * VCS/FS support.
 
 
 Pre 0.1.0

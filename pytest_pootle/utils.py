@@ -12,7 +12,6 @@ import io
 import sys
 import time
 from datetime import datetime
-from uuid import uuid4
 
 from translate.storage.factory import getclass
 
@@ -125,20 +124,6 @@ def update_store(store, units=None, store_revision=None,
         store_revision=store_revision,
         user=user, submission_type=submission_type,
         resolve_conflict=resolve_conflict)
-
-
-def add_store_fs(store, fs_path, synced=False):
-    from pootle_fs.models import StoreFS
-
-    if synced:
-        return StoreFS.objects.create(
-            store=store,
-            path=fs_path,
-            last_sync_hash=uuid4().hex,
-            last_sync_revision=store.get_max_unit_revision())
-    return StoreFS.objects.create(
-        store=store,
-        path=fs_path)
 
 
 def log_test_start(debug_logger):

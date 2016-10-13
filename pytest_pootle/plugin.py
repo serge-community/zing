@@ -130,6 +130,12 @@ def django_db_use_migrations(tests_use_migration):
     return tests_use_migration
 
 
+@pytest.fixture
+def test_name(request):
+    """Provides current test function's name as a string."""
+    return request.node.originalname
+
+
 pytest_plugins = tuple(
     _load_fixtures(
         fixtures,

@@ -31,17 +31,21 @@ class PootleJSONEncoder(DjangoJSONEncoder):
         if isinstance(obj, (Promise, Markup)):
             return force_unicode(obj)
 
-        return super(PootleJSONEncoder, self).default(obj)
+        try:
+            return super(PootleJSONEncoder, self).default(obj)
+        except TypeError:
+            return force_unicode(obj)
 
 
-def jsonify(obj):
+def jsonify(obj, indent=None):
     """Serialize Python `obj` object into a JSON string."""
-    if settings.DEBUG:
+    if settings.DEBUG and indent is None:
         indent = 4
-    else:
-        indent = None
 
-    return json.dumps(obj, indent=indent, cls=PootleJSONEncoder, sort_keys=True)
+    return json.dumps(
+        obj, indent=indent, cls=PootleJSONEncoder, sort_keys=True,
+        separators=(',', ': ')
+    )
 
 
 def remove_empty_from_dict(input):

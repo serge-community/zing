@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -175,3 +176,13 @@ def log_test_report(debug_logger, timings):
         "TESTS TOTAL queries: %s",
         total_queries)
     debug_logger.debug("%s\n" % ("=" * 80))
+
+
+def as_dir(name):
+    """Returns `name` as a string usable for snapshot stacks."""
+    return name if name.endswith('/') else '%s/' % name
+
+
+def url_name(url):
+    """Returns `url` as a string usable for snapshot stacks."""
+    return url.replace('/', '_')

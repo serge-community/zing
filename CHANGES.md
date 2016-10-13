@@ -7,6 +7,9 @@ v0.1.4 (in development)
 * Fixed browser table sorting for total/untranslated columns (#120).
 * Quality checks now default to a site-wide checker (#119). In the future,
   project-specific checkers will be disallowed.
+* Implemented view testing via snapshots (#45). More tests will need to be
+  adapted although this puts in place the scaffolding to write tests using
+  this technique.
 * Removed unused config utilities (#114).
 * Removed unmaintained web-based terminology management (#123).
 

@@ -8,7 +8,21 @@
 
 import pytest
 
-from pootle.core.utils.json import remove_empty_from_dict
+from pootle.core.utils.json import jsonify, remove_empty_from_dict
+
+
+def test_jsonify_indent_explicit(settings):
+    """Tests jsonify's indent by explicitly passing a value."""
+    settings.DEBUG = False
+    assert jsonify([1], indent=2).count(' ') == 2
+    settings.DEBUG = True
+    assert jsonify([1], indent=2).count(' ') == 2
+
+
+def test_jsonify_indent_debug(settings):
+    """Tests jsonify's indent when `DEBUG = True`."""
+    settings.DEBUG = True
+    assert jsonify([1]).count(' ') == 4
 
 
 @pytest.mark.parametrize('input, expected_output', [

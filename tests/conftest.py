@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -18,6 +19,41 @@ import logging
 logging.getLogger("factory").setLevel(logging.WARN)
 
 WORKING_DIR = os.path.abspath(os.path.dirname(__file__))
+
+
+def pytest_addoption(parser):
+    parser.addoption(
+        '--generate-snapshots',
+        dest='generate_snapshots',
+        action='store_true',
+        default=False,
+        help='Generate snapshots for tests marked with the `snapshot` mark.'
+    )
+
+
+@pytest.fixture
+def should_generate_snapshots(pytestconfig):
+    """Indicates whether snapshots have been instructed to be generated."""
+    return bool(pytestconfig.getoption('generate_snapshots'))
+
+
+def pytest_collection_modifyitems(items, config):
+    """When willing to generate snapshots, only consider tests that
+    make actual use of the snapshot stack.
+    """
+    if not config.getoption('generate_snapshots'):
+        return
+
+    selected_items = []
+    deselected_items = []
+
+    for item in items:
+        if 'snapshot_stack' in item.fixturenames:
+            selected_items.append(item)
+        else:
+            deselected_items.append(item)
+    config.hook.pytest_deselected(items=deselected_items)
+    items[:] = selected_items
 
 
 @pytest.fixture

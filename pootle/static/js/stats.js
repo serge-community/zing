@@ -385,7 +385,6 @@ const stats = {
 
         this.processTableItem(item, code, $table, $td, now);
       }
-
     }
   },
 

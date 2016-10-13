@@ -25,7 +25,7 @@ const LastActivity = React.createClass({
 
   render() {
     if (!this.props.mtime) {
-      return (<span />);
+      return null;
     }
 
     const props = {

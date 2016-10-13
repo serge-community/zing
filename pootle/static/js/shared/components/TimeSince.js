@@ -72,7 +72,7 @@ const TimeSince = React.createClass({
     const d = new Date(this.props.timestamp * 1000);
 
     if (!this.props.timestamp) {
-      return (<span />);
+      return null;
     }
 
     return (

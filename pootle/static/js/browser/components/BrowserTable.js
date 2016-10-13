@@ -202,7 +202,7 @@ const BrowserTable = React.createClass({
       );
     }
 
-    let toggle = '';
+    let toggle = null;
     if (this.hasDisabledItems) {
       toggle = (<TextToggle
         defaultChecked

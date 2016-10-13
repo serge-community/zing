@@ -77,36 +77,42 @@ const BrowserTable = React.createClass({
   sortFunc(a, b) {
     const ia = this.props.items[a];
     const ib = this.props.items[b];
+    const col = this.state.sortColumn;
 
-    if (this.state.sortColumn === COL_TITLE) {
+    if (col === COL_TITLE) {
+      const typeA = ia.treeitem_type || 0;
+      const typeB = ib.treeitem_type || 0;
+      if (typeA !== typeB) {
+        return typeB - typeA;
+      }
       return ia.title.localeCompare(ib.title);
     }
 
-    if (this.state.sortColumn === COL_PROGRESS) {
+    if (col === COL_PROGRESS) {
       return ia.progress - ib.progress;
     }
 
-    if (this.state.sortColumn === COL_TOTAL) {
+    if (col === COL_TOTAL) {
       return ia.total - ib.total;
     }
 
-    if (this.state.sortColumn === COL_LASTUPDATED) {
+    if (col === COL_LASTUPDATED) {
       return ib.lastupdated - ia.lastupdated; // reversed
     }
 
-    if (this.state.sortColumn === COL_CRITICAL) {
+    if (col === COL_CRITICAL) {
       return ia.critical - ib.critical;
     }
 
-    if (this.state.sortColumn === COL_SUGGESTIONS) {
+    if (col === COL_SUGGESTIONS) {
       return ia.suggestions - ib.suggestions;
     }
 
-    if (this.state.sortColumn === COL_INCOMPLETE) {
+    if (col === COL_INCOMPLETE) {
       return ia.incomplete - ib.incomplete;
     }
 
-    if (this.state.sortColumn === COL_LASTACTIVITY) {
+    if (col === COL_LASTACTIVITY) {
       return ib.lastaction.mtime - ia.lastaction.mtime; // reversed
     }
 
@@ -132,14 +138,16 @@ const BrowserTable = React.createClass({
       'is-dirty': i.is_dirty,
     });
 
-    let icon = 'icon-file';
-    if (i.treeitem_type === 1) icon = 'icon-folder';
-    if (i.treeitem_type === 2) icon = 'icon-project';
+    let itemType = 'file';
+    if (i.treeitem_type === 1) itemType = 'folder';
+    if (i.treeitem_type === 2) itemType = 'project';
 
     return (
       <tr key={key} className={trClasses}>
-        <td className="stats-name">
-          <a href={i.pootle_path} title={i.title}><i className={icon} />{i.title}</a>
+        <td className={cx('stats-name', itemType)}>
+          <a href={i.pootle_path} title={i.title}>
+            <i className={`icon-${itemType}`} />{i.title}
+          </a>
         </td>
         <td className="stats-graph"><ProgressBar
           total={i.total}

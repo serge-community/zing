@@ -2161,7 +2161,6 @@ table.stats .item.dirty .last-updated
     opacity: 0.35;
 }
 
-.item.is-grayed, /* TODO: is-grayed is obsolete; remove */
 .item.is-disabled
 {
     font-style: italic;

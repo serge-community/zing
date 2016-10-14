@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -35,11 +36,7 @@ def form_set_as_table(formset, link=None, linkfield='code'):
             widget = form.fields[field].widget
             widget_name = widget.__class__.__name__
 
-            if widget.is_hidden or \
-               widget_name in ('CheckboxInput', 'SelectMultiple'):
-                result.append('<th class="sorttable_nosort">')
-            else:
-                result.append('<th>')
+            result.append('<th>')
 
             if widget_name in ('CheckboxInput',):
                 result.append(form[field].as_widget())

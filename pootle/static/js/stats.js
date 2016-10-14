@@ -290,7 +290,7 @@ const stats = {
     }
   },
 
-  processTableItem(item, code, $table, $tdEl, now) {
+  processTableItem(item, code, $table, $tdEl) {
     let $td = $tdEl;
     if (!$td.length) {
       return false;
@@ -320,7 +320,6 @@ const stats = {
       $td = $table.find(`#last-activity-${code}`);
       $td.removeClass('not-inited');
       this.renderLastEvent($td[0], item.lastaction);
-      $td.attr('sorttable_customkey', now - item.lastaction.mtime);
     }
 
     $td = $table.find(`#critical-${code}`);
@@ -330,7 +329,6 @@ const stats = {
       $td = $table.find(`#last-updated-${code}`);
       $td.removeClass('not-inited');
       this.renderLastUpdatedTime($td[0], item.lastupdated);
-      $td.attr('sorttable_customkey', now - item.lastupdated.creation_time);
     }
     return true;
   },
@@ -340,7 +338,6 @@ const stats = {
 
     const $table = $('#content table.stats');
     const dirtySelector = '#top-stats, #translate-actions, #autorefresh-notice';
-    const now = parseInt(Date.now() / 1000, 10);
     const dirtyStatsRefreshEnabled = this.retries < this.statsRefreshAttemptsCount;
 
     $(dirtySelector).toggleClass('dirty', !!data.is_dirty && !dirtyStatsRefreshEnabled);
@@ -384,7 +381,7 @@ const stats = {
         const code = cssId(name);
         const $td = $table.find(`#total-words-${code}`);
 
-        this.processTableItem(item, code, $table, $td, now);
+        this.processTableItem(item, code, $table, $td);
       }
     }
   },

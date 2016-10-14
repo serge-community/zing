@@ -1456,62 +1456,6 @@ span.legend.fuzzy
     background-color: #9c9;
 }
 
-/* SORTABLE - DEPRECATED */
-
-table.sortable th,
-table tfoot,
-#user-contributions table th
-{
-    color: #999;
-    font-size: 85%;
-}
-
-table.sortable th
-{
-    cursor: pointer;
-    white-space: nowrap;
-}
-
-table.sortable th i
-{
-    vertical-align: middle;
-}
-
-table.sortable th.sorttable_nosort
-{
-    cursor: default;
-}
-
-table.sortable td
-{
-    padding: 5px;
-}
-
-
-table.sortable th.sorttable_sorted,
-table.sortable th.sorttable_sorted_reverse
-{
-    color: #130f30;
-}
-
-table.sortable th input
-{
-    float: left;
-    margin-right: 5px;
-}
-
-html[dir="rtl"] table.sortable th input
-{
-    float: right;
-    margin-right: 0;
-    margin-left: 5px;
-}
-
-.sortkey
-{
-    display: none;
-}
-
 /* BrowserTable React Component */
 
 .browser-table-component th

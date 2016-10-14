@@ -18,14 +18,6 @@ being used and/or they are not available on npm.
 
   https://github.com/HubSpot/odometer
 
-- sorttable.js :
-  Sorts tables according to its values. Used in the homepage as well as on the
-  languages and projects listings. It has some customisations to support
-  zebra stripes once the sort is done (using jQuery). The icons used on the
-  table headings are custom code too.
-
-  http://www.kryogenix.org/code/browser/sorttable/
-
 - spin.js :
   A spinning activity indicator.
 

@@ -10,14 +10,7 @@ import React from 'react';
 
 import Avatar from 'components/Avatar';
 import { t } from 'utils/i18n';
-
-
-function getScoreText(score) {
-  if (score > 0) {
-    return t('+%(score)s', { score });
-  }
-  return score;
-}
+import { getScoreText } from 'utils/score';
 
 
 function createRow(item, index) {

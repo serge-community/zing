@@ -10,6 +10,8 @@ import React from 'react';
 
 import Avatar from 'components/Avatar';
 import { t } from 'utils/i18n';
+import { getScoreText } from 'utils/score';
+
 
 const StatsCollapsed = React.createClass({
   propTypes: {
@@ -20,13 +22,6 @@ const StatsCollapsed = React.createClass({
     return {
       topContributors: [],
     };
-  },
-
-  getScoreTextfunction(score) {
-    if (score > 0) {
-      return t('+%(score)s', { score });
-    }
-    return score;
   },
 
   createRow(item, index) {
@@ -42,7 +37,7 @@ const StatsCollapsed = React.createClass({
             username={item.username}
           />
         </div>
-        <div className="number">{this.getScoreTextfunction(item.public_total_score)}</div>
+        <div className="number">{getScoreText(item.public_total_score)}</div>
       </li>
     );
   },

@@ -18,7 +18,7 @@
       <i id="js-expand-icon" class="icon-expand-stats"
          title="{% trans 'Expand details' %}"></i>
     </a>
-    <div class="path-summary-collapsed"></div>
+    <div class="path-summary-collapsed" id="js-path-summary-collapsed"></div>
     <div class="path-summary-expanded">
       <div class="summary-1-col">
         <h3 class="top">{% trans "Translation Statistics" %}</h3>
@@ -156,7 +156,7 @@
 </div>
 {% endif %}
 
-<div class="browsing-table-container bd" lang="{{ LANGUAGE_CODE }}"></div>
+<div class="browsing-table-container bd" id="js-browsing-table-container" lang="{{ LANGUAGE_CODE }}"></div>
 {% endblock content %}
 
 {% block scripts_extra %}

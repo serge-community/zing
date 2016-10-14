@@ -149,7 +149,7 @@ const stats = {
       <StatsCollapsed
         topContributors={options.topContributorsData.items || []}
       />,
-      q('.path-summary-collapsed')
+      q('#js-path-summary-collapsed')
     );
 
     ReactDOM.render(
@@ -168,7 +168,7 @@ const stats = {
       <BrowserTable
         items={options.initialData.children || []}
       />,
-      q('.browsing-table-container')
+      q('#js-browsing-table-container')
     );
 
     // Retrieve async data if needed

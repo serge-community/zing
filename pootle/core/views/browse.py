@@ -127,8 +127,13 @@ class PootleBrowseView(PootleDetailView):
         ]
 
         json_data = {
-            'children': items_data,
+            key: value
+            for key, value in self.stats.iteritems()
+            if key != 'children'
         }
+        json_data.update({
+            'children': items_data,
+        })
 
         ctx.update({
             'page': 'browse',

@@ -8,6 +8,7 @@
 
 import React from 'react';
 
+
 const NumberPill = React.createClass({
   propTypes: {
     n: React.PropTypes.number,
@@ -16,8 +17,9 @@ const NumberPill = React.createClass({
 
   render() {
     if (!this.props.n) {
-      return (<span className="zero">0</span>);
+      return <span className="zero">0</span>;
     }
+
     return (
       <a className="stats-data" href={this.props.url}>{this.props.n}</a>
     );

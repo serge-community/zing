@@ -236,7 +236,7 @@ const BrowserTable = React.createClass({
         <tr>
           <th className="stats">
             <label className={this.getClassName(COL_TITLE)}
-              onClick={() => {this.handleHeaderClick(COL_TITLE);}}
+              onClick={() => this.handleHeaderClick(COL_TITLE)}
             >
               {t('Name')}
             </label>
@@ -246,7 +246,7 @@ const BrowserTable = React.createClass({
 
           <th className="stats">
             <label className={this.getClassName(COL_PROGRESS)}
-              onClick={() => {this.handleHeaderClick(COL_PROGRESS);}}
+              onClick={() => this.handleHeaderClick(COL_PROGRESS)}
             >
               {t('Progress')}
             </label>
@@ -254,7 +254,7 @@ const BrowserTable = React.createClass({
 
           <th className="stats-number">
             <label className={this.getClassName(COL_TOTAL)}
-              onClick={() => {this.handleHeaderClick(COL_TOTAL);}}
+              onClick={() => this.handleHeaderClick(COL_TOTAL)}
             >
               {t('Total')}
             </label>
@@ -262,7 +262,7 @@ const BrowserTable = React.createClass({
 
           <th className="stats-number">
             <label className={this.getClassName(COL_LASTUPDATED)}
-              onClick={() => {this.handleHeaderClick(COL_LASTUPDATED);}}
+              onClick={() => this.handleHeaderClick(COL_LASTUPDATED)}
             >
               {t('Last updated')}
             </label>
@@ -270,7 +270,7 @@ const BrowserTable = React.createClass({
 
           <th className="stats-number">
             <label className={this.getClassName(COL_CRITICAL)}
-              onClick={() => {this.handleHeaderClick(COL_CRITICAL);}}
+              onClick={() => this.handleHeaderClick(COL_CRITICAL)}
             >
               {t('Critical')}
             </label>
@@ -278,7 +278,7 @@ const BrowserTable = React.createClass({
 
           <th className="stats-number">
             <label className={this.getClassName(COL_SUGGESTIONS)}
-              onClick={() => {this.handleHeaderClick(COL_SUGGESTIONS);}}
+              onClick={() => this.handleHeaderClick(COL_SUGGESTIONS)}
             >
               {t('Suggestions')}
             </label>
@@ -286,7 +286,7 @@ const BrowserTable = React.createClass({
 
           <th className="stats-number">
             <label className={this.getClassName(COL_INCOMPLETE)}
-              onClick={() => {this.handleHeaderClick(COL_INCOMPLETE);}}
+              onClick={() => this.handleHeaderClick(COL_INCOMPLETE)}
             >
               {t('Incomplete')}
             </label>
@@ -294,7 +294,7 @@ const BrowserTable = React.createClass({
 
           <th className="stats">
             <label className={this.getClassName(COL_LASTACTIVITY)}
-              onClick={() => {this.handleHeaderClick(COL_LASTACTIVITY);}}
+              onClick={() => this.handleHeaderClick(COL_LASTACTIVITY)}
             >
               {t('Last Activity')}
             </label>

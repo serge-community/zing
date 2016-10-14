@@ -8,6 +8,7 @@
 
 import React from 'react';
 
+
 const ColoredNumber = React.createClass({
   propTypes: {
     n: React.PropTypes.number,
@@ -15,11 +16,10 @@ const ColoredNumber = React.createClass({
 
   render() {
     if (!this.props.n) {
-      return (<span className="zero">0</span>);
+      return <span className="zero">0</span>;
     }
-    return (
-      <span>{this.props.n}</span>
-    );
+
+    return <span>{this.props.n}</span>;
   },
 });
 

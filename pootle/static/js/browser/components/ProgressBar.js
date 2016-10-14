@@ -15,10 +15,16 @@ const ProgressBar = React.createClass({
     translated: React.PropTypes.number,
   },
 
+  getDefaultProps() {
+    return {
+      total: 0,
+      fuzzy: 0,
+      translated: 0,
+    };
+  },
+
   render() {
-    const total = this.props.total || 0;
-    const fuzzy = this.props.fuzzy || 0;
-    const trans = this.props.translated || 0;
+    const { total, fuzzy, translated } = this.props;
     const pTrans = `${total > 0 ? Math.round(trans / total * 100) : 100}%`;
     const pFuzzy = `${total > 0 ? Math.round(fuzzy / total * 100) : 0}%`;
     const pUntrans = `${100 - pTrans - pFuzzy}%`;

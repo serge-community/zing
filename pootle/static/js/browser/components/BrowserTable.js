@@ -31,6 +31,51 @@ const ITEM_FOLDER = 1;
 const ITEM_PROJECT = 2;
 const ITEM_LANGUAGE = 3;
 
+function sortFunc(a, b, items, sortColumn) {
+  const ia = items[a];
+  const ib = items[b];
+  const col = sortColumn;
+
+  if (col === COL_TITLE) {
+    const typeA = ia.treeitem_type || 0;
+    const typeB = ib.treeitem_type || 0;
+    if (typeA !== typeB) {
+      return typeB - typeA;
+    }
+    return ia.title.localeCompare(ib.title);
+  }
+
+  if (col === COL_PROGRESS) {
+    return ia.progress - ib.progress;
+  }
+
+  if (col === COL_TOTAL) {
+    return ia.total - ib.total;
+  }
+
+  if (col === COL_LASTUPDATED) {
+    return ib.lastupdated - ia.lastupdated; // reversed
+  }
+
+  if (col === COL_CRITICAL) {
+    return ia.critical - ib.critical;
+  }
+
+  if (col === COL_SUGGESTIONS) {
+    return ia.suggestions - ib.suggestions;
+  }
+
+  if (col === COL_INCOMPLETE) {
+    return ia.incomplete - ib.incomplete;
+  }
+
+  if (col === COL_LASTACTIVITY) {
+    return ib.lastaction.mtime - ia.lastaction.mtime; // reversed
+  }
+
+  throw new Error(`Sort column index out of range: ${sortColumn}`);
+}
+
 const BrowserTable = React.createClass({
 
   propTypes: {
@@ -46,16 +91,26 @@ const BrowserTable = React.createClass({
   },
 
   componentWillMount() {
-    // check if there are disabled items
-    this.hasDisabledItems = false;
-    for (const key in this.props.items) {
-      if (this.props.items[key].is_disabled) {
-        this.hasDisabledItems = true;
-        break;
-      }
+    this.hasDisabledItems = this.hasAnyDisabledItems(this.props.items);
+    this.sortedKeys = Object.keys(this.props.items).sort((a, b) => (
+      sortFunc(a, b, this.props.items, this.state.sortColumn)
+    ));
+  },
+
+  componentWillUpdate(nextProps, nextState) {
+    this.hasDisabledItems = this.hasAnyDisabledItems(nextProps.items);
+
+    if (this.state.sortColumn !== nextState.sortColumn) {
+      this.sortedKeys = this.sortedKeys.sort((a, b) => (
+        sortFunc(a, b, nextProps.items, nextState.sortColumn)
+      ));
+      return;
     }
 
-    this.sortedKeys = Object.keys(this.props.items).sort(this.sortFunc);
+    if (this.state.reverseSort !== nextState.reverseSort) {
+      // quick reverse
+      this.sortedKeys = this.sortedKeys.reverse();
+    }
   },
 
   getClassName(colN) {
@@ -66,62 +121,24 @@ const BrowserTable = React.createClass({
   },
 
   handleHeaderClick(colN) {
-    const s = this.state;
-    if (s.sortColumn === colN) {
-      // quick reverse
-      s.reverseSort = !s.reverseSort;
-      this.sortedKeys = this.sortedKeys.reverse();
+    let { reverseSort, sortColumn } = this.state;
+    if (sortColumn === colN) {
+      reverseSort = !reverseSort;
     } else {
-      s.sortColumn = colN;
-      s.reverseSort = false;
-      this.sortedKeys = this.sortedKeys.sort(this.sortFunc);
+      sortColumn = colN;
+      reverseSort = false;
     }
-    this.setState(s);
+    this.setState({ reverseSort, sortColumn });
   },
 
-  sortFunc(a, b) {
-    const ia = this.props.items[a];
-    const ib = this.props.items[b];
-    const col = this.state.sortColumn;
-
-    if (col === COL_TITLE) {
-      const typeA = ia.treeitem_type || 0;
-      const typeB = ib.treeitem_type || 0;
-      if (typeA !== typeB) {
-        return typeB - typeA;
+  // check if there are disabled items
+  hasAnyDisabledItems(items) {
+    for (const key in items) {
+      if (items[key].is_disabled) {
+        return true;
       }
-      return ia.title.localeCompare(ib.title);
     }
-
-    if (col === COL_PROGRESS) {
-      return ia.progress - ib.progress;
-    }
-
-    if (col === COL_TOTAL) {
-      return ia.total - ib.total;
-    }
-
-    if (col === COL_LASTUPDATED) {
-      return ib.lastupdated - ia.lastupdated; // reversed
-    }
-
-    if (col === COL_CRITICAL) {
-      return ia.critical - ib.critical;
-    }
-
-    if (col === COL_SUGGESTIONS) {
-      return ia.suggestions - ib.suggestions;
-    }
-
-    if (col === COL_INCOMPLETE) {
-      return ia.incomplete - ib.incomplete;
-    }
-
-    if (col === COL_LASTACTIVITY) {
-      return ib.lastaction.mtime - ia.lastaction.mtime; // reversed
-    }
-
-    throw new Error(`Sort column index out of range: ${this.state.sortColumn}`);
+    return false;
   },
 
   handleDisabledRowsVisibility({ isActive: state }) {

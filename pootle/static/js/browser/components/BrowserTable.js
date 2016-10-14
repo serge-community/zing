@@ -82,6 +82,12 @@ const BrowserTable = React.createClass({
     items: React.PropTypes.array.isRequired,
   },
 
+  getDefaultProps() {
+    return {
+      items: [],
+    };
+  },
+
   getInitialState() {
     return {
       showDisabledRows: false,

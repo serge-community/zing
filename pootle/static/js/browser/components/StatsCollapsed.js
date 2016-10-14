@@ -16,6 +16,12 @@ const StatsCollapsed = React.createClass({
     topContributors: React.PropTypes.array.isRequired,
   },
 
+  getDefaultProps() {
+    return {
+      topContributors: [],
+    };
+  },
+
   getScoreTextfunction(score) {
     if (score > 0) {
       return t('+%(score)s', { score });

@@ -23,6 +23,13 @@ const Stats = React.createClass({
     pootlePath: React.PropTypes.string.isRequired,
   },
 
+  getDefaultProps() {
+    return {
+      topContributors: [],
+      hasMoreContributors: false,
+    };
+  },
+
   getInitialState() {
     return {
       topContributors: this.props.topContributors,

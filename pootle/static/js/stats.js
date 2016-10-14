@@ -147,15 +147,15 @@ const stats = {
 
     ReactDOM.render(
       <StatsCollapsed
-        topContributors={options.topContributorsData.items || []}
+        topContributors={options.topContributorsData.items}
       />,
       q('#js-path-summary-collapsed')
     );
 
     ReactDOM.render(
       <Stats
-        hasMoreContributors={options.topContributorsData.has_more_items || false}
-        topContributors={options.topContributorsData.items || []}
+        hasMoreContributors={options.topContributorsData.has_more_items}
+        topContributors={options.topContributorsData.items}
         pootlePath={this.pootlePath}
       />,
       q('#js-mnt-top-contributors')
@@ -166,7 +166,7 @@ const stats = {
 
     ReactDOM.render(
       <BrowserTable
-        items={options.initialData.children || []}
+        items={options.initialData.children}
       />,
       q('#js-browsing-table-container')
     );

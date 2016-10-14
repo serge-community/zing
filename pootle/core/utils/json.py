@@ -44,29 +44,13 @@ def jsonify(obj):
     return json.dumps(obj, indent=indent, cls=PootleJSONEncoder, sort_keys=True)
 
 
-def clean_dict(obj):
-    """Cleans values that evaluate to false (empty strings
-    and zero values) since these can be easily dealt with
-    on the client side; this is a recursive function that
-    returns a new dictionary; it is expected for the dict
-    structure to only contain primitive types (no objects)"""
-    if isinstance(obj, dict):
-        out = dict()
-        for key in list(obj.keys()):
-            iout = clean_dict(obj[key])
-            if isinstance(obj[key], dict) and not len(iout.keys()):
-                continue
-            if isinstance(obj[key], list) and not len(iout):
-                continue
-            if iout:
-                out[key] = iout
-        return out
-    elif isinstance(obj, list):
-        out = list()
-        for item in obj:
-            iout = clean_dict(item)
-            if iout:
-                out.append(iout)
-        return out
-    else:
-        return obj
+def remove_empty_from_dict(input):
+    """Removes empty (falsy) values from dictionaries recursively."""
+    if not isinstance(input, dict):
+        return input
+
+    return {
+        key: remove_empty_from_dict(value)
+        for key, value in input.iteritems()
+        if value and remove_empty_from_dict(value)
+    }

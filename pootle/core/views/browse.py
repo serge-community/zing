@@ -14,7 +14,7 @@ from django.utils.functional import cached_property
 from pootle.core.helpers import (SIDEBAR_COOKIE_NAME,
                                  get_sidebar_announcements_context)
 from pootle.core.url_helpers import split_pootle_path
-from pootle.core.utils.json import (clean_dict)
+from pootle.core.utils.json import remove_empty_from_dict
 from pootle.core.utils.stats import (TOP_CONTRIBUTORS_CHUNK_SIZE,
                                      get_top_scorers_data,
                                      get_translation_states)
@@ -134,7 +134,7 @@ class PootleBrowseView(PootleDetailView):
             'page': 'browse',
             'stats_refresh_attempts_count':
                 settings.POOTLE_STATS_REFRESH_ATTEMPTS_COUNT,
-            'stats': clean_dict(json_data),
+            'stats': remove_empty_from_dict(json_data),
             'translation_states': get_translation_states(self.object),
             'checks': get_qualitycheck_list(self.object),
             'can_translate': can_translate,
@@ -143,7 +143,7 @@ class PootleBrowseView(PootleDetailView):
             'url_action_fixcritical': url_action_fixcritical,
             'url_action_review': url_action_review,
             'url_action_view_all': url_action_view_all,
-            'top_scorers': clean_dict(top_scorers),
+            'top_scorers': remove_empty_from_dict(top_scorers),
             'browser_extends': self.template_extends,
         })
 

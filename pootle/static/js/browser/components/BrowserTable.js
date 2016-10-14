@@ -147,10 +147,8 @@ const BrowserTable = React.createClass({
     return false;
   },
 
-  handleDisabledRowsVisibility({ isActive: state }) {
-    const s = this.state;
-    s.showDisabledRows = state;
-    this.setState(s);
+  handleDisabledRowsVisibility({ isActive }) {
+    this.setState({ showDisabledRows: isActive });
   },
 
   createRow(key) {

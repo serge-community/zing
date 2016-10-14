@@ -314,7 +314,7 @@ const BrowserTable = React.createClass({
           </th>
         </tr>
         </thead>
-        <tbody className="stats js-browsing-table">
+        <tbody className="stats">
           {this.sortedKeys.map(this.createRow)}
         </tbody>
       </table>

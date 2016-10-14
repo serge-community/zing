@@ -217,10 +217,7 @@ const BrowserTable = React.createClass({
 
   render() {
     if (!this.sortedKeys.length) {
-      // TODO: provide styling for the message
-      return (
-        <noscript />
-      );
+      return null;
     }
 
     let toggle = null;

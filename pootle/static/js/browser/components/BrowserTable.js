@@ -76,6 +76,7 @@ function sortFunc(a, b, items, sortColumn) {
   throw new Error(`Sort column index out of range: ${sortColumn}`);
 }
 
+
 const BrowserTable = React.createClass({
 
   propTypes: {
@@ -176,11 +177,13 @@ const BrowserTable = React.createClass({
             <i className={`icon-${itemType}`} />{i.title}
           </a>
         </td>
-        <td className="stats-graph"><ProgressBar
-          total={i.total}
-          fuzzy={i.fuzzy}
-          translated={i.translated}
-        /></td>
+        <td className="stats-graph">
+          <ProgressBar
+            total={i.total}
+            fuzzy={i.fuzzy}
+            translated={i.translated}
+          />
+        </td>
         <td className="stats-number total">
           <a href={i.translate_url} className="stats-data">
             <ColoredNumber n={i.total} />
@@ -221,13 +224,15 @@ const BrowserTable = React.createClass({
 
     let toggle = null;
     if (this.hasDisabledItems) {
-      toggle = (<TextToggle
-        defaultChecked
-        labelActive={t('Show disabled')}
-        labelInactive={t('Hide disabled')}
-        onClick={this.handleDisabledRowsVisibility}
-        className="toggle admin"
-      />);
+      toggle = (
+        <TextToggle
+          defaultChecked
+          labelActive={t('Show disabled')}
+          labelInactive={t('Hide disabled')}
+          onClick={this.handleDisabledRowsVisibility}
+          className="toggle admin"
+        />
+      );
     }
 
     return (
@@ -235,7 +240,8 @@ const BrowserTable = React.createClass({
         <thead>
         <tr>
           <th className="stats">
-            <label className={this.getClassName(COL_TITLE)}
+            <label
+              className={this.getClassName(COL_TITLE)}
               onClick={() => this.handleHeaderClick(COL_TITLE)}
             >
               {t('Name')}
@@ -245,7 +251,8 @@ const BrowserTable = React.createClass({
           </th>
 
           <th className="stats">
-            <label className={this.getClassName(COL_PROGRESS)}
+            <label
+              className={this.getClassName(COL_PROGRESS)}
               onClick={() => this.handleHeaderClick(COL_PROGRESS)}
             >
               {t('Progress')}
@@ -253,7 +260,8 @@ const BrowserTable = React.createClass({
           </th>
 
           <th className="stats-number">
-            <label className={this.getClassName(COL_TOTAL)}
+            <label
+              className={this.getClassName(COL_TOTAL)}
               onClick={() => this.handleHeaderClick(COL_TOTAL)}
             >
               {t('Total')}
@@ -261,7 +269,8 @@ const BrowserTable = React.createClass({
           </th>
 
           <th className="stats-number">
-            <label className={this.getClassName(COL_LASTUPDATED)}
+            <label
+              className={this.getClassName(COL_LASTUPDATED)}
               onClick={() => this.handleHeaderClick(COL_LASTUPDATED)}
             >
               {t('Last updated')}
@@ -269,7 +278,8 @@ const BrowserTable = React.createClass({
           </th>
 
           <th className="stats-number">
-            <label className={this.getClassName(COL_CRITICAL)}
+            <label
+              className={this.getClassName(COL_CRITICAL)}
               onClick={() => this.handleHeaderClick(COL_CRITICAL)}
             >
               {t('Critical')}
@@ -277,7 +287,8 @@ const BrowserTable = React.createClass({
           </th>
 
           <th className="stats-number">
-            <label className={this.getClassName(COL_SUGGESTIONS)}
+            <label
+              className={this.getClassName(COL_SUGGESTIONS)}
               onClick={() => this.handleHeaderClick(COL_SUGGESTIONS)}
             >
               {t('Suggestions')}
@@ -285,7 +296,8 @@ const BrowserTable = React.createClass({
           </th>
 
           <th className="stats-number">
-            <label className={this.getClassName(COL_INCOMPLETE)}
+            <label
+              className={this.getClassName(COL_INCOMPLETE)}
               onClick={() => this.handleHeaderClick(COL_INCOMPLETE)}
             >
               {t('Incomplete')}
@@ -293,7 +305,8 @@ const BrowserTable = React.createClass({
           </th>
 
           <th className="stats">
-            <label className={this.getClassName(COL_LASTACTIVITY)}
+            <label
+              className={this.getClassName(COL_LASTACTIVITY)}
               onClick={() => this.handleHeaderClick(COL_LASTACTIVITY)}
             >
               {t('Last Activity')}
@@ -302,7 +315,7 @@ const BrowserTable = React.createClass({
         </tr>
         </thead>
         <tbody className="stats js-browsing-table">
-        {this.sortedKeys.map(this.createRow)}
+          {this.sortedKeys.map(this.createRow)}
         </tbody>
       </table>
     );

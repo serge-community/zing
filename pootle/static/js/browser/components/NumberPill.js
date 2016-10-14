@@ -21,7 +21,12 @@ const NumberPill = React.createClass({
     }
 
     return (
-      <a className="stats-data" href={this.props.url}>{this.props.n}</a>
+      <a
+        className="stats-data"
+        href={this.props.url}
+      >
+        {this.props.n}
+      </a>
     );
   },
 });

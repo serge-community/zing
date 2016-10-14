@@ -193,11 +193,10 @@ def _test_export_view(project, request, response, kwargs, settings):
 
 
 @pytest.mark.django_db
-@pytest.mark.xfail
 def test_views_project(project_views, settings):
     test_type, project, request, response, kwargs = project_views
     if test_type == "browse":
-        # FIXME: this test needs to be rewritten
+        pytest.xfail(reason="this test needs to be replaced with snapshot-based one")
         # _test_browse_view(project, request, response, kwargs)
         return
     elif test_type == "translate":
@@ -207,6 +206,7 @@ def test_views_project(project_views, settings):
 
 
 @pytest.mark.django_db
+@pytest.mark.xfail(reason="this test needs to be replaced with snapshot-based one")
 def test_view_projects_browse(client, request_users):
     user = request_users["user"]
     client.login(

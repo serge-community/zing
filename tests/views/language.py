@@ -138,7 +138,7 @@ def _test_export_view(language, request, response, kwargs):
 def test_views_language(language_views, settings):
     test_type, language, request, response, kwargs = language_views
     if test_type == "browse":
-        # FIXME: this test needs to be rewritten
+        pytest.xfail(reason="this test needs to be replaced with snapshot-based one")
         # _test_browse_view(language, request, response, kwargs)
         return
     if test_type == "translate":

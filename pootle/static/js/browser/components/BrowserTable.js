@@ -159,7 +159,6 @@ const BrowserTable = React.createClass({
     }
 
     const trClasses = cx('item', {
-      'is-visible': true, // TODO: remove?
       'is-disabled': i.is_disabled,
       'is-dirty': i.is_dirty,
     });

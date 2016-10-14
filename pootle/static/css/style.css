@@ -828,19 +828,8 @@ html[dir="rtl"] #autorefresh-notice .x
 
 /* table row colors, see 'Table Row Colors.psd' */
 
-.stats tr.item
-{
-    display: none;
-}
-
-.stats tr.item.is-visible
-{
-    display: table-row;
-}
-
 tr.view-row:nth-child(odd),
 .permissions tr.item:nth-child(odd),
-.stats .item.odd
 {
     background: #f5fbfd;
 }
@@ -1223,15 +1212,9 @@ td.stats-number
     padding-right: 26px !important; /* magic number to put padding between right and left aligned column, and to right-align heading with number */
 }
 
-td.stats-percentage
-{
-    display: none;
-}
-
 table.stats .number,
 th.stats-number,
 td.stats-number,
-td.stats-percentage,
 table.stats td.last-updated
 {
     text-align: right;
@@ -1240,7 +1223,6 @@ table.stats td.last-updated
 html[dir="rtl"] table.stats .number,
 html[dir="rtl"] th.stats-number,
 html[dir="rtl"] td.stats-number,
-html[dir="rtl"] td.stats-percentage,
 html[dir="rtl"] table.stats td.last-updated
 {
     text-align: left;

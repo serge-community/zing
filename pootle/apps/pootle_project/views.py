@@ -7,8 +7,6 @@
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
-import locale
-
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.forms.models import modelformset_factory
@@ -19,8 +17,7 @@ from django.utils.html import escape
 from django.utils.lru_cache import lru_cache
 from django.utils.safestring import mark_safe
 
-from pootle.core.browser import (
-    make_language_item, make_project_list_item, make_xlanguage_item)
+from pootle.core.browser import ItemTypes
 from pootle.core.decorators import get_path_obj, permission_required
 from pootle.core.helpers import get_sidebar_announcements_context
 from pootle.core.paginator import paginate
@@ -116,8 +113,11 @@ class ProjectBrowseView(ProjectMixin, PootleBrowseView):
 
     @property
     def stats(self):
-        return self.object.get_stats_for_user(
-            self.request.user)
+        return self.object.get_stats_for_user(self.request.user)
+
+    @cached_property
+    def items(self):
+        return self.object.get_children_for_user(self.request.user)
 
     @property
     def pootle_path(self):
@@ -137,24 +137,13 @@ class ProjectBrowseView(ProjectMixin, PootleBrowseView):
     def url_kwargs(self):
         return self.kwargs
 
-    @cached_property
-    def items(self):
-        item_func = (
-            make_xlanguage_item
-            if (self.kwargs['dir_path']
-                or self.kwargs['filename'])
-            else make_language_item)
+    def get_item_type(self, path_obj):
+        return ItemTypes.LANGUAGE
 
-        items = [
-            item_func(item)
-            for item
-            in self.object.get_children_for_user(self.request.user)
-        ]
-
-        items.sort(
-            lambda x, y: locale.strcoll(x['title'], y['title']))
-
-        return items
+    def get_item_title(self, path_obj):
+        if self.kwargs['dir_path'] or self.kwargs['filename']:
+            return path_obj.translation_project.language.name
+        return path_obj.language.name
 
 
 class ProjectTranslateView(ProjectMixin, PootleTranslateView):
@@ -342,16 +331,6 @@ class ProjectsMixin(object):
 
 class ProjectsBrowseView(ProjectsMixin, PootleBrowseView):
 
-    @cached_property
-    def items(self):
-        items = [
-            make_project_list_item(project)
-            for project
-            in self.object.children]
-        items.sort(
-            lambda x, y: locale.strcoll(x['title'], y['title']))
-        return items
-
     @property
     def sidebar_announcements(self):
         return {}, None
@@ -360,6 +339,12 @@ class ProjectsBrowseView(ProjectsMixin, PootleBrowseView):
         response = super(ProjectsBrowseView, self).get(*args, **kwargs)
         response.set_cookie('pootle-language', "projects")
         return response
+
+    def get_item_type(self, path_obj):
+        return ItemTypes.PROJECT
+
+    def get_item_title(self, path_obj):
+        return path_obj.fullname
 
 
 class ProjectsTranslateView(ProjectsMixin, PootleTranslateView):

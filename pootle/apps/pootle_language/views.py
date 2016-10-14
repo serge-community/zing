@@ -13,7 +13,7 @@ from django.shortcuts import redirect, render
 from django.utils.functional import cached_property
 from django.utils.lru_cache import lru_cache
 
-from pootle.core.browser import make_project_item
+from pootle.core.browser import ItemTypes
 from pootle.core.decorators import get_path_obj, permission_required
 from pootle.core.views import (
     PootleBrowseView, PootleTranslateView, PootleExportView)
@@ -69,10 +69,7 @@ class LanguageBrowseView(LanguageMixin, PootleBrowseView):
 
     @cached_property
     def items(self):
-        return [
-            make_project_item(tp)
-            for tp in self.object.get_children_for_user(self.request.user)
-        ]
+        return self.object.get_children_for_user(self.request.user)
 
     @property
     def language(self):
@@ -84,6 +81,12 @@ class LanguageBrowseView(LanguageMixin, PootleBrowseView):
         response = super(LanguageBrowseView, self).get(*args, **kwargs)
         response.set_cookie('pootle-language', self.object.code)
         return response
+
+    def get_item_type(self, path_obj):
+        return ItemTypes.PROJECT
+
+    def get_item_title(self, path_obj):
+        return path_obj.project.name
 
 
 class LanguageTranslateView(LanguageMixin, PootleTranslateView):

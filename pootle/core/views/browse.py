@@ -32,6 +32,14 @@ class PootleBrowseView(PootleDetailView):
         return self.request.path
 
     @cached_property
+    def items(self):
+        return self.object.children
+
+    @cached_property
+    def stats(self):
+        return self.object.get_stats()
+
+    @cached_property
     def cookie_data(self):
         ctx_, cookie_data = self.sidebar_announcements
         return cookie_data
@@ -42,20 +50,38 @@ class PootleBrowseView(PootleDetailView):
             self.request,
             (self.object,))
 
-    @property
-    def table(self):
-        if self.table_id and self.table_fields and self.items:
-            return {
-                'id': self.table_id,
-                'fields': self.table_fields,
-                'headings': get_table_headings(self.table_fields),
-            }
-
     def get(self, *args, **kwargs):
         response = super(PootleBrowseView, self).get(*args, **kwargs)
         if self.cookie_data:
             response.set_cookie(SIDEBAR_COOKIE_NAME, self.cookie_data)
         return response
+
+    def get_item_data(self, path_obj, stats):
+        """Shapes `path_obj` to be an item usable in the browsing table row.
+
+        :param path_obj: Element to retrieve row information for. This can
+            either be a `Project`, `Language`, `Directory` or `Store`.
+        :param stats: Dictionary containing stats for this particular
+            `path_obj`.
+        """
+        return {
+            'pootle_path': path_obj.pootle_path,
+            # FIXME: rename to `type`
+            'treeitem_type': self.get_item_type(path_obj),
+            'title': self.get_item_title(path_obj),
+            'is_disabled': getattr(path_obj, 'disabled', False),
+
+            'total': stats.get('total', 0),
+            'translated': stats.get('translated', 0),
+            'fuzzy': stats.get('fuzzy', 0),
+            'critical': stats.get('critical', 0),
+            'suggestions': stats.get('suggestions', 0),
+            'lastaction': stats.get('lastaction', 0),
+            'lastupdated': (
+                'lastupdated' in stats and stats['lastupdated'] and
+                stats['lastupdated'].get('creation_time', 0)
+            ),
+        }
 
     def get_context_data(self, *args, **kwargs):
         filters = {}
@@ -91,66 +117,34 @@ class PootleBrowseView(PootleDetailView):
             language=lang_code,
             limit=TOP_CONTRIBUTORS_CHUNK_SIZE + 1,
         )
+        top_scorers = get_top_scorers_data(top_scorers,
+                                           TOP_CONTRIBUTORS_CHUNK_SIZE)
 
-        # get stats and top scorers
-        stats = self.object.get_stats()
-        top_scorers = get_top_scorers_data(
-            top_scorers,
-            TOP_CONTRIBUTORS_CHUNK_SIZE)
+        items_stats = self.stats['children']
+        items_data = [
+            self.get_item_data(item, items_stats.get(item.code, {}))
+            for item in self.items
+        ]
 
-        # === BEGIN DATA REARRANGEMENT ===
-        # TODO: generate data in the proper format without combining
+        json_data = {
+            'children': items_data,
+        }
 
-        # expand stats with the additional metadata from self.items
-        if self.items:
-            for i in self.items:
-                code = i['code']
-                st = None
-                if code not in stats['children']:
-                    stats['children'][code] = st
-                else:
-                    st = stats['children'][code]
-                st['title'] = i['title']
-                st['is_disabled'] = i['is_disabled']
-                st['pootle_path'] = i['href']
-                # TODO: refactor original code so that it returns tree item type
-                # in a numeric form
-                # project = 2, folder = 1, default (file) = 0
-                st['treeitem_type'] = \
-                    (i['icon'] == 'project') * 2 + \
-                    (i['icon'] == 'folder') * 1
-
-        # get rid of the lastupdated object in children entries
-        # (convert it to timestamp, as this is all we need)
-        for key in stats['children'].keys():
-            i = stats['children'][key]
-            if 'lastupdated' in i:
-                if (i['lastupdated'] is not None
-                        and 'creation_time' in i['lastupdated']):
-                    i['lastupdated'] = i['lastupdated']['creation_time']
-                else:
-                    del i['lastupdated']
-
-        # convert children into a list
-        # (because we don't need artificial dict keys)
-        stats['children'] = stats['children'].values()
-
-        # === END DATA REARRANGEMENT ===
-
-        ctx.update(
-            {'page': 'browse',
-             'stats_refresh_attempts_count':
-                 settings.POOTLE_STATS_REFRESH_ATTEMPTS_COUNT,
-             'stats': clean_dict(stats),
-             'translation_states': get_translation_states(self.object),
-             'checks': get_qualitycheck_list(self.object),
-             'can_translate': can_translate,
-             'can_translate_stats': can_translate_stats,
-             'url_action_continue': url_action_continue,
-             'url_action_fixcritical': url_action_fixcritical,
-             'url_action_review': url_action_review,
-             'url_action_view_all': url_action_view_all,
-             'top_scorers': clean_dict(top_scorers),
-             'browser_extends': self.template_extends})
+        ctx.update({
+            'page': 'browse',
+            'stats_refresh_attempts_count':
+                settings.POOTLE_STATS_REFRESH_ATTEMPTS_COUNT,
+            'stats': clean_dict(json_data),
+            'translation_states': get_translation_states(self.object),
+            'checks': get_qualitycheck_list(self.object),
+            'can_translate': can_translate,
+            'can_translate_stats': can_translate_stats,
+            'url_action_continue': url_action_continue,
+            'url_action_fixcritical': url_action_fixcritical,
+            'url_action_review': url_action_review,
+            'url_action_view_all': url_action_view_all,
+            'top_scorers': clean_dict(top_scorers),
+            'browser_extends': self.template_extends,
+        })
 
         return ctx

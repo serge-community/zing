@@ -15,8 +15,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.utils.functional import cached_property
 from django.utils.lru_cache import lru_cache
 
-from pootle.core.browser import (get_parent, make_directory_item,
-                                 make_store_item)
+from pootle.core.browser import ItemTypes, get_parent
 from pootle.core.decorators import get_path_obj, permission_required
 from pootle.core.helpers import get_sidebar_announcements_context
 from pootle.core.views import (
@@ -241,23 +240,13 @@ class TPBrowseStoreView(TPStoreMixin, TPBrowseBaseView):
 
 class TPBrowseView(TPDirectoryMixin, TPBrowseBaseView):
 
-    @cached_property
-    def items(self):
-        directories = [
-            make_directory_item(child)
-            for child in self.object.children
-            if isinstance(child, Directory)
-        ]
-        stores = [
-            make_store_item(child)
-            for child in self.object.children
-            if isinstance(child, Store)
-        ]
-        return directories + stores
+    def get_item_type(self, path_obj):
+        if isinstance(path_obj, Directory):
+            return ItemTypes.DIRECTORY
+        return ItemTypes.STORE
 
-    @cached_property
-    def stats(self):
-        return self.object.get_stats()
+    def get_item_title(self, path_obj):
+        return path_obj.name
 
 
 class TPTranslateBaseView(PootleTranslateView):

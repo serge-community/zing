@@ -39,11 +39,6 @@ function nicePercentage(part, total, noTotalDefault) {
 }
 
 
-function cssId(id) {
-  return id.replace(/[\.@\+\s]/g, '-');
-}
-
-
 function setTdWidth($td, w) {
   if (w === 0) {
     $td.hide();
@@ -283,53 +278,9 @@ const stats = {
     }
   },
 
-  processTableItem(item, code, $table, $tdEl) {
-    let $td = $tdEl;
-    if (!$td.length) {
-      return false;
-    }
-
-    const dirtyStylesEnabled = this.retries >= this.statsRefreshAttemptsCount;
-    $td.parent().toggleClass('dirty', item.is_dirty && dirtyStylesEnabled);
-    this.updateItemStats($td, item.total);
-
-    const isFullRatio = item.total === 0 || item.total === null;
-    const ratio = isFullRatio ? 1 : item.translated / item.total;
-    $table.find(`#translated-ratio-${code}`).text(ratio);
-
-    $td = $table.find(`#need-translation-${code}`);
-    const needTranslationCount = (item.total !== null ?
-                                  item.total - item.translated :
-                                  null);
-    this.updateItemStats($td, needTranslationCount);
-
-    $td = $table.find(`#suggestions-${code}`);
-    this.updateItemStats($td, item.suggestions);
-
-    $td = $table.find(`#progressbar-${code}`);
-    this.updateProgressbar($td, item);
-
-    if (item.lastaction) {
-      $td = $table.find(`#last-activity-${code}`);
-      $td.removeClass('not-inited');
-      this.renderLastEvent($td[0], item.lastaction);
-    }
-
-    $td = $table.find(`#critical-${code}`);
-    this.updateItemStats($td, item.critical);
-
-    if (item.lastupdated) {
-      $td = $table.find(`#last-updated-${code}`);
-      $td.removeClass('not-inited');
-      this.renderLastUpdatedTime($td[0], item.lastupdated);
-    }
-    return true;
-  },
-
   updateStatsUI() {
     const { data } = this.state;
 
-    const $table = $('#content table.stats');
     const dirtySelector = '#top-stats, #translate-actions, #autorefresh-notice';
     const dirtyStatsRefreshEnabled = this.retries < this.statsRefreshAttemptsCount;
 
@@ -362,21 +313,6 @@ const stats = {
     this.updateTranslationStats($('#stats-untranslated'),
                                 data.total, untranslated, 0);
     this.updateLastUpdates(data);
-
-    if ($table.length) {
-      // this is a directory that contains subitems
-      for (const name in data.children) {
-        if (!data.children.hasOwnProperty(name)) {
-          continue;
-        }
-
-        const item = data.children[name];
-        const code = cssId(name);
-        const $td = $table.find(`#total-words-${code}`);
-
-        this.processTableItem(item, code, $table, $td);
-      }
-    }
   },
 
   updateDirty({ hideSpin = false } = {}) {

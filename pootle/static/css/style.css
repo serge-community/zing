@@ -1526,7 +1526,7 @@ html[dir="rtl"] table.sortable th input
     cursor: pointer;
 }
 
-.browser-table-component th label:after
+.browser-table-component th label::after
 {
     content: '▼';
     margin: 0 0.5em;
@@ -1534,19 +1534,19 @@ html[dir="rtl"] table.sortable th input
     font-size: 90%;
 }
 
-.browser-table-component th label:hover:after,
-.browser-table-component th label.normal:after,
-.browser-table-component th label.reverse:after
+.browser-table-component th label:hover::after,
+.browser-table-component th label.normal::after,
+.browser-table-component th label.reverse::after
 {
     opacity: 1;
 }
 
-.browser-table-component th label.normal:after
+.browser-table-component th label.normal::after
 {
     content: '▼';
 }
 
-.browser-table-component th label.reverse:after
+.browser-table-component th label.reverse::after
 {
     content: '▲';
 }
@@ -1563,7 +1563,8 @@ html[dir="rtl"] table.sortable th input
     padding: 5px;
 }
 
-.browser-table-component .toggle.admin {
+.browser-table-component .toggle.admin
+{
     cursor: pointer;
     color: #c30;
     margin: 0 1em;

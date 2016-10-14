@@ -47,14 +47,14 @@ function setTdWidth($td, w) {
   }
 }
 
-function updateBrowserTableData(stats) {
-  const children = stats.children;
-  if (!children) {
-    return;
+function provideStatsDefaults(stats) {
+  if (!stats.hasOwnProperty('children')) {
+    return stats;
   }
 
-  Object.keys(children).forEach((key) => {
-    const item = children[key];
+  const newStats = assign({}, stats);
+  Object.keys(newStats.children).forEach((key) => {
+    const item = newStats.children[key];
 
     item.treeitem_type = item.treeitem_type || 0;
     item.critical = item.critical || 0;
@@ -67,6 +67,7 @@ function updateBrowserTableData(stats) {
     item.progress = total > 0 ? translated / total : 1;
     item.incomplete = total - translated;
   });
+  return newStats;
 }
 
 
@@ -87,7 +88,6 @@ const stats = {
     this.state = {
       isExpanded,
       checksData: null,
-      data: options.initialData,
     };
 
     this.pootlePath = options.pootlePath;
@@ -149,26 +149,23 @@ const stats = {
       q('#js-mnt-top-contributors')
     );
 
-    // calculate additional fields for the provided data
-    updateBrowserTableData(options.initialData);
-
-    ReactDOM.render(
-      <BrowserTable
-        items={options.initialData.children}
-      />,
-      q('#js-browsing-table-container')
-    );
+    this.setState({
+      data: options.initialData,
+    });
 
     // Retrieve async data if needed
     if (isExpanded) {
       this.loadChecks();
-    } else {
-      this.updateUI();
     }
   },
 
   setState(newState) {
-    this.state = assign({}, this.state, newState);
+    this.state = assign(
+      {}, this.state, newState,
+      newState.hasOwnProperty('data') ?
+        { data: provideStatsDefaults(newState.data) } :
+        {}
+    );
     this.updateUI();
   },
 
@@ -392,10 +389,20 @@ const stats = {
     $('#js-stats-checks').show();
   },
 
+  updateTableUI() {
+    ReactDOM.render(
+      <BrowserTable
+        items={this.state.data.children}
+      />,
+      q('#js-browsing-table-container')
+    );
+  },
+
   updateUI() {
     this.updateChecksToggleUI();
     this.updateChecksUI();
     this.updateStatsUI();
+    this.updateTableUI();
   },
 
   navigate() {

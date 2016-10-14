@@ -25,24 +25,58 @@ const ProgressBar = React.createClass({
 
   render() {
     const { total, fuzzy, translated } = this.props;
-    const pTrans = `${total > 0 ? Math.round(trans / total * 100) : 100}%`;
-    const pFuzzy = `${total > 0 ? Math.round(fuzzy / total * 100) : 0}%`;
-    const pUntrans = `${100 - pTrans - pFuzzy}%`;
+    const pTransNumber = total > 0 ? Math.round(translated / total * 100) : 100;
+    const pFuzzyNumber = total > 0 ? Math.round(fuzzy / total * 100) : 0;
+    const pUntransNumber = 100 - pTransNumber - pFuzzyNumber;
 
-    const title = `<span class="legend translated"></span>
-      <span class="value translated">${pTrans}</span> translated<br/>
-      <span class="legend fuzzy"></span>
-      <span class="value fuzzy">${pFuzzy}</span> needs work<br/>
-      <span class="legend untranslated"></span>
-      <span class="value untranslated">${pUntrans}</span> untranslated`;
+    let title = '';
+    if (pTransNumber > 0) {
+      title = `${title}
+        <span class="legend translated"></span>
+        <span class="value translated">${pTransNumber}%</span> translated<br/>
+      `;
+    }
+    if (pFuzzyNumber > 0) {
+      title = `${title}
+        <span class="legend fuzzy"></span>
+        <span class="value fuzzy">${pFuzzyNumber}%</span> needs work<br/>
+      `;
+    }
+    if (pUntransNumber > 0) {
+      title = `${title}
+        <span class="legend untranslated"></span>
+        <span class="value untranslated">${pUntransNumber}%</span> untranslated
+      `;
+    }
 
     return (
       <table className="graph" title={title}>
         <tbody>
         <tr>
-          <td className="translated" style={ { width: pTrans } }><span></span></td>
-          <td className="fuzzy" style={ { width: pFuzzy } }><span></span></td>
-          <td className="untranslated"><span></span></td>
+        {pTransNumber > 0 &&
+          <td
+            className="translated"
+            style={{ width: `${pTransNumber}%` }}
+          >
+            <span></span>
+          </td>
+        }
+        {pFuzzyNumber > 0 &&
+          <td
+            className="fuzzy"
+            style={{ width: `${pFuzzyNumber}%` }}
+          >
+            <span></span>
+          </td>
+        }
+        {pUntransNumber > 0 &&
+          <td
+            className="untranslated"
+            style={{ width: `${pUntransNumber}%` }}
+          >
+            <span></span>
+          </td>
+        }
         </tr>
         </tbody>
       </table>

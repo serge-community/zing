@@ -6,16 +6,13 @@
  * AUTHORS file for copyright and authorship information.
  */
 
-import cx from 'classnames';
 import React from 'react';
 
-import ColoredNumber from './ColoredNumber';
-import NumberPill from './NumberPill';
-import ProgressBar from './ProgressBar';
 import TextToggle from 'components/TextToggle';
-import TimeSince from 'components/TimeSince';
-import LastActivity from 'components/LastActivity';
 import { t } from 'utils/i18n';
+
+import BrowserTableRow from './BrowserTableRow';
+
 
 const COL_TITLE = 0;
 const COL_PROGRESS = 1;
@@ -26,10 +23,6 @@ const COL_SUGGESTIONS = 5;
 const COL_INCOMPLETE = 6;
 const COL_LASTACTIVITY = 7;
 
-const ITEM_FILE = 0;
-const ITEM_FOLDER = 1;
-const ITEM_PROJECT = 2;
-const ITEM_LANGUAGE = 3;
 
 function sortFunc(a, b, items, sortColumn) {
   const ia = items[a];
@@ -153,67 +146,26 @@ const BrowserTable = React.createClass({
   },
 
   createRow(key) {
-    const i = this.props.items[key];
-
-    if (i.is_disabled && !this.state.showDisabledRows) {
+    const item = this.props.items[key];
+    if (!this.state.showDisabledRows &&
+        (item.hasOwnProperty('is_disabled') && item.is_disabled)) {
       return null;
     }
 
-    const trClasses = cx('item', {
-      'is-disabled': i.is_disabled,
-      'is-dirty': i.is_dirty,
-    });
-
-    let itemType;
-    if (i.treeitem_type === ITEM_FILE) itemType = 'file';
-    if (i.treeitem_type === ITEM_FOLDER) itemType = 'folder';
-    if (i.treeitem_type === ITEM_PROJECT) itemType = 'project';
-    if (i.treeitem_type === ITEM_LANGUAGE) itemType = 'language';
-
     return (
-      <tr key={key} className={trClasses}>
-        <td className={cx('stats-name', itemType)}>
-          <a href={i.pootle_path} title={i.title}>
-            <i className={`icon-${itemType}`} />{i.title}
-          </a>
-        </td>
-        <td className="stats-graph">
-          <ProgressBar
-            total={i.total}
-            fuzzy={i.fuzzy}
-            translated={i.translated}
-          />
-        </td>
-        <td className="stats-number total">
-          <a href={i.translate_url} className="stats-data">
-            <ColoredNumber n={i.total} />
-          </a>
-        </td>
-        <td className="stats-number last-updated">
-          <TimeSince timestamp={i.lastupdated} />
-        </td>
-        <td className="stats-number critical">
-          <NumberPill
-            n={i.critical}
-            url={`${i.translate_url}#filter=checks&category=critical`}
-          />
-        </td>
-        <td className="stats-number suggestions">
-          <NumberPill
-            n={i.suggestions}
-            url={`${i.translate_url}#filter=suggestions`}
-          />
-        </td>
-        <td className="stats-number need-translation">
-          <NumberPill
-            n={i.total - i.translated}
-            url={`${i.translate_url}#filter=incomplete`}
-          />
-        </td>
-        <td className="last-activity">
-          <LastActivity {...i.lastaction} />
-        </td>
-      </tr>
+      <BrowserTableRow
+        fuzzy={item.fuzzy}
+        key={key}
+        lastAction={item.lastaction}
+        lastUpdated={item.lastupdated}
+        isDisabled={item.is_disabled}
+        isDirty={item.is_dirty}
+        itemType={item.treeitem_type}
+        pootlePath={item.pootle_path}
+        title={item.title}
+        total={item.total}
+        translated={item.translated}
+      />
     );
   },
 

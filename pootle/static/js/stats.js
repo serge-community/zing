@@ -67,13 +67,6 @@ function updateBrowserTableData(stats) {
     item.lastaction = item.lastaction || {};
     item.lastaction.mtime = item.lastaction.mtime || 0;
 
-    const pootlePath = item.pootle_path || '';
-    const pathItems = pootlePath.split('/'); // pootlePath starts with the slash
-    pathItems.shift(); // remove the first empty item
-    const lang = pathItems.shift();
-    const project = pathItems.shift();
-    item.translate_url = ['', lang, project, 'translate', pathItems].join('/');
-
     const total = item.total || 0;
     const translated = item.translated || 0;
     item.progress = total > 0 ? translated / total : 1;

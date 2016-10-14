@@ -7,118 +7,20 @@
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
-import json
 from itertools import groupby
-from urllib import unquote
 
 import pytest
 
 from pytest_pootle.suite import view_context_test
 
-from django.contrib.auth import get_user_model
-
-from pootle_app.models import Directory
 from pootle_app.models.permissions import check_permission
-from pootle.core.browser import (
-    get_parent, get_table_headings, make_directory_item, make_store_item)
 from pootle.core.delegate import search_backend
-from pootle.core.helpers import (
-    SIDEBAR_COOKIE_NAME,
-    get_filter_name, get_sidebar_announcements_context)
+from pootle.core.helpers import get_filter_name
 from pootle.core.url_helpers import get_previous_url, get_path_parts
-from pootle.core.utils.stats import (get_top_scorers_data,
-                                     get_translation_states)
-from pootle_misc.checks import get_qualitycheck_list, get_qualitycheck_schema
+from pootle_misc.checks import get_qualitycheck_schema
 from pootle_misc.forms import make_search_form
 from pootle_store.forms import UnitExportForm
-from pootle_store.models import Store, Unit
-
-
-def _test_browse_view(tp, request, response, kwargs):
-    cookie_data = json.loads(
-        unquote(response.cookies[SIDEBAR_COOKIE_NAME].value))
-    assert cookie_data["foo"] == "bar"
-    assert "announcements_projects_%s" % tp.project.code in cookie_data
-    assert "announcements_%s" % tp.language.code in cookie_data
-    assert (
-        "announcements_%s_%s"
-        % (tp.language.code, tp.project.code)
-        in cookie_data)
-    ctx = response.context
-    kwargs["project_code"] = tp.project.code
-    kwargs["language_code"] = tp.language.code
-    resource_path = "%(dir_path)s%(filename)s" % kwargs
-    pootle_path = "%s%s" % (tp.pootle_path, resource_path)
-
-    if not (kwargs["dir_path"] or kwargs.get("filename")):
-        obj = tp.directory
-    elif not kwargs.get("filename"):
-        obj = Directory.objects.get(
-            pootle_path=pootle_path)
-    else:
-        obj = Store.objects.get(pootle_path=pootle_path)
-
-    stats = obj.get_stats()
-
-    filters = {}
-
-    directories = [
-        make_directory_item(child)
-        for child in obj.get_children()
-        if isinstance(child, Directory)
-    ]
-    stores = [
-        make_store_item(child)
-        for child in obj.get_children()
-        if isinstance(child, Store)
-    ]
-
-    if not kwargs.get("filename"):
-        table_fields = [
-            'name', 'progress', 'total', 'need-translation',
-            'suggestions', 'critical', 'last-updated', 'activity']
-        table = {
-            'id': 'tp',
-            'fields': table_fields,
-            'headings': get_table_headings(table_fields),
-            'items': directories + stores}
-    else:
-        table = None
-
-    User = get_user_model()
-    top_scorers = User.top_scorers(language=tp.language.code,
-                                   project=tp.project.code, limit=11)
-    assertions = dict(
-        page="browse",
-        object=obj,
-        translation_project=tp,
-        language=tp.language,
-        project=tp.project,
-        has_admin_access=check_permission('administrate', request),
-        is_store=(kwargs.get("filename") and True or False),
-        browser_extends="translation_projects/base.html",
-        pootle_path=pootle_path,
-        resource_path=resource_path,
-        resource_path_parts=get_path_parts(resource_path),
-        translation_states=get_translation_states(obj),
-        checks=get_qualitycheck_list(obj),
-        top_scorers=top_scorers,
-        top_scorers_data=get_top_scorers_data(top_scorers, 10),
-        url_action_continue=obj.get_translate_url(
-            state='incomplete', **filters),
-        url_action_fixcritical=obj.get_critical_url(**filters),
-        url_action_review=obj.get_translate_url(
-            state='suggestions', **filters),
-        url_action_view_all=obj.get_translate_url(state='all'),
-        stats=stats,
-        parent=get_parent(obj))
-    if table:
-        assertions["table"] = table
-    sidebar = get_sidebar_announcements_context(
-        request, (tp.project, tp.language, tp))
-    for k in ["has_sidebar", "is_sidebar_open", "announcements"]:
-        assertions[k] = sidebar[0][k]
-    view_context_test(ctx, **assertions)
+from pootle_store.models import Unit
 
 
 def _test_translate_view(tp, request, response, kwargs, settings):
@@ -186,9 +88,9 @@ def _test_export_view(tp, request, response, kwargs, settings):
 def test_views_tp(tp_views, settings):
     test_type, tp, request, response, kwargs = tp_views
     if test_type == "browse":
-        pytest.xfail(reason="this test needs to be replaced with snapshot-based one")
-        # _test_browse_view(tp, request, response, kwargs)
-        return
+        pytest.xfail(
+            reason='this test needs to be replaced with snapshot-based one'
+        )
     elif test_type == "translate":
         _test_translate_view(tp, request, response, kwargs, settings)
     else:

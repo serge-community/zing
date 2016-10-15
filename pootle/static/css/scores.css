@@ -35,6 +35,14 @@
     text-align: right;
 }
 
+#top-scorers .user .gravatar
+{
+    border-radius: 50%;
+    overflow: hidden;
+    width: 30px;
+    height: 30px;
+}
+
 #top-scorers .user .gravatar,
 #top-scorers .user .properties
 {
@@ -98,9 +106,7 @@ html[dir="rtl"] .path-summary-more .path-summary-collapsed label
 {
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 1em;
     white-space: nowrap;
-    display: block;
 }
 
 html[dir="rtl"] .path-summary-more .top-scorer .user-name
@@ -125,7 +131,6 @@ html[dir="rtl"] .path-summary-more .top-scorers .top-scorer
 
 .path-summary-more .top-scorers-table
 {
-    font-size: 1em;
     width: 100%;
 }
 
@@ -174,15 +179,4 @@ html[dir="rtl"] .top-scorer .user-name
 {
     margin-left: auto;
     margin-right: 24px;
-}
-
-.top-scorer img.avatar
-{
-    position: absolute;
-    top: -3px;
-}
-
-html[dir="rtl"] .top-scorer img.avatar
-{
-    right: 0;
 }

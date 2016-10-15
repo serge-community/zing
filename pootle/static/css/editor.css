@@ -1103,6 +1103,10 @@ html[dir="rtl"] .suggestion-original
     position: absolute;
     margin-top: 4px;
     margin-left: -30px;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 24px;
+    height: 24px;
 }
 
 html[dir="rtl"] .extra-item-gravatar,

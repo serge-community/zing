@@ -13,6 +13,12 @@ import 'jquery-select2';
 import 'jquery-tipsy';
 import Spinner from 'spin';
 
+import { q } from 'utils/dom';
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Avatar from 'components/Avatar';
+
 import cookie from 'utils/cookie';
 import diff from 'utils/diff';
 
@@ -189,6 +195,17 @@ PTL.common = {
         }
       });
     });
+
+    /* Setup React components */
+
+    ReactDOM.render(
+      <Avatar
+        size={24}
+        tagName="span"
+        {...opts.user}
+      />,
+      q('#js-navbar-avatar')
+    );
   },
 
 };

@@ -56,7 +56,12 @@
 
     $(function () {
       PTL.common.init({
-        hasSidebar: {{ has_sidebar|yesno:'true, false' }}
+        hasSidebar: {{ has_sidebar|yesno:'true, false' }},
+        user: {
+          username: {{ user.username|to_js }},
+          email: {{ user.email_hash|to_js }},
+          displayName: {{ user.display_name|to_js }},
+        },
       });
 
       {% if user.is_authenticated %}
@@ -104,8 +109,7 @@
           {% if user.is_authenticated %}
           <li id="user" class="js-navbar-dropdown">
             <a href="{{ user.get_absolute_url }}" data-action="toggle">
-              <img src="{{ user|gravatar:20 }}" class="avatar" />
-              <span>{{ user.display_name }}</span>
+              <span id="js-navbar-avatar"></span>
               <span class="js-score"></span>
             </a>
 

@@ -1,6 +1,7 @@
 .odometer
 {
     font-size: 1.3em;
+    line-height: 1.3em;
     font-weight: 300;
     color: rgb(127, 232, 245);
     white-space: nowrap;

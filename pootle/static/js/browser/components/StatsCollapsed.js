@@ -32,7 +32,7 @@ const StatsCollapsed = React.createClass({
         <div className="user">
           <Avatar
             email={item.email}
-            label={item.display_name}
+            displayName={item.display_name}
             size={20}
             username={item.username}
           />

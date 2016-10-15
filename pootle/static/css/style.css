@@ -900,14 +900,6 @@ html[dir="rtl"] .hd h2
     margin-top: 1px;
 }
 
-.last-action img
-{
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    top: -2px;
-}
-
 html[dir="rtl"] .last-action img
 {
     right: 0;
@@ -1621,11 +1613,6 @@ html[dir="rtl"] ul.pager li:last-child > *
     padding-bottom: 0.5em;
 }
 
-#top-stats a
-{
-    position: relative;
-}
-
 .icon-collapse-stats,
 .icon-expand-stats
 {
@@ -2084,13 +2071,6 @@ html[dir="rtl"] #tabs li
  * MISC
  */
 
-.avatar
-{
-    display: inline-block;
-    overflow: hidden;
-    border-radius: 50%;
-}
-
 a.collapse
 {
     cursor: pointer;
@@ -2328,4 +2308,48 @@ h2:lang(zh) a
 .messages li
 {
     margin-left: 0.5em;
+}
+
+/*
+ * AutoIcon component
+ */
+.auto-icon
+{
+    font-size: 9px;
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+    border-radius: 2px;
+    line-height: 16px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.avatar .auto-icon
+{
+    background-color: #fff !important;
+}
+
+.top-scorer .avatar-image > *,
+.last-action .avatar-image > *
+{
+    top: -3px;
+}
+
+/*
+ * Avatar
+ */
+.avatar-image
+{
+    position: relative;
+}
+
+.avatar-image > *
+{
+    display: block;
+    position: absolute;
+    border-radius: 100%;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
 }

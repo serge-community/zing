@@ -25,5 +25,8 @@ module.exports = {
   rules: {
     'react/prefer-es6-class': 0,
     'react/prefer-stateless-function': 1,
+
+    // see http://blog.javascripting.com/2015/09/07/fine-tuning-airbnbs-eslint-config/
+    'no-cond-assign': [2, 'except-parens'],
   },
 };

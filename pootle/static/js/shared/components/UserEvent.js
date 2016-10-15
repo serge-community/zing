@@ -128,7 +128,7 @@ const UserEvent = React.createClass({
     const avatar = (
       <Avatar
         email={this.props.email}
-        label={this.props.displayName || this.props.username}
+        displayName={this.props.displayName}
         size={20}
         username={this.props.username}
       />

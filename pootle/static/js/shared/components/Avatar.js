@@ -6,21 +6,20 @@
  * AUTHORS file for copyright and authorship information.
  */
 
-import md5 from 'md5';
 import React, { PropTypes } from 'react';
 import { PureRenderMixin } from 'react-addons-pure-render-mixin';
-
+import AutoIcon from './AutoIcon';
 
 const Avatar = React.createClass({
 
   // FIXME: be smarter with props validation, e.g. `email` should be required if
   // `src` is missing etc.
   propTypes: {
+    tagName: PropTypes.string,
     email: PropTypes.string,
-    label: PropTypes.string,
+    displayName: PropTypes.string,
     size: PropTypes.number,
     src: PropTypes.string,
-    title: PropTypes.string,
     username: PropTypes.string,
   },
 
@@ -28,49 +27,70 @@ const Avatar = React.createClass({
 
   getDefaultProps() {
     return {
-      size: 80,
+      tagName: 'a',
+      size: 20,
     };
   },
 
   render() {
     const { email } = this.props;
-    const { label } = this.props;
+    const { displayName } = this.props;
     const { size } = this.props;
-    const { title } = this.props;
     const { username } = this.props;
 
-    let imgSrc = this.props.src;
+    const title = displayName || username;
+
+    let icon = null;
     if (email) {
-      let emailMd5 = email;
-      if (email.indexOf('@') > -1) {
-        emailMd5 = md5(email);
-      }
-      imgSrc = `https://secure.gravatar.com/avatar/${emailMd5}?s=${size}&d=mm`;
-    }
-
-    const icon = (
-      <img
-        className="avatar"
-        src={imgSrc}
-        height={size}
-        width={size}
-        title={title}
-      />
-    );
-
-    if (username !== undefined) {
-      return (
-        <a href={l(`/user/${username}/`)}>
-          {icon}
-          {label && ' '}
-          {label &&
-            <span className="user-name" title={username}>{label}</span>
-          }
-        </a>
+      const urlPrefix = 'https://secure.gravatar.com/avatar/';
+      // we request the image twice the resolution for hi-res displays
+      const src = `${urlPrefix}${email}?s=${size * 2}&d=blank`;
+      icon = (
+        <img
+          src={src}
+          title={title}
+          width={size}
+          height={size}
+        />
       );
     }
 
-    return icon;
+    const style = {
+      width: size,
+      height: size,
+    };
+
+    const TagName = this.props.tagName;
+
+    const attrs = TagName === 'a' ? {
+      href: l(`/user/${username}/`),
+    } : {};
+
+    if (username !== undefined) {
+      return (
+        <TagName className="avatar" {...attrs}>
+          <span className="avatar-image" style={style}>
+            <AutoIcon
+              mode="outline"
+              size={size}
+              lightness={50}
+              saturation={50}
+              title={title}
+            />
+            {icon}
+          </span>
+          <span className="user-name" title={username}>{title}</span>
+        </TagName>
+      );
+    }
+
+    return (
+      <TagName className="avatar">
+          <span className="avatar-image" style={style}>
+            {icon}
+          </span>
+      </TagName>
+    );
   },
 
 });

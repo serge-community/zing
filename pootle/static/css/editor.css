@@ -37,7 +37,7 @@ textarea#view_unit
 #toolbar
 {
     position: absolute;
-    right: 2em;
+    right: 1em;
     z-index: 300; /* show above the main toolbar */
 
     top: -35px;

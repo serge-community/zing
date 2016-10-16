@@ -6,6 +6,7 @@
     {% include nav %}
   </select>
 </li>
+<li class="separator"></li>
 {% endif %}
 <li>
   <select id="js-select-language" data-initial-code="{{ language.code }}"
@@ -18,6 +19,7 @@
     {% endfor %}
   </select>
 </li>
+<li class="separator"></li>
 <li>
   <select id="js-select-project" data-initial-code="{{ project.code }}"
     style="visibility: hidden;">
@@ -33,6 +35,7 @@
 </li>
 {% if project %}
 {% if page == 'browse' or page == 'translate' %}
+<li class="separator"></li>
 <li id="js-breadcrumb-resource">
   <select id="js-select-resource"
     data-initial-code="{% if resource_path_parts %}ctx-{% endif %}{{ resource_path }}"

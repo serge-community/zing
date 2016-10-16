@@ -1,63 +1,13 @@
 /* Breadcrumbs */
 
-.breadcrumb
-{
-    font-size: 1.5em;
-    font-weight: normal;
-    font-family: 'Helvetica Neue', Helvetica, Helvetica, Arial, sans-serif;
-    visibility: hidden;
-    padding: 5px 0;
-    height: 2em;
-    display: table-cell;
-    vertical-align: middle;
-}
-
-.browser .breadcrumb
-{
-    padding: 5px 0 0;
-}
-
-/* By default (on small screens), place resource dropdown on the second line */
-#js-breadcrumb-resource
-{
-    display: block;
-}
-
-/* When browser window is wide enough, force breadcrumbs to be on the single line */
-@media screen and (min-width: 1350px)
-{
-    .breadcrumb
-    {
-        white-space: nowrap;
-        overflow: hidden;
-    }
-
-    #js-breadcrumb-resource
-    {
-        display: inline-block;
-    }
-}
-
 .breadcrumb li
 {
     display: inline-block;
-    float: left;
-    margin-left: 0.3em;
-}
-
-html[dir="rtl"] .breadcrumb li
-{
-    float: right;
 }
 
 .breadcrumb li.hide
 {
     display: none;
-}
-
-.breadcrumb li::before
-{
-    content: " / ";
 }
 
 .breadcrumb li:first-child::before,
@@ -77,32 +27,10 @@ html[dir="rtl"] .breadcrumb li
     padding: 0 0 0 4px;
 }
 
-.breadcrumb .select2-container .select2-choice
-{
-    line-height: 44px;
-}
-
 .breadcrumb .navigation .select2-choice,
 .unit-sort .navigation .select2-choice
 {
     color: #0489b7;
-}
-
-.breadcrumb .select2-container .select2-choice div
-{
-    top: 8px;
-}
-
-.breadcrumb .select2-container .select2-choice abbr
-{
-    top: 15px;
-    right: 22px;
-}
-
-html[dir="rtl"] .breadcrumb .select2-container .select2-choice abbr
-{
-    right: auto;
-    left: 22px;
 }
 
 /* HACK: display background as a thin line */

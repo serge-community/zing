@@ -48,7 +48,6 @@
  */
 
 #header-meta,
-#footer,
 .header
 {
     background-color: #eee;
@@ -427,49 +426,6 @@ td.stats-name a:hover > i + span,
 
 
 /*
- * FOOTER
- */
-
-#footer
-{
-    background-color: #f8f8f8;
-    color: #d9d9d9;
-    border-top: 1px dashed #d9d9d9;
-    font-size: 12px;
-    text-align: center;
-    position: absolute;
-    width: 100%;
-
-    margin-top: 20px;
-    height: 42px;
-    line-height: 41px;
-    box-sizing: border-box;
-}
-
-#footer a
-{
-    color: #999;
-}
-
-#footer .nav li
-{
-    display: inline;
-}
-
-#footer .nav li::after
-{
-    content: " | ";
-    margin: 0 1em;
-}
-
-#footer .nav li:last-child::after
-{
-    content: '';
-    margin: 0;
-}
-
-
-/*
  * STATIC PAGES
  */
 
@@ -811,7 +767,7 @@ html[dir="rtl"] #autorefresh-notice .x
 #body
 {
     margin: 0;
-    padding: 0 0 4em;
+    padding: 0;
     position: relative;
     width: 100%;
     display: inline-block;
@@ -912,13 +868,13 @@ html[dir="rtl"] .last-action img
 
 .last-action .user-name
 {
-    margin-left: 24px;
+    margin-left: 4px;
 }
 
 html[dir="rtl"] .last-action .user-name
 {
     margin-left: auto;
-    margin-right: 24px;
+    margin-right: 4px;
 }
 
 .last-action .extra-item-meta
@@ -1596,8 +1552,7 @@ html[dir="rtl"] ul.pager li:last-child > *
 
 #top-stats
 {
-    padding-bottom: 2em;
-    padding-top: 0.2em;
+    padding: 0 0 0.5em;
 }
 
 #top-stats h3
@@ -1652,16 +1607,13 @@ html[dir="rtl"] .expand-stats
 .expand-stats .icon-collapse-stats
 {
     position: relative;
-    top: 20px;
-    left: 0;
+    top: -2px;
+    left: -1em;
 }
 
 .path-summary-more
 {
-    padding: 0 2em;
-    border: 1px solid #d9d9d9;
-    background: #f4f4f4;
-    border-radius: 0 0 5px 5px;
+    padding: 2em 1.5em 0;
 }
 
 .path-summary-more .path-summary-expanded,
@@ -1673,10 +1625,8 @@ html[dir="rtl"] .expand-stats
 .path-summary-more .path-summary-collapsed
 {
     display: block;
-    margin-top: 11px;
-    margin-left: -10px;
-    padding: 10px 0;
-    height: 15px;
+    padding-bottom: 1em;
+    white-space: nowrap;
 }
 
 html[dir="rtl"] .path-summary-more .path-summary-collapsed
@@ -1688,7 +1638,6 @@ html[dir="rtl"] .path-summary-more .path-summary-collapsed
 .path-summary-more.expand .path-summary-expanded
 {
     display: block;
-    margin-top: 2.5em;
 }
 
 .path-summary-more .path-summary-collapsed label
@@ -1765,11 +1714,6 @@ html[dir="rtl"] .summary-3-col
     #top-stats .path-summary-more .summary-3-col h3.top
     {
         margin: 1em 0 0;
-    }
-
-    .path-summary-more.expand .path-summary-expanded
-    {
-        margin: 2.5em 0 1em;
     }
 
     .path-summary-more .summary-2-col
@@ -1914,8 +1858,7 @@ html[dir="rtl"] #tabs li
 {
     position: relative;
     padding: 2px;
-
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.075) inset;
+    top: 1px;
 }
 
 #search-form,
@@ -2330,18 +2273,14 @@ h2:lang(zh) a
     background-color: #fff !important;
 }
 
-.top-scorer .avatar-image > *,
-.last-action .avatar-image > *
-{
-    top: -3px;
-}
-
 /*
  * Avatar
  */
 .avatar-image
 {
     position: relative;
+    display: inline-block;
+    margin-bottom: -5px;
 }
 
 .avatar-image > *

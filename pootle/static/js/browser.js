@@ -169,22 +169,6 @@ function makeNavDropdown(selector, opts, handleSelectClick, handleBeforeSelect) 
 }
 
 
-/* Recalculate breadcrumb geometry on window resize */
-function fixResourcePathBreadcrumbGeometry() {
-  const $resourceDropdown = $('#s2id_js-select-resource');
-  // on some pages there's no resource dropdown
-  if ($resourceDropdown.length) {
-    const sideMargin = $('#s2id_js-select-navigation').position().left;
-
-    const maxHeaderWidth = $('#header-meta').outerWidth() - sideMargin;
-    const resourceDropdownLeft = $resourceDropdown.position().left;
-
-    const maxWidth = maxHeaderWidth - resourceDropdownLeft;
-    $resourceDropdown.css('max-width', maxWidth);
-  }
-}
-
-
 function fixDropdowns() {
   // We can't use `e.persisted` here. See bug 2949 for reference
   const selectors = [sel.navigation, sel.language, sel.project, sel.resource];
@@ -192,7 +176,6 @@ function fixDropdowns() {
     const $el = $(selectors[i]);
     $el.select2('val', $el.data('initial-code'));
   }
-  fixResourcePathBreadcrumbGeometry();
   $(sel.breadcrumbs).css('visibility', 'visible');
 }
 
@@ -270,11 +253,6 @@ const browser = {
       formatResult: formatResource,
       sortResults: removeCtxEntries,
     }, handleNavDropDownSelectClick, handleBeforeNavDropDownResourceSelect);
-
-    /* Adjust breadcrumb layout on window resize */
-    $(window).on('resize', () => {
-      fixResourcePathBreadcrumbGeometry();
-    });
   },
 
 };

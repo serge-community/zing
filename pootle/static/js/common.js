@@ -198,14 +198,16 @@ PTL.common = {
 
     /* Setup React components */
 
-    ReactDOM.render(
-      <Avatar
-        size={24}
-        tagName="span"
-        {...opts.user}
-      />,
-      q('#js-navbar-avatar')
-    );
+    if (q('#js-navbar-avatar') !== null) {
+      ReactDOM.render(
+        <Avatar
+          size={24}
+          tagName="span"
+          {...opts.user}
+        />,
+        q('#js-navbar-avatar')
+      );
+    }
   },
 
 };

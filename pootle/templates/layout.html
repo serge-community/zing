@@ -97,20 +97,19 @@
           <a href="#nav-main">{% trans 'skip to navigation' %}</a>
         </div>
         {% block logo %}
-        <h1 class="brand"><a href="{% url 'pootle-home' %}"><i class="icon-logo"></i><span class="site-title">{{ settings.POOTLE_TITLE }}</span></a></h1>
+        <h1 class="brand"><a href="{% url 'pootle-home' %}"><i class="icon-logo"></i></a></h1>
         {% endblock %}
-        <a href="#nav-main" id="menu-toggle" class="js-toggle">&nbsp;</a>
+        {% block page_title %}
+        <span class="site-title">{{ settings.POOTLE_TITLE }}</span>
+        {% endblock %}
         <ul id="nav-main">
           {% block nav_items %}
-          {% block nav_items_pre %}{% endblock %}
-          {% if settings.POOTLE_CONTACT_ENABLED %}
-            <li><a class="js-contact" href="{% url 'pootle-contact' %}">{% trans "Contact Us" %}</a></li>
-          {% endif %}
           {% if user.is_authenticated %}
           <li id="user" class="js-navbar-dropdown">
             <a href="{{ user.get_absolute_url }}" data-action="toggle">
               <span id="js-navbar-avatar"></span>
               <span class="js-score"></span>
+              <span id="menu-toggle" class="js-toggle"></span>
             </a>
 
             <ul class="dropdown-menu">
@@ -122,14 +121,24 @@
               {% endif %}
               <li class="menu-divider"></li>
               <li><a href="{% url 'account_logout' %}">{% trans 'Sign out' %}</a></li>
+              <li class="menu-divider"></li>
+              {% block nav_items_pre %}{% endblock %}
+              {% if settings.POOTLE_CONTACT_ENABLED %}
+                <li><a class="js-contact" href="{% url 'pootle-contact' %}">{% trans "Contact Us" %}</a></li>
+              {% endif %}
+              <li><a href="{% url 'pootle-about' %}">{% trans "About" %}</a></li>
             </ul>
           </li>
           {% else %}
           <li><a class="js-login login" href="{% url 'account_login' %}"><span class="btn btn-login">{% trans 'Sign In' %}</span></a></li>
           {% endif %}
-          {% block nav_items_post %}{% endblock %}
           {% endblock %}
         </ul>
+        {% block breadcrumbs_block %}
+          <ul class="breadcrumb js-breadcrumb">
+            {% block breadcrumbs %}{% endblock %}
+          </ul>
+        {% endblock %}
         {% block navbar_extra %}{% endblock %}
         {% endblock %}
       </nav>
@@ -138,12 +147,6 @@
       {% block header_meta_block %}
       <div id="header-meta" class="header">
         {% block header_meta %}{% endblock %}
-
-        {% block breadcrumbs_block %}
-        <ul class="breadcrumb js-breadcrumb">
-          {% block breadcrumbs %}{% endblock %}
-        </ul>
-        {% endblock %}
       </div>
       {% endblock %}
 
@@ -167,15 +170,6 @@
 
       {% endblock %}
     </div>
-    {% block footer %}
-    <div id="footer">
-      <ul class="nav">
-        {% block footer_items_pre %}{% endblock %}
-        <li><a href="{% url 'pootle-about' %}">{% trans "About" %}</a></li>
-        {% block footer_items_post %}{% endblock %}
-      </ul>
-    </div>
-    {% endblock footer %}
     {% block scripts %}
     {% block scripts_extra %}{% endblock %}
     {% endblock scripts %}

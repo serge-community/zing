@@ -6,6 +6,8 @@
  * AUTHORS file for copyright and authorship information.
  */
 
+import _ from 'underscore';
+
 import React from 'react';
 
 import crc16 from '../utils/crc16'; // use relative path, otherwise tests will fail
@@ -54,7 +56,7 @@ class AutoIcon extends React.Component {
   constructor(props) {
     super();
 
-    this.state = Object.assign({
+    this.state = _.extend({
       saturation: 100,
       lightness: 30,
       abbreviationLength: 2,

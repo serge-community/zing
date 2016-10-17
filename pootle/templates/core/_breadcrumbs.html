@@ -13,6 +13,8 @@
     style="visibility: hidden;">
     {% if has_admin_access or page != "translate" %}
     <option value=""></option>
+    <option value="" class="default">{% trans "All Languages" %}</option>
+    <option disabled></option>
     {% endif %}
     {% for lang_code, lang_name in ALL_LANGUAGES.items %}
     <option value="{{ lang_code }}">{{ lang_name }}</option>
@@ -24,11 +26,12 @@
   <select id="js-select-project" data-initial-code="{{ project.code }}"
     style="visibility: hidden;">
     <option value=""></option>
+    <option value="" class="default">{%  trans "All Projects" %}</option>
+    <option disabled></option>
     {% for proj_code, proj in ALL_PROJECTS.items %}
     <option
       value="{{ proj_code }}"
-      data-state="{{ proj.disabled|yesno:'disabled,enabled' }}">
-      {{ proj.fullname }}
+      data-state="{{ proj.disabled|yesno:'disabled,enabled' }}">{{ proj.fullname }}
     </option>
     {% endfor %}
   </select>

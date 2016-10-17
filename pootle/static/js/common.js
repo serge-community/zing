@@ -167,7 +167,7 @@ PTL.common = {
     });
 
     /* Sorts language names within select elements */
-    const ids = ['id_languages', 'id_alt_src_langs', '-language',
+    const ids = ['id_languages', 'id_alt_src_langs',
                  '-source_language'];
 
     $.each(ids, (i, id) => {

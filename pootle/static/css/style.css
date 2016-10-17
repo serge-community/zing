@@ -1163,6 +1163,7 @@ td.stats-number
 table.stats .number,
 th.stats-number,
 td.stats-number,
+td.stats-percentage,
 table.stats td.last-updated
 {
     text-align: right;
@@ -1171,6 +1172,7 @@ table.stats td.last-updated
 html[dir="rtl"] table.stats .number,
 html[dir="rtl"] th.stats-number,
 html[dir="rtl"] td.stats-number,
+html[dir="rtl"] td.stats-percentage,
 html[dir="rtl"] table.stats td.last-updated
 {
     text-align: left;

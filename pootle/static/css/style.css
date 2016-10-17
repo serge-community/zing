@@ -2072,7 +2072,11 @@ table.stats .item.dirty .last-updated
     border-left: 1px solid #fdd;
 }
 
-.zero,
+.zero
+{
+    color: #ccc;
+}
+
 .muted
 {
     color: #999;

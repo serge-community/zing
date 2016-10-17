@@ -1402,6 +1402,7 @@ span.legend.fuzzy
 
 .browser-table-component th label::after
 {
+    content: '▲';
     margin: 0 0.5em;
     opacity: 0;
     font-size: 90%;
@@ -1412,11 +1413,6 @@ span.legend.fuzzy
 .browser-table-component th label.reverse::after
 {
     opacity: 1;
-}
-
-.browser-table-component th label.normal::after
-{
-    content: '▲';
 }
 
 .browser-table-component th label.reverse::after

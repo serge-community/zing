@@ -27,6 +27,10 @@ import StatsCollapsed from './browser/components/StatsCollapsed';
 import msg from './msg';
 
 
+function formattedValue(n) {
+  return n ? n.toLocaleString() : 0;
+}
+
 function nicePercentage(part, total, noTotalDefault) {
   const percentage = total ? part / total * 100 : noTotalDefault;
   if (percentage > 99 && percentage < 100) {
@@ -35,7 +39,7 @@ function nicePercentage(part, total, noTotalDefault) {
   if (percentage > 0 && percentage < 1) {
     return 1;
   }
-  return Math.round(percentage);
+  return percentage > 0 ? Math.round(percentage) : 0;
 }
 
 
@@ -193,7 +197,7 @@ const stats = {
   },
 
   updateTranslationStats($tr, total, value, noTotalDefault) {
-    $tr.find('.stats-number .stats-data').html(value);
+    $tr.find('.stats-number .stats-data').html(formattedValue(value));
     $tr.find('.stats-percentage span').html(
       nicePercentage(value, total, noTotalDefault)
     );
@@ -202,7 +206,7 @@ const stats = {
 
   updateAction($action, count) {
     $action.toggleClass('non-zero', count > 0);
-    $action.find('.counter').text(count !== null ? count : '—');
+    $action.find('.counter').text(formattedValue(count));
   },
 
   updateItemStats($td, count) {

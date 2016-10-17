@@ -19,7 +19,7 @@ const ColoredNumber = React.createClass({
       return <span className="zero">0</span>;
     }
 
-    return <span>{this.props.n}</span>;
+    return <span>{this.props.n.toLocaleString()}</span>;
   },
 });
 

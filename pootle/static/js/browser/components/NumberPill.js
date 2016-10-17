@@ -25,7 +25,7 @@ const NumberPill = React.createClass({
         className="stats-data"
         href={this.props.url}
       >
-        {this.props.n}
+        {this.props.n.toLocaleString()}
       </a>
     );
   },

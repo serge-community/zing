@@ -244,6 +244,12 @@ html[dir="rtl"] #navbar .select2-container .select2-choice abbr
     max-width: 35vw;
 }
 
+.select2-result.default
+{
+    color: #0489b7;
+    font-style: italic;
+}
+
 #navbar .select2-default
 {
     color: #7fe8f5 !important;

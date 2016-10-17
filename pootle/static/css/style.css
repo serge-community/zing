@@ -1441,7 +1441,7 @@ span.legend.fuzzy
 
 .browser-table-component > tbody > tr:nth-child(odd)
 {
-    background-color: #f5fbfd;
+    background-color: #fafafa;
 }
 
 .browser-table-component td.stats-name i

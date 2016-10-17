@@ -785,7 +785,7 @@ html[dir="rtl"] #autorefresh-notice .x
 /* table row colors, see 'Table Row Colors.psd' */
 
 tr.view-row:nth-child(odd),
-.permissions tr.item:nth-child(odd),
+.permissions tr.item:nth-child(odd)
 {
     background: #f5fbfd;
 }
@@ -887,7 +887,7 @@ html[dir="rtl"] .last-action .user-name
     margin: 1em;
 }
 
-.bd h2,
+.bd h2
 {
     margin-bottom: 0.5em;
 }
@@ -1243,7 +1243,7 @@ td.last-activity
 }
 
 html[dir="rtl"] td.language,
-html[dir="rtl"] td.stats-name,
+html[dir="rtl"] td.stats-name
 {
     text-align: right !important;
 }

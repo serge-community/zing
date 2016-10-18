@@ -1,0 +1,53 @@
+.AboutDialog
+{
+    width: 700px;
+    height: 400px;
+}
+
+.AboutDialog .sideColumn,
+.AboutDialog .mainContent
+{
+    display: inline-block;
+    float: left;
+}
+
+html[dir="rtl"] .AboutDialog .sideColumn,
+html[dir="rtl"] .AboutDialog .mainContent
+{
+    float: right;
+}
+
+.AboutDialog .sideColumn
+{
+    width: 280px;
+    text-align: center;
+    margin-right: 1em;
+}
+
+.AboutDialog .sideColumn > img
+{
+    margin: 24px 0 67px;
+    width: 124px;
+    height: 124px;
+}
+
+.AboutDialog .mainContent
+{
+    width: 340px;
+}
+
+.AboutDialog h1
+{
+    margin-top: 60px;
+    font-family: sans-serif;
+    font-size: 50px;
+    font-weight: normal;
+    color: #000;
+}
+
+.AboutDialog .copyright
+{
+    margin-top: 2.5em;
+    color: #999;
+    font-size: 90%;
+}

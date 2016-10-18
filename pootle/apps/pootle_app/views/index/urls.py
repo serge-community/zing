@@ -10,7 +10,6 @@ from django.conf.urls import url
 from django.views.generic import TemplateView
 
 from . import index
-from .index import AboutView
 
 
 urlpatterns = [
@@ -22,8 +21,4 @@ urlpatterns = [
     url(r'^$',
         index.view,
         name='pootle-home'),
-
-    url(r'^about/$',
-        AboutView.as_view(),
-        name='pootle-about'),
 ]

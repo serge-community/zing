@@ -1,7 +1,8 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
@@ -18,6 +19,7 @@ import { q } from 'utils/dom';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Avatar from 'components/Avatar';
+import { showAboutDialog } from './shared/components/AboutDialog';
 
 import cookie from 'utils/cookie';
 import diff from 'utils/diff';
@@ -157,6 +159,11 @@ PTL.common = {
       type: 'ajax',
       delegate: '.js-popup-ajax',
       mainClass: 'popup-ajax',
+    });
+
+    $(document).on('click', '.js-about-link', (e) => {
+      e.preventDefault();
+      showAboutDialog();
     });
 
     /* Generic toggle */

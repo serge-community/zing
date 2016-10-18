@@ -126,7 +126,7 @@
               {% if settings.POOTLE_CONTACT_ENABLED %}
                 <li><a class="js-contact" href="{% url 'pootle-contact' %}">{% trans "Contact Us" %}</a></li>
               {% endif %}
-              <li><a href="{% url 'pootle-about' %}">{% trans "About" %}</a></li>
+              <li><a class="js-about-link" href="#">{% trans "About" %}</a></li>
             </ul>
           </li>
           {% else %}

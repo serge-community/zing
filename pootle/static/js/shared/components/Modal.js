@@ -1,15 +1,37 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import LayeredComponent from './LayeredComponent';
 import ModalContainer from './ModalContainer';
+
+
+export function showModal(props) {
+  const div = document.createElement('div');
+  document.body.appendChild(div);
+
+  return ReactDOM.render(
+    <Modal
+      {...props}
+      onClose={ () => {
+        ReactDOM.unmountComponentAtNode(div);
+        document.body.removeChild(div);
+        if ('onClose' in props) {
+          props.onClose();
+        }
+      } }
+    />,
+    div
+  );
+}
 
 
 export const ModalHeader = ({ children }) => (
@@ -38,9 +60,11 @@ const Modal = React.createClass({
 
   propTypes: {
     children: React.PropTypes.node.isRequired,
-    title: React.PropTypes.string,
-    showClose: React.PropTypes.bool,
+    onCanClose: React.PropTypes.func,
     onClose: React.PropTypes.func.isRequired,
+    title: React.PropTypes.node,
+    showClose: React.PropTypes.bool,
+    className: React.PropTypes.string,
     header: React.PropTypes.func,
     footer: React.PropTypes.func,
   },
@@ -58,8 +82,14 @@ const Modal = React.createClass({
   /* Handlers */
 
   handleClose() {
+    if ('onCanClose' in this.props && !this.props.onCanClose()) {
+      return;
+    }
+
     // Parent components need to take care of rendering the component
-    // and unmounting it according to their needs
+    // and unmounting it according to their needs; one can also use
+    // showModal() convenience function that will take care of
+    // unmounting on close
     this.props.onClose();
   },
 

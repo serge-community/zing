@@ -1,0 +1,79 @@
+.KeyboardHelpDialog td
+{
+    padding: 0 1.5em 1em;
+}
+
+.KeyboardHelpDialog kbd
+{
+    font-family: sans-serif;
+    display: inline-block;
+    position: relative;
+    top: -0.05em;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    height: 1em;
+    min-width: 1em;
+    line-height: 1em;
+    text-align: center;
+    padding: 0.25em 0.5em;
+    border-radius: 0.3em;
+    background: #fafafa;
+    box-shadow:
+        0 0.05em 0.05em rgba(0, 0, 0, 0.1),
+        0 0.1em 0.05em rgba(255, 255, 255, 1) inset;
+    text-shadow: 0 0.1em 0.01em rgba(255, 255, 255, 0.8);
+}
+
+.KeyboardHelpDialog td kbd
+{
+    margin: 0.2em 0.1em;
+}
+
+.KeyboardHelpDialog kbd.clover::before
+{
+    content: '⌘';
+    font-size: 90%;
+    display: inline-block;
+    position: relative;
+    top: 0.1em;
+}
+
+.KeyboardHelpDialog .or
+{
+    color: #999;
+    position: relative;
+    left: -1.5em;
+    top: -0.4em;
+    margin-bottom: -0.8em;
+}
+
+.KeyboardHelpDialog div.heading
+{
+    background: #bfdde7;
+    padding: 0.7em 1.5em 0.6em;
+    position: relative;
+}
+
+.KeyboardHelpDialog button.mfp-close
+{
+    background: none;
+    border: none;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 1.6em;
+    position: absolute;
+    width: 1.8em;
+    height: 1.8em;
+    line-height: 1.8em;
+    top: 0;
+    right: 0;
+}
+
+.KeyboardHelpDialog div.column
+{
+    display: table-cell;
+}
+
+.KeyboardHelpDialog div.section
+{
+    font-weight: bold;
+    margin-bottom: 1em;
+}

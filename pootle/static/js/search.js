@@ -40,7 +40,7 @@ const search = {
 
     /* Shortcuts */
 
-    mousetrap(document.body).bind('mod+shift+s', (e) => {
+    mousetrap(document.body).bind(['mod+shift+s', 'ctrl+`'], (e) => {
       e.preventDefault();
       this.$input.focus();
     });

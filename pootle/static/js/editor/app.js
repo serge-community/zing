@@ -325,7 +325,8 @@ PTL.editor = {
         this.closeSuggestion();
       }
     });
-    hotkeys.bind('ctrl+return', (e) => {
+    // Leave 'ctrl+return' for backward compatibility with Mac
+    hotkeys.bind(['mod+return', 'ctrl+return'], (e) => {
       e.preventDefault();
       if (this.isSuggestMode()) {
         this.handleSuggest();
@@ -333,7 +334,7 @@ PTL.editor = {
         this.handleSubmit();
       }
     });
-    hotkeys.bind('ctrl+space', (e) => {
+    hotkeys.bind(['mod+/', 'ctrl+space'], (e) => {
       e.preventDefault();
       this.toggleState();
     });
@@ -342,11 +343,11 @@ PTL.editor = {
       this.toggleSuggestMode(e);
     });
 
-    hotkeys.bind(['ctrl+up', 'ctrl+,'], (e) => {
+    hotkeys.bind(['mod+up', 'ctrl+,'], (e) => {
       e.preventDefault();
       this.gotoPrev();
     });
-    hotkeys.bind(['ctrl+down', 'ctrl+.'], (e) => {
+    hotkeys.bind(['mod+down', 'ctrl+.'], (e) => {
       e.preventDefault();
       this.gotoNext({ isSubmission: false });
     });
@@ -366,11 +367,6 @@ PTL.editor = {
         )
       );
     }
-
-    hotkeys.bind('ctrl+shift+n', (e) => {
-      e.preventDefault();
-      this.unitIndex(e);
-    });
 
     /* XHR activity indicator */
     $(document).ajaxStart(() => {

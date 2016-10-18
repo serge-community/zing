@@ -36,9 +36,9 @@
     {% endfor %}
   </select>
 </li>
+<li class="separator"></li>
 {% if project %}
 {% if page == 'browse' or page == 'translate' %}
-<li class="separator"></li>
 <li id="js-breadcrumb-resource">
   <select id="js-select-resource"
     data-initial-code="{% if resource_path_parts %}ctx-{% endif %}{{ resource_path }}"
@@ -63,5 +63,6 @@
     {% endfor %}
   </select>
 </li>
+<li class="separator"></li>
 {% endif %}
 {% endif %}

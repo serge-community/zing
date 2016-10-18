@@ -1,7 +1,8 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
@@ -59,25 +60,38 @@
     vertical-align: middle;
     margin: 0 auto;
     text-align: left;
-    padding: 2em 3em;
     min-width: 255px;
     font-size: 100%;
+    outline: none;
+    overflow: hidden;
 }
 
 .lightbox-header
 {
-    margin-bottom: 2em;
+    padding: 0.7em;
+    background: #eee;
+    position: relative;
+}
+
+html[dir="ltr"] .lightbox-header
+{
+    padding-right: 3em;
+}
+
+html[dir="rtl"] .lightbox-header
+{
+    padding-left: 3em;
 }
 
 .lightbox-content
 {
-    margin: 1em 0;
+    margin: 1.5em;
 }
 
 .lightbox-footer
 {
-    margin-top: 2em;
     text-align: right;
+    margin: 0.5em;
 }
 
 html[dir="rtl"] .lightbox-footer
@@ -101,9 +115,11 @@ html[dir="rtl"] .lightbox-footer .btn + .btn
     position: absolute;
     right: 0;
     top: 0;
-    width: 44px;
-    height: 44px;
-    line-height: 44px;
+    width: 30px;
+    height: 100%;
+    line-height: 100%;
+    padding: 0;
+    margin: 0;
 
     text-decoration: none;
     text-align: center;
@@ -111,8 +127,7 @@ html[dir="rtl"] .lightbox-footer .btn + .btn
     color: rgba(0, 0, 0, 0.5);
 
     font-style: normal;
-    font-size: 28px;
-    font-family: "Arial", monospace;
+    f--ont-size: 14px;
 
     border: 0;
     cursor: pointer;

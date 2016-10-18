@@ -1,7 +1,8 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
@@ -10,8 +11,8 @@
 
 .btn
 {
-    border: medium none;
-    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
 
     outline: 0;
     cursor: pointer;
@@ -19,23 +20,23 @@
     display: inline-block;
 
     background-image: none;
-    box-shadow: 0 -2px 0 rgba(0, 0, 0, 0.2) inset;
 
     text-align: center;
-    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
 
-    transition: all 0.25s linear 0s;
+    transition: all 0.15s linear 0s;
 
     /* btn-normal size */
     font-size: inherit;
-    padding: 0.5em 1em;
+
+    padding: 0.3em 1.3em;
+    min-width: 6em;
 }
 
 .btn,
 a.btn,
 a.btn:link
 {
-    color: #fff !important;
+    color: rgba(0, 0, 0, 0.8);
     text-decoration: none;
 }
 
@@ -68,12 +69,12 @@ a.btn:link
 
 .btn
 {
-    background-color: #72a6c4;
+    background-color: #eee;
 }
 
 .btn.btn-primary
 {
-    background-color: #4dbdcb;
+    background-color: #cde3ea;
 }
 
 .btn.btn-success
@@ -104,11 +105,11 @@ a.btn:link
 .btn:hover,
 .btn:focus
 {
-    /* Webkit */
-    -webkit-filter: brightness(120%);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    color: #000;
 
-    /* Firefox */
-    filter: brightness(120%);
+    -webkit-filter: brightness(95%);
+    filter: brightness(95%);
 }
 
 .btn:disabled,
@@ -123,7 +124,6 @@ a.btn:link
     cursor: default;
     pointer-events: none;   /* Not standard yet */
 
-    color: rgba(255, 255, 255, 0.75);
     opacity: 0.5;
 
     /* Webkit */

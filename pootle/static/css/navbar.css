@@ -102,15 +102,33 @@ html[dir="rtl"] #navbar h1 .site-title
     overflow: hidden;
 }
 
-#navbar .breadcrumb .separator
+#navbar .breadcrumb .separator::before
 {
+    content: "▶";
+    color: #fff;
+    display: inline-block;
     position: absolute;
-    top: 15px;
-    margin-left: -2px;
+    top: 19px;
+    margin-left: -6px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 12px;
+    width: 12px;
+    height: 12px;
     opacity: 0.3;
-    border-left: 1px solid #fff;
-    z-index: 2;
-    height: 20px;
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+#navbar .breadcrumb .separator:last-child::before
+{
+    opacity: 0;
+}
+
+#navbar:hover .breadcrumb .separator::before
+{
+    opacity: 1;
+    -webkit-transform: rotate(90deg) scale(0.5, 1) translateY(6px);
 }
 
 

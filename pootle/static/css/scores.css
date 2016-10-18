@@ -130,11 +130,6 @@ html[dir="rtl"] .path-summary-more .top-scorer .user-name
         display: none;
     }
 
-    .path-summary-more .path-summary-collapsed .top-scorer .number
-    {
-        margin-left: 20px;
-    }
-
     html[dir="rtl"] .path-summary-more .path-summary-collapsed .top-scorer .number
     {
         margin-left: 0;

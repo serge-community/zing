@@ -1,7 +1,8 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
@@ -10,7 +11,7 @@
 
 .auth-window.lightbox-body
 {
-    font-size: 1.2em;
+    font-size: 1.1em;
     padding: 0;
     border-radius: 0.25em;
 }
@@ -23,17 +24,17 @@
     text-align: center;
 }
 
-.auth-window .lightbox-title
+html[dir="ltr"] .auth-window .lightbox-header,
+html[dir="rtl"] .auth-window .lightbox-header
 {
-    color: #4dbdcb;
-    font-size: 1.3em;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .auth-window .lightbox-content
 {
     width: 20em;
     min-height: 22.5em;
-    padding: 0 2em;
 }
 
 .auth-window .lightbox-footer
@@ -49,25 +50,23 @@
 .auth-window .Tabs
 {
     position: relative;
-    top: -2em;
+    top: -1.6em;
 }
 
 .auth-window .Tabs__TabList
 {
-    margin-left: -2em;
-    margin-right: -2em;
+    margin: 0 -1.5em;
 }
 
 .auth-window .TabList__Tab
 {
     box-sizing: border-box;
-    padding: 1em;
+    padding: 0.7em 0 0.5em;
     width: 50%;
 
     text-align: center;
 
     background-color: #eee;
-    border-top: 2px solid transparent;
 }
 
 .auth-window .TabList__Tab--is-active
@@ -113,6 +112,9 @@
     width: 100%;
     margin: 0.5em 0;
     line-height: 1.5;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 0.1em 0.2em;
 }
 
 .auth-window .fields span
@@ -142,13 +144,13 @@
 .auth-window .actions .btn
 {
     margin: 1em auto;
-    width: 50%;
+    width: 100%;
+    padding: 0.5em 0;
 }
 
 .auth-window .actions.sign-in-social .btn
 {
     line-height: 3;
-    width: 90%;
 }
 
 .auth-window .actions a

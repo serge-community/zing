@@ -106,13 +106,13 @@ const Modal = React.createClass({
     }
 
     const title = (this.props.title &&
-      <h3 className="lightbox-title">{this.props.title}</h3>
+      <div className="lightbox-title">{this.props.title}</div>
     );
     const closeBtn = (this.props.showClose &&
       <button
         className="lightbox-close"
         onClick={this.handleClose}
-      >×</button>
+      >✕</button>
     );
 
     return (

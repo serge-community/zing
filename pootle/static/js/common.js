@@ -20,9 +20,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Avatar from 'components/Avatar';
 import { showAboutDialog } from './shared/components/AboutDialog';
+import { showKeyboardHelpDialog } from './shared/components/KeyboardHelpDialog';
 
 import cookie from 'utils/cookie';
 import diff from 'utils/diff';
+import mousetrap from 'mousetrap';
 
 import agreement from './agreement';
 import auth from './auth';
@@ -202,6 +204,16 @@ PTL.common = {
         }
       });
     });
+
+
+    /* Bind hotkeys */
+    const hotkeys = mousetrap(document.body);
+
+    hotkeys.bind('f1', (e) => {
+      e.preventDefault();
+      showKeyboardHelpDialog();
+    });
+
 
     /* Setup React components */
 

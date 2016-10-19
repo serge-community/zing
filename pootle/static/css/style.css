@@ -1852,15 +1852,17 @@ html[dir="rtl"] #tabs li
     display: inline-block;
 }
 
-#search-form
+#search-form .search-wrapper
 {
     position: relative;
     padding: 2px;
     top: 1px;
+    font-size: 0;
+    white-space: nowrap;
 }
 
-#search-form,
-.search-container
+#search-form .search-wrapper,
+#search-form .search-container
 {
     background-color: #fff;
     border: 1px solid #d9d9d9;
@@ -1874,16 +1876,10 @@ html[dir="rtl"] #tabs li
     font-style: italic;
 }
 
-#search-form.focused,
-.search-container
+#search-form.focused .search-wrapper
 {
     box-shadow: 0 0 2px #d9d9d9;
-}
-
-.search-wrapper
-{
-    font-size: 0;
-    white-space: nowrap;
+    outline: -webkit-focus-ring-color auto 5px;
 }
 
 .search-wrapper input[type="text"],
@@ -1938,10 +1934,12 @@ html[dir="rtl"] #tabs li
 {
     padding: 5px;
     position: absolute;
-    top: 30px;
+    top: 38px;
     z-index: 200;
-    width: 165px;
+    width: 175px;
+    box-sizing: border-box;
     outline: 0;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
 }
 
 .search-container::after,

@@ -434,8 +434,12 @@ PTL.reports = {
         PTL.reports.data = processedData;
 
         $('#reports-results').empty();
-        $('#reports-results').html(PTL.reports.tmpl.results(PTL.reports.data)).show();
-        $('#js-breadcrumb-user').text(data.meta.user.formatted_name).show();
+        $('#reports-results')
+          .html(PTL.reports.tmpl.results(PTL.reports.data))
+          .show();
+        $('#js-breadcrumb-user')
+          .text(data.meta.user.formatted_name)
+          .css('visibility', 'visible');
         const showChart = data.daily !== undefined && data.daily.nonempty;
         $('#reports-activity').toggle(showChart);
         if (showChart) {

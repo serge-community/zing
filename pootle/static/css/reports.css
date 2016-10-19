@@ -376,3 +376,8 @@ html[dir="rtl"] #detailed
 {
     width: inherit;
 }
+
+#js-breadcrumb-user
+{
+    visibility: hidden;
+}

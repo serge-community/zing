@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) Zing contributors.
+ *
+ * This file is a part of the Zing project. It is distributed under the GPL3
+ * or later license. See the LICENSE file for a copy of the license and the
+ * AUTHORS file for copyright and authorship information.
+ */
+
 .KeyboardHelpDialog td
 {
     padding: 0 1.5em 1em;
@@ -5,7 +13,7 @@
 
 .KeyboardHelpDialog kbd
 {
-    font-family: sans-serif;
+    font-family: inherit;
     display: inline-block;
     position: relative;
     top: -0.05em;

@@ -80,7 +80,14 @@ body
     color: #130f30;
     width: 100%;
 
-    font-family: sans-serif;
+    font-family:
+        Raw,
+        -apple-system,
+        BlinkMacSystemFont,
+        'Segoe UI',
+        Helvetica,
+        Arial,
+        sans-serif;
     font-size: 0.8125em;
     font-style: normal;
     font-variant: normal;
@@ -158,13 +165,6 @@ h6
     font-weight: normal;
     font-size: 100%;
     color: #999;
-}
-
-h1,
-h2,
-h3
-{
-    font-family: sans-serif;
 }
 
 h1
@@ -475,7 +475,6 @@ td.stats-name a:hover > i + span,
 
 .staticpage .edit-link
 {
-    font-family: sans-serif;
     font-size: 13px;
     line-height: 1.3;
     vertical-align: middle;
@@ -1068,7 +1067,6 @@ div.settings-container
 .module .hd h2,
 .hd h2
 {
-    font-family: 'Helvetica Neue', Helvetica, Helvetica, Arial, sans-serif;
     font-size: 2.2em;
 }
 
@@ -2147,30 +2145,29 @@ table.stats .item.dirty .last-updated
 
 :lang(ak)
 {
-    font-family: "Raw", Lucida, "DejaVu Sans", inherit;
+    font-family: Raw, Lucida, "DejaVu Sans", inherit;
 }
 
 :lang(ar)
 {
-    font-family: "Raw", sans-serif;
     font-size: 1em;
 }
 
 :lang(bn)
 {
-    font-family: "Raw", FreeSans, MuktiNarrow, Vrinda, inherit;
+    font-family: Raw, FreeSans, MuktiNarrow, Vrinda, inherit;
     font-size: medium;
     line-height: 110%;
 }
 
 :lang(el)
 {
-    font-family: "Raw", "DejaVu Sans", inherit;
+    font-family: Raw, "DejaVu Sans", inherit;
 }
 
 :lang(fa)
 {
-    font-family: "Raw", Terafik, Traffic, Roya, Nazli, Nazanin, inherit;
+    font-family: Raw, Terafik, Traffic, Roya, Nazli, Nazanin, inherit;
     font-size: large;
 }
 
@@ -2187,13 +2184,13 @@ table.stats .item.dirty .last-updated
 
 :lang(km)
 {
-    font-family: "Raw", "Khmer OS System", "Khmer OS", "Khmer Kampongtrach", "CDT Khmer", inherit;
+    font-family: Raw, "Khmer OS System", "Khmer OS", "Khmer Kampongtrach", "CDT Khmer", inherit;
     line-height: 170%;
 }
 
 :lang(vi)
 {
-    font-family: "Raw", "Lucida Grande", "Vu Phu Tho", "DejaVu Sans", inherit;
+    font-family: Raw, "Lucida Grande", "Vu Phu Tho", "DejaVu Sans", inherit;
 }
 
 :lang(vi) a:hover[href]

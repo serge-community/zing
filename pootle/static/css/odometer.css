@@ -1,3 +1,12 @@
+/*
+ * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
+ *
+ * This file is a part of the Zing project. It is distributed under the GPL3
+ * or later license. See the LICENSE file for a copy of the license and the
+ * AUTHORS file for copyright and authorship information.
+ */
+
 .odometer
 {
     font-size: 1.3em;
@@ -113,12 +122,6 @@ html[dir='rtl'] .odometer-inside
 {
     transition: transform 2s;
     transform: translateY(0);
-}
-
-.odometer.odometer-auto-theme,
-.odometer.odometer-theme-default
-{
-    font-family: "Helvetica Neue", sans-serif;
 }
 
 .odometer.odometer-auto-theme .odometer-value,

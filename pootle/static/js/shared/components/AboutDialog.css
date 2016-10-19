@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) Zing contributors.
+ *
+ * This file is a part of the Zing project. It is distributed under the GPL3
+ * or later license. See the LICENSE file for a copy of the license and the
+ * AUTHORS file for copyright and authorship information.
+ */
+
 .AboutDialog
 {
     width: 700px;
@@ -39,9 +47,8 @@ html[dir="rtl"] .AboutDialog .mainContent
 .AboutDialog h1
 {
     margin-top: 60px;
-    font-family: sans-serif;
     font-size: 50px;
-    font-weight: normal;
+    font-weight: 200;
     color: #000;
 }
 

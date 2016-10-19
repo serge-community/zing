@@ -22,17 +22,18 @@
     padding-top: 120px;
 }
 
-#welcome-page .top h1
+#welcome-page h1
 {
     font-size: 44px;
 }
 
-#welcome-page .top h2
+#welcome-page h2
 {
     font-size: 23px;
     font-weight: normal;
     color: #1a1a1a;
-    margin-top: 0.5em;
+    margin: 1em 0;
+    text-align: center;
 }
 
 #welcome-page #login
@@ -68,7 +69,7 @@
 
 #welcome-page .column
 {
-    width: 480px;
+    width: 400px;
 }
 
 @media only screen and (max-width: 480px)
@@ -108,6 +109,7 @@
 #welcome-page .section h1
 {
     color: #5a8295;
+    margin: 1em 0;
 }
 
 #welcome-page .section p
@@ -119,3 +121,80 @@
 {
     width: 4em;
 }
+
+
+/* Top scorers */
+
+#welcome-page #top-scorers
+{
+    width: 100%;
+    font-size: 1.1em;
+}
+
+#welcome-page #top-scorers.no-results
+{
+    margin: 1em 0;
+    text-align: center;
+}
+
+#welcome-page #top-scorers th
+{
+    font-size: 0.8em;
+    padding: 0;
+    color: #ccc;
+}
+
+#welcome-page #top-scorers td.user
+{
+    padding: 10px;
+}
+
+#welcome-page #top-scorers .number
+{
+    font-family: sans-serif;
+    text-align: right;
+}
+
+#welcome-page #top-scorers .user .gravatar
+{
+    border-radius: 50%;
+    overflow: hidden;
+    width: 30px;
+    height: 30px;
+    float: left;
+    margin-right: 0.5em;
+}
+
+html[dir="rtl"] #welcome-page #top-scorers .user .gravatar
+{
+    float: right;
+    margin-left: 0.5em;
+    margin-right: 0;
+}
+
+#welcome-page #top-scorers .user .properties
+{
+    margin: 5px 10px 0;
+    width: 300px;
+}
+
+#welcome-page #top-scorers .user .name
+{
+    font-size: 1.2em;
+    line-height: 1;
+}
+
+#welcome-page #top-scorers .properties li
+{
+    font-size: 0.7em;
+    line-height: 1.5;
+}
+
+#welcome-page #top-scorers .properties a:active,
+#welcome-page #top-scorers .properties a:hover,
+#welcome-page #top-scorers .properties a:focus
+{
+    opacity: 0.8;
+    text-decoration: none;
+}
+

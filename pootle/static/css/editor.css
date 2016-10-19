@@ -147,7 +147,9 @@ textarea.translation,
 .suggestion-translation,
 #id_search,
 #id_comment,
-#suggestion-editor
+#suggestion-editor,
+.tm-original,
+.tm-translation
 {
     font-family: 'Raw', sans-serif;
 }

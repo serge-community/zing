@@ -67,11 +67,6 @@ a.btn:link
 
 /* Button types */
 
-.btn
-{
-    background-color: #eee;
-}
-
 .btn.btn-primary
 {
     background-color: #cde3ea;

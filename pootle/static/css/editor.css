@@ -65,7 +65,8 @@ textarea#view_unit
 #toolbar button
 {
     position: relative;
-    top: -1px;
+    min-width: 3em;
+    padding: 0.5em 0;
 }
 
 html[dir="rtl"] #toolbar

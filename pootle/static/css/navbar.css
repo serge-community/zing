@@ -97,10 +97,15 @@ html[dir="rtl"] #navbar h1 .site-title
 {
     font-size: 1.1em;
     font-weight: normal;
-    visibility: hidden;
     white-space: nowrap;
     overflow: hidden;
 }
+
+#navbar .breadcrumb.dropdowns
+{
+    visibility: hidden;
+}
+
 
 #navbar .breadcrumb .separator::before
 {
@@ -299,6 +304,24 @@ html[dir="rtl"] #nav-main
 #navbar .breadcrumb > li
 {
     height: 50px;
+}
+
+#navbar .breadcrumb.default > li
+{
+    color: rgba(255, 255, 255, 0.8);
+}
+
+#navbar .breadcrumb.default > li::before
+{
+    color: rgba(255, 255, 255, 0.5);
+    content: "/";
+    margin: 0 1em;
+}
+
+#navbar .breadcrumb.default > li:first-child::before
+{
+    content: "";
+    margin: 0;
 }
 
 html[dir="rtl"] #nav-main > li

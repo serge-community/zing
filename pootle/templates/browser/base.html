@@ -3,7 +3,11 @@
 
 {% block body_class %}browser{% endblock %}
 
-{% block page_title %}{% endblock %}
+{% block breadcrumbs_block %}
+  <ul class="breadcrumb dropdowns js-breadcrumb">
+    {% block breadcrumbs %}{% endblock %}
+  </ul>
+{% endblock %}
 
 {% block actions_block %}
 {% if page == 'browse' or page == 'translate' %}

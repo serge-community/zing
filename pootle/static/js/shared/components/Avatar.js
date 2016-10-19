@@ -40,11 +40,12 @@ const Avatar = React.createClass({
 
     const title = displayName || username;
 
+    const pixelRatio = window.devicePixelRatio || 1;
+
     let icon = null;
     if (email) {
       const urlPrefix = 'https://secure.gravatar.com/avatar/';
-      // we request the image twice the resolution for hi-res displays
-      const src = `${urlPrefix}${email}?s=${size * 2}&d=blank`;
+      const src = `${urlPrefix}${email}?s=${size * pixelRatio}&d=blank`;
       icon = (
         <img
           src={src}

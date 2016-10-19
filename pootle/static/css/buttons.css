@@ -75,6 +75,7 @@ a.btn:link
 .btn.btn-success
 {
     background-color: #5fb336;
+    color: #fff !important;
 }
 
 .btn.btn-login
@@ -95,6 +96,7 @@ a.btn:link
 .btn.btn-danger
 {
     background-color: #d2322d;
+    color: #fff !important;
 }
 
 .btn:hover,

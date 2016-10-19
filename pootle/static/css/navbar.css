@@ -190,7 +190,7 @@ html[dir="rtl"] #navbar h1 .site-title
 
 #navbar .select2-container .select2-choice div b
 {
-    background: none;
+    background: none !important;
 }
 
 /* 'X' symbol */
@@ -202,7 +202,7 @@ html[dir="rtl"] #navbar h1 .site-title
     height: 1em;
     font-size: 12px;
     opacity: 0;
-    background: none;
+    background: none !important;
     padding: 6px;
     text-align: center;
     z-index: 2;

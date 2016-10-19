@@ -154,6 +154,7 @@ const BrowserTable = React.createClass({
 
     return (
       <BrowserTableRow
+        critical={item.critical}
         fuzzy={item.fuzzy}
         key={key}
         lastAction={item.lastaction}
@@ -162,6 +163,7 @@ const BrowserTable = React.createClass({
         isDirty={item.is_dirty}
         itemType={item.treeitem_type}
         pootlePath={item.pootle_path}
+        suggestions={item.suggestions}
         title={item.title}
         total={item.total}
         translated={item.translated}

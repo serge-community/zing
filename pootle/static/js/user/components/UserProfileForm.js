@@ -6,6 +6,7 @@
  * AUTHORS file for copyright and authorship information.
  */
 
+import md5 from 'md5';
 import { link } from 'autolinker';
 import React from 'react';
 
@@ -56,7 +57,7 @@ export const UserProfileForm = React.createClass({
     const { errors } = this.state;
     const { formData } = this.state;
     const avatarHelpMsg = gettext(
-      'To set or change your avatar for your email address ' +
+      'To set or change your avatar image for your email address ' +
       '(%(email)s), please go to gravatar.com.'
     );
     const avatarHelp = interpolate(avatarHelpMsg, { email: model.get('email') },
@@ -81,7 +82,12 @@ export const UserProfileForm = React.createClass({
           />
           <p>
             <label>{gettext('Avatar')}</label>
-            <Avatar email={model.get('email')} size={48} />
+            <Avatar
+              email={md5(model.get('email'))}
+              displayName={formData.full_name}
+              size={48}
+              username={model.get('username')}
+            />
             <span
               className="helptext"
               dangerouslySetInnerHTML={linkify(avatarHelp)}

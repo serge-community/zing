@@ -87,6 +87,7 @@ class AutoIcon extends React.Component {
       `hsl(${this.state.hue}, ${this.state.saturation}%, ${this.state.lightness}%)`;
 
     const size = `${this.state.size}px`;
+    const fontSize = `${Math.round(this.state.size / 2)}px`;
 
     const style = (this.state.mode === 'solid') ? {
       backgroundColor: color,
@@ -95,12 +96,14 @@ class AutoIcon extends React.Component {
       width: size,
       height: size,
       lineHeight: size,
+      fontSize,
     } : {
       border: `1px solid ${color}`,
       color,
       width: size,
       height: size,
       lineHeight: size,
+      fontSize,
     };
 
     return (

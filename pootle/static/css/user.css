@@ -58,10 +58,11 @@
     margin-bottom: 1em;
 }
 
-#user-stats .user-score,
-#user-stats .user-position
+#user-stats .js-popup-tweet
 {
     color: #5a8295;
+    padding-bottom: 5px;
+    border-bottom: 1px dashed;
 }
 
 #user-meta .admin,
@@ -78,11 +79,7 @@
 
 #user-stats .user-position
 {
-    display: inline-block;
-    background-color: #eee;
     font-size: 1.6em;
-    border-radius: 1.5em;
-    padding: 0.5em 1em;
     margin-bottom: 2em;
 }
 

@@ -116,6 +116,11 @@
 {
     background-color: #f5fbfd;
     padding: 1em 2em;
+}
+
+#user-details .user-contact,
+#user-details .user-bio
+{
     font-size: 1.5em;
 }
 
@@ -151,6 +156,7 @@
 #user-details .user-bio
 {
     font-weight: normal;
+    font-style: italic;
     line-height: 1.6;
     max-width: 750px;
     margin: 1em auto;
@@ -165,7 +171,6 @@
 {
     margin: 2em 0 1em;
 }
-
 
 /* Detailed stats */
 
@@ -187,7 +192,7 @@
 
 .lightbox-body.user-edit
 {
-    font-size: 1.2em;
+    font-size: 1.1em;
 }
 
 #user-edit
@@ -198,6 +203,7 @@
 #user-edit label
 {
     width: 30%;
+    margin: 0.8em 0;
 }
 
 #user-edit .fields label,
@@ -219,8 +225,12 @@
 #user-edit .fields textarea
 {
     width: 70%;
-    padding: 0.3em;
-    line-height: 1.2;
+    box-sizing: border-box;
+    margin: 0.5em 0;
+    line-height: 1.5;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 0.1em 0.2em;
 }
 
 #user-edit .fields input[type="checkbox"]
@@ -263,8 +273,8 @@ html[dir="rtl"] #user-edit .buttons
 {
     position: absolute;
     margin-top: -0.2em;
-    left: 80px;
-    width: 40%;
+    left: 70px;
+    width: 285px;
 }
 
 html[dir="rtl"] #user-edit .helptext
@@ -279,6 +289,16 @@ html[dir="rtl"] #user-edit .helptext
     background-color: rgba(0, 0, 0, 0.2);
     width: 100%;
     clear: both;
+}
+
+#user-edit .avatar .auto-icon
+{
+    font-weight: 100;
+}
+
+#user-edit .avatar .user-name
+{
+    display: none;
 }
 
 

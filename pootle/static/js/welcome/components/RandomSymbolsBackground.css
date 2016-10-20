@@ -1,0 +1,43 @@
+/*
+ * Copyright (C) Zing contributors.
+ *
+ * This file is a part of the Zing project. It is distributed under the GPL3
+ * or later license. See the LICENSE file for a copy of the license and the
+ * AUTHORS file for copyright and authorship information.
+ */
+
+.RandomSymbolsBackground
+{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #303336;
+}
+
+.RandomSymbolsBackground i
+{
+    position: absolute;
+    pointer-events: none;
+    font-style: normal;
+}
+
+.RandomSymbolsBackground i.c0
+{
+    color: #4c6094;
+}
+
+.RandomSymbolsBackground i.c1
+{
+    color: #1374c4;
+}
+
+.RandomSymbolsBackground i.c2
+{
+    color: #3c97cc;
+}
+
+.RandomSymbolsBackground i.c3
+{
+    color: #58c9d1;
+}

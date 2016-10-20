@@ -6,6 +6,7 @@
 {% block header_block %}{% endblock %}
 
 {% block content %}
+<div id="js-dynamic-background"></div>
 <div id="user-profile" lang="{{ LANGUAGE_CODE }}">
 
   <div id="user-meta">
@@ -24,6 +25,33 @@
   </div>
 
 {% if not object.is_meta %}
+  {% if object.bio or object.has_contact_details or user == object %}
+    <div id="user-details">
+      {% if object.has_contact_details %}
+        <ul class="user-contact">
+          {% if object.website %}
+            <li><a href="{{ object.website }}"><i class="icon-user-website"></i>{% trans 'My Website' %}</a></li>
+          {% endif %}
+          {% if object.twitter %}
+            <li><a href="{{ object.twitter_url }}"><i class="icon-user-twitter"></i>@{{ object.twitter }}</a></li>
+          {% endif %}
+          {% if object.linkedin %}
+            <li><a href="{{ object.linkedin }}"><i class="icon-user-linkedin"></i>{% trans 'My LinkedIn Profile' %}</a></li>
+          {% endif %}
+        </ul>
+      {% endif %}
+      {% if object.bio %}
+        <div class="user-bio">&ldquo;{{ object.bio }}&rdquo;</div>
+      {% endif %}
+      {% if user == object %}
+        {% if not object.has_contact_details or not object.bio %}
+          <div class="user-bio placeholder">{% trans 'Show others who you are, tell about yourself<br/>and make your public profile look gorgeous!' %}</div>
+        {% endif %}
+        <div class="js-user-profile-edit"></div>
+      {% endif %}
+    </div>
+  {% endif %}
+
   <div id="user-stats">
     <h2 class="user-score-title">{% trans 'Score:' %}</h2>
     <h3 class="user-score">
@@ -69,33 +97,6 @@
     </h3>
     {% endif %}
   </div>
-
-  {% if object.bio or object.has_contact_details or user == object %}
-  <div id="user-details">
-    {% if object.has_contact_details %}
-    <ul class="user-contact">
-      {% if object.website %}
-      <li><a href="{{ object.website }}"><i class="icon-user-website"></i>{% trans 'My Website' %}</a></li>
-      {% endif %}
-      {% if object.twitter %}
-      <li><a href="{{ object.twitter_url }}"><i class="icon-user-twitter"></i>@{{ object.twitter }}</a></li>
-      {% endif %}
-      {% if object.linkedin %}
-      <li><a href="{{ object.linkedin }}"><i class="icon-user-linkedin"></i>{% trans 'My LinkedIn Profile' %}</a></li>
-      {% endif %}
-    </ul>
-    {% endif %}
-    {% if object.bio %}
-    <div class="user-bio">&ldquo;{{ object.bio }}&rdquo;</div>
-    {% endif %}
-    {% if user == object %}
-      {% if not object.has_contact_details or not object.bio %}
-        <div class="user-bio placeholder">{% trans 'Show others who you are, tell about yourself<br/>and make your public profile look gorgeous!' %}</div>
-      {% endif %}
-      <div class="js-user-profile-edit"></div>
-    {% endif %}
-  </div>
-  {% endif %}
 {% else %}
   <div id="user-details" class="meta-user">
     <div class="user-bio placeholder">

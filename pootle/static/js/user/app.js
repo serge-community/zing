@@ -30,7 +30,9 @@ PTL.user = {
         user,
         appRoot: opts.appRoot,
       };
-      ReactDOM.render(<UserProfileEdit {...props} />, editButton);
+      if (editButton) {
+        ReactDOM.render(<UserProfileEdit {...props} />, editButton);
+      }
 
       // FIXME: let's make the whole profile page a component, so a lot of the
       // boilerplate here is rendered redundant

@@ -82,6 +82,7 @@ const UserEvent = React.createClass({
     const UNMUTE_CHECK = 7; // Unmute quality check
     const SUGG_ADD = 8;     // Add new suggestion
     const SUGG_REJECT = 9;  // Reject suggestion
+    const UNIT_CREATE = 10;  // Unit created (with translation)
 
     // Translation action types:
     const TRANSLATED = 0;
@@ -119,6 +120,11 @@ const UserEvent = React.createClass({
       } else if (translationActionType === NEEDS_WORK) {
         return tct('%(user)s marked as needs work %(sourceString)s', { user, sourceString });
       }
+    } else if (type === UNIT_CREATE) {
+      return tct(
+        '%(user)s created string %(sourceString)s with translation',
+        { user, sourceString }
+      );
     }
 
     return [user];

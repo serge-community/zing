@@ -97,7 +97,8 @@
           <a href="#nav-main">{% trans 'skip to navigation' %}</a>
         </div>
         {% block logo %}
-        <h1 class="brand"><a href="{% url 'pootle-home' %}"><i class="icon-logo"></i></a></h1>
+        <a href="{% url 'pootle-home' %}" class="logo"></a>
+        <h1>{{ settings.POOTLE_TITLE }}</h1>
         {% endblock %}
         <ul id="nav-main">
           {% block nav_items %}
@@ -133,9 +134,6 @@
         </ul>
         {% block breadcrumbs_block %}
           <ul class="breadcrumb default js-breadcrumb">
-            {% block page_title %}
-              <li><span class="site-title">{{ settings.POOTLE_TITLE }}</span></li>
-            {% endblock %}
             {% block breadcrumbs %}{% endblock %}
           </ul>
         {% endblock %}

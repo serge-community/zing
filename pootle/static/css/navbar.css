@@ -18,12 +18,6 @@
     line-height: 50px;
 }
 
-#navbar .site-title
-{
-    padding-left: 0.2em;
-    color: #fff;
-}
-
 #navbar a
 {
     color: #fff;
@@ -38,14 +32,34 @@
     color: #f8f8f8;
 }
 
+#navbar .logo
+{
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    line-height: 0;
+    background: url(/static/images/logo-white.svg) no-repeat 50% 50%;
+    background-size: 26px 26px;
+    float: left;
+    margin-left: 8px;
+}
+
+html[dir="rtl"] #navbar .logo
+{
+    float: right;
+    margin-left: 0;
+    margin-right: 8px;
+}
+
 #navbar h1
 {
+    color: #fff;
     margin: 0;
     padding: 0;
     display: inline-block;
     float: left;
-    font-size: 23px;
-    padding: 0 10px;
+    font-size: 120%;
+    margin-right: 5px;
 
     white-space: nowrap;
     overflow: hidden;
@@ -53,32 +67,19 @@
     max-width: 40%;
 }
 
-html[dir="rtl"] #navbar h1.brand
+body.browser #navbar .logo
 {
-    float: right;
+    margin-left: 8px;
+}
+
+body.browser #navbar h1
+{
+    display: none;
 }
 
 #navbar h1 a
 {
     color: #fff;
-}
-
-#navbar h1 .site-title
-{
-    color: #fff;
-    padding-left: 16px;
-}
-
-html[dir="rtl"] #navbar h1 .site-title
-{
-    padding-left: auto;
-    padding-right: 16px;
-}
-
-#navbar h1 .icon-logo
-{
-    position: relative;
-    top: -4px;
 }
 
 #nav-main > .menu-divider
@@ -316,12 +317,6 @@ html[dir="rtl"] #nav-main
     color: rgba(255, 255, 255, 0.5);
     content: "/";
     margin: 0 1em;
-}
-
-#navbar .breadcrumb.default > li:first-child::before
-{
-    content: "";
-    margin: 0;
 }
 
 html[dir="rtl"] #nav-main > li

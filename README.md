@@ -1,4 +1,4 @@
-Zing
+<img width="36" height="36" valign="bottom" src="https://cdn.rawgit.com/evernote/zing/master/pootle/static/images/logo.svg"> Zing
 ====
 
 [![build status](https://img.shields.io/travis/evernote/zing.svg?style=flat-square)](https://travis-ci.org/evernote/zing)

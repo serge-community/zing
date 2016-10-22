@@ -72,7 +72,8 @@ body.browser #navbar .logo
     margin-left: 8px;
 }
 
-body.browser #navbar h1
+body.browser #navbar h1,
+body.translate #navbar h1
 {
     display: none;
 }

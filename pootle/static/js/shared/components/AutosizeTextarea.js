@@ -17,12 +17,25 @@ const AutosizeTextarea = React.createClass({
   },
 
   componentDidUpdate() {
-    // Using setTimeout() for being able to support uncontrolled components
-    setTimeout(() => autosize.update(this.refs.textarea), 0);
+    autosize.update(this.refs.textarea);
   },
 
   componentWillUnmount() {
-    autosize.destroy(this.refs.textarea);
+    // Seems we're hitting the bug in Firefox under Windows:
+    // https://bugzilla.mozilla.org/show_bug.cgi?id=889376
+    // (autosize.js tries to run the cleanup by dispatching
+    // an event, and if our dom node is detached,
+    // Firefox throws the NS_ERROR_UNEXPECTED error).
+    // Until this is fixed in Autosize, we wrap the call to
+    // autosize.destroy() with try..catch
+    try {
+      autosize.destroy(this.refs.textarea);
+    } catch (err) {
+      if (err.name === 'NS_ERROR_UNEXPECTED') {
+        return;
+      }
+      throw err;
+    }
   },
 
   render() {

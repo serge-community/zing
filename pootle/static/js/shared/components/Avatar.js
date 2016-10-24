@@ -87,9 +87,9 @@ const Avatar = React.createClass({
 
     return (
       <TagName className="avatar">
-          <span className="avatar-image" style={style}>
-            {icon}
-          </span>
+        <span className="avatar-image" style={style}>
+          {icon}
+        </span>
       </TagName>
     );
   },

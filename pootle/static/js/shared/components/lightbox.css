@@ -127,7 +127,7 @@ html[dir="rtl"] .lightbox-footer .btn + .btn
     color: rgba(0, 0, 0, 0.5);
 
     font-style: normal;
-    f--ont-size: 14px;
+    font-size: 14px;
 
     border: 0;
     cursor: pointer;

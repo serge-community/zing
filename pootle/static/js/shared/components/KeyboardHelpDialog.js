@@ -40,7 +40,6 @@ const HelpDialogContent = React.createClass({
     const ctrlKey = macOS ? <kbd>Control</kbd> : <kbd>Ctrl</kbd>;
     const shiftKey = <kbd>Shift</kbd>;
     const enterKey = <kbd>Enter</kbd>;
-    /* const escKey = <kbd>Esc</kbd>; */
     const spaceKey = <kbd>Space</kbd>;
     const or = <div className="or">or</div>;
 
@@ -72,22 +71,10 @@ const HelpDialogContent = React.createClass({
               <td>Submit/suggest + go to next unit</td>
               <td>{modKey}{enterKey}</td>
             </tr>
-            {/*
-            <tr>
-              <td>Submit/suggest + stay</td>
-              <td>{modKey}{shiftKey}{enterKey}</td>
-            </tr>
-            */}
             <tr>
               <td>Toggle submit/suggest mode</td>
               <td>{modKey}{shiftKey}{spaceKey}</td>
             </tr>
-            {/*
-            <tr>
-              <td>Mute all critical checks</td>
-              <td>{modKey}{shiftKey}<kbd>M</kbd></td>
-            </tr>
-             */}
             <tr>
               <td>Toggle "Needs work"</td>
               <td>
@@ -96,36 +83,6 @@ const HelpDialogContent = React.createClass({
                 {ctrlKey}{spaceKey}
               </td>
             </tr>
-            {/*
-            <tr>
-              <td>Copy from source<br />(repeat for alt languages)</td>
-              <td>{escKey}, then {spaceKey}</td>
-            </tr>
-            <tr>
-              <td>Pretranslate using MT</td>
-              <td>{escKey}, then {enterKey}</td>
-            </tr>
-            <tr>
-              <td>Reset to current translation</td>
-              <td>{escKey}, then <kbd>Backspace</kbd></td>
-            </tr>
-            <tr>
-              <td>Toggle raw mode</td>
-              <td>{ctrlKey}, then {ctrlKey}</td>
-            </tr>
-            <tr>
-              <td>Select previous placeable</td>
-              <td><kbd>Alt</kbd>{shiftKey}<kbd>&larr;</kbd></td>
-            </tr>
-            <tr>
-              <td>Select next placeable</td>
-              <td><kbd>Alt</kbd>{shiftKey}<kbd>&rarr;</kbd></td>
-            </tr>
-            <tr>
-              <td>Copy placeable into the editor</td>
-              <td><kbd>Alt</kbd>{shiftKey}<kbd>&darr;</kbd></td>
-            </tr>
-            */}
             </tbody>
           </table>
         </div>

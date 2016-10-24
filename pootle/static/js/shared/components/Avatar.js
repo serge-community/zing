@@ -9,6 +9,7 @@
 import React, { PropTypes } from 'react';
 import { PureRenderMixin } from 'react-addons-pure-render-mixin';
 import AutoIcon from './AutoIcon';
+import _ from 'underscore';
 
 const Avatar = React.createClass({
 
@@ -49,7 +50,7 @@ const Avatar = React.createClass({
       icon = (
         <img
           src={src}
-          title={title}
+          title={_.escape(title)}
           width={size}
           height={size}
         />

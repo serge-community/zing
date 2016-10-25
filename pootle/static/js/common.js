@@ -212,7 +212,19 @@ PTL.common = {
     /* Bind hotkeys */
     const hotkeys = mousetrap(document.body);
 
-    hotkeys.bind('f1', (e) => {
+    hotkeys.stopCallback = (e, element, combo) => {
+      if (combo !== '?') {
+        return false;
+      }
+
+      // stop for input, select and textarea
+      return element.tagName === 'INPUT'
+        || element.tagName === 'SELECT'
+        || element.tagName === 'TEXTAREA';
+    };
+
+
+    hotkeys.bind(['f1', '?'], (e) => {
       e.preventDefault();
       showKeyboardHelpDialog();
     });

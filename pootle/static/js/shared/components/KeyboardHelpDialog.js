@@ -22,7 +22,7 @@ export function showKeyboardHelpDialog() {
   showModal({
     title:
       <span>
-        Keyboard Help (press <kbd>F1</kbd> to open;
+        Keyboard Help (press <kbd>F1</kbd> or <kbd>?</kbd> to open;
         press <kbd>Esc</kbd> to close)
       </span>,
     children: <HelpDialogContent />,

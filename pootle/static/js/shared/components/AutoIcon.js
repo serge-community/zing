@@ -12,7 +12,7 @@ import React from 'react';
 
 import crc16 from '../utils/crc16'; // use relative path, otherwise tests will fail
 
-export function calcAbbreviation(title, length) {
+function calcAbbreviation(title, length) {
   const regexA = /\b[A-Z]/g;
   const regexB = /\b[\w]/g;
 
@@ -36,7 +36,7 @@ export function calcAbbreviation(title, length) {
   return title.substr(0, length).toUpperCase();
 }
 
-export function calcHue(title) {
+function calcHue(title) {
   return crc16(title) % 360;
 }
 

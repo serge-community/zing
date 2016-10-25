@@ -10,6 +10,16 @@ Zing Changelog
   * Upload/download of user files.
   * Virtual folders.
   * VCS/FS support.
+* Added Mac-aware keyboard shortcuts and popup keyboard help
+* UI Redesign, which includes:
+  * New project name, logo, icons
+  * updated Welcome page, user profile page
+  * Updated, more compact header
+  * Footer is no more
+  * Avatars show initials if Gravatar image is not available
+  * Updated dialog and button styles
+* Improved the way data is provided to, and rendered on, a browser page;
+  this speeds up page rendering, especially on large tables
 
 
 Pre 0.1.0

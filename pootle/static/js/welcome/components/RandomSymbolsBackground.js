@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import './RandomSymbolsBackground.css';
 
@@ -42,8 +41,9 @@ class RandomSymbolsBackground extends React.Component {
     return false;
   }
 
-  componentDidMount() {
-    const container = ReactDOM.findDOMNode(this);
+  render() {
+    const items = [];
+
     const maxSymIdx = symbols.length - 1;
     for (let i = 0; i < numChars; i ++) {
       const char = symbols.charAt(Math.round(Math.random() * maxSymIdx));
@@ -55,21 +55,21 @@ class RandomSymbolsBackground extends React.Component {
       const opacity = (depth * opacityVariation + minOpacity);
       const blur = Math.round((1 - depth) * blurVariation) + minBlur;
 
-      const el = document.createElement('i');
-      el.innerText = char;
-      el.className = `c${color}`;
-      el.style.left = `${left}%`;
-      el.style.top = `${top}%`;
-      el.style.fontSize = `${fontSize}px`;
-      el.style.opacity = opacity;
-      el.style.webkitFilter = `blur(${blur}px)`;
-      container.appendChild(el);
-    }
-  }
+      const style = {
+        left: `${left}%`,
+        top: `${top}%`,
+        fontSize: `${fontSize}px`,
+        opacity,
+        WebkitFilter: `blur(${blur}px)`,
+      };
 
-  render() {
+      items.push(<i key={i} className={`c${color}`} style={style}>{char}</i>);
+    }
+
     return (
-      <div className="RandomSymbolsBackground" />
+      <div className="RandomSymbolsBackground">
+        ${items}
+      </div>
     );
   }
 

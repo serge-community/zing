@@ -1515,9 +1515,15 @@ PTL.editor = {
   },
 
   /* Pushes translation submissions and moves to the next unit */
-  handleSubmit(comment = '') {
+  handleSubmit({ translation = null, comment = '' } = {}) {
     const el = q('input.submit');
-    const newTranslation = ReactEditor.stateValues[0];
+    let valueStateData = {};
+    if (translation !== null) {
+      valueStateData[getAreaId(0)] = translation;
+    } else {
+      valueStateData = this.getValueStateData();
+    }
+    const newTranslation = valueStateData[0];
     const suggestions = $('.js-user-suggestion').map(function getSuggestions() {
       return {
         text: this.dataset.translationAid,
@@ -1556,7 +1562,7 @@ PTL.editor = {
       this.checkSimilarTranslations();
     }
 
-    const body = assign({}, this.getCheckedStateData(), this.getValueStateData(),
+    const body = assign({}, this.getCheckedStateData(), valueStateData,
                         this.getReqData(), this.getSimilarityData(),
                         captchaCallbacks);
 
@@ -2178,10 +2184,9 @@ PTL.editor = {
     suggId, { requestData = {}, isSuggestionChanged = false } = {}
   ) {
     if (isSuggestionChanged) {
-      const area = q('.js-translation-area');
-      area.value = decodeEntities(requestData.translation);
       this.undoFuzzyBox();
-      this.handleSubmit(requestData.comment);
+      ReactEditor.setValueFor(0, requestData.translation);
+      this.handleSubmit(requestData);
     } else {
       this.acceptSuggestion(suggId, { requestData });
     }

@@ -23,23 +23,21 @@ class RandomMessage extends React.Component {
     return false;
   }
 
-  componentWillMount() {
+  render() {
     const idx = Math.round(Math.random() * (this.props.items.length - 1));
-    const item = this.props.items[idx];
-    this.item = Array.isArray(item) ? {
+    let item = this.props.items[idx];
+    item = Array.isArray(item) ? {
       message: item[0],
       lang: item[1],
     } : {
       message: item,
     };
-  }
 
-  render() {
     return (
       <span
         className="RandomMessage"
-        lang={this.item.lang}
-      >{this.item.message}</span>
+        lang={item.lang}
+      >{item.message}</span>
     );
   }
 

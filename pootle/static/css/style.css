@@ -1867,11 +1867,20 @@ html[dir="rtl"] #tabs li
     border-radius: 3px;
 }
 
-#search-form.is-disabled,
+#search-form.is-disabled
+{
+    opacity: 0.8;
+}
+
 #search-form.is-disabled input[type="text"]
 {
-    background-color: #eee;
     font-style: italic;
+}
+
+#search-form.is-disabled .btn-search
+{
+    opacity: 0.5;
+    pointer-events: none;
 }
 
 #search-form.focused .search-wrapper

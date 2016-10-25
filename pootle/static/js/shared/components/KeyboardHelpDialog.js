@@ -11,14 +11,8 @@ import { showModal } from './Modal';
 
 import './KeyboardHelpDialog.css';
 
-let keyboardHelpOpen = false;
 
 export function showKeyboardHelpDialog() {
-  if (keyboardHelpOpen) {
-    return;
-  }
-
-  keyboardHelpOpen = true;
   showModal({
     title:
       <span>
@@ -27,9 +21,9 @@ export function showKeyboardHelpDialog() {
       </span>,
     children: <HelpDialogContent />,
     className: 'KeyboardHelpDialog',
-    onClose: () => { keyboardHelpOpen = false; },
   });
 }
+
 
 const HelpDialogContent = React.createClass({
 

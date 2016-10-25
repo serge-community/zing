@@ -21,13 +21,10 @@ export function showModal(props) {
   return ReactDOM.render(
     <Modal
       {...props}
-      onClose={ () => {
+      onClose={() => {
         ReactDOM.unmountComponentAtNode(div);
         document.body.removeChild(div);
-        if ('onClose' in props) {
-          props.onClose();
-        }
-      } }
+      }}
     />,
     div
   );

@@ -6,7 +6,7 @@
  * AUTHORS file for copyright and authorship information.
  */
 
-import _ from 'underscore';
+import assign from 'object-assign';
 
 import React from 'react';
 
@@ -56,7 +56,7 @@ class AutoIcon extends React.Component {
   constructor(props) {
     super();
 
-    this.state = _.extend({
+    this.state = assign({
       saturation: 100,
       lightness: 30,
       abbreviationLength: 2,

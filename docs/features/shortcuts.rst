@@ -4,51 +4,52 @@ Keyboard shortcuts
 ******************
 
 
-.. _shortcuts#editing:
+.. _shortcuts#global:
 
-Editing
+Global
+------
+
++---------------------------+-----------------------------+-----------------------------+
+| Action                    | Windows / Linux             | macOS                       |
++===========================+=============================+=============================+
+| Open keyboard help dialog | :kbd:`F1`                   | :kbd:`F1`                   |
++---------------------------+-----------------------------+-----------------------------+
+| Close any popup dialog    | :kbd:`Esc`                  | :kbd:`Esc`                  |
++---------------------------+-----------------------------+-----------------------------+
+
+
+.. _shortcuts#editor:
+
+Editor
 -------
 
-+---------------------------+-------------------------+----------------------+
-| Action                    | Current shortcut        | Proposed shortcut    |
-+===========================+=========================+======================+
-| Submit and move to next   | :kbd:`Ctrl+Enter`       |                      |
-| translation               |                         |                      |
-+---------------------------+-------------------------+----------------------+
-| Toggle the 'Needs work'   | :kbd:`Ctrl+Space`       |                      |
-| flag                      |                         |                      |
-+---------------------------+-------------------------+----------------------+
-| Toggle the suggest/submit | :kbd:`Ctrl+Shift+Space` |                      |
-| mode                      |                         |                      |
-+---------------------------+-------------------------+----------------------+
-| Copy the contents from    |                         | :kbd:`Alt+Down`      |
-| the original language     |                         |                      |
-+---------------------------+-------------------------+----------------------+
-| Focus on comments field   |                         | :kbd:`Ctrl+Shift+C`  |
-+---------------------------+-------------------------+----------------------+
-
-
-.. _shortcuts#navigation:
-
-Navigation
-----------
-
 +---------------------------+-----------------------------+-----------------------------+
-| Action                    | Shortcut                    | Alternative Shortcut        |
+| Action                    | Windows / Linux             | macOS                       |
 +===========================+=============================+=============================+
-| Move to previous string   | :kbd:`Ctrl+Up`              | :kbd:`Ctrl+,`               |
+| Go to previous unit       | :kbd:`Ctrl+Up` or           | :kbd:`Option+Up` or         |
+|                           | :kbd:`Ctrl+,`               | :kbd:`Ctrl+,`               |
 +---------------------------+-----------------------------+-----------------------------+
-| Move to next string       | :kbd:`Ctrl+Down`            | :kbd:`Ctrl+.`               |
+| Go to next unit           | :kbd:`Ctrl+Down` or         | :kbd:`Option+Down` or       |
+|                           | :kbd:`Ctrl+.`               | :kbd:`Ctrl+.`               |
 +---------------------------+-----------------------------+-----------------------------+
-| Move to the first string  | :kbd:`Ctrl+Shift+Home`      |                             |
+| Submit/suggest +          | :kbd:`Ctrl+Enter`           | :kbd:`Option+Enter`         |
+| go to next unit           |                             |                             |
 +---------------------------+-----------------------------+-----------------------------+
-| Move to the last string   | :kbd:`Ctrl+Shift+End`       |                             |
+| Toggle submit/suggest     | :kbd:`Ctrl+Shift+Space`     | :kbd:`Option+Shift+Space`   |
+| mode                      |                             |                             |
 +---------------------------+-----------------------------+-----------------------------+
-| Move up 10 strings        | :kbd:`Ctrl+Shift+Page Up`   | :kbd:`Ctrl+Shift+,`         |
+| Toggle "Needs work" flag  | :kbd:`Ctrl+/` or            | :kbd:`Option+/` or          |
+|                           | :kbd:`Ctrl+Space`           | :kbd:`Ctrl+Space`           |
 +---------------------------+-----------------------------+-----------------------------+
-| Move down 10 strings      | :kbd:`Ctrl+Shift+Page Down` | :kbd:`Ctrl+Shift+.`         |
+
+
+.. _shortcuts#general:
+
+General
+-------
 +---------------------------+-----------------------------+-----------------------------+
-| Select search box         | :kbd:`Ctrl+Shift+S`         |                             |
-+---------------------------+-----------------------------+-----------------------------+
-| Select page number        | :kbd:`Ctrl+Shift+N`         |                             |
+| Action                    | Windows / Linux             | macOS                       |
++===========================+=============================+=============================+
+| Search (focus in search   | :kbd:`Ctrl+Shift+S` or      | :kbd:`Option+Shift+S` or    |
+| box)                      | :kbd:`Ctrl+,``              | :kbd:`Ctrl+,``              |
 +---------------------------+-----------------------------+-----------------------------+

@@ -8,19 +8,19 @@
 
 import React from 'react';
 import { showModal } from './Modal';
+import { t, tct } from 'utils/i18n';
 
 import './AboutDialog.css';
 
 export function showAboutDialog() {
   showModal({
-    title: 'About this translation server...',
+    title: t('About this translation server...'),
     children: <AboutDialogContent />,
     className: 'about-dialog-component',
   });
 }
 
 const AboutDialogContent = React.createClass({
-
   render() {
     return (
       <div>
@@ -31,22 +31,24 @@ const AboutDialogContent = React.createClass({
           <h1>Zing</h1>
 
           <p>
-            This server is powered by <strong>Zing</strong> —
-            online translation software developed by
-            {' '}<a href="https://evernote.com/">Evernote</a>{' '}
-            and based on open-source
-            {' '}<a href="http://pootle.translatehouse.org/">Pootle</a>{' '}
-            project.
+            {tct('This server is powered by %(zing)s — ' +
+            'online translation software developed by %(evernoteLink)s ' +
+            'and based on open-source %(pootleLink)s project.', {
+              zing: <strong>Zing</strong>,
+              evernoteLink: <a href="https://evernote.com/">Evernote</a>,
+              pootleLink: <a href="http://pootle.translatehouse.org/">Pootle</a>,
+            })}
           </p>
 
           <p>
-            Source code and bug tracker:
-            {' '}<a href="https://github.com/evernote/zing">Github</a>
+            {tct('Source code and bug tracker: %(githubLink)s', {
+              githubLink: <a href="https://github.com/evernote/zing">GitHub</a>,
+            })}
           </p>
 
           <p className="copyright">
-            © 2016 Pootle Contributors<br />
-            © 2016 Zing Contributors
+            {t('© 2016 Pootle Contributors')}<br />
+            {tct('© %(year)s Zing Contributors', { year: 2016 })}
           </p>
         </div>
       </div>

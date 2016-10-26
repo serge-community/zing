@@ -8,6 +8,8 @@
 
 import React from 'react';
 
+import { t } from 'utils/i18n';
+
 const ProgressBar = React.createClass({
   propTypes: {
     total: React.PropTypes.number,
@@ -29,28 +31,36 @@ const ProgressBar = React.createClass({
     const pFuzzyNumber = total > 0 ? Math.round(fuzzy / total * 100) : 0;
     const pUntransNumber = 100 - pTransNumber - pFuzzyNumber;
 
-    let title = '';
+    const titleParts = [];
     if (pTransNumber > 0) {
-      title = `${title}
-        <span class="legend translated"></span>
-        <span class="value translated">${pTransNumber}%</span> translated<br/>
-      `;
+      titleParts.push(
+        t('%(percent)s translated', {
+          percent: '<span class="legend translated"></span>' +
+            `<span class="value translated">${pTransNumber}%</span>`,
+        })
+      );
     }
+
     if (pFuzzyNumber > 0) {
-      title = `${title}
-        <span class="legend fuzzy"></span>
-        <span class="value fuzzy">${pFuzzyNumber}%</span> needs work<br/>
-      `;
+      titleParts.push(
+        t('%(percent)s needs work', {
+          percent: '<span class="legend fuzzy"></span>' +
+            `<span class="value fuzzy">${pFuzzyNumber}%</span>`,
+        })
+      );
     }
+
     if (pUntransNumber > 0) {
-      title = `${title}
-        <span class="legend untranslated"></span>
-        <span class="value untranslated">${pUntransNumber}%</span> untranslated
-      `;
+      titleParts.push(
+        t('%(percent)s untranslated', {
+          percent: '<span class="legend untranslated"></span>' +
+            `<span class="value untranslated">${pUntransNumber}%</span>`,
+        })
+      );
     }
 
     return (
-      <table className="graph" title={title}>
+      <table className="graph" title={titleParts.join('<br />')}>
         <tbody>
         <tr>
         {pTransNumber > 0 &&

@@ -6,12 +6,12 @@
  * AUTHORS file for copyright and authorship information.
  */
 
-.KeyboardHelpDialog td
+.keyboard-help-dialog-component td
 {
     padding: 0 1.5em 1em;
 }
 
-.KeyboardHelpDialog kbd
+.keyboard-help-dialog-component kbd
 {
     font-family: inherit;
     display: inline-block;
@@ -31,12 +31,12 @@
     text-shadow: 0 0.1em 0.01em rgba(255, 255, 255, 0.8);
 }
 
-.KeyboardHelpDialog td kbd
+.keyboard-help-dialog-component td kbd
 {
     margin: 0.2em 0.1em;
 }
 
-.KeyboardHelpDialog kbd.clover::before
+.keyboard-help-dialog-component kbd.clover::before
 {
     content: '⌘';
     font-size: 90%;
@@ -45,7 +45,7 @@
     top: 0.1em;
 }
 
-.KeyboardHelpDialog .or
+.keyboard-help-dialog-component .or
 {
     color: #999;
     position: relative;
@@ -54,14 +54,14 @@
     margin-bottom: -0.8em;
 }
 
-.KeyboardHelpDialog div.heading
+.keyboard-help-dialog-component div.heading
 {
     background: #bfdde7;
     padding: 0.7em 1.5em 0.6em;
     position: relative;
 }
 
-.KeyboardHelpDialog button.mfp-close
+.keyboard-help-dialog-component button.mfp-close
 {
     background: none;
     border: none;
@@ -75,12 +75,12 @@
     right: 0;
 }
 
-.KeyboardHelpDialog div.column
+.keyboard-help-dialog-component div.column
 {
     display: table-cell;
 }
 
-.KeyboardHelpDialog div.section
+.keyboard-help-dialog-component div.section
 {
     font-weight: bold;
     margin-bottom: 1em;

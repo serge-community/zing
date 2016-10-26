@@ -26,7 +26,7 @@ export function showKeyboardHelpDialog() {
         press <kbd>Esc</kbd> to close)
       </span>,
     children: <HelpDialogContent />,
-    className: 'KeyboardHelpDialog',
+    className: 'keyboard-help-dialog-component',
     onClose: () => { keyboardHelpOpen = false; },
   });
 }

@@ -6,45 +6,45 @@
  * AUTHORS file for copyright and authorship information.
  */
 
-.AboutDialog
+.about-dialog-component
 {
     width: 700px;
     height: 400px;
 }
 
-.AboutDialog .sideColumn,
-.AboutDialog .mainContent
+.about-dialog-component .side-column,
+.about-dialog-component .main-content
 {
     display: inline-block;
     float: left;
 }
 
-html[dir="rtl"] .AboutDialog .sideColumn,
-html[dir="rtl"] .AboutDialog .mainContent
+html[dir="rtl"] .about-dialog-component .side-column,
+html[dir="rtl"] .about-dialog-component .main-content
 {
     float: right;
 }
 
-.AboutDialog .sideColumn
+.about-dialog-component .side-column
 {
     width: 280px;
     text-align: center;
     margin-right: 1em;
 }
 
-.AboutDialog .sideColumn > img
+.about-dialog-component .side-column > img
 {
     margin: 24px 0 67px;
     width: 124px;
     height: 124px;
 }
 
-.AboutDialog .mainContent
+.about-dialog-component .main-content
 {
     width: 340px;
 }
 
-.AboutDialog h1
+.about-dialog-component h1
 {
     margin-top: 60px;
     font-size: 50px;
@@ -52,7 +52,7 @@ html[dir="rtl"] .AboutDialog .mainContent
     color: #000;
 }
 
-.AboutDialog .copyright
+.about-dialog-component .copyright
 {
     margin-top: 2.5em;
     color: #999;

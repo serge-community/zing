@@ -35,7 +35,7 @@ class RandomMessage extends React.Component {
 
     return (
       <span
-        className="RandomMessage"
+        className="random-message-component"
         lang={item.lang}
       >{item.message}</span>
     );

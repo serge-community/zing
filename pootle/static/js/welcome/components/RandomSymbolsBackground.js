@@ -67,7 +67,7 @@ class RandomSymbolsBackground extends React.Component {
     }
 
     return (
-      <div className="RandomSymbolsBackground">
+      <div className="random-symbols-background-component">
         ${items}
       </div>
     );

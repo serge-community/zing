@@ -6,7 +6,7 @@
  * AUTHORS file for copyright and authorship information.
  */
 
-.RandomSymbolsBackground
+.random-symbols-background-component
 {
     position: relative;
     width: 100%;
@@ -15,29 +15,29 @@
     background-color: #303336;
 }
 
-.RandomSymbolsBackground i
+.random-symbols-background-component i
 {
     position: absolute;
     pointer-events: none;
     font-style: normal;
 }
 
-.RandomSymbolsBackground i.c0
+.random-symbols-background-component i.c0
 {
     color: #4c6094;
 }
 
-.RandomSymbolsBackground i.c1
+.random-symbols-background-component i.c1
 {
     color: #1374c4;
 }
 
-.RandomSymbolsBackground i.c2
+.random-symbols-background-component i.c2
 {
     color: #3c97cc;
 }
 
-.RandomSymbolsBackground i.c3
+.random-symbols-background-component i.c3
 {
     color: #58c9d1;
 }

@@ -15,7 +15,7 @@ export function showAboutDialog() {
   showModal({
     title: 'About this translation server...',
     children: <AboutDialogContent />,
-    className: 'AboutDialog',
+    className: 'about-dialog-component',
   });
 }
 
@@ -24,10 +24,10 @@ const AboutDialogContent = React.createClass({
   render() {
     return (
       <div>
-        <div className="sideColumn">
+        <div className="side-column">
           <img src="/static/images/logo.svg" />
         </div>
-        <div className="mainContent">
+        <div className="main-content">
           <h1>Zing</h1>
 
           <p>

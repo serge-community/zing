@@ -53,12 +53,12 @@
     color: #fff;
 }
 
-#welcome-page .RandomMessage:lang(th)
+#welcome-page .random-message-component:lang(th)
 {
     font-family: 'Leelawadee UI', sans-serif;
 }
 
-#welcome-page .RandomMessage:lang(zh)
+#welcome-page .random-message-component:lang(zh)
 {
     font-family: 'Microsoft YaHei', sans-serif;
 }

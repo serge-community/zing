@@ -22,27 +22,27 @@
     background-color: #444;
 }
 
-#profile-page #js-dynamic-background .RandomSymbolsBackground
+#profile-page #js-dynamic-background .random-symbols-background-component
 {
     background-color: #444;
 }
 
-#profile-page #js-dynamic-background .RandomSymbolsBackground i.c0
+#profile-page #js-dynamic-background .random-symbols-background-component i.c0
 {
     color: #555;
 }
 
-#profile-page #js-dynamic-background .RandomSymbolsBackground i.c1
+#profile-page #js-dynamic-background .random-symbols-background-component i.c1
 {
     color: #666;
 }
 
-#profile-page #js-dynamic-background .RandomSymbolsBackground i.c2
+#profile-page #js-dynamic-background .random-symbols-background-component i.c2
 {
     color: #777;
 }
 
-#profile-page #js-dynamic-background .RandomSymbolsBackground i.c3
+#profile-page #js-dynamic-background .random-symbols-background-component i.c3
 {
     color: #888;
 }

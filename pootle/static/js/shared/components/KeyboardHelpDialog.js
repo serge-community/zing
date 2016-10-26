@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { showModal } from './Modal';
+import { t, tct } from 'utils/i18n';
 
 import './KeyboardHelpDialog.css';
 
@@ -22,8 +23,12 @@ export function showKeyboardHelpDialog() {
   showModal({
     title:
       <span>
-        Keyboard Help (press <kbd>F1</kbd> or <kbd>?</kbd> to open;
-        press <kbd>Esc</kbd> to close)
+        {tct(`Keyboard Help (press %(kbdF1)s or %(kbdQuestion)s to open;
+        press %(kbdEsc)s to close)`, {
+          kbdF1: <kbd>F1</kbd>,
+          kbdQuestion: <kbd>?</kbd>,
+          kbdEsc: <kbd>Esc</kbd>,
+        })}
       </span>,
     children: <HelpDialogContent />,
     className: 'keyboard-help-dialog-component',
@@ -41,18 +46,18 @@ const HelpDialogContent = React.createClass({
     const shiftKey = <kbd>Shift</kbd>;
     const enterKey = <kbd>Enter</kbd>;
     const spaceKey = <kbd>Space</kbd>;
-    const or = <div className="or">or</div>;
+    const or = <div className="or">{t('or')}</div>;
 
     return (
       <div>
         <div className="column">
 
-          <div className="section">Editor</div>
+          <div className="section">{t('Editor')}</div>
 
           <table>
             <tbody>
             <tr>
-              <td>Previous unit</td>
+              <td>{t('Previous unit')}</td>
               <td>
                 {modKey}<kbd>&uarr;</kbd>
                 {or}
@@ -60,7 +65,7 @@ const HelpDialogContent = React.createClass({
               </td>
             </tr>
             <tr>
-              <td>Next unit</td>
+              <td>{t('Next unit')}</td>
               <td>
                 {modKey}<kbd>&darr;</kbd>
                 {or}
@@ -68,15 +73,15 @@ const HelpDialogContent = React.createClass({
               </td>
             </tr>
             <tr>
-              <td>Submit/suggest + go to next unit</td>
+              <td>{t('Submit/suggest + go to next unit')}</td>
               <td>{modKey}{enterKey}</td>
             </tr>
             <tr>
-              <td>Toggle submit/suggest mode</td>
+              <td>{t('Toggle submit/suggest mode')}</td>
               <td>{modKey}{shiftKey}{spaceKey}</td>
             </tr>
             <tr>
-              <td>Toggle "Needs work"</td>
+              <td>{t('Toggle "Needs work"')}</td>
               <td>
                 {modKey}<kbd>/</kbd>
                 {or}
@@ -89,12 +94,12 @@ const HelpDialogContent = React.createClass({
 
         <div className="column">
 
-          <div className="section">General:</div>
+          <div className="section">{t('General:')}</div>
 
           <table>
             <tbody>
               <tr>
-                <td>Search</td>
+                <td>{t('Search')}</td>
                 <td>
                   {modKey}{shiftKey}<kbd>S</kbd>
                   {or}

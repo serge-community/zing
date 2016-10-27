@@ -7,7 +7,7 @@
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from pootle.core.url_helpers import split_pootle_path, to_tp_relative_path
 from pootle.i18n.gettext import language_dir, tr_lang

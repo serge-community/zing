@@ -9,7 +9,7 @@
 
 import pytest
 
-from django.core.urlresolvers import reverse_lazy, reverse
+from django.urls import reverse_lazy, reverse
 
 from pootle_language.models import Language
 from pootle_project.models import Project

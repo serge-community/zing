@@ -10,10 +10,10 @@
 from functools import wraps
 
 from django.core.exceptions import PermissionDenied
-from django.core.urlresolvers import reverse
 from django.db import connection
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse
 
 from pootle.i18n.gettext import ugettext as _
 from pootle_app.models.directory import Directory

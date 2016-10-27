@@ -13,7 +13,7 @@ from collections import OrderedDict
 
 import pytest
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from pytest_pootle.utils import get_test_uids
 

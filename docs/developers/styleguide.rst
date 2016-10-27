@@ -228,19 +228,6 @@ For documenting several things, Pootle defines custom Sphinx roles.
 
   To link to a setting, use ``:setting:`POOTLE_TITLE```.
 
-- Icons::
-
-    Some reference to |icon:some-icon| in the text.
-
-  This allows you to easily add inline images of icons used in Pootle.
-  The icons are all files from :file:`pootle/static/images/sprite`.  If you
-  were referring to an icon :file:`icon-edit.png` then you would use the syntax
-  ``|icon:icon-edit|``.  The icon reference is always prefixed by ``icon:``
-  and the name of the icon is used without the extension.
-
-  E.g. ``|icon:icon-google-translate|`` will insert this
-  |icon:icon-google-translate| icon.
-
 - Pootle manage.py commands::
 
     .. django-admin:: sync_stores

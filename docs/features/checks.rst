@@ -17,16 +17,15 @@ Critical checks are prominently displayed through the browsing UI.
 
 .. image:: ../_static/critical_errors.png
 
-Any extra failing checks can be accessed by clicking the
-|icon:icon-expand-stats| button located below the navigation breadcrumbs.
-Clicking on the name of a check will step you through the translations that
-fail that check.
+Any extra failing checks can be accessed by clicking the 'Expand details'
+button located below the navigation breadcrumbs. Clicking on the name of
+a check will step you through the translations that fail that check.
 
 While in the translation editor, submissions resulting in critical failing
 checks will be immediately reported, preventing you from automatically
 continuing until the issues have been resolved or muted as false positives by
-using the mute |icon:icon-block| button. Non-critical checks flag potential
-problems but can be ignored or muted as needed.
+using the mute button. Non-critical checks flag potential problems but can be
+ignored or muted as needed.
 
 .. image:: ../_static/failing-checks.png
 
@@ -42,10 +41,10 @@ Muting Quality Checks
 ---------------------
 
 It is possible to mute the quality check if the translation is correct.
-Reviewers are able to remove the check for a certain string, by clicking on the
-|icon:icon-block| button, to indicate that the string is correctly translated.
-This avoids having to review the same check multiple times.  You can unmute any
-muted check using the |icon:icon-block-muted| button.
+Reviewers are able to ignore the check for a certain string, by clicking on the
+'Mute quality check' button next to the check name, to indicate that the string
+is correctly translated. This avoids having to review the same check multiple
+times. You can unmute any muted check clicking the same button again.
 
 If the source text of the translation is changed then the mute is discarded to
 ensure that the new translation is checked again for any possible issues.

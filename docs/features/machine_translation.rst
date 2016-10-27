@@ -20,8 +20,8 @@ Using Machine Translation
     as suggestion of a translation, but don't forget to review the
     suggestion given.
 
-If the server administrator has enabled machine translation then an icon
-|icon:icon-web-translate| will be displayed for each source text (English or
+If the server administrator has enabled machine translation then a MT
+translation icon will be displayed for each source text (English or
 alternative source language) next to the Copy button. Clicking the relevant
 buttons will retrieve translation suggestions from the online services and
 will mark the current string as fuzzy to indicate that review is required.
@@ -48,9 +48,8 @@ Available Machine Translation Services
 
 Supported Services:
 
-|icon:icon-google-translate| Google Translate
-
-|icon:icon-yandex-translate| Yandex.Translate
+    1. Google Translate
+    2. Yandex.Translate
 
 .. versionadded:: 2.7 Yandex.Translate
 

@@ -110,9 +110,9 @@ const Modal = React.createClass({
     );
     const closeBtn = (this.props.showClose &&
       <button
-        className="lightbox-close"
+        className="icon-close lightbox-close"
         onClick={this.handleClose}
-      >✕</button>
+      ></button>
     );
 
     return (

@@ -173,7 +173,7 @@
 #user-details .user-contact i
 {
     vertical-align: middle;
-    margin-right: 0.5em;
+    margin: 0 0.2em;
     position: relative;
     top: -2px;
 }
@@ -181,7 +181,7 @@
 #user-details .user-contact li
 {
     display: inline-block;
-    margin: 0 2em;
+    margin: 1em;
 }
 
 .user-contact + .user-bio

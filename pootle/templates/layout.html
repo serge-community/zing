@@ -116,7 +116,7 @@
               <li><a class="admin" href="{% url 'pootle-admin' %}">{% trans 'Admin' %}</a></li>
               {% endif %}
               <li class="menu-divider"></li>
-              <li><a href="{% url 'account_logout' %}">{% trans 'Sign out' %}</a></li>
+              <li><a href="{% url 'account_logout' %}"><i class="icon-exit"></i>{% trans 'Sign out' %}</a></li>
               <li class="menu-divider"></li>
               {% block nav_items_pre %}{% endblock %}
               {% if settings.POOTLE_CONTACT_ENABLED %}

@@ -19,7 +19,6 @@ exclude pootle/strings.py
 exclude pootle/static/js/strings.js
 exclude pootle/assets/js/strings.js
 exclude pootle/settings/*-local.conf
-prune pootle/static/images/sprite/
 prune pootle/static/js/node_modules/*
 global-exclude *~
 global-exclude *.pyc

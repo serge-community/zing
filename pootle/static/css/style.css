@@ -333,52 +333,11 @@ tt
 }
 
 
-/*
- * Icons
- */
-
-[class^="icon-"],
-[class*=" icon-"]
-{
-    background-repeat: no-repeat;
-    display: inline-block;
-    line-height: 16px;
-    width: 16px;
-    height: 16px;
-    vertical-align: text-top;
-}
-
-ul.icons
-{
-    list-style-type: none;
-    margin-left: 20px;
-    text-indent: -20px;
-}
-
-html[dir="rtl"] ul.icons
-{
-    margin-right: 20px;
-    margin-left: auto;
-}
-
-.icon-external-link
-{
-    margin-top: 3px;
-    margin-left: 0.3em;
-}
-
-.icon-asc,
-.icon-desc,
-.icon-ascdesc
-{
-    vertical-align: middle;
-}
-
 /* Go to parent */
 
 .browser-parent
 {
-    margin: 1.5em 1em 1em;
+    margin: 1.5em 1em 1em 1.5em;
 }
 
 .browser-parent i
@@ -713,7 +672,7 @@ button.close
 
 #autorefresh-notice
 {
-    margin: 0.9em auto 0;
+    margin: 10px auto 0;
     opacity: 0;
     position: absolute;
     left: 0;
@@ -742,16 +701,21 @@ html[dir="rtl"] #autorefresh-notice span
 #autorefresh-notice .x
 {
     margin-left: 1em;
-    font-size: 1.5em;
     position: absolute;
-    top: -0.2em;
-    color: rgba(0, 0, 0, 0.4);
+    top: 1px;
+    color: #000;
+    opacity: 0.4;
 }
 
 html[dir="rtl"] #autorefresh-notice .x
 {
     margin-left: auto;
     margin-right: 1em;
+}
+
+#autorefresh-notice .x:hover
+{
+    opacity: 0.8;
 }
 
 #autorefresh-notice.dirty span
@@ -1402,10 +1366,13 @@ span.legend.fuzzy
 
 .browser-table-component th label::after
 {
-    content: '▲';
+    font-family: ZingIcons;
+    content: 'K'; /* up */
     margin: 0 0.5em;
     opacity: 0;
-    font-size: 90%;
+    font-size: 13px;
+    position: relative;
+    top: 3px;
 }
 
 .browser-table-component th label:hover::after,
@@ -1417,7 +1384,7 @@ span.legend.fuzzy
 
 .browser-table-component th label.reverse::after
 {
-    content: '▼';
+    content: 'J'; /* down */
 }
 
 .browser-table-component th label.normal,
@@ -1447,6 +1414,9 @@ span.legend.fuzzy
 .browser-table-component td.stats-name i
 {
     margin-right: 0.3em;
+    position: relative;
+    top: -0.2em;
+    color: rgba(0, 0, 0, 0.3);
 }
 
 .browser-table-component td.stats-number
@@ -1572,6 +1542,13 @@ html[dir="rtl"] ul.pager li:last-child > *
     top: -4px;
     left: -11px;
     z-index: 1;
+    opacity: 0.3;
+}
+
+.icon-collapse-stats:hover,
+.icon-expand-stats:hover
+{
+    opacity: 0.5;
 }
 
 #progressbar

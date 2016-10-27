@@ -4,9 +4,6 @@ DOCS_DIR = ${CWD}/docs
 STATIC_DIR = ${SRC_DIR}/static
 ASSETS_DIR = $(shell python -c "from pootle.settings import *; print(STATIC_ROOT)")
 JS_DIR = ${STATIC_DIR}/js
-CSS_DIR = ${STATIC_DIR}/css
-IMAGES_DIR = ${STATIC_DIR}/images
-SPRITE_DIR = ${IMAGES_DIR}/sprite
 FORMATS=--formats=bztar
 TEST_ENV_NAME = pootle_test_env
 
@@ -59,10 +56,6 @@ docs:
 	# The following creates the HTML docs.
 	# NOTE: cd and make must be in the same line.
 	cd ${DOCS_DIR}; make SPHINXOPTS="-W -q -j 4" html ${TAIL}
-
-sprite:
-	glue --sprite-namespace="" --namespace="" --cachebuster ${SPRITE_DIR} --css=${CSS_DIR} --img=${IMAGES_DIR}
-	optipng -o7 ${IMAGES_DIR}/sprite*.png
 
 clean:
 	npm cache clear

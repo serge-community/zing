@@ -335,6 +335,17 @@ html[dir="rtl"] #nav-main > li
     box-sizing: border-box;
 }
 
+#nav-main li i
+{
+    line-height: 35px;
+    float: right;
+}
+
+html[dir="rtl"] #nav-main li i
+{
+    float: left;
+}
+
 #nav-main li a:hover,
 #nav-main li a:active,
 #nav-main li a:focus
@@ -474,11 +485,10 @@ html[dir="rtl"] #nav-access
 
 #menu-toggle::after
 {
-    content: "";
-    display: inline-block;
-    background: url('../images/menu_white.png');
-    width: 23px;
-    height: 15px;
+    content: "W";
+    font-family: ZingIcons, sans-serif;
+    font-size: 24px;
+    line-height: 24px;
     vertical-align: middle;
 }
 

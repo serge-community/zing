@@ -70,7 +70,7 @@ css_common = Bundle(
     'css/popup.css',
     'css/react-select.css',
     'css/tipsy.css',
-    'css/sprite.css',
+    'css/zing-icons.css',
     'css/select2.css',
     'css/select2-pootle.css',
     'css/scores.css',

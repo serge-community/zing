@@ -82,18 +82,18 @@
     margin: 5em auto 3em;
 }
 
-#welcome-page .section
+#welcome-page #content .section
 {
     margin: 2em 0;
 }
 
-#welcome-page .columns
+#welcome-page #content .columns
 {
     text-align: center;
     margin: 2em 0;
 }
 
-#welcome-page .columns-inner
+#welcome-page #content .columns-inner
 {
     display: inline-block;
     text-align: left;
@@ -102,20 +102,20 @@
 
 @media only screen and (max-width: 960px)
 {
-    #welcome-page .columns-inner
+    #welcome-page #content .columns-inner
     {
         width: auto;
     }
 }
 
-#welcome-page .column
+#welcome-page #content .column
 {
     width: 400px;
 }
 
 @media only screen and (max-width: 480px)
 {
-    #welcome-page .column
+    #welcome-page #content .column
     {
         width: 280px;
     }
@@ -126,39 +126,39 @@
     }
 }
 
-#welcome-page .column.center
+#welcome-page #content .column.center
 {
     margin: 0 auto;
 }
 
-#welcome-page .column.left,
-#welcome-page .column.right
+#welcome-page #content .column.left,
+#welcome-page #content .column.right
 {
     float: left;
 }
 
-#welcome-page .column.right
+#welcome-page #content .column.right
 {
     float: right;
 }
 
-.column.center h1
+#welcome-page #content .column.center h1
 {
     text-align: center;
 }
 
-#welcome-page .section h1
+#welcome-page #content .section h1
 {
     color: #5a8295;
     margin: 1em 0;
 }
 
-#welcome-page .section p
+#welcome-page #content .section p
 {
     margin: 0.7em 0;
 }
 
-#welcome-page .section .btn
+#welcome-page #content .section .btn
 {
     width: 4em;
 }

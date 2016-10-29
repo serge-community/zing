@@ -23,7 +23,7 @@ export function showKeyboardHelpDialog() {
   showModal({
     title:
       <span>
-        {tct(`Keyboard Help (press %(kbdF1)s or %(kbdQuestion)s to open it again)`, {
+        {tct('Keyboard Help (press %(kbdF1)s or %(kbdQuestion)s to open it again)', {
           kbdF1: <kbd>F1</kbd>,
           kbdQuestion: <kbd>?</kbd>,
         })}

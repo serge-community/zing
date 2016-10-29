@@ -23,11 +23,9 @@ export function showKeyboardHelpDialog() {
   showModal({
     title:
       <span>
-        {tct(`Keyboard Help (press %(kbdF1)s or %(kbdQuestion)s to open;
-        press %(kbdEsc)s to close)`, {
+        {tct(`Keyboard Help (press %(kbdF1)s or %(kbdQuestion)s to open it again)`, {
           kbdF1: <kbd>F1</kbd>,
           kbdQuestion: <kbd>?</kbd>,
-          kbdEsc: <kbd>Esc</kbd>,
         })}
       </span>,
     children: <HelpDialogContent />,
@@ -98,6 +96,12 @@ const HelpDialogContent = React.createClass({
 
           <table>
             <tbody>
+              <tr>
+                <td>{t('Close any dialog')}</td>
+                <td>
+                  <kbd>Esc</kbd>
+                </td>
+              </tr>
               <tr>
                 <td>{t('Search')}</td>
                 <td>

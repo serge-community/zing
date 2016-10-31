@@ -153,11 +153,10 @@ function handleBeforeNavDropDownResourceSelect(e) {
 function handleSelectClose(e) {
   const $select = $(e.target);
 
-  /* The code below may look strange, but this trick
-     makes Select2 properly display the placeholder;
-     otherwise, when selecting an option with an
-     empty value, Select2 will display this option
-     as a regular value, and with regular styling */
+  // The code below may look strange, but this trick makes Select2 properly
+  // display the placeholder; otherwise, when selecting an option with an empty
+  // value, Select2 will display this option as a regular value, and with
+  // regular styling.
   if ($select.val() === '') {
     $select.select2('val', '');
   }

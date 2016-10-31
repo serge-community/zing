@@ -92,7 +92,7 @@ const HelpDialogContent = React.createClass({
 
         <div className="column">
 
-          <div className="section">{t('General:')}</div>
+          <div className="section">{t('General')}</div>
 
           <table>
             <tbody>

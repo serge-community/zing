@@ -163,25 +163,6 @@ function handleSelectClose(e) {
 }
 
 
-/* Converts the elements matched by `selector` into selectable inputs.
- *
- * `onChange` function will be fired when the select choice changes.
- */
-function makeSelectableInput(selector, options, onChange, onSelecting) {
-  // XXX: Check if this works with multiple selects per page
-  const $el = $(selector);
-
-  if (!$el.length) {
-    return;
-  }
-
-  $el.select2(options);
-
-  $el.on('change', onChange);
-  $el.on('select2-selecting', onSelecting);
-}
-
-
 function makeNavDropdown(selector, opts, handleSelectClick, handleBeforeSelect) {
   const defaults = {
     allowClear: true,
@@ -191,14 +172,16 @@ function makeNavDropdown(selector, opts, handleSelectClick, handleBeforeSelect) 
   };
   const options = $.extend({}, defaults, opts);
 
-  makeSelectableInput(
-    selector,
-    options,
-    handleSelectClick,
-    handleBeforeSelect
-  );
+  const $el = $(selector);
 
-  $(selector).on('select2-close', (e) => handleSelectClose(e));
+  if (!$el.length) {
+    return;
+  }
+  $el.select2(options);
+
+  $el.on('change', handleSelectClick);
+  $el.on('select2-selecting', handleBeforeSelect);
+  $el.on('select2-close', (e) => handleSelectClose(e));
 }
 
 

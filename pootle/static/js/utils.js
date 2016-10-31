@@ -8,8 +8,6 @@
 
 import $ from 'jquery';
 
-import 'jquery-select2';
-
 import { qAll } from 'utils/dom';
 
 import {
@@ -168,25 +166,6 @@ export function highlightRWNodes(selector) {
 }
 
 
-/* Converts the elements matched by `selector` into selectable inputs.
- *
- * `onChange` function will be fired when the select choice changes.
- */
-export function makeSelectableInput(selector, options, onChange, onSelecting) {
-  // XXX: Check if this works with multiple selects per page
-  const $el = $(selector);
-
-  if (!$el.length) {
-    return;
-  }
-
-  $el.select2(options);
-
-  $el.on('change', onChange);
-  $el.on('select2-selecting', onSelecting);
-}
-
-
 export function executeFunctionByName(functionName, ctx, ...args) {
   const namespaces = functionName.split('.');
   const func = namespaces.pop();
@@ -217,7 +196,6 @@ export default {
   highlightRWNodes,
   getHash,
   getParsedHash,
-  makeSelectableInput,
   strCmp,
   updateHashPart,
 };

@@ -163,7 +163,7 @@ function handleSelectClose(e) {
 }
 
 
-function makeNavDropdown(selector, opts, handleSelectClick, handleBeforeSelect) {
+function makeNavDropdown(selector, opts, handleBeforeSelect) {
   const defaults = {
     allowClear: true,
     dropdownAutoWidth: true,
@@ -179,7 +179,7 @@ function makeNavDropdown(selector, opts, handleSelectClick, handleBeforeSelect) 
   }
   $el.select2(options);
 
-  $el.on('change', handleSelectClick);
+  $el.on('change', handleNavDropDownSelectClick);
   $el.on('select2-selecting', handleBeforeSelect);
   $el.on('select2-close', (e) => handleSelectClose(e));
 }
@@ -255,20 +255,20 @@ const browser = {
 
     makeNavDropdown(sel.navigation, {
       minimumResultsForSearch: -1,
-    }, handleNavDropDownSelectClick);
+    });
     makeNavDropdown(sel.language, {
       placeholder: gettext('All Languages'),
       formatResult: formatLanguage,
-    }, handleNavDropDownSelectClick);
+    });
     makeNavDropdown(sel.project, {
       placeholder: gettext('All Projects'),
       formatResult: formatProject,
-    }, handleNavDropDownSelectClick);
+    });
     makeNavDropdown(sel.resource, {
       placeholder: gettext('Entire Project'),
       formatResult: formatResource,
       sortResults: removeCtxEntries,
-    }, handleNavDropDownSelectClick, handleBeforeNavDropDownResourceSelect);
+    }, handleBeforeNavDropDownResourceSelect);
   },
 
 };

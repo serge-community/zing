@@ -26,7 +26,7 @@
   <select id="js-select-project" data-initial-code="{{ project.code }}"
     style="visibility: hidden;">
     <option value=""></option>
-    <option value="" class="default">{%  trans "All Projects" %}</option>
+    <option value="" class="default">{% trans "All Projects" %}</option>
     <option disabled></option>
     {% for proj_code, proj in ALL_PROJECTS.items %}
     <option

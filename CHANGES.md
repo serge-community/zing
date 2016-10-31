@@ -10,6 +10,7 @@ Zing Changelog
   * Upload/download of user files.
   * Virtual folders.
   * VCS/FS support.
+  * Adding languages to projects via the admin UI.
 * Added Mac-aware keyboard shortcuts and popup keyboard help
 * UI Redesign, which includes:
   * New project name, logo, icons

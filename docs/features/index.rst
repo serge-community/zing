@@ -14,7 +14,6 @@ Backends and storage
 
    formats
    statistics
-   templates
 
 
 .. _features#editor:

@@ -21,7 +21,7 @@ from django.utils.functional import cached_property
 from pootle.core.mixins import CachedMethods, CachedTreeItem
 from pootle.core.url_helpers import get_editor_filter, split_pootle_path
 from pootle_app.models.directory import Directory
-from pootle_app.project_tree import (does_not_exist, init_store_from_template,
+from pootle_app.project_tree import (does_not_exist,
                                      translation_project_dir_exists)
 from pootle_format.models import Format
 from pootle_language.models import Language
@@ -306,35 +306,6 @@ class TranslationProject(models.Model, CachedTreeItem):
             return True
 
         return self.project.code in Project.accessible_by_user(user)
-
-    def can_be_inited_from_templates(self):
-        """Returns `True` if the current translation project hasn't been
-        saved yet and can be initialized from templates.
-        """
-
-        # This method checks if the current translation project directory
-        # doesn't exist. So it won't work if the translation project is already
-        # saved the database because the translation project directory is
-        # auto-created in `save()` method.
-        template_tp = self.project.get_template_translationproject()
-        return (
-            not self.is_template_project
-            and template_tp is not None
-            and not translation_project_dir_exists(self.language,
-                                                   self.project))
-
-    def init_from_templates(self):
-        """Initializes the current translation project files using
-        the templates TP ones.
-        """
-
-        template_tp = self.project.get_template_translationproject()
-        template_stores = template_tp.stores.live().exclude(file="")
-
-        for template_store in template_stores.iterator():
-            init_store_from_template(self, template_store)
-
-        self.update_from_disk()
 
     def update_from_disk(self, force=False, overwrite=False):
         """Update all stores to reflect state on disk."""

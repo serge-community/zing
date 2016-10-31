@@ -23,11 +23,6 @@
 {% if user.is_superuser or request.permissions.administrate %}
 <option disabled></option>
 <option
-  value="admin-languages" class="admin"
-  data-href="{% url 'pootle-project-admin-languages' project.code %}">
-  {% trans "Languages" %}
-</option>
-<option
   value="admin-permissions" class="admin"
   data-href="{% url 'pootle-project-admin-permissions' project.code %}">
   {% trans "Permissions" %}

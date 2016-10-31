@@ -8,7 +8,6 @@
 # AUTHORS file for copyright and authorship information.
 
 from django import forms
-from django.core.validators import EMPTY_VALUES
 from django.forms.models import ModelChoiceIterator
 from django.utils.translation import ugettext_lazy as _
 
@@ -46,25 +45,6 @@ class GroupedModelChoiceField(forms.ModelChoiceField):
             return self._choices
         return GroupedModelChoiceIterator(self)
     choices = property(_get_choices, forms.ModelChoiceField._set_choices)
-
-
-class LiberalModelChoiceField(forms.ModelChoiceField):
-    """ModelChoiceField that doesn't complain about choices not present in the
-    queryset.
-
-    This is essentially a hack for admin pages. to be able to exclude currently
-    used choices from dropdowns without failing validation.
-    """
-
-    def clean(self, value):
-        if value in EMPTY_VALUES:
-            return None
-        try:
-            key = self.to_field_name or 'pk'
-            value = self.queryset.model.objects.get(**{key: value})
-        except self.queryset.model.DoesNotExist:
-            raise forms.ValidationError(self.error_messages['invalid_choice'])
-        return value
 
 
 def make_search_form(*args, **kwargs):

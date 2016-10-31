@@ -45,36 +45,6 @@ def test_tp_create_fail(po_directory, tutorial, english):
 
 
 @pytest.mark.django_db
-def test_tp_create_templates(project0_nongnu, project0,
-                             templates, complex_ttk):
-    # As there is a tutorial template it will automatically create stores for
-    # our new TP
-    template_tp = TranslationProject.objects.create(
-        language=templates, project=project0)
-    template = Store.objects.create(
-        name="foo.pot",
-        translation_project=template_tp,
-        parent=template_tp.directory)
-    project0.treestyle = "nongnu"
-    project0.save()
-    template.update(complex_ttk)
-    template.sync()
-    tp = TranslationProject.objects.create(
-        project=project0, language=LanguageDBFactory())
-    tp.init_from_templates()
-    assert tp.stores.count() == template_tp.stores.count()
-    assert (
-        [(s, t)
-         for s, t
-         in template_tp.stores.first().units.values_list("source_f",
-                                                         "target_f")]
-        == [(s, t)
-            for s, t
-            in tp.stores.first().units.values_list("source_f",
-                                                   "target_f")])
-
-
-@pytest.mark.django_db
 def test_tp_create_with_files(project0_directory, project0, store0, settings):
     # lets add some files by hand
 
@@ -87,64 +57,6 @@ def test_tp_create_with_files(project0_directory, project0, store0, settings):
         f.write(store0.serialize())
 
     TranslationProject.objects.create(project=project0, language=language)
-
-
-@pytest.mark.django_db
-def test_tp_empty_stats(project0_nongnu, project0, templates):
-    """Tests if empty stats is initialized when translation project (new language)
-    is added for a project with existing but empty template translation project.
-    """
-
-    # Create an empty template translation project for project0.
-    TranslationProjectFactory(project=project0, language=templates)
-
-    # Create a new language to test.
-    language = LanguageDBFactory()
-    tp = TranslationProject.objects.create(
-        language=language, project=project0)
-    tp.init_from_templates()
-
-    # There are no files on disk so TP was not automagically filled.
-    assert list(tp.stores.all()) == []
-
-    # Check if zero stats is calculated and available.
-    stats = tp.get_stats()
-    assert stats['total'] == 0
-    assert stats['translated'] == 0
-    assert stats['fuzzy'] == 0
-    assert stats['suggestions'] == 0
-    assert stats['critical'] == 0
-    assert not tp.is_dirty()
-
-
-@pytest.mark.django_db
-def test_tp_stats_created_from_template(po_directory, tutorial, templates):
-    language = LanguageDBFactory()
-    tp = TranslationProject.objects.create(language=language, project=tutorial)
-    tp.init_from_templates()
-
-    assert tp.stores.all().count() == 1
-    stats = tp.get_stats()
-    assert stats['total'] == 2  # there are 2 words in test template
-    assert stats['translated'] == 0
-    assert stats['fuzzy'] == 0
-    assert stats['suggestions'] == 0
-    assert stats['critical'] == 0
-    assert not tp.is_dirty()
-
-
-@pytest.mark.django_db
-def test_can_be_inited_from_templates(po_directory, tutorial, templates):
-    language = LanguageDBFactory()
-    tp = TranslationProject(project=tutorial, language=language)
-    assert tp.can_be_inited_from_templates()
-
-
-@pytest.mark.django_db
-def test_cannot_be_inited_from_templates(project0):
-    language = LanguageDBFactory()
-    tp = TranslationProject(project=project0, language=language)
-    assert not tp.can_be_inited_from_templates()
 
 
 @pytest.mark.django_db

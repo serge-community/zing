@@ -21,5 +21,4 @@ class PootleTPConfig(AppConfig):
     verbose_name = "PootleTranslationProject"
 
     def ready(self):
-        importlib.import_module("pootle_translationproject.receivers")
         importlib.import_module("pootle_translationproject.getters")

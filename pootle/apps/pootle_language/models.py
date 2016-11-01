@@ -216,7 +216,7 @@ class Language(models.Model, TreeItem):
             user, select_related=select_related
         ).select_related(
             "project"
-        ).order_by('project__fullname')
+        )
 
     def get_announcement(self, user=None):
         """Return the related announcement, if any."""

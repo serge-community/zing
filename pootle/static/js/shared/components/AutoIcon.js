@@ -6,8 +6,6 @@
  * AUTHORS file for copyright and authorship information.
  */
 
-import assign from 'object-assign';
-
 import React from 'react';
 
 import crc16 from '../utils/crc16'; // use relative path, otherwise tests will fail
@@ -40,81 +38,51 @@ function calcHue(title) {
   return crc16(title) % 360;
 }
 
-class AutoIcon extends React.Component {
+const AutoIcon = ({
+  title,
+  saturation = 100, lightness = 30,
+  abbreviationLength = 2, mode = 'solid', size = 20,
+}) => {
+  const abbreviation = calcAbbreviation(title, abbreviationLength);
+  const hue = calcHue(title);
 
-  static propTypes() {
-    return {
-      title: React.PropTypes.string.isRequired,
-      saturation: React.PropTypes.number,
-      lightness: React.PropTypes.number,
-      abbreviationLength: React.PropTypes.number,
-      mode: React.PropTypes.string,
-      size: React.PropTypes.number,
-    };
+  const color =
+    `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+
+  const sizePx = `${size}px`;
+  const fontSizePx = `${Math.round(size / 2)}px`;
+
+  const style = {
+    backgroundColor: '#fff',
+    border: `1px solid ${color}`,
+    color,
+    width: sizePx,
+    height: sizePx,
+    lineHeight: sizePx,
+    fontSize: fontSizePx,
+  };
+
+  if (mode === 'solid') {
+    style.backgroundColor = color;
+    style.color = '#fff';
   }
 
-  constructor(props) {
-    super();
+  return (
+    <span
+      className="auto-icon"
+      style={style}
+    >{abbreviation}</span>
+  );
+};
 
-    this.state = assign({
-      saturation: 100,
-      lightness: 30,
-      abbreviationLength: 2,
-      mode: 'solid',
-      size: 20,
-    }, props);
-  }
-
-  componentDidMount() {
-    this.calculateProps(this.props.title);
-  }
-
-  componentWillReceiveProps(newProps) {
-    if (this.props.title !== newProps.title) {
-      this.calculateProps(newProps.title);
-    }
-  }
-
-  calculateProps(title) {
-    this.setState({
-      abbreviation: calcAbbreviation(title, this.state.abbreviationLength),
-      hue: calcHue(title),
-    });
-  }
-
-  render() {
-    const color =
-      `hsl(${this.state.hue}, ${this.state.saturation}%, ${this.state.lightness}%)`;
-
-    const size = `${this.state.size}px`;
-    const fontSize = `${Math.round(this.state.size / 2)}px`;
-
-    const style = (this.state.mode === 'solid') ? {
-      backgroundColor: color,
-      border: `1px solid ${color}`,
-      color: '#fff',
-      width: size,
-      height: size,
-      lineHeight: size,
-      fontSize,
-    } : {
-      border: `1px solid ${color}`,
-      color,
-      width: size,
-      height: size,
-      lineHeight: size,
-      fontSize,
-    };
-
-    return (
-      <span
-        className="auto-icon"
-        style={style}
-      >{this.state.abbreviation}</span>
-    );
-  }
-
-}
+AutoIcon.propTypes = {
+  title: React.PropTypes.string.isRequired,
+  saturation: React.PropTypes.number,
+  lightness: React.PropTypes.number,
+  abbreviationLength: React.PropTypes.number,
+  mode: React.PropTypes.string,
+  size: React.PropTypes.number,
+};
 
 
 export default AutoIcon;

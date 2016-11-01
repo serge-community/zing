@@ -66,14 +66,13 @@ export const LiveEditor = React.createClass({
       outerHeight(q('#header-meta')) +
       outerHeight(q('#header-tabs'))
     );
-    const footerHeight = outerHeight(q('#footer'));
 
     const formFields = qAll('.js-staticpage-non-content');
     const fieldsHeight = (
       formFields.reduce((total, fieldEl) => total + outerHeight(fieldEl), 0)
     );
 
-    const usedHeight = topHeight + fieldsHeight + footerHeight + WRAPPER_MARGIN;
+    const usedHeight = topHeight + fieldsHeight + WRAPPER_MARGIN;
     const contentHeight = this.state.height - usedHeight;
 
     // Actual size is divided by two in the horizontal split

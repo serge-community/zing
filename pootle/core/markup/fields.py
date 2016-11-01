@@ -8,9 +8,6 @@
 
 import logging
 
-from lxml.etree import ParserError
-from lxml.html.clean import clean_html
-
 from django.conf import settings
 from django.core.cache import cache
 from django.db import models
@@ -58,10 +55,7 @@ class Markup(object):
         return rendered
 
     def __unicode__(self):
-        try:
-            return mark_safe(clean_html(self.rendered))
-        except ParserError:
-            return u''
+        return mark_safe(self.rendered)
 
     def __nonzero__(self):
         return self.raw.strip() != '' and self.raw is not None

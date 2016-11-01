@@ -120,19 +120,17 @@ class PootleBrowseView(PootleDetailView):
         top_scorers = get_top_scorers_data(top_scorers,
                                            TOP_CONTRIBUTORS_CHUNK_SIZE)
 
-        items_stats = self.stats['children']
-        items_data = [
-            self.get_item_data(item, items_stats.get(item.code, {}))
-            for item in self.items
-        ]
-
         json_data = {
             key: value
             for key, value in self.stats.iteritems()
             if key != 'children'
         }
+        children_stats = self.stats['children']
         json_data.update({
-            'children': items_data,
+            'children': [
+                self.get_item_data(item, children_stats[i])
+                for i, item in enumerate(self.items)
+            ],
         })
 
         ctx.update({

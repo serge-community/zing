@@ -551,13 +551,6 @@ class ProjectResource(VirtualResource, ProjectURLMixin):
             self.pootle_path == other.pootle_path
             and list(self.get_children()) == list(other.get_children()))
 
-    # # # TreeItem
-
-    def _get_code(self, resource):
-        return split_pootle_path(resource.pootle_path)[0]
-
-    # # # /TreeItem
-
     def get_children_for_user(self, user, select_related=None):
         if select_related:
             return self.children.select_related(*select_related)
@@ -577,13 +570,6 @@ class ProjectSet(VirtualResource, ProjectURLMixin):
     def __init__(self, resources, *args, **kwargs):
         self.directory = Directory.objects.projects
         super(ProjectSet, self).__init__(resources, self.directory.pootle_path)
-
-    # # # TreeItem
-
-    def _get_code(self, project):
-        return project.code
-
-    # # # /TreeItem
 
 
 @receiver([post_delete, post_save])

@@ -14,6 +14,6 @@ from . import views
 urlpatterns = [
     # XHR
     url(r'^xhr/stats/contributors/?$',
-        views.TopContributorsJSON.as_view(),
+        views.TopContributorsPathDispatcherView.as_view(),
         name='pootle-xhr-contributors'),
 ]

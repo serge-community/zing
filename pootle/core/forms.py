@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -151,3 +152,12 @@ class MathCaptchaForm(forms.Form):
         else:
             self.reset_captcha()
         return super(MathCaptchaForm, self).clean()
+
+
+class PathForm(forms.Form):
+    """Form used for validating GET queryset parameters in a dispatcher view."""
+
+    path = forms.CharField(max_length=2048, required=True)
+
+    def clean_path(self):
+        return self.cleaned_data.get('path', '/')

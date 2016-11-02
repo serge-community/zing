@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -11,15 +12,15 @@ from django.views.defaults import (permission_denied as django_403,
                                    server_error as django_500)
 
 from .api import APIView
-from .base import PootleAdminView, PootleJSON
+from .base import BasePathDispatcherView, PootleAdminView, PootleJSON
 from .browse import PootleBrowseView
 from .export import PootleExportView
 from .translate import PootleTranslateView
 
 
 __all__ = (
-    'APIView', 'PootleJSON', 'PootleAdminView', 'PootleBrowseView',
-    'PootleExportView', 'PootleTranslateView',
+    'APIView', 'BasePathDispatcherView', 'PootleJSON', 'PootleAdminView',
+    'PootleBrowseView', 'PootleExportView', 'PootleTranslateView',
 )
 
 

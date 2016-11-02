@@ -7,18 +7,13 @@
 # AUTHORS file for copyright and authorship information.
 
 from django.contrib.auth import get_user_model
-from django.forms import ValidationError
-from django.http import Http404
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import never_cache
-from django.views.generic import View
 
 from pootle.core.url_helpers import split_pootle_path
 from pootle.core.utils.stats import (TOP_CONTRIBUTORS_CHUNK_SIZE,
                                      get_top_scorers_data)
+from pootle.core.views import BasePathDispatcherView
 from pootle.core.views.mixins import PootleJSONMixin
 from pootle_language.views import LanguageBrowseView
-from pootle_misc.util import ajax_required
 from pootle_project.views import ProjectBrowseView, ProjectsBrowseView
 from pootle_translationproject.views import TPBrowseStoreView, TPBrowseView
 
@@ -69,45 +64,11 @@ class ProjectsContributorsJSON(ContributorsJSONMixin, ProjectsBrowseView):
     pass
 
 
-class TopContributorsJSON(View):
+class TopContributorsPathDispatcherView(BasePathDispatcherView):
     form_class = StatsForm
-    content_type = None
 
-    @never_cache
-    @method_decorator(ajax_required)
-    def dispatch(self, request, *args, **kwargs):
-        stats_form = self.get_form()
-        if not stats_form.is_valid():
-            raise Http404(
-                ValidationError(stats_form.errors).messages)
-
-        offset = stats_form.cleaned_data['offset'] or 0
-        path = stats_form.cleaned_data['path']
-        language_code, project_code, dir_path, filename = \
-            split_pootle_path(path)
-
-        kwargs.update(
-            dict(
-                language_code=language_code,
-                project_code=project_code,
-                dir_path=dir_path,
-                filename=filename,
-                offset=offset,
-                path=path,
-            )
-        )
-        view_class = ProjectsContributorsJSON
-        if language_code and project_code:
-            if filename:
-                view_class = TPStoreContributorsJSON
-            else:
-                view_class = TPContributorsJSON
-        elif language_code:
-            view_class = LanguageContributorsJSON
-        elif project_code:
-            view_class = ProjectContributorsJSON
-
-        return view_class.as_view()(request, *args, **kwargs)
-
-    def get_form(self):
-        return self.form_class(self.request.GET)
+    store_view_class = TPStoreContributorsJSON
+    directory_view_class = TPContributorsJSON
+    language_view_class = LanguageContributorsJSON
+    project_view_class = ProjectContributorsJSON
+    projects_view_class = ProjectsContributorsJSON

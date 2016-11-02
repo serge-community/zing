@@ -169,7 +169,7 @@ $(function () {
     pootlePath: "{{ pootle_path }}",
     isAdmin: {{ has_admin_access|yesno:"true,false" }},
     isInitiallyExpanded: {{ is_store|yesno:"true,false" }},
-    initialData: {{ stats|to_js }},
+    initialData: {{ browsing_data|to_js }},
     topContributorsData: {{ top_scorers|to_js }},
     statsRefreshAttemptsCount: {{ stats_refresh_attempts_count }},
     uiLocaleDir: '{{ LANGUAGE_BIDI|yesno:"rtl,ltr" }}',

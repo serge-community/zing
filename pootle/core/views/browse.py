@@ -23,13 +23,7 @@ from pootle_misc.checks import get_qualitycheck_list
 from .base import PootleDetailView
 
 
-class PootleBrowseView(PootleDetailView):
-    template_name = 'browser/index.html'
-    items = None
-
-    @property
-    def path(self):
-        return self.request.path
+class BrowseDataViewMixin(object):
 
     @cached_property
     def items(self):
@@ -38,23 +32,6 @@ class PootleBrowseView(PootleDetailView):
     @cached_property
     def stats(self):
         return self.object.get_stats()
-
-    @cached_property
-    def cookie_data(self):
-        ctx_, cookie_data = self.sidebar_announcements
-        return cookie_data
-
-    @property
-    def sidebar_announcements(self):
-        return get_sidebar_announcements_context(
-            self.request,
-            (self.object,))
-
-    def get(self, *args, **kwargs):
-        response = super(PootleBrowseView, self).get(*args, **kwargs)
-        if self.cookie_data:
-            response.set_cookie(SIDEBAR_COOKIE_NAME, self.cookie_data)
-        return response
 
     def get_item_data(self, path_obj, stats):
         """Shapes `path_obj` to be an item usable in the browsing table row.
@@ -83,6 +60,44 @@ class PootleBrowseView(PootleDetailView):
             ),
         }
 
+    def get_browsing_data(self):
+        browsing_data = {
+            key: value
+            for key, value in self.stats.iteritems()
+            if key != 'children'
+        }
+        children_stats = self.stats['children']
+        browsing_data.update({
+            'children': [
+                self.get_item_data(item, children_stats[i])
+                for i, item in enumerate(self.items)
+            ],
+        })
+        return remove_empty_from_dict(browsing_data)
+
+
+class PootleBrowseView(BrowseDataViewMixin, PootleDetailView):
+    template_name = 'browser/index.html'
+
+    @property
+    def path(self):
+        return self.request.path
+
+    @cached_property
+    def cookie_data(self):
+        ctx_, cookie_data = self.sidebar_announcements
+        return cookie_data
+
+    @property
+    def sidebar_announcements(self):
+        return get_sidebar_announcements_context(self.request, (self.object,))
+
+    def get(self, *args, **kwargs):
+        response = super(PootleBrowseView, self).get(*args, **kwargs)
+        if self.cookie_data:
+            response.set_cookie(SIDEBAR_COOKIE_NAME, self.cookie_data)
+        return response
+
     def get_context_data(self, *args, **kwargs):
         filters = {}
         can_translate = False
@@ -109,6 +124,7 @@ class PootleBrowseView(PootleDetailView):
             url_action_review = None
             url_action_view_all = None
         ctx, cookie_data_ = self.sidebar_announcements
+
         ctx.update(super(PootleBrowseView, self).get_context_data(*args, **kwargs))
 
         lang_code, proj_code = split_pootle_path(self.pootle_path)[:2]
@@ -120,24 +136,11 @@ class PootleBrowseView(PootleDetailView):
         top_scorers = get_top_scorers_data(top_scorers,
                                            TOP_CONTRIBUTORS_CHUNK_SIZE)
 
-        json_data = {
-            key: value
-            for key, value in self.stats.iteritems()
-            if key != 'children'
-        }
-        children_stats = self.stats['children']
-        json_data.update({
-            'children': [
-                self.get_item_data(item, children_stats[i])
-                for i, item in enumerate(self.items)
-            ],
-        })
-
         ctx.update({
             'page': 'browse',
             'stats_refresh_attempts_count':
                 settings.POOTLE_STATS_REFRESH_ATTEMPTS_COUNT,
-            'stats': remove_empty_from_dict(json_data),
+            'browsing_data': self.get_browsing_data(),
             'translation_states': get_translation_states(self.object),
             'checks': get_qualitycheck_list(self.object),
             'can_translate': can_translate,

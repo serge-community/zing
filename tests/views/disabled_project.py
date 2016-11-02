@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -40,6 +41,8 @@ def test_disabled_project_in_lang_browse_view(client, request_users):
                                   kwargs={"language_code": "language0"}))
 
     disabled_project_exists = "/language0/disabled_project0/" in [
-        item["pootle_path"] for item in response.context["stats"]["children"]]
+        item["pootle_path"]
+        for item in response.context['browsing_data']['children']
+    ]
 
     assert (user.is_superuser is disabled_project_exists)

@@ -31,15 +31,19 @@ from pootle.core.exceptions import Http400
 from pootle.core.http import JsonResponse, JsonResponseBadRequest
 from pootle.core.mail import send_mail
 from pootle.core.utils import dateformat
-from pootle.core.views import PootleJSON
+from pootle.core.views import (BaseBrowseDataJSON, BasePathDispatcherView,
+                               PootleJSON)
 from pootle.i18n.gettext import ugettext as _
 from pootle_app.models.directory import Directory
 from pootle_app.models.permissions import (check_permission,
                                            check_user_permission)
 from pootle_comment.forms import UnsecuredCommentForm
+from pootle_language.views import LanguageBrowseView
 from pootle_misc.util import ajax_required
+from pootle_project.views import ProjectBrowseView, ProjectsBrowseView
 from pootle_statistics.models import (Submission, SubmissionFields,
                                       SubmissionTypes)
+from pootle_translationproject.views import TPBrowseStoreView, TPBrowseView
 
 from .decorators import get_unit_context
 from .forms import UnitSearchForm, unit_comment_form_factory, unit_form_factory
@@ -485,12 +489,32 @@ def get_qualitycheck_stats(request, *args, **kwargs):
     return JsonResponse(failing_checks if failing_checks is not None else {})
 
 
-@ajax_required
-@get_path_obj
-@permission_required('view')
-@get_resource
-def get_stats(request, *args, **kwargs):
-    return JsonResponse(request.resource_obj.get_stats())
+class TPBrowseDataJSON(BaseBrowseDataJSON, TPBrowseView):
+    pass
+
+
+class TPStoreBrowseDataJSON(BaseBrowseDataJSON, TPBrowseStoreView):
+    pass
+
+
+class LanguageBrowseDataJSON(BaseBrowseDataJSON, LanguageBrowseView):
+    pass
+
+
+class ProjectBrowseDataJSON(BaseBrowseDataJSON, ProjectBrowseView):
+    pass
+
+
+class ProjectsBrowseDataJSON(BaseBrowseDataJSON, ProjectsBrowseView):
+    pass
+
+
+class BrowseDataDispatcherView(BasePathDispatcherView):
+    language_view_class = LanguageBrowseDataJSON
+    store_view_class = TPStoreBrowseDataJSON
+    directory_view_class = TPBrowseDataJSON
+    project_view_class = ProjectBrowseDataJSON
+    projects_view_class = ProjectsBrowseDataJSON
 
 
 @ajax_required

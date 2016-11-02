@@ -20,6 +20,7 @@ from pootle.core.utils.stats import (TOP_CONTRIBUTORS_CHUNK_SIZE,
                                      get_translation_states)
 from pootle_misc.checks import get_qualitycheck_list
 
+from ..http import JsonResponse
 from .base import PootleDetailView
 
 
@@ -154,3 +155,16 @@ class PootleBrowseView(BrowseDataViewMixin, PootleDetailView):
         })
 
         return ctx
+
+
+class BaseBrowseDataJSON(BrowseDataViewMixin):
+
+    @property
+    def path(self):
+        return self.kwargs['path']
+
+    def get_context_data(self, *args, **kwargs):
+        return self.get_browsing_data()
+
+    def render_to_response(self, context, **kwargs):
+        return JsonResponse(context)

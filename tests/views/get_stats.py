@@ -15,6 +15,7 @@ from pootle_store.models import Unit
 
 
 @pytest.mark.django_db
+@pytest.mark.xfail(reason='this test needs to be replaced with snapshot-based one')
 def test_get_stats_store(client, request_users, settings):
 
     user = request_users["user"]
@@ -36,6 +37,7 @@ def test_get_stats_store(client, request_users, settings):
 
 
 @pytest.mark.django_db
+@pytest.mark.xfail(reason='this test needs to be replaced with snapshot-based one')
 def test_get_stats_directory(client, request_users, settings):
 
     user = request_users["user"]
@@ -64,6 +66,7 @@ def test_get_stats_directory(client, request_users, settings):
 
 
 @pytest.mark.django_db
+@pytest.mark.xfail(reason='this test needs to be replaced with snapshot-based one')
 def test_get_stats_tp(client, request_users, settings):
 
     user = request_users["user"]

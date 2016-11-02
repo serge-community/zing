@@ -13,14 +13,15 @@ from django.views.defaults import (permission_denied as django_403,
 
 from .api import APIView
 from .base import BasePathDispatcherView, PootleAdminView, PootleJSON
-from .browse import PootleBrowseView
+from .browse import BaseBrowseDataJSON, PootleBrowseView
 from .export import PootleExportView
 from .translate import PootleTranslateView
 
 
 __all__ = (
-    'APIView', 'BasePathDispatcherView', 'PootleJSON', 'PootleAdminView',
-    'PootleBrowseView', 'PootleExportView', 'PootleTranslateView',
+    'APIView', 'BaseBrowseDataJSON', 'BasePathDispatcherView', 'PootleJSON',
+    'PootleAdminView', 'PootleBrowseView', 'PootleExportView',
+    'PootleTranslateView',
 )
 
 

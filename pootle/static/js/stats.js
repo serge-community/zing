@@ -249,19 +249,6 @@ const stats = {
     return true;
   },
 
-  renderLastUpdatedTime(el, data) {
-    if (data.creation_time === 0) {
-      return false;
-    }
-
-    const props = {
-      title: data.display_datetime,
-      dateTime: data.iso_datetime,
-    };
-    ReactDOM.render(<TimeSince {...props} />, el);
-    return true;
-  },
-
   updateLastUpdates(statsData) {
     const luWrapper = q('#js-last-updated-wrapper');
     const hideLastUpdated = !statsData.lastupdated || statsData.lastupdated.mtime === 0;

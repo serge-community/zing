@@ -23,7 +23,6 @@ from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import F
-from django.template.defaultfilters import truncatechars
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.http import urlquote
@@ -312,7 +311,7 @@ class Unit(models.Model, base.TranslationUnit):
             self.store.mark_dirty(CachedMethods.LAST_ACTION)
         # and last_updated
         lu = self.store.get_cached_value(CachedMethods.LAST_UPDATED)
-        if not lu or 'id' not in lu or lu['id'] == self.id:
+        if not lu:
             self.store.mark_dirty(CachedMethods.LAST_UPDATED)
 
     def delete(self, *args, **kwargs):
@@ -1089,13 +1088,7 @@ class Unit(models.Model, base.TranslationUnit):
         return matcher.matches(self.source)
 
     def get_last_updated_info(self):
-        return {
-            "display_datetime": dateformat.format(self.creation_time),
-            "iso_datetime": self.creation_time.isoformat(),
-            "creation_time": int(dateformat.format(self.creation_time, 'U')),
-            "source": truncatechars(self, 50),
-            "unit_url": self.get_translate_url(),
-        }
+        return int(dateformat.format(self.creation_time, 'U'))
 
 
 # # # # # # # # # # #  Store # # # # # # # # # # # # # #

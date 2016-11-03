@@ -126,7 +126,7 @@ class TreeItem(object):
     @classmethod
     def _get_last_updated(cls):
         """This method will be overridden in descendants"""
-        return {'creation_time': 0}
+        return 0
 
     def is_dirty(self):
         """Checks if any of children is registered as dirty"""
@@ -186,7 +186,6 @@ class TreeItem(object):
             [self._get_last_updated()] +
             [item.get_cached(CachedMethods.LAST_UPDATED)
              for item in self.children],
-            key=lambda x: x['creation_time'] if 'creation_time' in x else 0
         )
 
     def _calc_checks(self):

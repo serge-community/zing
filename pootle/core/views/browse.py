@@ -55,10 +55,7 @@ class BrowseDataViewMixin(object):
             'critical': stats.get('critical', 0),
             'suggestions': stats.get('suggestions', 0),
             'lastaction': stats.get('lastaction', 0),
-            'lastupdated': (
-                'lastupdated' in stats and stats['lastupdated'] and
-                stats['lastupdated'].get('creation_time', 0)
-            ),
+            'lastupdated': stats.get('lastupdated', 0),
         }
 
     def get_browsing_data(self):

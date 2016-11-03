@@ -21,6 +21,8 @@ Zing Changelog
   * Updated dialog and button styles
 * Improved the way data is provided to, and rendered on, a browser page;
   this speeds up page rendering, especially on large tables
+* Optimized the amount of data that is cached, so that overall it takes less
+  space. Note this requires running a server-wide `refresh_stats`.
 
 
 Pre 0.1.0

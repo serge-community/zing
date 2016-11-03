@@ -16,7 +16,7 @@ import assign from 'object-assign';
 
 import StatsAPI from 'api/StatsAPI';
 import LastActivity from 'components/LastActivity';
-import LastUpdate from 'components/LastUpdate';
+import TimeSince from 'components/TimeSince';
 import cookie from 'utils/cookie';
 import { q } from 'utils/dom';
 
@@ -234,17 +234,12 @@ const stats = {
     return true;
   },
 
-  renderLastUpdate(el, data) {
-    if (data.creation_time === 0) {
+  renderLastUpdate(el, timestamp) {
+    if (timestamp === 0) {
       return false;
     }
 
-    const props = {
-      timestamp: data.creation_time,
-      unitSource: data.source,
-      unitUrl: data.unit_url,
-    };
-    ReactDOM.render(<LastUpdate {...props} />, el);
+    ReactDOM.render(<TimeSince timestamp={timestamp} />, el);
     return true;
   },
 

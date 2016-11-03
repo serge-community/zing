@@ -62,19 +62,21 @@ class BrowseDataViewMixin(object):
         }
 
     def get_browsing_data(self):
-        browsing_data = {
+        browsing_data = remove_empty_from_dict({
             key: value
             for key, value in self.stats.iteritems()
             if key != 'children'
-        }
+        })
         children_stats = self.stats['children']
         browsing_data.update({
             'children': [
-                self.get_item_data(item, children_stats[i])
+                remove_empty_from_dict(
+                    self.get_item_data(item, children_stats[i])
+                )
                 for i, item in enumerate(self.items)
             ],
         })
-        return remove_empty_from_dict(browsing_data)
+        return browsing_data
 
 
 class PootleBrowseView(BrowseDataViewMixin, PootleDetailView):

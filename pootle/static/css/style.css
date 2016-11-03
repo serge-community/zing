@@ -2231,6 +2231,9 @@ h2:lang(zh) a
     line-height: 16px;
     text-align: center;
     box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: normal;
 }
 
 .avatar .auto-icon

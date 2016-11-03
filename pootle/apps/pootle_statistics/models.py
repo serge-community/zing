@@ -234,7 +234,7 @@ class Submission(models.Model):
         if self.unit is not None:
             result.update({
                 'source': truncatechars(self.unit, 50),
-                'unit': self.unit.id,
+                'uid': self.unit.id,
             })
 
             if self.quality_check is not None:

@@ -17,7 +17,6 @@ import assign from 'object-assign';
 import StatsAPI from 'api/StatsAPI';
 import LastActivity from 'components/LastActivity';
 import LastUpdate from 'components/LastUpdate';
-import TimeSince from 'components/TimeSince';
 import cookie from 'utils/cookie';
 import { q } from 'utils/dom';
 

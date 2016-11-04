@@ -61,7 +61,7 @@ const BrowserTableRow = React.createClass({
     pathItems.shift(); // remove the first empty item
     const lang = pathItems.shift();
     const project = pathItems.shift();
-    return ['', lang, project, 'translate', pathItems].join('/');
+    return `/${lang}/${project}/translate/${pathItems.join('/')}`;
   },
 
   render() {

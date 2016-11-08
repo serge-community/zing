@@ -20,9 +20,7 @@ import ReactDOM from 'react-dom';
 import Avatar from 'components/Avatar';
 import { showAboutDialog } from './shared/components/AboutDialog';
 import { showKeyboardHelpDialog } from './shared/components/KeyboardHelpDialog';
-import RandomSymbolsBackground from './welcome/components/RandomSymbolsBackground';
-import RandomMessage from './welcome/components/RandomMessage';
-import { greetings } from './welcome/greetings';
+import Hero from './welcome/components/Hero';
 
 import cookie from 'utils/cookie';
 import diff from 'utils/diff';
@@ -206,19 +204,10 @@ PTL.common = {
       );
     }
 
-    if (q('#js-dynamic-background') !== null) {
+    if (q('.js-welcome-hero') !== null) {
       ReactDOM.render(
-        <RandomSymbolsBackground />,
-        q('#js-dynamic-background')
-      );
-    }
-
-    if (q('#js-dynamic-greeting') !== null) {
-      ReactDOM.render(
-        <RandomMessage
-          items={greetings}
-        />,
-        q('#js-dynamic-greeting')
+        <Hero />,
+        q('.js-welcome-hero')
       );
     }
   },

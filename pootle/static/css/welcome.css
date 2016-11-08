@@ -16,36 +16,36 @@
     margin: 0;
 }
 
-#welcome-page #js-dynamic-background
+.hero-background
 {
     width: 100%;
     height: 350px;
     background-color: #303336;
 }
 
-#welcome-page #js-dynamic-background-overlay
+.hero-background-overlay
 {
     position: absolute;
     top: 0;
     width: 100%;
 }
 
-#welcome-page #js-dynamic-background-overlay h1,
-#welcome-page #js-dynamic-background-overlay h2
+.hero-background-overlay h1,
+.hero-background-overlay h2
 {
     text-align: center;
     font-weight: 100;
     line-height: 1em;
 }
 
-#welcome-page #js-dynamic-background-overlay h1
+.hero-background-overlay h1
 {
     margin: 100px 0 0;
     font-size: 60px;
     color: #58c9d1;
 }
 
-#welcome-page #js-dynamic-background-overlay h2
+.hero-background-overlay h2
 {
     margin: 30px 0 0;
     font-size: 30px;
@@ -53,12 +53,12 @@
     color: #fff;
 }
 
-#welcome-page .random-message-component:lang(th)
+.hero-background .random-message-component:lang(th)
 {
     font-family: 'Leelawadee UI', sans-serif;
 }
 
-#welcome-page .random-message-component:lang(zh)
+.hero-background .random-message-component:lang(zh)
 {
     font-family: 'Microsoft YaHei', sans-serif;
 }
@@ -68,7 +68,7 @@
     text-align: center;
 }
 
-#welcome-page h2
+#welcome-page .top-contributors h2
 {
     font-size: 23px;
     font-weight: normal;

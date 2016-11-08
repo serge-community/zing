@@ -18,7 +18,6 @@ module.exports = {
     s: false,
     PTL: false,
     require: false,
-    shortcut: false,
   },
   plugins: [
     'react',

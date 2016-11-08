@@ -302,12 +302,6 @@ html[dir="rtl"] #nav-main
     white-space: nowrap;
 }
 
-#nav-main > li,
-#navbar .breadcrumb > li
-{
-    height: 50px;
-}
-
 #navbar .breadcrumb.default > li
 {
     color: rgba(255, 255, 255, 0.8);

@@ -20,11 +20,13 @@
   </li>
   <li class="js-filter-checks-wrapper hide">
     <select id="js-filter-checks">
-      <option selected value="none">{% trans 'Select type' %}</option>
+      {% comment %}Translators: This refers to "All checks"{% endcomment %}
+      <option selected value="all">{% trans "All" %}</option>
       {% for item in check_categories %}
-      <optgroup label="{{ item.title }}">
+      <optgroup class="optgroup" label="">
+        <option class="category" data-type="category" value="{{ item.name }}">{{ item.title }}</option>
         {% for check in item.checks %}
-        <option value="{{ check.code }}" data-title="{{ check.title }}"></option>
+        <option value="{{ check.code }}">{{ check.title }}</option>
         {% endfor %}
       </optgroup>
       {% endfor %}

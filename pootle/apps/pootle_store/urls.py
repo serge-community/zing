@@ -29,9 +29,13 @@ urlpatterns = [
         views.BrowseDataDispatcherView.as_view(),
         name='pootle-xhr-stats'),
 
-    url(r'^xhr/units/?$',
-        views.get_units,
-        name='pootle-xhr-units'),
+    url(r'^xhr/uids/?$',
+        views.get_uids,
+        name='pootle-xhr-uids'),
+
+    url(r'^xhr/view-rows/?$',
+        views.get_view_rows,
+        name='pootle-xhr-view-rows'),
 
     url(r'^xhr/units/(?P<uid>[0-9]+)/?$',
         views.submit,

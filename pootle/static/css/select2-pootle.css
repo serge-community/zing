@@ -1,7 +1,8 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
@@ -213,4 +214,19 @@ html[dir="rtl"] .select2-search-choice-close
     width: 20em;
     min-width: 20em;
     max-width: 20em;
+}
+
+/* For checks dropdown, we want to hide default optgroups
+   and make options with 'category' class look more or less like optgroups
+*/
+
+.checks-dropdown .optgroup > div.select2-result-label
+{
+    display: none;
+}
+
+.checks-dropdown .category
+{
+    font-weight: bold;
+    margin-left: -1em;
 }

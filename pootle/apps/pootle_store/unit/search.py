@@ -70,16 +70,8 @@ class DBSearchBackend(object):
         return self.kwargs.get("sort_on")
 
     @property
-    def qs_kwargs(self):
-        kwargs = {
-            k: getattr(self, k)
-            for k in [
-                "project_code",
-                "language_code",
-                "dir_path",
-                "filename"]}
-        kwargs["user"] = self.request_user
-        return kwargs
+    def uid(self):
+        return self.kwargs.get("uid")
 
     @property
     def uids(self):
@@ -87,10 +79,18 @@ class DBSearchBackend(object):
 
     @property
     def units_qs(self):
+        kwargs = {
+            'project_code': self.project_code,
+            'language_code': self.language_code,
+            'dir_path': self.dir_path,
+            'filename': self.filename,
+            'user': self.request_user,
+        }
         return (
-            Unit.objects.get_translatable(**self.qs_kwargs)
+            Unit.objects.get_translatable(**kwargs)
                         .order_by(*self.default_order)
-                        .select_related(*self.select_related))
+                        .select_related(*self.select_related)
+        )
 
     def sort_qs(self, qs):
         if self.unit_filter and self.sort_by is not None:
@@ -110,7 +110,7 @@ class DBSearchBackend(object):
                 sort_by, "store__pootle_path", "index")
         return qs
 
-    def filter_qs(self, qs):
+    def filter_qs(self, qs, uid_list=None):
         kwargs = self.kwargs
         category = kwargs['category']
         checks = kwargs['checks']
@@ -144,42 +144,39 @@ class DBSearchBackend(object):
     def results(self):
         return self.sort_qs(self.filter_qs(self.units_qs))
 
-    def search(self):
+    def get_uids(self):
+        MAX_RESULTS = 1000 # TODO: move to some config?
+
         total = self.results.count()
-        start = self.offset
 
-        if start > total:
-            return total, total, total, self.results.none()
+        begin = 0
+        end = min(MAX_RESULTS, total)
 
-        find_unit = (
-            self.language_code
+        uids = None
+
+        # if there are more results than MAX_RESULTS,
+        # and if we're requesting a specific unit
+        # in a specific store, adjust the results window
+        # so that the requested unit is in the middle
+
+        if (total > MAX_RESULTS
+            and self.language_code
             and self.project_code
             and self.filename
-            and self.uids)
-        find_next_slice = (
-            self.previous_uids
-            and self.offset)
-
-        if find_unit:
+            and self.uid):
             # find the uid in the Store
             uid_list = list(self.results.values_list("pk", flat=True))
-            if self.chunk_size and self.uids[0] in uid_list:
-                unit_index = uid_list.index(self.uids[0])
-                start = (
-                    int(unit_index / (2 * self.chunk_size))
-                    * (2 * self.chunk_size))
-        elif find_next_slice:
-            # if both previous_uids and offset are set then try to ensure
-            # that the results we are returning start from the end of previous
-            # result set
-            _start = start = max(self.offset - len(self.previous_uids), 0)
-            end = max(self.offset + (2 * self.chunk_size), total)
-            uid_list = self.results[start:end].values_list("pk", flat=True)
-            for i, uid in enumerate(uid_list):
-                if uid in self.previous_uids:
-                    start = _start + i + 1
-        if self.chunk_size is None:
-            return total, 0, total, self.results
-        start = start or 0
-        end = min(start + (2 * self.chunk_size), total)
-        return total, start, end, self.results[start:end]
+            if self.uid in uid_list:
+                begin = max(uid_list.index(self.uid) - MAX_RESULTS / 2, 0)
+                end = min(begin + MAX_RESULTS, total)
+                uids = uid_list[begin:end]
+
+        if not uids:
+            uids = list(self.results[begin:end].values_list("pk", flat=True))
+        return begin, end, total, uids
+
+    def get_view_rows(self):
+        if not self.uids:
+            raise ValueError('No uids provided')
+
+        return self.units_qs.filter(id__in=self.uids)

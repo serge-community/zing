@@ -46,10 +46,11 @@ from pootle_statistics.models import (Submission, SubmissionFields,
 from pootle_translationproject.views import TPBrowseStoreView, TPBrowseView
 
 from .decorators import get_unit_context
-from .forms import UnitSearchForm, unit_comment_form_factory, unit_form_factory
+from .forms import (UnitSearchForm, UnitViewRowsForm, unit_comment_form_factory,
+                    unit_form_factory)
 from .models import Unit
 from .templatetags.store_tags import pluralize_source, pluralize_target
-from .unit.results import GroupedResults
+from .unit.results import GroupedResults, ViewRowResults
 from .unit.timeline import Timeline
 from .util import find_altsrcs
 
@@ -116,7 +117,6 @@ def _prepare_unit(unit):
     """Constructs a dictionary with relevant `unit` data."""
     return {
         'id': unit.id,
-        'url': unit.get_translate_url(),
         'isfuzzy': unit.isfuzzy(),
         'source': [source[1] for source in pluralize_source(unit)],
         'target': [target[1] for target in pluralize_target(unit)],
@@ -161,17 +161,11 @@ def _get_critical_checks_snippet(request, unit):
 
 
 @ajax_required
-def get_units(request):
-    """Gets source and target texts and its metadata.
+def get_uids(request):
+    """Gets all uids based on search criteria
 
-    :return: A JSON-encoded string containing the source and target texts
-        grouped by the store they belong to.
-
-        The optional `count` GET parameter defines the chunk size to
-        consider. The user's preference will be used by default.
-
-        When the `initial` GET parameter is present, a sorted list of
-        the result set ids will be returned too.
+    :return: A JSON-encoded string containing the sorted list of unit IDs
+        (uids)
     """
     search_form = UnitSearchForm(request.GET, user=request.user)
 
@@ -185,13 +179,39 @@ def get_units(request):
                     raise Http400(_('Arguments missing.'))
         raise Http404(forms.ValidationError(search_form.errors).messages)
 
-    total, start, end, units_qs = search_backend.get(Unit)(
-        request.user, **search_form.cleaned_data).search()
+    begin, end, total, uids = search_backend.get(Unit)(
+        request.user, **search_form.cleaned_data).get_uids()
     return JsonResponse(
-        {'start': start,
+        {'begin': begin,
          'end': end,
          'total': total,
-         'unitGroups': GroupedResults(units_qs).data})
+         'uids': uids})
+
+
+@ajax_required
+def get_view_rows(request):
+    """based on the vector of uids, return a dictionary of
+    results for the view rows (source and target text)
+
+    :return: A JSON-encoded string containing the dictionary
+    """
+    form = UnitViewRowsForm(request.GET, user=request.user)
+
+    if not form.is_valid():
+        errors = form.errors.as_data()
+        if "path" in errors:
+            for error in errors["path"]:
+                if error.code == "max_length":
+                    raise Http400(_('Path too long.'))
+                elif error.code == "required":
+                    raise Http400(_('Arguments missing.'))
+        raise Http404(forms.ValidationError(form.errors).messages)
+
+    rows = search_backend.get(Unit)(request.user,
+                                    **form.cleaned_data).get_view_rows()
+    return JsonResponse({
+        'rows': ViewRowResults(rows).data,
+    })
 
 
 @ajax_required
@@ -472,7 +492,10 @@ class UnitEditJSON(PootleUnitJSON):
             'editor': self.render_edit_template(context),
             'tm_suggestions': self.object.get_tm_suggestions(),
             'is_obsolete': self.object.isobsolete(),
-            'sources': self.get_sources()}
+            'source': self.object.source_f.strings,
+            'target': self.object.target_f.strings,
+            'isfuzzy': self.object.isfuzzy(),
+            'sources': self.get_sources()}  # TODO: remove (replace with alt_sources)
 
 
 @get_unit_context('view')

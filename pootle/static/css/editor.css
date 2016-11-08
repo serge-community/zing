@@ -15,11 +15,7 @@
 body.translate
 {
     padding: 0;
-}
-
-body.translate #content
-{
-    margin: 1em 0;
+    background: #ddd;
 }
 
 body.translate #body
@@ -41,7 +37,7 @@ textarea#view_unit
     right: 1em;
     z-index: 300; /* show above the main toolbar */
 
-    top: -35px;
+    top: -47px;
 }
 
 /* When browser size is 950px or less, show navigation toolbar below the main toolbar */
@@ -57,7 +53,7 @@ textarea#view_unit
         border-style: none solid solid;
 
         padding: 10px 8px 5px;
-        top: -11px;
+        top: -22px;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         border-radius: 5px;
     }
@@ -107,32 +103,6 @@ html[dir="rtl"] #toolbar > div:last-child
     margin: 0 0.5em;
     position: relative;
     top: 2px;
-}
-
-#prevnext #item-number
-{
-    margin: 0 -0.3em;
-    padding: 0 0.3em;
-    text-align: center;
-    position: relative;
-    border: 1px solid transparent;
-    background: transparent;
-    display: inline-block;
-    max-width: 5em;
-    white-space: nowrap;
-    outline: 0;
-}
-
-#prevnext:hover #item-number,
-#prevnext:focus #item-number
-{
-    background: #fff;
-    border: 1px solid #d9d9d9;
-}
-
-#prevnext #items-count
-{
-    display: inline-block;
 }
 
 
@@ -196,11 +166,72 @@ textarea.translation,
 
 /* TRANSLATE TABLE */
 
+.no-results-row,
+.lead-in-row,
+.lead-out-row
+{
+    height: 15vh;
+    text-align: center;
+    width: 100%;
+    color: #888;
+    font-style: italic;
+    text-shadow: 0 1px 1px #fff;
+}
+
+.lead-in-row
+{
+    border-bottom: 1px solid #ccc;
+}
+
+.lead-out-row
+{
+    border-top: 1px solid #ccc;
+}
+
 table.translate-table
 {
     width: 100%;
     table-layout: fixed;
     margin-top: 0;
+}
+
+div.js-view-rows-before-wrapper
+{
+    height: 15vh;
+    overflow: hidden;
+    position: relative;
+}
+
+div.js-view-rows-before-wrapper > *
+{
+    position: absolute;
+    bottom: 0;
+}
+
+div.js-view-rows-after-wrapper
+{
+    position: relative;
+}
+
+div.js-view-rows-after-wrapper > *
+{
+    position: absolute;
+    top: 0;
+}
+
+table.js-editor-table
+{
+    position: relative;
+    z-index: 1;
+}
+
+.translate-table-wrapper
+{
+    position: fixed;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
 table.translate-table td
@@ -238,70 +269,64 @@ tr.edit-row.with-ctx
 
 /* Context */
 
-tr.edit-ctx
+.js-view-rows-before,
+.js-view-rows-after
 {
-    font-size: 82%;
+    transition: opacity 0.3s;
 }
 
-tr.edit-ctx td
+.js-view-rows-before.context-mode,
+.js-view-rows-after.context-mode
 {
-    text-align: center;
-    color: #d9d9d9;
-    padding: 0;
-    overflow: hidden;
+    opacity: 0.2;
+    transition: opacity 0.3s;
 }
 
-tr.edit-ctx a
+.js-context-rows-before,
+.js-context-rows-after
 {
-    text-decoration: none;
-
-    opacity: 0.5;
+    visibility: hidden;
+    opacity: 0;
+    background-color: #fff;
+    transform: scale(1, 0.9);
+    transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
 }
 
-tr.edit-ctx a:hover
+.js-context-rows-before.context-mode,
+.js-context-rows-after.context-mode
 {
-    text-decoration: none;
-
+    visibility: visible;
     opacity: 1;
+    transform: scale(1, 1);
+    transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
 }
 
-tr.edit-ctx.before .edit-ctx-wrapper
+.js-context-rows-before
 {
-    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2) inset;
-    padding: 10px 0 20px;
-    margin: 0 -20px -10px;
-    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    transform-origin: bottom;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
-tr.edit-ctx.after .edit-ctx-wrapper
+.js-context-rows-after
 {
-    box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.2) inset;
-    padding: 20px 0 10px;
-    margin: -10px -20px 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    transform-origin: top;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
 }
 
-tr.ctx-row,
 tr.view-row
 {
     font-size: 92%;
     cursor: pointer;
+    background: #fff;
 }
 
-tr.edit-ctx,
-tr.ctx-row
+/* override style to control view row background; this is needed in case
+when the editor is closed and is rendered as a view row but in the context
+of the editor row section; we need to adjust its background so that it follows
+the background stripe pattern of the upper view rows */
+tr.view-row.even
 {
-    background-color: #dbe3e4;
-}
-
-tr.ctx-row
-{
-    color: #889294;
-}
-
-tr.ctx-row:hover
-{
-    background-color: #ccdadb;
+    background: none;
 }
 
 tr.view-row:hover
@@ -314,6 +339,7 @@ tr.view-row:hover
     max-width: 100%;
     overflow: auto;
     font-size: 115%;
+    line-height: 135%;
 }
 
 div.sources
@@ -344,13 +370,10 @@ div.sources .translation-text
 div.translate-container
 {
     position: relative;
-    margin: -5px 5px;
+    margin: -5px 0;
     padding: 1em 0;
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    border-radius: 5px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
     background-color: #f1f7f8;
-    overflow: hidden;
     clear: both;
 }
 
@@ -495,24 +518,24 @@ table td.translate-translation
 
 table td.translate-original
 {
-    padding-left: 25px;
+    padding-left: 20px;
 }
 
 table td.translate-translation
 {
-    padding-right: 25px;
+    padding-right: 20px;
 }
 
 html[dir="rtl"] table td.translate-original
 {
     padding-left: auto;
-    padding-right: 25px;
+    padding-right: 20px;
 }
 
 html[dir="rtl"] table td.translate-translation
 {
     padding-right: auto;
-    padding-left: 25px;
+    padding-left: 20px;
 }
 
 /* COMMENTS */
@@ -528,7 +551,13 @@ html[dir="rtl"] table td.translate-translation
     display: inline;
     font-size: 85%;
     line-height: 120%;
+
+    /* we keep invalid 'word-break: break-word;'
+    for compatibility reasons; TODO: remove */
+
+    /* noinspection CssInvalidPropertyValue */
     word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 /* Force-wrap URLs */
@@ -836,6 +865,10 @@ html[dir="rtl"] .suggestion-action
 .suggestion-original,
 .suggestion-translation
 {
+    /* we keep invalid 'word-break: break-word;'
+    for compatibility reasons; TODO: remove */
+
+    /* noinspection CssInvalidPropertyValue */
     word-break: break-word;
     overflow-wrap: break-word;
 }
@@ -945,6 +978,7 @@ html[dir="rtl"] .extra-item-block .suggestion-feedback .buttons button
     position: relative;
 }
 
+.translate-full .unit-locked-lightbox,
 .translate-full .translate-lightbox
 {
     background: rgba(0, 0, 0, 0.2);
@@ -952,14 +986,42 @@ html[dir="rtl"] .extra-item-block .suggestion-feedback .buttons button
     z-index: 2;
     margin: -5px;
     box-sizing: border-box;
-    border-radius: 5px;
-    left: 10px;
-    right: 10px;
+    left: 5px;
+    right: 5px;
     top: 5px;
     bottom: 5px;
     display: none;
 }
 
+.translate-full.unit-locked .unit-locked-lightbox,
+.translate-full.suggestion-expanded .translate-lightbox
+{
+    display: block;
+}
+
+.translate-full .unit-locked-lightbox
+{
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.translate-full .unit-locked-lightbox > div
+{
+    display: block;
+    position: relative;
+    height: 100%;
+}
+
+.translate-full .unit-locked-lightbox > div > div
+{
+    position: relative;
+    top: 8.5em;
+    color: #ffb2b0;
+    font-style: italic;
+    font-size: 110%;
+    text-align: center;
+}
+
+.translate-full.unit-locked .unit-locked-lightbox,
 .translate-full.suggestion-expanded .translate-lightbox
 {
     display: block;
@@ -1070,12 +1132,15 @@ html[dir="rtl"] .suggestion-original
     padding: 0.2em;
 }
 
-.editor-area-wrapper.is-disabled,
+.editor-area-wrapper.is-disabled
+{
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
 .editor-area-wrapper.is-disabled textarea
 {
     box-shadow: none;
     outline: none;
-    background-color: #eee;
     color: #999;
 }
 
@@ -1087,6 +1152,7 @@ html[dir="rtl"] .suggestion-original
 
 .editor-area-wrapper textarea
 {
+    background: none;
     box-sizing: border-box;
     border: 0;
     margin: 0;
@@ -1596,13 +1662,6 @@ a.editor-specialchar,
     background-color: #ebfacc;
 }
 
-/* FUZZY TRANSLATION */
-
-div.translate-translation
-{
-    min-height: 1.5em;
-}
-
 div.translate-translation.raw textarea.translation
 {
     direction: ltr;
@@ -1621,6 +1680,8 @@ td.translate-full div.translate-translation:lang(zh)
 {
     margin-bottom: 35px;
 }
+
+/* FUZZY TRANSLATION */
 
 tr.view-row td.fuzzy-unit .translation-text
 {
@@ -1644,6 +1705,7 @@ textarea.translation
 {
     resize: none;
     font-size: 115%;
+    line-height: 135%;
 }
 
 /* TERMINOLOGY MANAGEMENT */

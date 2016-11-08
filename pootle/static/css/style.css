@@ -748,7 +748,7 @@ html[dir="rtl"] #autorefresh-notice .x
 tr.view-row:nth-child(odd),
 .permissions tr.item:nth-child(odd)
 {
-    background: #f5fbfd;
+    background: #fafafa;
 }
 
 /* MODULES */

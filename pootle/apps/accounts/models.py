@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -84,6 +85,7 @@ class User(AbstractBaseUser):
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
     # Translation setting fields
+    # FIXME: remove unit_rows from the model and add migration
     unit_rows = models.SmallIntegerField(default=9,
                                          verbose_name=_("Number of Rows"))
     alt_src_langs = models.ManyToManyField(
@@ -377,9 +379,6 @@ class User(AbstractBaseUser):
 
     def get_suggestion_reviews(self):
         return self.submission_set.get_unit_suggestion_reviews()
-
-    def get_unit_rows(self):
-        return min(max(self.unit_rows, 5), 49)
 
     def get_unit_states_changed(self):
         return self.submission_set.get_unit_state_changes()

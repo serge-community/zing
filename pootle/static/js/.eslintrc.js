@@ -15,6 +15,7 @@ module.exports = {
     ngettext: false,
     interpolate: false,
     l: false,
+    s: false,
     PTL: false,
     require: false,
     shortcut: false,

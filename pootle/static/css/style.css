@@ -47,7 +47,6 @@
  * BASIC ELEMENT STYLING
  */
 
-#header-meta,
 .header
 {
     background-color: #eee;
@@ -1500,15 +1499,6 @@ html[dir="rtl"] ul.pager li:last-child > *
 #header-tabs
 {
     border-bottom: 1px solid #d9d9d9;
-}
-
-#header-meta
-{
-    box-sizing: border-box;
-    display: table;
-    width: 100%;
-    line-height: 2;
-    border-bottom: none;
 }
 
 /*

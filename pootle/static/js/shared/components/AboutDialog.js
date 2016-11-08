@@ -25,7 +25,7 @@ const AboutDialogContent = React.createClass({
     return (
       <div>
         <div className="side-column">
-          <img src="/static/images/logo.svg" />
+          <img src={s('images/logo.svg')} />
         </div>
         <div className="main-content">
           <h1>Zing</h1>

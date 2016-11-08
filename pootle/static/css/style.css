@@ -731,7 +731,6 @@ html[dir="rtl"] #autorefresh-notice .x
     padding: 0;
     position: relative;
     width: 100%;
-    display: inline-block;
 
     /* height calculated via js */
 }

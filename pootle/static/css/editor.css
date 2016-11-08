@@ -41,7 +41,7 @@ textarea#view_unit
     right: 1em;
     z-index: 300; /* show above the main toolbar */
 
-    top: -35px;
+    top: -3.7em;
 }
 
 /* When browser size is 950px or less, show navigation toolbar below the main toolbar */
@@ -57,7 +57,7 @@ textarea#view_unit
         border-style: none solid solid;
 
         padding: 10px 8px 5px;
-        top: -11px;
+        top: -1.7em;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         border-radius: 5px;
     }

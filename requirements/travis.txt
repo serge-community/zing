@@ -12,5 +12,3 @@ psycopg2>=2.4.5
 
 # Test coverage
 codecov
-coverage
-coveralls

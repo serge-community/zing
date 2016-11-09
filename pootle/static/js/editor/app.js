@@ -187,8 +187,6 @@ PTL.editor = {
      */
 
     /* Editor toolbar navigation/search/filtering */
-    $('#toolbar').on('keypress', '.js-unit-index', (e) => this.gotoIndex(e));
-    $('#toolbar').on('dblclick click', '.js-unit-index', (e) => this.unitIndex(e));
     $('#toolbar').on('click', '#js-nav-prev', () => this.gotoPrev());
     $('#toolbar').on('click', '#js-nav-next', () => this.gotoNext());
     $('#toolbar').on('change', '#js-filter-sort', () => this.filterSort());
@@ -1728,52 +1726,6 @@ PTL.editor = {
       PTL.editor.setOffset(uid);
     }
     return true;
-  },
-
-  /* Selects the element's contents and sets the focus */
-  unitIndex(e) {
-    e.preventDefault();
-
-    const selection = window.getSelection();
-    const range = document.createRange();
-
-    range.selectNodeContents(this.unitIndexEl);
-    selection.removeAllRanges();
-    selection.addRange(range);
-    this.unitIndexEl.focus();
-  },
-
-  /* Loads the editor on a index */
-  gotoIndex(e) {
-    if (e.which !== 13) { // Enter key
-      return;
-    }
-
-    e.preventDefault();
-
-    let index = parseInt(this.unitIndexEl.textContent, 10);
-    if (isNaN(index)) {
-      return;
-    }
-    index = Math.max(0, index - 1);
-    if (index >= 0 && index <= this.units.total) {
-      // if index is outside of current uids clear units first
-      if (index < this.initialOffset || index >= this.getOffsetOfLastUnit()) {
-        this.initialOffset = -1;
-        this.offset = 0;
-        this.offsetRequested = index + 1;
-        $.history.load(utils.updateHashPart('offset',
-                                            this.getStartOfChunk(index),
-                                            ['unit']));
-      } else {
-        const uId = this.units.uIds[(index - this.initialOffset)];
-        const newHash = utils.updateHashPart('unit', uId);
-        $.history.load(utils.updateHashPart('offset',
-                                            this.getStartOfChunk(index),
-                                            [],
-                                            newHash));
-      }
-    }
   },
 
   /*

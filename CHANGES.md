@@ -4,6 +4,9 @@ Zing Changelog
 v0.1.1 (in development)
 -----------------------
 
+* Editor changes:
+  * Removed the ability to jump to units by index (#79).
+
 
 v0.1.0 (2016-11-09)
 -------------------

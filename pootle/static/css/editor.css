@@ -109,32 +109,6 @@ html[dir="rtl"] #toolbar > div:last-child
     top: 2px;
 }
 
-#prevnext #item-number
-{
-    margin: 0 -0.3em;
-    padding: 0 0.3em;
-    text-align: center;
-    position: relative;
-    border: 1px solid transparent;
-    background: transparent;
-    display: inline-block;
-    max-width: 5em;
-    white-space: nowrap;
-    outline: 0;
-}
-
-#prevnext:hover #item-number,
-#prevnext:focus #item-number
-{
-    background: #fff;
-    border: 1px solid #d9d9d9;
-}
-
-#prevnext #items-count
-{
-    display: inline-block;
-}
-
 
 /* EDITOR - GENERAL */
 

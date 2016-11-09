@@ -47,8 +47,8 @@ const AboutDialogContent = React.createClass({
           </p>
 
           <p className="copyright">
-            {t('© 2016 Pootle Contributors')}<br />
-            {tct('© %(year)s Zing Contributors', { year: 2016 })}
+            {tct('© %(year)s Zing Contributors', { year: 2016 })}<br />
+            {t('© 2016 Pootle Contributors')}
           </p>
         </div>
       </div>

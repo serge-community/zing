@@ -8,6 +8,8 @@
 
 import React from 'react';
 
+import { toLocaleString } from 'utils/i18n';
+
 
 const NumberPill = React.createClass({
   propTypes: {
@@ -25,7 +27,7 @@ const NumberPill = React.createClass({
         className="stats-data"
         href={this.props.url}
       >
-        {this.props.n.toLocaleString()}
+        {toLocaleString(this.props.n)}
       </a>
     );
   },

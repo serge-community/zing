@@ -8,6 +8,8 @@
 
 import React from 'react';
 
+import { toLocaleString } from 'utils/i18n';
+
 
 const ColoredNumber = React.createClass({
   propTypes: {
@@ -19,7 +21,7 @@ const ColoredNumber = React.createClass({
       return <span className="zero">0</span>;
     }
 
-    return <span>{this.props.n.toLocaleString()}</span>;
+    return <span>{toLocaleString(this.props.n)}</span>;
   },
 });
 

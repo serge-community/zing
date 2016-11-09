@@ -19,6 +19,7 @@ import LastActivity from 'components/LastActivity';
 import TimeSince from 'components/TimeSince';
 import cookie from 'utils/cookie';
 import { q } from 'utils/dom';
+import { toLocaleString } from 'utils/i18n';
 
 import BrowserTable from './browser/components/BrowserTable';
 import Stats from './browser/components/Stats';
@@ -27,7 +28,7 @@ import msg from './msg';
 
 
 function formattedValue(n) {
-  return n ? n.toLocaleString() : 0;
+  return n ? toLocaleString(n) : 0;
 }
 
 function nicePercentage(part, total, noTotalDefault) {

@@ -107,3 +107,20 @@ export function nt(singular, plural, count, ctx = null) {
   }
   return interpolate(ngettext(singular, plural, count), ctx, true);
 }
+
+
+/**
+ * Locale-specific to-string conversion.
+ *
+ * This is a thin wrapper around `.toLocaleString()` to always use
+ * `navigator.language`, which is the least bad option we have to determine
+ * user's preferred language for the time being.
+ *
+ * Please note browsers implement `toLocaleString()` very differently and when
+ * it comes to number decimals, it doesn't work at all in Safari 9 and IE11,
+ * Chrome always omits the parameter passed to `toLocaleString()` and Firefox is
+ * the only one obeying it.
+ */
+export function toLocaleString(number) {
+  return number.toLocaleString(navigator.language);
+}

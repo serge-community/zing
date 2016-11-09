@@ -1,8 +1,8 @@
 Zing Changelog
 ==============
 
-0.1.0
------
+v0.1.0 (2016-11-09)
+-------------------
 
 * Initial version diverging off Pootle.
 * Django 1.9 support (#24, #39, #76).

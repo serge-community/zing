@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -75,12 +76,19 @@ def _test_units_checks_filter(qs, check_type, check_data):
     else:
         for item in result:
             item.qualitycheck_set.values_list("category", flat=True)
-        assert(
-            list(result)
-            == list(
-                qs.filter(
-                    qualitycheck__false_positive=False,
-                    qualitycheck__category=check_data).distinct()))
+        if check_data:
+            assert(
+                list(result)
+                == list(
+                    qs.filter(
+                        qualitycheck__false_positive=False,
+                        qualitycheck__category=check_data).distinct()))
+        else:
+            assert(
+                list(result)
+                == list(
+                    qs.filter(
+                        qualitycheck__false_positive=False).distinct()))
 
 
 def _test_units_contribution_filter(qs, user, unit_filter):
@@ -287,8 +295,11 @@ def test_units_checks_filter_bad():
     qs = Unit.objects.all()
     with pytest.raises(FilterNotFound):
         UnitChecksFilter(qs).filter("BAD")
-    # if you dont supply check/category you get empty qs
-    assert not UnitChecksFilter(qs).filter("checks").count()
+    # if you dont supply check/category you get all checks
+    assert (
+        UnitChecksFilter(qs).filter('checks').count() ==
+        Unit.objects.filter(qualitycheck__false_positive=False).distinct().count()
+    )
 
 
 @pytest.mark.django_db

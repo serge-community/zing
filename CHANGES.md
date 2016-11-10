@@ -4,6 +4,7 @@ Zing Changelog
 v0.1.2 (in development)
 -----------------------
 
+* Editor: added the ability to select groups of failing checks (#80).
 * Removed extra layer of serialization (#88).
 
 

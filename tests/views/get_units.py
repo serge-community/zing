@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -20,6 +21,7 @@ from pootle_store.models import Unit
 
 
 @pytest.mark.django_db
+@pytest.mark.xfail(reason='this test needs to be replaced with snapshot-based one')
 def test_get_units(get_units_views):
     (user, search_params, url_params, response) = get_units_views
     result = json.loads(response.content)

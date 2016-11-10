@@ -64,6 +64,7 @@ const ALLOWED_SORTS = ['oldest', 'newest', 'default'];
 
 const filterSelectOpts = {
   dropdownAutoWidth: true,
+  dropdownCssClass: 'checks-dropdown',
   width: 'off',
 };
 const sortSelectOpts = assign({
@@ -438,25 +439,25 @@ PTL.editor = {
       // Reset to defaults
       this.filter = 'all';
       this.checks = [];
-      this.category = [];
+      this.category = undefined;
       this.sortBy = 'default';
 
-      if ('filter' in params) {
-        const filterName = params.filter;
+      const filterName = params.filter || 'all';
 
-        // Set current state
-        this.filter = filterName;
+      // Set current state
+      this.filter = filterName;
 
-        if (filterName === 'checks' && 'checks' in params) {
+      if (this.filter === 'checks') {
+        if ('checks' in params) {
           this.checks = params.checks.split(',');
-        }
-        if (filterName === 'checks' && 'category' in params) {
+        } else if ('category' in params) {
           this.category = params.category;
         }
-        if ('sort' in params) {
-          const { sort } = params;
-          this.sortBy = ALLOWED_SORTS.indexOf(sort) !== -1 ? sort : 'default';
-        }
+        this.getCheckOptions();
+      }
+      if ('sort' in params) {
+        const { sort } = params;
+        this.sortBy = ALLOWED_SORTS.indexOf(sort) !== -1 ? sort : 'default';
       }
 
       if ('modified-since' in params) {
@@ -537,18 +538,14 @@ PTL.editor = {
       this.$filterStatus.select2('val', filterValue);
 
       if (this.filter === 'checks') {
-        // if the checks selector is empty (i.e. the 'change' event was not fired
-        // because the selection did not change), force the update to populate the selector
-        if (this.$filterChecks.is(':hidden')) {
-          this.getCheckOptions();
-        }
+        this.$filterChecksWrapper.css('display', 'inline-block');
+        const selectedValue = this.category || this.checks[0] || 'all';
+        this.$filterChecks.select2(filterSelectOpts).select2('val', selectedValue);
+      } else {
+        this.$filterChecksWrapper.hide();
       }
 
       this.$filterSortBy.select2('val', this.sortBy);
-
-      if (this.filter === 'search') {
-        this.$filterChecksWrapper.hide();
-      }
 
       // re-enable normal event handling
       this.preventNavigation = false;
@@ -1170,7 +1167,7 @@ PTL.editor = {
     if (this.filter === 'checks' && this.checks.length) {
       reqData.checks = this.checks.join(',');
     }
-    if (this.filter === 'checks' && this.category.length) {
+    if (this.filter === 'checks' && this.category) {
       reqData.category = this.category;
     }
 
@@ -1735,7 +1732,7 @@ PTL.editor = {
   getCheckOptions() {
     StatsAPI.getChecks(this.settings.pootlePath)
       .then(
-        (data) => this.appendChecks(data),
+        (data) => this.updateChecksDropdown(data),
         this.error
       );
   },
@@ -1749,57 +1746,58 @@ PTL.editor = {
       return false;
     }
 
-    const filterChecks = this.$filterChecks.val();
+    const name = this.$filterChecks.val();
+    const isCategory = $(this.$filterChecks.select2('data').element)
+      .data('type') === 'category';
 
-    if (filterChecks !== 'none') {
-      const sortBy = this.$filterSortBy.val();
-      const newHash = {
-        filter: 'checks',
-        checks: filterChecks,
-      };
+    const sortBy = this.$filterSortBy.val();
+    const newHash = {
+      filter: 'checks',
+    };
 
-      if (sortBy !== 'default') {
-        newHash.sort = sortBy;
+    if (name !== 'all') {
+      if (isCategory) {
+        newHash.category = name;
+      } else {
+        newHash.checks = name;
       }
-
-      $.history.load($.param(newHash));
     }
+
+    if (sortBy !== 'default') {
+      newHash.sort = sortBy;
+    }
+
+    $.history.load($.param(newHash));
     return true;
   },
 
   /* Adds the failing checks to the UI */
-  appendChecks(checks) {
-    if (Object.keys(checks).length) {
-      const $checks = this.$filterChecks;
-      const selectedValue = this.checks[0] || 'none';
+  updateChecksDropdown(checks) {
+    const $checks = this.$filterChecks;
 
-      $checks.find('optgroup').each(function displayGroups() {
-        const $gr = $(this);
-        let empty = true;
+    $checks.find('optgroup').each(function displayGroups() {
+      const $gr = $(this);
+      let groupTotal = 0;
 
-        $gr.find('option').each(function displayOptions() {
-          const $opt = $(this);
-          const value = $opt.val();
+      $gr.find('option').each(function displayOptions() {
+        const $opt = $(this);
+        const value = $opt.val();
 
-          if (value in checks) {
-            empty = false;
-            $opt.text(`${$opt.data('title')}(${checks[value]})`);
-          } else {
-            $opt.remove();
-          }
-        });
+        if ($opt.hasClass('category')) {
+          return;
+        }
 
-        if (empty) {
-          $gr.hide();
+        if (value in checks) {
+          groupTotal += checks[value];
+        } else {
+          $opt.remove();
         }
       });
 
-      $checks.select2(filterSelectOpts).select2('val', selectedValue);
-      this.$filterChecksWrapper.css('display', 'inline-block');
-    } else { // No results
-      this.displayMsg({ body: gettext('No results.') });
-      this.$filterStatus.select2('val', this.filter);
-    }
+      if (groupTotal === 0) {
+        $gr.hide();
+      }
+    });
   },
 
   filterSort() {
@@ -1810,9 +1808,12 @@ PTL.editor = {
     const sortBy = this.$filterSortBy.val();
     const user = this.user || null;
 
-    const newHash = { filter: filterBy };
+    const newHash = {};
+    if (filterBy !== 'all') {
+      newHash.filter = filterBy;
+    }
 
-    if (this.category.length) {
+    if (this.category) {
       newHash.category = this.category;
     } else if (filterChecks !== 'none') {
       newHash.checks = filterChecks;
@@ -1840,28 +1841,27 @@ PTL.editor = {
     const $selected = this.$filterStatus.find('option:selected');
     const filterBy = $selected.val();
 
-    if (filterBy === 'checks') {
-      this.getCheckOptions();
-    } else { // Normal filtering options (untranslated, fuzzy...)
-      this.$filterChecksWrapper.hide();
+    this.$filterChecksWrapper.hide();
 
-      if (!this.preventNavigation) {
-        const newHash = { filter: filterBy };
-        const isUserFilter = $selected.data('user');
-
-        if (this.user && isUserFilter) {
-          newHash.user = this.user;
-        } else {
-          this.user = null;
-          $('.js-user-filter').remove();
-
-          if (this.sortBy !== 'default') {
-            newHash.sort = this.sortBy;
-          }
-        }
-
-        $.history.load($.param(newHash));
+    if (!this.preventNavigation) {
+      const newHash = {};
+      if (filterBy !== 'all') {
+        newHash.filter = filterBy;
       }
+      const isUserFilter = $selected.data('user');
+
+      if (this.user && isUserFilter) {
+        newHash.user = this.user;
+      } else {
+        this.user = null;
+        $('.js-user-filter').remove();
+
+        if (this.sortBy !== 'default') {
+          newHash.sort = this.sortBy;
+        }
+      }
+
+      $.history.load($.param(newHash));
     }
     return true;
   },

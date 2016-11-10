@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -33,7 +34,7 @@ class BaseUnitFilter(object):
 class UnitChecksFilter(BaseUnitFilter):
 
     def __init__(self, qs, *args, **kwargs):
-        self.qs = qs
+        super(UnitChecksFilter, self).__init__(qs, *args, **kwargs)
         self.checks = kwargs.get("checks")
         self.category = kwargs.get("category")
 
@@ -42,11 +43,15 @@ class UnitChecksFilter(BaseUnitFilter):
             return self.qs.filter(
                 qualitycheck__false_positive=False,
                 qualitycheck__name__in=self.checks).distinct()
-        elif self.category:
+
+        if self.category:
             return self.qs.filter(
                 qualitycheck__false_positive=False,
                 qualitycheck__category=self.category).distinct()
-        return self.qs.none()
+
+        return self.qs.filter(
+            qualitycheck__false_positive=False,
+        ).distinct()
 
 
 class UnitStateFilter(BaseUnitFilter):
@@ -73,7 +78,7 @@ class UnitContributionFilter(BaseUnitFilter):
     """Filter a Unit qs based on user contributions"""
 
     def __init__(self, qs, *args, **kwargs):
-        self.qs = qs
+        super(UnitContributionFilter, self).__init__(qs, *args, **kwargs)
         self.user = kwargs.get("user")
 
     def filter_suggestions(self):
@@ -128,8 +133,7 @@ class UnitContributionFilter(BaseUnitFilter):
 
 class UnitSearchFilter(object):
 
-    filters = (
-        UnitChecksFilter, UnitStateFilter, UnitContributionFilter)
+    filters = (UnitChecksFilter, UnitStateFilter, UnitContributionFilter)
 
     def filter(self, qs, unit_filter, *args, **kwargs):
         for search_filter in self.filters:

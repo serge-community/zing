@@ -409,7 +409,7 @@ PTL.editor = {
         this.closeSuggestion({ checkIfCanNavigate: false });
       }
 
-      // Walk through known filtering criterias and apply them to the editor object
+      // Walk through known filtering criteria and apply them to the editor object
 
       if (params.unit) {
         const uIdParam = parseInt(params.unit, 10);

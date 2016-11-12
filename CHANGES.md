@@ -5,8 +5,7 @@ v0.1.1 (in development)
 -----------------------
 
 * Fixed display of dates in the timeline.
-* Editor changes:
-  * Removed the ability to jump to units by index (#79).
+* Editor: removed the ability to jump to units by index (#79).
 
 
 v0.1.0 (2016-11-09)

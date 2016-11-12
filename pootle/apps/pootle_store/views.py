@@ -8,7 +8,6 @@
 # AUTHORS file for copyright and authorship information.
 
 import copy
-import time
 
 from translate.lang import data
 
@@ -31,6 +30,7 @@ from pootle.core.delegate import search_backend
 from pootle.core.exceptions import Http400
 from pootle.core.http import JsonResponse, JsonResponseBadRequest
 from pootle.core.mail import send_mail
+from pootle.core.utils import dateformat
 from pootle.core.views import (BaseBrowseDataJSON, BasePathDispatcherView,
                                PootleJSON)
 from pootle.i18n.gettext import ugettext as _
@@ -361,7 +361,7 @@ class UnitTimelineJSON(PootleUnitJSON):
             timestamp = None
             entry_datetime = entry_group['datetime']
             if entry_datetime is not None:
-                timestamp = time.mktime(entry_datetime.timetuple())
+                timestamp = int(dateformat.format(entry_datetime, 'U')),
             result.append({
                 'timestamp': timestamp,
             })

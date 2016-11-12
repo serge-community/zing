@@ -1,3 +1,0 @@
-[submodule "tests/version-migration/data"]
-	path = tests/version-migration/data
-	url = git://github.com/translate/pootle-test-data.git

@@ -2077,8 +2077,7 @@ PTL.editor = {
       }
       qAll('.js-mount-timesince').forEach((el, i) => {
         const props = {
-          title: data.entries_group[i].display_datetime,
-          dateTime: data.entries_group[i].iso_datetime,
+          timestamp: data.entries_group[i].timestamp,
         };
         ReactRenderer.render(<TimeSince {...props} />, el);
       });

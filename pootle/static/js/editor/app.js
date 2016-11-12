@@ -38,7 +38,6 @@ import fetch from 'utils/fetch';
 import linkHashtags from 'utils/linkHashtags';
 
 import SuggestionFeedbackForm from './components/SuggestionFeedbackForm';
-import UploadTimeSince from './components/UploadTimeSince';
 
 import captcha from '../captcha';
 import { UnitSet } from '../collections';
@@ -2081,11 +2080,7 @@ PTL.editor = {
           title: data.entries_group[i].display_datetime,
           dateTime: data.entries_group[i].iso_datetime,
         };
-        if (data.entries_group[i].via_upload) {
-          ReactRenderer.render(<UploadTimeSince {...props} />, el);
-        } else {
-          ReactRenderer.render(<TimeSince {...props} />, el);
-        }
+        ReactRenderer.render(<TimeSince {...props} />, el);
       });
 
       utils.highlightRONodes('.js-unit-highlight');

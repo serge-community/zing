@@ -4,7 +4,7 @@ Zing Changelog
 v0.1.1 (2016-11-12)
 -------------------
 
-* Fixed display of dates in the timeline.
+* Fixed display of dates in the timeline (#82).
 * Editor: removed the ability to jump to units by index (#79).
 
 

@@ -12,7 +12,7 @@ ifeq ($(POOTLE_CMD),)
 	POOTLE_CMD=python manage.py
 endif
 
-.PHONY: all build clean sprite test pot help docs assets
+.PHONY: all build clean test pot help docs assets
 
 all: help
 
@@ -105,7 +105,6 @@ help:
 	@echo "  assets - collect and rebuild the static assets"
 	@echo "  build - create sdist with required prep"
 	@echo "  docs - build Sphinx docs"
-	@echo "  sprite - create CSS sprite"
 	@echo "  clean - remove any temporal files"
 	@echo "  test - run test suite"
 	@echo "  pot - update the POT translations templates"

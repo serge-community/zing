@@ -25,8 +25,5 @@ format_updaters = Provider()
 format_syncers = Provider()
 filetype_tool = Getter()
 
-serializers = Provider(providing_args=["instance"])
-deserializers = Provider(providing_args=["instance"])
-
 # view.context_data
 context_data = Provider(providing_args=["view", "context"])

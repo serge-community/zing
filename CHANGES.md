@@ -4,6 +4,8 @@ Zing Changelog
 v0.1.2 (in development)
 -----------------------
 
+* Removed extra layer of serialization (#88).
+
 
 v0.1.1 (2016-11-12)
 -------------------

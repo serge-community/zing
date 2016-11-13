@@ -8,6 +8,7 @@
 # AUTHORS file for copyright and authorship information.
 
 import datetime
+import io
 import logging
 import operator
 from hashlib import md5
@@ -16,6 +17,7 @@ from collections import OrderedDict
 
 from translate.filters.decorators import Category
 from translate.storage import base
+from translate.storage.factory import getobject
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -56,8 +58,6 @@ from .constants import (
     TRANSLATED, UNTRANSLATED)
 from .fields import MultiStringField, TranslationStoreField
 from .managers import StoreManager, SuggestionManager, UnitManager
-from .store.deserialize import StoreDeserialization
-from .store.serialize import StoreSerialization
 from .util import SuggestionStates
 
 
@@ -1391,10 +1391,12 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
             allow_add_and_obsolete=allow_add_and_obsolete)
 
     def deserialize(self, data):
-        return StoreDeserialization(self).deserialize(data)
+        buffered_data = io.BytesIO(data)
+        buffered_data.name = self.name
+        return getobject(buffered_data)
 
     def serialize(self):
-        return StoreSerialization(self).serialize()
+        return str(self)
 
     def sync(self, update_structure=False, conservative=True,
              user=None, skip_missing=False, only_newer=True):

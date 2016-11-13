@@ -118,7 +118,6 @@ class ProjectDBFactory(factory.django.DjangoModelFactory):
 
     pootle_path = factory.LazyAttribute(lambda p: "/projects/%s" % p.code)
     checkstyle = "standard"
-    treestyle = "none"
 
 
 class StoreDBFactory(factory.django.DjangoModelFactory):
@@ -148,6 +147,7 @@ class TranslationProjectFactory(factory.django.DjangoModelFactory):
 
     class Meta(object):
         model = 'pootle_translationproject.TranslationProject'
+        django_get_or_create = ('language', 'project')
 
 
 class UnitDBFactory(factory.django.DjangoModelFactory):

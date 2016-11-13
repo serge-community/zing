@@ -42,7 +42,6 @@ class ProjectAdminView(SuperuserRequiredMixin, TemplateView):
                 'checkstyle': Project.checker_choices,
                 'filetypes': filetypes,
                 'source_language': language_choices,
-                'treestyle': Project.treestyle_choices,
                 'defaults': {
                     'source_language': default_language,
                 },

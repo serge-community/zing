@@ -23,18 +23,6 @@ def test_language_repr():
 
 
 @pytest.mark.django_db
-def test_language_only_in_disabled_proj_liveness(templates, project0,
-                                                 templates_project0):
-    project0.disabled = True
-    project0.save()
-
-    assert project0.disabled
-    assert templates.translationproject_set.count() == 1
-    assert templates not in Language.live.all()
-    assert templates in Language.live.get_all_queryset()
-
-
-@pytest.mark.django_db
 def test_language_liveness():
     language = LanguageDBFactory()
 

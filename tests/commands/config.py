@@ -724,14 +724,6 @@ def test_cmd_config_bad(capfd):
             "-o", "code")
 
     with pytest.raises(CommandError):
-        # non-unique
-        call_command(
-            "config",
-            "pootle_project.project",
-            "nongnu",
-            "-o", "treestyle")
-
-    with pytest.raises(CommandError):
         call_command(
             "config",
             "pootle_project.project",

@@ -69,7 +69,6 @@ def test_admin_view_projects(client, request_users, english):
             'checkstyle': Project.checker_choices,
             'filetypes': filetypes,
             'source_language': language_choices,
-            'treestyle': Project.treestyle_choices,
             'defaults': {
                 'source_language': english.id}}}
     for k, v in expected.items():

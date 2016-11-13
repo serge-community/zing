@@ -32,14 +32,3 @@ def test_update_stores_noargs(capfd, project0_nongnu, project1, language1):
     out, err = capfd.readouterr()
     assert 'system\tSO' not in err
     assert 'system\tUO' not in err
-
-
-@pytest.mark.cmd
-@pytest.mark.django_db
-def test_update_stores_project_tree_none(capfd, project0):
-    project0.treestyle = "none"
-    project0.save()
-    call_command("update_stores", "--project", project0.code)
-    out, err = capfd.readouterr()
-    assert not out
-    assert not err

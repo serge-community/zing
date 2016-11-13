@@ -263,9 +263,7 @@ class PootleTestEnv(object):
         po = Format.objects.get(name="po")
         for i_ in range(0, 2):
             # add 2 projects
-            project = ProjectDBFactory(
-                source_language=source_language,
-                treestyle="none")
+            project = ProjectDBFactory(source_language=source_language)
             project.filetypes.add(po)
 
     def setup_terminology(self):

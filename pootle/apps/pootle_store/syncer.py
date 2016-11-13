@@ -150,9 +150,7 @@ class StoreSyncer(object):
     @property
     def relative_file_path(self):
         path_parts = split_pootle_path(self.store.pootle_path)
-        path_prefix = [path_parts[1]]
-        if self.project.get_treestyle() != "gnu":
-            path_prefix.append(path_parts[0])
+        path_prefix = [path_parts[1], path_parts[0]]
         return os.path.join(*(path_prefix + list(path_parts[2:])))
 
     @property

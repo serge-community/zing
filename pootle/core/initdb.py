@@ -259,7 +259,6 @@ class InitDB(object):
             'source_language': en,
             'fullname': u"Tutorial",
             'checkstyle': "standard",
-            'treestyle': "auto",
         }
         tutorial = self._create_object(Project, **criteria)[0]
         tutorial.filetypes.add(po)

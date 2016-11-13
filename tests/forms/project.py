@@ -23,7 +23,6 @@ def test_clean_code_invalid(reserved_code, format_registry):
         'fullname': 'Foo',
         'filetypes': [format_registry["po"]["pk"]],
         'source_language': 1,
-        'treestyle': Project.treestyle_choices[0][0],
     }
     form = ProjectForm(form_data)
     assert not form.is_valid()
@@ -39,7 +38,6 @@ def test_clean_code_blank_invalid(format_registry):
         'fullname': 'Foo',
         'filetypes': [format_registry["po"]["pk"]],
         'source_language': 1,
-        'treestyle': Project.treestyle_choices[0][0],
     }
     form = ProjectForm(form_data)
     assert not form.is_valid()
@@ -55,7 +53,6 @@ def test_clean_localfiletype_invalid(format_registry):
         'fullname': 'Foo',
         'filetypes': ["NO_SUCH_FORMAT"],
         'source_language': 1,
-        'treestyle': Project.treestyle_choices[0][0],
     }
     form = ProjectForm(form_data)
     assert not form.is_valid()
@@ -75,7 +72,6 @@ def test_project_form_bad_filetype_removal(format_registry):
         'screenshot_search_prefix': "",
         'ignoredfiles': "",
         'report_email': "",
-        'treestyle': Project.treestyle_choices[0][0],
     }
     form = ProjectForm(form_data, instance=Project.objects.get(code="project0"))
     assert not form.is_valid()
@@ -99,7 +95,6 @@ def test_project_form_change_filetypes(format_registry):
         'screenshot_search_prefix': "",
         'ignoredfiles': "",
         'report_email': "",
-        'treestyle': Project.treestyle_choices[0][0],
     }
     project0 = Project.objects.get(code="project0")
     form = ProjectForm(form_data, instance=project0)

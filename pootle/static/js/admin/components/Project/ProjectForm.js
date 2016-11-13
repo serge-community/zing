@@ -25,7 +25,7 @@ const ProjectForm = React.createClass({
 
   mixins: [ModelFormMixin],
 
-  fields: ['code', 'fullname', 'checkstyle', 'filetypes', 'treestyle',
+  fields: ['code', 'fullname', 'checkstyle', 'filetypes',
            'source_language', 'ignoredfiles', 'report_email',
            'screenshot_search_prefix', 'disabled'],
 
@@ -87,16 +87,6 @@ const ProjectForm = React.createClass({
             name="filetypes"
             errors={errors.filetypes}
             value={formData.filetypes}
-          />
-          <FormElement
-            type="select"
-            clearable={false}
-            options={model.getFieldChoices('treestyle')}
-            label={gettext('Project Tree Style')}
-            handleChange={this.handleChange}
-            name="treestyle"
-            errors={errors.treestyle}
-            value={formData.treestyle}
           />
           <FormElement
             type="select"

@@ -12,6 +12,7 @@ v0.1.2 (in development)
 * Fixed stats auto-expanding when browsing to files (#97).
 * Removed extra layer of serialization (#88).
 * Removed external language mapping (#100).
+* Removed project-specific directory layouts (#102).
 
 
 v0.1.1 (2016-11-12)

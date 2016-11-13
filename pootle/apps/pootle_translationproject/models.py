@@ -22,6 +22,7 @@ from pootle.core.mixins import CachedMethods, CachedTreeItem
 from pootle.core.url_helpers import get_editor_filter, split_pootle_path
 from pootle_app.models.directory import Directory
 from pootle_app.project_tree import (does_not_exist,
+                                     get_translation_project_dir,
                                      translation_project_dir_exists)
 from pootle_format.models import Format
 from pootle_language.models import Language
@@ -204,10 +205,6 @@ class TranslationProject(models.Model, CachedTreeItem):
             self.real_path = None
 
     @property
-    def file_style(self):
-        return self.project.get_treestyle()
-
-    @property
     def checker(self):
         from translate.filters import checks
         # We do not use default Translate Toolkit checkers; instead use
@@ -263,14 +260,10 @@ class TranslationProject(models.Model, CachedTreeItem):
                                       .get_or_make_subdir(self.project.code)
         self.pootle_path = self.directory.pootle_path
 
-        if self.project.treestyle != "none":
-            project_dir = self.project.get_real_path()
-            from pootle_app.project_tree import get_translation_project_dir
-            self.abs_real_path = get_translation_project_dir(
-                self.language, project_dir, self.file_style, make_dirs=not
-                self.directory.obsolete)
-        else:
-            self.abs_real_path = None
+        self.abs_real_path = get_translation_project_dir(
+            self.language, self.project.get_real_path(),
+            make_dirs=not self.directory.obsolete
+        )
         super(TranslationProject, self).save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
@@ -381,22 +374,10 @@ class TranslationProject(models.Model, CachedTreeItem):
         if self.is_template_project:
             exts = filetypes.template_extensions
 
-        from pootle_app.project_tree import (add_files,
-                                             match_template_filename,
-                                             direct_language_match_filename)
+        from pootle_app.project_tree import add_files
 
         all_files = []
         new_files = []
-
-        if self.file_style == 'gnu':
-            if self.pootle_path.startswith('/templates/'):
-                file_filter = lambda filename: match_template_filename(
-                    self.project, filename,)
-            else:
-                file_filter = lambda filename: direct_language_match_filename(
-                    self.language.code, filename,)
-        else:
-            file_filter = lambda filename: True
 
         all_files, new_files, __ = add_files(
             self,
@@ -404,7 +385,6 @@ class TranslationProject(models.Model, CachedTreeItem):
             exts,
             self.real_path,
             self.directory,
-            file_filter,
         )
 
         return all_files, new_files

@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -11,7 +12,6 @@ import os
 from collections import OrderedDict
 
 from translate.filters import checks
-from translate.lang.data import langcode_re
 
 from django.conf import settings
 from django.core.cache import cache
@@ -206,17 +206,6 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
 
     filetypes = SortedManyToManyField(Format)
 
-    treestyle_choices = (
-        # TODO: check that the None is stored and handled correctly
-        ('auto', _('Automatic detection of gnu/non-gnu file layouts (slower)')),
-        ('gnu', _('GNU style: files named by language code')),
-        ('nongnu', _('Non-GNU: Each language in its own directory')),
-        ('none', _('Allow pootle_fs to manage filesystems')),
-    )
-    treestyle = models.CharField(max_length=20, default='auto',
-                                 choices=treestyle_choices,
-                                 verbose_name=_('Project Tree Style'))
-
     source_language = models.ForeignKey(
         'pootle_language.Language', db_index=True,
         verbose_name=_('Source Language'))
@@ -392,9 +381,9 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
         self.full_clean()
 
         requires_translation_directory = (
-            self.treestyle != "none"
-            and not self.disabled
-            and not self.directory_exists_on_disk())
+            not self.disabled
+            and not self.directory_exists_on_disk()
+        )
         if requires_translation_directory:
             os.makedirs(self.get_real_path())
 
@@ -475,52 +464,6 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
             ext in filetypes.filetype_extensions
             or (match_templates
                 and ext in filetypes.template_extensions))
-
-    def _detect_treestyle(self):
-        try:
-            dirlisting = os.walk(self.get_real_path())
-            dirpath_, dirnames, filenames = dirlisting.next()
-
-            if not dirnames:
-                # No subdirectories
-                if filter(self.file_belongs_to_project, filenames):
-                    # Translation files found, assume gnu
-                    return "gnu"
-
-            # There are subdirectories
-            if filter(lambda dirname: dirname == 'templates' or
-                      langcode_re.match(dirname), dirnames):
-                # Found language dirs assume nongnu
-                return "nongnu"
-
-            # No language subdirs found, look for any translation file
-            for dirpath_, dirnames, filenames in os.walk(self.get_real_path()):
-                if filter(self.file_belongs_to_project, filenames):
-                    return "gnu"
-        except:
-            pass
-
-        # Unsure
-        return None
-
-    def get_treestyle(self):
-        """Returns the real treestyle, if :attr:`Project.treestyle` is set
-        to ``auto`` it checks the project directory and tries to guess
-        if it is gnu style or nongnu style.
-
-        We are biased towards nongnu because it makes managing projects
-        from the web easier.
-        """
-        if self.treestyle != "auto":
-            return self.treestyle
-
-        detected = self._detect_treestyle()
-
-        if detected is not None:
-            return detected
-
-        # When unsure return nongnu
-        return "nongnu"
 
     def get_template_translationproject(self):
         """Returns the translation project that will be used as a template

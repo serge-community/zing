@@ -54,19 +54,16 @@ def find_altsrcs(unit, alt_src_langs, store=None, project=None):
     store = store or unit.store
     project = project or store.translation_project.project
 
+    language_regex = '(%s)' % '|'.join([x.code for x in alt_src_langs])
+    pootle_path = "/%s/%s/%s$" % (language_regex, project.code, store.path)
+
     altsrcs_qs = Unit.objects.filter(
         unitid_hash=unit.unitid_hash,
+        store__pootle_path__regex=pootle_path,
         store__translation_project__project=project,
         store__translation_project__language__in=alt_src_langs,
-        state=TRANSLATED)
-
-    if project.get_treestyle() == 'nongnu':
-        language_regex = '(%s)' % '|'.join([x.code for x in alt_src_langs])
-        pootle_path = "/%s/%s/%s$" % (
-            language_regex,
-            project.code,
-            store.path)
-        altsrcs_qs = altsrcs_qs.filter(store__pootle_path__regex=pootle_path)
+        state=TRANSLATED,
+    )
 
     return AltSrcUnits(altsrcs_qs).units
 

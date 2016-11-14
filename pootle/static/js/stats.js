@@ -65,6 +65,7 @@ function provideStatsDefaults(stats) {
     item.suggestions = item.suggestions || 0;
     item.lastaction = item.lastaction || {};
     item.lastaction.mtime = item.lastaction.mtime || 0;
+    item.lastupdated = item.lastupdated || 0;
 
     const total = item.total || 0;
     const translated = item.translated || 0;

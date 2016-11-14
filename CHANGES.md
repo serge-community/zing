@@ -7,6 +7,7 @@ v0.1.2 (in development)
 * Editor:
   * Added the ability to select groups of failing checks (#80).
   * Multiple UI tweaks, making better use of the available space.
+* Fixed table sorting for last updated columns (#91).
 * Removed extra layer of serialization (#88).
 
 

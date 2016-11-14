@@ -1613,6 +1613,7 @@ textarea.translation
 {
     resize: none;
     font-size: 115%;
+    line-height: 135%;
 }
 
 /* TERMINOLOGY MANAGEMENT */

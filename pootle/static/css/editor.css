@@ -1044,7 +1044,11 @@ html[dir="rtl"] .suggestion-original
     padding: 0.2em;
 }
 
-.editor-area-wrapper.is-disabled,
+.editor-area-wrapper.is-disabled
+{
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
 .editor-area-wrapper.is-disabled textarea
 {
     box-shadow: none;
@@ -1061,6 +1065,7 @@ html[dir="rtl"] .suggestion-original
 
 .editor-area-wrapper textarea
 {
+    background: none;
     box-sizing: border-box;
     border: 0;
     margin: 0;

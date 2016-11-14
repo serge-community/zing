@@ -1570,11 +1570,6 @@ a.editor-specialchar,
     background-color: #ebfacc;
 }
 
-div.translate-translation
-{
-    min-height: 1.5em;
-}
-
 div.translate-translation.raw textarea.translation
 {
     direction: ltr;

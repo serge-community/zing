@@ -1365,28 +1365,28 @@ PTL.editor = {
   },
 
 
-  /* Updates a button in `selector` to the `disable` state */
-  updateNavButton($button, disable) {
+  /* Updates a `$button` to the `enable` state */
+  updateNavButton($button, enable) {
     // Avoid unnecessary actions
-    if ($button.is(':disabled') && disable || $button.is(':enabled') && !disable) {
+    if ($button.is(':enabled') && enable || $button.is(':disabled') && !enable) {
       return;
     }
 
-    if (disable) {
+    if (enable) {
+      $button.attr('title', $button.data('title'));
+    } else {
       $button.data('title', $button.attr('title'));
       $button.removeAttr('title');
-    } else {
-      $button.attr('title', $button.data('title'));
     }
-    $button.prop('disabled', disable);
+    $button.prop('disabled', !enable);
   },
 
 
   /* Updates the navigation widget */
   updateNavigation() {
     this.updateNavButton(this.$navPrev,
-                         this.initialOffset === 0 && !this.units.hasPrev());
-    this.updateNavButton(this.$navNext, !this.units.hasNext());
+                         this.initialOffset !== 0 || this.units.hasPrev());
+    this.updateNavButton(this.$navNext, this.units.hasNext());
 
     this.unitCountEl.textContent = this.units.frozenTotal;
 

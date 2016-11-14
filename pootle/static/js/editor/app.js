@@ -2369,7 +2369,7 @@ PTL.editor = {
     editorBody.classList.add('suggestion-expanded');
 
     this.isSuggestionFeedbackFormDirty = false;
-    this.suggestionFeedbackForm = ReactDOM.render(
+    ReactDOM.render(
       <SuggestionFeedbackForm {...props} />,
       feedbackMountPoint
     );
@@ -2402,7 +2402,6 @@ PTL.editor = {
       suggestion.classList.remove('suggestion-expanded');
       ReactDOM.unmountComponentAtNode(feedbackMountPoint);
       this.selectedSuggestionId = undefined;
-      this.suggestionFeedbackForm = undefined;
       this.isSuggestionFeedbackFormDirty = false;
     }
   },

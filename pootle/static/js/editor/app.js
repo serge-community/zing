@@ -1991,7 +1991,8 @@ PTL.editor = {
       const queryString = this.buildSearchQuery();
       newHash = `search=${queryString}`;
     } else {
-      newHash = utils.updateHashPart('filter', 'all', ['search', 'sfields', 'soptions']);
+      newHash = utils.updateHashPart(undefined, undefined,
+                                     ['search', 'sfields', 'soptions']);
     }
     $.history.load(newHash);
     return true;

@@ -1570,8 +1570,6 @@ a.editor-specialchar,
     background-color: #ebfacc;
 }
 
-/* FUZZY TRANSLATION */
-
 div.translate-translation
 {
     min-height: 1.5em;
@@ -1595,6 +1593,8 @@ td.translate-full div.translate-translation:lang(zh)
 {
     margin-bottom: 35px;
 }
+
+/* FUZZY TRANSLATION */
 
 tr.view-row td.fuzzy-unit .translation-text
 {

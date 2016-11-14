@@ -318,13 +318,10 @@ div.sources .translation-text
 div.translate-container
 {
     position: relative;
-    margin: -5px 5px;
+    margin: -5px 0;
     padding: 1em 0;
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    border-radius: 5px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
     background-color: #f1f7f8;
-    overflow: hidden;
     clear: both;
 }
 
@@ -469,24 +466,24 @@ table td.translate-translation
 
 table td.translate-original
 {
-    padding-left: 25px;
+    padding-left: 20px;
 }
 
 table td.translate-translation
 {
-    padding-right: 25px;
+    padding-right: 20px;
 }
 
 html[dir="rtl"] table td.translate-original
 {
     padding-left: auto;
-    padding-right: 25px;
+    padding-right: 20px;
 }
 
 html[dir="rtl"] table td.translate-translation
 {
     padding-right: auto;
-    padding-left: 25px;
+    padding-left: 20px;
 }
 
 /* COMMENTS */

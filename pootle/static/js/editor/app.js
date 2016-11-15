@@ -579,7 +579,7 @@ PTL.editor = {
 
     if (this.tmData !== null) {
       const tmContent = this.getTMUnitsContent(this.tmData);
-      $('#extras-container').append(tmContent);
+      $('.js-mnt-tm').append(tmContent);
     }
 
     this.runHooks();

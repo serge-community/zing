@@ -10,6 +10,7 @@ v0.1.2 (in development)
   * Navigating between units now preserves the editor's vertical position.
   * New easy way to preview context rows by just hovering over the unit link.
   * Added the ability to select groups of failing checks (#80).
+  * Tweaked the UI for displaying obsolete messages (#94).
   * Multiple UI tweaks, making better use of the available space.
   * Removed support for the amaGama TM, as the built-in TM suffices (#92).
 * Fixed table sorting for last updated columns (#91).

@@ -2365,7 +2365,7 @@ PTL.editor = {
     };
     const mountSelector = `.js-mnt-suggestion-feedback-${suggId}`;
     const feedbackMountPoint = q(mountSelector);
-    const editorBody = q('.js-editor-body .translate-full');
+    const editorBody = q('.js-editor-cell');
     suggestion.classList.add('suggestion-expanded');
     editorBody.classList.add('suggestion-expanded');
 
@@ -2396,7 +2396,7 @@ PTL.editor = {
     if (this.selectedSuggestionId !== undefined &&
         (!checkIfCanNavigate || this.canNavigate())) {
       const suggestion = q(`#suggestion-${this.selectedSuggestionId}`);
-      const editorBody = q('.js-editor-body .translate-full');
+      const editorBody = q('.js-editor-cell');
       const mountSelector = `.js-mnt-suggestion-feedback-${this.selectedSuggestionId}`;
       const feedbackMountPoint = q(mountSelector);
       editorBody.classList.remove('suggestion-expanded');

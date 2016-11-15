@@ -121,7 +121,6 @@ PTL.editor = {
     this.$filterChecks = $('#js-filter-checks');
     this.$filterChecksWrapper = $('.js-filter-checks-wrapper');
     this.$filterSortBy = $('#js-filter-sort');
-    this.$msgOverlay = $('#js-editor-msg-overlay');
     this.$navNext = $('#js-nav-next');
     this.$navPrev = $('#js-nav-prev');
     this.unitPositionEl = q('.js-unit-position');
@@ -156,7 +155,6 @@ PTL.editor = {
     this.tmpl = {
       vUnit: _.template($('#view_unit').html()),
       tm: _.template($('#tm_suggestions').html()),
-      msg: _.template($('#js-editor-msg').html()),
     };
 
     /* Initialize search */
@@ -220,12 +218,6 @@ PTL.editor = {
     });
     $('#editor').on('blur', '.js-translation-area', (e) => {
       $(e.target).closest('.js-editor-area-wrapper').removeClass('is-focused');
-    });
-
-    /* General */
-    $('#editor').on('click', '.js-editor-reload', (e) => {
-      e.preventDefault();
-      $.history.load('');
     });
 
     /* Write TM results, special chars... into the currently focused element */
@@ -293,8 +285,6 @@ PTL.editor = {
     $('#editor').on('click', '.js-comment-remove', (e) => this.removeComment(e));
 
     /* Misc */
-    $(document).on('click', '.js-editor-msg-hide', () => this.hideMsg());
-
     $('#editor').on('click', '.js-toggle-raw', (e) => {
       e.preventDefault();
       $('.js-translate-translation').toggleClass('raw');
@@ -985,27 +975,11 @@ PTL.editor = {
    */
 
   showActivity() {
-    this.hideMsg();
     this.$editorActivity.spin().fadeIn(300);
   },
 
   hideActivity() {
     this.$editorActivity.spin(false).fadeOut(300);
-  },
-
-  /* Displays an informative message */
-  displayMsg({ showClose = true, body = null }) {
-    this.hideActivity();
-    helpers.fixSidebarHeight();
-    this.$msgOverlay.html(
-      this.tmpl.msg({ showClose, body })
-    ).fadeIn(300);
-  },
-
-  hideMsg() {
-    if (this.$msgOverlay.length) {
-      this.$msgOverlay.fadeOut(300);
-    }
   },
 
   /* Displays error messages on top of the toolbar */
@@ -1040,23 +1014,18 @@ PTL.editor = {
     PTL.editor.displayError(text);
   },
 
-  displayObsoleteMsg() {
-    const msgText = t('This string no longer exists.');
-    const backMsg = t('Go back to browsing');
-    const backLink = this.backToBrowserEl.getAttribute('href');
-    const reloadMsg = t('Reload page');
-    const html = [
-      '<div>', msgText, '</div>',
-      '<div class="editor-msg-btns">',
-      '<a class="btn btn-xs js-editor-reload" href="#">', reloadMsg, '</a>',
-      '<a class="btn btn-xs" href="', backLink, '">', backMsg, '</a>',
+  lockEditor(message) {
+    const editorBody = q('.js-editor-cell');
+    editorBody.classList.add('unit-locked');
 
-      '</div>',
-    ].join('');
-
-    this.displayMsg({ body: html, showClose: false });
+    q('.js-unit-locked-message').textContent = message;
+    q('.js-editor-area-wrapper').classList.add('is-disabled');
+    q('.js-translation-area').setAttribute('disabled', 'disabled');
   },
 
+  displayObsoleteMsg() {
+    this.lockEditor(t('This string no longer exists.'));
+  },
 
   /*
    * Misc functions
@@ -1221,7 +1190,6 @@ PTL.editor = {
     this.$viewRowsAfter.addClass('context-mode');
     this.$contextRowsAfter.addClass('context-mode');
   },
-
 
   /* hides the context rows */
   hideContextRows() {

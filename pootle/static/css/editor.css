@@ -971,6 +971,7 @@ html[dir="rtl"] .extra-item-block .suggestion-feedback .buttons button
     position: relative;
 }
 
+.translate-full .unit-locked-lightbox,
 .translate-full .translate-lightbox
 {
     background: rgba(0, 0, 0, 0.2);
@@ -978,14 +979,42 @@ html[dir="rtl"] .extra-item-block .suggestion-feedback .buttons button
     z-index: 2;
     margin: -5px;
     box-sizing: border-box;
-    border-radius: 5px;
-    left: 10px;
-    right: 10px;
+    left: 5px;
+    right: 5px;
     top: 5px;
     bottom: 5px;
     display: none;
 }
 
+.translate-full.unit-locked .unit-locked-lightbox,
+.translate-full.suggestion-expanded .translate-lightbox
+{
+    display: block;
+}
+
+.translate-full .unit-locked-lightbox
+{
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.translate-full .unit-locked-lightbox > div
+{
+    display: block;
+    position: relative;
+    height: 100%;
+}
+
+.translate-full .unit-locked-lightbox > div > div
+{
+    position: relative;
+    top: 8.5em;
+    color: #ffb2b0;
+    font-style: italic;
+    font-size: 110%;
+    text-align: center;
+}
+
+.translate-full.unit-locked .unit-locked-lightbox,
 .translate-full.suggestion-expanded .translate-lightbox
 {
     display: block;

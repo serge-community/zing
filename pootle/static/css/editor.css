@@ -288,6 +288,7 @@ tr.view-row:hover
     max-width: 100%;
     overflow: auto;
     font-size: 115%;
+    line-height: 135%;
 }
 
 div.sources

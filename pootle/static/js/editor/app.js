@@ -34,6 +34,7 @@ import UnitAPI from 'api/UnitAPI';
 import cookie from 'utils/cookie';
 import diff from 'utils/diff';
 import { q, qAll } from 'utils/dom';
+import { t } from 'utils/i18n';
 import linkHashtags from 'utils/linkHashtags';
 
 import SuggestionFeedbackForm from './components/SuggestionFeedbackForm';
@@ -306,7 +307,7 @@ PTL.editor = {
     window.addEventListener('beforeunload', (e) => {
       if (PTL.editor.isUnitDirty || PTL.editor.isSuggestionFeedbackFormDirty) {
         // eslint-disable-next-line no-param-reassign
-        e.returnValue = gettext(
+        e.returnValue = t(
           'You have unsaved changes in this string. Navigating away will discard those changes.'
         );
       }
@@ -463,20 +464,20 @@ PTL.editor = {
         const values = {
           'user-suggestions':
             // Translators: '%s' is a username
-            interpolate(gettext("%s's pending suggestions"), [user]),
+            t("%(user)s's pending suggestions", { user }),
           'user-suggestions-accepted':
             // Translators: '%s' is a username
-            interpolate(gettext("%s's accepted suggestions"), [user]),
+            t("%(user)s's accepted suggestions", { user }),
           'user-suggestions-rejected':
             // Translators: '%s' is a username
-            interpolate(gettext("%s's rejected suggestions"), [user]),
+            t("%(user)s's rejected suggestions", { user }),
           'user-submissions':
             // Translators: '%s' is a username
-            interpolate(gettext("%s's submissions"), [user]),
+            t("%(user)s's submissions", { user }),
           'user-submissions-overwritten':
             // Translators: '%s' is a username, meaning "submissions by %s,
             // that were overwritten"
-            interpolate(gettext("%s's overwritten submissions"), [user]),
+            t("%(user)s's overwritten submissions", { user }),
         };
         const newOpts = [];
         for (const key in values) {
@@ -593,14 +594,14 @@ PTL.editor = {
 
   /* Things to do when no results are returned */
   noResults() {
-    this.displayMsg({ body: gettext('No results.') });
+    this.displayMsg({ body: t('No results.') });
     this.reDraw();
   },
 
   canNavigate() {
     if (this.isUnitDirty || this.isSuggestionFeedbackFormDirty) {
       return window.confirm(  // eslint-disable-line no-alert
-        gettext(
+        t(
           'You have unsaved changes in this string. Navigating away will discard those changes.'
         )
       );
@@ -1037,15 +1038,15 @@ PTL.editor = {
     }
 
     if (xhr.status === 0) {
-      text = gettext('Error while connecting to the server');
+      text = t('Error while connecting to the server');
     } else if (xhr.status === 402) {
       captcha.onError(xhr, 'PTL.editor.error');
     } else if (xhr.status === 404) {
-      text = gettext('Not found');
+      text = t('Not found');
     } else if (xhr.status === 500) {
-      text = gettext('Server error');
+      text = t('Server error');
     } else if (s === 'timeout') {
-      text = gettext('The server seems down. Try again later.');
+      text = t('The server seems down. Try again later.');
     } else {
       text = $.parseJSON(xhr.responseText).msg;
     }
@@ -1054,10 +1055,10 @@ PTL.editor = {
   },
 
   displayObsoleteMsg() {
-    const msgText = gettext('This string no longer exists.');
-    const backMsg = gettext('Go back to browsing');
+    const msgText = t('This string no longer exists.');
+    const backMsg = t('Go back to browsing');
     const backLink = this.backToBrowserEl.getAttribute('href');
-    const reloadMsg = gettext('Reload page');
+    const reloadMsg = t('Reload page');
     const html = [
       '<div>', msgText, '</div>',
       '<div class="editor-msg-btns">',
@@ -2108,9 +2109,9 @@ PTL.editor = {
       const result = results[i];
       let fullname = result.fullname;
       if (result.username === 'nobody') {
-        fullname = gettext('some anonymous user');
+        fullname = t('some anonymous user');
       } else if (!result.fullname) {
-        fullname = result.username ? result.username : gettext('someone');
+        fullname = result.username ? result.username : t('someone');
       }
       result.fullname = _.escape(fullname);
       result.project = _.escape(result.project);
@@ -2128,7 +2129,7 @@ PTL.editor = {
     const store = unit.get('store');
     const sourceText = unit.get('source')[0];
     const filtered = this.filterTMResults(data, sourceText);
-    const name = gettext('Similar translations');
+    const name = t('Similar translations');
 
     if (filtered.length) {
       return this.tmpl.tm({

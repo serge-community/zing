@@ -50,7 +50,6 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.common.CommonMiddleware',
     #: Must be early in the response cycle (close to bottom)
     'pootle.middleware.captcha.CaptchaMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
 ]
 
 # Using the only Redis DB for testing

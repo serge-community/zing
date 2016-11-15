@@ -38,7 +38,7 @@ class UserDetailView(NoDefaultUserMixin, UserObjectMixin, DetailView):
 
 
 class UserSettingsView(TestUserFieldMixin, UserObjectMixin, UpdateView):
-    fields = ('unit_rows', 'alt_src_langs')
+    fields = ('alt_src_langs', )
     template_name = 'user/settings.html'
 
     def get_form_kwargs(self):

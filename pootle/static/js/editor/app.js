@@ -350,22 +350,6 @@ PTL.editor = {
       this.gotoNext({ isSubmission: false });
     });
 
-    if (navigator.platform.toUpperCase().indexOf('MAC') >= 0) {
-      // Optimize string join with '<br/>' as separator
-      this.$navNext.attr('title',
-        gettext(
-          'Go to the next string (Ctrl+.)<br/><br/>Also:<br/>Next page: ' +
-          'Ctrl+Shift+.<br/>Last page: Ctrl+Shift+End'
-        )
-      );
-      this.$navPrev.attr('title',
-        gettext(
-          'Go to the previous string (Ctrl+,)<br/><br/>Also:<br/>Previous page: ' +
-          'Ctrl+Shift+,<br/>First page: Ctrl+Shift+Home'
-        )
-      );
-    }
-
     /* XHR activity indicator */
     $(document).ajaxStart(() => {
       clearTimeout(this.delayedActivityTimer);

@@ -499,7 +499,9 @@ html[dir="rtl"] table td.translate-translation
     display: inline;
     font-size: 85%;
     line-height: 120%;
+
     word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 /* Force-wrap URLs */

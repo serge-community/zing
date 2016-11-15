@@ -184,9 +184,6 @@ POOTLE_MT_BACKENDS = [
 #        ('YANDEX_TRANSLATE', ''),
 ]
 
-# URL for the amaGama TM server.
-AMAGAMA_URL = 'https://amagama-live.translatehouse.org/api/v1/'
-
 # Silence the DEBUG check on dev servers
 SILENCED_SYSTEM_CHECKS = [
     'pootle.W004',  # python-levenstein not installed

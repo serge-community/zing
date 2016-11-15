@@ -26,16 +26,16 @@ class PootleTranslateView(PootleDetailView):
 
     def get_context_data(self, *args, **kwargs):
         ctx = super(PootleTranslateView, self).get_context_data(*args, **kwargs)
-        ctx.update(
-            {'page': 'translate',
-             'ctx_path': self.ctx_path,
-             'check_categories': get_qualitycheck_schema(),
-             'cantranslate': check_permission("translate", self.request),
-             'cansuggest': check_permission("suggest", self.request),
-             'canreview': check_permission("review", self.request),
-             'search_form': make_search_form(request=self.request),
-             'previous_url': get_previous_url(self.request),
-             'POOTLE_MT_BACKENDS': settings.POOTLE_MT_BACKENDS,
-             'AMAGAMA_URL': settings.AMAGAMA_URL,
-             'editor_extends': self.template_extends})
+        ctx.update({
+            'page': 'translate',
+            'ctx_path': self.ctx_path,
+            'check_categories': get_qualitycheck_schema(),
+            'cantranslate': check_permission("translate", self.request),
+            'cansuggest': check_permission("suggest", self.request),
+            'canreview': check_permission("review", self.request),
+            'search_form': make_search_form(request=self.request),
+            'previous_url': get_previous_url(self.request),
+            'POOTLE_MT_BACKENDS': settings.POOTLE_MT_BACKENDS,
+            'editor_extends': self.template_extends,
+        })
         return ctx

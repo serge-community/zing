@@ -47,7 +47,7 @@ def _test_translate_view(tp, request, response, kwargs, settings):
         canreview=check_permission("review", request),
         search_form=make_search_form(request=request),
         POOTLE_MT_BACKENDS=settings.POOTLE_MT_BACKENDS,
-        AMAGAMA_URL=settings.AMAGAMA_URL)
+    )
     view_context_test(ctx, **assertions)
 
 

@@ -31,26 +31,10 @@ Configuring Translation Memory
 ------------------------------
 
 Translation Memory will work out of the box with a default Pootle installation.
-There are three methods of getting Translation Memory.
+There are two methods of getting Translation Memory.
 
-1. Amagama - for remote Translation Memory
-2. Elasticsearch - for local Translation Memory
-3. Elasticsearch - for external Translation Memory
-
-
-.. _translation_memory#amagama:
-
-Amagama based remote TM
-~~~~~~~~~~~~~~~~~~~~~~~
-
-By default Pootle will query Translate's `Amagama
-<http://amagama.translatehouse.org>`_ Translation Memory server, which hosts
-translations of an extensive collection of Opensource software.
-
-If you want to setup and connect to your own TM server then the
-:setting:`AMAGAMA_URL` will allow you to point to a private TM server.
-
-To disable Amagama set :setting:`AMAGAMA_URL` to ``''``.
+1. Elasticsearch - for local Translation Memory
+2. Elasticsearch - for external Translation Memory
 
 
 .. _translation_memory#elasticsearch_based_tms:
@@ -87,9 +71,6 @@ uncommenting the example.
 
 Please see the :setting:`POOTLE_TM_SERVER-WEIGHT` for a full example of the
 configuration necessary to set up local/external TM.
-
-Both Amagama and Elasticsearch based TMs can operate together.  Though you may
-want to disable Amagama.
 
 
 .. _translation_memory#local_translation_memory:

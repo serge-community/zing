@@ -292,18 +292,6 @@ Configuration settings for applications used by Pootle.
 
 Translation environment configuration settings.
 
-.. setting:: AMAGAMA_URL
-
-``AMAGAMA_URL``
-  Default: ``https://amagama-live.translatehouse.org/api/v1/``
-
-  URL to an amaGama Translation Memory server. The default service should work
-  fine, but if you have a custom server set it here.
-
-  This URL must point to the public API URL which returns JSON. Don't forget
-  the trailing slash.
-
-
 .. setting:: POOTLE_SYNC_FILE_MODE
 
 ``POOTLE_SYNC_FILE_MODE``

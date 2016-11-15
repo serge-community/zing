@@ -95,7 +95,6 @@ DATABASES = {
 
 # Setup for connection to the ElasticSearch server for translation memory based
 # on the projects hosted on Pootle.
-# You may want to set AMAGAMA_URL to '' (empty string) if using this service.
 #
 #POOTLE_TM_SERVER = {
 #    'local': {

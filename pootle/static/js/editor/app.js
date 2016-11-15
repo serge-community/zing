@@ -34,7 +34,6 @@ import UnitAPI from 'api/UnitAPI';
 import cookie from 'utils/cookie';
 import diff from 'utils/diff';
 import { q, qAll } from 'utils/dom';
-import fetch from 'utils/fetch';
 import linkHashtags from 'utils/linkHashtags';
 
 import SuggestionFeedbackForm from './components/SuggestionFeedbackForm';
@@ -575,10 +574,6 @@ PTL.editor = {
 
     if (this.filter === 'search') {
       this.hlSearch();
-    }
-
-    if (this.settings.tmUrl !== '') {
-      this.getTMUnits();
     }
 
     if (this.tmData !== null) {
@@ -2146,55 +2141,6 @@ PTL.editor = {
 
     return '';
   },
-
-  /* Gets TM suggestions from amaGama */
-  getTMUnits() {
-    const unit = this.units.getCurrent();
-    const store = unit.get('store');
-    const src = store.get('source_lang');
-    const tgt = store.get('target_lang');
-    const sText = unit.get('source')[0];
-
-    if (!sText.length || src === tgt) {
-      return;
-    }
-
-    const pStyle = store.get('project_style');
-    let tmUrl = `${this.settings.tmUrl}${src}/${tgt}/unit/` +
-      `?source=${encodeURIComponent(sText)}`;
-
-    if (pStyle.length && pStyle !== 'standard') {
-      tmUrl += `&style=${pStyle}`;
-    }
-
-    fetch({ url: tmUrl, crossDomain: true })
-      .then(
-        (data) => this.handleTmResults(data, store, unit),
-        // eslint-disable-next-line no-console
-        (xhr, s) => console.error(`HTTP ${xhr.status} (${s}): ${tmUrl}`)
-      );
-  },
-
-  handleTmResults(data, store, unit) {
-    if (!data.length) {
-      return false;
-    }
-
-    const sourceText = unit.get('source')[0];
-    const filtered = PTL.editor.filterTMResults(data, sourceText);
-    const name = gettext('Similar translations');
-    const tm = PTL.editor.tmpl.tm({
-      name,
-      store: store.toJSON(),
-      unit: unit.toJSON(),
-      suggs: filtered,
-    });
-
-    $(tm).hide().appendTo('#extras-container')
-                .slideDown(1000, 'easeOutQuad');
-    return true;
-  },
-
 
   /* Rejects a suggestion */
   handleRejectSuggestion(suggId, { requestData = {} } = {}) {

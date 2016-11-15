@@ -85,8 +85,6 @@ class User(AbstractBaseUser):
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
     # Translation setting fields
-    unit_rows = models.SmallIntegerField(default=9,
-                                         verbose_name=_("Number of Rows"))
     alt_src_langs = models.ManyToManyField(
         'pootle_language.Language', blank=True, db_index=True,
         verbose_name=_("Alternative Source Languages"))
@@ -377,9 +375,6 @@ class User(AbstractBaseUser):
 
     def get_suggestion_reviews(self):
         return self.submission_set.get_unit_suggestion_reviews()
-
-    def get_unit_rows(self):
-        return min(max(self.unit_rows, 5), 49)
 
     def get_unit_states_changed(self):
         return self.submission_set.get_unit_state_changes()

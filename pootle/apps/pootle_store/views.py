@@ -54,6 +54,10 @@ from .unit.timeline import Timeline
 from .util import find_altsrcs
 
 
+# The amount of TM results that will be provided
+MAX_TM_RESULTS = 3
+
+
 def get_alt_src_langs(request, user, translation_project):
     language = translation_project.language
     project = translation_project.project
@@ -454,7 +458,7 @@ class UnitEditJSON(PootleUnitJSON):
     def get_response_data(self, context):
         return {
             'editor': self.render_edit_template(context),
-            'tm_suggestions': self.object.get_tm_suggestions(),
+            'tm_suggestions': self.object.get_tm_suggestions()[:MAX_TM_RESULTS],
             'is_obsolete': self.object.isobsolete(),
             'sources': self.get_sources(),
             'target': self.object.target_f.strings,

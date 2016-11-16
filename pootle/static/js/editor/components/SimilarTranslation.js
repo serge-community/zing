@@ -8,6 +8,7 @@
 
 import React from 'react';
 
+import TimeSince from 'components/TimeSince';
 import diff from 'utils/diff';
 import { dir, t, tct } from 'utils/i18n';
 
@@ -41,9 +42,7 @@ Result.propTypes = {
 };
 
 
-const Context = ({
-  displaySubmittedOn, fullname, isoSubmittedOn, path, project, username,
-}) => {
+const Context = ({ fullname, mtime, path, project, username }) => {
   let name = fullname;
   if (username === 'nobody') {
     name = t('some anonymous user');
@@ -60,20 +59,15 @@ const Context = ({
   return (
     <div className="tm-context">
       {tct('Translated by %(name)s in %(project)s project', ctx)}
-      <time
-        className="extra-item-meta js-relative-date"
-        title={displaySubmittedOn}
-        dateTime={isoSubmittedOn}
-      >&nbsp;</time>
+      <TimeSince timestamp={mtime} />
     </div>
   );
 };
 
 Context.propTypes = {
-  displaySubmittedOn: React.PropTypes.string.isRequired,
   username: React.PropTypes.string,
   fullname: React.PropTypes.string,
-  isoSubmittedOn: React.PropTypes.string.isRequired,
+  mtime: React.PropTypes.number.isRequired,
   path: React.PropTypes.string.isRequired,
   project: React.PropTypes.string.isRequired,
 };
@@ -98,9 +92,8 @@ const SimilarTranslation = ({
           targetLang={targetLang}
         />
         <Context
-          displaySubmittedOn={result.display_submitted_on}
           fullname={result.fullname}
-          isoSubmittedOn={result.iso_submitted_on}
+          mtime={result.mtime}
           path={result.path}
           project={result.project}
           username={result.username}

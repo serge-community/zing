@@ -150,9 +150,7 @@ class ElasticSearchBackend(SearchBackend):
                         'username': body['username'],
                         'fullname': body['fullname'],
                         'email_md5': body['email_md5'],
-                        'iso_submitted_on': body.get('iso_submitted_on', None),
-                        'display_submitted_on': body.get('display_submitted_on',
-                                                         None),
+                        'mtime': body.get('mtime', None),
                         'score': hit['_score'] * self.weight,
                     })
                 else:

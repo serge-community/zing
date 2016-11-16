@@ -12,6 +12,7 @@ v0.1.2 (in development)
   * Added the ability to select groups of failing checks (#80).
   * Tweaked the UI for displaying obsolete messages (#94).
   * Multiple UI tweaks, making better use of the available space.
+  * Streamlined indexed TM data and made the UI more robust (#96).
   * Removed support for the amaGama TM, as the built-in TM suffices (#92).
 * Fixed table sorting for last updated columns (#91).
 * Fixed stats auto-expanding when browsing to files (#97).

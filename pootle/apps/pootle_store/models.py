@@ -747,8 +747,7 @@ class Unit(models.Model, base.TranslationUnit):
 
         if self.submitted_on:
             obj.update({
-                'iso_submitted_on': self.submitted_on.isoformat(),
-                'display_submitted_on': dateformat.format(self.submitted_on),
+                'mtime': int(dateformat.format(self.submitted_on, 'U')),
             })
 
         if self.submitted_by:

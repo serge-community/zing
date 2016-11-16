@@ -38,13 +38,6 @@ being used and/or they are not available on npm.
     Small extension script to allow moving the position of a model
     within a collection.
 
-  - backbone-relational.js :
-    Relationships for Backbone models.
-
-    Version 0.8.8
-
-    http://backbonerelational.org
-
   - backbone.safesync.js :
     Prevents duplicated fetches in models and collections.
 

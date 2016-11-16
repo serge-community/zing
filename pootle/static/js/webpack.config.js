@@ -38,7 +38,6 @@ var resolve = {
 
     'backbone-move': __dirname + '/vendor/backbone/backbone.move.js',
     'backbone-safesync': __dirname + '/vendor/backbone/backbone.safesync.js',
-    'backbone-relational': __dirname + '/vendor/backbone/backbone-relational.js',
 
     'jquery-bidi': __dirname + '/vendor/jquery/jquery.bidi.js',
     'jquery-easing': __dirname + '/vendor/jquery/jquery.easing.js',

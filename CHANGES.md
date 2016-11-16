@@ -10,6 +10,7 @@ v0.1.5 (in development)
   * Navigating between units now preserves the editor's vertical position.
   * New easy way to preview context rows by just hovering over the unit link.
   * Tweaked the UI for displaying obsolete messages (#94).
+  * Streamlined indexed TM data and made the UI more robust (#96).
 * Optimized terminology access (#144).
 
 

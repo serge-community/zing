@@ -36,6 +36,7 @@ import { q, qAll } from 'utils/dom';
 import { nt, t } from 'utils/i18n';
 import linkHashtags from 'utils/linkHashtags';
 
+import SimilarTranslationList from './components/SimilarTranslationList';
 import SuggestionFeedbackForm from './components/SuggestionFeedbackForm';
 
 import captcha from '../captcha';
@@ -154,7 +155,6 @@ PTL.editor = {
     /* Compile templates */
     this.tmpl = {
       vUnit: _.template($('#view_unit').html()),
-      tm: _.template($('#tm_suggestions').html()),
       msg: _.template($('#js-editor-msg').html()),
     };
 
@@ -555,9 +555,21 @@ PTL.editor = {
       this.hlSearch({ rowType: 'view' });
     }
 
-    if (this.units.unit.tm_suggestions) {
-      const tmContent = this.getTMUnitsContent(this.units.unit.tm_suggestions);
-      $('.js-mnt-tm').append(tmContent);
+    const tmResults = this.units.unit.tm_suggestions;
+    if (tmResults.length) {
+      const sourceText = this.units.unit.sourceText()[0];
+      const bestResult = tmResults[0];
+      this.populateWithPerfectMatch(bestResult, sourceText);
+
+      ReactRenderer.render(
+        <SimilarTranslationList
+          originalSource={sourceText}
+          results={tmResults}
+          sourceLang={this.units.unit.sourceLang}
+          targetLang={this.units.unit.targetLang}
+        />,
+        q('.js-mnt-tm')
+      );
     }
 
     this.runHooks();
@@ -1837,65 +1849,19 @@ PTL.editor = {
    * User and TM suggestions
    */
 
-  /* Filters TM results and does some processing */
-  filterTMResults(results, sourceText) {
-    // FIXME: this just retrieves the first three results
-    // we could limit based on a threshold too.
-    const filtered = [];
+  /* TM: populates the empty textarea with the perfect match */
+  populateWithPerfectMatch(result, sourceText) {
+    if (sourceText !== result.source || ReactEditor.stateValues[0] !== '') {
+      return;
+    }
 
     // FIXME: move this side-effect elsewhere
-    if (results.length > 0 && results[0].source === sourceText) {
-      if (ReactEditor.stateValues[0] === '') {
-        // save unit editor state to restore it after autofill changes
-        const isUnitDirty = this.isUnitDirty;
-        const text = results[0].target;
-        ReactEditor.setValueFor(this.focused || 0, text);
-        this.goFuzzy();
-        this.isUnitDirty = isUnitDirty;
-      }
-    }
-
-    for (let i = 0; i < results.length && i < 3; i++) {
-      const result = results[i];
-      let fullname = result.fullname;
-      if (result.username === 'nobody') {
-        fullname = t('some anonymous user');
-      } else if (!result.fullname) {
-        fullname = result.username ? result.username : t('someone');
-      }
-      result.fullname = _.escape(fullname);
-      result.project = _.escape(result.project);
-      result.path = _.escape(result.path);
-
-      filtered.push(result);
-    }
-
-    return filtered;
-  },
-
-  /* TM suggestions */
-  getTMUnitsContent(data) {
-    const unit = this.units.unit;
-    // TODO: review
-    if (!unit) {
-      // XXX: when can this happen?
-      return '';
-    }
-    const store = {}; // was: unit.get('store'); TODO: why do we need store for TM?
-    const sourceText = unit.sourceText()[0];
-    const filtered = this.filterTMResults(data, sourceText);
-    const name = t('Similar translations');
-
-    if (filtered.length) {
-      return this.tmpl.tm({
-        name,
-        store, // TODO: review
-        unit, // was: unit.toJSON(), TODO: review
-        suggs: filtered,
-      });
-    }
-
-    return '';
+    // save unit editor state to restore it after autofill changes
+    const isUnitDirty = this.isUnitDirty;
+    const text = result.target;
+    ReactEditor.setValueFor(this.focused || 0, text);
+    this.goFuzzy();
+    this.isUnitDirty = isUnitDirty;
   },
 
   /* Rejects a suggestion */

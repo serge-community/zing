@@ -1801,7 +1801,7 @@ PTL.editor = {
 
     if (this.category) {
       newHash.category = this.category;
-    } else if (filterChecks !== 'none') {
+    } else if (filterChecks !== 'all') {
       newHash.checks = filterChecks;
     }
 

@@ -1,6 +1,6 @@
 <td dir="<%= unit.store.source_dir %>" class="translate-original" rowspan="1" colspan="1"
   data-target="<%= unit.url %>">
-  <div class="translate-original translate-view" id="orig<%= unit.id %>">
+  <div class="js-view-original translate-original translate-view" id="orig<%= unit.id %>">
     <% _.each(unit.source, function (source, i) { %>
     <div lang="<%= unit.store.source_lang %>" dir="<%= unit.store.source_dir %>"
       class="translation-text">
@@ -13,7 +13,7 @@
   <% if (unit.isfuzzy) { %> fuzzy-unit<% } %>"
   rowspan="1" colspan="1" data-target="<%= unit.url %>">
   <div dir="<%= unit.store.target_dir %>"
-    class="translate-translation translate-view" id="trans<%= unit.id %>">
+    class="js-view-translation translate-translation translate-view" id="trans<%= unit.id %>">
     <% _.each(unit.target, function (target, i) { %>
     <div lang="<%= unit.store.target_lang %>" class="translation-text"
       dir="<%= unit.store.target_dir %>">

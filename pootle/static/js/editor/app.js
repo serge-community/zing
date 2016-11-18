@@ -564,7 +564,8 @@ PTL.editor = {
     $devComments.html(linkHashtags($devComments.html()));
 
     if (this.filter === 'search') {
-      this.hlSearch();
+      this.hlSearch({ rowType: 'edit' });
+      this.hlSearch({ rowType: 'view' });
     }
 
     if (this.units.unit.tm_suggestions) {
@@ -600,20 +601,28 @@ PTL.editor = {
    */
 
   /* Highlights search results */
-  hlSearch() {
+  hlSearch({ rowType }) {
     const { searchText, searchFields, searchOptions } = search.state;
     const selMap = {
-      notes: 'div.developer-comments',
-      locations: 'div.translate-locations',
-      source: 'td.translate-original, .original .js-translation-text',
-      target: 'td.translate-translation',
+      edit: {
+        locations: '.js-unit-locations',
+        notes: '.js-developer-comments',
+        source: '.original .js-translation-text',
+      },
+      view: {
+        source: '.js-view-original',
+        target: '.js-view-translation',
+      },
     };
 
     // Build highlighting selector based on chosen search fields
-    const sel = searchFields.map((fieldName) => [
-      `tr.edit-row ${selMap[fieldName]}`,
-      `tr.view-row ${selMap[fieldName]}`,
-    ]).reduce((a, b) => a.concat(b), []);
+    const selectors = selMap[rowType];
+    const sel = searchFields
+      .filter(fieldName => selectors.hasOwnProperty(fieldName))
+      .map(fieldName => selectors[fieldName]);
+    if (!sel.length) {
+      return;
+    }
 
     let hlRegex;
     if (searchOptions.indexOf('exact') >= 0) {
@@ -1314,7 +1323,6 @@ PTL.editor = {
     `);
 
     // update DOM
-
     this.$viewRowsBefore.html(rowsBefore.join(''));
     this.$viewRowsAfter.html(rowsAfter.join(''));
   },
@@ -1336,7 +1344,6 @@ PTL.editor = {
     }
 
     this.$editorRow.html(editorRow);
-    this.ready();
   },
 
   /* Updates a `$button` to the `enable` state */
@@ -1384,8 +1391,11 @@ PTL.editor = {
     }
     this.updateNavigation();
     this.hideContextRows();
+
     this.redrawEditRow();
     this.redrawViewRows();
+
+    this.ready();
   },
 
 

@@ -9,6 +9,7 @@ v0.1.2 (in development)
   * Multiple UI tweaks, making better use of the available space.
   * Removed support for the amaGama TM, as the built-in TM suffices (#92).
 * Fixed table sorting for last updated columns (#91).
+* Fixed stats auto-expanding when browsing to files (#97).
 * Removed extra layer of serialization (#88).
 
 

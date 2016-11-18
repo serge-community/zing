@@ -235,7 +235,13 @@ class TPBrowseBaseView(PootleBrowseView):
 
 
 class TPBrowseStoreView(TPStoreMixin, TPBrowseBaseView):
-    pass
+
+    def get_context_data(self, *args, **kwargs):
+        ctx = super(TPBrowseStoreView, self).get_context_data(*args, **kwargs)
+        ctx.update({
+            'is_store': True,
+        })
+        return ctx
 
 
 class TPBrowseView(TPDirectoryMixin, TPBrowseBaseView):

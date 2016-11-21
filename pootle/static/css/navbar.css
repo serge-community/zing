@@ -292,13 +292,15 @@ html[dir="rtl"] #navbar .select2-container .select2-choice abbr
 
 #nav-main
 {
-    float: right;
-    position: relative;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
 }
 
 html[dir="rtl"] #nav-main
 {
-    float: left;
+    left: 0;
 }
 
 #nav-main > li

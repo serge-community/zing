@@ -110,7 +110,8 @@ body.translate #navbar h1
 
 #navbar .breadcrumb .separator::before
 {
-    content: "▶";
+    content: "h";
+    font-family: ZingIcons, sans-serif;
     color: #fff;
     display: inline-block;
     position: absolute;
@@ -122,8 +123,8 @@ body.translate #navbar h1
     width: 12px;
     height: 12px;
     opacity: 0.3;
-    -webkit-transition: all 0.5s;
-    transition: all 0.5s;
+    -webkit-transition: all 1s;
+    transition: all 1s;
     pointer-events: none;
 }
 
@@ -134,8 +135,11 @@ body.translate #navbar h1
 
 #navbar:hover .breadcrumb .separator::before
 {
-    opacity: 1;
-    -webkit-transform: rotate(90deg) scale(0.5, 1) translateY(6px);
+    opacity: 0.7;
+    -webkit-transform: rotate(90deg) translateY(6px);
+    -webkit-transition: all 1s;
+    transition: all 1s;
+    transition-delay: 0.3s;
 }
 
 

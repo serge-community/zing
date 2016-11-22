@@ -293,7 +293,6 @@ html[dir="rtl"] #navbar .select2-container .select2-choice abbr
 #nav-main
 {
     position: absolute;
-    z-index: 1;
     top: 0;
     right: 0;
 }

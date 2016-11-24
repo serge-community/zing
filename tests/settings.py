@@ -31,7 +31,7 @@ POOTLE_MT_BACKENDS = [
 POOTLE_CAPTCHA_ENABLED = False
 
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     #: Must be as high as possible (see above)
     'django.middleware.cache.UpdateCacheMiddleware',
     #: Avoids caching for authenticated users

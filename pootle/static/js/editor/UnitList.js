@@ -6,7 +6,10 @@
  * AUTHORS file for copyright and authorship information.
  */
 
+import $ from 'jquery';
+
 import UnitAPI from 'api/UnitAPI';
+
 import Unit from './Unit';
 
 
@@ -46,6 +49,10 @@ class UnitsList {
     );
   }
 
+  fetchFullUnitData(uid) {
+    return UnitAPI.fetchFullUnitData(uid).then(data => data);
+  }
+
   handleUnitChange(uid) {
     if (this.props.onUnitChange) {
       // note that technically this.uid may be already different
@@ -53,7 +60,6 @@ class UnitsList {
       this.props.onUnitChange(uid);
     }
     this.cleanupUnusedUnits();
-    this.prefetchUnits();
   }
 
   handleContextDataChange(uid, ctxData) {
@@ -89,18 +95,20 @@ class UnitsList {
       return;
     }
 
-    if (!this.unit || !this.unit.isFullyLoaded()) {
-      return UnitAPI.fetchFullUnitData(this.uid).then(
-        (data) => {
-          this.units[uid] = new Unit(data);
-          this.unit = this.units[this.uid];
-          this.handleUnitChange(this.uid);
-        },
-        (xhr, status) => this.handleFetchError(xhr, status)
-      );
-    }
-
-    return this.handleUnitChange(uid);
+    $.when(
+      this.prefetchUnits(),
+      this.fetchFullUnitData(uid)
+    ).then(
+      (noData, fullUnitData) => {
+        // Unit wasn't prefetched yet
+        if (!this.unit) {
+          this.unit = this.units[uid];
+        }
+        this.unit.provideFullData(fullUnitData);
+        this.handleUnitChange(uid);
+      },
+      (xhr, status) => this.handleFetchError(xhr, status)
+    );
   }
 
   loadContextRows() {

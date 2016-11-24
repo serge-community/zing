@@ -538,11 +538,7 @@ PTL.editor = {
           this.handleEmptyResults();
         }
 
-        // Ugly syntax but enables running async functions in parallel
-        $.when(
-          this.units.goto(reqData.uid || this.units.uids[0]),
-          this.units.prefetchUnits()
-        );
+        this.units.goto(reqData.uid || this.units.uids[0]);
       });
     }, { unescape: true });
   },

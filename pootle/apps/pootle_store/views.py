@@ -49,8 +49,7 @@ from .decorators import get_unit_context
 from .forms import (UnitSearchForm, UnitViewRowsForm, unit_comment_form_factory,
                     unit_form_factory)
 from .models import Unit
-from .templatetags.store_tags import pluralize_source, pluralize_target
-from .unit.results import ViewRowResults
+from .unit.results import CtxRowResults, ViewRowResults
 from .unit.timeline import Timeline
 from .util import find_altsrcs
 
@@ -93,50 +92,6 @@ def get_alt_src_langs(request, user, translation_project):
 #
 # Views used with XMLHttpRequest requests.
 #
-
-def _filter_ctx_units(units_qs, unit, how_many, gap=0):
-    """Returns ``how_many``*2 units that are before and after ``index``."""
-    result = {'before': [], 'after': []}
-
-    if how_many and unit.index - gap > 0:
-        before = units_qs.filter(store=unit.store_id, index__lt=unit.index) \
-                         .order_by('-index')[gap:how_many+gap]
-        result['before'] = _build_units_list(before, reverse=True)
-        result['before'].reverse()
-
-    # FIXME: can we avoid this query if length is known?
-    if how_many:
-        after = units_qs.filter(store=unit.store_id,
-                                index__gt=unit.index)[gap:how_many+gap]
-        result['after'] = _build_units_list(after)
-
-    return result
-
-
-def _prepare_unit(unit):
-    """Constructs a dictionary with relevant `unit` data."""
-    return {
-        'id': unit.id,
-        'isfuzzy': unit.isfuzzy(),
-        'source': [source[1] for source in pluralize_source(unit)],
-        'target': [target[1] for target in pluralize_target(unit)],
-    }
-
-
-def _build_units_list(units, reverse=False):
-    """Given a list/queryset of units, builds a list with the unit data
-    contained in a dictionary ready to be returned as JSON.
-
-    :return: A list with unit id, source, and target texts. In case of
-             having plural forms, a title for the plural form is also provided.
-    """
-    return_units = []
-
-    for unit in iter(units):
-        return_units.append(_prepare_unit(unit))
-
-    return return_units
-
 
 def _get_critical_checks_snippet(request, unit):
     """Retrieves the critical checks snippet.
@@ -217,19 +172,31 @@ def get_units(request):
 
 @ajax_required
 @get_unit_context('view')
-def get_more_context(request, unit):
-    """Retrieves more context units.
+def get_context_units(request, unit):
+    """Retrieves context units.
 
-    :return: An object in JSON notation that contains the source and target
-             texts for units that are in the context of unit ``uid``.
+    :return: An object in JSON notation that contains the lightweight unit
+        information for units around `unit`.
     """
-    store = request.store
-    json = {}
-    gap = int(request.GET.get('gap', 0))
-    qty = int(request.GET.get('qty', 1))
+    units_qs = request.store.units
+    limit = 5
 
-    json["ctx"] = _filter_ctx_units(store.units, unit, qty, gap)
-    return JsonResponse(json)
+    units_before = []
+    if unit.index > 0:
+        limit_before = min(unit.index - 1, limit)
+        units_before = units_qs.filter(
+            index__gt=unit.index - 1 - limit
+        ).order_by('index')[:limit_before]
+
+    # FIXME: can we avoid this query if length is known?
+    units_after = units_qs.filter(
+        index__gt=unit.index,
+    )[:limit]
+
+    return JsonResponse({
+        'before': CtxRowResults(units_before).data,
+        'after': CtxRowResults(units_after).data,
+    })
 
 
 @ajax_required

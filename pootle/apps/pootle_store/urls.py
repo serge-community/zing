@@ -43,7 +43,7 @@ urlpatterns = [
         views.comment,
         name='pootle-xhr-units-comment'),
     url(r'^xhr/units/(?P<uid>[0-9]+)/context/?$',
-        views.get_more_context,
+        views.get_context_units,
         name='pootle-xhr-units-context'),
     url(r'^xhr/units/(?P<uid>[0-9]+)/edit/?$',
         views.UnitEditJSON.as_view(),

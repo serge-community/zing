@@ -177,3 +177,16 @@ class ViewRowResults(object):
             shape['isfuzzy'] = True
         return shape
 
+
+class CtxRowResults(ViewRowResults):
+
+    @property
+    def data(self):
+        return [self.get_unit_shape(unit) for unit in self.get_units()]
+
+    def get_unit_shape(self, unit):
+        shape = super(CtxRowResults, self).get_unit_shape(unit)
+        shape.update({
+            'id': unit.id,
+        })
+        return shape

@@ -118,18 +118,28 @@ class UnitsList {
       return;
     }
 
-    // TODO: instead of `gap` and `qty` specify the number of units
-    // before/after the given uid
-    UnitAPI.fetchContextRows(this.uid, { gap: 0, qty: 5 }).then(
+    UnitAPI.fetchContextRows(this.uid).then(
       (data) => {
-        if (!data || !data.ctx) {
+        if (!data) {
           return;
         }
 
         // wrap returned data into Unit objects
         const ctxData = {
-          before: data.ctx.before.map(unitData => new Unit(unitData)),
-          after: data.ctx.after.map(unitData => new Unit(unitData)),
+          before: data.before.map(unitData => new Unit({
+            id: unitData.id,
+            source: unitData.source,
+            sourceLang: unitData.source_lang,
+            target: unitData.target,
+            targetLang: unitData.target_lang,
+          })),
+          after: data.after.map(unitData => new Unit({
+            id: unitData.id,
+            source: unitData.source,
+            sourceLang: unitData.source_lang,
+            target: unitData.target,
+            targetLang: unitData.target_lang,
+          })),
         };
 
         this.unit.contextData = ctxData;

@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -21,7 +22,7 @@ import syspath_override  # noqa
 KEY_LENGTH = 50
 
 #: Default path for the settings file
-DEFAULT_SETTINGS_PATH = '~/.pootle/pootle.conf'
+DEFAULT_SETTINGS_PATH = '~/.zing/zing.conf'
 
 #: Template that will be used to initialize settings from
 SETTINGS_TEMPLATE_FILENAME = 'settings/90-local.conf.template'
@@ -39,7 +40,7 @@ def add_help_to_parser(parser):
 
 
 def init_settings(settings_filepath, template_filename,
-                  db="sqlite", db_name="dbs/pootle.db", db_user="",
+                  db="sqlite", db_name="dbs/zing.db", db_user="",
                   db_password="", db_host="", db_port=""):
     """Initializes a sample settings file for new installations.
 
@@ -48,8 +49,8 @@ def init_settings(settings_filepath, template_filename,
     :param template_filename: Template file used to initialize settings from.
     :param db: Database engine to use
         (default=sqlite, choices=[mysql, postgresql]).
-    :param db_name: Database name (default: pootledb) or path to database file
-        if using sqlite (default: dbs/pootle.db)
+    :param db_name: Database name (default: zingdb) or path to database file
+        if using sqlite (default: dbs/zing.db)
     :param db_user: Name of the database user. Not used with sqlite.
     :param db_password: Password for the database user. Not used with sqlite.
     :param db_host: Database host. Defaults to localhost. Not used with sqlite.
@@ -63,11 +64,11 @@ def init_settings(settings_filepath, template_filename,
         os.makedirs(dirname)
 
     if db == "sqlite":
-        db_name = "working_path('%s')" % (db_name or "dbs/pootle.db")
+        db_name = "working_path('%s')" % (db_name or "dbs/zing.db")
         db_user = db_password = db_host = db_port = "''"
     else:
-        db_name = "'%s'" % (db_name or "pootledb")
-        db_user = "'%s'" % (db_user or "pootle")
+        db_name = "'%s'" % (db_name or "zingdb")
+        db_user = "'%s'" % (db_user or "zing")
         db_password = "'%s'" % db_password
         db_host = "'%s'" % db_host
         db_port = "'%s'" % db_port
@@ -96,7 +97,7 @@ def init_settings(settings_filepath, template_filename,
 
 
 def init_command(parser, settings_template, args):
-    """Parse and run the `pootle init` command
+    """Parse and run the `init` command
 
     :param parser: `argparse.ArgumentParser` instance to use for parsing
     :param settings_template: Template file for initializing settings from.
@@ -111,9 +112,9 @@ def init_command(parser, settings_template, args):
                         help=(u"Use the specified database backend (default: "
                               u"%(default)s)."))
     parser.add_argument("--db-name", default="",
-                        help=(u"Database name (default: 'pootledb') or path "
+                        help=(u"Database name (default: 'zingdb') or path "
                               u"to database file if using sqlite (default: "
-                              u"'%s/dbs/pootle.db')" % src_dir))
+                              u"'%s/dbs/zing.db')" % src_dir))
     parser.add_argument("--db-user", default="",
                         help=(u"Name of the database user. Not used with "
                               u"sqlite."))
@@ -229,7 +230,6 @@ def run_app(project, default_settings_path, settings_template,
     # Print version and exit if --version present
     args, remainder = parser.parse_known_args(sys.argv[1:])
 
-    # Add pootle args
     parser.add_argument(
         "--config",
         default=default_settings_path,
@@ -264,14 +264,14 @@ def run_app(project, default_settings_path, settings_template,
                   runner_name=runner_name)
 
     # If no CACHES backend set tell user and exit. This prevents raising
-    # ImproperlyConfigured error on trying to run any pootle commands
+    # ImproperlyConfigured error on trying to run any commands
     # NB: it may be possible to remove this when #4006 is fixed
     caches = settings.CACHES.keys()
     if "stats" not in caches or "redis" not in caches:
         sys.stdout.write("\nYou need to configure the CACHES setting, "
                          "or to use the defaults remove CACHES from %s\n\n"
                          "Once you have fixed the CACHES setting you should "
-                         "run 'pootle check' again\n\n"
+                         "run 'zing check' again\n\n"
                          % args.config)
         sys.exit(2)
 
@@ -279,7 +279,7 @@ def run_app(project, default_settings_path, settings_template,
     if args.no_rq:
         set_sync_mode(args.noinput)
 
-    # Print the help message for "pootle --help"
+    # Print the help message for "--help"
     if len(remainder) == 1 and remainder[0] in ["-h", "--help"]:
         add_help_to_parser(parser)
         parser.parse_known_args(sys.argv[1:])
@@ -299,7 +299,7 @@ def get_version():
     from translate import __version__ as tt_version
     from django import get_version as django_version
 
-    return ("Pootle %s (Django %s, Translate Toolkit %s)" %
+    return ('Zing %s (Django %s, Translate Toolkit %s)' %
             (__version__, django_version(), tt_version.sver))
 
 
@@ -307,7 +307,7 @@ def main():
     src_dir = os.path.abspath(os.path.dirname(__file__))
     settings_template = os.path.join(src_dir, SETTINGS_TEMPLATE_FILENAME)
 
-    run_app(project='pootle',
+    run_app(project='zing',
             default_settings_path=DEFAULT_SETTINGS_PATH,
             settings_template=settings_template,
             django_settings_module='pootle.settings')

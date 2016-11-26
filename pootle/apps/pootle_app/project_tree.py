@@ -56,7 +56,7 @@ def match_template_filename(project, filename):
         if ext not in project.filetype_tool.filetype_extensions:
             # Template extension is distinct, surely file is a template.
             return True
-        elif not find_lang_postfix(project, filename):
+        elif not find_lang_postfix(filename):
             # File name can't possibly match any language, assume it is a
             # template.
             return True
@@ -64,49 +64,45 @@ def match_template_filename(project, filename):
     return False
 
 
-def get_matching_language_dirs(project_dir, upstream_language_code):
+def get_matching_language_dirs(project_dir, language):
     return [lang_dir for lang_dir in os.listdir(project_dir)
-            if upstream_language_code == lang_dir]
+            if language.code == lang_dir]
 
 
-def get_non_existant_language_dir(project_dir, upstream_language_code,
-                                  file_style, make_dirs):
+def get_non_existant_language_dir(project_dir, language, file_style,
+                                  make_dirs):
     if file_style == "gnu":
         return project_dir
     elif make_dirs:
-        language_dir = os.path.join(project_dir, upstream_language_code)
+        language_dir = os.path.join(project_dir, language.code)
         os.mkdir(language_dir)
         return language_dir
     else:
         raise IndexError("Directory not found for language %s, project %s" %
-                         (upstream_language_code, project_dir))
+                         (language.code, project_dir))
 
 
-def get_or_make_language_dir(project_dir, upstream_language_code,
-                             file_style, make_dirs):
-    matching_language_dirs = get_matching_language_dirs(project_dir,
-                                                        upstream_language_code)
+def get_or_make_language_dir(project_dir, language, file_style, make_dirs):
+    matching_language_dirs = get_matching_language_dirs(project_dir, language)
     if len(matching_language_dirs) == 0:
         # If no matching directories can be found, check if it is a GNU-style
         # project.
-        return get_non_existant_language_dir(project_dir, upstream_language_code,
-                                             file_style, make_dirs)
+        return get_non_existant_language_dir(project_dir, language, file_style,
+                                             make_dirs)
     else:
         return os.path.join(project_dir, matching_language_dirs[0])
 
 
-def get_language_dir(project, language, file_style, make_dirs):
-    project_dir = project.get_real_path()
-    upstream_lang_code = project.lang_mapper.get_upstream_code(language.code)
-    language_dir = os.path.join(project_dir, upstream_lang_code)
+def get_language_dir(project_dir, language, file_style, make_dirs):
+    language_dir = os.path.join(project_dir, language.code)
     if not os.path.exists(language_dir):
-        return get_or_make_language_dir(project_dir, upstream_lang_code,
-                                        file_style, make_dirs)
+        return get_or_make_language_dir(project_dir, language, file_style,
+                                        make_dirs)
     else:
         return language_dir
 
 
-def get_translation_project_dir(language, project, file_style,
+def get_translation_project_dir(language, project_dir, file_style,
                                 make_dirs=False):
     """Returns the base directory containing translations files for the
     project.
@@ -115,9 +111,9 @@ def get_translation_project_dir(language, project, file_style,
                       created as necessary.
     """
     if file_style == 'gnu':
-        return project.get_real_path()
+        return project_dir
     else:
-        return get_language_dir(project, language, file_style, make_dirs)
+        return get_language_dir(project_dir, language, file_style, make_dirs)
 
 
 def is_hidden_file(path):
@@ -275,18 +271,17 @@ def to_podir_path(path):
     return os.path.join(settings.POOTLE_TRANSLATION_DIRECTORY, path)
 
 
-def find_lang_postfix(project, filename):
+def find_lang_postfix(filename):
     """Finds the language code at end of a filename."""
     name = os.path.splitext(os.path.basename(filename))[0]
     if LANGCODE_RE.match(name):
-        return project.lang_mapper.get_pootle_code(name)
+        return name
 
     match = LANGCODE_POSTFIX_RE.match(name)
     if match:
-        return project.lang_mapper.get_pootle_code(match.groups()[0])
+        return match.groups()[0]
 
     for code in Language.objects.values_list('code', flat=True):
-        code = project.lang_mapper.get_upstream_code(code)
         if (name.endswith('-'+code) or name.endswith('_'+code) or
             name.endswith('.'+code) or
             name.lower().endswith('-'+code.lower()) or
@@ -316,22 +311,17 @@ def translation_project_dir_exists(language, project):
                     project.get_real_path()):
                 for filename in filenames:
                     # FIXME: don't reuse already used file
-                    filename_matches = (
-                        project.file_belongs_to_project(
-                            filename,
-                            match_templates=False)
-                        and direct_language_match_filename(
-                            project.lang_mapper.get_upstream_code(language.code),
-                            filename))
-                    if filename_matches:
+                    if (project.file_belongs_to_project(filename,
+                                                        match_templates=False)
+                            and direct_language_match_filename(language.code,
+                                                               filename)):
                         return True
     else:
         # find directory with the language name in the project dir
         try:
             dirpath_, dirnames, filename = os.walk(
                 project.get_real_path()).next()
-            lang_code = project.lang_mapper.get_upstream_code(language.code)
-            if lang_code in dirnames:
+            if language.code in dirnames:
                 return True
         except StopIteration:
             pass
@@ -343,18 +333,15 @@ def get_translated_name_gnu(translation_project, store):
     """Given a template :param:`store` and a :param:`translation_project` return
     target filename.
     """
-    language_code = translation_project.language.code
-    project = translation_project.project
     pootle_path_parts = store.pootle_path.split('/')
-    pootle_path_parts[1] = language_code
+    pootle_path_parts[1] = translation_project.language.code
     pootle_path = '/'.join(pootle_path_parts[:-1])
     if not pootle_path.endswith('/'):
         pootle_path = pootle_path + '/'
 
-    upstream_lang_code = project.lang_mapper.get_upstream_code(language_code)
     suffix = (
         "%s%s%s"
-        % (upstream_lang_code,
+        % (translation_project.language.code,
            os.extsep,
            store.filetype.extension))
     # try loading file first
@@ -363,7 +350,8 @@ def get_translated_name_gnu(translation_project, store):
             parent__pootle_path=pootle_path,
             name__iexact=suffix,
         )
-        return target_store.file and target_store.file.path
+        return (target_store.pootle_path,
+                target_store.file and target_store.file.path)
     except Store.DoesNotExist:
         target_store = None
 
@@ -373,7 +361,7 @@ def get_translated_name_gnu(translation_project, store):
                       name__iexact=suffix, file='').count())
     if not use_prefix:
         # let's make sure
-        for tp in project.translationproject_set.exclude(
+        for tp in translation_project.project.translationproject_set.exclude(
                 language__code='templates').iterator():
             temp_suffix = (
                 "%s%s%s"
@@ -392,7 +380,7 @@ def get_translated_name_gnu(translation_project, store):
             prefix = tprefix + '-'
         else:
             prefix = os.path.splitext(store.name)[0][:-len(
-                upstream_lang_code)]
+                store.translation_project.language.code)]
             tprefix = prefix[:-1]
 
         try:
@@ -408,7 +396,8 @@ def get_translated_name_gnu(translation_project, store):
                 ],
             )[0]
 
-            return target_store.file and target_store.file.path
+            return (target_store.pootle_path,
+                    target_store.file and target_store.file.path)
         except (Store.DoesNotExist, IndexError):
             pass
     else:
@@ -418,17 +407,16 @@ def get_translated_name_gnu(translation_project, store):
         path_parts = store.file.path.split(os.sep)
         name = prefix + suffix
         path_parts[-1] = name
+        pootle_path_parts[-1] = name
     else:
         path_parts = store.parent.get_real_path().split(os.sep)
         path_parts.append(store.name)
 
-    return os.sep.join(path_parts)
+    return '/'.join(pootle_path_parts), os.sep.join(path_parts)
 
 
 def get_translated_name(translation_project, store):
     name = os.path.splitext(store.name)[0]
-    language_code = translation_project.language.code
-    project = translation_project.project
 
     if store.file:
         path_parts = store.file.name.split(os.sep)
@@ -436,16 +424,24 @@ def get_translated_name(translation_project, store):
         path_parts = store.parent.get_real_path().split(os.sep)
         path_parts.append(store.name)
 
+    pootle_path_parts = store.pootle_path.split('/')
+
     # Replace language code
-    path_parts[1] = project.lang_mapper.get_upstream_code(language_code)
+    path_parts[1] = translation_project.language.code
+    pootle_path_parts[1] = translation_project.language.code
 
     # Replace extension
     path_parts[-1] = (
         "%s.%s"
         % (name,
            store.filetype.extension))
+    pootle_path_parts[-1] = (
+        "%s.%s"
+        % (name,
+           store.filetype.extension))
 
-    return absolute_real_path(os.sep.join(path_parts))
+    return ('/'.join(pootle_path_parts),
+            absolute_real_path(os.sep.join(path_parts)))
 
 
 def does_not_exist(path):

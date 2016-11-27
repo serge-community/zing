@@ -291,6 +291,7 @@ def test_format_set_tp_filetype(po_directory, english, language0, po2):
 
 
 @pytest.mark.django_db
+@pytest.mark.skip
 def test_format_set_template_tp_matching_filetype(po_directory, templates,
                                                   po, po2, english):
     project = ProjectDBFactory(source_language=english)

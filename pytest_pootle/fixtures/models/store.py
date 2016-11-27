@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -205,14 +206,12 @@ def _require_store(tp, po_dir, name):
             translation_project=tp,
         )
     except Store.DoesNotExist:
-        store = Store.objects.create_by_path(
+        store = Store.objects.create(
             file=file_path,
-            create_tp=False,
-            create_directory=False,
-            pootle_path=(
-                "%s%s"
-                % (parent_dir.pootle_path,
-                   name)))
+            parent=parent_dir,
+            name=name,
+            translation_project=tp,
+        )
     if store.file.exists():
         if store.state < PARSED:
             store.update(store.file.store)

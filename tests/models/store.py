@@ -24,16 +24,12 @@ from pootle.core.delegate import format_classes, format_diffs, formats
 from pootle.core.models import Revision
 from pootle.core.url_helpers import to_tp_relative_path
 from pootle.core.plugin import provider
-from pootle_app.models import Directory
 from pootle_format.exceptions import UnrecognizedFiletype
 from pootle_format.formats.po import PoStoreSyncer
 from pootle_format.models import Format
-from pootle_language.models import Language
-from pootle_project.models import Project
 from pootle_store.constants import OBSOLETE, PARSED, POOTLE_WINS, TRANSLATED
 from pootle_store.diff import DiffableStore, StoreDiff
 from pootle_store.models import Store
-from pootle_translationproject.models import TranslationProject
 
 
 def _store_as_string(store):
@@ -435,101 +431,6 @@ def test_store_po_serializer(test_fs, store_po):
     store_io = io.BytesIO(store_po.serialize())
     store_ttk = getclass(store_io)(store_io.read())
     assert len(store_ttk.units) == len(ttk_po.units)
-
-
-@pytest.mark.django_db
-def test_store_create_by_bad_path(project0):
-
-    # bad project name
-    with pytest.raises(Project.DoesNotExist):
-        Store.objects.create_by_path(
-            "/language0/does/not/exist.po")
-
-    # bad language code
-    with pytest.raises(Language.DoesNotExist):
-        Store.objects.create_by_path(
-            "/does/project0/not/exist.po")
-
-    # project and project code dont match
-    with pytest.raises(ValueError):
-        Store.objects.create_by_path(
-            "/language0/project1/store.po",
-            project=project0)
-
-    # bad store.ext
-    with pytest.raises(ValueError):
-        Store.objects.create_by_path(
-            "/language0/project0/store_by_path.foo")
-
-    # subdir doesnt exist
-    path = '/language0/project0/path/to/subdir.po'
-    with pytest.raises(Directory.DoesNotExist):
-        Store.objects.create_by_path(
-            path, create_directory=False)
-
-    path = '/%s/project0/notp.po' % LanguageDBFactory().code
-    with pytest.raises(TranslationProject.DoesNotExist):
-        Store.objects.create_by_path(
-            path, create_tp=False)
-
-
-@pytest.mark.django_db
-def test_store_create_by_path(po_directory):
-
-    # create in tp
-    path = '/language0/project0/path.po'
-    store = Store.objects.create_by_path(path)
-    assert store.pootle_path == path
-
-    # "create" in tp again - get existing store
-    store = Store.objects.create_by_path(path)
-    assert store.pootle_path == path
-
-    # create in existing subdir
-    path = '/language0/project0/subdir0/exists.po'
-    store = Store.objects.create_by_path(path)
-    assert store.pootle_path == path
-
-    # create in new subdir
-    path = '/language0/project0/path/to/subdir.po'
-    store = Store.objects.create_by_path(path)
-    assert store.pootle_path == path
-
-
-@pytest.mark.django_db
-def test_store_create_by_path_with_project(project0):
-    # create in tp with project
-    path = '/language0/project0/path2.po'
-    store = Store.objects.create_by_path(
-        path, project=project0)
-    assert store.pootle_path == path
-
-    # create in existing subdir with project
-    path = '/language0/project0/subdir0/exists2.po'
-    store = Store.objects.create_by_path(
-        path, project=project0)
-    assert store.pootle_path == path
-
-    # create in new subdir with project
-    path = '/language0/project0/path/to/subdir2.po'
-    store = Store.objects.create_by_path(
-        path, project=project0)
-    assert store.pootle_path == path
-
-
-@pytest.mark.django_db
-def test_store_create_by_new_tp_path(po_directory):
-    language = LanguageDBFactory()
-    path = '/%s/project0/tp.po' % language.code
-    store = Store.objects.create_by_path(path)
-    assert store.pootle_path == path
-    assert store.translation_project.language == language
-
-    language = LanguageDBFactory()
-    path = '/%s/project0/with/subdir/tp.po' % language.code
-    store = Store.objects.create_by_path(path)
-    assert store.pootle_path == path
-    assert store.translation_project.language == language
 
 
 @pytest.mark.django_db

@@ -8,9 +8,6 @@
 
 from django.db import models
 
-from pootle.core.url_helpers import split_pootle_path
-from pootle_app.models import Directory
-
 from .constants import LANGUAGE_REGEX, OBSOLETE, PROJECT_REGEX
 from .util import SuggestionStates
 
@@ -131,48 +128,3 @@ class StoreManager(models.Manager):
         if update:
             store.save()
         return store, created
-
-    def create_by_path(self, pootle_path, project=None,
-                       create_tp=True, create_directory=True, **kwargs):
-        from pootle_language.models import Language
-        from pootle_project.models import Project
-
-        (lang_code, proj_code,
-         dir_path, filename) = split_pootle_path(pootle_path)
-
-        ext = filename.split(".")[-1]
-
-        if project is None:
-            project = Project.objects.get(code=proj_code)
-        elif project.code != proj_code:
-            raise ValueError(
-                "Project must match pootle_path when provided")
-        if ext not in project.filetype_tool.valid_extensions:
-            raise ValueError(
-                "'%s' is not a valid extension for this Project"
-                % ext)
-        if create_tp:
-            tp, created = (
-                project.translationproject_set.get_or_create(
-                    language=Language.objects.get(code=lang_code)))
-        elif create_directory or not dir_path:
-            tp = project.translationproject_set.get(
-                language__code=lang_code)
-        if dir_path:
-            if not create_directory:
-                parent = Directory.objects.get(
-                    pootle_path="/".join(
-                        ["", lang_code, proj_code, dir_path]))
-            else:
-                parent = tp.directory
-                for child in dir_path.strip("/").split("/"):
-                    parent, created = Directory.objects.get_or_create(
-                        name=child, parent=parent)
-        else:
-            parent = tp.directory
-
-        store, created = self.get_or_create(
-            name=filename, parent=parent, translation_project=tp, **kwargs)
-        if created:
-            store.mark_all_dirty()
-        return store

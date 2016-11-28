@@ -202,11 +202,24 @@ class UnitsList {
 
     const unitsToFetch = uids.filter(uid => !this.units.hasOwnProperty(uid));
 
-    // Do not request anything until there are enough `prefetchRows` amount of
-    // units to be fetched.
-    if (!unitsToFetch.length ||
-        (unitsToFetch.length < this.prefetchRows && start !== 0)) {
+    if (!unitsToFetch.length) {
       return;
+    }
+
+    // OPTIMIZATION: don't fetch less than `prefetchRows` amount of units...
+    if (unitsToFetch.length < this.prefetchRows) {
+      // ...so long as we are not in the initial vicinity.
+      if (start !== 0) {
+        return;
+      }
+      // In the initial vicinity, don't fetch if we already have the first
+      // `prefetchRows` amount of units.
+      const firstUnits = this.uids.slice(0, this.prefetchRows).filter(
+        uid => this.units.hasOwnProperty(uid)
+      );
+      if (firstUnits.length === this.prefetchRows) {
+        return;
+      }
     }
 
     UnitAPI.fetchUnits({ uids: unitsToFetch }).then(

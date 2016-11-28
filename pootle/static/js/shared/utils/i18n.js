@@ -9,6 +9,82 @@
 import React from 'react';
 
 
+const RTL_LANGUAGES = [
+  'aao',
+  'abh',
+  'abv',
+  'acm',
+  'acq',
+  'acw',
+  'acx',
+  'acy',
+  'adf',
+  'ads',
+  'aeb',
+  'aec',
+  'afb',
+  'ajp',
+  'apc',
+  'apd',
+  'ar',
+  'arb',
+  'arc',
+  'arq',
+  'ars',
+  'ary',
+  'arz',
+  'auz',
+  'avl',
+  'ayh',
+  'ayl',
+  'ayn',
+  'ayp',
+  'bbz',
+  'bcc',
+  'bqi',
+  'ckb',
+  'dv',
+  'fa',
+  'glk',
+  'hbo',
+  'he',
+  'iw',
+  'ji',
+  'jpr',
+  'ks',
+  'lrc',
+  'men',
+  'mzn',
+  'nqo',
+  'pbt',
+  'pbu',
+  'peo',
+  'pes',
+  'pga',
+  'pnb',
+  'prd',
+  'prp',
+  'prs',
+  'ps',
+  'pst',
+  'sam',
+  'sd',
+  'shu',
+  'sqr',
+  'ssh',
+  'ug',
+  'ur',
+  'xaa',
+  'xmn',
+  'ydd',
+  'yds',
+  'yhd',
+  'yi',
+  'yih',
+  'yud',
+];
+
+
 /**
  * Make it possible React components can be added as placeholders.
  *
@@ -123,4 +199,15 @@ export function nt(singular, plural, count, ctx = null) {
  */
 export function toLocaleString(number) {
   return number.toLocaleString(navigator.language);
+}
+
+
+/**
+ * Helper to determine the directionality for a language.
+ *
+ * @param {String} langCode - The language code of the language to check.
+ * @return {String} - 'rtl' for a language using a RTL script, 'ltr' otherwise.
+ */
+export function dir(langCode) {
+  return RTL_LANGUAGES.indexOf(langCode) !== -1 ? 'rtl' : 'ltr';
 }

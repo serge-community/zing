@@ -6,24 +6,20 @@
  * AUTHORS file for copyright and authorship information.
  */
 
+import { dir } from 'utils/i18n';
+
 
 class Unit {
 
   constructor({ id, source, sourceLang, target, targetLang }) {
     this.id = id;
     this.source = source;
+    this.sourceDir = dir(sourceLang);
     this.sourceLang = sourceLang;
     this.target = target;
+    this.targetDir = dir(targetLang);
     this.targetLang = targetLang;
 
-    // TODO: get direction from language; update viewRow template not to
-    // use this structure
-    this.store = {
-      source_lang: this.sourceLang,
-      source_dir: 'ltr',
-      target_lang: this.targetLang,
-      target_dir: 'ltr',
-    };
     this.url = l(`/unit/${this.id}`);
   }
 

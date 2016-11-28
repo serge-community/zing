@@ -1,7 +1,8 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
@@ -26,7 +27,7 @@ class MTProvider {
     $(document).on('click', `.js-${opts.name}`, (e) => {
       const sourceLang = e.currentTarget.dataset.sourceLang;
       this.translate(this.unit.sources[sourceLang][0], sourceLang,
-                     this.unit.store.target_lang)
+                     this.unit.targetLang)
           .then(
             (result) => PTL.editor.setTranslation(result)
           );
@@ -98,7 +99,7 @@ class MTProvider {
    */
   injectUI(props) {
     const { unit } = props;
-    const targetLang = normalizeCode(unit.store.target_lang);
+    const targetLang = normalizeCode(unit.targetLang);
 
     if (this.isSupportedTarget(targetLang)) {
       Object.keys(unit.sources).forEach((sourceLanguage) => {

@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -88,7 +89,6 @@ class User(AbstractBaseUser):
                                          verbose_name=_("Number of Rows"))
     alt_src_langs = models.ManyToManyField(
         'pootle_language.Language', blank=True, db_index=True,
-        limit_choices_to=~Q(code='templates'),
         verbose_name=_("Alternative Source Languages"))
 
     # Score-related fields

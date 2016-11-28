@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -36,7 +37,6 @@ class InitDB(object):
         self.create_revision()
         self.create_essential_users()
         self.create_root_directories()
-        self.create_template_languages()
         if create_projects:
             self.create_terminology_project()
         self.create_pootle_permissions()
@@ -192,14 +192,6 @@ class InitDB(object):
         self._create_pootle_permission_set(
             [view, suggest, translate], **criteria)
 
-        # Default permissions for templates language.
-        # Override with no permissions for templates language.
-        criteria = {
-            'user': nobody,
-            'directory': Directory.objects.get(pootle_path="/templates/"),
-        }
-        self._create_pootle_permission_set([], **criteria)
-
         criteria['user'] = default
         self._create_pootle_permission_set([], **criteria)
 
@@ -218,16 +210,6 @@ class InitDB(object):
         """Create the root Directory items."""
         root = self._create_object(Directory, **dict(name=""))[0]
         self._create_object(Directory, **dict(name="projects", parent=root))
-
-    def create_template_languages(self):
-        """Create the 'templates' and English languages.
-
-        The 'templates' language is used to give users access to the
-        untranslated template files.
-        """
-        self._create_object(
-            Language, **dict(code="templates", fullname="Templates"))
-        self.require_english()
 
     def create_terminology_project(self):
         """Create the terminology project.

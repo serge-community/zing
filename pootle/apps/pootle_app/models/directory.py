@@ -73,10 +73,6 @@ class Directory(models.Model, CachedTreeItem):
                             .filter(pootle_path__startswith=self.pootle_path)
 
     @property
-    def is_template_project(self):
-        return self.pootle_path.startswith('/templates/')
-
-    @property
     def is_root(self):
         """Tell if this directory is the root directory."""
         return self.pootle_path == '/'

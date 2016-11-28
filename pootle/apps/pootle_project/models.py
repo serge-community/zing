@@ -15,10 +15,9 @@ from translate.filters import checks
 
 from django.conf import settings
 from django.core.cache import cache
-from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.db import models
-from django.db.models import Q
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from django.utils.encoding import iri_to_uri
@@ -341,8 +340,7 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
         from pootle_language.models import Language
         # FIXME: we should better have a way to automatically cache models with
         # built-in invalidation -- did I hear django-cache-machine?
-        return Language.objects.filter(Q(translationproject__project=self),
-                                       ~Q(code='templates'))
+        return Language.objects.filter(translationproject__project=self)
 
     @cached_property
     def resources(self):
@@ -452,35 +450,11 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
 
         return self.code in Project.accessible_by_user(user)
 
-    def file_belongs_to_project(self, filename, match_templates=True):
-        """Tests if ``filename`` matches project filetype (ie. extension).
-
-        If ``match_templates`` is ``True``, this will also check if the file
-        matches the template filetype.
-        """
+    def file_belongs_to_project(self, filename):
+        """Tests if ``filename`` matches project filetype (ie. extension)."""
         ext = os.path.splitext(filename)[1][1:]
         filetypes = ProjectFiletypes(self)
-        return (
-            ext in filetypes.filetype_extensions
-            or (match_templates
-                and ext in filetypes.template_extensions))
-
-    def get_template_translationproject(self):
-        """Returns the translation project that will be used as a template
-        for this project.
-
-        First it tries to retrieve the translation project that has the
-        special 'templates' language within this project, otherwise it
-        falls back to the source language set for current project.
-        """
-        try:
-            return self.translationproject_set.get(language__code='templates')
-        except ObjectDoesNotExist:
-            try:
-                return self.translationproject_set \
-                           .get(language=self.source_language_id)
-            except ObjectDoesNotExist:
-                pass
+        return ext in filetypes.filetype_extensions
 
 
 class ProjectResource(VirtualResource, ProjectURLMixin):

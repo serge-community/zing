@@ -60,14 +60,6 @@ def tp_checker_tests(request, english, checkers):
 
 
 @pytest.fixture
-def templates_project0(request, templates, project0):
-    """Require the templates/project0/ translation project."""
-    from pytest_pootle.factories import TranslationProjectFactory
-
-    return TranslationProjectFactory(language=templates, project=project0)
-
-
-@pytest.fixture
 def tp0(language0, project0):
     """Require English Project0."""
     from pootle_translationproject.models import TranslationProject

@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -38,9 +39,7 @@ class Command(BaseCommand):
     def list_languages(self, **options):
         """List all languages on the server or the given projects."""
         from pootle_translationproject.models import TranslationProject
-        tps = TranslationProject.objects.distinct()
-        tps = tps.exclude(
-            language__code='templates').order_by('language__code')
+        tps = TranslationProject.objects.distinct().order_by('language__code')
 
         if options['modified_since'] > 0:
             tps = tps.filter(

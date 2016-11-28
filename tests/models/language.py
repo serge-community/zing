@@ -93,7 +93,7 @@ def test_language_liveness():
     # Delete TP for disabled project.
     disabled_project_tp.delete()
 
-    # Test templates language is live.
+    # Last language is live.
     assert language.translationproject_set.count() == 1
     assert language in Language.live.all()
     assert language in Language.live.get_all_queryset()

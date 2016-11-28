@@ -243,10 +243,6 @@ class TranslationProject(models.Model, CachedTreeItem):
     def is_terminology_project(self):
         return self.project.checkstyle == 'terminology'
 
-    @property
-    def is_template_project(self):
-        return self == self.project.get_template_translationproject()
-
     # # # # # # # # # # # # # #  Methods # # # # # # # # # # # # # # # # # # #
 
     def __unicode__(self):
@@ -369,10 +365,6 @@ class TranslationProject(models.Model, CachedTreeItem):
 
         filetypes = self.project.filetype_tool
         exts = filetypes.filetype_extensions
-
-        # Scan for pots if template project
-        if self.is_template_project:
-            exts = filetypes.template_extensions
 
         from pootle_app.project_tree import add_files
 

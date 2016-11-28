@@ -12,9 +12,8 @@ import os
 
 import pytest
 
-from pytest_pootle.factories import (
-    LanguageDBFactory, ProjectDBFactory, StoreDBFactory,
-    TranslationProjectFactory)
+from pytest_pootle.factories import (LanguageDBFactory, StoreDBFactory,
+                                     TranslationProjectFactory)
 
 from translate.storage.factory import getclass
 
@@ -451,14 +450,7 @@ def test_store_create(tp0):
         parent=tp.directory,
         translation_project=tp)
     assert store.filetype == po
-    assert not store.is_template
-    store = Store.objects.create(
-        name="store.pot",
-        parent=tp.directory,
-        translation_project=tp)
     # not in source_language folder
-    assert not store.is_template
-    assert store.filetype == po
     store = Store.objects.create(
         name="store.xliff",
         parent=tp.directory,
@@ -473,11 +465,6 @@ def test_store_create(tp0):
         parent=tp.directory,
         translation_project=tp)
     assert store.filetype == po2
-    store = Store.objects.create(
-        name="another_store.pot",
-        parent=tp.directory,
-        translation_project=tp)
-    assert store.filetype == po
     store = Store.objects.create(
         name="another_store.xliff",
         parent=tp.directory,
@@ -551,60 +538,6 @@ def test_store_get_file_class():
 
     format_classes.disconnect(format_class_provider)
     format_classes.disconnect(another_format_class_provider)
-
-
-@pytest.mark.django_db
-def test_store_get_template_file_class(po_directory, templates):
-    project = ProjectDBFactory(source_language=templates)
-    tp = TranslationProjectFactory(language=templates, project=project)
-    format_registry = formats.get()
-    foo_filetype = format_registry.register("foo", "foo", template_extension="bar")
-    tp.project.filetypes.add(foo_filetype)
-    store = Store.objects.create(
-        name="mystore.bar",
-        translation_project=tp,
-        parent=tp.directory)
-
-    # oh no! not recognised by ttk
-    with pytest.raises(ValueError):
-        store.syncer.file_class
-
-    class CustomFormatClass(object):
-        pass
-
-    @provider(format_classes)
-    def format_class_provider(**kwargs):
-        return dict(foo=CustomFormatClass)
-
-    assert store.syncer.file_class == CustomFormatClass
-
-    format_classes.disconnect(format_class_provider)
-
-
-@pytest.mark.django_db
-def test_store_create_templates(po_directory, templates):
-    project = ProjectDBFactory(source_language=templates)
-    tp = TranslationProjectFactory(language=templates, project=project)
-    po = Format.objects.get(name="po")
-    store = Store.objects.create(
-        name="mystore.pot",
-        translation_project=tp,
-        parent=tp.directory)
-    assert store.filetype == po
-    assert store.is_template
-
-
-@pytest.mark.django_db
-def test_store_get_or_create_templates(po_directory, templates):
-    project = ProjectDBFactory(source_language=templates)
-    tp = TranslationProjectFactory(language=templates, project=project)
-    po = Format.objects.get(name="po")
-    store = Store.objects.get_or_create(
-        name="mystore.pot",
-        translation_project=tp,
-        parent=tp.directory)[0]
-    assert store.filetype == po
-    assert store.is_template
 
 
 @pytest.mark.django_db

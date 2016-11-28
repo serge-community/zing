@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -23,7 +24,7 @@ class ProjectAdminView(SuperuserRequiredMixin, TemplateView):
     template_name = 'admin/projects.html'
 
     def get_context_data(self, **kwargs):
-        languages = Language.objects.exclude(code='templates')
+        languages = Language.objects.all()
         language_choices = [(lang.id, unicode(lang)) for lang in languages]
         try:
             english = Language.objects.get(code='en')

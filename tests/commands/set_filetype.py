@@ -17,18 +17,16 @@ from pootle_project.models import Project
 @pytest.mark.cmd
 @pytest.mark.django_db
 def test_cmd_set_project_filetype(dummy_project_filetypes,
-                                  templates_project0, po, po2):
-    template_tp = templates_project0
-    project = template_tp.project
-    other_tps = project.translationproject_set.exclude(pk=template_tp.pk)
+                                  tp0, po, po2):
+    project = tp0.project
+    tps = project.translationproject_set.all()
     result = project.filetype_tool.result
 
     project.filetype_tool.add_filetype(po2)
     call_command("set_filetype", "--project=project0", "special_po_2")
 
-    assert result[0] == (template_tp, po2, None, None)
-    for i, tp in enumerate(other_tps):
-        assert result[i + 1] == (tp, po2, None, None)
+    for i, tp in enumerate(tps):
+        assert result[i] == (tp, po2, None, None)
 
     # test getting from_filetype
     result.clear()
@@ -37,9 +35,8 @@ def test_cmd_set_project_filetype(dummy_project_filetypes,
         "--project=project0",
         "--from-filetype=po",
         "special_po_2")
-    assert result[0] == (template_tp, po2, po, None)
-    for i, tp in enumerate(other_tps):
-        assert result[i + 1] == (tp, po2, po, None)
+    for i, tp in enumerate(tps):
+        assert result[i] == (tp, po2, po, None)
 
     # test getting match
     result.clear()
@@ -48,9 +45,8 @@ def test_cmd_set_project_filetype(dummy_project_filetypes,
         "--project=project0",
         "--matching=bar",
         "special_po_2")
-    assert result[0] == (template_tp, po2, None, "bar")
-    for i, tp in enumerate(other_tps):
-        assert result[i + 1] == (tp, po2, None, "bar")
+    for i, tp in enumerate(tps):
+        assert result[i] == (tp, po2, None, "bar")
 
     # test getting both
     result.clear()
@@ -60,14 +56,13 @@ def test_cmd_set_project_filetype(dummy_project_filetypes,
         "--from-filetype=po",
         "--matching=bar",
         "special_po_2")
-    assert result[0] == (template_tp, po2, po, "bar")
-    for i, tp in enumerate(other_tps):
-        assert result[i + 1] == (tp, po2, po, "bar")
+    for i, tp in enumerate(tps):
+        assert result[i] == (tp, po2, po, "bar")
 
 
 @pytest.mark.cmd
 @pytest.mark.django_db
-def test_cmd_set_all_project_filetypes(dummy_project_filetypes, templates, po2):
+def test_cmd_set_all_project_filetypes(dummy_project_filetypes, po2):
 
     for project in Project.objects.all():
         project.filetype_tool.add_filetype(po2)
@@ -79,11 +74,6 @@ def test_cmd_set_all_project_filetypes(dummy_project_filetypes, templates, po2):
     i = 0
     for project in Project.objects.all():
         project_tps = project.translationproject_set.all()
-        for tp in project.translationproject_set.all():
-            if tp.is_template_project:
-                assert result[i] == (tp, po2, None, None)
-                i += 1
-                project_tps = project_tps.exclude(pk=tp.pk)
         for tp in project_tps:
             assert result[i] == (tp, po2, None, None)
             i += 1

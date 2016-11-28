@@ -40,12 +40,6 @@ def english():
 
 
 @pytest.fixture
-def templates():
-    """Require the special Templates language."""
-    return _require_language("templates", "Templates")
-
-
-@pytest.fixture
 def afrikaans():
     """Require the Afrikaans language."""
     return _require_language('af', 'Afrikaans')

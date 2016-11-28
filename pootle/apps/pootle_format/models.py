@@ -26,7 +26,7 @@ class Format(AbstractFormat):
     extension = models.ForeignKey(
         FileExtension, related_name="formats")
     template_extension = models.ForeignKey(
-        FileExtension, related_name="template_formats")
+        FileExtension, related_name="template_formats", null=True)
 
     def __str__(self):
         return (

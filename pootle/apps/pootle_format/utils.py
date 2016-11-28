@@ -104,10 +104,7 @@ class ProjectFiletypes(object):
             filetype, store.pootle_path)
         store.filetype = filetype
         # update the extension if required
-        extension = (
-            store.is_template
-            and str(filetype.template_extension)
-            or str(filetype.extension))
+        extension = filetype.extension
         root_name = os.path.splitext(store.name)[0]
         new_name = (
             root_name.endswith(".%s" % extension)
@@ -123,16 +120,12 @@ class ProjectFiletypes(object):
 
         /tp/path/$glob_converted_to_regex.($valid_extensions)$
         """
-        extensions = (
-            (tp == self.project.get_template_translationproject())
-            and self.template_extensions
-            or self.filetype_extensions)
         return (
             r"^/%s/%s/%s\.%s$"
             % (tp.language.code,
                tp.project.code,
                translate(matching).replace('\Z(?ms)', '$').rstrip("$"),
-               r"(%s)" % ("|".join(extensions))))
+               r"(%s)" % ("|".join(self.filetype_extensions))))
 
     def set_tp_filetype(self, tp, filetype, from_filetype=None, matching=None):
         """Set all Stores in TranslationProject to given filetype
@@ -161,18 +154,8 @@ class ProjectFiletypes(object):
         """
         if filetype not in self.filetypes:
             raise self.unrecognized_filetype(filetype)
-        templates = self.project.get_template_translationproject()
-        if templates:
-            # set the templates tp filetypes
-            self.set_tp_filetype(
-                templates,
-                filetype,
-                from_filetype=from_filetype,
-                matching=matching)
         for tp in self.project.translationproject_set.all():
             # set the other tp filetypes
-            if tp == templates:
-                continue
             self.set_tp_filetype(
                 tp,
                 filetype,

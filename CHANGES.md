@@ -13,6 +13,7 @@ v0.1.2 (in development)
 * Removed extra layer of serialization (#88).
 * Removed external language mapping (#100).
 * Removed project-specific directory layouts (#102).
+* Removed support for the special "templates" language (#103).
 
 
 v0.1.1 (2016-11-12)

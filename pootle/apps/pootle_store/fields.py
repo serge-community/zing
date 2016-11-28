@@ -156,7 +156,7 @@ class TranslationStoreFieldFile(FieldFile):
                 fileclass = self.instance.syncer.file_class
                 classes = {
                     str(self.instance.filetype.extension): fileclass,
-                    str(self.instance.filetype.template_extension): fileclass}
+                }
                 store_obj = factory.getobject(self.path,
                                               ignore=self.field.ignore,
                                               classes=classes)

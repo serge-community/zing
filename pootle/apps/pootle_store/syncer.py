@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
 import logging
 import os
-from collections import namedtuple
 
 from translate.storage.factory import getclass
 
@@ -164,13 +164,6 @@ class StoreSyncer(object):
             str(self.store.filetype.extension))
         if fileclass:
             return fileclass
-        if self.store.is_template:
-            # namedtuple is equiv here of object() with name attr
-            return self._getclass(
-                namedtuple("instance", "name")(
-                    name=".".join(
-                        [os.path.splitext(self.store.name)[0],
-                         str(self.store.filetype.extension)])))
         return self._getclass(self.store)
 
     def convert(self, fileclass=None):
@@ -276,9 +269,6 @@ class StoreSyncer(object):
 
         if not self.store.file.exists():
             self.create_store_file(last_revision, user)
-            return
-
-        if conservative and self.store.is_template:
             return
 
         file_changed, changes = self.sync_store(

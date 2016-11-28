@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -63,9 +64,8 @@ class UnitManager(models.Manager):
 
         if language_code:
             units_qs = units_qs.filter(
-                store__translation_project__language__code=language_code)
-        else:
-            units_qs = units_qs.exclude(store__is_template=True)
+                store__translation_project__language__code=language_code,
+            )
 
         if project_code:
             units_qs = units_qs.filter(
@@ -106,8 +106,6 @@ class StoreManager(models.Manager):
         if "filetype" not in kwargs:
             filetypes = kwargs["translation_project"].project.filetype_tool
             kwargs['filetype'] = filetypes.choose_filetype(kwargs["name"])
-        if kwargs["translation_project"].is_template_project:
-            kwargs["is_template"] = True
         kwargs["pootle_path"] = (
             "%s%s"
             % (kwargs["parent"].pootle_path, kwargs["name"]))
@@ -118,9 +116,6 @@ class StoreManager(models.Manager):
         if not created:
             return store, created
         update = False
-        if store.translation_project.is_template_project:
-            store.is_template = True
-            update = True
         if "filetype" not in kwargs:
             filetypes = store.translation_project.project.filetype_tool
             store.filetype = filetypes.choose_filetype(store.name)

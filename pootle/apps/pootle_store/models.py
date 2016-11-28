@@ -1130,7 +1130,6 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
         null=True,
         blank=True,
         db_index=True)
-    is_template = models.BooleanField(default=False)
 
     # any changes to the `pootle_path` field may require updating the schema
     # see migration 0007_case_sensitive_schema.py
@@ -1499,7 +1498,6 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
             "pk", flat=True)
         res = (
             self.units.filter(store__filetype_id__in=filetype_ids)
-                      .exclude(store__is_template=True)
                       .order_by().values('state')
                       .annotate(wordcount=models.Sum('source_wordcount')))
         for item in res:

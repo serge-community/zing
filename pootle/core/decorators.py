@@ -202,9 +202,7 @@ def set_project_resource(request, path_obj, dir_path, filename):
     user_tps = user_tps.filter(
         project__code=path_obj.code,
     ).values_list('pootle_path', flat=True)
-    user_tps = list(path for path in user_tps
-                    if not path.startswith('/templates/'))
-    user_tps_regex = '^%s' % u'|'.join(user_tps)
+    user_tps_regex = '^%s' % u'|'.join(list(user_tps))
     sql_regex = 'REGEXP'
     if connection.vendor == 'postgresql':
         sql_regex = '~'

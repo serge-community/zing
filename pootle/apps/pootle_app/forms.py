@@ -34,8 +34,7 @@ class LanguageForm(forms.ModelForm):
                   'pluralequation',)
 
     def clean_code(self):
-        if (not self.cleaned_data['code'] == 'templates' and
-            not LANGCODE_RE.match(self.cleaned_data['code'])):
+        if not LANGCODE_RE.match(self.cleaned_data['code']):
             raise forms.ValidationError(
                 _('Language code does not follow the ISO convention')
             )
@@ -64,8 +63,7 @@ class ProjectForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ProjectForm, self).__init__(*args, **kwargs)
 
-        queryset = Language.objects.exclude(code='templates')
-        self.fields['source_language'].queryset = queryset
+        self.fields['source_language'].queryset = Language.objects.all()
 
         self.fields["filetypes"].initial = [
             self.fields["filetypes"].queryset.get(name="po")]

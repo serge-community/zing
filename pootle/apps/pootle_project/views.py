@@ -74,10 +74,10 @@ class ProjectMixin(object):
                 dirs = dirs.select_related(
                     "%stranslationproject" % tp_prefix,
                     "%stranslationproject__language" % tp_prefix)
-            resources = (
-                dirs.exclude(pootle_path__startswith="/templates")
-                    .filter(pootle_path__endswith=project_path)
-                    .filter(pootle_path__regex=regex))
+            resources = dirs.filter(
+                pootle_path__endswith=project_path,
+                pootle_path__regex=regex,
+            )
         else:
             resources = (
                 Store.objects.live()

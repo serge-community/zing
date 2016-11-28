@@ -57,7 +57,7 @@ def test_admin_view_projects(client, request_users, english):
     if not user.is_superuser:
         assert response.status_code == 403
         return
-    languages = Language.objects.exclude(code='templates')
+    languages = Language.objects.all()
     language_choices = [(lang.id, unicode(lang)) for lang in languages]
     filetypes = []
     for info in formats.get().values():

@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -40,6 +41,7 @@ class MultipleArgsField(forms.Field):
         super(MultipleArgsField, self).__init__(*args, **kwargs)
 
     def clean(self, value):
+        super(MultipleArgsField, self).clean(value)
         if len(value) == 1 and "," in value[0]:
             value = value[0].split(",")
         return [self.field.clean(x) for x in value]

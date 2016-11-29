@@ -175,17 +175,17 @@
 
             <script type="text/javascript">
               PTL.reactEditor.init({
-                initialValues: {{ unit_values|to_js }},
+                initialValues: {{ unit_values|to_jquery_safe_js }},
                 isDisabled: {{ form.target_f.field.widget.attrs.disabled|yesno:'true,false' }},
                 currentLocaleCode: '{{ language.code }}',
                 currentLocaleDir: '{{ language.direction }}',
                 unitId: {{ unit.id }},
-                sourceValues: {{ unit.source_f.strings|to_js }},
+                sourceValues: {{ unit.source_f.strings|to_jquery_safe_js }},
                 sourceLocaleCode: '{{ source_language.code }}',
                 sourceLocaleDir: '{{ source_language.direction }}',
                 hasPlurals: {{ has_plurals|yesno:'true,false' }},
                 targetNplurals: {{ target_nplurals }},
-                alternativeSources: {{ altsrcs|to_js }},
+                alternativeSources: {{ altsrcs|to_jquery_safe_js }},
                 fileType: '{{ filetype }}',
               });
             </script>

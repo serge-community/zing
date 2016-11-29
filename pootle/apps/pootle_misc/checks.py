@@ -213,7 +213,8 @@ fmt = u'^<(Sync Required|None|no attributes|no tags|' + \
 no_tags_regex = re.compile(fmt, re.U)
 
 fmt = u"<\/?[a-zA-Z_]+.*?>"
-tags_differ_regex_0 = re.compile(u"(%s)" % fmt, re.U)
+cdata_fmt = u'<!\[CDATA\[(?:[^]]|\](?!\]>))*\]\]>'
+tags_differ_regex_0 = re.compile(u"(%s|%s)" % (fmt, cdata_fmt), re.U)
 tags_differ_regex_1 = re.compile(u"<(\/?[a-zA-Z_]+).*?>", re.U)
 
 accelerators_regex_0 = re.compile(u"&(\w+);", re.U)

@@ -251,8 +251,17 @@ def test_unbalanced_curly_braces(source_string, target_string, should_skip):
 @pytest.mark.parametrize('source_string, target_string, should_skip', [
     (u'a', u'A', True),
     (u'<a href="">a</a>', u'<a href="">a</a>', True),
+    (u'<![CDATA[foo]]>', u'<![CDATA[bar]]>', True),
+    (u'<![CDATA[foo[bar]]]>', u'<![CDATA[foo[bar]]]>', True),
+    (u'<![CDATA[<b>foo</b>]]>', u'<![CDATA[<b>foo</b>]]>', True),
+    (u'<a>a</a> <![CDATA[foo]]>', u'<![CDATA[bar]]> <a>b</a> ', True),
+
     (u'<a href="">a</a>', u'<a href="">a<a>', False),
     (u'<a class="a">a</a>', u'<b class="b">a</b>', False),
+
+    (u'<![CDATA[<a>foo</a>]]>', u'<![CDATA[<a>bar]]></a>', False),
+    (u'<a><![CDATA[<b>foo</b>]]></a>', u'<a><![CDATA[<b>foo</b></a>]]>', False),
+    (u'<a><![CDATA[<b>foo</b>]]>', u'<![CDATA[<b>foo</b></a>]]>', False),
 ])
 def test_tags_differ(source_string, target_string, should_skip):
     check = checker.tags_differ

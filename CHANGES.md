@@ -4,6 +4,9 @@ Zing Changelog
 v0.1.3 (in development)
 -----------------------
 
+* Improved `tags_differ` check to take into account CDATA sections as if they
+  were tags (#104).
+
 
 v0.1.2 (2016-11-29)
 -------------------

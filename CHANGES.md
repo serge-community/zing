@@ -1,8 +1,8 @@
 Zing Changelog
 ==============
 
-v0.1.2 (in development)
------------------------
+v0.1.2 (2016-11-29)
+-------------------
 
 * Editor:
   * Added the ability to select groups of failing checks (#80).

@@ -4,6 +4,8 @@ Zing Changelog
 v0.1.3 (in development)
 -----------------------
 
+* Editor: fixed a bug where self-closing (X)HTML tags would be displayed as
+  opening+closing tags (#105).
 * Improved `tags_differ` check to take into account CDATA sections as if they
   were tags (#104).
 

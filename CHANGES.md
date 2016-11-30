@@ -1,8 +1,8 @@
 Zing Changelog
 ==============
 
-v0.1.3 (in development)
------------------------
+v0.1.3 (2016-11-30)
+-------------------
 
 * Editor: fixed a bug where self-closing (X)HTML tags would be displayed as
   opening+closing tags (#105).

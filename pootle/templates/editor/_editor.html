@@ -10,8 +10,10 @@
       <table class="translate-table context-rows-before js-context-rows-before" dir="{% locale_dir %}">
       </table>
     </div>
-    <table class="translate-table js-editor-table js-editor-row {% if cansuggest and not cantranslate %} suggest-mode{% endif %}" dir="{% locale_dir %}">
-    </table>
+    <div class="edit-row-wrapper js-edit-row-wrapper">
+      <table class="translate-table js-editor-table js-editor-row {% if cansuggest and not cantranslate %} suggest-mode{% endif %}" dir="{% locale_dir %}">
+      </table>
+    </div>
     <div class="view-rows-after-wrapper js-view-rows-after-wrapper">
       <table class="translate-table view-rows-after js-view-rows-after" dir="{% locale_dir %}">
       </table>

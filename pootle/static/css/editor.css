@@ -219,10 +219,13 @@ div.view-rows-after-wrapper > *
     top: 0;
 }
 
-table.js-editor-table
+div.edit-row-wrapper
 {
     position: relative;
     z-index: 1;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .translate-table-wrapper
@@ -327,7 +330,7 @@ tr.view-row
  */
 tr.view-row.even
 {
-    background: none;
+    background: #fff;
 }
 
 tr.view-row:hover
@@ -373,7 +376,6 @@ div.translate-container
     position: relative;
     margin: -5px 0;
     padding: 1em 0;
-    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
     background-color: #f1f7f8;
     clear: both;
 }

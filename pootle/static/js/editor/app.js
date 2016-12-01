@@ -59,6 +59,7 @@ PTL.reactEditor = ReactEditor;
 const ALLOWED_SORTS = ['oldest', 'newest', 'default'];
 const SHOW_CONTEXT_ROWS_TIMEOUT = 200;
 const HIDE_CONTEXT_ROWS_TIMEOUT = 50;
+const ADJUST_GEOMETRY_DELAY = 100;
 
 const filterSelectOpts = {
   dropdownAutoWidth: true,
@@ -115,6 +116,7 @@ PTL.editor = {
     this.$editorActivity = $('#js-editor-act');
     this.$viewRowsBefore = $('.js-view-rows-before');
     this.$contextRowsBefore = $('.js-context-rows-before');
+    this.$editRowWrapper = $('.js-edit-row-wrapper');
     this.$editorRow = $('.js-editor-row');
     this.$viewRowsAfter = $('.js-view-rows-after');
     this.$contextRowsAfter = $('.js-context-rows-after');
@@ -182,6 +184,7 @@ PTL.editor = {
     /*
      * Bind event handlers
      */
+    $(window).on('resize', () => this.handleWindowResize());
 
     /* Editor toolbar navigation/search/filtering */
     $('#toolbar').on('click', '#js-nav-prev', () => this.gotoPrev());
@@ -580,6 +583,8 @@ PTL.editor = {
     this.hideActivity();
     this.updateExportLink();
     helpers.updateRelativeDates();
+
+    this.adjustEditorGeometry();
   },
 
   canNavigate() {
@@ -816,6 +821,8 @@ PTL.editor = {
     if (suggest !== null) {
       suggest.disabled = !areaChanged || suggestionExists;
     }
+
+    this.adjustEditorGeometry();
   },
 
   onStateChange() {
@@ -1325,6 +1332,7 @@ PTL.editor = {
     }
 
     this.$editorRow.html(editorRow);
+    this.$editRowWrapper.show();
   },
 
   /* Updates a `$button` to the `enable` state */
@@ -1395,6 +1403,7 @@ PTL.editor = {
     `);
     this.$editorRow.html('');
     this.$viewRowsAfter.html('');
+    this.$editRowWrapper.hide();
   },
 
   /* Pushes translation submissions and moves to the next unit */
@@ -1538,6 +1547,7 @@ PTL.editor = {
         // On submitting the last unit in a sequence, 'close' the editor row
         this.editorIsClosed = true;
         this.redrawEditRow();
+        this.adjustEditorGeometry();
       }
       return;
     }
@@ -2060,5 +2070,46 @@ PTL.editor = {
       this.selectedSuggestionId = undefined;
       this.isSuggestionFeedbackFormDirty = false;
     }
+  },
+
+  adjustEditorGeometry() {
+    const editRowWrapper = $('.js-edit-row-wrapper');
+    const editorTable = $('.js-editor-row');
+
+    const toolbarHeight = $('#navbar').innerHeight() + $('#actions').innerHeight();
+    const maxHeight = $(window).height() - toolbarHeight;
+    const scrollHeight = editRowWrapper[0].scrollHeight;
+    const editorTableHeight = editorTable.height();
+    const editorHeight = Math.min(editorTableHeight, scrollHeight, maxHeight);
+    const maxTopBlockHeight = Math.round(maxHeight / 5);
+    const topBlockHeight = Math.min(
+      maxTopBlockHeight,
+      Math.max(Math.round((maxHeight - editorHeight) / 2), 0)
+    );
+    const bottomBlockHeight = maxHeight - editorHeight - topBlockHeight;
+
+    $('.js-view-rows-before-wrapper').height(topBlockHeight);
+    editRowWrapper.height(editorHeight);
+    $('.js-view-rows-after-wrapper').height(bottomBlockHeight);
+
+    setTimeout(() => {
+      if (editorTable.height() === editRowWrapper[0].scrollHeight) {
+        return;
+      }
+
+      // heights mismatch, need to adjust heights once again
+      this.adjustEditorGeometry();
+    }, 0);
+  },
+
+  handleWindowResize() {
+    clearTimeout(this.handleWindowResizeTimer);
+    if (this.isLoading) {
+      return;
+    }
+
+    this.handleWindowResizeTimer = setTimeout(() => {
+      this.adjustEditorGeometry();
+    }, ADJUST_GEOMETRY_DELAY);
   },
 };

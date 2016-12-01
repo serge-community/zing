@@ -44,6 +44,7 @@
 .icon-menu,
 .icon-close,
 .icon-exit,
+.icon-show-context-rows,
 .icon-user-website,
 .icon-user-linkedin,
 .icon-user-twitter
@@ -231,6 +232,11 @@
 .icon-exit::before
 {
     content: 'f';
+}
+
+.icon-show-context-rows::before
+{
+    content: 'U';
 }
 
 .icon-user-website,

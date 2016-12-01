@@ -445,6 +445,24 @@ div.unit-path li a
     opacity: 0.8;
 }
 
+div.unit-path li a i
+{
+    opacity: 0.5;
+    padding: 0 0.5em;
+    transition: opacity 1s;
+    display: none;
+}
+
+.context-rows-available div.unit-path li a i
+{
+    display: inline-block;
+}
+
+div.unit-path li a:hover i
+{
+    opacity: 1;
+}
+
 div.translate-left,
 div.translate-right
 {

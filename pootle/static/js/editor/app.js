@@ -58,6 +58,7 @@ PTL.reactEditor = ReactEditor;
 
 const ALLOWED_SORTS = ['oldest', 'newest', 'default'];
 const SHOW_CONTEXT_ROWS_TIMEOUT = 200;
+const HIDE_CONTEXT_ROWS_TIMEOUT = 50;
 
 const filterSelectOpts = {
   dropdownAutoWidth: true,
@@ -200,10 +201,10 @@ PTL.editor = {
                    () => this.handleTranslationChange());
 
     /* Context row preview */
-    $('#editor').on('mouseover', '.js-permalink',
-                    (e) => this.handlePermalinkMouseover(e));
-    $('#editor').on('mouseout', '.js-permalink',
-                    (e) => this.handlePermalinkMouseout(e));
+    $('#editor').on('mouseover', '.js-show-context-rows',
+                    (e) => this.handleContextPreviewMouseover(e));
+    $('#editor').on('mouseout', '.js-show-context-rows',
+                    (e) => this.handleContextPreviewMouseout(e));
 
     /* Suggest / submit */
     $('#editor').on('click', '.switch-suggest-mode a',
@@ -1127,6 +1128,7 @@ PTL.editor = {
   renderEditorRow(uid, unit) {
     const eClass = cx('edit-row', {
       'fuzzy-unit': unit.isfuzzy,
+      'context-rows-available': (this.filter !== 'all'),
     });
 
     return (`
@@ -1153,7 +1155,7 @@ PTL.editor = {
   },
 
 
-  handlePermalinkMouseover() {
+  handleContextPreviewMouseover() {
     if (this.filter === 'all') {
       return;
     }
@@ -1164,13 +1166,16 @@ PTL.editor = {
   },
 
 
-  handlePermalinkMouseout(e) {
+  handleContextPreviewMouseout(e) {
     if (this.filter === 'all') {
       return;
     }
-    if (!e.ctrlKey) {
-      this.hideContextRows();
-    }
+    clearTimeout(this.contextTimer);
+    this.contextTimer = setTimeout(() => {
+      if (!e.ctrlKey) {
+        this.hideContextRows();
+      }
+    }, HIDE_CONTEXT_ROWS_TIMEOUT);
   },
 
 

@@ -13,7 +13,7 @@
         <li><span class="content-wrapper">{{ language.name }}</span></li>
         <li><span class="content-wrapper">{{ project }}</span></li>
         <li><span class="content-wrapper">{{ unit.store.path }}</span></li>
-        <li><span class="content-wrapper">{% blocktrans with url=unit.get_translate_url id=unit.id %}<a class="js-permalink" href="{{ url }}">Unit #{{ id }}</a>{% endblocktrans %}</span></li>
+        <li><span class="content-wrapper"><a class="js-show-context-rows" href="{{ unit.get_translate_url }}">{% blocktrans with id=unit.id %}Unit #{{ id }}{% endblocktrans %}<i class="icon-show-context-rows" title="{% trans "Hold Ctrl to keep context rows open" %}"></i></a></span></li>
       </ul>
     </div>
     <div class="translate-{% locale_align %}">

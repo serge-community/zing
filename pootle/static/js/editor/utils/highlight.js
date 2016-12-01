@@ -82,7 +82,9 @@ export function highlightHtml(text, className = '') {
 export function highlightSymbols(text, className = '') {
   function replace(match) {
     const charCode = BASE_MAP_REVERSE_HL[match].charCodeAt().toString(16);
-    const zeros = '0'.repeat(4 - charCode.length);
+    // String.prototype.repeat() is not supported by IE,
+    // so use a cross-browser implementation based on Array.join()
+    const zeros = Array(4 - charCode.length + 1).join('0');
     const codePoint = `\\u${zeros}${charCode.toUpperCase()}`;
     return (
       `<span class="${className}" data-codepoint="${codePoint}">${match}</span>`

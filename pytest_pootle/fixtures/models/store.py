@@ -43,9 +43,6 @@ UPDATED_STORE_UNITS_3 = [(src, "UPDATED %s" % target)
                          in DEFAULT_STORE_UNITS_3]
 
 
-TEST_UPDATE_PO = "tests/data/po/tutorial/en/tutorial_update.po"
-TEST_EVIL_UPDATE_PO = "tests/data/po/tutorial/en/tutorial_update_evil.po"
-
 UPDATE_STORE_TESTS = OrderedDict()
 UPDATE_STORE_TESTS['min_empty'] = {"update_store": (0, [])}
 UPDATE_STORE_TESTS['min_new_units'] = {

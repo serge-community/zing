@@ -77,7 +77,7 @@ def clear_cache():
     """Currently tests only use one cache so this clears all"""
     from django_redis import get_redis_connection
 
-    get_redis_connection('default').flushdb()
+    get_redis_connection('redis').flushdb()
 
 
 @pytest.fixture(scope="session")

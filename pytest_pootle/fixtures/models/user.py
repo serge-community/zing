@@ -37,16 +37,24 @@ TEST_USERS = {
         password='')}
 
 
+def _get_user(username):
+    user_dict = copy.deepcopy(TEST_USERS[username])
+    user_dict.update({
+        'user': _require_user(username=username, **user_dict),
+    })
+    return user_dict
+
+
 @pytest.fixture(
     scope="session",
     params=["nobody", "admin", "member", "member2"])
 def request_users(request):
-    return copy.deepcopy(TEST_USERS[request.param])
+    return _get_user(request.param)
 
 
 @pytest.fixture(scope="session", params=TEST_USERS.keys())
 def site_users(request):
-    return copy.deepcopy(TEST_USERS[request.param])
+    return _get_user(request.param)
 
 
 def _require_user(username, fullname, password=None,

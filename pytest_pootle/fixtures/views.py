@@ -353,16 +353,14 @@ def language_views(request, client):
 
 @pytest.fixture(params=BAD_VIEW_TESTS.keys())
 def bad_views(request, client):
+    url = request.param
     test = dict(code=404)
-    test.update(BAD_VIEW_TESTS[request.param])
+    test.update(BAD_VIEW_TESTS[url])
     if test.get("ajax"):
-        response = client.get(request.param, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        response = client.get(url, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
     else:
-        response = client.get(request.param)
-    return (
-        request.param,
-        response,
-        test)
+        response = client.get(url)
+    return (url, response, test)
 
 
 @pytest.fixture(params=("browse", "translate", "export"))

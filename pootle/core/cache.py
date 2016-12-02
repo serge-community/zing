@@ -10,6 +10,7 @@
 from django.conf import settings
 from django.core.cache import cache as default_cache, caches
 from django.core.cache.backends.base import InvalidCacheBackendError
+from django.core.cache.backends.dummy import DummyCache as DjangoDummyCache
 from django.core.exceptions import ImproperlyConfigured
 
 
@@ -52,7 +53,7 @@ def get_cache(cache=None):
     try:
         # Check for proper Redis persistent backends
         # FIXME: this logic needs to be a system sanity check
-        if (cache in PERSISTENT_STORES and
+        if (not settings.DEBUG and cache in PERSISTENT_STORES and
                 (cache not in settings.CACHES or 'RedisCache' not in
                  settings.CACHES[cache]['BACKEND'] or
                  settings.CACHES[cache].get('TIMEOUT', '') is not None)):
@@ -64,3 +65,12 @@ def get_cache(cache=None):
         return caches[cache]
     except InvalidCacheBackendError:
         return default_cache
+
+
+class DummyCache(DjangoDummyCache):
+    """Custom DummyCache backend so we can no-op the `delete_pattern` method
+    which is only available via django-redis.
+    """
+
+    def delete_pattern(self, key):
+        pass

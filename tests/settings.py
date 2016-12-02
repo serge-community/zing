@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -57,9 +58,7 @@ CACHES = {
     # Must set up entries for persistent stores here because we have a check in
     # place that will abort everything otherwise
     'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/15',
-        'TIMEOUT': None,
+        'BACKEND': 'pootle.core.cache.DummyCache',
     },
     'redis': {
         'BACKEND': 'django_redis.cache.RedisCache',

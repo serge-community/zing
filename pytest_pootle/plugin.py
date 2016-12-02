@@ -108,12 +108,21 @@ def setup_db_if_needed(request, tests_use_db):
 
 
 @pytest.fixture(scope='session')
+def data_dir():
+    return lambda path: os.path.join(
+        os.path.dirname(__file__), 'data', path
+    )
+
+
+@pytest.fixture(scope='session')
 def post_db_setup(translations_directory, django_db_setup, django_db_blocker,
-                  tests_use_db, request):
+                  tests_use_db, request, data_dir):
     """Sets up the site DB for the test session."""
-    if tests_use_db:
-        with django_db_blocker.unblock():
-            PootleTestEnv().setup()
+    if not tests_use_db:
+        return
+
+    with django_db_blocker.unblock():
+        PootleTestEnv(data_file=data_dir('data_dump.json')).setup()
 
 
 @pytest.fixture(scope='session')

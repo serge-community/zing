@@ -32,6 +32,7 @@ from pootle.core.mixins import CachedTreeItem
 from pootle.core.models import VirtualResource
 from pootle.core.url_helpers import (get_editor_filter, get_path_sortkey,
                                      split_pootle_path, to_tp_relative_path)
+from pootle.core.utils.decorators import disable_for_loaddata
 from pootle_app.models.directory import Directory
 from pootle_app.models.permissions import PermissionSet
 from pootle_format.models import Format
@@ -481,6 +482,7 @@ class ProjectSet(VirtualResource, ProjectURLMixin):
 
 
 @receiver([post_delete, post_save])
+@disable_for_loaddata
 def invalidate_resources_cache(**kwargs):
     instance = kwargs["instance"]
     if instance.__class__.__name__ not in ['Directory', 'Store']:

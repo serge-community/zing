@@ -14,6 +14,8 @@ from dateutil.relativedelta import relativedelta
 
 from translate.storage.factory import getclass
 
+from django.core.management import call_command
+
 
 class PootleTestEnv(object):
 
@@ -25,13 +27,28 @@ class PootleTestEnv(object):
         "terminology", "complex_po",
     )
 
-    def setup(self, **kwargs):
+    def __init__(self, data_file, *args, **kwargs):
+        self.data_file = data_file
+
+    def setup(self):
+        """Setup test environment by trying to load a data dump file. If this is
+        missing, populate the DB and generate the dump for use in future test runs.
+        """
+        data_file = self.data_file
+        if os.path.isfile(data_file):
+            from pootle_store.models import Unit
+
+            self.setup_case_sensitive_schema()
+            call_command('loaddata', data_file)
+            self.setup_redis(revision=Unit.max_revision())
+        else:
+            self.setup_site_db()
+            with open(data_file, 'w') as file:
+                call_command('dumpdata', '--indent=3', stdout=file)
+
+    def setup_site_db(self, **kwargs):
         for method in self.methods:
-            should_setup = (
-                method not in kwargs
-                or kwargs[method])
-            if should_setup:
-                getattr(self, "setup_%s" % method)()
+            getattr(self, "setup_%s" % method)()
 
     def setup_formats(self):
         from pootle.core.delegate import formats
@@ -106,8 +123,10 @@ class PootleTestEnv(object):
     def setup_case_sensitive_schema(self):
         from django.db import connection
         from django.apps import apps
-
         from pootle.core.utils.db import set_mysql_collation_for_column
+
+        if connection.vendor != 'mysql':
+            return
 
         cursor = connection.cursor()
 
@@ -115,51 +134,57 @@ class PootleTestEnv(object):
         set_mysql_collation_for_column(
             apps,
             cursor,
-            "pootle_language.Language",
-            "code",
-            "utf8_general_ci",
-            "varchar(50)")
+            'pootle_language.Language',
+            'code',
+            'utf8_general_ci',
+            'varchar(50)',
+        )
 
         # Project
         set_mysql_collation_for_column(
             apps,
             cursor,
-            "pootle_project.Project",
-            "code",
-            "utf8_bin",
-            "varchar(255)")
+            'pootle_project.Project',
+            'code',
+            'utf8_bin',
+            'varchar(255)',
+        )
 
         # Directory
         set_mysql_collation_for_column(
             apps,
             cursor,
-            "pootle_app.Directory",
-            "pootle_path",
-            "utf8_bin",
-            "varchar(255)")
+            'pootle_app.Directory',
+            'pootle_path',
+            'utf8_bin',
+            'varchar(255)',
+        )
         set_mysql_collation_for_column(
             apps,
             cursor,
-            "pootle_app.Directory",
-            "name",
-            "utf8_bin",
-            "varchar(255)")
+            'pootle_app.Directory',
+            'name',
+            'utf8_bin',
+            'varchar(255)',
+        )
 
         # Store
         set_mysql_collation_for_column(
             apps,
             cursor,
-            "pootle_store.Store",
-            "pootle_path",
-            "utf8_bin",
-            "varchar(255)")
+            'pootle_store.Store',
+            'pootle_path',
+            'utf8_bin',
+            'varchar(255)',
+        )
         set_mysql_collation_for_column(
             apps,
             cursor,
-            "pootle_store.Store",
-            "name",
-            "utf8_bin",
-            "varchar(255)")
+            'pootle_store.Store',
+            'name',
+            'utf8_bin',
+            'varchar(255)',
+        )
 
     def setup_permissions(self):
         from django.contrib.contenttypes.models import ContentType
@@ -200,10 +225,13 @@ class PootleTestEnv(object):
         from .fixtures.models.language import _require_language
         _require_language('en', 'English')
 
-    def setup_redis(self):
+    def setup_redis(self, revision=None):
         from pootle.core.models import Revision
 
-        Revision.initialize(force=True)
+        if revision is None:
+            Revision.initialize(force=True)
+        else:
+            Revision.set(revision)
 
     def setup_system_users(self):
         from .fixtures.models.user import TEST_USERS, _require_user

@@ -17,7 +17,6 @@ response = Getter()
 contributors = Getter()
 formats = Getter()
 format_registration = Provider()
-format_syncers = Provider()
 filetype_tool = Getter()
 
 # view.context_data

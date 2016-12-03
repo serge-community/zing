@@ -10,14 +10,21 @@
 import logging
 import os
 
+from translate.storage import poheader
 from translate.storage.factory import getclass
 
+from django.core.exceptions import ObjectDoesNotExist
+from django.utils import timezone
 from django.utils.functional import cached_property
 
 from pootle.core.log import log
+from pootle.core.mixins import CachedMethods
 from pootle.core.url_helpers import split_pootle_path
+from pootle.core.utils import dateformat
+from pootle.core.utils.timezone import datetime_min
+from pootle.core.utils.version import get_major_minor_version
+from pootle_statistics.models import Submission
 
-from .models import Unit
 from .util import get_change_str
 
 
@@ -330,11 +337,13 @@ class StoreSyncer(object):
         return filter_by
 
     def get_modified_units(self, last_revision):
+        from .models import Unit
         return set(
             Unit.objects.filter(**self.get_revision_filters(last_revision))
                         .values_list('id', flat=True).distinct()
             if last_revision > self.store.last_sync_revision
-            else [])
+            else []
+        )
 
     def get_common_units(self, common_dbids, last_revision, conservative):
         if conservative:
@@ -355,3 +364,82 @@ class StoreSyncer(object):
     def update_store_header(self, **kwargs_):
         self.disk_store.settargetlanguage(self.language.code)
         self.disk_store.setsourcelanguage(self.source_language.code)
+
+
+class PoStoreSyncer(StoreSyncer):
+
+    def get_latest_submission(self, mtime):
+        user_displayname = None
+        user_email = None
+        fields = (
+            "submitter__username",
+            "submitter__full_name",
+            "submitter__email",
+        )
+        submissions = self.translation_project.submission_set.exclude(
+            submitter__username="nobody",
+        )
+        try:
+            username, fullname, user_email = (
+                submissions.filter(creation_time=mtime)
+                           .values_list(*fields).latest()
+            )
+        except Submission.DoesNotExist:
+            try:
+                _mtime, username, fullname, user_email = (
+                    submissions.values_list("creation_time", *fields)
+                               .latest()
+                )
+                mtime = min(_mtime, mtime)
+            except ObjectDoesNotExist:
+                pass
+        if user_email:
+            user_displayname = fullname.strip() if fullname.strip() else username
+        return mtime, user_displayname, user_email
+
+    def get_po_revision_date(self, mtime):
+        return '%s%s' % (mtime.strftime('%Y-%m-%d %H:%M'), poheader.tzstring())
+
+    def get_po_mtime(self, mtime):
+        return '%s.%06d' % (int(dateformat.format(mtime, 'U')), mtime.microsecond)
+
+    def get_po_headers(self, mtime, user_displayname, user_email):
+        headerupdates = {
+            'PO_Revision_Date': self.get_po_revision_date(mtime),
+            'X_Generator': "Zing %s" % get_major_minor_version(),
+            'X_POOTLE_MTIME': self.get_po_mtime(mtime),
+        }
+        headerupdates['Last_Translator'] = (
+            user_displayname and user_email
+            and ('%s <%s>' % (user_displayname, user_email))
+            or 'Anonymous Zing User'
+        )
+        return headerupdates
+
+    def update_po_headers(self, mtime, user_displayname, user_email):
+        self.disk_store.updateheader(
+            add=True,
+            **self.get_po_headers(mtime, user_displayname, user_email)
+        )
+        if self.language.nplurals and self.language.pluralequation:
+            self.disk_store.updateheaderplural(
+                self.language.nplurals,
+                self.language.pluralequation
+            )
+
+    def update_store_header(self, **kwargs):
+        super(PoStoreSyncer, self).update_store_header(**kwargs)
+        user = kwargs.get("user")
+        mtime = self.store.get_cached_value(CachedMethods.MTIME)
+        if mtime is None or mtime == datetime_min:
+            mtime = timezone.now()
+        user_displayname = None
+        user_email = None
+        if user is None:
+            (mtime,
+             user_displayname,
+             user_email) = self.get_latest_submission(mtime)
+        elif user.is_authenticated:
+            user_displayname = user.display_name
+            user_email = user.email
+        self.update_po_headers(mtime, user_displayname, user_email)

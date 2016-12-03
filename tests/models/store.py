@@ -23,11 +23,11 @@ from pootle.core.delegate import formats
 from pootle.core.models import Revision
 from pootle.core.url_helpers import to_tp_relative_path
 from pootle_format.exceptions import UnrecognizedFiletype
-from pootle_format.formats.po import PoStoreSyncer
 from pootle_format.models import Format
 from pootle_store.constants import OBSOLETE, PARSED, POOTLE_WINS, TRANSLATED
 from pootle_store.diff import StoreDiff
 from pootle_store.models import Store
+from pootle_store.syncer import PoStoreSyncer
 
 
 def _store_as_string(store):
@@ -700,18 +700,13 @@ def test_store_diff_delete_obsoleted_source_unit(diffable_stores):
 @pytest.mark.django_db
 def test_store_syncer(tp0):
     store = tp0.stores.live().first()
+    store_tp = store.translation_project
     assert isinstance(store.syncer, PoStoreSyncer)
     assert store.syncer.file_class == getclass(store)
-    assert store.syncer.translation_project == store.translation_project
-    assert (
-        store.syncer.language
-        == store.translation_project.language)
-    assert (
-        store.syncer.project
-        == store.translation_project.project)
-    assert (
-        store.syncer.source_language
-        == store.translation_project.project.source_language)
+    assert store.syncer.translation_project == store_tp
+    assert store.syncer.language == store_tp.language
+    assert store.syncer.project == store_tp.project
+    assert store.syncer.source_language == store_tp.project.source_language
 
 
 @pytest.mark.django_db

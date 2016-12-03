@@ -30,7 +30,7 @@ from django.utils.functional import cached_property
 from django.utils.http import urlquote
 from django.utils.translation import ugettext_lazy as _
 
-from pootle.core.delegate import format_syncers, format_updaters
+from pootle.core.delegate import format_syncers
 from pootle.core.log import (
     TRANSLATION_ADDED, TRANSLATION_CHANGED, TRANSLATION_DELETED,
     UNIT_ADDED, UNIT_DELETED, UNIT_OBSOLETE, UNIT_RESURRECTED,
@@ -59,6 +59,7 @@ from .constants import (
 from .fields import MultiStringField, TranslationStoreField
 from .managers import StoreManager, SuggestionManager, UnitManager
 from .util import SuggestionStates
+from .updater import StoreUpdater
 
 
 TM_BROKER = None
@@ -1307,11 +1308,7 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
 
     @cached_property
     def updater(self):
-        updaters = format_updaters.gather()
-        updater_class = (
-            updaters.get(self.filetype.name)
-            or updaters.get("default"))
-        return updater_class(self)
+        return StoreUpdater(self)
 
     @cached_property
     def syncer(self):

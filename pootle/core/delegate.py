@@ -17,7 +17,6 @@ response = Getter()
 contributors = Getter()
 formats = Getter()
 format_registration = Provider()
-format_updaters = Provider()
 format_syncers = Provider()
 filetype_tool = Getter()
 

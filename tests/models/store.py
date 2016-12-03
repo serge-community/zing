@@ -19,7 +19,7 @@ from translate.storage.factory import getclass
 
 from django.core.exceptions import ValidationError
 
-from pootle.core.delegate import format_classes, format_diffs, formats
+from pootle.core.delegate import format_diffs, formats
 from pootle.core.models import Revision
 from pootle.core.url_helpers import to_tp_relative_path
 from pootle.core.plugin import provider
@@ -498,46 +498,6 @@ def test_store_get_file_class():
 
     # this matches because po is recognised by ttk
     assert store.syncer.file_class == getclass(store)
-
-    # file_class is cached so lets delete it
-    del store.syncer.__dict__["file_class"]
-
-    class CustomFormatClass(object):
-        pass
-
-    @provider(format_classes)
-    def format_class_provider(**kwargs):
-        return dict(po=CustomFormatClass)
-
-    # we get the CutomFormatClass as it was registered
-    assert store.syncer.file_class is CustomFormatClass
-
-    # the Store.filetype is used in this case not the name
-    store.name = "new_store_name.foo"
-    del store.syncer.__dict__["file_class"]
-    assert store.syncer.file_class is CustomFormatClass
-
-    # lets register a foo filetype
-    format_registry = formats.get()
-    foo_filetype = format_registry.register("foo", "foo")
-
-    store.filetype = foo_filetype
-    store.save()
-
-    # oh no! not recognised by ttk
-    del store.syncer.__dict__["file_class"]
-    with pytest.raises(ValueError):
-        store.syncer.file_class
-
-    @provider(format_classes)
-    def another_format_class_provider(**kwargs):
-        return dict(foo=CustomFormatClass)
-
-    # works now
-    assert store.syncer.file_class is CustomFormatClass
-
-    format_classes.disconnect(format_class_provider)
-    format_classes.disconnect(another_format_class_provider)
 
 
 @pytest.mark.django_db

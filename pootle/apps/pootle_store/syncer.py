@@ -14,7 +14,6 @@ from translate.storage.factory import getclass
 
 from django.utils.functional import cached_property
 
-from pootle.core.delegate import format_classes
 from pootle.core.log import log
 from pootle.core.url_helpers import split_pootle_path
 
@@ -159,11 +158,6 @@ class StoreSyncer(object):
 
     @cached_property
     def file_class(self):
-        # get a plugin adapted file_class
-        fileclass = format_classes.gather().get(
-            str(self.store.filetype.extension))
-        if fileclass:
-            return fileclass
         return self._getclass(self.store)
 
     def convert(self, fileclass=None):

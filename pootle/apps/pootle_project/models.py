@@ -34,7 +34,6 @@ from pootle.core.url_helpers import (get_editor_filter, get_path_sortkey,
                                      split_pootle_path, to_tp_relative_path)
 from pootle_app.models.directory import Directory
 from pootle_app.models.permissions import PermissionSet
-from pootle_config.utils import ObjectConfig
 from pootle_format.models import Format
 from pootle_format.utils import ProjectFiletypes
 from pootle_store.models import Store
@@ -310,10 +309,6 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
         return user_projects
 
     # # # # # # # # # # # # # #  Properties # # # # # # # # # # # # # # # # # #
-
-    @cached_property
-    def config(self):
-        return ObjectConfig(self)
 
     @cached_property
     def filetype_tool(self):

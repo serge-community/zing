@@ -4,6 +4,7 @@ Zing Changelog
 v0.1.4 (in development)
 -----------------------
 
+* Remove unused config utilities (#114).
 
 
 v0.1.3 (2016-11-30)

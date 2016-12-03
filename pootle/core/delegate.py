@@ -11,7 +11,6 @@
 from pootle.core.plugin.delegate import Getter, Provider
 
 
-config = Getter(providing_args=["instance"])
 search_backend = Getter(providing_args=["instance"])
 state = Getter()
 response = Getter()

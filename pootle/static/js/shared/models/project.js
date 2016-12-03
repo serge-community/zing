@@ -20,7 +20,6 @@ export const Project = Backbone.Model.extend({
     fullname: '',
     checkstyle: 'standard',
     source_language: '',
-    filetypes: [],
     screenshot_search_prefix: '',
     disabled: false,
   },

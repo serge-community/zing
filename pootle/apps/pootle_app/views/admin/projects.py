@@ -9,7 +9,6 @@
 
 from django.views.generic import TemplateView
 
-from pootle.core.delegate import formats
 from pootle.core.views import APIView
 from pootle.core.views.mixins import SuperuserRequiredMixin
 from pootle_app.forms import ProjectForm
@@ -32,16 +31,10 @@ class ProjectAdminView(SuperuserRequiredMixin, TemplateView):
         except Language.DoesNotExist:
             default_language = languages[0].id
 
-        filetypes = []
-        for info in formats.get().values():
-            filetypes.append(
-                [info["pk"], info["display_title"]])
-
         return {
             'page': 'admin-projects',
             'form_choices': {
                 'checkstyle': Project.checker_choices,
-                'filetypes': filetypes,
                 'source_language': language_choices,
                 'defaults': {
                     'source_language': default_language,
@@ -57,4 +50,3 @@ class ProjectAPIView(SuperuserRequiredMixin, APIView):
     edit_form_class = ProjectForm
     page_size = 10
     search_fields = ('code', 'fullname', 'disabled')
-    m2m = ("filetypes", )

@@ -25,7 +25,7 @@ const ProjectForm = React.createClass({
 
   mixins: [ModelFormMixin],
 
-  fields: ['code', 'fullname', 'checkstyle', 'filetypes',
+  fields: ['code', 'fullname', 'checkstyle',
            'source_language', 'report_email',
            'screenshot_search_prefix', 'disabled'],
 
@@ -76,17 +76,6 @@ const ProjectForm = React.createClass({
             name="checkstyle"
             errors={errors.checkstyle}
             value={formData.checkstyle}
-          />
-          <FormElement
-            type="select"
-            multiple
-            clearable={false}
-            options={model.getFieldChoices('filetypes')}
-            label={gettext('File types')}
-            handleChange={this.handleChange}
-            name="filetypes"
-            errors={errors.filetypes}
-            value={formData.filetypes}
           />
           <FormElement
             type="select"

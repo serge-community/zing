@@ -17,7 +17,6 @@ from django.utils.translation import ugettext_lazy as _
 
 from pootle_language.models import Language
 from pootle_project.models import Project
-from pootle_store.models import Store
 
 
 LANGCODE_RE = re.compile("^[a-z]{2,}([_-]([a-z]{2,}|[0-9]{3}))*(@[a-z0-9]+)?$",
@@ -57,31 +56,13 @@ class ProjectForm(forms.ModelForm):
     class Meta(object):
         model = Project
         fields = ('id', 'code', 'fullname', 'checkstyle',
-                  'filetypes', 'source_language',
-                  'report_email', 'screenshot_search_prefix', 'disabled',)
+                  'source_language', 'report_email',
+                  'screenshot_search_prefix', 'disabled',)
 
     def __init__(self, *args, **kwargs):
         super(ProjectForm, self).__init__(*args, **kwargs)
 
         self.fields['source_language'].queryset = Language.objects.all()
-
-        self.fields["filetypes"].initial = [
-            self.fields["filetypes"].queryset.get(name="po")]
-
-    def clean_filetypes(self):
-        value = self.cleaned_data.get('filetypes', [])
-        if not self.instance.pk:
-            return value
-        for filetype in self.instance.filetypes.all():
-            if filetype not in value:
-                has_stores = Store.objects.filter(
-                    translation_project__project=self.instance, filetype=filetype)
-                if has_stores.exists():
-                    raise forms.ValidationError(
-                        _("You cannot remove a file type from a Project, "
-                          "if there are Stores of that file type ('%s')"
-                          % filetype))
-        return value
 
     def clean_fullname(self):
         return self.cleaned_data['fullname'].strip()

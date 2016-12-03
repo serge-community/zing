@@ -11,7 +11,6 @@ import pytest
 
 from django.core.urlresolvers import reverse_lazy, reverse
 
-from pootle.core.delegate import formats
 from pootle_language.models import Language
 from pootle_project.models import Project
 
@@ -57,15 +56,10 @@ def test_admin_view_projects(client, request_users, english):
         return
     languages = Language.objects.all()
     language_choices = [(lang.id, unicode(lang)) for lang in languages]
-    filetypes = []
-    for info in formats.get().values():
-        filetypes.append(
-            [info["pk"], info["display_title"]])
     expected = {
         'page': 'admin-projects',
         'form_choices': {
             'checkstyle': Project.checker_choices,
-            'filetypes': filetypes,
             'source_language': language_choices,
             'defaults': {
                 'source_language': english.id}}}

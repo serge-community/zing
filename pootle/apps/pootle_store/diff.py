@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -11,8 +12,6 @@ from collections import OrderedDict
 
 from django.db import models
 from django.utils.functional import cached_property
-
-from pootle.core.delegate import format_diffs
 
 from .constants import FUZZY, OBSOLETE, TRANSLATED, UNTRANSLATED
 from .fields import to_python as multistring_to_python
@@ -53,10 +52,7 @@ class FileUnit(UnitDiffProxy):
 
 
 class DiffableStore(object):
-    """Default Store representation for diffing
-
-    this can be customized per-format using `format_diffs` provider
-    """
+    """Store representation for diffing."""
 
     file_unit_class = FileUnit
     db_unit_class = DBUnit
@@ -133,15 +129,6 @@ class StoreDiff(object):
         self.source_revision = source_revision
         self.target_revision = self.get_target_revision()
 
-    @property
-    def diff_class(self):
-        diffs = format_diffs.gather()
-        differ = diffs.get(
-            self.target_store.filetype.name)
-        if differ:
-            return differ
-        return diffs["default"]
-
     def get_target_revision(self):
         return self.target_store.get_max_unit_revision()
 
@@ -152,7 +139,7 @@ class StoreDiff(object):
 
     @cached_property
     def diffable(self):
-        return self.diff_class(self.target_store, self.source_store)
+        return DiffableStore(self.target_store, self.source_store)
 
     @cached_property
     def target_units(self):

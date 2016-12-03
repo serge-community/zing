@@ -19,15 +19,14 @@ from translate.storage.factory import getclass
 
 from django.core.exceptions import ValidationError
 
-from pootle.core.delegate import format_diffs, formats
+from pootle.core.delegate import formats
 from pootle.core.models import Revision
 from pootle.core.url_helpers import to_tp_relative_path
-from pootle.core.plugin import provider
 from pootle_format.exceptions import UnrecognizedFiletype
 from pootle_format.formats.po import PoStoreSyncer
 from pootle_format.models import Format
 from pootle_store.constants import OBSOLETE, PARSED, POOTLE_WINS, TRANSLATED
-from pootle_store.diff import DiffableStore, StoreDiff
+from pootle_store.diff import StoreDiff
 from pootle_store.models import Store
 
 
@@ -678,27 +677,6 @@ def test_store_diff_update_source_unit(diffable_stores):
     assert result["update"][1] == {}
     assert len(result["add"]) == 0
     assert len(result["index"]) == 0
-
-
-@pytest.mark.django_db
-def test_store_diff_custom(diffable_stores):
-    target_store, source_store = diffable_stores
-
-    class CustomDiffableStore(DiffableStore):
-        pass
-
-    @provider(format_diffs)
-    def format_diff_provider(**kwargs):
-        return {
-            target_store.filetype.name: CustomDiffableStore}
-
-    differ = StoreDiff(
-        target_store,
-        source_store,
-        target_store.get_max_unit_revision() + 1)
-
-    assert isinstance(
-        differ.diffable, CustomDiffableStore)
 
 
 @pytest.mark.django_db

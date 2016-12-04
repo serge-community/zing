@@ -368,6 +368,8 @@ class StoreSyncer(object):
 
 class PoStoreSyncer(StoreSyncer):
 
+    extension = 'po'
+
     def get_latest_submission(self, mtime):
         user_displayname = None
         user_email = None

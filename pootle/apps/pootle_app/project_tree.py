@@ -20,6 +20,9 @@ from pootle_store.models import Store
 from pootle_store.util import relative_real_path
 
 
+FILE_EXTENSIONS = ['po']
+
+
 def get_matching_language_dirs(project_dir, language):
     return [lang_dir for lang_dir in os.listdir(project_dir)
             if language.code == lang_dir]
@@ -61,7 +64,7 @@ def is_hidden_file(path):
     return path[0] == '.'
 
 
-def split_files_and_dirs(exts, real_dir):
+def split_files_and_dirs(real_dir):
     files = []
     dirs = []
     for child_path in os.listdir(real_dir):
@@ -70,7 +73,7 @@ def split_files_and_dirs(exts, real_dir):
         full_child_path = os.path.join(real_dir, child_path)
         should_include_file = (
             os.path.isfile(full_child_path)
-            and os.path.splitext(full_child_path)[1][1:] in exts
+            and os.path.splitext(full_child_path)[1][1:] in FILE_EXTENSIONS
         )
         if should_include_file:
             files.append(child_path)
@@ -150,9 +153,9 @@ def create_or_resurrect_dir(name, parent):
 
 
 # TODO: rename function or even rewrite it
-def add_files(translation_project, exts, relative_dir, db_dir):
+def add_files(translation_project, relative_dir, db_dir):
     podir_path = to_podir_path(relative_dir)
-    files, dirs = split_files_and_dirs(exts, podir_path)
+    files, dirs = split_files_and_dirs(podir_path)
     file_set = set(files)
     dir_set = set(dirs)
 
@@ -186,7 +189,6 @@ def add_files(translation_project, exts, relative_dir, db_dir):
         fs_subdir = os.path.join(relative_dir, db_subdir.name)
         _files, _new_files, _is_empty = add_files(
             translation_project,
-            exts,
             fs_subdir,
             db_subdir,
         )

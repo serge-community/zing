@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -152,10 +153,10 @@ class TranslationStoreFieldFile(FieldFile):
             except KeyError:
                 logging.debug(u"Cache miss for %s", self.path)
                 from translate.storage import factory
+                syncer = self.instance.syncer
 
-                fileclass = self.instance.syncer.file_class
                 classes = {
-                    str(self.instance.filetype.extension): fileclass,
+                    syncer.extension: syncer.file_class,
                 }
                 store_obj = factory.getobject(self.path,
                                               ignore=self.field.ignore,

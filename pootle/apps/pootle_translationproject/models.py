@@ -360,9 +360,6 @@ class TranslationProject(models.Model, CachedTreeItem):
     def scan_files(self):
         """Scans the file system and returns a list of translation files.
         """
-        filetypes = self.project.filetype_tool
-        exts = filetypes.filetype_extensions
-
         from pootle_app.project_tree import add_files
 
         all_files = []
@@ -370,7 +367,6 @@ class TranslationProject(models.Model, CachedTreeItem):
 
         all_files, new_files, __ = add_files(
             self,
-            exts,
             self.real_path,
             self.directory,
         )

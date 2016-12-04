@@ -104,11 +104,9 @@ class StoreManager(models.Manager):
 
     def create(self, *args, **kwargs):
         if "filetype" not in kwargs:
-            filetypes = kwargs["translation_project"].project.filetype_tool
-            kwargs['filetype'] = filetypes.choose_filetype(kwargs["name"])
-        kwargs["pootle_path"] = (
-            "%s%s"
-            % (kwargs["parent"].pootle_path, kwargs["name"]))
+            kwargs['filetype'] = 'po'
+        kwargs["pootle_path"] = '%s%s' % (kwargs['parent'].pootle_path,
+                                          kwargs['name'])
         return super(StoreManager, self).create(*args, **kwargs)
 
     def get_or_create(self, *args, **kwargs):
@@ -117,8 +115,7 @@ class StoreManager(models.Manager):
             return store, created
         update = False
         if "filetype" not in kwargs:
-            filetypes = store.translation_project.project.filetype_tool
-            store.filetype = filetypes.choose_filetype(store.name)
+            store.filetype = 'po'
             update = True
         if update:
             store.save()

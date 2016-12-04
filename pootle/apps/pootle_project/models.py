@@ -27,7 +27,6 @@ from django.utils.translation import ugettext_lazy as _
 from sortedm2m.fields import SortedManyToManyField
 
 from pootle.core.cache import make_method_key
-from pootle.core.delegate import filetype_tool
 from pootle.core.mixins import CachedTreeItem
 from pootle.core.models import VirtualResource
 from pootle.core.url_helpers import (get_editor_filter, get_path_sortkey,
@@ -36,7 +35,6 @@ from pootle.core.utils.decorators import disable_for_loaddata
 from pootle_app.models.directory import Directory
 from pootle_app.models.permissions import PermissionSet
 from pootle_format.models import Format
-from pootle_format.utils import ProjectFiletypes
 from pootle_store.models import Store
 from pootle_store.util import absolute_real_path
 from staticpages.models import StaticPage
@@ -307,10 +305,6 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
 
     # # # # # # # # # # # # # #  Properties # # # # # # # # # # # # # # # # # #
 
-    @cached_property
-    def filetype_tool(self):
-        return filetype_tool.get(self.__class__)(self)
-
     @property
     def name(self):
         return self.fullname
@@ -441,12 +435,6 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
             return True
 
         return self.code in Project.accessible_by_user(user)
-
-    def file_belongs_to_project(self, filename):
-        """Tests if ``filename`` matches project filetype (ie. extension)."""
-        ext = os.path.splitext(filename)[1][1:]
-        filetypes = ProjectFiletypes(self)
-        return ext in filetypes.filetype_extensions
 
 
 class ProjectResource(VirtualResource, ProjectURLMixin):

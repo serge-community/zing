@@ -297,18 +297,3 @@ def test_root_hide_permissions(po_directory, nobody, default, admin, hide,
     assert items_equal(Project.accessible_by_user(nobody), ALL_PROJECTS)
     assert items_equal(Project.accessible_by_user(foo_user), ALL_PROJECTS)
     assert items_equal(Project.accessible_by_user(bar_user), ALL_PROJECTS)
-
-
-@pytest.mark.django_db
-def test_file_belongs_to_project(english, settings):
-    project = Project.objects.get(code="project0")
-
-    # ensure the project has po and only po
-    assert (
-        list(project.filetypes.values_list("extension__name", flat=True))
-        == ["po"])
-
-    # only po matches
-    assert project.file_belongs_to_project("foo.po")
-    assert not project.file_belongs_to_project("foo.pot")
-    assert not project.file_belongs_to_project("foo.ts")

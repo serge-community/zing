@@ -1,1 +1,5 @@
+coverage:
+  ignore:
+    - "pytest_pootle/*"
+    - "tests/*"
 comment: off

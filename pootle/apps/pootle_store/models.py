@@ -46,7 +46,6 @@ from pootle.core.utils import dateformat
 from pootle.core.utils.aggregate import max_column
 from pootle.core.utils.multistring import PLURAL_PLACEHOLDER, SEPARATOR
 from pootle.core.utils.timezone import datetime_min, make_aware
-from pootle_format.models import Format
 from pootle_misc.checks import check_names
 from pootle_misc.util import import_func
 from pootle_statistics.models import (Submission, SubmissionFields,
@@ -1125,13 +1124,6 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
                                             related_name='stores',
                                             db_index=True, editable=False)
 
-    filetype = models.ForeignKey(
-        Format,
-        related_name='stores',
-        null=True,
-        blank=True,
-        db_index=True)
-
     # any changes to the `pootle_path` field may require updating the schema
     # see migration 0007_case_sensitive_schema.py
     pootle_path = models.CharField(max_length=255, null=False, unique=True,
@@ -1487,12 +1479,10 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
 
         # XXX: `order_by()` here is important as it removes the default
         # ordering for units. See #3897 for reference.
-        filetype_ids = self.translation_project.project.filetypes.values_list(
-            "pk", flat=True)
         res = (
-            self.units.filter(store__filetype_id__in=filetype_ids)
-                      .order_by().values('state')
-                      .annotate(wordcount=models.Sum('source_wordcount')))
+            self.units.order_by().values('state')
+                      .annotate(wordcount=models.Sum('source_wordcount'))
+        )
         for item in res:
             ret['total'] += item['wordcount']
             if item['state'] == TRANSLATED:

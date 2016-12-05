@@ -17,7 +17,6 @@ from django.utils.translation import ugettext_noop as _
 from pootle.core.models import Revision
 from pootle_app.models import Directory
 from pootle_app.models.permissions import PermissionSet, get_pootle_permission
-from pootle_format.models import Format
 from pootle_language.models import Language
 from pootle_project.models import Project
 from staticpages.models import StaticPage as Announcement
@@ -223,9 +222,7 @@ class InitDB(object):
             'source_language': self.require_english(),
             'checkstyle': "terminology",
         }
-        po = Format.objects.get(name="po")
-        terminology = self._create_object(Project, **criteria)[0]
-        terminology.filetypes.add(po)
+        self._create_object(Project, **criteria)[0]
 
     def create_default_projects(self):
         """Create the default projects that we host.
@@ -234,7 +231,6 @@ class InitDB(object):
         things through the web interface later.
         """
         en = self.require_english()
-        po = Format.objects.get(name="po")
 
         criteria = {
             'code': u"tutorial",
@@ -243,7 +239,6 @@ class InitDB(object):
             'checkstyle': "standard",
         }
         tutorial = self._create_object(Project, **criteria)[0]
-        tutorial.filetypes.add(po)
 
         criteria = {
             'active': True,

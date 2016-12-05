@@ -24,7 +24,6 @@ def test_get_edit_unit(project0_disk, get_edit_unit, client,
         client.force_login(user)
     unit = get_edit_unit
     store = unit.store
-    filetype = unit.store.filetype.name
     directory = store.parent
     translation_project = store.translation_project
     project = translation_project.project
@@ -47,7 +46,6 @@ def test_get_edit_unit(project0_disk, get_edit_unit, client,
     assert result["sources"] == sources
     assert response.context["unit"] == unit
     assert response.context["store"] == store
-    assert response.context["filetype"] == filetype
     assert response.context["directory"] == directory
     assert response.context["project"] == project
     assert response.context["language"] == language

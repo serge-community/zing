@@ -24,8 +24,6 @@ from django.utils.encoding import iri_to_uri
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
-from sortedm2m.fields import SortedManyToManyField
-
 from pootle.core.cache import make_method_key
 from pootle.core.mixins import CachedTreeItem
 from pootle.core.models import VirtualResource
@@ -34,7 +32,6 @@ from pootle.core.url_helpers import (get_editor_filter, get_path_sortkey,
 from pootle.core.utils.decorators import disable_for_loaddata
 from pootle_app.models.directory import Directory
 from pootle_app.models.permissions import PermissionSet
-from pootle_format.models import Format
 from pootle_store.models import Store
 from pootle_store.util import absolute_real_path
 from staticpages.models import StaticPage
@@ -56,20 +53,6 @@ PROJECT_CHECKERS = {
 
 
 class ProjectManager(models.Manager):
-
-    def create(self, *args, **kwargs):
-        filetypes = Format.objects.filter(name__in=kwargs.pop("filetypes", ["po"]))
-        project = super(ProjectManager, self).create(*args, **kwargs)
-        for filetype in filetypes:
-            project.filetypes.add(filetype)
-        return project
-
-    def get_or_create(self, *args, **kwargs):
-        project, created = super(
-            ProjectManager, self).get_or_create(*args, **kwargs)
-        if created and not project.filetypes.count():
-            project.filetypes.add(Format.objects.get(name="po"))
-        return project, created
 
     def cached_dict(self, user):
         """Return a cached ordered dictionary of projects tuples for `user`.
@@ -200,8 +183,6 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
         null=False,
         choices=checker_choices,
         verbose_name=_('Quality Checks'))
-
-    filetypes = SortedManyToManyField(Format)
 
     source_language = models.ForeignKey(
         'pootle_language.Language', db_index=True,

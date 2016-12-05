@@ -24,7 +24,6 @@ from pootle_app.models.directory import Directory
 from pootle_app.project_tree import (does_not_exist,
                                      get_translation_project_dir,
                                      translation_project_dir_exists)
-from pootle_format.models import Format
 from pootle_language.models import Language
 from pootle_misc.checks import excluded_filters
 from pootle_project.models import Project
@@ -423,9 +422,6 @@ def scan_languages(**kwargs):
 
     if not created or raw or instance.disabled:
         return
-
-    if not instance.filetypes.all().exists():
-        instance.filetypes.add(Format.objects.get(name="po"))
 
     for language in Language.objects.iterator():
         tp = create_translation_project(language, instance)

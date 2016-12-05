@@ -19,11 +19,8 @@ from translate.storage.factory import getclass
 
 from django.core.exceptions import ValidationError
 
-from pootle.core.delegate import formats
 from pootle.core.models import Revision
 from pootle.core.url_helpers import to_tp_relative_path
-from pootle_format.exceptions import UnrecognizedFiletype
-from pootle_format.models import Format
 from pootle_store.constants import OBSOLETE, PARSED, POOTLE_WINS, TRANSLATED
 from pootle_store.diff import StoreDiff
 from pootle_store.models import Store
@@ -427,51 +424,6 @@ def test_store_po_serializer(test_fs, store_po):
     store_io = io.BytesIO(store_po.serialize())
     store_ttk = getclass(store_io)(store_io.read())
     assert len(store_ttk.units) == len(ttk_po.units)
-
-
-@pytest.mark.django_db
-def test_store_create(tp0):
-    tp = tp0
-    project = tp.project
-    registry = formats.get()
-    po = Format.objects.get(name="po")
-    po2 = registry.register("special_po_2", "po")
-    po3 = registry.register("special_po_3", "po")
-    xliff = Format.objects.get(name="xliff")
-    project.filetypes.add(xliff)
-    project.filetypes.add(po2)
-    project.filetypes.add(po3)
-
-    store = Store.objects.create(
-        name="store.po",
-        parent=tp.directory,
-        translation_project=tp)
-    assert store.filetype == po
-    # not in source_language folder
-    store = Store.objects.create(
-        name="store.xliff",
-        parent=tp.directory,
-        translation_project=tp)
-    assert store.filetype == xliff
-
-    # push po to the back of the queue
-    project.filetypes.remove(po)
-    project.filetypes.add(po)
-    store = Store.objects.create(
-        name="another_store.po",
-        parent=tp.directory,
-        translation_project=tp)
-    assert store.filetype == po2
-    store = Store.objects.create(
-        name="another_store.xliff",
-        parent=tp.directory,
-        translation_project=tp)
-
-    with pytest.raises(UnrecognizedFiletype):
-        store = Store.objects.create(
-            name="another_store.foo",
-            parent=tp.directory,
-            translation_project=tp)
 
 
 @pytest.mark.django_db

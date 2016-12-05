@@ -416,12 +416,12 @@ class UnitEditJSON(PootleUnitJSON):
     def get_queryset(self):
         return Unit.objects.get_translatable(self.request.user).select_related(
             "store",
-            "store__filetype",
             "store__parent",
             "store__translation_project",
             "store__translation_project__project",
             "store__translation_project__project__source_language",
-            "store__translation_project__language")
+            "store__translation_project__language",
+        )
 
     def get_sources(self):
         sources = {
@@ -460,7 +460,6 @@ class UnitEditJSON(PootleUnitJSON):
             'unit_values': self.get_unit_values(),
             'target_nplurals': self.get_target_nplurals(),
             'has_plurals': self.object.hasplural(),
-            'filetype': self.object.store.filetype.name,
         }
 
     def get_response_data(self, context):

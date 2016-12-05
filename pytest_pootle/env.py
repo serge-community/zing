@@ -279,7 +279,6 @@ class PootleTestEnv(object):
     def setup_site_matrix(self):
         from pytest_pootle.factories import ProjectDBFactory, LanguageDBFactory
 
-        from pootle_format.models import Format
         from pootle_language.models import Language
 
         # add 2 languages
@@ -287,11 +286,9 @@ class PootleTestEnv(object):
             LanguageDBFactory()
 
         source_language = Language.objects.get(code="en")
-        po = Format.objects.get(name="po")
         for i_ in range(0, 2):
             # add 2 projects
-            project = ProjectDBFactory(source_language=source_language)
-            project.filetypes.add(po)
+            ProjectDBFactory(source_language=source_language)
 
     def setup_terminology(self):
         from pytest_pootle.factories import (ProjectDBFactory,
@@ -311,14 +308,12 @@ class PootleTestEnv(object):
                                              ProjectDBFactory,
                                              TranslationProjectFactory)
 
-        from pootle_format.models import Format
         from pootle_language.models import Language
 
         source_language = Language.objects.get(code="en")
         project = ProjectDBFactory(code="disabled_project0",
                                    fullname="Disabled Project 0",
                                    source_language=source_language)
-        project.filetypes.add(Format.objects.get(name="po"))
         project.disabled = True
         project.save()
         language = Language.objects.get(code="language0")
@@ -384,7 +379,6 @@ class PootleTestEnv(object):
                 store = StoreDBFactory(translation_project=tp)
             else:
                 store = StoreDBFactory(translation_project=tp, parent=parent)
-            store.filetype = tp.project.filetype_tool.choose_filetype(store.name)
             store.save()
 
             # add 8 units to each store

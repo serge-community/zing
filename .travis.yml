@@ -18,7 +18,7 @@ before_install:
     - cp -a $HOME/virtualenv/python2.7.9/lib/python2.7/site-packages/_pytest/ $HOME/_pytest-workaround/
     - cp -a $HOME/virtualenv/python2.7.9/lib/python2.7/site-packages/pytest.pyc $HOME/pytest_pyc-workaround
 install:
-  - if [[ ( "$TRAVIS_BRANCH" == "master" || "$TRAVIS_BRANCH" == "stable/*" ) && "$TRAVIS_PULL_REQUEST" == "false" ]]; then upgrade="--upgrade"; fi;
+  - if [[ "$TRAVIS_BRANCH" == "master" && "$TRAVIS_PULL_REQUEST" == "false" ]]; then upgrade="--upgrade"; fi;
       pip install $upgrade
       -r requirements/base.txt
       -r requirements/travis.txt
@@ -42,8 +42,8 @@ before_cache:
   - cp -a $HOME/py-workaround/ $HOME/virtualenv/python2.7.9/lib/python2.7/site-packages/py/
   - cp -a  $HOME/pytest_pyc-workaround $HOME/virtualenv/python2.7.9/lib/python2.7/site-packages/pytest.pyc
   - cp -a $HOME/_pytest-workaround/ $HOME/virtualenv/python2.7.9/lib/python2.7/site-packages/_pytest/
-  # Force rebuilds by removing cache for 'master' and 'stable/*' builds
-  - if [[ ( "$TRAVIS_BRANCH" == "master" || "$TRAVIS_BRANCH" == "stable/*" ) && "$TRAVIS_PULL_REQUEST" == "false" ]]; then rm -rf pootle/static/js/node_modules/* pootle/assets/* pootle/assets/.webassets-cache;  fi
+  # Force rebuilds by removing cache for 'master' builds
+  - if [[ "$TRAVIS_BRANCH" == "master" && "$TRAVIS_PULL_REQUEST" == "false" ]]; then rm -rf pootle/static/js/node_modules/* pootle/assets/* pootle/assets/.webassets-cache;  fi
 services:
   - redis-server
   - elasticsearch

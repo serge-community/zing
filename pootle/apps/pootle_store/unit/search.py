@@ -165,7 +165,7 @@ class DBSearchBackend(object):
                 uids = uid_list[begin:end]
 
         if not uids:
-            uids = list(self.results[begin:end].values_list('pk', flat=True))
+            uids = list(self.results[begin:end].values_list('pk', 'store_id'))
 
         return begin, end, total, uids
 

@@ -11,7 +11,10 @@ import { dir } from 'utils/i18n';
 
 class Unit {
 
-  constructor({ id, source, sourceLang, target, targetLang }) {
+  constructor({
+    id, source, sourceLang, target, targetLang,
+    targetLanguageName, projectName, file,
+  }) {
     this.id = id;
     this.source = source;
     this.sourceDir = dir(sourceLang);
@@ -19,6 +22,9 @@ class Unit {
     this.target = target;
     this.targetDir = dir(targetLang);
     this.targetLang = targetLang;
+    this.targetLanguageName = targetLanguageName;
+    this.projectName = projectName;
+    this.file = file;
 
     this.url = l(`/unit/${this.id}`);
   }

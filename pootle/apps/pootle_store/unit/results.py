@@ -11,7 +11,7 @@ from itertools import groupby
 
 from django.core.urlresolvers import reverse
 
-from pootle.core.url_helpers import split_pootle_path
+from pootle.core.url_helpers import split_pootle_path, to_tp_relative_path
 from pootle.i18n.gettext import language_dir
 from pootle_store.constants import FUZZY
 from pootle_store.templatetags.store_tags import (
@@ -31,8 +31,20 @@ class UnitResult(UnitProxy):
         return self.unit["store__pootle_path"]
 
     @property
+    def filename(self):
+        return to_tp_relative_path(self.pootle_path)
+
+    @property
+    def language_name(self):
+        return self.unit['store__translation_project__language__fullname']
+
+    @property
     def project_code(self):
         return self.unit["store__translation_project__project__code"]
+
+    @property
+    def project_name(self):
+        return self.unit['store__translation_project__project__fullname']
 
     @property
     def project_style(self):
@@ -142,10 +154,14 @@ class ViewRowResults(object):
         'state',
         'store__translation_project__project__source_language__code',
         'store__translation_project__language__code',
+        'store__translation_project__language__fullname',
+        'store__translation_project__project__fullname',
+        'store__pootle_path',
     ]
 
-    def __init__(self, units_qs):
+    def __init__(self, units_qs, header_uids=None):
         self.units_qs = units_qs
+        self.header_uids = header_uids if header_uids is not None else []
 
     @property
     def data(self):
@@ -165,6 +181,14 @@ class ViewRowResults(object):
             'target': unit.target.strings,
             'target_lang': unit.target_lang,
         }
+
+        if unit.id in self.header_uids:
+            shape.update({
+                'language': unit.language_name,
+                'project': unit.project_name,
+                'file': unit.filename,
+            })
+
         # We don't need to send default values, so setting members
         # conditionally
         if unit.isfuzzy:

@@ -1116,7 +1116,26 @@ PTL.editor = {
 
 
   /* Renders a single row */
-  renderViewRow(uid, unit, extraClassName) {
+  renderHeaderRow(uid) {
+    if (!this.units.headers[uid]) {
+      return '';
+    }
+
+    const unit = this.units.units[uid];
+    const caption = [
+      unit.targetLanguageName,
+      unit.projectName,
+      unit.file,
+    ].join('</li><li>');
+
+    return (`
+      <tr class="header-row">
+        <td colspan="2"><div class="unit-path"><ul><li>${caption}</li></ul></div></td>
+      </tr>
+    `);
+  },
+
+  renderViewRow(uid, unit, extraClassName, contextMode) {
     if (!unit) {
       return '';
     }
@@ -1126,6 +1145,7 @@ PTL.editor = {
     });
 
     return (`
+      ${!contextMode && this.renderHeaderRow(uid)}
       <tr id="row${uid}" class="${classNames}">
         ${this.tmpl.vUnit({ unit })}
       </tr>
@@ -1157,7 +1177,7 @@ PTL.editor = {
     for (let i = 0; i < units.length; i++) {
       const unit = units[i];
       const uid = unit.id;
-      rows.push(this.renderViewRow(uid, unit, 'ctx'));
+      rows.push(this.renderViewRow(uid, unit, 'ctx', true));
     }
   },
 
@@ -1300,6 +1320,7 @@ PTL.editor = {
       </tr>
     `];
     rowsBefore.push(this.renderViewRows(this.units.visibleUnitsBefore()));
+    rowsBefore.push(this.renderHeaderRow(this.units.uid));
 
     const rowsAfter = [this.renderViewRows(this.units.visibleUnitsAfter())];
     rowsAfter.push(`

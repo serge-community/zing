@@ -36,14 +36,35 @@ class UnitsList {
         this.begin = data.begin || 0;
         this.end = data.end || 0;
         this.total = data.total || 0;
-        this.uids = data.uids;
-        this.length = data.uids.length;
         this.uid = undefined;
 
-        if (this.total === 0) {
-          return false;
+        // clear the local cache of prefetched units
+        this.units = {};
+
+        this.uids = [];
+        this.headers = {};
+
+        // convert array of arrays into a flat list of uids
+        // and a hash of headers (first uid in each sub-array
+        // is considered a 'header row'
+
+        for (let i = 0; i < data.uids.length; i++) {
+          const group = data.uids[i];
+          this.headers[group[0]] = true;
+
+          for (let j = 0; j < group.length; j++) {
+            this.uids.push(group[j]);
+          }
         }
-        return true;
+
+        this.length = this.uids.length;
+
+        // if there's only one unit, don't show any headers at all
+        if (data.total <= 1) {
+          this.headers = {};
+        }
+
+        return this.total !== 0;
       },
       (xhr, status) => this.handleFetchError(xhr, status)
     );
@@ -222,7 +243,9 @@ class UnitsList {
       }
     }
 
-    UnitAPI.fetchUnits({ uids: unitsToFetch }).then(
+    const headersToFetch = unitsToFetch.filter(uid => uid in this.headers);
+
+    UnitAPI.fetchUnits({ uids: unitsToFetch, headers: headersToFetch }).then(
       (units) => {
         if (!units) {
           return;
@@ -239,6 +262,9 @@ class UnitsList {
             sourceLang: unit.source_lang,
             target: unit.target,
             targetLang: unit.target_lang,
+            targetLanguageName: unit.language,
+            projectName: unit.project,
+            file: unit.file,
           });
         });
       },

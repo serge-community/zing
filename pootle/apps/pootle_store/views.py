@@ -142,18 +142,32 @@ def get_uids(request):
         request.user, **search_form.cleaned_data
     ).get_uids()
 
+    last_store_id = None
+    uid_groups = []
+    group = []
+    for uid, store_id in uids:
+        if not store_id == last_store_id:
+            if len(group) > 0:
+                uid_groups.append(group)
+                group = []
+            last_store_id = store_id
+        group.append(uid)
+
+    if len(group) > 0:
+        uid_groups.append(group)
+
     return JsonResponse({
         'begin': begin,
         'end': end,
         'total': total,
-        'uids': uids,
+        'uids': uid_groups,
     })
 
 
 @ajax_required
 def get_units(request):
-    """Based on the vector of uids, return a dictionary of
-    lightweight results for the view rows.
+    """Based on the vector of uids and the vector of header uids,
+    return a dictionary of lightweight results for the view rows.
 
     :return: A JSON-encoded string containing the dictionary
     """
@@ -171,7 +185,7 @@ def get_units(request):
         request.user, **form.cleaned_data
     ).get_units()
 
-    return JsonResponse(ViewRowResults(units).data)
+    return JsonResponse(ViewRowResults(units, form.cleaned_data['headers']).data)
 
 
 @ajax_required

@@ -518,6 +518,10 @@ class UnitViewRowsForm(forms.Form):
         field=forms.IntegerField(),
         required=True,
     )
+    headers = MultipleArgsField(
+        field=forms.IntegerField(),
+        required=False,
+    )
     user = forms.ModelChoiceField(
         queryset=get_user_model().objects.all(),
         required=False,

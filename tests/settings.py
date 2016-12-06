@@ -105,10 +105,3 @@ SILENCED_SYSTEM_CHECKS = [
     'pootle.W005',  # DEBUG = True
     'pootle.W011',  # POOTLE_CONTACT_EMAIL has default setting
 ]
-
-
-try:
-    if "debug_toolbar" in INSTALLED_APPS:
-        INSTALLED_APPS.remove("debug_toolbar")
-except NameError:
-    pass

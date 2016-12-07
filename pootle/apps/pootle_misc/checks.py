@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -280,7 +281,12 @@ class ENChecker(checks.UnitChecker):
         self.str1 = data.normalized_unicode(unit.source) or u''
         self.str2 = data.normalized_unicode(unit.target) or u''
 
-        self.language_code = unit.store.translation_project.language.code
+        # FIXME: avoid this
+        from pootle.core.checks.checker import CheckableUnit
+        if isinstance(unit, CheckableUnit):
+            self.language_code = unit.language_code
+        else:
+            self.language_code = unit.store.translation_project.language.code
 
         return super(ENChecker, self).run_filters(unit, categorised)
 

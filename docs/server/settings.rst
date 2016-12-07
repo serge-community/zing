@@ -422,7 +422,7 @@ Translation environment configuration settings.
 .. setting:: POOTLE_QUALITY_CHECKER
 
 ``POOTLE_QUALITY_CHECKER``
-  Default: ``''``
+  Default: ``'pootle_misc.checks.ENChecker'``
 
   .. versionadded:: 2.7
 

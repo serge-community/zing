@@ -42,8 +42,7 @@ class BrowseDataViewMixin(object):
         :param stats: Dictionary containing stats for this particular
             `path_obj`.
         """
-        return {
-            'pootle_path': path_obj.pootle_path,
+        return (path_obj.pootle_path, {
             # FIXME: rename to `type`
             'treeitem_type': self.get_item_type(path_obj),
             'title': self.get_item_title(path_obj),
@@ -56,7 +55,7 @@ class BrowseDataViewMixin(object):
             'suggestions': stats.get('suggestions', 0),
             'lastaction': stats.get('lastaction', 0),
             'lastupdated': stats.get('lastupdated', 0),
-        }
+        })
 
     def get_browsing_data(self):
         browsing_data = remove_empty_from_dict({
@@ -66,12 +65,13 @@ class BrowseDataViewMixin(object):
         })
         children_stats = self.stats['children']
         browsing_data.update({
-            'children': [
-                remove_empty_from_dict(
+            'children': {
+                path: remove_empty_from_dict(data)
+                for path, data in (
                     self.get_item_data(item, children_stats[i])
+                    for i, item in enumerate(self.items)
                 )
-                for i, item in enumerate(self.items)
-            ],
+            },
         })
         return browsing_data
 

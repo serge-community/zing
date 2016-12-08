@@ -40,9 +40,9 @@ def test_disabled_project_in_lang_browse_view(client, request_users):
     response = client.get(reverse("pootle-language-browse",
                                   kwargs={"language_code": "language0"}))
 
-    disabled_project_exists = "/language0/disabled_project0/" in [
-        item["pootle_path"]
-        for item in response.context['browsing_data']['children']
-    ]
+    disabled_project_exists = (
+        '/language0/disabled_project0/' in
+        response.context['browsing_data']['children']
+    )
 
     assert (user.is_superuser is disabled_project_exists)

@@ -57,8 +57,11 @@ function provideStatsDefaults(stats) {
   }
 
   const newStats = assign({}, stats);
-  Object.keys(newStats.children).forEach((key) => {
-    const item = newStats.children[key];
+  newStats.children = [];
+  Object.keys(stats.children).forEach((key) => {
+    const item = stats.children[key];
+
+    item.pootle_path = key;
 
     item.treeitem_type = item.treeitem_type || 0;
     item.critical = item.critical || 0;
@@ -71,6 +74,8 @@ function provideStatsDefaults(stats) {
     const translated = item.translated || 0;
     item.progress = total > 0 ? translated / total : 1;
     item.incomplete = total - translated;
+
+    newStats.children.push(item);
   });
   return newStats;
 }

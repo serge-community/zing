@@ -181,7 +181,7 @@ class UnitsList {
   }
 
   getPosition() {
-    return this.begin + this.idx + 1;
+    return Math.min(this.total, this.begin + this.idx + 1);
   }
 
   isOnFirstUnit() {

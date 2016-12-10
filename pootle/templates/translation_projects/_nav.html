@@ -21,11 +21,6 @@
 {% if user.is_superuser or request.permissions.administrate %}
 <option disabled></option>
 <option
-  value="admin-terminology" class="admin"
-  data-href="{% url 'pootle-terminology-manage' language.code project.code %}">
-  {% trans "Terminology" %}
-</option>
-<option
   value="admin-permissions" class="admin"
   data-href="{% url 'pootle-tp-admin-permissions' language.code project.code %}">
   {% trans "Permissions" %}

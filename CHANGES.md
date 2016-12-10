@@ -5,6 +5,7 @@ v0.1.4 (in development)
 -----------------------
 
 * Remove unused config utilities (#114).
+* Removed unmaintained web-based terminology management (#123).
 
 
 v0.1.3 (2016-11-30)

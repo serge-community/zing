@@ -134,17 +134,6 @@ PTL.common = {
       },
     });
 
-    /* Collapsing functionality */
-    // XXX: crappy code, only used in `term_edit.html`
-    $(document).on('click', '.collapse', function collapse(e) {
-      e.preventDefault();
-      $(this).siblings('.collapsethis').slideToggle('fast');
-
-      if ($('textarea', $(this).next('div.collapsethis')).length) {
-        $('textarea', $(this).next('div.collapsethis')).focus();
-      }
-    });
-
     /* Page sidebar */
     // TODO: create a named function
     $(document).on('click', '.js-sidebar-toggle', () => {

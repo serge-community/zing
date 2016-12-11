@@ -70,10 +70,10 @@ function provideStatsDefaults(stats) {
     item.lastaction.mtime = item.lastaction.mtime || 0;
     item.lastupdated = item.lastupdated || 0;
 
-    const total = item.total || 0;
-    const translated = item.translated || 0;
-    item.progress = total > 0 ? translated / total : 1;
-    item.incomplete = total - translated;
+    item.total = item.total || 0;
+    item.translated = item.translated || 0;
+    item.progress = item.total > 0 ? item.translated / item.total : 1;
+    item.incomplete = item.total - item.translated;
 
     newStats.children.push(item);
   });

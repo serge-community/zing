@@ -4,8 +4,8 @@ Zing Changelog
 v0.1.4 (in development)
 -----------------------
 
-* Fixed browser table sorting for total/untranslated columsn (#120).
-* Remove unused config utilities (#114).
+* Fixed browser table sorting for total/untranslated columns (#120).
+* Removed unused config utilities (#114).
 * Removed unmaintained web-based terminology management (#123).
 
 

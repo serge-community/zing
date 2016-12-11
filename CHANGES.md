@@ -5,6 +5,8 @@ v0.1.4 (in development)
 -----------------------
 
 * Fixed browser table sorting for total/untranslated columns (#120).
+* Quality checks now default to a site-wide checker (#119). In the future,
+  project-specific checkers will be disallowed.
 * Removed unused config utilities (#114).
 * Removed unmaintained web-based terminology management (#123).
 

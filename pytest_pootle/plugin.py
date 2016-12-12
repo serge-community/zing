@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -17,7 +18,6 @@ import pytest
 from . import fixtures
 from .env import PootleTestEnv
 from .fixtures import models as fixtures_models
-from .fixtures.core import management as fixtures_core_management
 from .fixtures.core import utils as fixtures_core_utils
 from .fixtures import formats as fixtures_formats
 
@@ -133,7 +133,6 @@ def django_db_use_migrations(tests_use_migration):
 pytest_plugins = tuple(
     _load_fixtures(
         fixtures,
-        fixtures_core_management,
         fixtures_core_utils,
         fixtures_formats,
         fixtures_models,

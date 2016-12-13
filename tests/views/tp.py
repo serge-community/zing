@@ -13,42 +13,10 @@ import pytest
 
 from pytest_pootle.suite import view_context_test
 
-from pootle_app.models.permissions import check_permission
 from pootle.core.delegate import search_backend
 from pootle.core.helpers import get_filter_name
-from pootle.core.url_helpers import get_previous_url, get_path_parts
-from pootle_misc.checks import get_qualitycheck_schema
-from pootle_misc.forms import make_search_form
 from pootle_store.forms import UnitExportForm
 from pootle_store.models import Unit
-
-
-def _test_translate_view(tp, request, response, kwargs, settings):
-    ctx = response.context
-    kwargs["project_code"] = tp.project.code
-    kwargs["language_code"] = tp.language.code
-    resource_path = "%(dir_path)s%(filename)s" % kwargs
-    request_path = "%s%s" % (tp.pootle_path, resource_path)
-    assertions = dict(
-        page="translate",
-        translation_project=tp,
-        language=tp.language,
-        project=tp.project,
-        has_admin_access=check_permission('administrate', request),
-        ctx_path=tp.pootle_path,
-        pootle_path=request_path,
-        resource_path=resource_path,
-        resource_path_parts=get_path_parts(resource_path),
-        editor_extends="translation_projects/base.html",
-        check_categories=get_qualitycheck_schema(),
-        previous_url=get_previous_url(request),
-        cantranslate=check_permission("translate", request),
-        cansuggest=check_permission("suggest", request),
-        canreview=check_permission("review", request),
-        search_form=make_search_form(request=request),
-        POOTLE_MT_BACKENDS=settings.POOTLE_MT_BACKENDS,
-    )
-    view_context_test(ctx, **assertions)
 
 
 def _test_export_view(tp, request, response, kwargs, settings):
@@ -87,9 +55,7 @@ def _test_export_view(tp, request, response, kwargs, settings):
 @pytest.mark.django_db
 def test_views_tp(tp_views, settings):
     test_type, tp, request, response, kwargs = tp_views
-    if test_type == "translate":
-        _test_translate_view(tp, request, response, kwargs, settings)
-    else:
+    if test_type == "export":
         _test_export_view(tp, request, response, kwargs, settings)
 
 

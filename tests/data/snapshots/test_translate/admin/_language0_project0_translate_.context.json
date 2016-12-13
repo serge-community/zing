@@ -1,0 +1,175 @@
+{
+  "POOTLE_MT_BACKENDS": [
+    [
+      "fake_test_backend",
+      "api_key"
+    ]
+  ],
+  "browse_url": "/language0/project0/",
+  "canreview": true,
+  "cansuggest": true,
+  "cantranslate": true,
+  "check_categories": [
+    {
+      "checks": [
+        {
+          "code": "accelerators",
+          "title": "Accelerators"
+        },
+        {
+          "code": "android_format",
+          "title": "Android format"
+        },
+        {
+          "code": "broken_entities",
+          "title": "Broken HTML Entities"
+        },
+        {
+          "code": "c_format",
+          "title": "C format placeholders"
+        },
+        {
+          "code": "changed_attributes",
+          "title": "Changed attributes"
+        },
+        {
+          "code": "date_format",
+          "title": "Date format"
+        },
+        {
+          "code": "dollar_sign_closure_placeholders",
+          "title": "$ closure placeholders"
+        },
+        {
+          "code": "dollar_sign_placeholders",
+          "title": "$ placeholders"
+        },
+        {
+          "code": "double_quotes_in_tags",
+          "title": "Double quotes in tags"
+        },
+        {
+          "code": "incorrectly_escaped_ampersands",
+          "title": "Incorrectly escaped ampersands"
+        },
+        {
+          "code": "java_format",
+          "title": "Java format"
+        },
+        {
+          "code": "javaencoded_unicode",
+          "title": "Java-encoded unicode"
+        },
+        {
+          "code": "mustache_like_placeholder_pairs",
+          "title": "Mustache like placeholder pairs"
+        },
+        {
+          "code": "mustache_placeholder_pairs",
+          "title": "Mustache placeholder pairs"
+        },
+        {
+          "code": "mustache_placeholders",
+          "title": "Mustache placeholders"
+        },
+        {
+          "code": "non_printable",
+          "title": "Non printable"
+        },
+        {
+          "code": "objective_c_format",
+          "title": "Objective-C format"
+        },
+        {
+          "code": "percent_brace_placeholders",
+          "title": "Percent brace placeholders"
+        },
+        {
+          "code": "percent_sign_closure_placeholders",
+          "title": "Percent sign closure placeholders"
+        },
+        {
+          "code": "percent_sign_placeholders",
+          "title": "Percent sign placeholders"
+        },
+        {
+          "code": "plurr_format",
+          "title": "Plurr format"
+        },
+        {
+          "code": "plurr_placeholders",
+          "title": "Plurr placeholders"
+        },
+        {
+          "code": "potential_unwanted_placeholders",
+          "title": "Potential unwanted placeholders"
+        },
+        {
+          "code": "tags_differ",
+          "title": "Tags differ"
+        },
+        {
+          "code": "template_format",
+          "title": "Template format"
+        },
+        {
+          "code": "test_check",
+          "title": "test_check"
+        },
+        {
+          "code": "unbalanced_curly_braces",
+          "title": "Curly braces"
+        },
+        {
+          "code": "unbalanced_tag_braces",
+          "title": "Unbalanced tag braces"
+        },
+        {
+          "code": "unescaped_ampersands",
+          "title": "Unescaped ampersands"
+        },
+        {
+          "code": "uppercase_placeholders",
+          "title": "Uppercase placeholders"
+        },
+        {
+          "code": "whitespace",
+          "title": "Whitespaces"
+        }
+      ],
+      "code": 100,
+      "name": "critical",
+      "title": "Critical"
+    },
+    {
+      "checks": [
+        {
+          "code": "doublequoting",
+          "title": "Double quotes"
+        }
+      ],
+      "code": 30,
+      "name": "cosmetic",
+      "title": "Cosmetic"
+    }
+  ],
+  "ctx_path": "/language0/project0/",
+  "editor_extends": "translation_projects/base.html",
+  "export_url": "/language0/project0/export-view/",
+  "has_admin_access": true,
+  "is_disabled": false,
+  "language": "Language 0 - language0",
+  "nav": "translation_projects/_nav.html",
+  "object": "/language0/project0/",
+  "page": "translate",
+  "pootle_path": "/language0/project0/",
+  "previous_url": "/",
+  "project": "Project 0",
+  "resource_path": "",
+  "resource_path_parts": [],
+  "search_action": "/language0/project0/translate/",
+  "search_form": "<tr><th><label for=\"id_search\">Search:</label></th><td><input id=\"id_search\" name=\"search\" placeholder=\"Search\" size=\"15\" title=\"Search (Ctrl+Shift+S)&lt;br/&gt;Type and press Enter to search\" type=\"text\" /></td></tr>\n<tr><th><label for=\"id_soptions_0\">Soptions:</label></th><td><ul id=\"id_soptions\"><li><label for=\"id_soptions_0\"><input id=\"id_soptions_0\" name=\"soptions\" type=\"checkbox\" value=\"exact\" /> Exact Match</label></li></ul></td></tr>\n<tr><th><label for=\"id_sfields_0\">Sfields:</label></th><td><ul id=\"id_sfields\"><li><label for=\"id_sfields_0\"><input checked=\"checked\" id=\"id_sfields_0\" name=\"sfields\" type=\"checkbox\" value=\"source\" /> Source Text</label></li>\n<li><label for=\"id_sfields_1\"><input checked=\"checked\" id=\"id_sfields_1\" name=\"sfields\" type=\"checkbox\" value=\"target\" /> Target Text</label></li>\n<li><label for=\"id_sfields_2\"><input id=\"id_sfields_2\" name=\"sfields\" type=\"checkbox\" value=\"notes\" /> Comments</label></li>\n<li><label for=\"id_sfields_3\"><input id=\"id_sfields_3\" name=\"sfields\" type=\"checkbox\" value=\"locations\" /> Locations</label></li></ul></td></tr>",
+  "translate_url": "/language0/project0/translate/",
+  "translation_project": "/language0/project0/",
+  "user": "admin"
+}

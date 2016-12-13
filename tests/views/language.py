@@ -13,39 +13,10 @@ import pytest
 
 from pytest_pootle.suite import view_context_test
 
-from pootle_app.models.permissions import check_permission
 from pootle.core.delegate import search_backend
 from pootle.core.helpers import get_filter_name
-from pootle.core.url_helpers import get_previous_url
-from pootle_misc.checks import get_qualitycheck_schema
-from pootle_misc.forms import make_search_form
 from pootle_store.forms import UnitExportForm
 from pootle_store.models import Unit
-
-
-def _test_translate_view(language, request, response, kwargs, settings):
-    ctx = response.context
-    view_context_test(
-        ctx,
-        **dict(
-            project=None,
-            language=language,
-            page="translate",
-            ctx_path=language.directory.pootle_path,
-            pootle_path=language.directory.pootle_path,
-            resource_path="",
-            resource_path_parts=[],
-            editor_extends="languages/base.html",
-            check_categories=get_qualitycheck_schema(),
-            previous_url=get_previous_url(request),
-            has_admin_access=check_permission('administrate', request),
-            cantranslate=check_permission("translate", request),
-            cansuggest=check_permission("suggest", request),
-            canreview=check_permission("review", request),
-            search_form=make_search_form(request=request),
-            POOTLE_MT_BACKENDS=settings.POOTLE_MT_BACKENDS,
-        )
-    )
 
 
 def _test_export_view(language, request, response, kwargs):
@@ -80,7 +51,5 @@ def _test_export_view(language, request, response, kwargs):
 @pytest.mark.django_db
 def test_views_language(language_views, settings):
     test_type, language, request, response, kwargs = language_views
-    if test_type == "translate":
-        _test_translate_view(language, request, response, kwargs, settings)
-    elif test_type == "export":
+    if test_type == "export":
         _test_export_view(language, request, response, kwargs)

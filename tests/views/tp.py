@@ -87,11 +87,7 @@ def _test_export_view(tp, request, response, kwargs, settings):
 @pytest.mark.django_db
 def test_views_tp(tp_views, settings):
     test_type, tp, request, response, kwargs = tp_views
-    if test_type == "browse":
-        pytest.xfail(
-            reason='this test needs to be replaced with snapshot-based one'
-        )
-    elif test_type == "translate":
+    if test_type == "translate":
         _test_translate_view(tp, request, response, kwargs, settings)
     else:
         _test_export_view(tp, request, response, kwargs, settings)

@@ -80,10 +80,6 @@ def _test_export_view(language, request, response, kwargs):
 @pytest.mark.django_db
 def test_views_language(language_views, settings):
     test_type, language, request, response, kwargs = language_views
-    if test_type == "browse":
-        pytest.xfail(
-            reason='this test needs to be replaced with snapshot-based one'
-        )
     if test_type == "translate":
         _test_translate_view(language, request, response, kwargs, settings)
     elif test_type == "export":

@@ -158,20 +158,11 @@ GET_UNITS_TESTS = OrderedDict(
        "category": "critical"})))
 
 LANGUAGE_VIEW_TESTS = OrderedDict(
-    (("browse", {}),
-     ("translate", {}),
+    (("translate", {}),
      ("export", {})))
 
 PROJECT_VIEW_TESTS = OrderedDict(
-    (("browse", {}),
-     ("browse_directory",
-      {"dir_path": "subdir0/"}),
-     ("browse_store",
-      {"filename": "store0.po"}),
-     ("browse_directory_store",
-      {"dir_path": "subdir0/",
-       "filename": "store3.po"}),
-     ("translate", {}),
+    (("translate", {}),
      ("translate_directory",
       {"dir_path": "subdir0/"}),
      ("translate_store",
@@ -190,15 +181,7 @@ PROJECT_VIEW_TESTS = OrderedDict(
        "filename": "store3.po"})))
 
 TP_VIEW_TESTS = OrderedDict(
-    (("browse", {}),
-     ("browse_directory",
-      {"dir_path": "subdir0/"}),
-     ("browse_store",
-      {"filename": "store0.po"}),
-     ("browse_directory_store",
-      {"dir_path": "subdir0/",
-       "filename": "store3.po"}),
-     ("translate", {}),
+    (("translate", {}),
      ("translate_directory",
       {"dir_path": "subdir0/"}),
      ("translate_store",

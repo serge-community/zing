@@ -2199,15 +2199,6 @@ h2:lang(zh) a
 
 
 /*
- * HACK: disable transitions until the page has been loaded
- */
-.preload *
-{
-    transition: none !important;
-}
-
-
-/*
  * AutoIcon component
  */
 .auto-icon

@@ -163,8 +163,6 @@ body.translate #navbar h1
     background: none;
     filter: none;
 
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
     box-shadow: none;
 }
 

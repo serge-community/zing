@@ -123,9 +123,8 @@ body.translate #navbar h1
     width: 12px;
     height: 12px;
     opacity: 0.3;
-    -webkit-transition: all 1s;
-    transition: all 1s;
     pointer-events: none;
+    transition: transform 1s, opacity 1s;
 }
 
 #navbar .breadcrumb .separator:last-child::before
@@ -136,9 +135,8 @@ body.translate #navbar h1
 #navbar:hover .breadcrumb .separator::before
 {
     opacity: 0.7;
-    -webkit-transform: rotate(90deg) translateY(6px);
-    -webkit-transition: all 1s;
-    transition: all 1s;
+    transform: rotate(90deg) translateY(6px);
+    transition: transform 1s, opacity 1s;
     transition-delay: 0.3s;
 }
 

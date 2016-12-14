@@ -89,7 +89,7 @@ const BrowserTable = React.createClass({
 
   getInitialState() {
     return {
-      showDisabledRows: false,
+      showDisabledRows: this.allItemsAreDisabled(this.props.items),
       sortColumn: COL_TITLE,
       reverseSort: false,
     };
@@ -146,6 +146,16 @@ const BrowserTable = React.createClass({
     return false;
   },
 
+  // check if all items are disabled
+  allItemsAreDisabled(items) {
+    for (const key in items) {
+      if (!isItemDisabled(items[key])) {
+        return false;
+      }
+    }
+    return true;
+  },
+
   handleDisabledRowsVisibility({ isActive }) {
     this.setState({ showDisabledRows: isActive });
   },
@@ -184,7 +194,7 @@ const BrowserTable = React.createClass({
     if (this.hasDisabledItems) {
       toggle = (
         <TextToggle
-          defaultChecked
+          defaultChecked={!this.state.showDisabledRows}
           labelActive={t('Show disabled')}
           labelInactive={t('Hide disabled')}
           onClick={this.handleDisabledRowsVisibility}

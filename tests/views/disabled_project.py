@@ -17,9 +17,7 @@ def test_views_disabled_project(client, dp_view_urls, request_users):
     url = dp_view_urls
     user = request_users["user"]
     if user.username != "nobody":
-        client.login(
-            username=user.username,
-            password=request_users["password"])
+        client.force_login(user)
 
     response = client.get(url)
 
@@ -33,9 +31,7 @@ def test_views_disabled_project(client, dp_view_urls, request_users):
 def test_disabled_project_in_lang_browse_view(client, request_users):
     user = request_users["user"]
     if user.username != "nobody":
-        client.login(
-            username=user.username,
-            password=request_users["password"])
+        client.force_login(user)
 
     response = client.get(reverse("pootle-language-browse",
                                   kwargs={"language_code": "language0"}))

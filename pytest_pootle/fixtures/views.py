@@ -236,9 +236,7 @@ def get_units_views(request, client, request_users):
 
     user = request_users["user"]
     if user.username != "nobody":
-        client.login(
-            username=user.username,
-            password=request_users["password"])
+        client.force_login(user)
 
     if "uids" in params and callable(params["uids"]):
         params["uids"] = ",".join(str(uid) for uid in params["uids"]())
@@ -265,9 +263,7 @@ def project_views(request, client, request_users, settings):
         del test_kwargs["export_limit"]
 
     user = request_users["user"]
-    client.login(
-        username=user.username,
-        password=request_users["password"])
+    client.force_login(user)
 
     test_type = request.param.split("_")[0]
     project = Project.objects.get(code="project0")
@@ -309,9 +305,7 @@ def tp_views(request, client, request_users, settings):
     view_name = "%s-%s" % (tp_view, test_type)
 
     if user.username != "nobody":
-        client.login(
-            username=user.username,
-            password=request_users["password"])
+        client.force_login(user)
 
     response = client.get(reverse(view_name, kwargs=kwargs))
     kwargs["filename"] = kwargs.get("filename", "")

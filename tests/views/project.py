@@ -107,9 +107,7 @@ def test_views_project(project_views, settings):
 @pytest.mark.django_db
 def test_view_projects_translate(client, settings, request_users):
     user = request_users["user"]
-    client.login(
-        username=user.username,
-        password=request_users["password"])
+    client.force_login(user)
     response = client.get(reverse("pootle-projects-translate"))
 
     if not user.is_superuser:

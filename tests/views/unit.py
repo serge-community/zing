@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -67,9 +68,7 @@ def test_submit_with_suggestion_and_comment(client, request_users, settings):
     sugg = Suggestion.objects.filter(unit=unit, state='pending')[0]
     user = request_users["user"]
     if user.username != "nobody":
-        client.login(
-            username=user.username,
-            password=request_users["password"])
+        client.force_login(user)
 
     url = '/xhr/units/%d/' % unit.id
     edited_target = "Edited %s" % sugg.target_f
@@ -111,9 +110,7 @@ def test_submit_with_suggestion(client, request_users, settings):
     sugg = Suggestion.objects.filter(unit=unit, state='pending').first()
     user = request_users["user"]
     if user.username != "nobody":
-        client.login(
-            username=user.username,
-            password=request_users["password"])
+        client.force_login(user)
 
     url = '/xhr/units/%d/' % unit.id
 
@@ -152,9 +149,7 @@ def test_accept_suggestion_with_comment(client, request_users, settings):
     sugg = Suggestion.objects.filter(unit=unit, state='pending')[0]
     user = request_users["user"]
     if user.username != "nobody":
-        client.login(
-            username=user.username,
-            password=request_users["password"])
+        client.force_login(user)
 
     url = '/xhr/units/%d/suggestions/%d/' % (unit.id, sugg.id)
     comment = 'This is a comment!'
@@ -190,9 +185,7 @@ def test_reject_suggestion_with_comment(client, request_users):
     comment = 'This is a comment!'
     user = request_users["user"]
     if user.username != "nobody":
-        client.login(
-            username=user.username,
-            password=request_users["password"])
+        client.force_login(user)
 
     url = '/xhr/units/%d/suggestions/%d/' % (unit.id, sugg.id)
     response = client.delete(
@@ -249,9 +242,7 @@ def test_submit_unit_plural(client, unit_plural, request_users, settings):
     settings.POOTLE_CAPTCHA_ENABLED = False
     user = request_users["user"]
     if user.username != "nobody":
-        client.login(
-            username=user.username,
-            password=request_users["password"])
+        client.force_login(user)
 
     url = '/xhr/units/%d/' % unit_plural.id
     target = [

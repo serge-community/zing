@@ -77,9 +77,7 @@ def test_get_units(get_units_views):
 def test_get_previous_slice(client, request_users):
     user = request_users["user"]
     if user.username != "nobody":
-        client.login(
-            username=user.username,
-            password=request_users["password"])
+        client.force_login(user)
 
     resp = client.get(
         "/xhr/units/?filter=all&count=5&path=/&offset=60",
@@ -164,9 +162,7 @@ def test_get_previous_slice(client, request_users):
 def test_get_next_slice(client, request_users):
     user = request_users["user"]
     if user.username != "nobody":
-        client.login(
-            username=user.username,
-            password=request_users["password"])
+        client.force_login(user)
 
     resp = client.get(
         "/xhr/units/?filter=all&count=5&path=/",

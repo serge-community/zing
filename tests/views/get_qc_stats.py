@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
 # This file is a part of the Pootle project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
@@ -17,9 +18,7 @@ from pootle_store.models import Unit
 def test_get_qc_stats_store(client, request_users, settings):
     user = request_users["user"]
     if user.username != "nobody":
-        client.login(
-            username=user.username,
-            password=request_users["password"])
+        client.force_login(user)
     unit = Unit.objects.get_translatable(user).first()
     store = unit.store
     response = client.get(
@@ -35,9 +34,7 @@ def test_get_qc_stats_store(client, request_users, settings):
 def test_get_qc_stats_directory(client, request_users, settings):
     user = request_users["user"]
     if user.username != "nobody":
-        client.login(
-            username=user.username,
-            password=request_users["password"])
+        client.force_login(user)
     unit = (
         Unit.objects.get_translatable(user)
                     .filter(store__pootle_path__contains="subdir0")
@@ -56,9 +53,7 @@ def test_get_qc_stats_directory(client, request_users, settings):
 def test_get_qc_stats_tp(client, request_users, settings):
     user = request_users["user"]
     if user.username != "nobody":
-        client.login(
-            username=user.username,
-            password=request_users["password"])
+        client.force_login(user)
     unit = (
         Unit.objects.get_translatable(user)
                     .first())

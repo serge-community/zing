@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -34,9 +35,7 @@ def test_get_contributors_store(client, request_users):
 
     user = request_users["user"]
     if user.username != "nobody":
-        client.login(
-            username=user.username,
-            password=request_users["password"])
+        client.force_login(user)
 
     store = Store.objects.get(pootle_path="/language0/project0/store0.po")
     response = client.get(
@@ -58,9 +57,7 @@ def test_get_contributors_tp(client, request_users):
 
     user = request_users["user"]
     if user.username != "nobody":
-        client.login(
-            username=user.username,
-            password=request_users["password"])
+        client.force_login(user)
 
     tp = TranslationProject.objects.get(pootle_path="/language0/project0/")
     response = client.get(
@@ -82,9 +79,7 @@ def test_get_contributors_project(client, request_users):
 
     user = request_users["user"]
     if user.username != "nobody":
-        client.login(
-            username=user.username,
-            password=request_users["password"])
+        client.force_login(user)
 
     project = Project.objects.get(code="project0")
     response = client.get(
@@ -158,9 +153,7 @@ def test_get_contributors_wrong_params(client, request_users, path, offset):
 
     user = request_users["user"]
     if user.username != "nobody":
-        client.login(
-            username=user.username,
-            password=request_users["password"])
+        client.force_login(user)
 
     response = client.get(
         "/xhr/stats/contributors/?path=%s&offset=%s" % (path, offset),

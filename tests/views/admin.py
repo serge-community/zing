@@ -46,9 +46,7 @@ def test_admin_access(client):
 def test_admin_view_projects(client, request_users, english):
     user = request_users["user"]
 
-    client.login(
-        username=user.username,
-        password=request_users["password"])
+    client.force_login(user)
 
     response = client.get(
         reverse(

@@ -20,9 +20,7 @@ def test_get_stats_store(client, request_users, settings):
 
     user = request_users["user"]
     if user.username != "nobody":
-        client.login(
-            username=user.username,
-            password=request_users["password"])
+        client.force_login(user)
 
     unit = Unit.objects.get_translatable(user).first()
     store = unit.store
@@ -42,9 +40,7 @@ def test_get_stats_directory(client, request_users, settings):
 
     user = request_users["user"]
     if user.username != "nobody":
-        client.login(
-            username=user.username,
-            password=request_users["password"])
+        client.force_login(user)
     unit = (
         Unit.objects.get_translatable(user)
                     .filter(store__pootle_path__contains="subdir0")
@@ -71,9 +67,7 @@ def test_get_stats_tp(client, request_users, settings):
 
     user = request_users["user"]
     if user.username != "nobody":
-        client.login(
-            username=user.username,
-            password=request_users["password"])
+        client.force_login(user)
     unit = (
         Unit.objects.get_translatable(user)
                     .first())

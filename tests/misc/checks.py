@@ -420,7 +420,6 @@ def test_get_qualitycheck_schema():
         d[cat]['checks'].append({
             'code': check,
             'title': u"%s" % check_names.get(check, check),
-            'url': ''
         })
 
     result = sorted([item for item in d.values()],

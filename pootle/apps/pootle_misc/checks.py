@@ -1121,7 +1121,7 @@ def get_qualitychecks():
     return available_checks
 
 
-def get_qualitycheck_schema(path_obj=None):
+def get_qualitycheck_schema():
     d = {}
     checks = get_qualitychecks()
 
@@ -1136,7 +1136,6 @@ def get_qualitycheck_schema(path_obj=None):
         d[cat]['checks'].append({
             'code': check,
             'title': u"%s" % check_names.get(check, check),
-            'url': path_obj.get_translate_url(check=check) if path_obj else ''
         })
 
     result = sorted([item for item in d.values()],

@@ -69,6 +69,11 @@ function sortFunc(a, b, items, sortColumn) {
   throw new Error(`Sort column index out of range: ${sortColumn}`);
 }
 
+function isItemDisabled(item) {
+  return (item.hasOwnProperty('is_disabled') && item.is_disabled
+    || !item.hasOwnProperty('total')
+    || item.total < 1);
+}
 
 const BrowserTable = React.createClass({
 
@@ -134,7 +139,7 @@ const BrowserTable = React.createClass({
   // check if there are disabled items
   hasAnyDisabledItems(items) {
     for (const key in items) {
-      if (items[key].is_disabled) {
+      if (isItemDisabled(items[key])) {
         return true;
       }
     }
@@ -147,8 +152,7 @@ const BrowserTable = React.createClass({
 
   createRow(key) {
     const item = this.props.items[key];
-    if (!this.state.showDisabledRows &&
-        (item.hasOwnProperty('is_disabled') && item.is_disabled)) {
+    if (!this.state.showDisabledRows && isItemDisabled(item)) {
       return null;
     }
 
@@ -185,6 +189,7 @@ const BrowserTable = React.createClass({
           labelInactive={t('Hide disabled')}
           onClick={this.handleDisabledRowsVisibility}
           className="toggle admin"
+          title={t('Toggle the visibility of disabled and empty items')}
         />
       );
     }

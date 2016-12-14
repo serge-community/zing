@@ -72,6 +72,7 @@ const BrowserTableRow = React.createClass({
 
     const trClasses = cx('item', {
       'is-disabled': isDisabled,
+      'is-empty': total === 0,
       'is-dirty': isDirty,
     });
 
@@ -81,6 +82,13 @@ const BrowserTableRow = React.createClass({
     if (itemType === ITEM_PROJECT) itemTypeName = 'project';
     if (itemType === ITEM_LANGUAGE) itemTypeName = 'language';
 
+    const progressBar = total === 0 ? null :
+      <ProgressBar
+        total={total}
+        fuzzy={fuzzy}
+        translated={translated}
+      />;
+
     return (
       <tr className={trClasses}>
         <td className={cx('stats-name', itemTypeName)}>
@@ -89,11 +97,7 @@ const BrowserTableRow = React.createClass({
           </a>
         </td>
         <td className="stats-graph">
-          <ProgressBar
-            total={total}
-            fuzzy={fuzzy}
-            translated={translated}
-          />
+          {progressBar}
         </td>
         <td className="stats-number total">
           <a href={this.getTranslateUrl()} className="stats-data">

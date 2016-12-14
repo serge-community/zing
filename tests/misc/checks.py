@@ -421,6 +421,7 @@ def test_get_qualitycheck_schema():
             'code': check,
             'title': u"%s" % check_names.get(check, check),
         })
+        d[cat]['checks'] = sorted(d[cat]['checks'], key=lambda x: x['code'])
 
     result = sorted([item for item in d.values()],
                     key=lambda x: x['code'],

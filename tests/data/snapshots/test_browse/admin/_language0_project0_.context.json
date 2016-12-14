@@ -224,7 +224,7 @@
     }
   ],
   "export_url": "/language0/project0/export-view/",
-  "has_admin_access": false,
+  "has_admin_access": true,
   "has_sidebar": true,
   "is_disabled": false,
   "is_sidebar_open": true,
@@ -302,5 +302,5 @@
   "url_action_fixcritical": "/language0/project0/translate/#filter=checks&category=critical",
   "url_action_review": "/language0/project0/translate/#filter=suggestions",
   "url_action_view_all": "/language0/project0/translate/#filter=all",
-  "user": "nobody"
+  "user": "admin"
 }

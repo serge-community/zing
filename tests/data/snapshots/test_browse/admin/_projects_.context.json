@@ -3,6 +3,11 @@
   "browser_extends": "projects/all/base.html",
   "browsing_data": {
     "children": {
+      "/projects/disabled_project0/": {
+        "is_disabled": true,
+        "title": "Disabled Project 0",
+        "treeitem_type": 2
+      },
       "/projects/project0/": {
         "title": "Project 0",
         "treeitem_type": 2
@@ -17,8 +22,8 @@
       }
     }
   },
-  "can_translate": false,
-  "can_translate_stats": false,
+  "can_translate": true,
+  "can_translate_stats": true,
   "checks": [
     {
       "code": "dollar_sign_closure_placeholders",
@@ -214,8 +219,8 @@
     }
   ],
   "export_url": "/projects/export-view/",
-  "has_admin_access": false,
-  "is_disabled": true,
+  "has_admin_access": true,
+  "is_disabled": false,
   "language": null,
   "nav": "projects/all/_nav.html",
   "object": "/projects/",
@@ -225,7 +230,7 @@
   "resource_path": "",
   "resource_path_parts": [],
   "search_action": "/projects/translate/",
-  "search_form": "<tr><th><label for=\"id_search\">Search:</label></th><td><input id=\"id_search\" name=\"search\" placeholder=\"Search unavailable\" readonly=\"readonly\" size=\"15\" title=\"\" type=\"text\" disabled /></td></tr>\n<tr><th><label for=\"id_soptions_0\">Soptions:</label></th><td><ul id=\"id_soptions\"><li><label for=\"id_soptions_0\"><input id=\"id_soptions_0\" name=\"soptions\" type=\"checkbox\" value=\"exact\" /> Exact Match</label></li></ul></td></tr>\n<tr><th><label for=\"id_sfields_0\">Sfields:</label></th><td><ul id=\"id_sfields\"><li><label for=\"id_sfields_0\"><input checked=\"checked\" id=\"id_sfields_0\" name=\"sfields\" type=\"checkbox\" value=\"source\" /> Source Text</label></li>\n<li><label for=\"id_sfields_1\"><input checked=\"checked\" id=\"id_sfields_1\" name=\"sfields\" type=\"checkbox\" value=\"target\" /> Target Text</label></li>\n<li><label for=\"id_sfields_2\"><input id=\"id_sfields_2\" name=\"sfields\" type=\"checkbox\" value=\"notes\" /> Comments</label></li>\n<li><label for=\"id_sfields_3\"><input id=\"id_sfields_3\" name=\"sfields\" type=\"checkbox\" value=\"locations\" /> Locations</label></li></ul></td></tr>",
+  "search_form": "<tr><th><label for=\"id_search\">Search:</label></th><td><input id=\"id_search\" name=\"search\" placeholder=\"Search\" size=\"15\" title=\"Search (Ctrl+Shift+S)&lt;br/&gt;Type and press Enter to search\" type=\"text\" /></td></tr>\n<tr><th><label for=\"id_soptions_0\">Soptions:</label></th><td><ul id=\"id_soptions\"><li><label for=\"id_soptions_0\"><input id=\"id_soptions_0\" name=\"soptions\" type=\"checkbox\" value=\"exact\" /> Exact Match</label></li></ul></td></tr>\n<tr><th><label for=\"id_sfields_0\">Sfields:</label></th><td><ul id=\"id_sfields\"><li><label for=\"id_sfields_0\"><input checked=\"checked\" id=\"id_sfields_0\" name=\"sfields\" type=\"checkbox\" value=\"source\" /> Source Text</label></li>\n<li><label for=\"id_sfields_1\"><input checked=\"checked\" id=\"id_sfields_1\" name=\"sfields\" type=\"checkbox\" value=\"target\" /> Target Text</label></li>\n<li><label for=\"id_sfields_2\"><input id=\"id_sfields_2\" name=\"sfields\" type=\"checkbox\" value=\"notes\" /> Comments</label></li>\n<li><label for=\"id_sfields_3\"><input id=\"id_sfields_3\" name=\"sfields\" type=\"checkbox\" value=\"locations\" /> Locations</label></li></ul></td></tr>",
   "stats_refresh_attempts_count": 2,
   "top_scorers": {
     "items": [
@@ -282,9 +287,9 @@
       "url": "/projects/translate/#filter=untranslated"
     }
   ],
-  "url_action_continue": null,
-  "url_action_fixcritical": null,
-  "url_action_review": null,
-  "url_action_view_all": null,
-  "user": "nobody"
+  "url_action_continue": "/projects/translate/#filter=incomplete",
+  "url_action_fixcritical": "/projects/translate/#filter=checks&category=critical",
+  "url_action_review": "/projects/translate/#filter=suggestions",
+  "url_action_view_all": "/projects/translate/#filter=all",
+  "user": "admin"
 }

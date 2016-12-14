@@ -7,6 +7,11 @@
   "browser_extends": "languages/base.html",
   "browsing_data": {
     "children": {
+      "/language0/disabled_project0/": {
+        "is_disabled": true,
+        "title": "Disabled Project 0",
+        "treeitem_type": 2
+      },
       "/language0/project0/": {
         "title": "Project 0",
         "treeitem_type": 2
@@ -218,7 +223,7 @@
     }
   ],
   "export_url": "/language0/export-view/",
-  "has_admin_access": false,
+  "has_admin_access": true,
   "has_sidebar": true,
   "is_disabled": false,
   "is_sidebar_open": true,
@@ -295,5 +300,5 @@
   "url_action_fixcritical": "/language0/translate/#filter=checks&category=critical",
   "url_action_review": "/language0/translate/#filter=suggestions",
   "url_action_view_all": "/language0/translate/#filter=all",
-  "user": "nobody"
+  "user": "admin"
 }

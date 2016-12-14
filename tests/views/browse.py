@@ -30,7 +30,7 @@ def test_browse(client, request_users, test_name, flush_redis,
         as_dir(test_name), as_dir(user.username), url_name(url)
     ]):
         if not user.is_anonymous():
-            client.login(username=user.username, password=user.password)
+            client.force_login(user)
         response = client.get(url)
         assert response.status_code == 200
 

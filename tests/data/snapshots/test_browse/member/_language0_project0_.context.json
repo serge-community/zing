@@ -302,5 +302,5 @@
   "url_action_fixcritical": "/language0/project0/translate/#filter=checks&category=critical",
   "url_action_review": "/language0/project0/translate/#filter=suggestions",
   "url_action_view_all": "/language0/project0/translate/#filter=all",
-  "user": "nobody"
+  "user": "member"
 }

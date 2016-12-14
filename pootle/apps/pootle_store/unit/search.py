@@ -15,7 +15,7 @@ from pootle_store.models import Unit
 from pootle_store.unit.filters import UnitSearchFilter, UnitTextSearch
 
 
-MAX_RESULTS = 1000
+MAX_RESULTS = 500
 
 
 class DBSearchBackend(object):

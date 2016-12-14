@@ -18,6 +18,7 @@ const TextToggle = React.createClass({
     labelInactive: PropTypes.string,
     onClick: PropTypes.func,
     className: PropTypes.string,
+    title: PropTypes.string,
   },
 
   getDefaultProps() {
@@ -49,6 +50,7 @@ const TextToggle = React.createClass({
       <span
         onClick={this.handleClick}
         className={this.props.className}
+        title={this.props.title}
       >
         {label}
       </span>

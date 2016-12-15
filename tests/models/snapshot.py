@@ -8,7 +8,7 @@
 
 import pytest
 
-from django.template import Context
+from django.template import Context, RequestContext
 from django.test.utils import ContextList
 
 from pootle.core.models.snapshot import Snapshot, SnapshotStack
@@ -63,6 +63,8 @@ def test_snapshot_reference(tmpdir):
     (ContextList([Context({'block': True})]), {}),
     (ContextList([Context({'block': True}), Context({'foo': 'bar'})]),
      {'foo': 'bar'}),
+
+    (RequestContext(None, {'foo': 'bar'}), {'foo': 'bar'}),
 ])
 def test_snapshot_clean(input, clean_output):
     """Tests the cleanup of snapshot contexts."""

@@ -8,6 +8,7 @@
 
 import os
 
+from django.template import RequestContext
 from django.test.utils import ContextList
 from django.utils.functional import cached_property
 
@@ -65,9 +66,11 @@ class Snapshot(object):
 
     def clean(self, data):
         """Cleans up `data` before using it as a snapshot reference."""
+        if isinstance(data, RequestContext):
+            return self.clean(data.flatten())
         # XXX: maybe we can do something smarter than blacklisting when we
         # have a `ContextList`?
-        if isinstance(data, dict) or isinstance(data, ContextList):
+        elif isinstance(data, dict) or isinstance(data, ContextList):
             return {
                 key: self.clean(data[key]) for key in data.keys()
                 if key not in BLACKLISTED_KEYS

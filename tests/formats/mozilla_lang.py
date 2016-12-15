@@ -15,6 +15,7 @@ from pootle_store.constants import FUZZY, TRANSLATED
 from pootle_store.models import Unit
 
 
+@pytest.mark.skip(reason='This test will go away')
 @pytest.mark.django_db
 def test_mozlang_update(tp0):
     mozlang = Format.objects.get(name="lang")
@@ -59,6 +60,7 @@ def test_mozlang_update(tp0):
     assert translated.state == FUZZY
 
 
+@pytest.mark.skip(reason='This test will go away')
 @pytest.mark.django_db
 def test_mozlang_sync(tp0):
     mozlang = Format.objects.get(name="lang")

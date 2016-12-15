@@ -467,4 +467,5 @@ class PootleTestEnv(object):
             unit.store.record_submissions(
                 unit, old_target, old_state,
                 current_time, member, SubmissionTypes.NORMAL)
-            unit.save()
+
+        unit.save()

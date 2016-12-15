@@ -91,7 +91,8 @@ class Snapshot(object):
         except OSError:
             pass
 
-        with open(self.filepath, 'w') as outfile:
+        # use binary mode not to convert \n to OS-specific newlines;
+        with open(self.filepath, 'wb') as outfile:
             outfile.write(ctx_data)
 
     def assert_matches(self, ctx_data):

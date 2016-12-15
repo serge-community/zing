@@ -37,6 +37,7 @@ def test_disabled_project_in_lang_browse_view(client, request_users):
                                   kwargs={"language_code": "language0"}))
 
     disabled_project_exists = (
+        'browsing_data' in response.context and
         '/language0/disabled_project0/' in
         response.context['browsing_data']['children']
     )

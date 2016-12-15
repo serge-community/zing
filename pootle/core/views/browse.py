@@ -9,6 +9,7 @@
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.http import Http404
 from django.utils.functional import cached_property
 
 from pootle.core.helpers import (SIDEBAR_COOKIE_NAME,
@@ -18,6 +19,7 @@ from pootle.core.utils.json import remove_empty_from_dict
 from pootle.core.utils.stats import (TOP_CONTRIBUTORS_CHUNK_SIZE,
                                      get_top_scorers_data,
                                      get_translation_states)
+from pootle_app.models.permissions import check_user_permission
 from pootle_misc.checks import get_qualitycheck_list
 
 from ..http import JsonResponse
@@ -63,6 +65,13 @@ class BrowseDataViewMixin(object):
             for key, value in self.stats.iteritems()
             if key != 'children'
         })
+
+        has_admin_access = check_user_permission(self.request.user,
+                                                 'administrate',
+                                                 self.permission_context)
+        if 'total' not in browsing_data and not has_admin_access:
+            raise Http404
+
         children_stats = self.stats['children']
         browsing_data.update({
             'children': {
@@ -70,7 +79,7 @@ class BrowseDataViewMixin(object):
                 for path, data in (
                     self.get_item_data(item, children_stats[i])
                     for i, item in enumerate(self.items)
-                )
+                ) if data['total'] > 0 or has_admin_access
             },
         })
         return browsing_data

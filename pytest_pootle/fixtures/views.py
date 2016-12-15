@@ -8,7 +8,6 @@
 # AUTHORS file for copyright and authorship information.
 
 import functools
-import json
 import urllib
 from collections import OrderedDict
 from datetime import datetime, timedelta
@@ -157,32 +156,6 @@ GET_UNITS_TESTS = OrderedDict(
       {"filter": "checks",
        "category": "critical"})))
 
-LANGUAGE_VIEW_TESTS = OrderedDict(
-    (("export", {}), )
-)
-
-PROJECT_VIEW_TESTS = OrderedDict(
-    (("export", {}),
-     ("export_limit", {"export_limit": True}),
-     ("export_directory",
-      {"dir_path": "subdir0/"}),
-     ("export_store",
-      {"filename": "store0.po"}),
-     ("export_directory_store",
-      {"dir_path": "subdir0/",
-       "filename": "store3.po"})))
-
-TP_VIEW_TESTS = OrderedDict(
-    (("export", {}),
-     ("export_limit", {"export_limit": True}),
-     ("export_directory",
-      {"dir_path": "subdir0/"}),
-     ("export_store",
-      {"filename": "store0.po"}),
-     ("export_directory_store",
-      {"dir_path": "subdir0/",
-       "filename": "store3.po"})))
-
 DISABLED_PROJECT_URL_PARAMS = OrderedDict(
     (("project", {
         "view_name": "pootle-project",
@@ -234,82 +207,6 @@ def get_units_views(request, client, request_users):
 
     params["pootle_path"] = params["path"]
     return user, params, url_params, response
-
-
-@pytest.fixture(params=PROJECT_VIEW_TESTS.keys())
-def project_views(request, client, request_users, settings):
-    from pootle.core.helpers import SIDEBAR_COOKIE_NAME
-    from pootle_project.models import Project
-
-    test_kwargs = PROJECT_VIEW_TESTS[request.param].copy()
-    if test_kwargs.get("export_limit"):
-        settings.POOTLE_EXPORT_VIEW_LIMIT = 10
-        del test_kwargs["export_limit"]
-
-    user = request_users["user"]
-    client.force_login(user)
-
-    test_type = request.param.split("_")[0]
-    project = Project.objects.get(code="project0")
-    kwargs = {"project_code": project.code, "dir_path": "", "filename": ""}
-    kwargs.update(test_kwargs)
-    view_name = "pootle-project-%s" % test_type
-    client.cookies[SIDEBAR_COOKIE_NAME] = json.dumps({"foo": "bar"})
-    response = client.get(reverse(view_name, kwargs=kwargs))
-    return test_type, project, response.wsgi_request, response, kwargs
-
-
-@pytest.fixture(params=TP_VIEW_TESTS.keys())
-def tp_views(request, client, request_users, settings):
-    from pootle.core.helpers import SIDEBAR_COOKIE_NAME
-    from pootle_translationproject.models import TranslationProject
-
-    test_kwargs = TP_VIEW_TESTS[request.param].copy()
-    if test_kwargs.get("export_limit"):
-        settings.POOTLE_EXPORT_VIEW_LIMIT = 10
-        del test_kwargs["export_limit"]
-
-    tp_view_test_names = request.param
-    user = request_users["user"]
-
-    test_type = tp_view_test_names.split("_")[0]
-    tp = TranslationProject.objects.all()[0]
-    tp_view = "pootle-tp"
-    kwargs = {
-        "project_code": tp.project.code,
-        "language_code": tp.language.code,
-        "dir_path": "",
-        "filename": ""}
-    kwargs.update(test_kwargs)
-    client.cookies[SIDEBAR_COOKIE_NAME] = json.dumps({"foo": "bar"})
-    if kwargs.get("filename"):
-        tp_view = "%s-store" % tp_view
-    else:
-        del kwargs["filename"]
-    view_name = "%s-%s" % (tp_view, test_type)
-
-    if user.username != "nobody":
-        client.force_login(user)
-
-    response = client.get(reverse(view_name, kwargs=kwargs))
-    kwargs["filename"] = kwargs.get("filename", "")
-    return test_type, tp, response.wsgi_request, response, kwargs
-
-
-@pytest.fixture(params=LANGUAGE_VIEW_TESTS.keys())
-def language_views(request, client):
-
-    from pootle.core.helpers import SIDEBAR_COOKIE_NAME
-    from pootle_language.models import Language
-
-    test_type = request.param.split("_")[0]
-    language = Language.objects.get(code="language0")
-    kwargs = {"language_code": language.code}
-    kwargs.update(LANGUAGE_VIEW_TESTS[request.param])
-    view_name = "pootle-language-%s" % test_type
-    client.cookies[SIDEBAR_COOKIE_NAME] = json.dumps({"foo": "bar"})
-    response = client.get(reverse(view_name, kwargs=kwargs))
-    return test_type, language, response.wsgi_request, response, kwargs
 
 
 @pytest.fixture(params=BAD_VIEW_TESTS.keys())

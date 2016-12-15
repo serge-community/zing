@@ -34,9 +34,10 @@ def test_snapshot_filepath(tmpdir):
     snapshot.filepath == reference_file
 
 
-def test_snapshot_reference_non_existant():
+def test_snapshot_reference_non_existant(tmpdir):
     """Tests snapshots for non-existant references."""
-    snapshot = Snapshot('bogus')
+    reference_file = tmpdir.join('non-existant')
+    snapshot = Snapshot('non-existant', data_dir=reference_file.dirname)
     assert snapshot.reference is None
 
 

@@ -47,12 +47,13 @@ class Snapshot(object):
 
     @cached_property
     def filepath(self):
-        base_dir = self.data_dir
+        base_dir = os.path.normpath(self.data_dir)
         filepath = os.path.abspath(os.path.join(base_dir, self.filename))
 
         if os.path.commonprefix([filepath, base_dir]) != base_dir:
             raise ValueError(
-                'The requested file path is out of the data directory.'
+                'The requested file path "%s" is out '
+                'of the data directory "%s".' % (filepath, self.data_dir)
             )
         return filepath
 

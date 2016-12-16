@@ -216,9 +216,6 @@ class TreeItem(object):
 
         return None
 
-    def get_critical_url(self, **kwargs):
-        return self.get_translate_url(check_category='critical', **kwargs)
-
     def get_stats(self, include_children=True):
         """get stats for self and - optionally - for children"""
         self.initialize_children()

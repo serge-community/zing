@@ -110,7 +110,8 @@ class PootleBrowseView(BrowseDataViewMixin, PootleDetailView):
             url_action_continue = self.object.get_translate_url(
                 state='incomplete',
                 **filters)
-            url_action_fixcritical = self.object.get_critical_url(
+            url_action_fixcritical = self.object.get_translate_url(
+                check_category='critical',
                 **filters)
             url_action_review = self.object.get_translate_url(
                 state='suggestions',

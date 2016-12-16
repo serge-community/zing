@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -426,16 +427,16 @@ class CachedTreeItem(TreeItem):
         r_con = get_connection()
         path = r_con.get(POOTLE_REFRESH_STATS)
 
-        if path is not None:
-            if path == '/':
-                return True
+        if path is None:
+            return False
 
-            proj_code = split_pootle_path(path)[1]
-            key = self.get_cachekey()
+        if path == '/':
+            return True
 
-            return key in path or path in key or key in '/projects/%s/' % proj_code
+        proj_code = split_pootle_path(path)[1]
+        key = self.get_cachekey()
 
-        return False
+        return key in path or path in key or key in '/projects/%s/' % proj_code
 
     def register_all_dirty(self):
         """Register current TreeItem and all parent paths as dirty

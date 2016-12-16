@@ -11,6 +11,9 @@ import pytest
 from pytest_pootle.utils import as_dir, url_name
 
 
+users_with_stats = set()
+
+
 @pytest.mark.django_db
 @pytest.mark.parametrize('url', [
     '/projects/',
@@ -21,10 +24,16 @@ from pytest_pootle.utils import as_dir, url_name
     '/language0/project0/subdir0/',
     '/language0/project0/subdir0/store4.po',
 ])
-def test_browse(client, request_users, test_name, flush_stats,
+def test_browse(client, request_users, test_name, request,
                 snapshot_stack, url):
     """Tests correctness of the browsing view context."""
     user = request_users['user']
+
+    # stats refreshing boilerplate
+    global users_with_stats
+    if user not in users_with_stats:
+        request.getfixturevalue('refresh_stats')
+        users_with_stats.add(user)
 
     with snapshot_stack.push([
         as_dir(test_name), as_dir(user.username), url_name(url)

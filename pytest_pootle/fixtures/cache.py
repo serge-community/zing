@@ -21,3 +21,11 @@ def flush_redis():
 def flush_stats():
     """Flushes stats cache."""
     get_redis_connection('stats').flushdb()
+
+
+@pytest.fixture
+def refresh_stats(flush_stats):
+    """Ensures stats are calculated."""
+    from pootle_store.models import Store
+    for store in Store.objects.live().iterator():
+        store.update_all_cache()

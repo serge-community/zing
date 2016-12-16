@@ -8,7 +8,22 @@
   "browse_url": "/language0/project0/store0.po",
   "browser_extends": "translation_projects/base.html",
   "browsing_data": {
-    "children": {}
+    "children": {},
+    "critical": 2,
+    "fuzzy": 76,
+    "lastaction": {
+      "displayname": "Member",
+      "email": "d41d8cd98f00b204e9800998ecf8427e",
+      "mtime": 1480772922,
+      "source": "Translated Source /language0/project0/store0.po...",
+      "translation_action_type": 1,
+      "type": 1,
+      "uid": 3,
+      "username": "member"
+    },
+    "suggestions": 6,
+    "total": 252,
+    "translated": 86
   },
   "can_translate": true,
   "can_translate_stats": true,

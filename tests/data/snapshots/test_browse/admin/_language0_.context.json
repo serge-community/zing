@@ -8,16 +8,61 @@
   "browsing_data": {
     "children": {
       "/language0/disabled_project0/": {
+        "critical": 5,
+        "fuzzy": 265,
         "is_disabled": true,
+        "lastaction": {
+          "displayname": "Member",
+          "email": "d41d8cd98f00b204e9800998ecf8427e",
+          "mtime": 1480772922,
+          "source": "Translated Source /language0/disabled_project0/...",
+          "translation_action_type": 1,
+          "type": 1,
+          "uid": 162,
+          "username": "member"
+        },
+        "suggestions": 15,
         "title": "Disabled Project 0",
+        "total": 855,
+        "translated": 290,
         "treeitem_type": 2
       },
       "/language0/project0/": {
+        "critical": 9,
+        "fuzzy": 370,
+        "lastaction": {
+          "displayname": "Member",
+          "email": "d41d8cd98f00b204e9800998ecf8427e",
+          "mtime": 1480772924,
+          "source": "Translated Source /language0/project0/store2.po...",
+          "translation_action_type": 1,
+          "type": 1,
+          "uid": 19,
+          "username": "member"
+        },
+        "suggestions": 27,
         "title": "Project 0",
+        "total": 1320,
+        "translated": 482,
         "treeitem_type": 2
       },
       "/language0/project1/": {
+        "critical": 9,
+        "fuzzy": 370,
+        "lastaction": {
+          "displayname": "Member",
+          "email": "d41d8cd98f00b204e9800998ecf8427e",
+          "mtime": 1480772927,
+          "source": "Translated Source /language0/project1/store2.po...",
+          "translation_action_type": 1,
+          "type": 1,
+          "uid": 67,
+          "username": "member"
+        },
+        "suggestions": 27,
         "title": "Project 1",
+        "total": 1218,
+        "translated": 415,
         "treeitem_type": 2
       },
       "/language0/terminology/": {

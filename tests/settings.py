@@ -30,8 +30,6 @@ POOTLE_MT_BACKENDS = [
 
 
 MIDDLEWARE_CLASSES = [
-    #: Resolves paths
-    'pootle.middleware.baseurl.BaseUrlMiddleware',
     #: Must be as high as possible (see above)
     'django.middleware.cache.UpdateCacheMiddleware',
     #: Avoids caching for authenticated users

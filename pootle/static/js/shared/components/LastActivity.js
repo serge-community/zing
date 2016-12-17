@@ -38,7 +38,7 @@ const LastActivity = React.createClass({
       type: this.props.type,
       translationActionType: this.props.translation_action_type || 0,
       unitSource: this.props.source,
-      unitUrl: l(`/unit/${this.props.uid}`),
+      unitUrl: `/unit/${this.props.uid}`,
       username: this.props.username,
     };
 

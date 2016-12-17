@@ -400,8 +400,7 @@ const stats = {
   navigate() {
     const { isExpanded } = this.state;
     const currentURL = `${window.location.pathname}${window.location.search}`;
-    const path = l(this.pootlePath);
-    const newURL = isExpanded ? `${path}?details` : path;
+    const newURL = isExpanded ? `${this.pootlePath}?details` : this.pootlePath;
     if (currentURL !== newURL) {
       window.history.pushState({ isExpanded }, '', newURL);
     }

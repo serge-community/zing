@@ -26,15 +26,15 @@ export const Project = Backbone.Model.extend({
   },
 
   urlRoot() {
-    return l('/xhr/admin/projects/');
+    return '/xhr/admin/projects/';
   },
 
   getAbsoluteUrl() {
-    return l(['', 'projects', this.get('code'), ''].join('/'));
+    return `/projects/${this.get('code')}/`;
   },
 
   getPermissionsUrl() {
-    return l(['', 'projects', this.get('code'), 'admin', 'permissions', ''].join('/'));
+    return `/projects/${this.get('code')}/admin/permissions/`;
   },
 
   getFieldChoices(fieldName) {
@@ -62,7 +62,7 @@ export const ProjectSet = Backbone.Collection.extend(
 
     model: Project,
 
-    url: l('/xhr/admin/projects/'),
+    url: '/xhr/admin/projects/',
 
   })
 );

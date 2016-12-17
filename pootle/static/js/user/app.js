@@ -1,5 +1,6 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
  * This file is a part of the Pootle project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
@@ -25,7 +26,7 @@ PTL.user = {
     if (opts.userData !== undefined) {
       const editButton = q('.js-user-profile-edit');
 
-      const user = new User(opts.userData, { urlRoot: l('/xhr/users/') });
+      const user = new User(opts.userData, { urlRoot: '/xhr/users/' });
       const props = {
         user,
         appRoot: opts.appRoot,

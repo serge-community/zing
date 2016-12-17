@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -12,8 +13,6 @@ import subprocess
 
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
-
-from pootle_misc.baseurl import l
 
 
 class Command(BaseCommand):
@@ -80,7 +79,7 @@ class Command(BaseCommand):
 
         webpack_args.extend(options['extra'])
 
-        static_base = l(settings.STATIC_URL)
+        static_base = settings.STATIC_URL
         suffix = 'js/' if static_base.endswith('/') else '/js/'
         os.environ['WEBPACK_PUBLIC_PATH'] = static_base + suffix
 

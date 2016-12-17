@@ -15,7 +15,6 @@ from django.utils.functional import cached_property
 from pootle.core.mixins import CachedTreeItem
 from pootle.core.url_helpers import (get_editor_filter, split_pootle_path,
                                      to_tp_relative_path)
-from pootle_misc.baseurl import l
 
 
 class DirectoryManager(models.Manager):
@@ -129,7 +128,7 @@ class Directory(models.Model, CachedTreeItem):
         super(Directory, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return l(self.pootle_path)
+        return self.pootle_path
 
     def get_translate_url(self, **kwargs):
         lang_code, proj_code, dir_path = split_pootle_path(self.pootle_path)[:3]

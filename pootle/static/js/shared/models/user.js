@@ -1,7 +1,8 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
@@ -40,22 +41,22 @@ export const User = Backbone.Model.extend({
    * URL defaults to the admin backend. Customize when instantiating
    * `User` objects as needed by passing `urlRoot` as opts.
    */
-  urlRoot: l('/xhr/admin/users/'),
+  urlRoot: '/xhr/admin/users/',
 
   getProfileUrl() {
-    return l(`/user/${this.get('username')}/`);
+    return `/user/${this.get('username')}/`;
   },
 
   getSettingsUrl() {
-    return l(`/user/${this.get('username')}/settings/`);
+    return `/user/${this.get('username')}/settings/`;
   },
 
   getStatsUrl() {
-    return l(`/user/${this.get('username')}/stats/`);
+    return `/user/${this.get('username')}/stats/`;
   },
 
   getReportsUrl() {
-    return l(`/admin/reports/#username=${this.get('username')}`);
+    return `/admin/reports/#username=${this.get('username')}`;
   },
 
   isMeta() {
@@ -70,7 +71,7 @@ export const UserSet = Backbone.Collection.extend(
 
     model: User,
 
-    url: l('/xhr/admin/users/'),
+    url: '/xhr/admin/users/',
 
   })
 );

@@ -16,10 +16,8 @@ from rq import get_current_job
 from rq.job import Job, JobStatus, dumps, loads
 from rq.utils import utcnow
 
-from django.conf import settings
-from django.core.urlresolvers import set_script_prefix
 from django.db import connection
-from django.utils.encoding import force_unicode, iri_to_uri
+from django.utils.encoding import iri_to_uri
 
 from django_rq.queues import get_connection, get_queue
 
@@ -653,15 +651,6 @@ class JobWrapper(object):
 
 def update_cache_job(instance):
     """RQ job"""
-    # The script prefix needs to be set here because the generated
-    # URLs need to be aware of that and they are cached. Ideally
-    # Django should take care of setting this up, but it doesn't yet
-    # (fixed in Django 1.10):
-    # https://code.djangoproject.com/ticket/16734
-    script_name = (u'/'
-                   if settings.FORCE_SCRIPT_NAME is None
-                   else force_unicode(settings.FORCE_SCRIPT_NAME))
-    set_script_prefix(script_name)
     job = get_current_job()
     job_wrapper = JobWrapper(job.id, job.connection)
     keys, decrement = job_wrapper.get_job_params()

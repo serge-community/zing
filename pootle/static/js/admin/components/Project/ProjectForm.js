@@ -26,7 +26,7 @@ const ProjectForm = React.createClass({
   mixins: [ModelFormMixin],
 
   fields: ['code', 'fullname', 'checkstyle', 'filetypes',
-           'source_language', 'ignoredfiles', 'report_email',
+           'source_language', 'report_email',
            'screenshot_search_prefix', 'disabled'],
 
 
@@ -97,13 +97,6 @@ const ProjectForm = React.createClass({
             name="source_language"
             errors={errors.source_language}
             value={formData.source_language}
-          />
-          <FormElement
-            label={gettext('Ignore Files')}
-            handleChange={this.handleChange}
-            name="ignoredfiles"
-            errors={errors.ignoredfiles}
-            value={formData.ignoredfiles}
           />
           <FormElement
             type="email"

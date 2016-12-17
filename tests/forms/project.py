@@ -70,7 +70,6 @@ def test_project_form_bad_filetype_removal(format_registry):
         'filetypes': [Format.objects.get(name="xliff").pk],
         'source_language': 1,
         'screenshot_search_prefix': "",
-        'ignoredfiles': "",
         'report_email': "",
     }
     form = ProjectForm(form_data, instance=Project.objects.get(code="project0"))
@@ -93,7 +92,6 @@ def test_project_form_change_filetypes(format_registry):
         'filetypes': filetypes,
         'source_language': 1,
         'screenshot_search_prefix': "",
-        'ignoredfiles': "",
         'report_email': "",
     }
     project0 = Project.objects.get(code="project0")

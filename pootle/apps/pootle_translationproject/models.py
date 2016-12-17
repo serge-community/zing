@@ -360,9 +360,6 @@ class TranslationProject(models.Model, CachedTreeItem):
     def scan_files(self):
         """Scans the file system and returns a list of translation files.
         """
-        projects = [p.strip() for p in self.project.ignoredfiles.split(',')]
-        ignored_files = set(projects)
-
         filetypes = self.project.filetype_tool
         exts = filetypes.filetype_extensions
 
@@ -373,7 +370,6 @@ class TranslationProject(models.Model, CachedTreeItem):
 
         all_files, new_files, __ = add_files(
             self,
-            ignored_files,
             exts,
             self.real_path,
             self.directory,

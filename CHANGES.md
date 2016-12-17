@@ -12,6 +12,7 @@ v0.1.4 (in development)
   this technique.
 * Removed unused config utilities (#114).
 * Removed unmaintained web-based terminology management (#123).
+* Removed unused `ignoredfiles` project field (#139).
 
 
 v0.1.3 (2016-11-30)

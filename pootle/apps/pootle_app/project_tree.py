@@ -61,16 +61,12 @@ def is_hidden_file(path):
     return path[0] == '.'
 
 
-def split_files_and_dirs(ignored_files, exts, real_dir):
+def split_files_and_dirs(exts, real_dir):
     files = []
     dirs = []
-    child_paths = [
-        child_path
-        for child_path
-        in os.listdir(real_dir)
-        if (child_path not in ignored_files
-            and not is_hidden_file(child_path))]
-    for child_path in child_paths:
+    for child_path in os.listdir(real_dir):
+        if is_hidden_file(child_path):
+            continue
         full_child_path = os.path.join(real_dir, child_path)
         should_include_file = (
             os.path.isfile(full_child_path)
@@ -154,9 +150,9 @@ def create_or_resurrect_dir(name, parent):
 
 
 # TODO: rename function or even rewrite it
-def add_files(translation_project, ignored_files, exts, relative_dir, db_dir):
+def add_files(translation_project, exts, relative_dir, db_dir):
     podir_path = to_podir_path(relative_dir)
-    files, dirs = split_files_and_dirs(ignored_files, exts, podir_path)
+    files, dirs = split_files_and_dirs(exts, podir_path)
     file_set = set(files)
     dir_set = set(dirs)
 
@@ -190,7 +186,6 @@ def add_files(translation_project, ignored_files, exts, relative_dir, db_dir):
         fs_subdir = os.path.join(relative_dir, db_subdir.name)
         _files, _new_files, _is_empty = add_files(
             translation_project,
-            ignored_files,
             exts,
             fs_subdir,
             db_subdir,

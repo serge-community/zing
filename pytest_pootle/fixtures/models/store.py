@@ -566,14 +566,15 @@ def ordered_po(test_fs, tp0):
 
 
 @pytest.fixture
-def numbered_po(test_fs, project0):
+def numbered_po(test_fs, project0_disk):
     """Create a store with numbered units."""
     from pytest_pootle.factories import (
         LanguageDBFactory, StoreDBFactory, TranslationProjectFactory)
 
     tp = TranslationProjectFactory(
-        project=project0,
-        language=LanguageDBFactory())
+        project=project0_disk,
+        language=LanguageDBFactory()
+    )
     store = StoreDBFactory(
         name="numbered.po",
         translation_project=tp,

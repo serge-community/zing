@@ -88,10 +88,6 @@ def project0_directory(po_directory, project0):
 def project0_disk(project0_directory, project0, settings):
     """`project0` fixture but with on-disk directories and TPs."""
     project0.save()
-    project_dir = os.path.join(
-        settings.POOTLE_TRANSLATION_DIRECTORY, project0.code)
-    if not os.path.exists(project_dir):
-        os.makedirs(project_dir)
     for tp in project0.translationproject_set.all():
         tp.save()
     return project0

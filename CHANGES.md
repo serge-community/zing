@@ -10,6 +10,8 @@ v0.1.4 (in development)
 * Implemented view testing via snapshots (#45). More tests will need to be
   adapted although this puts in place the scaffolding to write tests using
   this technique.
+* Removed multiple file format support in favor of a single interchange format
+  (#115).
 * Removed support for deploying to subpaths (#140).
 * Removed unused config utilities (#114).
 * Removed unmaintained web-based terminology management (#123).

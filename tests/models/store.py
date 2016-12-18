@@ -44,17 +44,16 @@ def _store_as_string(store):
 
 
 @pytest.mark.django_db
-def test_delete_mark_obsolete(project0_disk, project0, store0):
+def test_delete_mark_obsolete(project0_disk, store0):
     """Tests that the in-DB Store and Directory are marked as obsolete
     after the on-disk file ceased to exist.
 
     Refs. #269.
     """
     tp = TranslationProjectFactory(
-        project=project0, language=LanguageDBFactory())
-    store = StoreDBFactory(
-        translation_project=tp,
-        parent=tp.directory)
+        project=project0_disk, language=LanguageDBFactory()
+    )
+    store = StoreDBFactory(translation_project=tp, parent=tp.directory)
 
     store.update(store.deserialize(store0.serialize()))
     store.sync()
@@ -76,16 +75,15 @@ def test_delete_mark_obsolete(project0_disk, project0, store0):
 
 
 @pytest.mark.django_db
-def test_sync(project0_disk, project0, store0):
+def test_sync(project0_disk, store0):
     """Tests that the new on-disk file is created after sync for existing
     in-DB Store if the corresponding on-disk file ceased to exist.
     """
-
     tp = TranslationProjectFactory(
-        project=project0, language=LanguageDBFactory())
-    store = StoreDBFactory(
-        translation_project=tp,
-        parent=tp.directory)
+        project=project0_disk, language=LanguageDBFactory()
+    )
+    store = StoreDBFactory(translation_project=tp, parent=tp.directory)
+
     store.update(store.deserialize(store0.serialize()))
     assert not store.file.exists()
     store.sync()

@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -15,7 +16,7 @@ from .unit import _update_translation
 
 
 @pytest.mark.django_db
-def test_max_revision(revision, project0_nongnu, store0):
+def test_max_revision(revision, project0_disk, store0):
     """Tests `max_revision()` gets the latest revision."""
     store0.sync()
 

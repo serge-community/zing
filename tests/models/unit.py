@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -48,7 +49,7 @@ def _update_translation(store, item, new_values, sync=True):
 
 
 @pytest.mark.django_db
-def test_getorig(project0_nongnu, store0):
+def test_getorig(project0_disk, store0):
     """Tests that the in-DB Store and on-disk Store match by checking that
     units match in order.
     """
@@ -59,7 +60,7 @@ def test_getorig(project0_nongnu, store0):
 
 
 @pytest.mark.django_db
-def test_convert(project0_nongnu, store0):
+def test_convert(project0_disk, store0):
     """Tests that in-DB and on-disk units match after format conversion."""
     store0.sync()
     for db_unit in store0.units.iterator():
@@ -70,7 +71,7 @@ def test_convert(project0_nongnu, store0):
 
 
 @pytest.mark.django_db
-def test_update_target(project0_nongnu, store0):
+def test_update_target(project0_disk, store0):
     """Tests that target changes are properly sync'ed to disk."""
     db_unit = _update_translation(store0, 0, {'target': u'samaka'})
     store0.sync()
@@ -137,7 +138,7 @@ def test_update_plural_target_dict(af_tutorial_po):
 
 
 @pytest.mark.django_db
-def test_update_fuzzy(project0_nongnu, store0):
+def test_update_fuzzy(project0_disk, store0):
     """Tests fuzzy state changes are stored and sync'ed."""
     db_unit = _update_translation(
         store0, 0,
@@ -161,7 +162,7 @@ def test_update_fuzzy(project0_nongnu, store0):
 
 
 @pytest.mark.django_db
-def test_update_comment(project0_nongnu, store0):
+def test_update_comment(project0_disk, store0):
     """Tests translator comments are stored and sync'ed."""
     db_unit = _update_translation(
         store0, 0,

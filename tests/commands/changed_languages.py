@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -31,7 +32,7 @@ def test_changed_languages_noargs(capfd):
 
 @pytest.mark.cmd
 @pytest.mark.django_db
-def test_changed_languages_noargs_nochanges(capfd, project0_nongnu, store0):
+def test_changed_languages_noargs_nochanges(capfd, project0_disk, store0):
     """Get changed languages since last sync."""
     unit = store0.units.first()
     unit.target = "CHANGED"
@@ -51,7 +52,7 @@ def test_changed_languages_noargs_nochanges(capfd, project0_nongnu, store0):
 
 @pytest.mark.cmd
 @pytest.mark.django_db
-def test_changed_languages_since_revision(capfd, project0_nongnu, tp0):
+def test_changed_languages_since_revision(capfd, project0_disk, tp0):
     """Changed languages since a given revision"""
     # Everything
     for store in tp0.stores.all():

@@ -389,17 +389,6 @@ class TranslationProject(models.Model, CachedTreeItem):
             except TranslationProject.DoesNotExist:
                 pass
 
-            local_terminology = self.stores.live().filter(
-                name__startswith='pootle-terminology')
-            for store in local_terminology.iterator():
-                if mtime is None:
-                    mtime = store.get_cached_value(CachedMethods.MTIME)
-                else:
-                    mtime = max(mtime,
-                                store.get_cached_value(CachedMethods.MTIME))
-
-            terminology_stores = terminology_stores | local_terminology
-
         if mtime is None:
             return
 

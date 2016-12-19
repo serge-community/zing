@@ -4,6 +4,8 @@ Zing Changelog
 v0.1.5 (in development)
 -----------------------
 
+* Optimized terminology access (#144).
+
 
 v0.1.4 (2016-12-19)
 -------------------

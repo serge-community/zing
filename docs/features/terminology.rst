@@ -6,10 +6,7 @@ Terminology
 Pootle can help translators with terminology. Terminology can be specified to
 be global per language, and can be overridden per project for each language. A
 project called *terminology* (with any full name) can contain any files that
-will be used for terminology matching. Alternatively a file with the name
-*pootle-terminology.po* (in a PO project) can be put in the directory of the
-project, in which case the global one (in the terminology project) will not be
-used. Matching is done in real time.
+will be used for terminology matching. Matching is done in real time.
 
 Ideally, the source term should be the shortest, simplest form of a word.
 Therefore *cat*, *dog*, *house* are good, but *cats*, *dogged* and *housing*

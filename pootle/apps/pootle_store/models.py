@@ -266,6 +266,15 @@ class Unit(models.Model, base.TranslationUnit):
         self.target_f = value
         self._target_updated = True
 
+    @cached_property
+    def terminology(self):
+        """Retrieves terminology suggestions."""
+        matcher = self.store.translation_project.gettermmatcher()
+        if matcher is None:
+            return []
+
+        return matcher.matches(self.source)
+
     # # # # # # # # # # # # # Class & static methods # # # # # # # # # # # # #
 
     @classmethod
@@ -1079,15 +1088,6 @@ class Unit(models.Model, base.TranslationUnit):
         # log user action
         self.save()
 
-    @cached_property
-    def get_terminology(self):
-        """get terminology suggestions"""
-        matcher = self.store.translation_project.gettermmatcher()
-        if matcher is None:
-            return []
-
-        return matcher.matches(self.source)
-
     def get_last_updated_info(self):
         return int(dateformat.format(self.creation_time, 'U'))
 
@@ -1159,14 +1159,6 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
     @property
     def real_path(self):
         return self.file.name
-
-    @property
-    def has_terminology(self):
-        """is this a project specific terminology store?"""
-        # TODO: Consider if this should check if the store belongs to a
-        # terminology project. Probably not, in case this might be called over
-        # several files in a project.
-        return self.name.startswith('pootle-terminology')
 
     @property
     def units(self):

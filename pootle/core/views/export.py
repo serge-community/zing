@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
 from itertools import groupby
 
-from django.conf import settings
 from django.forms import ValidationError
 from django.http import Http404
 
@@ -18,6 +18,10 @@ from pootle_store.forms import UnitExportForm
 from pootle_store.models import Unit
 
 from .base import PootleDetailView
+
+
+# Limit export view results to this amount of units
+UNITS_LIMIT = 500
 
 
 class PootleExportView(PootleDetailView):
@@ -45,11 +49,12 @@ class PootleExportView(PootleDetailView):
 
         units_qs = units_qs.select_related('store')
 
-        if total > settings.POOTLE_EXPORT_VIEW_LIMIT:
-            units_qs = units_qs[:settings.POOTLE_EXPORT_VIEW_LIMIT]
-            ctx.update(
-                {'unit_total_count': total,
-                 'displayed_unit_count': settings.POOTLE_EXPORT_VIEW_LIMIT})
+        if total > UNITS_LIMIT:
+            units_qs = units_qs[:UNITS_LIMIT]
+            ctx.update({
+                'unit_total_count': total,
+                'displayed_unit_count': UNITS_LIMIT,
+            })
 
         unit_groups = [
             (path, list(units))

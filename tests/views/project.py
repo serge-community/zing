@@ -19,6 +19,7 @@ from pootle_app.models.permissions import check_permission
 from pootle.core.delegate import search_backend
 from pootle.core.helpers import get_filter_name
 from pootle.core.url_helpers import get_previous_url
+from pootle.core.views.export import UNITS_LIMIT
 from pootle_misc.checks import get_qualitycheck_schema
 from pootle_misc.forms import make_search_form
 from pootle_store.forms import UnitExportForm
@@ -42,11 +43,11 @@ def _test_export_view(project, request, response, kwargs, settings):
         request.user, **search_form.cleaned_data).search()
     units_qs = units_qs.select_related('store')
     assertions = {}
-    if total > settings.POOTLE_EXPORT_VIEW_LIMIT:
-        units_qs = units_qs[:settings.POOTLE_EXPORT_VIEW_LIMIT]
+    if total > UNITS_LIMIT:
+        units_qs = units_qs[:UNITS_LIMIT]
         assertions.update(
             {'unit_total_count': total,
-             'displayed_unit_count': settings.POOTLE_EXPORT_VIEW_LIMIT})
+             'displayed_unit_count': UNITS_LIMIT})
     unit_groups = [
         (path, list(units))
         for path, units

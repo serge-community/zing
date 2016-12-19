@@ -15,6 +15,7 @@ from pytest_pootle.suite import view_context_test
 
 from pootle.core.delegate import search_backend
 from pootle.core.helpers import get_filter_name
+from pootle.core.views.export import UNITS_LIMIT
 from pootle_store.forms import UnitExportForm
 from pootle_store.models import Unit
 
@@ -31,11 +32,11 @@ def _test_export_view(tp, request, response, kwargs, settings):
         request.user, **search_form.cleaned_data).search()
     units_qs = units_qs.select_related('store')
     assertions = {}
-    if total > settings.POOTLE_EXPORT_VIEW_LIMIT:
-        units_qs = units_qs[:settings.POOTLE_EXPORT_VIEW_LIMIT]
+    if total > UNITS_LIMIT:
+        units_qs = units_qs[:UNITS_LIMIT]
         assertions.update(
             {'unit_total_count': total,
-             'displayed_unit_count': settings.POOTLE_EXPORT_VIEW_LIMIT})
+             'displayed_unit_count': UNITS_LIMIT})
     unit_groups = [
         (path, list(units))
         for path, units

@@ -143,6 +143,7 @@ class ProjectTranslateView(ProjectMixin, PootleTranslateView):
 
 
 class ProjectExportView(ProjectMixin, PootleExportView):
+    required_permission = 'administrate'
     source_language = "en"
 
 
@@ -220,4 +221,5 @@ class ProjectsTranslateView(ProjectsMixin, PootleTranslateView):
 
 
 class ProjectsExportView(ProjectsMixin, PootleExportView):
+    required_permission = 'administrate'
     source_language = "en"

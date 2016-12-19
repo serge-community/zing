@@ -26,6 +26,10 @@ from pootle_store.models import Unit
 
 
 def _test_export_view(project, request, response, kwargs, settings):
+    if not request.user.is_superuser:
+        assert response.status_code == 403
+        return
+
     ctx = response.context
     kwargs["project_code"] = project.code
     filter_name, filter_extra = get_filter_name(request.GET)
@@ -104,6 +108,11 @@ def test_view_projects_export(client):
     response = client.get(reverse("pootle-projects-export"))
     ctx = response.context
     request = response.wsgi_request
+
+    if not request.user.is_superuser:
+        assert response.status_code == 403
+        return
+
     filter_name, filter_extra = get_filter_name(request.GET)
     form_data = request.GET.copy()
     form_data["path"] = request.path.replace("export-view/", "")

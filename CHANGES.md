@@ -5,6 +5,7 @@ v0.1.4 (in development)
 -----------------------
 
 * Fixed browser table sorting for total/untranslated columns (#120).
+* Restricted access to project-wide export views (#142).
 * Quality checks now default to a site-wide checker (#119). In the future,
   project-specific checkers will be disallowed.
 * Implemented view testing via snapshots (#45). More tests will need to be

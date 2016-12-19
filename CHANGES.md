@@ -1,8 +1,8 @@
 Zing Changelog
 ==============
 
-v0.1.4 (in development)
------------------------
+v0.1.4 (2016-12-19)
+-------------------
 
 * Fixed browser table sorting for total/untranslated columns (#120).
 * Restricted access to project-wide export views (#142).

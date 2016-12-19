@@ -1079,6 +1079,7 @@ class Unit(models.Model, base.TranslationUnit):
         # log user action
         self.save()
 
+    @cached_property
     def get_terminology(self):
         """get terminology suggestions"""
         matcher = self.store.translation_project.gettermmatcher()

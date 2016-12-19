@@ -362,7 +362,7 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
 
         # Just doing a plain delete will collect all related objects in memory
         # before deleting: translation projects, stores, units, quality checks,
-        # pootle_store suggestions, pootle_app suggestions and submissions.
+        # suggestions, and submissions.
         # This can easily take down a process. If we do a translation project
         # at a time and force garbage collection, things stay much more
         # managable.

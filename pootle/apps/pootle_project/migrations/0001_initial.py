@@ -1,15 +1,33 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import models, migrations
+from django.db import migrations, models
+import django.db.models.deletion
+
 import pootle.core.mixins.treeitem
 import pootle_project.models
+from pootle.core.utils.db import set_mysql_collation_for_column
+
+
+def make_project_codes_cs(apps, schema_editor):
+    cursor = schema_editor.connection.cursor()
+    set_mysql_collation_for_column(
+        apps,
+        cursor,
+        'pootle_project.Project',
+        'code',
+        'utf8_bin',
+        'varchar(255)'
+    )
 
 
 class Migration(migrations.Migration):
 
+    initial = True
+
     dependencies = [
         ('pootle_language', '0001_initial'),
+        ('pootle_store', '0001_initial'),
         ('pootle_app', '0001_initial'),
     ]
 
@@ -17,24 +35,24 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Project',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('code', models.CharField(help_text='A short code for the project. This should only contain ASCII characters, numbers, and the underscore (_) character.', unique=True, max_length=255, verbose_name='Code', db_index=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('code', models.CharField(db_index=True, help_text='A short code for the project. This should only contain ASCII characters, numbers, and the underscore (_) character.', max_length=255, unique=True, validators=[pootle_project.models.validate_not_reserved], verbose_name='Code')),
                 ('fullname', models.CharField(max_length=255, verbose_name='Full Name')),
-                ('checkstyle', models.CharField(default=b'standard', max_length=50, verbose_name='Quality Checks', choices=[(b'standard', b'standard'), (b'creativecommons', b'creativecommons'), (b'drupal', b'drupal'), (b'gnome', b'gnome'), (b'kde', b'kde'), (b'libreoffice', b'libreoffice'), (b'mozilla', b'mozilla'), (b'openoffice', b'openoffice'), (b'terminology', b'terminology'), (b'wx', b'wx')])),
-                ('localfiletype', models.CharField(default=b'po', max_length=50, verbose_name='File Type', choices=[(b'po', 'Gettext PO'), (b'xlf', 'XLIFF'), (b'xliff', 'XLIFF'), (b'ts', 'Qt ts'), (b'tmx', 'TMX'), (b'tbx', 'TBX'), (b'catkeys', 'Haiku catkeys'), (b'csv', 'Excel CSV'), (b'lang', 'Mozilla .lang')])),
-                ('treestyle', models.CharField(default=b'auto', max_length=20, verbose_name='Project Tree Style', choices=[(b'auto', 'Automatic detection (slower)'), (b'gnu', 'GNU style: files named by language code'), (b'nongnu', 'Non-GNU: Each language in its own directory')])),
-                ('ignoredfiles', models.CharField(default=b'', max_length=255, verbose_name='Ignore Files', blank=True)),
-                ('report_email', models.EmailField(help_text='An email address where issues with the source text can be reported.', max_length=254, verbose_name='Errors Report Email', blank=True)),
-                ('screenshot_search_prefix', models.URLField(null=True, verbose_name='Screenshot Search Prefix', blank=True)),
-                ('creation_time', models.DateTimeField(db_index=True, auto_now_add=True, null=True)),
+                ('checkstyle', models.CharField(choices=[(b'creativecommons', b'creativecommons'), (b'drupal', b'drupal'), (b'gnome', b'gnome'), (b'kde', b'kde'), (b'libreoffice', b'libreoffice'), (b'mozilla', b'mozilla'), (b'openoffice', b'openoffice'), (b'standard', b'standard'), (b'terminology', b'terminology'), (b'wx', b'wx')], default=b'standard', max_length=50, verbose_name='Quality Checks')),
+                ('report_email', models.EmailField(blank=True, help_text='An email address where issues with the source text can be reported.', max_length=254, verbose_name='Errors Report Email')),
+                ('screenshot_search_prefix', models.URLField(blank=True, null=True, verbose_name='Screenshot Search Prefix')),
+                ('creation_time', models.DateTimeField(auto_now_add=True, db_index=True, null=True)),
                 ('disabled', models.BooleanField(default=False, verbose_name='Disabled')),
-                ('directory', models.OneToOneField(editable=False, to='pootle_app.Directory')),
-                ('source_language', models.ForeignKey(verbose_name='Source Language', to='pootle_language.Language')),
+                ('directory', models.OneToOneField(editable=False, on_delete=django.db.models.deletion.CASCADE, to='pootle_app.Directory')),
+                ('source_language', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pootle_language.Language', verbose_name='Source Language')),
             ],
             options={
                 'ordering': ['code'],
                 'db_table': 'pootle_app_project',
             },
             bases=(models.Model, pootle.core.mixins.treeitem.CachedTreeItem, pootle_project.models.ProjectURLMixin),
+        ),
+        migrations.RunPython(
+            code=make_project_codes_cs,
         ),
     ]

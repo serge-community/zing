@@ -30,7 +30,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('pootle_statistics', '0003_scorelog_translated_wordcount'),
-        ('pootle_store', '0008_flush_django_cache'),
     ]
 
     operations = [

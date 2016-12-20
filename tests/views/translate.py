@@ -21,8 +21,7 @@ from pytest_pootle.utils import as_dir, url_name
     '/language0/project0/translate/subdir0/',
     '/language0/project0/translate/subdir0/store4.po',
 ])
-def test_translate(client, request_users, test_name, flush_redis,
-                   snapshot_stack, url):
+def test_translate(client, request_users, test_name, snapshot_stack, url):
     """Tests correctness of the translate view context."""
     user = request_users['user']
 

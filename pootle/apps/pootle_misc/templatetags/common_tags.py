@@ -17,17 +17,6 @@ register = template.Library()
 
 
 @register.filter
-@template.defaultfilters.stringfilter
-def cssid(value):
-    """Replaces all '.', '+', ' ' and '@' with '-'.
-
-    Used to create valid CSS identifiers from tree item codes.
-    """
-    return value.replace(u'.', u'-').replace(u'@', u'-') \
-                .replace(u'+', u'-').replace(u' ', u'-')
-
-
-@register.filter
 def endswith(value, arg):
     return value.endswith(arg)
 

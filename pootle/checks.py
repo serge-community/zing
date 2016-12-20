@@ -391,21 +391,6 @@ def check_users(app_configs=None, **kwargs):
 
 
 @checks.register()
-def check_db_transaction_hooks(app_configs=None, **kwargs):
-    from django.conf import settings
-
-    errors = []
-    if settings.DATABASES['default']['ENGINE'].startswith("transaction_hooks"):
-        errors.append(checks.Critical(
-            _("Database connection uses transaction_hooks."),
-            hint=_("Set the DATABASES['default']['ENGINE'] to use a Django "
-                   "backend from django.db.backends."),
-            id="pootle.C006",
-        ))
-    return errors
-
-
-@checks.register()
 def check_email_server_is_alive(app_configs=None, **kwargs):
     from django.conf import settings
 

@@ -32,7 +32,6 @@ class InitDB(object):
 
         This creates the default database to get a working Pootle installation.
         """
-        self.create_formats()
         self.create_revision()
         self.create_essential_users()
         self.create_root_directories()
@@ -43,11 +42,6 @@ class InitDB(object):
         if create_projects:
             self.create_default_projects()
         self.create_default_languages()
-
-    def create_formats(self):
-        from pootle.core.delegate import formats
-
-        formats.get().initialize()
 
     def _create_object(self, model_klass, **criteria):
         instance, created = model_klass.objects.get_or_create(**criteria)

@@ -19,7 +19,6 @@ from . import fixtures
 from .env import PootleTestEnv
 from .fixtures import models as fixtures_models
 from .fixtures.core import utils as fixtures_core_utils
-from .fixtures import formats as fixtures_formats
 
 
 def _load_fixtures(*modules):
@@ -140,7 +139,6 @@ pytest_plugins = tuple(
     _load_fixtures(
         fixtures,
         fixtures_core_utils,
-        fixtures_formats,
         fixtures_models,
     )
 )

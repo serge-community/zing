@@ -15,8 +15,6 @@ search_backend = Getter(providing_args=["instance"])
 state = Getter()
 response = Getter()
 contributors = Getter()
-formats = Getter()
-format_registration = Provider()
 
 # view.context_data
 context_data = Provider(providing_args=["view", "context"])

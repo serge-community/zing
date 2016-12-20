@@ -20,7 +20,7 @@ from django.core.management import call_command
 class PootleTestEnv(object):
 
     methods = (
-        "redis", "case_sensitive_schema", "formats", "site_root",
+        "redis", "case_sensitive_schema", "site_root",
         "languages", "site_matrix", "system_users", "permissions",
         "site_permissions", "tps",
         "disabled_project", "subdirs", "submissions", "announcements",
@@ -49,11 +49,6 @@ class PootleTestEnv(object):
     def setup_site_db(self, **kwargs):
         for method in self.methods:
             getattr(self, "setup_%s" % method)()
-
-    def setup_formats(self):
-        from pootle.core.delegate import formats
-
-        formats.get().initialize()
 
     def setup_complex_po(self):
         import pytest_pootle

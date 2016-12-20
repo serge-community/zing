@@ -1,0 +1,5 @@
+{
+  "login_message": "You need to <a class=\"js-login\" href=\"/accounts/login/\">login</a> to access this page.",
+  "permission_error": "Insufficient rights to access this page.",
+  "user": "nobody"
+}

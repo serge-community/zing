@@ -18,6 +18,9 @@ users_with_stats = set()
 @pytest.mark.parametrize('url', [
     '/projects/',
     '/projects/project0/',
+    '/projects/project0/store0.po',
+    '/projects/project0/subdir0/',
+    '/projects/project0/subdir0/store4.po',
     '/language0/',
     '/language0/project0/',
     '/language0/project0/store0.po',

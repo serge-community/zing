@@ -15,6 +15,9 @@ from pytest_pootle.utils import as_dir, url_name
 @pytest.mark.parametrize('url', [
     '/projects/translate/',
     '/projects/project0/translate/',
+    '/projects/project0/translate/store0.po',
+    '/projects/project0/translate/subdir0/',
+    '/projects/project0/translate/subdir0/store4.po',
     '/language0/translate/',
     '/language0/project0/translate/',
     '/language0/project0/translate/store0.po',

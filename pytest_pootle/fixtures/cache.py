@@ -6,12 +6,18 @@
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
-import fakeredis
 import pytest
+
+from django_redis import get_redis_connection
 
 
 @pytest.fixture
 def flush_redis():
-    """Flushes fakeredis' module-level state."""
-    redis_conn = fakeredis.FakeStrictRedis()
-    redis_conn.flushall()
+    """Clears Redis persistent store."""
+    get_redis_connection('redis').flushdb()
+
+
+@pytest.fixture
+def flush_stats():
+    """Flushes stats cache."""
+    get_redis_connection('stats').flushdb()

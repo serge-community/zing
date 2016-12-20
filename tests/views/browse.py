@@ -21,7 +21,7 @@ from pytest_pootle.utils import as_dir, url_name
     '/language0/project0/subdir0/',
     '/language0/project0/subdir0/store4.po',
 ])
-def test_browse(client, request_users, test_name, flush_redis,
+def test_browse(client, request_users, test_name, flush_stats,
                 snapshot_stack, url):
     """Tests correctness of the browsing view context."""
     user = request_users['user']

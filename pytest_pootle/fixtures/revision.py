@@ -10,7 +10,7 @@ import pytest
 
 
 @pytest.fixture
-def revision(clear_cache):
+def revision(flush_redis):
     """Sets up the cached revision counter for each test call."""
     from pootle.core.models import Revision
     from pootle_store.models import Unit

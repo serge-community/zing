@@ -72,14 +72,6 @@ def translations_directory(request):
     request.addfinalizer(rm_tmp_dir)
 
 
-@pytest.fixture
-def clear_cache():
-    """Currently tests only use one cache so this clears all"""
-    from django_redis import get_redis_connection
-
-    get_redis_connection('redis').flushdb()
-
-
 @pytest.fixture(scope="session")
 def test_fs():
     """A convenience fixture for retrieving data from test files"""

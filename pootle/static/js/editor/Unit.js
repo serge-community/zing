@@ -26,7 +26,7 @@ class Unit {
     this.projectName = projectName;
     this.file = file;
 
-    this.url = l(`/unit/${this.id}`);
+    this.url = `/unit/${this.id}`;
   }
 
   provideFullData(data) {

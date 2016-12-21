@@ -10,11 +10,11 @@
         "lastaction": {
           "displayname": "Member",
           "email": "d41d8cd98f00b204e9800998ecf8427e",
-          "mtime": 1481299947,
+          "mtime": 1483361142,
           "source": "Translated Source /language0/disabled_project0/...",
           "translation_action_type": 1,
           "type": 1,
-          "uid": 162,
+          "uid": 102,
           "username": "member"
         },
         "suggestions": 15,
@@ -29,11 +29,11 @@
         "lastaction": {
           "displayname": "Member",
           "email": "d41d8cd98f00b204e9800998ecf8427e",
-          "mtime": 1481299954,
+          "mtime": 1483361154,
           "source": "Translated Source /language1/project0/subdir0/s...",
           "translation_action_type": 1,
           "type": 1,
-          "uid": 122,
+          "uid": 126,
           "username": "member"
         },
         "suggestions": 54,
@@ -48,11 +48,11 @@
         "lastaction": {
           "displayname": "Member",
           "email": "d41d8cd98f00b204e9800998ecf8427e",
-          "mtime": 1481299956,
-          "source": "Translated Source /language1/project1/store2.po...",
+          "mtime": 1483361156,
+          "source": "Translated Source /language1/project1/subdir0/s...",
           "translation_action_type": 1,
           "type": 1,
-          "uid": 92,
+          "uid": 150,
           "username": "member"
         },
         "suggestions": 54,
@@ -72,11 +72,11 @@
     "lastaction": {
       "displayname": "Member",
       "email": "d41d8cd98f00b204e9800998ecf8427e",
-      "mtime": 1481299956,
-      "source": "Translated Source /language1/project1/store2.po...",
+      "mtime": 1483361156,
+      "source": "Translated Source /language1/project1/subdir0/s...",
       "translation_action_type": 1,
       "type": 1,
-      "uid": 92,
+      "uid": 150,
       "username": "member"
     },
     "suggestions": 123,

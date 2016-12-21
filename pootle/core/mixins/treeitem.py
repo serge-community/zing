@@ -215,7 +215,15 @@ class TreeItem(object):
         return None
 
     def get_stats(self, include_children=True):
-        """get stats for self and - optionally - for children"""
+        """Get stats for this particular tree item.
+
+        Note objects using `TreeItem` don't have their own cached fields;
+        these are aggregated based on the existing children stats. This
+        is why children need to be unconditionally initialized.
+
+        :param include_children: whether stats for children items should be
+            included or not.
+        """
         self.initialize_children()
         result = {
             'total': None,
@@ -319,7 +327,11 @@ class CachedTreeItem(TreeItem):
             return None
 
     def get_stats(self, include_children=True):
-        """get stats for self and - optionally - for children"""
+        """Get stats for this particular tree item.
+
+        :param include_children: whether stats for children items should be
+            included or not.
+        """
         if include_children:
             self.initialize_children()
         result = {

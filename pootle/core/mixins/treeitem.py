@@ -9,7 +9,6 @@
 
 import logging
 from datetime import datetime
-from functools import wraps
 
 from redis import WatchError
 from rq import get_current_job
@@ -39,18 +38,6 @@ POOTLE_STATS_JOB_PARAMS_PREFIX = "pootle:stats:job.params:"
 
 logger = logging.getLogger('stats')
 cache = get_cache('stats')
-
-
-def statslog(function):
-    @wraps(function)
-    def _statslog(instance, *args, **kwargs):
-        start = datetime.now()
-        result = function(instance, *args, **kwargs)
-        end = datetime.now()
-        logger.info("%s(%s)\t%s\t%s", function.__name__, ', '.join(args),
-                    end - start, instance.get_cachekey())
-        return result
-    return _statslog
 
 
 class NoCachedStats(Exception):
@@ -303,10 +290,19 @@ class CachedTreeItem(TreeItem):
         key = self.get_cachekey()
         return POOTLE_STATS_LAST_JOB_PREFIX + key.replace("/", ".").strip(".")
 
-    @statslog
     def update_cached(self, name):
         """calculate stat value and update cached value"""
+        start = datetime.now()
+
         self.set_cached_value(name, self._calc(name))
+
+        end = datetime.now()
+        ctx = {
+            'function': calc_fn.__name__,
+            'time': end - start,
+            'key': self.get_cachekey(),
+        }
+        logger.debug('update_cached(%(function)s)\t%(time)s\t%(key)s', ctx)
 
     def get_cached(self, name):
         """get stat value from cache"""

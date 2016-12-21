@@ -139,8 +139,7 @@ class TreeItem(object):
 
     @property
     def children(self):
-        if not self.initialized:
-            self.initialize_children()
+        self.initialize_children()
         return self._children
 
     def _calc_suggestion_count(self):

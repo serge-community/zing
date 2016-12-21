@@ -132,9 +132,10 @@ class TreeItem(object):
         return any(map(lambda x: x.is_dirty(), self.children))
 
     def initialize_children(self):
-        if not self.initialized:
-            self._children = self.get_children()
-            self.initialized = True
+        if self.initialized:
+            return
+        self._children = self.get_children()
+        self.initialized = True
 
     @property
     def children(self):

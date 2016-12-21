@@ -1604,8 +1604,10 @@ PTL.editor = {
     if (m) {
       const uid = parseInt(m[1], 10);
       if ($(this).hasClass('ctx')) {
-        // Reset the current filter
-        $.history.load(`/unit/${encodeURIComponent(uid)}`);
+        $.history.load(
+          utils.updateHashPart('unit', uid,
+                               ['filter', 'search', 'sfields', 'soptions'])
+        );
       } else {
         PTL.editor.units.goto(uid);
       }

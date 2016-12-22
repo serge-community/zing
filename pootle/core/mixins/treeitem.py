@@ -224,17 +224,17 @@ class TreeItem(object):
         }
 
         try:
-            result.update(self._calc(CachedMethods.WORDCOUNT_STATS))
+            result.update(self._calc_wordcount_stats())
         except NoCachedStats:
             pass
 
         try:
-            result['suggestions'] = self._calc(CachedMethods.SUGGESTIONS)
+            result['suggestions'] = self._calc_suggestion_count()
         except NoCachedStats:
             pass
 
         try:
-            result['lastaction'] = self._calc(CachedMethods.LAST_ACTION)
+            result['lastaction'] = self._calc_last_action()
         except NoCachedStats:
             pass
 
@@ -244,7 +244,7 @@ class TreeItem(object):
             pass
 
         try:
-            result['lastupdated'] = self._calc(CachedMethods.LAST_UPDATED)
+            result['lastupdated'] = self._calc_last_updated()
         except NoCachedStats:
             pass
 
@@ -256,7 +256,7 @@ class TreeItem(object):
         return result
 
     def get_error_unit_count(self):
-        check_stats = self._calc(CachedMethods.CHECKS)
+        check_stats = self._calc_checks()
         if check_stats is not None:
             return check_stats.get('unit_critical_error_count', 0)
 
@@ -264,7 +264,7 @@ class TreeItem(object):
 
     def get_checks(self):
         try:
-            return self._calc(CachedMethods.CHECKS)['checks']
+            return self._calc_checks()['checks']
         except NoCachedStats:
             return None
 

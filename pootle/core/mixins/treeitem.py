@@ -307,14 +307,14 @@ class CachedTreeItem(TreeItem):
     def get_cached(self, name):
         """get stat value from cache"""
         result = self.get_cached_value(name)
-        if result is None:
+        if result is not None:
+            return result
 
-            msg = u"cache miss %s for %s(%s)" % (name, self.get_cachekey(),
-                                                 self.__class__)
-            logger.info(msg)
-            raise NoCachedStats(msg)
-
-        return result
+        logger.debug(
+            u'Cache miss %s for %s(%s)',
+            name, self.get_cachekey(), self.__class__
+        )
+        raise NoCachedStats
 
     def get_checks(self):
         try:

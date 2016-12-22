@@ -1129,7 +1129,7 @@ PTL.editor = {
     ].join('</li><li>');
 
     return (`
-      <tr class="header-row">
+      <tr class="header-row js-header-row">
         <td colspan="2"><div class="unit-path"><ul><li>${caption}</li></ul></div></td>
       </tr>
     `);
@@ -1314,7 +1314,7 @@ PTL.editor = {
 
     const rowsBefore = [`
       <tr>
-        <td colspan="2" class="lead-in-row">
+        <td colspan="2" class="lead-in-row js-lead-in-row">
           <p>${messages.leadIn.join('</p><p>')}</p>
         </td>
       </tr>
@@ -2102,7 +2102,7 @@ PTL.editor = {
     const toolbarHeight = $('#navbar').innerHeight() + $('#actions').innerHeight();
     const maxHeight = $(window).height() - toolbarHeight;
     const scrollHeight = editRowWrapper[0].scrollHeight;
-    const editorTableHeight = editorTable.height();
+    const editorTableHeight = editorTable.outerHeight();
     const editorHeight = Math.min(editorTableHeight, scrollHeight, maxHeight);
     const maxTopBlockHeight = Math.round(maxHeight / 5);
     const topBlockHeight = Math.min(
@@ -2111,9 +2111,26 @@ PTL.editor = {
     );
     const bottomBlockHeight = maxHeight - editorHeight - topBlockHeight;
 
-    $('.js-view-rows-before-wrapper').height(topBlockHeight);
-    editRowWrapper.height(editorHeight);
-    $('.js-view-rows-after-wrapper').height(bottomBlockHeight);
+    $('.js-view-rows-before-wrapper').outerHeight(topBlockHeight);
+    editRowWrapper.outerHeight(editorHeight);
+    $('.js-view-rows-after-wrapper').outerHeight(bottomBlockHeight);
+
+    const leadInRow = $('.js-lead-in-row');
+    const headerRow = $('.js-header-row');
+    const viewRowsBefore = $('.js-view-rows-before .view-row');
+    const headerRowHeight = headerRow.length > 0 ? headerRow[0].scrollHeight : 0;
+    let viewRowsBeforeHeight = 0;
+    for (let i = 0; i < viewRowsBefore.length; i++) {
+      viewRowsBeforeHeight += viewRowsBefore[i].scrollHeight;
+    }
+    const leadInRowHeight = (
+      Math.max(0, topBlockHeight - viewRowsBeforeHeight - headerRowHeight * 2)
+    );
+    if (leadInRowHeight < 30) {
+      leadInRow.hide();
+    } else {
+      leadInRow.outerHeight(leadInRowHeight).show();
+    }
 
     setTimeout(() => {
       if (editorTable.height() === editRowWrapper[0].scrollHeight) {

@@ -170,7 +170,6 @@ textarea.translation,
 .lead-in-row,
 .lead-out-row
 {
-    height: 15vh;
     text-align: center;
     width: 100%;
     color: #888;
@@ -180,6 +179,7 @@ textarea.translation,
 
 .lead-out-row
 {
+    height: 15vh;
     border-top: 1px solid #ccc;
 }
 

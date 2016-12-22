@@ -185,22 +185,6 @@ class TreeItem(object):
 
         return result
 
-    def _calc(self, name):
-        if name == CachedMethods.WORDCOUNT_STATS:
-            return self._calc_wordcount_stats()
-        elif name == CachedMethods.SUGGESTIONS:
-            return self._calc_suggestion_count()
-        elif name == CachedMethods.LAST_ACTION:
-            return self._calc_last_action()
-        elif name == CachedMethods.LAST_UPDATED:
-            return self._calc_last_updated()
-        elif name == CachedMethods.CHECKS:
-            return self._calc_checks()
-        elif name == CachedMethods.MTIME:
-            return self._calc_mtime()
-
-        return None
-
     def get_stats(self, include_children=True):
         """Get stats for this particular tree item.
 
@@ -294,7 +278,16 @@ class CachedTreeItem(TreeItem):
         """calculate stat value and update cached value"""
         start = datetime.now()
 
-        self.set_cached_value(name, self._calc(name))
+        calc_fn = {
+            CachedMethods.WORDCOUNT_STATS: self._calc_wordcount_stats,
+            CachedMethods.SUGGESTIONS: self._calc_suggestion_count,
+            CachedMethods.LAST_ACTION: self._calc_last_action,
+            CachedMethods.LAST_UPDATED: self._calc_last_updated,
+            CachedMethods.CHECKS: self._calc_checks,
+            CachedMethods.MTIME: self._calc_mtime,
+        }.get(name, lambda: None)
+
+        self.set_cached_value(name, calc_fn())
 
         end = datetime.now()
         ctx = {

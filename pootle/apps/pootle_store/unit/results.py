@@ -7,15 +7,11 @@
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
-from itertools import groupby
-
 from django.core.urlresolvers import reverse
 
 from pootle.core.url_helpers import split_pootle_path, to_tp_relative_path
 from pootle.i18n.gettext import language_dir
 from pootle_store.constants import FUZZY
-from pootle_store.templatetags.store_tags import (
-    pluralize_source, pluralize_target)
 from pootle_store.unit.proxy import UnitProxy
 
 
@@ -80,69 +76,6 @@ class UnitResult(UnitProxy):
     @property
     def isfuzzy(self):
         return self.state == FUZZY
-
-
-class StoreResults(object):
-
-    def __init__(self, units):
-        self.units = units
-
-    @property
-    def data(self):
-        meta = None
-        units_list = []
-
-        for unit in iter(self.units):
-            unit = UnitResult(unit)
-            if meta is None:
-                meta = {
-                    'source_lang': unit.source_lang,
-                    'source_dir': unit.source_dir,
-                    'target_lang': unit.target_lang,
-                    'target_dir': unit.target_dir,
-                    'project_code': unit.project_code,
-                    'project_style': unit.project_style}
-            units_list.append(
-                {'id': unit.id,
-                 'url': unit.translate_url,
-                 'isfuzzy': unit.state == FUZZY,
-                 'source': [source[1]
-                            for source
-                            in pluralize_source(unit)],
-                 'target': [target[1]
-                            for target
-                            in pluralize_target(unit, unit.nplurals)]})
-        return {
-            'meta': meta,
-            'units': units_list}
-
-
-class GroupedResults(object):
-
-    select_fields = [
-        "id",
-        "source_f",
-        "target_f",
-        "state",
-        "store__pootle_path",
-        "store__translation_project__project__code",
-        "store__translation_project__project__source_language__code",
-        "store__translation_project__project__checkstyle",
-        "store__translation_project__language__code",
-        "store__translation_project__language__nplurals"]
-
-    def __init__(self, units_qs):
-        self.units_qs = units_qs
-
-    @property
-    def data(self):
-        unit_groups = []
-        units_by_path = groupby(
-            self.units_qs.values(*self.select_fields),
-            lambda x: x["store__pootle_path"])
-        for pootle_path, units in units_by_path:
-            unit_groups.append({pootle_path: StoreResults(units).data})
-        return unit_groups
 
 
 class ViewRowResults(object):

@@ -9,11 +9,11 @@
         "lastaction": {
           "displayname": "Member",
           "email": "d41d8cd98f00b204e9800998ecf8427e",
-          "mtime": 1481272313,
-          "source": "Translated Source /language1/project0/store2.po...",
+          "mtime": 1481289078,
+          "source": "Translated Source /language1/project0/subdir0/s...",
           "translation_action_type": 1,
           "type": 1,
-          "uid": 44,
+          "uid": 126,
           "username": "member"
         },
         "suggestions": 54,
@@ -28,11 +28,11 @@
         "lastaction": {
           "displayname": "Member",
           "email": "d41d8cd98f00b204e9800998ecf8427e",
-          "mtime": 1481272314,
-          "source": "Translated Source /language1/project1/store2.po...",
+          "mtime": 1481289080,
+          "source": "Translated Source /language1/project1/subdir0/s...",
           "translation_action_type": 1,
           "type": 1,
-          "uid": 92,
+          "uid": 146,
           "username": "member"
         },
         "suggestions": 54,
@@ -43,9 +43,25 @@
       },
       "/projects/terminology/": {
         "title": "Terminology",
+        "total": 128,
         "treeitem_type": 2
       }
-    }
+    },
+    "critical": 36,
+    "fuzzy": 1480,
+    "lastaction": {
+      "displayname": "Member",
+      "email": "d41d8cd98f00b204e9800998ecf8427e",
+      "mtime": 1481289080,
+      "source": "Translated Source /language1/project1/subdir0/s...",
+      "translation_action_type": 1,
+      "type": 1,
+      "uid": 146,
+      "username": "member"
+    },
+    "suggestions": 108,
+    "total": 5102,
+    "translated": 1727
   },
   "can_translate": false,
   "can_translate_stats": false,

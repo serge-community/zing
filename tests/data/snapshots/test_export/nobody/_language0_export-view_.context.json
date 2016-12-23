@@ -148,6 +148,12 @@
         "Translated Source /language0/project1/subdir0/subdir1/store5.po 1%s.",
         "Fuzzy Source /language0/project1/subdir0/subdir1/store5.po 2%s."
       ]
+    ],
+    [
+      "/language0/terminology/terminology.po",
+      [
+        "Untranslated Terminology Source /language0/terminology/terminology.po 0%s."
+      ]
     ]
   ],
   "user": "nobody"

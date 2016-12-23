@@ -14,11 +14,11 @@
         "lastaction": {
           "displayname": "Member",
           "email": "d41d8cd98f00b204e9800998ecf8427e",
-          "mtime": 1481272310,
+          "mtime": 1481289070,
           "source": "Translated Source /language0/disabled_project0/...",
           "translation_action_type": 1,
           "type": 1,
-          "uid": 98,
+          "uid": 154,
           "username": "member"
         },
         "suggestions": 15,
@@ -33,11 +33,11 @@
         "lastaction": {
           "displayname": "Member",
           "email": "d41d8cd98f00b204e9800998ecf8427e",
-          "mtime": 1481272311,
-          "source": "Translated Source /language0/project0/store2.po...",
+          "mtime": 1481289073,
+          "source": "Translated Source /language0/project0/subdir0/s...",
           "translation_action_type": 1,
           "type": 1,
-          "uid": 20,
+          "uid": 114,
           "username": "member"
         },
         "suggestions": 27,
@@ -52,11 +52,11 @@
         "lastaction": {
           "displayname": "Member",
           "email": "d41d8cd98f00b204e9800998ecf8427e",
-          "mtime": 1481272312,
-          "source": "Translated Source /language0/project1/store2.po...",
+          "mtime": 1481289075,
+          "source": "Translated Source /language0/project1/subdir0/s...",
           "translation_action_type": 1,
           "type": 1,
-          "uid": 68,
+          "uid": 130,
           "username": "member"
         },
         "suggestions": 27,
@@ -67,9 +67,25 @@
       },
       "/language0/terminology/": {
         "title": "Terminology",
+        "total": 64,
         "treeitem_type": 2
       }
-    }
+    },
+    "critical": 23,
+    "fuzzy": 1005,
+    "lastaction": {
+      "displayname": "Member",
+      "email": "d41d8cd98f00b204e9800998ecf8427e",
+      "mtime": 1481289075,
+      "source": "Translated Source /language0/project1/subdir0/s...",
+      "translation_action_type": 1,
+      "type": 1,
+      "uid": 130,
+      "username": "member"
+    },
+    "suggestions": 69,
+    "total": 3457,
+    "translated": 1187
   },
   "can_translate": true,
   "can_translate_stats": true,

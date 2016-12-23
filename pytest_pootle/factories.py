@@ -172,11 +172,16 @@ class UnitDBFactory(factory.django.DjangoModelFactory):
 
     @factory.lazy_attribute
     def source_f(self):
+        is_terminology = self.store.translation_project.is_terminology_project
+        state_name = pootle_store.util.get_state_name(self.state).capitalize()
         return (
-            "%s Source %s %s%s"
-            % (pootle_store.util.get_state_name(self.state).capitalize(),
-               self.store.pootle_path,
-               self.index, "%s."))
+            '%s Source %s %s%s' % (
+                state_name + (is_terminology and ' Terminology' or ''),
+                self.store.pootle_path,
+                self.index,
+                '%s.'
+            )
+        )
 
     @factory.lazy_attribute
     def target_f(self):

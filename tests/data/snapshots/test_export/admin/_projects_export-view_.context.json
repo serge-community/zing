@@ -190,6 +190,12 @@
       ]
     ],
     [
+      "/language0/terminology/terminology.po",
+      [
+        "Untranslated Terminology Source /language0/terminology/terminology.po 0%s."
+      ]
+    ],
+    [
       "/language1/project0/store0.po",
       [
         "Untranslated Source /language1/project0/store0.po 0%s.",
@@ -301,6 +307,12 @@
         "Untranslated Source /language1/project1/subdir0/subdir1/store5.po 0%s.",
         "Translated Source /language1/project1/subdir0/subdir1/store5.po 1%s.",
         "Fuzzy Source /language1/project1/subdir0/subdir1/store5.po 2%s."
+      ]
+    ],
+    [
+      "/language1/terminology/terminology.po",
+      [
+        "Untranslated Terminology Source /language1/terminology/terminology.po 0%s."
       ]
     ]
   ],

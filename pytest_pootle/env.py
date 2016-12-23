@@ -286,8 +286,10 @@ class PootleTestEnv(object):
             ProjectDBFactory(source_language=source_language)
 
     def setup_terminology(self):
-        from pytest_pootle.factories import (ProjectDBFactory,
-                                             TranslationProjectFactory)
+        from pytest_pootle.factories import (
+            ProjectDBFactory, StoreDBFactory, TranslationProjectFactory,
+            UnitDBFactory
+        )
         from pootle_language.models import Language
 
         source_language = Language.objects.get(code="en")
@@ -295,8 +297,13 @@ class PootleTestEnv(object):
                                        checkstyle="terminology",
                                        fullname="Terminology",
                                        source_language=source_language)
-        for language in Language.objects.all():
-            TranslationProjectFactory(project=terminology, language=language)
+        for language in Language.objects.exclude(code='en'):
+            tp = TranslationProjectFactory(project=terminology, language=language)
+
+            store = StoreDBFactory(translation_project=tp, name='terminology.po')
+            store.save()
+            for i_ in range(0, 1):
+                UnitDBFactory(store=store)
 
     def setup_disabled_project(self):
         from pytest_pootle.factories import (DirectoryFactory,

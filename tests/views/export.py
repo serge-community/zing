@@ -18,11 +18,15 @@ from pytest_pootle.utils import as_dir, url_name
     '/projects/project0/export-view/store0.po',
     '/projects/project0/export-view/subdir0/',
     '/projects/project0/export-view/subdir0/store4.po',
+    '/projects/project0/export-view/empty_dir0/',
+    '/projects/project0/export-view/empty_dir1/store6.po',
     '/language0/export-view/',
     '/language0/project0/export-view/',
     '/language0/project0/export-view/store0.po',
     '/language0/project0/export-view/subdir0/',
     '/language0/project0/export-view/subdir0/store4.po',
+    '/language0/project0/export-view/empty_dir0/',
+    '/language0/project0/export-view/empty_dir1/store6.po',
 ])
 @pytest.mark.parametrize('limit', [None, 1])
 def test_export(client, request_users, test_name, monkeypatch, snapshot_stack,

@@ -338,6 +338,14 @@ class PootleTestEnv(object):
             self._add_stores(tp, n=(2, 1), parent=subdir0)
             self._add_stores(tp, n=(1, 1), parent=subdir1)
 
+            # Create empty dir and imitate file scanning, which will make the
+            # directory obsolete
+            empty_dir0 = DirectoryFactory(name='empty_dir0', parent=tp.directory)
+            empty_dir0.makeobsolete()
+            # The other "empty" directory contains an store with no units
+            empty_dir1 = DirectoryFactory(name='empty_dir1', parent=tp.directory)
+            self._add_stores(tp, n=(1, 0), parent=empty_dir1)
+
     def setup_submissions(self):
         from pootle_store.models import Store, Unit
         from django.utils import timezone

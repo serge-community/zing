@@ -21,11 +21,15 @@ users_with_stats = set()
     '/projects/project0/store0.po',
     '/projects/project0/subdir0/',
     '/projects/project0/subdir0/store4.po',
+    '/projects/project0/empty_dir0/',
+    '/projects/project0/empty_dir1/store6.po',
     '/language0/',
     '/language0/project0/',
     '/language0/project0/store0.po',
     '/language0/project0/subdir0/',
     '/language0/project0/subdir0/store4.po',
+    '/language0/project0/empty_dir0/',
+    '/language0/project0/empty_dir1/store6.po',
 ])
 def test_browse(client, request_users, test_name, request,
                 snapshot_stack, url):
@@ -44,7 +48,9 @@ def test_browse(client, request_users, test_name, request,
         if not user.is_anonymous():
             client.force_login(user)
         response = client.get(url)
-        assert response.status_code == 200
+
+        with snapshot_stack.push('status_code') as snapshot:
+            snapshot.assert_matches(response.status_code)
 
         with snapshot_stack.push('context') as snapshot:
             snapshot.assert_matches(response.context)

@@ -18,11 +18,15 @@ from pytest_pootle.utils import as_dir, url_name
     '/projects/project0/translate/store0.po',
     '/projects/project0/translate/subdir0/',
     '/projects/project0/translate/subdir0/store4.po',
+    '/projects/project0/translate/empty_dir0/',
+    '/projects/project0/translate/empty_dir1/store6.po',
     '/language0/translate/',
     '/language0/project0/translate/',
     '/language0/project0/translate/store0.po',
     '/language0/project0/translate/subdir0/',
     '/language0/project0/translate/subdir0/store4.po',
+    '/language0/project0/translate/empty_dir0/',
+    '/language0/project0/translate/empty_dir1/store6.po',
 ])
 def test_translate(client, request_users, test_name, snapshot_stack, url):
     """Tests correctness of the translate view context."""

@@ -14,11 +14,11 @@
         "lastaction": {
           "displayname": "Member",
           "email": "d41d8cd98f00b204e9800998ecf8427e",
-          "mtime": 1480772922,
+          "mtime": 1481272310,
           "source": "Translated Source /language0/disabled_project0/...",
           "translation_action_type": 1,
           "type": 1,
-          "uid": 162,
+          "uid": 98,
           "username": "member"
         },
         "suggestions": 15,
@@ -33,11 +33,11 @@
         "lastaction": {
           "displayname": "Member",
           "email": "d41d8cd98f00b204e9800998ecf8427e",
-          "mtime": 1480772924,
+          "mtime": 1481272311,
           "source": "Translated Source /language0/project0/store2.po...",
           "translation_action_type": 1,
           "type": 1,
-          "uid": 19,
+          "uid": 20,
           "username": "member"
         },
         "suggestions": 27,
@@ -52,11 +52,11 @@
         "lastaction": {
           "displayname": "Member",
           "email": "d41d8cd98f00b204e9800998ecf8427e",
-          "mtime": 1480772927,
+          "mtime": 1481272312,
           "source": "Translated Source /language0/project1/store2.po...",
           "translation_action_type": 1,
           "type": 1,
-          "uid": 67,
+          "uid": 68,
           "username": "member"
         },
         "suggestions": 27,

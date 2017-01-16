@@ -155,12 +155,12 @@ class StoreDiff(object):
     def insert_points(self):
         """Returns a list of insert points with update index info.
         :return: a list of tuples
-            ``(insert_at, uids_to_add, next_index, update_index_delta)`` where
-            ``insert_at`` is the point for inserting
-            ``uids_to_add`` are the units to be inserted
-            ``update_index_delta`` is the offset for index updating
-            ``next_index`` is the starting point after which
-            ``update_index_delta`` should be applied.
+            `(insert_at, uids_to_add, next_index, update_index_delta)` where
+                * `insert_at` is the point for inserting,
+                * `uids_to_add` are the units to be inserted,
+                * `next_index` is the starting point after which
+                    `update_index_delta` should be applied,
+                * `update_index_delta` is the offset for index updating.
         """
         inserts = []
         new_unitid_list = self.new_unit_list

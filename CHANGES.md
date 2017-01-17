@@ -1,8 +1,8 @@
 Zing Changelog
 ==============
 
-v0.1.5 (in development)
------------------------
+v0.2.0 (2017-01-17)
+-------------------
 
 * Editor:
   * Reworked the way unit fetching is done (#8).

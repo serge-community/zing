@@ -67,15 +67,12 @@ some tips for performance tuning on your Pootle installation.
 
 - Ensure that Pootle runs under a proper :doc:`web server <web>`.
 
-- Be sure to use a proper database server like :ref:`MySQL
-  <optimization#mysql>` instead of the default SQLite.  You can :doc:`migrate
-  an existing installation <database_migration>` if you already have data you
-  don't want to lose.
+- Be sure to use a proper database server like MySQL instead of the default
+  SQLite.
 
 - Install the latest recommended version of all dependencies. Django and the
   Translate Toolkit might affect performance.  Later versions of Pootle should
-  also give better performance.  You can :doc:`upgrade <upgrading>` to newer
-  versions of Pootle easily.
+  also give better performance.
 
 - Ensure :setting:`DEBUG` mode is disabled.
 
@@ -113,14 +110,3 @@ No specific settings can be recommended, since this depends heavily on your
 users, your files, and your hardware. However the default value for the
 ``MaxClient`` directive (usually 256) is almost always too high. Experiment
 with values between 10 and 80.
-
-
-.. _optimization#mysql:
-
-MySQL
-^^^^^
-
-Using MySQL with `InnoDB backend
-<https://dev.mysql.com/doc/refman/5.6/en/innodb-storage-engine.html>`_ is well
-tested. MyISAM is no longer supported. You can :doc:`migrate your current
-database <database_migration>` if you already have data you don't want to lose.

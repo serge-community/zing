@@ -9,16 +9,10 @@ other way, make sure to read through this part.
 .. toctree::
    :maxdepth: 2
 
-   contributing
-   roadmap
    hacking
    frontend
    customization
    browsers
    testing
-   release
    glossary
    styleguide
-   deprecation
-   releasing
-   plugins

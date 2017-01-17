@@ -13,6 +13,5 @@ perspectives, server administrator's, and developer's view.
    :maxdepth: 1
 
    server/installation
-   server/upgrading
    server/index
    developers/index

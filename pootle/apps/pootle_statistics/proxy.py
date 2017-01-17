@@ -12,7 +12,6 @@ from django.template.defaultfilters import truncatechars
 from django.utils.functional import cached_property
 
 from accounts.proxy import DisplayUser
-from pootle.core.primitives import PrefixedDict
 from pootle.core.url_helpers import get_editor_filter, split_pootle_path
 from pootle.core.utils import dateformat
 from pootle_misc.checks import check_names
@@ -71,11 +70,8 @@ class SubmissionProxy(object):
         + suggestion_reviewer_fields
         + unit_fields)
 
-    def __init__(self, values, prefix=""):
-        if prefix:
-            self.values = PrefixedDict(values, prefix)
-        else:
-            self.values = values
+    def __init__(self, values):
+        self.values = values
 
     def __getattr__(self, k):
         try:

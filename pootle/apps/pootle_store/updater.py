@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
 # This file is a part of the Pootle project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
@@ -38,10 +39,6 @@ class StoreUpdate(object):
     @property
     def uids(self):
         return list(self.kwargs["uids"])
-
-    @property
-    def change_indices(self):
-        return self.kwargs["change_indices"]
 
     @property
     def indices(self):
@@ -130,9 +127,9 @@ class UnitUpdater(object):
     @property
     def should_update_index(self):
         return (
-            self.update.change_indices
-            and self.uid in self.update.indices
-            and self.unit.index != self.update.get_index(self.uid))
+            self.uid in self.update.indices
+            and self.unit.index != self.update.get_index(self.uid)
+        )
 
     @property
     def should_update_target(self):
@@ -223,8 +220,7 @@ class StoreUpdater(object):
             yield unit
 
     def update(self, store, user=None, store_revision=None,
-               submission_type=None, resolve_conflict=POOTLE_WINS,
-               allow_add_and_obsolete=True):
+               submission_type=None, resolve_conflict=POOTLE_WINS):
         logging.debug(u"Updating %s", self.target_store.pootle_path)
         old_state = self.target_store.state
 
@@ -244,7 +240,7 @@ class StoreUpdater(object):
                     diff, update_revision,
                     user, submission_type,
                     resolve_conflict,
-                    allow_add_and_obsolete)
+                )
         finally:
             if old_state < PARSED:
                 self.target_store.state = PARSED
@@ -261,26 +257,25 @@ class StoreUpdater(object):
 
     def update_from_diff(self, store, store_revision,
                          to_change, update_revision, user,
-                         submission_type, resolve_conflict=POOTLE_WINS,
-                         allow_add_and_obsolete=True):
+                         submission_type, resolve_conflict=POOTLE_WINS):
         changes = {}
 
-        if allow_add_and_obsolete:
-            # Update indexes
-            for start, delta in to_change["index"]:
-                self.target_store.update_index(start=start, delta=delta)
+        # Update indexes
+        for start, delta in to_change["index"]:
+            self.target_store.update_index(start=start, delta=delta)
 
-            # Add new units
-            for unit, new_unit_index in to_change["add"]:
-                self.target_store.addunit(
-                    unit, new_unit_index, user=user,
-                    update_revision=update_revision)
-            changes["added"] = len(to_change["add"])
+        # Add new units
+        for unit, new_unit_index in to_change["add"]:
+            self.target_store.addunit(
+                unit, new_unit_index, user=user,
+                update_revision=update_revision,
+            )
+        changes["added"] = len(to_change["add"])
 
-            # Obsolete units
-            changes["obsoleted"] = self.target_store.mark_units_obsolete(
-                to_change["obsolete"],
-                update_revision)
+        # Obsolete units
+        changes["obsoleted"] = self.target_store.mark_units_obsolete(
+            to_change["obsolete"], update_revision,
+        )
 
         # Update units
         update_dbids, uid_index_map = to_change['update']
@@ -289,11 +284,11 @@ class StoreUpdater(object):
             user=user,
             submission_type=submission_type,
             resolve_conflict=resolve_conflict,
-            change_indices=allow_add_and_obsolete,
             uids=update_dbids,
             indices=uid_index_map,
             store_revision=store_revision,
-            update_revision=update_revision)
+            update_revision=update_revision,
+        )
         changes['updated'], changes['suggested'] = self.update_units(update)
         return changes
 

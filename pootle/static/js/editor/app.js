@@ -283,6 +283,7 @@ PTL.editor = {
       } else {
         $elem.css('display', 'none');
       }
+      this.adjustEditorGeometry();
     });
     $('#editor').on('submit', '#js-comment-form', (e) => this.addComment(e));
     $('#editor').on('click', '.js-comment-remove', (e) => this.removeComment(e));
@@ -294,6 +295,7 @@ PTL.editor = {
       const toggle = document.querySelector('.js-toggle-raw');
       toggle.classList.toggle('selected');
       ReactEditor.setProps({ isRawMode: toggle.classList.contains('selected') });
+      this.adjustEditorGeometry();
     });
 
     /* Confirmation prompt */
@@ -1818,7 +1820,8 @@ PTL.editor = {
   showTimeline() {
     const $results = $('#timeline-results');
     if ($results.length) {
-      $results.slideDown(1000, 'easeOutQuad');
+      $results.show();
+      this.adjustEditorGeometry();
       return;
     }
 
@@ -1838,11 +1841,9 @@ PTL.editor = {
 
     if (data.timeline && uid === this.units.uid) {
       if ($('#translator-comment').length) {
-        $(data.timeline).hide().insertAfter('#translator-comment')
-                        .slideDown(1000, 'easeOutQuad');
+        $(data.timeline).insertAfter('#translator-comment');
       } else {
-        $(data.timeline).hide().prependTo('#extras-container')
-                        .slideDown(1000, 'easeOutQuad');
+        $(data.timeline).prependTo('#extras-container');
       }
       qAll('.js-mount-timesince').forEach((el, i) => {
         const props = {
@@ -1855,6 +1856,7 @@ PTL.editor = {
 
       $('.timeline-field-body').filter(':not([dir])').bidi();
       $('#js-show-timeline').addClass('selected');
+      this.adjustEditorGeometry();
     }
   },
 
@@ -1866,7 +1868,8 @@ PTL.editor = {
     if ($timelineToggle.hasClass('selected')) {
       this.showTimeline();
     } else {
-      $('#timeline-results').slideUp(1000, 'easeOutQuad');
+      $('#timeline-results').hide();
+      this.adjustEditorGeometry();
     }
   },
 
@@ -1911,6 +1914,7 @@ PTL.editor = {
     $(`#suggestion-${suggId}`).fadeOut(200, function handleRemove() {
       PTL.editor.closeSuggestion({ checkIfCanNavigate: false });
       $(this).remove();
+      PTL.editor.adjustEditorGeometry();
 
       // Go to the next unit if there are no more suggestions left
       if (!$('.js-user-suggestion').length) {
@@ -1968,6 +1972,7 @@ PTL.editor = {
     $(`#suggestion-${suggId}`).fadeOut(200, function handleRemove() {
       PTL.editor.closeSuggestion({ checkIfCanNavigate: false });
       $(this).remove();
+      PTL.editor.adjustEditorGeometry();
 
       // Go to the next unit if there are no more suggestions left,
       // provided there are no critical failing checks
@@ -2063,6 +2068,7 @@ PTL.editor = {
       e.stopPropagation();
       this.closeSuggestion();
     }
+    this.adjustEditorGeometry();
   },
 
   handleSuggestionFeedbackChange(isDirty) {

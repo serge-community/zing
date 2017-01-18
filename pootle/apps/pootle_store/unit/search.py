@@ -103,7 +103,6 @@ class DBSearchBackend(object):
         category = kwargs['category']
         checks = kwargs['checks']
         exact = 'exact' in kwargs['soptions']
-        modified_since = kwargs['modified-since']
         month = kwargs['month']
         search = kwargs['search']
         sfields = kwargs['sfields']
@@ -113,10 +112,6 @@ class DBSearchBackend(object):
             qs = UnitSearchFilter().filter(
                 qs, self.unit_filter,
                 user=user, checks=checks, category=category)
-
-            if modified_since is not None:
-                qs = qs.filter(
-                    submitted_on__gt=modified_since).distinct()
 
             if month is not None:
                 qs = qs.filter(

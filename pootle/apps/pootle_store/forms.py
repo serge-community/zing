@@ -32,9 +32,8 @@ from pootle_statistics.models import (Submission, SubmissionFields,
 
 from .constants import ALLOWED_SORTS, FUZZY, OBSOLETE, TRANSLATED, UNTRANSLATED
 from .fields import to_db
-from .form_fields import (
-    CategoryChoiceField, ISODateTimeField, MultipleArgsField,
-    CommaSeparatedCheckboxSelectMultiple)
+from .form_fields import (CategoryChoiceField, MultipleArgsField,
+                          CommaSeparatedCheckboxSelectMultiple)
 from .models import Suggestion, Unit
 
 
@@ -449,7 +448,6 @@ class UnitSearchForm(forms.Form):
     def __init__(self, *args, **kwargs):
         self.request_user = kwargs.pop("user")
         super(UnitSearchForm, self).__init__(*args, **kwargs)
-        self.fields["modified-since"] = ISODateTimeField(required=False)
 
     def clean(self):
         if "checks" in self.errors:

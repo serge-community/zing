@@ -135,7 +135,6 @@ PTL.editor = {
     this.filter = 'all';
     this.checks = [];
     this.sortBy = 'default';
-    this.modifiedSince = null;
     this.user = null;
     this.preventNavigation = false;
     this.isUnitDirty = false;
@@ -426,12 +425,6 @@ PTL.editor = {
       if ('sort' in params) {
         const { sort } = params;
         this.sortBy = ALLOWED_SORTS.indexOf(sort) !== -1 ? sort : 'default';
-      }
-
-      if ('modified-since' in params) {
-        this.modifiedSince = params['modified-since'];
-      } else {
-        this.modifiedSince = null;
       }
 
       if ('month' in params) {
@@ -1073,10 +1066,6 @@ PTL.editor = {
       if (this.sortBy !== 'default') {
         reqData.sort = this.sortBy;
       }
-    }
-
-    if (this.modifiedSince !== null) {
-      reqData['modified-since'] = this.modifiedSince;
     }
 
     if (this.month !== null) {

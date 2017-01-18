@@ -10,7 +10,6 @@
 from django import forms
 from django.utils.datastructures import MultiValueDict
 
-from pootle.core.dateparse import parse_datetime
 from pootle_misc.checks import CATEGORY_IDS
 
 
@@ -45,13 +44,6 @@ class MultipleArgsField(forms.Field):
         if len(value) == 1 and "," in value[0]:
             value = value[0].split(",")
         return [self.field.clean(x) for x in value]
-
-
-class ISODateTimeField(forms.DateTimeField):
-
-    def to_python(self, value):
-        if value is not None:
-            return parse_datetime(value)
 
 
 class CategoryChoiceField(forms.ChoiceField):

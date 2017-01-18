@@ -10,20 +10,13 @@
 import functools
 import urllib
 from collections import OrderedDict
-from datetime import datetime, timedelta
 
 import pytest
-from dateutil.relativedelta import relativedelta
 
 from django.core.urlresolvers import reverse
 
 from pytest_pootle.utils import get_test_uids
 
-
-DAY_AGO = (datetime.now() - timedelta(days=1))
-MONTH_AGO = (datetime.now() - relativedelta(months=1))
-TWO_MONTHS_AGO = (datetime.now() - relativedelta(months=2))
-SEVEN_MONTHS_AGO = (datetime.now() - relativedelta(months=7))
 
 BAD_VIEW_TESTS = OrderedDict((
     ('/foo/bar', dict(code=301, location='/foo/bar/')),
@@ -110,19 +103,6 @@ GET_UNITS_TESTS = OrderedDict(
      ("translated_by_member_FOO",
       {"filter": "translated",
        "user": "member_FOO"}),
-     ("modified_last_month",
-      {"filter": "translated",
-       "modified-since": MONTH_AGO.isoformat()}),
-     ("modified_last_calendar_month",
-      {"filter": "translated",
-       "month": MONTH_AGO.strftime("%Y-%m")}),
-     ("modified_calendar_month_7_month_ago",
-      {"filter": "translated",
-       "month": SEVEN_MONTHS_AGO.strftime("%Y-%m")}),
-     ("modified_last_two_months",
-      {"modified_since": TWO_MONTHS_AGO.isoformat()}),
-     ("modified_last_day",
-      {"modified_since": DAY_AGO.isoformat()}),
      ("filter_suggestions",
       {"filter": "suggestions"}),
      ("filter_user_suggestions",

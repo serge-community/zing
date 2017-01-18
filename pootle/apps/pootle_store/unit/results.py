@@ -10,7 +10,7 @@
 from django.core.urlresolvers import reverse
 
 from pootle.core.url_helpers import split_pootle_path, to_tp_relative_path
-from pootle.i18n.gettext import language_dir
+from pootle.i18n.gettext import language_dir, tr_lang
 from pootle_store.constants import FUZZY
 from pootle_store.unit.proxy import UnitProxy
 
@@ -32,7 +32,9 @@ class UnitResult(UnitProxy):
 
     @property
     def language_name(self):
-        return self.unit['store__translation_project__language__fullname']
+        return tr_lang(
+            self.unit['store__translation_project__language__fullname']
+        )
 
     @property
     def project_code(self):

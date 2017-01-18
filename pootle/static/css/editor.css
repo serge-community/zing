@@ -223,6 +223,16 @@ div.edit-row-wrapper
     overflow-x: hidden;
 }
 
+div.edit-row-wrapper.view-mode
+{
+    box-shadow: none;
+}
+
+div.edit-row-wrapper.view-mode .header-row
+{
+    display: none;
+}
+
 .translate-table-wrapper
 {
     position: fixed;

@@ -1355,7 +1355,7 @@ PTL.editor = {
     }
 
     this.$editorRow.html(editorRow);
-    this.$editRowWrapper.show();
+    this.$editRowWrapper.toggleClass('view-mode', this.editorIsClosed).show();
   },
 
   /* Updates a `$button` to the `enable` state */

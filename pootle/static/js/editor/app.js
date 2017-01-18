@@ -112,7 +112,6 @@ PTL.editor = {
     }
 
     /* Cached elements */
-    this.backToBrowserEl = q('.js-back-to-browser');
     this.$editorActivity = $('#js-editor-act');
     this.$viewRowsBefore = $('.js-view-rows-before');
     this.$contextRowsBefore = $('.js-context-rows-before');
@@ -1244,7 +1243,7 @@ PTL.editor = {
   },
 
   /* populates lead-in and lead-out row messages */
-  populateLeadInOutMessages() {
+  populateLeadInOutMessages({ showCongratulationsMessage = false } = {}) {
     const leadIn = [];
     const leadOut = [];
 
@@ -1253,46 +1252,51 @@ PTL.editor = {
       this.units.visibleRowsBefore + this.units.visibleRowsAfter
     );
 
-    if (!canShow) {
-      return { leadIn, leadOut };
-    }
+    if (canShow) {
+      if (this.units.begin === 0) {
+        leadIn.push(nt(
+          'Found %(total)s unit.',
+          'Found %(total)s units.',
+          this.units.total, { total: this.units.total }
+        ));
+      } else {
+        // there are some units above;
+        // this can only happen when filter is set to 'all'
+        leadIn.push(nt(
+          'There are %(count)s more unit above.',
+          'There are %(count)s more units above.',
+          this.units.total, { count: this.units.begin }
+        ));
 
-    if (this.units.begin === 0) {
-      leadIn.push(nt(
-        'Found %(total)s unit.',
-        'Found %(total)s units.',
-        this.units.total, { total: this.units.total }
-      ));
-    } else {
-      // there are some units above;
-      // this can only happen when filter is set to 'all'
-      leadIn.push(nt(
-        'There are %(count)s more unit above.',
-        'There are %(count)s more units above.',
-        this.units.total, { count: this.units.begin }
-      ));
-
-      leadIn.push(t('Reload the page to see them.'));
+        leadIn.push(t('Reload the page to see them.'));
+      }
     }
 
     if (this.units.end === this.units.total) {
-      leadOut.push(t('Congratulations, you went through all units!'));
+      if (showCongratulationsMessage) {
+        leadOut.push(t('Congratulations, you went through all units!'));
+        leadOut.push($('.js-back-to-browser').html());
+      }
     } else {
-      leadOut.push(t('Congratulations, you went through a good number of units!'));
+      if (showCongratulationsMessage) {
+        leadOut.push(t('Congratulations, you went through a good number of units!'));
+      }
 
-      if (this.filter === 'all') {
-        leadOut.push(t('Reload the page to see some more.'));
-      } else if (this.filter === 'search') {
-        leadOut.push(t(
-          `There were more units that matched your search criteria.
+      if (canShow) {
+        if (this.filter === 'all') {
+          leadOut.push(t('Reload the page to see more units.'));
+        } else if (this.filter === 'search') {
+          leadOut.push(t(
+            `There were more units that matched your search criteria.
           Please refine your search.`
-        ));
-      } else {
-        leadOut.push(t(
-          `There were more units that matched your filter.
+          ));
+        } else {
+          leadOut.push(t(
+            `There were more units that matched your filter.
           Reload the page to see if there is more stuff to go through,
           or use search to find specific units.`
-        ));
+          ));
+        }
       }
     }
 
@@ -1300,8 +1304,8 @@ PTL.editor = {
   },
 
   /* redraws the translate table view rows */
-  redrawViewRows() {
-    const messages = this.populateLeadInOutMessages();
+  redrawViewRows({ showCongratulationsMessage = false } = {}) {
+    const messages = this.populateLeadInOutMessages({ showCongratulationsMessage });
 
     const rowsBefore = [`
       <tr>
@@ -1559,6 +1563,7 @@ PTL.editor = {
         // On submitting the last unit in a sequence, 'close' the editor row
         this.editorIsClosed = true;
         this.redrawEditRow();
+        this.redrawViewRows({ showCongratulationsMessage: true });
         this.adjustEditorGeometry();
       }
       return;

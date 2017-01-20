@@ -115,16 +115,12 @@ def create_api_request(rf, method='get', url='/', data='', user=None,
 
 
 def update_store(store, units=None, store_revision=None,
-                 user=None, submission_type=None, resolve_conflict=None):
-    from pootle_store.models import POOTLE_WINS
-
-    if resolve_conflict is None:
-        resolve_conflict = POOTLE_WINS
+                 user=None, submission_type=None):
     store.update(
         store=create_store(units=units),
         store_revision=store_revision,
         user=user, submission_type=submission_type,
-        resolve_conflict=resolve_conflict)
+    )
 
 
 def log_test_start(debug_logger):

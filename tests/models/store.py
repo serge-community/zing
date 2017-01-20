@@ -21,7 +21,7 @@ from django.core.exceptions import ValidationError
 
 from pootle.core.models import Revision
 from pootle.core.url_helpers import to_tp_relative_path
-from pootle_store.constants import OBSOLETE, PARSED, POOTLE_WINS, TRANSLATED
+from pootle_store.constants import OBSOLETE, PARSED, TRANSLATED
 from pootle_store.diff import StoreDiff
 from pootle_store.models import Store
 from pootle_store.syncer import PoStoreSyncer
@@ -247,7 +247,7 @@ def _test_store_update_indexes(store, *test_args):
 
 def _test_store_update_units_before(*test_args):
     # test what has happened to the units that were present before the update
-    (store, units_update, store_revision, resolve_conflict,
+    (store, units_update, store_revision,
      units_before, member_, member2) = test_args
 
     updates = {unit[0]: unit[1] for unit in units_update}
@@ -295,20 +295,14 @@ def _test_store_update_units_before(*test_args):
                 else:
                     # conflict found
                     suggestion = updated_unit.get_suggestions()[0]
-                    if resolve_conflict == POOTLE_WINS:
-                        assert updated_unit.target == unit.target
-                        assert updated_unit.submitted_by == unit.submitted_by
-                        assert suggestion.target == updates[unit.source]
-                        assert suggestion.user == member2
-                    else:
-                        assert updated_unit.target == updates[unit.source]
-                        assert updated_unit.submitted_by == member2
-                        assert suggestion.target == unit.target
-                        assert suggestion.user == unit.submitted_by
+                    assert updated_unit.target == unit.target
+                    assert updated_unit.submitted_by == unit.submitted_by
+                    assert suggestion.target == updates[unit.source]
+                    assert suggestion.user == member2
 
 
 def _test_store_update_ordering(*test_args):
-    (store, units_update, store_revision, resolve_conflict_,
+    (store, units_update, store_revision,
      units_before, member_, member2_) = test_args
 
     updates = {unit[0]: unit[1] for unit in units_update}
@@ -335,7 +329,7 @@ def _test_store_update_ordering(*test_args):
 
 
 def _test_store_update_units_now(*test_args):
-    (store, units_update, store_revision, resolve_conflict_,
+    (store, units_update, store_revision,
      units_before, member_, member2_) = test_args
 
     # test that all the current units should be there

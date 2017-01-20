@@ -3,7 +3,7 @@
 # Copyright (C) Pootle contributors.
 # Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -16,7 +16,7 @@ from django.utils.functional import cached_property
 from pootle.core.log import log
 from pootle.core.models import Revision
 
-from .constants import OBSOLETE, PARSED, POOTLE_WINS
+from .constants import OBSOLETE, PARSED
 from .diff import StoreDiff
 from .util import get_change_str
 
@@ -55,10 +55,6 @@ class StoreUpdate(object):
     @property
     def update_revision(self):
         return self.kwargs["update_revision"]
-
-    @property
-    def resolve_conflict(self):
-        return self.kwargs["resolve_conflict"]
 
     @property
     def user(self):
@@ -133,10 +129,7 @@ class UnitUpdater(object):
 
     @property
     def should_update_target(self):
-        return (
-            self.newunit
-            and not (self.conflict_found
-                     and self.update.resolve_conflict == POOTLE_WINS))
+        return self.newunit and not self.conflict_found
 
     @property
     def target_updated(self):
@@ -145,9 +138,7 @@ class UnitUpdater(object):
     def create_suggestion(self):
         return bool(
             self.unit.add_suggestion(self.newunit.target, self.update.user)[1]
-            if self.update.resolve_conflict == POOTLE_WINS
-            else self.unit.add_suggestion(
-                self.original.target, self.original.submitter)[1])
+        )
 
     def record_submission(self):
         self.unit.store.record_submissions(
@@ -220,7 +211,7 @@ class StoreUpdater(object):
             yield unit
 
     def update(self, store, user=None, store_revision=None,
-               submission_type=None, resolve_conflict=POOTLE_WINS):
+               submission_type=None):
         logging.debug(u"Updating %s", self.target_store.pootle_path)
         old_state = self.target_store.state
 
@@ -239,7 +230,6 @@ class StoreUpdater(object):
                     store_revision,
                     diff, update_revision,
                     user, submission_type,
-                    resolve_conflict,
                 )
         finally:
             if old_state < PARSED:
@@ -257,7 +247,7 @@ class StoreUpdater(object):
 
     def update_from_diff(self, store, store_revision,
                          to_change, update_revision, user,
-                         submission_type, resolve_conflict=POOTLE_WINS):
+                         submission_type):
         changes = {}
 
         # Update indexes
@@ -283,7 +273,6 @@ class StoreUpdater(object):
             store,
             user=user,
             submission_type=submission_type,
-            resolve_conflict=resolve_conflict,
             uids=update_dbids,
             indices=uid_index_map,
             store_revision=store_revision,

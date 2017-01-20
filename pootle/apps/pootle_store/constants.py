@@ -43,10 +43,6 @@ PARSED = 1
 # Quality checks run
 CHECKED = 2
 
-# Resolve conflict flags for Store.update
-POOTLE_WINS = 1
-SOURCE_WINS = 2
-
 LANGUAGE_REGEX = r"[^/]{2,255}"
 PROJECT_REGEX = r"[^/]{1,255}"
 

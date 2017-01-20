@@ -54,18 +54,10 @@ UPDATE_STORE_TESTS['old_subset_1'] = {
     "update_store": ("MID", UPDATED_STORE_UNITS_1)
 }
 UPDATE_STORE_TESTS['old_subset_2'] = {
-    "update_store": ("MID", UPDATED_STORE_UNITS_2)
-}
-UPDATE_STORE_TESTS['old_subset_2_pootle_wins'] = {
     "update_store": ("MID", UPDATED_STORE_UNITS_2),
-    "fs_wins": False
 }
 UPDATE_STORE_TESTS['old_same_updated'] = {
-    "update_store": ("MID", UPDATED_STORE_UNITS_1 + UPDATED_STORE_UNITS_2)
-}
-UPDATE_STORE_TESTS['old_same_updated_pootle_wins'] = {
     "update_store": ("MID", UPDATED_STORE_UNITS_1 + UPDATED_STORE_UNITS_2),
-    "fs_wins": False
 }
 
 UPDATE_STORE_TESTS['old_unobsolete'] = {
@@ -112,8 +104,6 @@ UPDATE_STORE_TESTS['max_obsolete'] = {
 
 
 def _setup_store_test(store, member, member2, test):
-    from pootle_store.constants import POOTLE_WINS, SOURCE_WINS
-
     setup = test.get("setup", None)
 
     if setup is None:
@@ -134,12 +124,6 @@ def _setup_store_test(store, member, member2, test):
     units_before = [
         unit for unit in store.unit_set.all().order_by("index")]
 
-    fs_wins = test.get("fs_wins", True)
-    if fs_wins:
-        resolve_conflict = SOURCE_WINS
-    else:
-        resolve_conflict = POOTLE_WINS
-
     if store_revision == "MAX":
         store_revision = store.get_max_unit_revision()
 
@@ -147,8 +131,7 @@ def _setup_store_test(store, member, member2, test):
         revisions = [unit.revision for unit in units_before]
         store_revision = sum(revisions) / len(revisions)
 
-    return (store, units_update, store_revision, resolve_conflict,
-            units_before, member, member2)
+    return (store, units_update, store_revision, units_before, member, member2)
 
 
 @pytest.fixture(params=UPDATE_STORE_TESTS.keys())
@@ -181,7 +164,7 @@ def param_update_store_test(request, tp0, member, member2):
         units=test[1],
         store_revision=test[2],
         user=member2,
-        resolve_conflict=test[3])
+    )
     return test
 
 

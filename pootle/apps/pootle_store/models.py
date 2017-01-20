@@ -51,9 +51,7 @@ from pootle_misc.util import import_func
 from pootle_statistics.models import (Submission, SubmissionFields,
                                       SubmissionTypes)
 
-from .constants import (
-    FUZZY, NEW, OBSOLETE, PARSED, POOTLE_WINS,
-    TRANSLATED, UNTRANSLATED)
+from .constants import FUZZY, NEW, OBSOLETE, PARSED, TRANSLATED, UNTRANSLATED
 from .fields import MultiStringField, TranslationStoreField
 from .managers import StoreManager, SuggestionManager, UnitManager
 from .util import SuggestionStates
@@ -1349,7 +1347,7 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
             unit.submission_set.add(*subs_created, bulk=False)
 
     def update(self, store, user=None, store_revision=None,
-               submission_type=None, resolve_conflict=POOTLE_WINS):
+               submission_type=None):
         """Update DB with units from a ttk Store.
 
         :param store: a source `Store` instance from TTK.
@@ -1360,7 +1358,7 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
         """
         self.updater.update(
             store, user=user, store_revision=store_revision,
-            submission_type=submission_type, resolve_conflict=resolve_conflict,
+            submission_type=submission_type,
         )
 
     def deserialize(self, data):

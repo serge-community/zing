@@ -220,3 +220,9 @@ class SuggestionFactory(factory.django.DjangoModelFactory):
 
     class Meta(object):
         model = 'pootle_store.Suggestion'
+
+
+class DueDateFactory(factory.django.DjangoModelFactory):
+
+        class Meta(object):
+            model = 'pootle.DueDate'

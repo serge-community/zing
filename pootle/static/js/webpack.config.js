@@ -28,7 +28,10 @@ var entries = {
 
 
 var resolve = {
-  modulesDirectories: ['node_modules', 'shared'],
+  modules: [
+    'node_modules',
+    'shared',
+  ],
   alias: {
     pootle: __dirname,
 
@@ -60,12 +63,15 @@ var resolve = {
 };
 
 
-// Read extra `resolve.root` paths from the `WEBPACK_ROOT` envvar
+// Read extra `resolve.modules` paths from the `WEBPACK_ROOT` envvar
 // and merge the entry definitions from the manifest files
 var root = process.env.WEBPACK_ROOT;
 if (root !== undefined) {
   var customPaths = root.split(';');
-  resolve.root = [path.join(__dirname, 'node_modules')].concat(customPaths);
+  resolve.modules.push(path.join(__dirname, 'node_modules'));
+  customPaths.forEach(path => {
+    resolve.modules.push(path);
+  });
 
   function mergeWithArrays(target, source) {
     var rv = Object(target);

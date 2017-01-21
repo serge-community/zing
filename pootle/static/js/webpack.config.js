@@ -159,15 +159,11 @@ var config = {
     ]
   },
   resolve: resolve,
-  resolveLoader: {
-    root: path.join(__dirname, 'node_modules'),
-  },
   plugins: plugins,
 };
 
 
 if (DEBUG) {
-  config.debug = true;
   config.devtool = '#source-map';
   config.output.pathinfo = true;
 }

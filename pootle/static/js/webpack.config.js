@@ -102,10 +102,7 @@ var plugins = [];
 
 if (!DEBUG) {
   plugins = [
-    new webpack.optimize.UglifyJsPlugin({
-      compress: { warnings: false },
-      sourceMap: false,
-    }),
+    new webpack.optimize.UglifyJsPlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
   ];
 } else {

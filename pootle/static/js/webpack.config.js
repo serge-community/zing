@@ -137,12 +137,18 @@ var config = {
     chunkFilename: '[name]/app.bundle.js'
   },
   module: {
-    loaders: [
-      { test: /\.css/, loader: 'style-loader!css-loader' },
+    rules: [
+      {
+        test: /\.css/,
+        use: [
+          'style-loader',
+          'css-loader',
+        ],
+      },
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        query: {
+        options: {
           babelrc: false,
           cacheDirectory: true,
           presets: [
@@ -151,8 +157,8 @@ var config = {
           ],
         },
         exclude: /node_modules|vendor|.*\.test\.js/,
-      }
-    ]
+      },
+    ],
   },
   resolve: resolve,
   plugins: plugins,

@@ -122,7 +122,10 @@ plugins.push.apply(plugins, [
   new webpack.ProvidePlugin({
     'window.Backbone': 'backbone',
   }),
-  new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js')
+  new webpack.optimize.CommonsChunkPlugin({
+    name: 'vendor',
+    filename: 'vendor.bundle.js',
+  }),
 ]);
 
 

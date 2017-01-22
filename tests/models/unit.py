@@ -10,7 +10,6 @@
 import pytest
 
 from translate.storage import factory
-from translate.storage.factory import getclass
 from translate.storage.pypo import pounit
 
 from django.contrib.auth import get_user_model
@@ -304,22 +303,6 @@ def test_unit_po_plurals(store_po):
     unit.update(unit_po)
     assert unit.hasplural()
     unit.save()
-    assert unit.hasplural()
-
-
-@pytest.mark.django_db
-def test_unit_ts_plurals(store_po, test_fs):
-    with test_fs.open(['data', 'ts', 'add_plurals.ts']) as f:
-        file_store = getclass(f)(f.read())
-    unit = Unit(store=store_po, index=1)
-    unit_ts = file_store.units[0]
-    unit.update(unit_ts)
-    assert unit.hasplural()
-    unit.save()
-    unit = Unit.objects.get(id=unit.id)
-    assert unit.hasplural()
-    unit.save()
-    unit = Unit.objects.get(id=unit.id)
     assert unit.hasplural()
 
 

@@ -91,30 +91,6 @@ def test_sync(project0_disk, store0):
 
 
 @pytest.mark.django_db
-def test_update_from_ts(store0, test_fs):
-    store0.parsed = True
-    orig_units = store0.units.count()
-    with test_fs.open(['data', 'ts', 'tutorial', 'en', 'tutorial.ts']) as f:
-        store = getclass(f)(f.read())
-    store0.update(store)
-    assert(not store0.units[orig_units].hasplural())
-    assert(store0.units[orig_units + 1].hasplural())
-
-
-@pytest.mark.django_db
-def test_update_ts_plurals(store_po, test_fs):
-    with test_fs.open(['data', 'ts', 'add_plurals.ts']) as f:
-        file_store = getclass(f)(f.read())
-    store_po.update(file_store)
-    assert store_po.units[0].hasplural()
-
-    with test_fs.open(['data', 'ts', 'update_plurals.ts']) as f:
-        file_store = getclass(f)(f.read())
-    store_po.update(file_store)
-    assert store_po.units[0].hasplural()
-
-
-@pytest.mark.django_db
 def test_update_with_non_ascii(store0, test_fs):
     store0.state = PARSED
     orig_units = store0.units.count()

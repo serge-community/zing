@@ -45,9 +45,7 @@ def _get_user(username):
     return user_dict
 
 
-@pytest.fixture(
-    scope="session",
-    params=["nobody", "admin", "member", "member2"])
+@pytest.fixture(scope='session', params=['nobody', 'admin', 'member'])
 def request_users(request):
     return _get_user(request.param)
 

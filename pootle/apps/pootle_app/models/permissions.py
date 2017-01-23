@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -64,15 +65,12 @@ def get_permissions_by_username(username, directory):
     return permissions_cache[pootle_path]
 
 
-def get_matching_permissions(user, directory, check_default=True):
+def get_matching_permissions(user, directory):
     if user.is_authenticated():
         permissions = get_permissions_by_username(user.username,
                                                   directory)
         if permissions is not None:
             return permissions
-
-        if not check_default:
-            return {}
 
         permissions = get_permissions_by_username('default', directory)
         if permissions is not None:
@@ -83,15 +81,14 @@ def get_matching_permissions(user, directory, check_default=True):
     return permissions
 
 
-def check_user_permission(user, permission_codename, directory,
-                          check_default=True):
+def check_user_permission(user, permission_codename, directory):
     """Checks if the current user has the permission to perform
     ``permission_codename``.
     """
     if user.is_superuser:
         return True
 
-    permissions = get_matching_permissions(user, directory, check_default)
+    permissions = get_matching_permissions(user, directory)
 
     return ("administrate" in permissions or
             permission_codename in permissions)

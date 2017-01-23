@@ -114,11 +114,11 @@ class APIView(View):
     def get(self, request, *args, **kwargs):
         """GET handler."""
         if kwargs.get(self.pk_field_name, None) is not None:
-            return self.get_single_item(request, *args, **kwargs)
+            return self.get_object(request, *args, **kwargs)
 
         return self.get_collection(request, *args, **kwargs)
 
-    def get_single_item(self, request, *args, **kwargs):
+    def get_object(self, request, *args, **kwargs):
         """Returns a single model instance."""
         try:
             qs = self.base_queryset.filter(pk=kwargs[self.pk_field_name])

@@ -10,13 +10,14 @@
 import json
 import operator
 
+from django.core.exceptions import PermissionDenied
 from django.db.models import ProtectedError, Q
 from django.forms.models import modelform_factory
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.views.generic import View
 
-from pootle.core.http import JsonResponse
+from pootle.core.http import JsonResponse, JsonResponseForbidden
 
 
 class APIView(View):
@@ -42,6 +43,10 @@ class APIView(View):
     # model forms built using `self.model` and `self.fields`
     add_form_class = None
     edit_form_class = None
+
+    # Permission classes implement logic to determine whether the request
+    # should be permitted. Empty list means no permission-checking.
+    permission_classes = []
 
     # Tuple of sensitive field names that will be excluded from any serialized
     # responses
@@ -103,14 +108,39 @@ class APIView(View):
             self.edit_form_class = modelform_factory(self.model,
                                                      fields=self.fields)
 
-    def dispatch(self, request, *args, **kwargs):
-        if request.method.lower() in self.allowed_methods:
-            handler = getattr(self, request.method.lower(),
-                              self.http_method_not_allowed)
-        else:
-            handler = self.http_method_not_allowed
+    def get_permissions(self):
+        """Returns permission handler instances required for a particular view."""
+        return [permission() for permission in self.permission_classes]
 
-        return handler(request, *args, **kwargs)
+    def check_permissions(self, request):
+        """Checks whether the view is allowed to process the request or not.
+        """
+        for permission in self.get_permissions():
+            if not permission.has_permission(request, self):
+                raise PermissionDenied
+
+    def handle_exception(self, exc):
+        """Handles response exceptions."""
+        if isinstance(exc, PermissionDenied):
+            return JsonResponseForbidden({
+                'msg': 'Permission denied.',
+            })
+
+        raise
+
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            self.check_permissions(request)
+
+            if request.method.lower() in self.allowed_methods:
+                handler = getattr(self, request.method.lower(),
+                                  self.http_method_not_allowed)
+            else:
+                handler = self.http_method_not_allowed
+
+            return handler(request, *args, **kwargs)
+        except Exception as exc:
+            return self.handle_exception(exc)
 
     def get(self, request, *args, **kwargs):
         """GET handler."""

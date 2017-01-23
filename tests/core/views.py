@@ -319,6 +319,49 @@ def test_apiview_search(rf):
 
 
 @pytest.mark.django_db
+def test_apiview_check_permissions(rf):
+    """Tests permission handlers which trigger a 403."""
+    class DisallowPermissionClass(object):
+        def has_permission(self, request, view):
+            return False
+
+    class AllowPermissionClass(object):
+        def has_permission(self, request, view):
+            return True
+
+    UserAPIView.permission_classes = [DisallowPermissionClass]
+    view = UserAPIView.as_view()
+
+    request = create_api_request(rf, url='/')
+    response = view(request)
+    response_data = json.loads(response.content)
+    assert response.status_code == 403
+    assert 'msg' in response_data
+    assert response_data['msg'] == 'Permission denied.'
+
+    UserAPIView.permission_classes = [AllowPermissionClass]
+    view = UserAPIView.as_view()
+    request = create_api_request(rf, url='/')
+    response = view(request)
+    response_data = json.loads(response.content)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_apiview_unhandled_exception(rf):
+    """Tests exceptions can go unhandled."""
+    class UnhandledExceptionAPIView(UserAPIView):
+        def get(self, request, *args, **kwargs):
+            raise ValueError
+
+    view = UnhandledExceptionAPIView.as_view()
+
+    request = create_api_request(rf, url='/')
+    with pytest.raises(ValueError):
+        view(request)
+
+
+@pytest.mark.django_db
 def test_view_gathered_context_data(rf, member):
 
     from pootle.core.views.base import PootleDetailView

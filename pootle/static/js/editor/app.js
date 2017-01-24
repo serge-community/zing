@@ -523,10 +523,13 @@ PTL.editor = {
       }
       this.units.fetchUids(reqData).done((hasResults) => {
         if (!hasResults) {
-          this.handleEmptyResults();
+          this.handleNoMatchingUnitsFound({ filter: this.filter });
+        } else {
+          this.units.goto(reqData.uid || this.units.uids[0]);
+          if (this.units.idx === -1) {
+            this.handleUnitNotFound({ filter: this.filter });
+          }
         }
-
-        this.units.goto(reqData.uid || this.units.uids[0]);
       });
     }, { unescape: true });
   },
@@ -1405,7 +1408,7 @@ PTL.editor = {
 
 
   /* Handle the 'No units found' case */
-  handleEmptyResults(/* reqData */) {
+  handleEmptyResults({ htmlMessage } = {}) {
     this.editorIsClosed = true;
     this.isLoading = false;
     this.hideActivity();
@@ -1414,12 +1417,55 @@ PTL.editor = {
 
     this.$viewRowsBefore.html(`
       <tr>
-        <td colspan="2" class="no-results-row"><p>${t('No units found.')}</p></td>
+        <td colspan="2" class="no-results-row">${htmlMessage}</td>
       </tr>
     `);
     this.$editorRow.html('');
     this.$viewRowsAfter.html('');
     this.$editRowWrapper.hide();
+  },
+
+  /* Handle 'No units match your search' case */
+  handleNoMatchingUnitsFound({ filter } = {}) {
+    let htmlMessage;
+    if (filter === 'all') {
+      htmlMessage = `<p>${t('No units found in this translation scope.')}</p>`;
+    } else {
+      htmlMessage = `<p>${t('No units match your search criteria.')}</p>`;
+    }
+    this.handleEmptyResults({ htmlMessage });
+  },
+
+  /* Handle the 'Unit NNNNNN not found' case */
+  handleUnitNotFound({ filter } = {}) {
+    let htmlMessage;
+
+    if (filter === 'all') {
+      htmlMessage = `
+        <p>${
+          t('Unit #%(id)s is no longer available.', { id: this.units.uid })
+        }</p>
+        <p><a class="js-show-first-unit">${
+          t('Show all other units in this translation scope')
+        }</a></p>
+      `;
+    } else {
+      htmlMessage = `
+        <p>${
+          t('Unit #%(id)s no longer matches your search criteria or is no longer available.',
+            { id: this.units.uid })
+          }</p>
+        <p><a class="js-show-first-unit">${
+          t('Show all other units matching your search criteria')
+        }</a></p>
+      `;
+    }
+
+    this.handleEmptyResults({ htmlMessage });
+    $('.js-show-first-unit').on('click', (e) => {
+      e.preventDefault();
+      $.history.load(utils.updateHashPart('unit', this.units.uids[0]));
+    });
   },
 
   /* Pushes translation submissions and moves to the next unit */

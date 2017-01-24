@@ -15,9 +15,16 @@ from django.db.models import ProtectedError, Q
 from django.forms.models import modelform_factory
 from django.http import Http404
 from django.shortcuts import get_object_or_404
+from django.utils.functional import cached_property
 from django.views.generic import View
 
-from pootle.core.http import JsonResponse, JsonResponseForbidden
+from pootle.core.http import (
+    JsonResponse, JsonResponseBadRequest, JsonResponseForbidden,
+)
+
+
+class JSONDecodeError(ValueError):
+    pass
 
 
 class APIView(View):
@@ -108,6 +115,13 @@ class APIView(View):
             self.edit_form_class = modelform_factory(self.model,
                                                      fields=self.fields)
 
+    @cached_property
+    def request_data(self):
+        try:
+            return json.loads(self.request.body)
+        except ValueError:
+            raise JSONDecodeError
+
     def get_permissions(self):
         """Returns permission handler instances required for a particular view."""
         return [permission() for permission in self.permission_classes]
@@ -124,6 +138,11 @@ class APIView(View):
         if isinstance(exc, PermissionDenied):
             return JsonResponseForbidden({
                 'msg': 'Permission denied.',
+            })
+
+        if isinstance(exc, JSONDecodeError):
+            return JsonResponseBadRequest({
+                'msg': 'Invalid JSON data',
             })
 
         raise
@@ -167,12 +186,7 @@ class APIView(View):
         `self.add_form_class`. By default a model form will be used with
         the fields from `self.fields`.
         """
-        try:
-            request_dict = json.loads(request.body)
-        except ValueError:
-            return self.status_msg('Invalid JSON data', status=400)
-
-        form = self.add_form_class(request_dict)
+        form = self.add_form_class(self.request_data)
 
         if form.is_valid():
             new_object = form.save()
@@ -186,13 +200,8 @@ class APIView(View):
             return self.status_msg('PUT is not supported for collections',
                                    status=405)
 
-        try:
-            request_dict = json.loads(request.body)
-        except ValueError:
-            return self.status_msg('Invalid JSON data', status=400)
-
         instance = self.get_object()
-        form = self.edit_form_class(request_dict, instance=instance)
+        form = self.edit_form_class(self.request_data, instance=instance)
 
         if form.is_valid():
             updated_object = form.save()

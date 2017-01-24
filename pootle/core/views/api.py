@@ -114,16 +114,16 @@ class APIView(View):
 
     def get(self, request, *args, **kwargs):
         """GET handler."""
-        if kwargs.get(self.pk_field_name, None) is not None:
-            object = self.get_object(*args, **kwargs)
+        if self.kwargs.get(self.pk_field_name, None) is not None:
+            object = self.get_object()
             return JsonResponse(self.object_to_values(object))
 
         return self.get_collection(request, *args, **kwargs)
 
-    def get_object(self, *args, **kwargs):
+    def get_object(self):
         """Returns a single model instance."""
         return get_object_or_404(
-            self.base_queryset, pk=kwargs[self.pk_field_name],
+            self.base_queryset, pk=self.kwargs[self.pk_field_name],
         )
 
     def get_collection(self, request, *args, **kwargs):
@@ -152,7 +152,7 @@ class APIView(View):
 
     def put(self, request, *args, **kwargs):
         """Update the current model."""
-        if self.pk_field_name not in kwargs:
+        if self.pk_field_name not in self.kwargs:
             return self.status_msg('PUT is not supported for collections',
                                    status=405)
 
@@ -161,7 +161,7 @@ class APIView(View):
         except ValueError:
             return self.status_msg('Invalid JSON data', status=400)
 
-        instance = self.get_object(*args, **kwargs)
+        instance = self.get_object()
         form = self.edit_form_class(request_dict, instance=instance)
 
         if form.is_valid():
@@ -176,7 +176,7 @@ class APIView(View):
             return self.status_msg('DELETE is not supported for collections',
                                    status=405)
 
-        qs = self.base_queryset.filter(id=kwargs[self.pk_field_name])
+        qs = self.base_queryset.filter(id=self.kwargs[self.pk_field_name])
         if qs:
             output = self.qs_to_values(qs)
             obj = qs[0]

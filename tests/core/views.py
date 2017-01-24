@@ -256,6 +256,19 @@ def test_apiview_put(rf):
 
 
 @pytest.mark.django_db
+def test_apiview_put_multiple(rf):
+    """Tests updating an object using the API."""
+    view = WriteableUserAPIView.as_view()
+
+    request = create_api_request(rf, 'put')
+    response = view(request)
+    response_data = json.loads(response.content)
+
+    assert response.status_code == 405
+    assert response_data['msg'] == 'PUT is not supported for collections'
+
+
+@pytest.mark.django_db
 def test_apiview_delete(rf):
     """Tests deleting an object using the API."""
     view = UserAPIView.as_view()

@@ -10,9 +10,10 @@
 import json
 import operator
 
-from django.db.models import ObjectDoesNotExist, ProtectedError, Q
+from django.db.models import ProtectedError, Q
 from django.forms.models import modelform_factory
 from django.http import Http404
+from django.shortcuts import get_object_or_404
 from django.views.generic import View
 
 from pootle.core.http import JsonResponse
@@ -114,19 +115,16 @@ class APIView(View):
     def get(self, request, *args, **kwargs):
         """GET handler."""
         if kwargs.get(self.pk_field_name, None) is not None:
-            return self.get_object(request, *args, **kwargs)
+            object = self.get_object(*args, **kwargs)
+            return JsonResponse(self.object_to_values(object))
 
         return self.get_collection(request, *args, **kwargs)
 
-    def get_object(self, request, *args, **kwargs):
+    def get_object(self, *args, **kwargs):
         """Returns a single model instance."""
-        try:
-            qs = self.base_queryset.filter(pk=kwargs[self.pk_field_name])
-            assert len(qs) == 1
-        except AssertionError:
-            raise Http404
-
-        return JsonResponse(self.qs_to_values(qs))
+        return get_object_or_404(
+            self.base_queryset, pk=kwargs[self.pk_field_name],
+        )
 
     def get_collection(self, request, *args, **kwargs):
         """Retrieve a full collection."""
@@ -148,12 +146,7 @@ class APIView(View):
 
         if form.is_valid():
             new_object = form.save()
-            # Serialize the new object to json using our built-in methods. The
-            # extra DB read here is not ideal, but it keeps the code DRY:
-            wrapper_qs = self.base_queryset.filter(pk=new_object.pk)
-            return JsonResponse(
-                self.qs_to_values(wrapper_qs, single_object=True)
-            )
+            return JsonResponse(self.object_to_values(new_object))
 
         return self.form_invalid(form)
 
@@ -165,20 +158,15 @@ class APIView(View):
 
         try:
             request_dict = json.loads(request.body)
-            instance = self.base_queryset.get(pk=kwargs[self.pk_field_name])
         except ValueError:
             return self.status_msg('Invalid JSON data', status=400)
-        except ObjectDoesNotExist:
-            raise Http404
 
+        instance = self.get_object(*args, **kwargs)
         form = self.edit_form_class(request_dict, instance=instance)
 
         if form.is_valid():
-            item = form.save()
-            wrapper_qs = self.base_queryset.filter(id=item.id)
-            return JsonResponse(
-                self.qs_to_values(wrapper_qs, single_object=True)
-            )
+            updated_object = form.save()
+            return JsonResponse(self.object_to_values(updated_object))
 
         return self.form_invalid(form)
 
@@ -200,43 +188,40 @@ class APIView(View):
 
         raise Http404
 
-    def qs_to_values(self, queryset, single_object=False):
+    def object_to_values(self, object):
+        """Convert an object to values for serialization."""
+        return {
+            field: getattr(object, field) for field in self.serialize_fields
+        }
+
+    def qs_to_values(self, queryset):
         """Convert a queryset to values for further serialization.
 
-        :param single_object: if `True` (or the URL specified an id), it
-            will return a single element.
-            If `False`, an array of objects in `models` and the total object
-            count in `count` is returned.
+        An array of objects in `models` and the total object count in
+        `count` is returned.
         """
+        search_keyword = self.request.GET.get(self.search_param_name, None)
+        if search_keyword is not None:
+            filter_by = self.get_search_filter(search_keyword)
+            queryset = queryset.filter(filter_by)
 
-        if single_object or self.kwargs.get(self.pk_field_name):
-            values = queryset.values(*self.serialize_fields)
-            # For single-item requests, convert ValuesQueryset to a dict simply
-            # by slicing the first item
-            return_values = values[0]
-        else:
-            search_keyword = self.request.GET.get(self.search_param_name, None)
-            if search_keyword is not None:
-                filter_by = self.get_search_filter(search_keyword)
-                queryset = queryset.filter(filter_by)
+        values = queryset.values(*self.serialize_fields)
 
-            values = queryset.values(*self.serialize_fields)
+        # Process pagination options if they are enabled
+        if isinstance(self.page_size, int):
+            try:
+                page_param = self.request.GET.get(self.page_param_name, 1)
+                page_number = int(page_param)
+                offset = (page_number - 1) * self.page_size
+            except ValueError:
+                offset = 0
 
-            # Process pagination options if they are enabled
-            if isinstance(self.page_size, int):
-                try:
-                    page_param = self.request.GET.get(self.page_param_name, 1)
-                    page_number = int(page_param)
-                    offset = (page_number - 1) * self.page_size
-                except ValueError:
-                    offset = 0
+            values = values[offset:offset+self.page_size]
 
-                values = values[offset:offset+self.page_size]
-
-            return_values = {
-                'models': list(values),
-                'count': queryset.count(),
-            }
+        return_values = {
+            'models': list(values),
+            'count': queryset.count(),
+        }
 
         return return_values
 

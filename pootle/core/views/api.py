@@ -20,6 +20,7 @@ from django.views.generic import View
 
 from pootle.core.http import (
     JsonResponse, JsonResponseBadRequest, JsonResponseForbidden,
+    JsonResponseNotFound
 )
 
 
@@ -135,6 +136,11 @@ class APIView(View):
 
     def handle_exception(self, exc):
         """Handles response exceptions."""
+        if isinstance(exc, Http404):
+            return JsonResponseNotFound({
+                'msg': 'Not found',
+            })
+
         if isinstance(exc, PermissionDenied):
             return JsonResponseForbidden({
                 'msg': 'Permission denied.',

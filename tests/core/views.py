@@ -12,7 +12,6 @@ import json
 import pytest
 
 from django import forms
-from django.http import Http404
 
 from pytest_pootle.factories import UserFactory
 from pytest_pootle.utils import create_api_request
@@ -89,8 +88,8 @@ def test_apiview_get_single(rf):
     assert 'email' not in response_data
 
     # Non-existent IDs should return 404
-    with pytest.raises(Http404):
-        view(request, id='777')
+    response = view(request, id='777')
+    assert response.status_code == 404
 
 
 @pytest.mark.django_db
@@ -218,8 +217,8 @@ def test_apiview_put(rf):
     request = create_api_request(rf, 'put', data=update_data)
 
     # Requesting unknown resources is a 404
-    with pytest.raises(Http404):
-        view(request, id='11')
+    response = view(request, id='11')
+    assert response.status_code == 404
 
     # All fields must be submitted
     response = view(request, id=user.id)
@@ -277,8 +276,8 @@ def test_apiview_delete(rf):
     assert User.objects.filter(id=user.id).count() == 0
 
     # Should raise 404 if we try to access a deleted resource again:
-    with pytest.raises(Http404):
-        view(request, id=user.id)
+    response = view(request, id=user.id)
+    assert response.status_code == 404
 
 
 @pytest.mark.django_db

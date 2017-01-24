@@ -22,6 +22,4 @@ pytz==2016.6.1
 rq>=0.5.5,<=0.6.0
 
 # Translate Toolkit
-translate-toolkit==2.0.0b4
-# If you want to use Translate Toolkit 'master'
-#-e git://github.com/translate/translate.git#egg=translate-toolkit
+translate-toolkit==2.0.0rc3

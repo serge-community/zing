@@ -374,6 +374,19 @@ def test_apiview_unhandled_exception(rf):
 
 
 @pytest.mark.django_db
+def test_apiview_delete_meta_user(rf, meta_users):
+    """Tests meta users cannot be removed."""
+    user = meta_users['user']
+
+    request = create_api_request(rf, 'delete')
+    view = UserAPIView.as_view()
+
+    response = view(request, id=user.id)
+    assert response.status_code == 405
+    assert 'Cannot remove meta user instances' in response.content
+
+
+@pytest.mark.django_db
 def test_view_gathered_context_data(rf, member):
 
     from pootle.core.views.base import PootleDetailView

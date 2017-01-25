@@ -221,17 +221,12 @@ class APIView(View):
             return self.status_msg('DELETE is not supported for collections',
                                    status=405)
 
-        qs = self.base_queryset.filter(id=self.kwargs[self.pk_field_name])
-        if qs:
-            output = self.qs_to_values(qs)
-            obj = qs[0]
-            try:
-                obj.delete()
-                return JsonResponse(output)
-            except ProtectedError as e:
-                return self.status_msg(e[0], status=405)
-
-        raise Http404
+        obj = self.get_object()
+        try:
+            obj.delete()
+            return JsonResponse({})
+        except ProtectedError as e:
+            return self.status_msg(e[0], status=405)
 
     def object_to_values(self, object):
         """Convert an object to values for serialization."""

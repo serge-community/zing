@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -52,6 +53,12 @@ def request_users(request):
 
 @pytest.fixture(scope="session", params=TEST_USERS.keys())
 def site_users(request):
+    return _get_user(request.param)
+
+
+@pytest.fixture(scope='session', params=['default', 'nobody', 'system'])
+def meta_users(request):
+    """Require meta users."""
     return _get_user(request.param)
 
 

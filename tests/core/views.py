@@ -337,8 +337,14 @@ def test_apiview_check_permissions(rf):
         def has_permission(self, request, view):
             return False
 
+        def has_object_permission(self, request, view, obj):
+            return True
+
     class AllowPermissionClass(object):
         def has_permission(self, request, view):
+            return True
+
+        def has_object_permission(self, request, view, obj):
             return True
 
     UserAPIView.permission_classes = [DisallowPermissionClass]
@@ -355,6 +361,43 @@ def test_apiview_check_permissions(rf):
     view = UserAPIView.as_view()
     request = create_api_request(rf, url='/')
     response = view(request)
+    response_data = json.loads(response.content)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_apiview_check_object_permissions(rf):
+    """Tests permission handlers which trigger a 403."""
+    class DisallowObjectPermissionClass(object):
+        def has_permission(self, request, view):
+            return True
+
+        def has_object_permission(self, request, view, obj):
+            return False
+
+    class AllowObjectPermissionClass(object):
+        def has_permission(self, request, view):
+            return True
+
+        def has_object_permission(self, request, view, obj):
+            return True
+
+    user = UserFactory.create(username='foo')
+
+    WriteableUserAPIView.permission_classes = [DisallowObjectPermissionClass]
+    view = WriteableUserAPIView.as_view()
+
+    request = create_api_request(rf, method='delete')
+    response = view(request, id=user.id)
+    response_data = json.loads(response.content)
+    assert response.status_code == 403
+    assert 'msg' in response_data
+    assert response_data['msg'] == 'Permission denied.'
+
+    WriteableUserAPIView.permission_classes = [AllowObjectPermissionClass]
+    view = WriteableUserAPIView.as_view()
+    request = create_api_request(rf, method='delete')
+    response = view(request, id=user.id)
     response_data = json.loads(response.content)
     assert response.status_code == 200
 

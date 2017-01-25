@@ -134,6 +134,11 @@ class APIView(View):
             if not permission.has_permission(request, self):
                 raise PermissionDenied
 
+    def check_object_permissions(self, request, obj):
+        for permission in self.get_permissions():
+            if not permission.has_object_permission(request, self, obj):
+                raise PermissionDenied
+
     def handle_exception(self, exc):
         """Handles response exceptions."""
         if isinstance(exc, Http404):
@@ -177,9 +182,11 @@ class APIView(View):
 
     def get_object(self):
         """Returns a single model instance."""
-        return get_object_or_404(
+        obj = get_object_or_404(
             self.base_queryset, pk=self.kwargs[self.pk_field_name],
         )
+        self.check_object_permissions(self.request, obj)
+        return obj
 
     def get_collection(self, request, *args, **kwargs):
         """Retrieve a full collection."""

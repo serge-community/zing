@@ -145,9 +145,8 @@ def test_update_submission_ordering():
 
 
 @pytest.mark.django_db
-def test_new_translation_submission_ordering(client, request_users, settings):
+def test_new_translation_submission_ordering(client, request_users):
     unit = Unit.objects.filter(state=UNTRANSLATED).first()
-    settings.POOTLE_CAPTCHA_ENABLED = False
     user = request_users["user"]
     if user.username != "nobody":
         client.force_login(user)
@@ -172,9 +171,8 @@ def test_new_translation_submission_ordering(client, request_users, settings):
 
 
 @pytest.mark.django_db
-def test_accept_sugg_submission_ordering(client, request_users, settings):
+def test_accept_sugg_submission_ordering(client, request_users):
     """Tests suggestion can be accepted with a comment."""
-    settings.POOTLE_CAPTCHA_ENABLED = False
     unit = Unit.objects.filter(suggestion__state='pending',
                                state=UNTRANSLATED)[0]
     unit.markfuzzy()

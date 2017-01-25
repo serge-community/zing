@@ -61,9 +61,8 @@ def test_get_uids_ordered(rf, default, admin, numbered_po):
 
 
 @pytest.mark.django_db
-def test_submit_with_suggestion_and_comment(client, request_users, settings):
+def test_submit_with_suggestion_and_comment(client, request_users):
     """Tests translation can be applied after suggestion is accepted."""
-    settings.POOTLE_CAPTCHA_ENABLED = False
     Comment = get_comment_model()
     unit = Unit.objects.filter(suggestion__state='pending',
                                state=UNTRANSLATED)[0]
@@ -102,9 +101,8 @@ def test_submit_with_suggestion_and_comment(client, request_users, settings):
 
 
 @pytest.mark.django_db
-def test_submit_with_suggestion(client, request_users, settings):
+def test_submit_with_suggestion(client, request_users):
     """Tests translation can be applied after suggestion is accepted."""
-    settings.POOTLE_CAPTCHA_ENABLED = False
     unit = Unit.objects.filter(suggestion__state='pending',
                                state=UNTRANSLATED).first()
     unit_submissions = Submission.objects.filter(unit=unit)
@@ -142,9 +140,8 @@ def test_submit_with_suggestion(client, request_users, settings):
 
 
 @pytest.mark.django_db
-def test_accept_suggestion_with_comment(client, request_users, settings):
+def test_accept_suggestion_with_comment(client, request_users):
     """Tests suggestion can be accepted with a comment."""
-    settings.POOTLE_CAPTCHA_ENABLED = False
     Comment = get_comment_model()
     unit = Unit.objects.filter(suggestion__state='pending',
                                state=UNTRANSLATED)[0]
@@ -239,9 +236,8 @@ def test_toggle_quality_check(rf, admin):
 
 
 @pytest.mark.django_db
-def test_submit_unit_plural(client, unit_plural, request_users, settings):
+def test_submit_unit_plural(client, unit_plural, request_users):
     """Tests translation can be applied after suggestion is accepted."""
-    settings.POOTLE_CAPTCHA_ENABLED = False
     user = request_users["user"]
     if user.username != "nobody":
         client.force_login(user)

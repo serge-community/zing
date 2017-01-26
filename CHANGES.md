@@ -1,8 +1,8 @@
 Zing Changelog
 ==============
 
-v0.2.1 (in development)
------------------------
+v0.2.1 (2017-01-26)
+-------------------
 
 * Browsing pages hide empty navigation items by default. Likewise, non-admin
   users can no longer access empty paths (#129).

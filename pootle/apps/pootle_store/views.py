@@ -12,7 +12,6 @@ import copy
 from translate.lang import data
 
 from django import forms
-from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.http import Http404, QueryDict
 from django.shortcuts import redirect
@@ -29,7 +28,6 @@ from pootle.core.decorators import (get_path_obj, get_resource,
 from pootle.core.delegate import search_backend
 from pootle.core.exceptions import Http400
 from pootle.core.http import JsonResponse, JsonResponseBadRequest
-from pootle.core.mail import send_mail
 from pootle.core.utils import dateformat
 from pootle.core.views import (BaseBrowseDataJSON, BasePathDispatcherView,
                                PootleJSON)
@@ -660,28 +658,6 @@ def handle_suggestion_comment(request, suggestion, unit, comment, action):
     comment_form = UnsecuredCommentForm(suggestion, kwargs)
     if comment_form.is_valid():
         comment_form.save()
-
-        if (action not in ("accepted", "rejected") or
-            not settings.POOTLE_EMAIL_FEEDBACK_ENABLED):
-
-            return
-
-        ctx = {
-            'suggestion_id': suggestion.id,
-            'unit_url': request.build_absolute_uri(unit.get_translate_url()),
-            'comment': comment,
-        }
-        if action == "rejected":
-            message = loader.render_to_string(
-                'editor/email/suggestion_rejected_with_comment.txt', ctx)
-            subject = _(u"Suggestion rejected with comment")
-        else:
-            message = loader.render_to_string(
-                'editor/email/suggestion_accepted_with_comment.txt', ctx)
-            subject = _(u"Suggestion accepted with comment")
-
-        send_mail(subject, message, from_email=None,
-                  recipient_list=[suggestion.user.email], fail_silently=True)
 
 
 @get_unit_context()

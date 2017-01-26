@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -15,8 +16,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ImproperlyConfigured
 from django.core.urlresolvers import reverse
-from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.shortcuts import render
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
@@ -148,8 +149,7 @@ def reports(request):
         'paid_task_types': PaidTaskTypes,
     }
 
-    return render_to_response('admin/reports.html', ctx,
-                              context_instance=RequestContext(request))
+    return render(request, 'admin/reports.html', ctx)
 
 
 def get_detailed_report_context(user, month):
@@ -302,8 +302,7 @@ def reports_detailed(request):
     ctx = get_detailed_report_context(user=user, month=month)
     ctx.update({'admin_report': True})
 
-    return render_to_response('admin/detailed_reports.html', ctx,
-                              context_instance=RequestContext(request))
+    return render(request, 'admin/detailed_reports.html', ctx)
 
 
 def get_min_month_datetime(dt):

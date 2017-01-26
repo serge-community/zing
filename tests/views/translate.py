@@ -35,7 +35,7 @@ def test_translate(client, request_users, test_name, snapshot_stack, url):
     with snapshot_stack.push([
         as_dir(test_name), as_dir(user.username), url_name(url)
     ]):
-        if not user.is_anonymous():
+        if not user.is_anonymous:
             client.force_login(user)
         response = client.get(url)
 

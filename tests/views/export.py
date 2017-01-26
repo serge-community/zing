@@ -40,7 +40,7 @@ def test_export(client, request_users, test_name, monkeypatch, snapshot_stack,
         monkeypatch.setattr('pootle.core.views.export.UNITS_LIMIT', limit)
 
     with snapshot_stack.push(stack):
-        if not user.is_anonymous():
+        if not user.is_anonymous:
             client.force_login(user)
         response = client.get(url)
 

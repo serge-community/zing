@@ -1,6 +1,6 @@
 # Testing
 
-factory_boy>=2.5.2
+factory_boy==2.8.1
 fakeredis==0.8.1
 pytest==3.0.2
 pytest-catchlog==1.2.2

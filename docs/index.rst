@@ -7,6 +7,6 @@ statistics about the ongoing work.
 
 Zing is built using the powerful API of the `Translate Toolkit
 <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/>`_ and the
-:ref:`Django framework <django:index>`.
+:ref:`Django framework <django:index-first-steps>`.
 
 .. include:: contents.rst.inc

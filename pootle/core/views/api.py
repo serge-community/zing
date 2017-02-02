@@ -192,12 +192,17 @@ class APIView(View):
         """Retrieve a full collection."""
         return JsonResponse(self.qs_to_values(self.base_queryset))
 
-    def save_form(self, form):
-        """Saves a model via the form.
+    def get_form_kwargs(self):
+        kwargs = {
+            'data': self.request_data,
+        }
+        if (self.pk_field_name in self.kwargs and
+            self.kwargs[self.pk_field_name] is not None):
+            kwargs.update({
+                'instance': self.get_object(),
+            })
 
-        Useful for overriding in descendants.
-        """
-        return form.save()
+        return kwargs
 
     def post(self, request, *args, **kwargs):
         """Creates a new model instance.
@@ -206,10 +211,10 @@ class APIView(View):
         `self.add_form_class`. By default a model form will be used with
         the fields from `self.fields`.
         """
-        form = self.add_form_class(self.request_data)
+        form = self.add_form_class(**self.get_form_kwargs())
 
         if form.is_valid():
-            new_object = self.save_form(form)
+            new_object = form.save()
             return JsonResponse(self.object_to_values(new_object))
 
         return self.form_invalid(form)
@@ -220,11 +225,10 @@ class APIView(View):
             return self.status_msg('PUT is not supported for collections',
                                    status=405)
 
-        instance = self.get_object()
-        form = self.edit_form_class(self.request_data, instance=instance)
+        form = self.edit_form_class(**self.get_form_kwargs())
 
         if form.is_valid():
-            updated_object = self.save_form(form)
+            updated_object = form.save()
             return JsonResponse(self.object_to_values(updated_object))
 
         return self.form_invalid(form)

@@ -27,11 +27,13 @@ def test_unixtimestamp_clean():
     # so remove potential microseconds.
     assert field.clean(timestamp) == reference_datetime.replace(microsecond=0)
 
+    # Also check with the timestamp as an int
+    assert field.clean(int(timestamp)) == reference_datetime.replace(microsecond=0)
+
 
 @pytest.mark.parametrize('invalid_value', [
     None,
     'invalid',
-    1234567890,
     datetime.date(2015, 05, 05),
 ])
 def test_unixtimestamp_invalid(invalid_value):

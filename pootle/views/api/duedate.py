@@ -92,3 +92,10 @@ class DueDateView(APIView):
     edit_form_class = DueDateForm
     permission_classes = [CanAdminPath]
     path_field = 'pootle_path'
+
+    def get_form_kwargs(self):
+        kwargs = super(DueDateView, self).get_form_kwargs()
+        kwargs['data'].update({
+            'modified_by': self.request.user.id,
+        })
+        return kwargs

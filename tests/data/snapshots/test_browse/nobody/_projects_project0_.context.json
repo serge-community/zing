@@ -274,37 +274,6 @@
   "search_action": "/projects/project0/translate/",
   "search_form": "<tr><th><label for=\"id_search\">Search:</label></th><td><input id=\"id_search\" name=\"search\" placeholder=\"Search unavailable\" readonly=\"readonly\" size=\"15\" title=\"\" type=\"text\" disabled /></td></tr>\n<tr><th><label for=\"id_soptions_0\">Soptions:</label></th><td><ul id=\"id_soptions\"><li><label for=\"id_soptions_0\"><input id=\"id_soptions_0\" name=\"soptions\" type=\"checkbox\" value=\"exact\" /> Exact Match</label></li></ul></td></tr>\n<tr><th><label for=\"id_sfields_0\">Sfields:</label></th><td><ul id=\"id_sfields\"><li><label for=\"id_sfields_0\"><input checked=\"checked\" id=\"id_sfields_0\" name=\"sfields\" type=\"checkbox\" value=\"source\" /> Source Text</label></li>\n<li><label for=\"id_sfields_1\"><input checked=\"checked\" id=\"id_sfields_1\" name=\"sfields\" type=\"checkbox\" value=\"target\" /> Target Text</label></li>\n<li><label for=\"id_sfields_2\"><input id=\"id_sfields_2\" name=\"sfields\" type=\"checkbox\" value=\"notes\" /> Comments</label></li>\n<li><label for=\"id_sfields_3\"><input id=\"id_sfields_3\" name=\"sfields\" type=\"checkbox\" value=\"locations\" /> Locations</label></li></ul></td></tr>",
   "stats_refresh_attempts_count": 2,
-  "top_scorers": {
-    "items": [
-      {
-        "display_name": "Member",
-        "email": "d41d8cd98f00b204e9800998ecf8427e",
-        "public_total_score": 2432,
-        "reviewed": 0,
-        "suggested": 3230,
-        "translated": 830,
-        "username": "member"
-      },
-      {
-        "display_name": "Admin",
-        "email": "71fdc4f9ffe0d168ac7ab64ba4caf249",
-        "public_total_score": 525,
-        "reviewed": 2364,
-        "suggested": 0,
-        "translated": 0,
-        "username": "admin"
-      },
-      {
-        "display_name": "Member2",
-        "email": "d41d8cd98f00b204e9800998ecf8427e",
-        "public_total_score": 461,
-        "reviewed": 0,
-        "suggested": 3230,
-        "translated": 0,
-        "username": "member2"
-      }
-    ]
-  },
   "translate_url": "/projects/project0/translate/",
   "translation_project": null,
   "translation_states": [

@@ -35,6 +35,8 @@ BLACKLISTED_KEYS = [
     # always differ across test runs. Until we find a better solution, we
     # need to filter them out here.
     'lastupdated',
+    # Taken out due to its dynamic nature (#177)
+    'top_scorers',
 ]
 
 

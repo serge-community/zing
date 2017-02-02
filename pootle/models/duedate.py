@@ -21,7 +21,7 @@ def validate_pootle_path(value):
 class DueDate(models.Model):
 
     due_on = models.DateTimeField()
-    pootle_path = models.CharField(max_length=255, db_index=True,
+    pootle_path = models.CharField(max_length=255, db_index=True, unique=True,
                                    validators=[validate_pootle_path])
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL)
     modified_on = models.DateTimeField(auto_now_add=True)

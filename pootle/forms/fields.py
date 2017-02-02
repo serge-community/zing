@@ -24,9 +24,15 @@ class UnixTimestampField(forms.Field):
         if isinstance(value, datetime):
             return make_aware(value)
 
-        if isinstance(value, basestring):
+        if isinstance(value, int) or isinstance(value, basestring):
             try:
-                return make_aware(datetime.fromtimestamp(float(value)))
+                value = float(value)
+            except ValueError:
+                pass
+
+        if isinstance(value, float):
+            try:
+                return make_aware(datetime.fromtimestamp(value))
             except ValueError:
                 pass
 

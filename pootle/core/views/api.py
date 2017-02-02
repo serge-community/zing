@@ -192,6 +192,13 @@ class APIView(View):
         """Retrieve a full collection."""
         return JsonResponse(self.qs_to_values(self.base_queryset))
 
+    def save_form(self, form):
+        """Saves a model via the form.
+
+        Useful for overriding in descendants.
+        """
+        return form.save()
+
     def post(self, request, *args, **kwargs):
         """Creates a new model instance.
 
@@ -202,7 +209,7 @@ class APIView(View):
         form = self.add_form_class(self.request_data)
 
         if form.is_valid():
-            new_object = form.save()
+            new_object = self.save_form(form)
             return JsonResponse(self.object_to_values(new_object))
 
         return self.form_invalid(form)
@@ -217,7 +224,7 @@ class APIView(View):
         form = self.edit_form_class(self.request_data, instance=instance)
 
         if form.is_valid():
-            updated_object = form.save()
+            updated_object = self.save_form(form)
             return JsonResponse(self.object_to_values(updated_object))
 
         return self.form_invalid(form)

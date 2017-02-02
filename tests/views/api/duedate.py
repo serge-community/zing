@@ -38,7 +38,6 @@ def test_duedate_post(client, request_users, test_name, snapshot_stack, path):
     user = request_users['user']
     post_data = {
         'due_on': dateformat.format(datetime(2017, 01, 26, 01, 02, 03), 'U'),
-        'modified_by': user.id,
         'pootle_path': path,
     }
 
@@ -85,7 +84,6 @@ def test_duedate_update(client, request_users, test_name, snapshot_stack, path):
     url = '/xhr/duedates/%s/' % due_date.id
     put_data = {
         'due_on': dateformat.format(aware_datetime(2017, 01, 27, 01, 02, 03), 'U'),
-        'modified_by': user.id,
         'pootle_path': path,
     }
 

@@ -1,5 +1,5 @@
 coverage:
   ignore:
-    - "pytest_pootle/*"
-    - "tests/*"
+    - "pytest_pootle/.*"
+    - "tests/.*"
 comment: off

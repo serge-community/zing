@@ -4,6 +4,8 @@ Zing Changelog
 v0.2.2 (in development)
 -----------------------
 
+* Django 1.10 support (#174)
+
 
 v0.2.1 (2017-01-26)
 -------------------

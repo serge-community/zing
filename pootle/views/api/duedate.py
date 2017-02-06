@@ -87,7 +87,7 @@ class CanAdminPath(object):
 class DueDateView(APIView):
     model = DueDate
     restrict_to_methods = ('POST', 'PUT', 'DELETE', )
-    fields = ('due_on', 'modified_by', 'pootle_path', )
+    fields = ('id', 'due_on', 'modified_by', 'pootle_path', )
     add_form_class = AddDueDateForm
     edit_form_class = EditDueDateForm
     permission_classes = [CanAdminPath]

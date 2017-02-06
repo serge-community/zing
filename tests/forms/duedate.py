@@ -8,10 +8,9 @@
 
 import pytest
 
-from django.utils import timezone
-
 from pootle.core.utils import dateformat
-from pootle.forms import DueDateForm
+from pootle.core.utils.timezone import aware_datetime
+from pootle.forms import AddDueDateForm, EditDueDateForm
 
 
 @pytest.mark.django_db
@@ -24,17 +23,27 @@ from pootle.forms import DueDateForm
     '/projects/foo/bar/',
     '/projects/foo/bar/baz.po',
 ])
-def test_duedate_create(pootle_path, request_users):
+def test_duedate_create_update(pootle_path, request_users):
     """Tests form validation for a set of paths."""
     user = request_users['user']
 
+    created_due_on = aware_datetime(2016, 04, 03, 01, 02, 03)
     form_data = {
-        'due_on': dateformat.format(timezone.now(), 'U'),
+        'due_on': dateformat.format(created_due_on, 'U'),
         'modified_by': user.id,
         'pootle_path': pootle_path,
     }
-    form = DueDateForm(form_data)
-    print form.errors
+    form = AddDueDateForm(form_data)
     assert form.is_valid()
     due_date = form.save()
     assert due_date.id is not None
+
+    old_due_on = due_date.due_on
+    edited_due_on = aware_datetime(2016, 04, 04, 01, 02, 03)
+    edit_form_data = {
+        'due_on': dateformat.format(edited_due_on, 'U'),
+    }
+    edit_form = EditDueDateForm(data=edit_form_data, instance=due_date)
+    assert edit_form.is_valid()
+    updated = edit_form.save()
+    assert updated.due_on != old_due_on

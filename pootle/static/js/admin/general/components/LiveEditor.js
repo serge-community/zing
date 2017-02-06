@@ -64,7 +64,6 @@ export const LiveEditor = React.createClass({
   getContentHeight() {
     const topHeight = (
       outerHeight(q('#navbar')) +
-      outerHeight(q('#header-meta')) +
       outerHeight(q('#header-tabs'))
     );
 

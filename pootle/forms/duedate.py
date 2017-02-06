@@ -12,10 +12,17 @@ from pootle.forms.fields import UnixTimestampField
 from pootle.models import DueDate
 
 
-class DueDateForm(forms.ModelForm):
+class AddDueDateForm(forms.ModelForm):
 
     due_on = UnixTimestampField()
 
     class Meta:
         model = DueDate
         fields = ('due_on', 'pootle_path', 'modified_by', )
+
+
+class EditDueDateForm(AddDueDateForm):
+
+    class Meta:
+        model = DueDate
+        fields = ('due_on', )

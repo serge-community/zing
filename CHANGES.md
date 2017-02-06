@@ -4,6 +4,8 @@ Zing Changelog
 v0.3.1 (in development)
 -----------------------
 
+* JS assets are now built using Webpack 2 (#131).
+
 
 v0.3.0 (2017-02-06)
 -------------------

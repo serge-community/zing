@@ -37,6 +37,8 @@ BLACKLISTED_KEYS = [
     'lastupdated',
     # Taken out due to its dynamic nature (#177)
     'top_scorers',
+    # Taken out until we are able to `reset_sequences` (pytest-django/#308)
+    'id',
 ]
 
 

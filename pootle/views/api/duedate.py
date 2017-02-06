@@ -11,7 +11,7 @@ from django.utils.lru_cache import lru_cache
 
 from pootle.core.url_helpers import split_pootle_path
 from pootle.core.views.api import APIView
-from pootle.forms import DueDateForm
+from pootle.forms import AddDueDateForm, EditDueDateForm
 from pootle.models import DueDate
 from pootle_app.models.permissions import check_user_permission
 from pootle_language.models import Language
@@ -88,8 +88,8 @@ class DueDateView(APIView):
     model = DueDate
     restrict_to_methods = ('POST', 'PUT', 'DELETE', )
     fields = ('due_on', 'modified_by', 'pootle_path', )
-    add_form_class = DueDateForm
-    edit_form_class = DueDateForm
+    add_form_class = AddDueDateForm
+    edit_form_class = EditDueDateForm
     permission_classes = [CanAdminPath]
     path_field = 'pootle_path'
 

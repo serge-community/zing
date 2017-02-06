@@ -44,7 +44,7 @@ def test_duedate_post(client, request_users, test_name, snapshot_stack, path):
     with snapshot_stack.push([
         as_dir(test_name), as_dir(user.username), url_name(path)
     ]):
-        if not user.is_anonymous():
+        if not user.is_anonymous:
             client.force_login(user)
         response = client.post(url, jsonify(post_data),
                                content_type='application/json')
@@ -90,7 +90,7 @@ def test_duedate_update(client, request_users, test_name, snapshot_stack, path):
     with snapshot_stack.push([
         as_dir(test_name), as_dir(user.username), url_name(path)
     ]):
-        if not user.is_anonymous():
+        if not user.is_anonymous:
             client.force_login(user)
         response = client.put(url, jsonify(put_data),
                               content_type='application/json')
@@ -135,7 +135,7 @@ def test_duedate_delete(client, request_users, test_name, snapshot_stack, path):
     with snapshot_stack.push([
         as_dir(test_name), as_dir(user.username), url_name(path)
     ]):
-        if not user.is_anonymous():
+        if not user.is_anonymous:
             client.force_login(user)
         response = client.delete(url, content_type='application/json')
 

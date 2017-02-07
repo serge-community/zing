@@ -1,7 +1,7 @@
 /*
- * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
@@ -68,15 +68,14 @@ function relativeTimeMessage({
 /**
  * Generate a human-readable relative time message.
  *
- * @param {String} isoDateTime - a date and time combination in ISO 8601 format
- * as understood by browsers' `Date.parse()`.
+ * @param {String} msEpoch - Number of milliseconds since epoch.
  * @return {String} - Message referring to the relative time. Returns an empty
  * string if the provided date time is invalid or cannot be parsed.
  */
-export function relativeTime(isoDateTime) {
+export function relativeTime(msEpoch) {
   const {
     isFuture, minutes, hours, days, weeks, months, years,
-  } = timeDelta(isoDateTime);
+  } = timeDelta(msEpoch);
 
   if (isFuture === null) {
     return '';

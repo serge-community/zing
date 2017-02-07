@@ -1,7 +1,7 @@
 /*
- * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
@@ -28,23 +28,21 @@ function absTrunc(number) {
 
 
 /**
- * Calculates the time difference from `isoDateTime` to the current date as
- * provide by the client.
+ * Calculates the time difference from `msEpoch` to the current date as
+ * provided by the client.
  *
  * Note the difference calculation doesn't intend to be smart about leap years
  * and number of days per month, but rather a simple and naive implementation.
  *
- * @param {String} isoDateTime - a date and time combination in ISO 8601 format
- * as understood by browsers' `Date.parse()`.
+ * @param {String} msEpoch - Number of milliseconds since epoch.
  * @return {Object} - An object with the delta difference specified in seconds,
  * minutes, hours, days, weeks and months. The `isFuture` boolean
  * property indicates whether the difference refers to a future time.
  * When the value passed is invalid or cannot be parsed, every property in the
  * object will be `null`.
  */
-export function timeDelta(isoDateTime) {
-  const providedTime = isoDateTime && Date.parse(isoDateTime);
-  if (!providedTime || isNaN(providedTime)) {
+export function timeDelta(msEpoch) {
+  if (typeof msEpoch !== 'number') {
     return {
       isFuture: null,
       seconds: null,
@@ -57,8 +55,8 @@ export function timeDelta(isoDateTime) {
     };
   }
 
-  const now = (new Date()).valueOf();
-  const delta = providedTime - now;
+  const now = Date.now();
+  const delta = msEpoch - now;
 
   const isFuture = delta > 0;
 

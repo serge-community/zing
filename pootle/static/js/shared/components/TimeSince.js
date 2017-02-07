@@ -73,7 +73,8 @@ const TimeSince = React.createClass({
       return null;
     }
 
-    const d = new Date(this.props.timestamp * 1000);
+    const msEpoch = this.props.timestamp * 1000;
+    const d = new Date(msEpoch);
 
     return (
       <time
@@ -82,7 +83,7 @@ const TimeSince = React.createClass({
         dateTime={d.toUTCString()}
         {...this.props}
       >
-        {relativeTime(d)}
+        {relativeTime(msEpoch)}
       </time>
     );
   },

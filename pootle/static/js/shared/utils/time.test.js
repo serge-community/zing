@@ -1,7 +1,7 @@
 /*
- * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
@@ -30,7 +30,9 @@ describe('timeDelta', () => {
     expect(timeDelta(undefined)).toEqual(undefinedDelta);
     expect(timeDelta('Invalid')).toEqual(undefinedDelta);
     expect(timeDelta('2016-14-12')).toEqual(undefinedDelta);
+    expect(timeDelta('2016-12-12 12:02:11')).toEqual(undefinedDelta);
     expect(timeDelta('2016-12-12 25:02:11')).toEqual(undefinedDelta);
+    expect(timeDelta('2016-12-12T12:02:11+00:00')).toEqual(undefinedDelta);
   });
 
   describe('positive duration', () => {
@@ -38,7 +40,7 @@ describe('timeDelta', () => {
       {
         unit: 'seconds',
         now: '2016-07-07T00:00:00+00:00',
-        args: ['2016-07-07T00:00:44+00:00'],
+        args: '2016-07-07T00:00:44+00:00',
         expected: {
           isFuture: true,
           seconds: 44,
@@ -53,7 +55,7 @@ describe('timeDelta', () => {
       {
         unit: 'seconds (TZ-aware)',
         now: '2016-07-07T00:00:00+02:00',
-        args: ['2016-07-06T22:00:44+00:00'],
+        args: '2016-07-06T22:00:44+00:00',
         expected: {
           isFuture: true,
           seconds: 44,
@@ -68,7 +70,7 @@ describe('timeDelta', () => {
       {
         unit: 'minutes',
         now: '2016-07-07T00:00:00+00:00',
-        args: ['2016-07-07T00:59:00+00:00'],
+        args: '2016-07-07T00:59:00+00:00',
         expected: {
           isFuture: true,
           seconds: 3540,
@@ -83,7 +85,7 @@ describe('timeDelta', () => {
       {
         unit: 'minutes (TZ-aware)',
         now: '2016-07-07T00:00:00+02:00',
-        args: ['2016-07-06T22:59:00+00:00'],
+        args: '2016-07-06T22:59:00+00:00',
         expected: {
           isFuture: true,
           seconds: 3540,
@@ -98,7 +100,7 @@ describe('timeDelta', () => {
       {
         unit: 'hours',
         now: '2016-07-07T00:00:00+00:00',
-        args: ['2016-07-07T23:00:44+00:00'],
+        args: '2016-07-07T23:00:44+00:00',
         expected: {
           isFuture: true,
           seconds: 82844,
@@ -113,7 +115,7 @@ describe('timeDelta', () => {
       {
         unit: 'hours (TZ-aware)',
         now: '2016-07-07T00:00:00+02:00',
-        args: ['2016-07-07T21:00:44+00:00'],
+        args: '2016-07-07T21:00:44+00:00',
         expected: {
           isFuture: true,
           seconds: 82844,
@@ -128,7 +130,7 @@ describe('timeDelta', () => {
       {
         unit: 'days',
         now: '2016-07-07T00:00:00+00:00',
-        args: ['2016-07-13T23:59:59+00:00'],
+        args: '2016-07-13T23:59:59+00:00',
         expected: {
           isFuture: true,
           seconds: 604799,
@@ -143,7 +145,7 @@ describe('timeDelta', () => {
       {
         unit: 'days (TZ-aware)',
         now: '2016-07-07T00:00:00+02:00',
-        args: ['2016-07-13T21:59:59+00:00'],
+        args: '2016-07-13T21:59:59+00:00',
         expected: {
           isFuture: true,
           seconds: 604799,
@@ -158,7 +160,7 @@ describe('timeDelta', () => {
       {
         unit: 'weeks',
         now: '2016-06-27T23:59:59+00:00',
-        args: ['2016-07-07T00:00:00+00:00'],
+        args: '2016-07-07T00:00:00+00:00',
         expected: {
           isFuture: true,
           seconds: 777601,
@@ -173,7 +175,7 @@ describe('timeDelta', () => {
       {
         unit: 'weeks (TZ-aware)',
         now: '2016-06-27T21:59:59+00:00',
-        args: ['2016-07-07T00:00:00+02:00'],
+        args: '2016-07-07T00:00:00+02:00',
         expected: {
           isFuture: true,
           seconds: 777601,
@@ -188,7 +190,7 @@ describe('timeDelta', () => {
       {
         unit: 'months',
         now: '2016-07-07T00:00:00+00:00',
-        args: ['2016-10-07T23:59:59+00:00'],
+        args: '2016-10-07T23:59:59+00:00',
         expected: {
           isFuture: true,
           seconds: 8035199,
@@ -203,7 +205,7 @@ describe('timeDelta', () => {
       {
         unit: 'months (TZ-aware)',
         now: '2016-07-07T00:00:00+02:00',
-        args: ['2016-10-07T21:59:59+00:00'],
+        args: '2016-10-07T21:59:59+00:00',
         expected: {
           isFuture: true,
           seconds: 8035199,
@@ -218,7 +220,7 @@ describe('timeDelta', () => {
       {
         unit: 'years',
         now: '2016-07-07T00:00:00+00:00',
-        args: ['2017-07-07T00:00:59+00:00'],
+        args: '2017-07-07T00:00:59+00:00',
         expected: {
           isFuture: true,
           seconds: 31536059,
@@ -233,7 +235,7 @@ describe('timeDelta', () => {
       {
         unit: 'years (TZ-aware)',
         now: '2016-07-07T00:00:00+00:00',
-        args: ['2017-07-07T00:00:59+00:00'],
+        args: '2017-07-07T00:00:59+00:00',
         expected: {
           isFuture: true,
           seconds: 31536059,
@@ -250,7 +252,7 @@ describe('timeDelta', () => {
     tests.forEach((test) => {
       it(`calculates ${test.unit} of difference`, () => {
         lolex.install(Date.parse(test.now));
-        expect(timeDelta(...test.args)).toEqual(test.expected);
+        expect(timeDelta(Date.parse(test.args))).toEqual(test.expected);
       });
     });
   });
@@ -260,7 +262,7 @@ describe('timeDelta', () => {
       {
         unit: 'seconds',
         now: '2016-07-07T00:00:44+00:00',
-        args: ['2016-07-07T00:00:00+00:00'],
+        args: '2016-07-07T00:00:00+00:00',
         expected: {
           isFuture: false,
           seconds: 44,
@@ -277,7 +279,7 @@ describe('timeDelta', () => {
     tests.forEach((test) => {
       it(`calculates ${test.unit} of difference`, () => {
         lolex.install(Date.parse(test.now));
-        expect(timeDelta(...test.args)).toEqual(test.expected);
+        expect(timeDelta(Date.parse(test.args))).toEqual(test.expected);
       });
     });
   });

@@ -19,6 +19,7 @@ from pootle.core.utils.json import remove_empty_from_dict
 from pootle.core.utils.stats import (TOP_CONTRIBUTORS_CHUNK_SIZE,
                                      get_top_scorers_data,
                                      get_translation_states)
+from pootle.models.duedate import INVALID_POOTLE_PATHS, DueDate
 from pootle_app.models.permissions import check_user_permission
 from pootle_misc.checks import get_qualitycheck_list
 
@@ -146,6 +147,28 @@ class PootleBrowseView(BrowseDataViewMixin, PootleDetailView):
         top_scorers = get_top_scorers_data(top_scorers,
                                            TOP_CONTRIBUTORS_CHUNK_SIZE)
 
+        can_admin_due_dates = (
+            self.pootle_path not in INVALID_POOTLE_PATHS and
+            self.has_admin_access
+        )
+        due_date = None
+        if can_admin_due_dates:
+            try:
+                due_date_obj = DueDate.objects.get(
+                    pootle_path=self.pootle_path,
+                )
+                due_date = {
+                    'id': due_date_obj.id,
+                    'due_on': due_date_obj.due_on,
+                    'pootle_path': due_date_obj.pootle_path,
+                }
+            except DueDate.DoesNotExist:
+                due_date = {
+                    'id': 0,
+                    'due_on': 0,
+                    'pootle_path': self.pootle_path,
+                }
+
         ctx.update({
             'page': 'browse',
             'stats_refresh_attempts_count':
@@ -161,6 +184,9 @@ class PootleBrowseView(BrowseDataViewMixin, PootleDetailView):
             'url_action_view_all': url_action_view_all,
             'top_scorers': remove_empty_from_dict(top_scorers),
             'browser_extends': self.template_extends,
+
+            'can_admin_due_dates': can_admin_due_dates,
+            'due_date': due_date,
         })
 
         return ctx

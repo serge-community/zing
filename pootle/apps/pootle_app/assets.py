@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -32,6 +33,11 @@ js_admin_app = Bundle(
     'js/admin/app.bundle.js',
     output='js/admin/app.min.%(version)s.js')
 register('js_admin_app', js_admin_app)
+
+js_admin_duedates = Bundle(
+    'js/admin/duedates/app.bundle.js',
+    output='js/admin/duedates/app.min.%(version)s.js')
+register('js_admin_duedates', js_admin_duedates)
 
 js_user_app = Bundle(
     'js/user/app.bundle.js',

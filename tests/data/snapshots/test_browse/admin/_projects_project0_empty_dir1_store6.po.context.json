@@ -17,6 +17,7 @@
       }
     }
   },
+  "can_admin_due_dates": true,
   "can_translate": true,
   "can_translate_stats": true,
   "checks": [
@@ -213,6 +214,10 @@
       "url": "/projects/project0/translate/empty_dir1/store6.po#filter=checks&checks=doublequoting"
     }
   ],
+  "due_date": {
+    "due_on": 0,
+    "pootle_path": "/projects/project0/empty_dir1/store6.po"
+  },
   "export_url": "/projects/project0/export-view/empty_dir1/store6.po",
   "has_admin_access": true,
   "has_sidebar": true,

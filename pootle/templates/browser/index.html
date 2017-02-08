@@ -163,6 +163,12 @@
 {% block scripts_extra %}
 {{ block.super }}
 
+{% if has_admin_access %}
+  {% assets 'js_admin_duedates' %}
+  <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+  {% endassets %}
+{% endif %}
+
 <script type="text/javascript">
 $(function () {
   PTL.search.init();
@@ -175,6 +181,11 @@ $(function () {
     statsRefreshAttemptsCount: {{ stats_refresh_attempts_count }},
     uiLocaleDir: '{{ LANGUAGE_BIDI|yesno:"rtl,ltr" }}',
   });
+  {% if can_admin_due_dates %}
+    PTL.duedates.init({
+      dueDate: {{ due_date|to_js }},
+    });
+  {% endif %}
 });
 </script>
 {% endblock %}

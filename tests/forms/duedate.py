@@ -8,8 +8,6 @@
 
 import pytest
 
-from pootle.core.utils import dateformat
-from pootle.core.utils.timezone import aware_datetime
 from pootle.forms import AddDueDateForm, EditDueDateForm
 
 
@@ -27,9 +25,8 @@ def test_duedate_create_update(pootle_path, request_users):
     """Tests form validation for a set of paths."""
     user = request_users['user']
 
-    created_due_on = aware_datetime(2016, 04, 03, 01, 02, 03)
     form_data = {
-        'due_on': dateformat.format(created_due_on, 'U'),
+        'due_on': '2016-04-03',
         'modified_by': user.id,
         'pootle_path': pootle_path,
     }
@@ -39,9 +36,8 @@ def test_duedate_create_update(pootle_path, request_users):
     assert due_date.id is not None
 
     old_due_on = due_date.due_on
-    edited_due_on = aware_datetime(2016, 04, 04, 01, 02, 03)
     edit_form_data = {
-        'due_on': dateformat.format(edited_due_on, 'U'),
+        'due_on': '2016-04-04',
     }
     edit_form = EditDueDateForm(data=edit_form_data, instance=due_date)
     assert edit_form.is_valid()

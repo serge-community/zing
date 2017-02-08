@@ -83,6 +83,7 @@
     "total": 5957,
     "translated": 2017
   },
+  "can_admin_due_dates": false,
   "can_translate": true,
   "can_translate_stats": true,
   "checks": [
@@ -279,6 +280,7 @@
       "url": "/projects/translate/#filter=checks&checks=doublequoting"
     }
   ],
+  "due_date": null,
   "export_url": "/projects/export-view/",
   "has_admin_access": true,
   "is_disabled": false,

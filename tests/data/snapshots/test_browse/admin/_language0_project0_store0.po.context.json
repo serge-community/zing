@@ -25,6 +25,7 @@
     "total": 252,
     "translated": 86
   },
+  "can_admin_due_dates": true,
   "can_translate": true,
   "can_translate_stats": true,
   "checks": [
@@ -221,6 +222,10 @@
       "url": "/language0/project0/translate/store0.po#filter=checks&checks=doublequoting"
     }
   ],
+  "due_date": {
+    "due_on": 0,
+    "pootle_path": "/language0/project0/store0.po"
+  },
   "export_url": "/language0/project0/export-view/store0.po",
   "has_admin_access": true,
   "has_sidebar": true,

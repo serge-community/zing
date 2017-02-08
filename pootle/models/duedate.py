@@ -30,3 +30,6 @@ class DueDate(models.Model):
         self.full_clean()
 
         super(DueDate, self).save(*args, **kwargs)
+
+    def __unicode__(self):
+        return u'<DueDate: %s>' % (self.due_on)

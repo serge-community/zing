@@ -81,6 +81,7 @@
     "total": 462,
     "translated": 157
   },
+  "can_admin_due_dates": false,
   "can_translate": true,
   "can_translate_stats": true,
   "checks": [
@@ -277,6 +278,7 @@
       "url": "/language0/project0/translate/subdir0/#filter=checks&checks=doublequoting"
     }
   ],
+  "due_date": null,
   "export_url": "/language0/project0/export-view/subdir0/",
   "has_admin_access": false,
   "has_sidebar": true,

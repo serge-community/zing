@@ -6,7 +6,7 @@
  * AUTHORS file for copyright and authorship information.
  */
 
-import 'imports-loader?Backbone=>require("backbone")!backbone-move';
+import 'imports?Backbone=>require("backbone")!backbone-move';
 
 import React from 'react';
 import ReactDOM from 'react-dom';

@@ -29,6 +29,7 @@ var entries = {
 
 
 var resolve = {
+  extensions: ['', '.js'],
   modulesDirectories: ['node_modules', 'shared'],
   alias: {
     pootle: __dirname,

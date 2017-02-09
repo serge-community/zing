@@ -11,6 +11,11 @@ from django import forms
 from pootle.models import DueDate
 
 
+# Set all due on times to this specific time of the day (in server's TZ)
+DUE_ON_HOUR = 9
+DUE_ON_MINUTE = 0
+
+
 class AddDueDateForm(forms.ModelForm):
 
     class Meta:
@@ -19,8 +24,9 @@ class AddDueDateForm(forms.ModelForm):
 
     def clean_due_on(self):
         data = self.cleaned_data['due_on']
-        # Always set to `09:00:00` in the server's timezone
-        data = data.replace(hour=9, minute=0, second=0, microsecond=0)
+        data = data.replace(
+            hour=DUE_ON_HOUR, minute=DUE_ON_MINUTE, second=0, microsecond=0,
+        )
         return data
 
 

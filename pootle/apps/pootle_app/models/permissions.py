@@ -37,7 +37,7 @@ def get_permissions_by_username(username, directory):
     if pootle_path not in permissions_cache:
         try:
             permissionset = PermissionSet.objects.filter(
-                directory__in=directory.trail(only_dirs=False),
+                directory__in=directory.trail(),
                 user__username=username).order_by('-directory__pootle_path')[0]
         except IndexError:
             permissionset = None

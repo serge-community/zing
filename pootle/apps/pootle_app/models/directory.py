@@ -216,17 +216,13 @@ class Directory(models.Model, CachedTreeItem):
                                                     parent=self)[0]
         return child_dir
 
-    def trail(self, only_dirs=True):
+    def trail(self):
         """Returns a list of ancestor directories excluding
         :cls:`~pootle_translationproject.models.TranslationProject` and above.
         """
         path_parts = self.pootle_path.split('/')
         parents = []
-        if only_dirs:
-            # skip language, and translation_project directories
-            start = 4
-        else:
-            start = 1
+        start = 1
 
         for i in xrange(start, len(path_parts)):
             path = '/'.join(path_parts[:i]) + '/'

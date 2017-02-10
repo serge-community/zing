@@ -59,6 +59,16 @@ export function splitPootlePath(path) {
 
 
 /**
+ * Retrieves the path to a resource path out of an internal `path`.
+ * @param {string} path - internal path
+ */
+export function getResourcePath(path) {
+  const [, , dirPath, filename] = splitPootlePath(path);
+  return dirPath + filename;
+}
+
+
+/**
  * Retrieves a translation URL out of an internal `path`
  * @param {string} path - internal path
  */

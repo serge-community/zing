@@ -21,6 +21,7 @@ import { q } from 'utils/dom';
 import { toLocaleString } from 'utils/i18n';
 
 import BrowserTable from './browser/components/BrowserTable';
+import PendingTaskContainer from './browser/components/PendingTaskContainer';
 import Stats from './browser/components/Stats';
 import StatsCollapsed from './browser/components/StatsCollapsed';
 
@@ -90,6 +91,7 @@ const stats = {
       checksData: null,
     };
 
+    this.languageCode = options.languageCode;
     this.pootlePath = options.pootlePath;
     this.isAdmin = options.isAdmin;
     this.statsRefreshAttemptsCount = options.statsRefreshAttemptsCount;
@@ -132,6 +134,17 @@ const stats = {
         this.setState({ isExpanded: state.isExpanded });
       }
     });
+
+    if (options.pendingTasks) {
+      ReactDOM.render(
+        <PendingTaskContainer
+          languageCode={options.languageCode}
+          tasks={options.pendingTasks.items}
+          total={options.pendingTasks.total}
+        />,
+        q('.js-mnt-pending-tasks')
+      );
+    }
 
     ReactDOM.render(
       <StatsCollapsed

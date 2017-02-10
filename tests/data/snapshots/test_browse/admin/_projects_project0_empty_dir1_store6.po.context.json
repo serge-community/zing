@@ -227,6 +227,7 @@
   "nav": "projects/_nav.html",
   "object": "/projects/project0/empty_dir1/store6.po",
   "page": "browse",
+  "pending_tasks": null,
   "pootle_path": "/projects/project0/empty_dir1/store6.po",
   "project": "Project 0",
   "resource_path": "empty_dir1/store6.po",

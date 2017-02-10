@@ -237,6 +237,10 @@
     "href": "/language0/project0/",
     "title": "Back to parent folder"
   },
+  "pending_tasks": {
+    "items": [],
+    "total": 0
+  },
   "pootle_path": "/language0/project0/store0.po",
   "project": "Project 0",
   "resource_path": "store0.po",

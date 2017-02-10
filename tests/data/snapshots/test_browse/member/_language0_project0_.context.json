@@ -315,6 +315,10 @@
     "href": "/language0/",
     "title": "Back to language"
   },
+  "pending_tasks": {
+    "items": [],
+    "total": 0
+  },
   "pootle_path": "/language0/project0/",
   "project": "Project 0",
   "resource_path": "",

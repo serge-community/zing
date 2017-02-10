@@ -8,6 +8,97 @@
  */
 
 /*
+ * TASKS
+ */
+
+.pending-tasks li
+{
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+a.task-item
+{
+    display: block;
+    padding: 0.75em 2em;
+    color: #fff;
+}
+
+a.task-item:hover
+{
+    text-decoration: none;
+}
+
+.task-item .due-on
+{
+    font-weight: bold;
+}
+
+.task-action
+{
+    border-radius: 1em;
+    padding: 0.1em 0.5em;
+    font-weight: bold;
+}
+
+.task-action .counter
+{
+    border-radius: 1em;
+    padding: 0 0.5em;
+    margin: 0 -0.35em 0 0.5em;
+    font-weight: normal;
+}
+
+.task-action.task-critical
+{
+    background-color: #fff;
+    color: #c30;
+}
+
+.task-action.task-critical .counter
+{
+    background-color: #c30;
+    color: #fff;
+}
+
+.task-action.task-translation
+{
+    background-color: #fff;
+    color: #0489b7;
+}
+
+.task-action.task-translation .counter
+{
+    background-color: #0489b7;
+    color: #fff;
+}
+
+.task-action:hover
+{
+    text-decoration: none;
+}
+
+.task-action:hover .counter
+{
+    background-color: #000;
+}
+
+.task-action-expand
+{
+    position: absolute;
+    right: 1.2em;
+    bottom: 0.75em;
+    opacity: 0.5;
+    cursor: pointer;
+    color: #fff;
+}
+
+.task-action-expand:hover
+{
+    opacity: 1;
+}
+
+
+/*
  * HEADER ACTION BAR
  */
 

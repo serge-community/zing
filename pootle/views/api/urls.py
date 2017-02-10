@@ -9,10 +9,14 @@
 from django.conf.urls import url
 
 from .duedate import DueDateView
+from .task import TaskView
 
 
 urlpatterns = [
     url(r'^duedates/((?P<id>[0-9]+)/)?$',
         DueDateView.as_view(),
         name='zing-xhr-duedates'),
+    url(r'^tasks/(?P<language_code>[^/]*)/$',
+        TaskView.as_view(),
+        name='zing-xhr-tasks'),
 ]

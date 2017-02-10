@@ -1,0 +1,37 @@
+[
+  {
+    "days_left": -6,
+    "importance_factor": 1,
+    "path": "/foo/"
+  },
+  {
+    "days_left": -4,
+    "importance_factor": 1,
+    "path": "/bar/baz/"
+  },
+  {
+    "days_left": 3,
+    "importance_factor": 1,
+    "path": "/blah/"
+  },
+  {
+    "days_left": 5,
+    "importance_factor": 1,
+    "path": "/baz/"
+  },
+  {
+    "days_left": 7,
+    "importance_factor": 1,
+    "path": "/foo/bar/"
+  },
+  {
+    "days_left": 8,
+    "importance_factor": 1,
+    "path": "/foo/bar/baz/"
+  },
+  {
+    "days_left": 9,
+    "importance_factor": 1,
+    "path": "/bar/"
+  }
+]

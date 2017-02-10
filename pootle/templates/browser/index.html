@@ -6,6 +6,8 @@
 {% get_current_language_bidi as LANGUAGE_BIDI %}
 
 {% block header_content_block %}
+<div class="js-mnt-pending-tasks"></div>
+
 <div id="top-stats" class="header">
   {% block header_content %}
   <a id="js-path-summary" href="#">
@@ -179,7 +181,9 @@ $(function () {
     initialData: {{ browsing_data|to_js }},
     topContributorsData: {{ top_scorers|to_js }},
     statsRefreshAttemptsCount: {{ stats_refresh_attempts_count }},
+    languageCode: '{{ language.code }}',
     uiLocaleDir: '{{ LANGUAGE_BIDI|yesno:"rtl,ltr" }}',
+    pendingTasks: {{ pending_tasks|to_js }},
   });
   {% if can_admin_due_dates %}
     PTL.duedates.init({

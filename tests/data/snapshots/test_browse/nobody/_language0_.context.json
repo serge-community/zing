@@ -277,6 +277,7 @@
   "nav": "languages/_nav.html",
   "object": "Language 0 - language0",
   "page": "browse",
+  "pending_tasks": null,
   "pootle_path": "/language0/",
   "project": null,
   "resource_path": "",

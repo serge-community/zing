@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "due_on": 1488614400,
+      "importance_factor": 0.5,
+      "path": "/language0/project1/store0.po",
+      "project_name": "Project 1",
+      "type": "critical",
+      "words_left": 2
+    },
+    {
+      "due_on": 1488614400,
+      "importance_factor": 0.0415,
+      "path": "/language0/project1/store0.po",
+      "project_name": "Project 1",
+      "type": "translation",
+      "words_left": 166
+    }
+  ]
+}

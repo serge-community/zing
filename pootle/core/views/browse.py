@@ -19,7 +19,7 @@ from pootle.core.utils.json import remove_empty_from_dict
 from pootle.core.utils.stats import (TOP_CONTRIBUTORS_CHUNK_SIZE,
                                      get_top_scorers_data,
                                      get_translation_states)
-from pootle.models.duedate import DueDate
+from pootle.models import DueDate
 from pootle_app.models.permissions import check_user_permission
 from pootle_misc.checks import get_qualitycheck_list
 
@@ -166,6 +166,15 @@ class PootleBrowseView(BrowseDataViewMixin, PootleDetailView):
                     'pootle_path': self.pootle_path,
                 }
 
+        pending_tasks = None
+        PENDING_TASKS_LIMIT = 3
+        if lang_code and self.request.user.is_authenticated:
+            tasks = DueDate.tasks(lang_code, user=self.request.user)
+            pending_tasks = {
+                'total': tasks.total,
+                'items': tasks[:PENDING_TASKS_LIMIT],
+            }
+
         ctx.update({
             'page': 'browse',
             'stats_refresh_attempts_count':
@@ -184,6 +193,7 @@ class PootleBrowseView(BrowseDataViewMixin, PootleDetailView):
 
             'can_admin_due_dates': can_admin_due_dates,
             'due_date': due_date,
+            'pending_tasks': pending_tasks,
         })
 
         return ctx

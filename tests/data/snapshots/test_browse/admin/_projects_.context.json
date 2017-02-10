@@ -288,6 +288,7 @@
   "nav": "projects/all/_nav.html",
   "object": "/projects/",
   "page": "browse",
+  "pending_tasks": null,
   "pootle_path": "/projects/",
   "project": null,
   "resource_path": "",

@@ -14,6 +14,7 @@ from pytest_pootle.factories import DueDateFactory, UserFactory
 
 from pootle.core.utils.timezone import aware_datetime
 from pootle.models import DueDate
+from pootle.models.task import TaskResultSet
 from pootle_store.models import Store
 from pootle_translationproject.models import TranslationProject
 
@@ -157,6 +158,39 @@ def test_duedate_delete_project_propagates():
         pootle_path=store_path,
     )
     assert store_due_dates.count() != 0
+
+
+@pytest.mark.django_db
+def test_duedate_unicode():
+    due_on = aware_datetime(2017, 1, 1, 1, 2, 3)
+    due_date = DueDateFactory.create(
+        pootle_path='/foo/bar/',
+        due_on=due_on,
+    )
+    assert '%s' % due_date == '<DueDate: %s>' % due_date.due_on
+
+
+@pytest.mark.django_db
+def test_duedate_get_pending_tasks_no_language_code():
+    due_date = DueDateFactory.create(pootle_path='/projects/foo/')
+    now = aware_datetime(2017, 1, 1, 1, 2, 3)
+    assert due_date.get_pending_tasks(now) == []
+
+
+@pytest.mark.django_db
+def test_duedate_get_pending_tasks():
+    """Tests pending task retrieval for a particular language."""
+    language = 'language0'
+
+    tasks = DueDate.tasks(language)
+    assert isinstance(tasks, TaskResultSet)
+
+    DueDateFactory.create(
+        pootle_path='/%s/project0/' % language,
+    )
+
+    tasks = DueDate.tasks(language)
+    assert isinstance(tasks, TaskResultSet)
 
 
 @pytest.mark.django_db

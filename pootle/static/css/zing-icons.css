@@ -7,6 +7,7 @@
 .icon,
 .icon-desc,
 .icon-asc,
+.icon-expand-tasks,
 .icon-expand-stats,
 .icon-collapse-stats,
 .icon-web-translate,
@@ -72,6 +73,13 @@
 {
     content: 'K';
     color: #000;
+}
+
+.icon-expand-tasks::before
+{
+    content: 'H';
+    color: #fff;
+    background-color: transparent;
 }
 
 .icon-expand-stats::before

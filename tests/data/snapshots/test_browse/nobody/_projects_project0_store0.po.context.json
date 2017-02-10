@@ -269,6 +269,7 @@
   "nav": "projects/_nav.html",
   "object": "/projects/project0/store0.po",
   "page": "browse",
+  "pending_tasks": null,
   "pootle_path": "/projects/project0/store0.po",
   "project": "Project 0",
   "resource_path": "store0.po",

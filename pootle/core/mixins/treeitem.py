@@ -505,15 +505,6 @@ class CachedTreeItem(TreeItem):
             logger.warning('Cache for %s object cannot be updated.', self)
             self.unregister_all_dirty(decrement)
 
-    def update_parent_cache(self):
-        """Add a RQ job which updates all cached stats of parent TreeItem
-        to the default queue
-        """
-        all_cache_methods = set(CachedMethods.get_all())
-        for p in self.get_parents():
-            p.register_all_dirty()
-            create_update_cache_job_wrapper(p, all_cache_methods)
-
 
 class JobWrapper(object):
     """

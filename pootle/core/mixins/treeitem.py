@@ -400,14 +400,11 @@ class CachedTreeItem(TreeItem):
             for item in self.children:
                 item._clear_cache(keys, parents=False, children=True)
 
-    def clear_dirty_cache(self, parents=True, children=False):
-        self._clear_cache(self._dirty_cache,
-                          parents=parents, children=children)
-        self._dirty_cache = set()
-
     def clear_all_cache(self, children=True, parents=True):
         self.mark_all_dirty()
-        self.clear_dirty_cache(children=children, parents=parents)
+        self._clear_cache(self._dirty_cache,
+                          parents=children, children=children)
+        self._dirty_cache = set()
 
     # # # # # # #  Update stats in Redis Queue Worker process # # # # # # # #
 

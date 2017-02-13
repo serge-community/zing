@@ -76,9 +76,9 @@ class TreeItem(object):
         self._children = children
         self.initialized = True
 
-    def get_parents(self):
+    def get_parent(self):
         """This method will be overridden in descendants"""
-        return []
+        return None
 
     def get_cachekey(self):
         return self.pootle_path
@@ -494,8 +494,9 @@ class CachedTreeItem(TreeItem):
                     keys_for_parent.remove(key)
 
             if keys_for_parent:
-                for p in self.get_parents():
-                    create_update_cache_job_wrapper(p, keys_for_parent,
+                parent = self.get_parent()
+                if parent is not None:
+                    create_update_cache_job_wrapper(parent, keys_for_parent,
                                                     decrement)
                 self.unregister_dirty(decrement)
             else:

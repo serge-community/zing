@@ -1206,7 +1206,7 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
             self.update_dirty_cache()
 
     def delete(self, *args, **kwargs):
-        parents = self.get_parents()
+        parent = self.get_parent()
 
         store_log(user='system', action=STORE_DELETED,
                   path=self.pootle_path, store=self.id)
@@ -1219,8 +1219,8 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
         super(Store, self).delete(*args, **kwargs)
 
         self.clear_cache()
-        for p in parents:
-            p.update_all_cache()
+        if parent is not None:
+            parent.update_all_cache()
 
     def makeobsolete(self):
         """Make this store and all its units obsolete."""
@@ -1445,13 +1445,10 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
     def can_be_updated(self):
         return not self.obsolete
 
-    def get_parents(self):
+    def get_parent(self):
         if self.parent.is_translationproject():
-            parents = [self.translation_project]
-        else:
-            parents = [self.parent]
-
-        return parents
+            return self.translation_project
+        return self.parent
 
     def _get_wordcount_stats(self):
         """calculate full wordcount statistics"""

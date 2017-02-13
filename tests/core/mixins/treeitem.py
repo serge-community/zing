@@ -35,28 +35,24 @@ def test_get_children(project0, language0):
 
 
 @pytest.mark.django_db
-def test_get_parents(po_directory, project0, language0, tp0, store0, subdir0):
+def test_get_parent(po_directory, project0, language0, tp0, store0, subdir0):
     """Ensure that retrieved parent objects have a correct type."""
 
     subdir_store = subdir0.child_stores.first()
-    parents = subdir_store.get_parents()
-    assert len(parents) == 1
-    assert isinstance(parents[0], Directory)
+    parent = subdir_store.get_parent()
+    assert isinstance(parent, Directory)
 
-    parents = store0.get_parents()
-    assert len(parents) == 1
-    assert isinstance(parents[0], TranslationProject)
+    parent = store0.get_parent()
+    assert isinstance(parent, TranslationProject)
 
-    parents = tp0.get_parents()
-    assert len(parents) == 1
-    assert isinstance(parents[0], Project)
+    parent = tp0.get_parent()
+    assert isinstance(parent, Project)
 
-    parents = tp0.directory.get_parents()
-    assert len(parents) == 1
-    assert isinstance(parents[0], Project)
+    parent = tp0.directory.get_parent()
+    assert isinstance(parent, Project)
 
-    parents = project0.directory.get_parents()
-    assert len(parents) == 0
+    parent = project0.directory.get_parent()
+    assert parent is None
 
-    parents = language0.directory.get_parents()
-    assert len(parents) == 0
+    parent = language0.directory.get_parent()
+    assert parent is None

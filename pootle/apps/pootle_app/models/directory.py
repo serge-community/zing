@@ -169,20 +169,20 @@ class Directory(models.Model, CachedTreeItem):
 
         return result
 
-    def get_parents(self):
-        if self.parent:
-            if self.is_translationproject():
-                return self.translationproject.get_parents()
-            elif self.is_project():
-                return self.project.get_parents()
-            elif self.is_language():
-                return self.language.get_parents()
-            elif self.parent.is_translationproject():
-                return [self.parent.translationproject]
-            else:
-                return [self.parent]
-        else:
-            return []
+    def get_parent(self):
+        if not self.parent:
+            return None
+
+        if self.is_translationproject():
+            return self.translationproject.get_parent()
+        if self.is_project():
+            return self.project.get_parent()
+        if self.is_language():
+            return self.language.get_parent()
+        if self.parent.is_translationproject():
+            return self.parent.translationproject
+
+        return self.parent
 
     # # # /TreeItem
 

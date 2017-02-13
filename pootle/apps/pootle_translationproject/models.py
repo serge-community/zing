@@ -338,8 +338,8 @@ class TranslationProject(models.Model, CachedTreeItem):
     def get_children(self):
         return self.directory.children
 
-    def get_parents(self):
-        return [self.project]
+    def get_parent(self):
+        return self.project
 
     # # # /TreeItem
 

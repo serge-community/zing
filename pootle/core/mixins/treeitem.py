@@ -258,17 +258,18 @@ class CachedTreeItem(TreeItem):
         self._dirty_cache = set()
         super(CachedTreeItem, self).__init__()
 
+    def make_cache_key(self, name):
+        return iri_to_uri('%s:%s' % (self.cache_key, name))
+
     def can_be_updated(self):
         """This method will be overridden in descendants"""
         return True
 
     def set_cached_value(self, name, value):
-        key = iri_to_uri(self.cache_key + ":" + name)
-        return cache.set(key, value, None)
+        return cache.set(self.make_cache_key(name), value, None)
 
     def get_cached_value(self, name):
-        key = iri_to_uri(self.cache_key + ":" + name)
-        return cache.get(key)
+        return cache.get(self.make_cache_key(name))
 
     def get_last_job_key(self):
         key = self.cache_key
@@ -386,14 +387,12 @@ class CachedTreeItem(TreeItem):
     def clear_cache(self):
         self.mark_all_dirty()
 
-        itemkey = self.cache_key
         keys = self._dirty_cache
         for key in keys:
-            cachekey = iri_to_uri(itemkey + ":" + key)
-            cache.delete(cachekey)
+            cache.delete(self.make_cache_key(key))
 
         if keys:
-            log("%s deleted from %s cache" % (keys, itemkey))
+            log("%s deleted from %s cache" % (keys, self.cache_key))
 
         self._dirty_cache = set()
 

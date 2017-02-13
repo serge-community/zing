@@ -68,6 +68,10 @@ class TreeItem(object):
         self.initialized = False
         super(TreeItem, self).__init__()
 
+    @property
+    def cache_key(self):
+        return self.pootle_path
+
     def get_children(self):
         """This method will be overridden in descendants"""
         return []
@@ -79,9 +83,6 @@ class TreeItem(object):
     def get_parent(self):
         """This method will be overridden in descendants"""
         return None
-
-    def get_cachekey(self):
-        return self.pootle_path
 
     @classmethod
     def _get_wordcount_stats(cls):
@@ -262,15 +263,15 @@ class CachedTreeItem(TreeItem):
         return True
 
     def set_cached_value(self, name, value):
-        key = iri_to_uri(self.get_cachekey() + ":" + name)
+        key = iri_to_uri(self.cache_key + ":" + name)
         return cache.set(key, value, None)
 
     def get_cached_value(self, name):
-        key = iri_to_uri(self.get_cachekey() + ":" + name)
+        key = iri_to_uri(self.cache_key + ":" + name)
         return cache.get(key)
 
     def get_last_job_key(self):
-        key = self.get_cachekey()
+        key = self.cache_key
         return POOTLE_STATS_LAST_JOB_PREFIX + key.replace("/", ".").strip(".")
 
     def update_cached(self, name):
@@ -292,7 +293,7 @@ class CachedTreeItem(TreeItem):
         ctx = {
             'function': calc_fn.__name__,
             'time': end - start,
-            'key': self.get_cachekey(),
+            'key': self.cache_key,
         }
         logger.debug('update_cached(%(function)s)\t%(time)s\t%(key)s', ctx)
 
@@ -304,7 +305,7 @@ class CachedTreeItem(TreeItem):
 
         logger.debug(
             u'Cache miss %s for %s(%s)',
-            name, self.get_cachekey(), self.__class__
+            name, self.cache_key, self.__class__
         )
         raise NoCachedStats
 
@@ -385,7 +386,7 @@ class CachedTreeItem(TreeItem):
     def clear_cache(self):
         self.mark_all_dirty()
 
-        itemkey = self.get_cachekey()
+        itemkey = self.cache_key
         keys = self._dirty_cache
         for key in keys:
             cachekey = iri_to_uri(itemkey + ":" + key)
@@ -402,7 +403,7 @@ class CachedTreeItem(TreeItem):
         """Get cache_key for all parents (to the Language and Project)
         of current TreeItem
         """
-        return get_all_pootle_paths(self.get_cachekey())
+        return get_all_pootle_paths(self.cache_key)
 
     def is_being_refreshed(self):
         """Checks if current TreeItem is being refreshed"""
@@ -416,7 +417,7 @@ class CachedTreeItem(TreeItem):
             return True
 
         proj_code = split_pootle_path(path)[1]
-        key = self.get_cachekey()
+        key = self.cache_key
 
         return key in path or path in key or key in '/projects/%s/' % proj_code
 
@@ -450,15 +451,15 @@ class CachedTreeItem(TreeItem):
         job = get_current_job()
         if job:
             logger.debug('UNREGISTER %s (-%s) where job_id=%s',
-                         self.get_cachekey(), decrement, job.id)
+                         self.cache_key, decrement, job.id)
         else:
-            logger.debug('UNREGISTER %s (-%s)', self.get_cachekey(), decrement)
-        r_con.zincrby(POOTLE_DIRTY_TREEITEMS, self.get_cachekey(),
+            logger.debug('UNREGISTER %s (-%s)', self.cache_key, decrement)
+        r_con.zincrby(POOTLE_DIRTY_TREEITEMS, self.cache_key,
                       0 - decrement)
 
     def get_dirty_score(self):
         r_con = get_connection()
-        return r_con.zscore(POOTLE_DIRTY_TREEITEMS, self.get_cachekey())
+        return r_con.zscore(POOTLE_DIRTY_TREEITEMS, self.cache_key)
 
     def update_dirty_cache(self):
         """Add a RQ job which updates dirty cached stats of current TreeItem

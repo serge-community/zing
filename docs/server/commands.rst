@@ -157,23 +157,6 @@ Multiple checks can be specifed in one run as well:
     $ pootle calculate_checks --check=date_format --check=accelerators
 
 
-.. django-admin:: clear_stats
-
-clear_stats
-^^^^^^^^^^^
-
-.. versionadded:: 2.7
-
-Clear stats cache data.
-
-Make use of :djadmin:`clear_stats` in cases where you want to remove all stats
-data. Such a case may be where you want to recalculate stats after a change
-to checks or wordcount calculations.  While it should be fine to run
-:djadmin:`refresh_stats` or :djadmin:`calculate_checks`, by first running
-:djadmin:`clear_stats` you can be sure that the stats are calculated from
-scratch.
-
-
 .. django-admin:: flush_cache
 
 flush_cache
@@ -199,8 +182,7 @@ all data from queues.
 
 .. django-admin-option:: --stats
 
-Use the :option:`--stats` to flush all stats data only (it works faster than
-:djadmin:`clear_stats` but it requires stopping the worker).
+Use the :option:`--stats` to flush all stats data only.
 
 .. django-admin-option:: --all
 

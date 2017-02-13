@@ -5,6 +5,7 @@ v0.3.1 (in development)
 -----------------------
 
 * Fixed reference in static pages which prevented the editor from showing up.
+* Removed unused `clear_stats` command. Use `flush_cache --stats` instead (#197).
 
 
 v0.3.0 (2017-02-06)

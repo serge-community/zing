@@ -385,9 +385,6 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
     def get_children(self):
         return self.translationproject_set.live()
 
-    def get_cachekey(self):
-        return self.directory.pootle_path
-
     # # # /TreeItem
 
     def get_stats_for_user(self, user):

@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -201,9 +202,6 @@ class Language(models.Model, TreeItem):
 
     def get_children(self):
         return self.translationproject_set.live()
-
-    def get_cachekey(self):
-        return self.directory.pootle_path
 
     # # # /TreeItem
 

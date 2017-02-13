@@ -1453,9 +1453,6 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
 
         return parents
 
-    def get_cachekey(self):
-        return self.pootle_path
-
     def _get_wordcount_stats(self):
         """calculate full wordcount statistics"""
         ret = {

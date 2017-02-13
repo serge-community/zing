@@ -382,28 +382,18 @@ class CachedTreeItem(TreeItem):
         """Mark all cached method names for this TreeItem as dirty"""
         self._dirty_cache = set(CachedMethods.get_all())
 
-    def _clear_cache(self, keys, parents=True, children=False):
+    def clear_cache(self):
+        self.mark_all_dirty()
+
         itemkey = self.get_cachekey()
+        keys = self._dirty_cache
         for key in keys:
             cachekey = iri_to_uri(itemkey + ":" + key)
             cache.delete(cachekey)
+
         if keys:
             log("%s deleted from %s cache" % (keys, itemkey))
 
-        if parents:
-            item_parents = self.get_parents()
-            for p in item_parents:
-                p._clear_cache(keys, parents=parents, children=False)
-
-        if children:
-            self.initialize_children()
-            for item in self.children:
-                item._clear_cache(keys, parents=False, children=True)
-
-    def clear_all_cache(self, children=True, parents=True):
-        self.mark_all_dirty()
-        self._clear_cache(self._dirty_cache,
-                          parents=children, children=children)
         self._dirty_cache = set()
 
     # # # # # # #  Update stats in Redis Queue Worker process # # # # # # # #

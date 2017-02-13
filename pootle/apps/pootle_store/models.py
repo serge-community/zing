@@ -1218,7 +1218,7 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
 
         super(Store, self).delete(*args, **kwargs)
 
-        self.clear_all_cache(parents=False, children=False)
+        self.clear_cache()
         for p in parents:
             p.update_all_cache()
 
@@ -1236,7 +1236,7 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
         unit_query.update(state=OBSOLETE, index=0)
         self.obsolete = True
         self.save()
-        self.clear_all_cache(parents=False, children=False)
+        self.clear_cache()
 
     def get_absolute_url(self):
         return reverse(

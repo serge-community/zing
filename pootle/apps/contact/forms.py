@@ -21,10 +21,10 @@ from pootle.core.mail import send_mail
 class ContactForm(MathCaptchaForm, OriginalContactForm):
 
     field_order = [
-        'name', 'email', 'subject', 'body', 'captcha_answer', 'captcha_token',
+        'name', 'email', 'summary', 'body', 'captcha_answer', 'captcha_token',
     ]
 
-    subject = forms.CharField(
+    summary = forms.CharField(
         max_length=100,
         label=_(u'Summary'),
         widget=forms.TextInput(
@@ -109,7 +109,7 @@ class ReportForm(ContactForm):
     """Contact form used to report errors on strings."""
 
     field_order = [
-        'name', 'email', 'subject', 'body', 'captcha_answer',
+        'name', 'email', 'summary', 'body', 'captcha_answer',
         'captcha_token', 'report_email',
     ]
 

@@ -1,8 +1,8 @@
 Zing Changelog
 ==============
 
-v0.3.1 (in development)
------------------------
+v0.3.1 (2017-02-15)
+-------------------
 
 * Fixed reference in static pages which prevented the editor from showing up.
 * Removed unused `clear_stats` command. Use `flush_cache --stats` instead (#197).

@@ -97,7 +97,7 @@ class PootleBrowseView(BrowseDataViewMixin, PootleDetailView):
         ctx_, cookie_data = self.sidebar_announcements
         return cookie_data
 
-    @property
+    @cached_property
     def sidebar_announcements(self):
         return get_sidebar_announcements_context(self.request, (self.object,))
 

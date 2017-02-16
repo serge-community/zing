@@ -21,7 +21,7 @@ class DueDateContainer extends React.Component {
     const { initialDueDate } = props;
     this.state = {
       id: initialDueDate.id,
-      dueOn: parseInt(initialDueDate.due_on, 10),
+      dueOn: initialDueDate.due_on,
       pootlePath: initialDueDate.pootle_path,
     };
   }
@@ -46,7 +46,7 @@ class DueDateContainer extends React.Component {
     promise.then((dueDate) => {
       this.setState(() => ({
         id: dueDate.id,
-        dueOn: parseInt(dueDate.due_on, 10),
+        dueOn: dueDate.due_on,
       }));
     });
   }

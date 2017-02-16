@@ -36,7 +36,7 @@ class PootleJSONEncoder(DjangoJSONEncoder):
         if (isinstance(obj, datetime.datetime) or
             isinstance(obj, datetime.date) or
             isinstance(obj, datetime.time)):
-            return dateformat.format(obj, 'U')
+            return int(dateformat.format(obj, 'U'))
 
         try:
             return super(PootleJSONEncoder, self).default(obj)

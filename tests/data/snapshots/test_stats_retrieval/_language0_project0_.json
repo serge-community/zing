@@ -1,0 +1,19 @@
+{
+  "critical": 9,
+  "fuzzy": 370,
+  "incomplete": 838,
+  "last_action": {
+    "displayname": "Member",
+    "email": "d41d8cd98f00b204e9800998ecf8427e",
+    "mtime": 1483361146,
+    "source": "Translated Source /language0/project0/store2.po...",
+    "translation_action_type": 1,
+    "type": 1,
+    "uid": 19,
+    "username": "member"
+  },
+  "last_updated": 1484570757,
+  "suggestions": 27,
+  "total": 1320,
+  "translated": 482
+}

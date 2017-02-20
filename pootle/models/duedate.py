@@ -26,10 +26,10 @@ class DueDate(models.Model):
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL)
     modified_on = models.DateTimeField(auto_now_add=True)
 
+    def __unicode__(self):
+        return u'<DueDate: %s>' % (self.due_on)
+
     def save(self, *args, **kwargs):
         self.full_clean()
 
         super(DueDate, self).save(*args, **kwargs)
-
-    def __unicode__(self):
-        return u'<DueDate: %s>' % (self.due_on)

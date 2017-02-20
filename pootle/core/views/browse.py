@@ -19,7 +19,7 @@ from pootle.core.utils.json import remove_empty_from_dict
 from pootle.core.utils.stats import (TOP_CONTRIBUTORS_CHUNK_SIZE,
                                      get_top_scorers_data,
                                      get_translation_states)
-from pootle.models.duedate import INVALID_POOTLE_PATHS, DueDate
+from pootle.models.duedate import DueDate
 from pootle_app.models.permissions import check_user_permission
 from pootle_misc.checks import get_qualitycheck_list
 
@@ -147,10 +147,7 @@ class PootleBrowseView(BrowseDataViewMixin, PootleDetailView):
         top_scorers = get_top_scorers_data(top_scorers,
                                            TOP_CONTRIBUTORS_CHUNK_SIZE)
 
-        can_admin_due_dates = (
-            self.pootle_path not in INVALID_POOTLE_PATHS and
-            self.has_admin_access
-        )
+        can_admin_due_dates = bool(self.project and self.has_admin_access)
         due_date = None
         if can_admin_due_dates:
             try:

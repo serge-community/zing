@@ -14,11 +14,14 @@ from django.utils import timezone
 from pytest_pootle.factories import UserFactory
 
 from pootle.models import DueDate
-from pootle.models.duedate import INVALID_POOTLE_PATHS
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize('pootle_path', INVALID_POOTLE_PATHS)
+@pytest.mark.parametrize('pootle_path', [
+    '/',
+    '/projects/',
+    '/ru/',
+])
 def test_duedate_create_invalid_paths(pootle_path):
     """Tests certain path restrictions when creating due dates."""
     with pytest.raises(ValidationError) as excinfo:
@@ -31,7 +34,6 @@ def test_duedate_create_invalid_paths(pootle_path):
 
 @pytest.mark.django_db
 @pytest.mark.parametrize('pootle_path', [
-    '/ru/',
     '/ru/foo/',
     '/ru/foo/bar/',
     '/ru/foo/bar/baz.po',

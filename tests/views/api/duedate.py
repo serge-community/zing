@@ -24,7 +24,6 @@ from pootle.core.utils.timezone import aware_datetime
     '/projects/project0/store0.po',
     '/projects/project0/subdir0/',
     '/projects/project0/subdir0/store4.po',
-    '/language0/',
     '/language0/project0/',
     '/language0/project0/store0.po',
     '/language0/project0/subdir0/',
@@ -60,7 +59,6 @@ def test_duedate_post(client, request_users, test_name, snapshot_stack, path):
     '/projects/project0/store0.po',
     '/projects/project0/subdir0/',
     '/projects/project0/subdir0/store4.po',
-    '/language0/',
     '/language0/project0/',
     '/language0/project0/store0.po',
     '/language0/project0/subdir0/',
@@ -110,7 +108,6 @@ def test_duedate_update(client, request_users, test_name, snapshot_stack, path):
     '/projects/project0/store0.po',
     '/projects/project0/subdir0/',
     '/projects/project0/subdir0/store4.po',
-    '/language0/',
     '/language0/project0/',
     '/language0/project0/store0.po',
     '/language0/project0/subdir0/',
@@ -148,7 +145,6 @@ def test_duedate_delete(client, request_users, test_name, snapshot_stack, path):
 @pytest.mark.parametrize('path', [
     '/projects/fake-project/',
     '/projects/fake-project/store0.po',
-    '/fake-language/',
     '/fake-language/fake-project/',
     '/fake-language/fake-project/fake-store.po',
 ])

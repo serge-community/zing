@@ -10,11 +10,12 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 
-INVALID_POOTLE_PATHS = ['/', '/projects/']
+from pootle.core.url_helpers import split_pootle_path
 
 
 def validate_pootle_path(value):
-    if value in INVALID_POOTLE_PATHS:
+    project_code = split_pootle_path(value)[1]
+    if project_code is None:
         raise ValidationError('Cannot set due date for this path.')
 
 

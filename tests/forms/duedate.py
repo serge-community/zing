@@ -13,7 +13,6 @@ from pootle.forms import AddDueDateForm, EditDueDateForm
 
 @pytest.mark.django_db
 @pytest.mark.parametrize('pootle_path', [
-    '/ru/',
     '/ru/foo/',
     '/ru/foo/bar/',
     '/ru/foo/bar/baz.po',

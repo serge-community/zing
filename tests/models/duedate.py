@@ -11,7 +11,7 @@ import pytest
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 
-from pytest_pootle.factories import UserFactory
+from pytest_pootle.factories import DueDateFactory
 
 from pootle.models import DueDate
 
@@ -25,7 +25,7 @@ from pootle.models import DueDate
 def test_duedate_create_invalid_paths(pootle_path):
     """Tests certain path restrictions when creating due dates."""
     with pytest.raises(ValidationError) as excinfo:
-        DueDate.objects.create(pootle_path=pootle_path)
+        DueDateFactory.create(pootle_path=pootle_path)
 
     message_dict = excinfo.value.message_dict
     assert 'pootle_path' in message_dict
@@ -43,12 +43,7 @@ def test_duedate_create_invalid_paths(pootle_path):
 ])
 def test_duedate_create(pootle_path):
     """Tests due dates creation for valid paths."""
-    user = UserFactory.create()
-    due_on = timezone.now()
-
-    due_date = DueDate.objects.create(
-        due_on=due_on,
-        modified_by=user,
+    due_date = DueDateFactory.create(
         pootle_path=pootle_path,
     )
     assert due_date.id is not None

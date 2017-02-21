@@ -223,6 +223,8 @@ class SuggestionFactory(factory.django.DjangoModelFactory):
 
 
 class DueDateFactory(factory.django.DjangoModelFactory):
+    due_on = timezone.now()
+    modified_by = factory.SubFactory(UserFactory)
 
-        class Meta(object):
-            model = 'pootle.DueDate'
+    class Meta(object):
+        model = 'pootle.DueDate'

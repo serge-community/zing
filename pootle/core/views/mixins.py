@@ -12,7 +12,6 @@ from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.utils.decorators import method_decorator
 
-from pootle.core.delegate import context_data
 from pootle.i18n.gettext import ugettext as _
 
 from ..http import JsonResponse, JsonResponseBadRequest
@@ -92,22 +91,7 @@ class AjaxResponseMixin(object):
         return JsonResponse({})
 
 
-class GatherContextMixin(object):
-
-    def gather_context_data(self, context):
-        context.update(
-            context_data.gather(
-                sender=self.__class__,
-                context=context, view=self))
-        return context
-
-    def render_to_response(self, context, **response_kwargs):
-        return super(GatherContextMixin, self).render_to_response(
-            self.gather_context_data(context),
-            **response_kwargs)
-
-
-class PootleJSONMixin(GatherContextMixin):
+class PootleJSONMixin(object):
 
     response_class = JsonResponse
 
@@ -122,6 +106,5 @@ class PootleJSONMixin(GatherContextMixin):
         `get_context_data`
         """
         response_kwargs.setdefault('content_type', self.content_type)
-        return self.response_class(
-            self.get_response_data(self.gather_context_data(context)),
-            **response_kwargs)
+        return self.response_class(self.get_response_data(context),
+                                   **response_kwargs)

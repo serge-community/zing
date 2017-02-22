@@ -8,11 +8,8 @@
 # AUTHORS file for copyright and authorship information.
 
 
-from pootle.core.plugin.delegate import Getter, Provider
+from pootle.core.plugin.delegate import Getter
 
 
 search_backend = Getter(providing_args=["instance"])
 contributors = Getter()
-
-# view.context_data
-context_data = Provider(providing_args=["view", "context"])

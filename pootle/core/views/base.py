@@ -21,10 +21,10 @@ from pootle_app.models.permissions import check_permission
 from pootle_misc.util import ajax_required
 
 from .decorators import requires_permission, set_permissions
-from .mixins import GatherContextMixin, PootleJSONMixin
+from .mixins import PootleJSONMixin
 
 
-class PootleDetailView(GatherContextMixin, DetailView):
+class PootleDetailView(DetailView):
     translate_url_path = ""
     browse_url_path = ""
     export_url_path = ""

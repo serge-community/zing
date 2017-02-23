@@ -61,6 +61,7 @@ const BrowserTableRow = React.createClass({
       critical, fuzzy, isDisabled, isDirty, itemType, lastAction, lastUpdated,
       pootlePath, suggestions, title, total, translated,
     } = this.props;
+    const translateUrl = getTranslateUrl(pootlePath);
 
     const trClasses = cx('item', {
       'is-disabled': isDisabled,
@@ -92,7 +93,7 @@ const BrowserTableRow = React.createClass({
           {progressBar}
         </td>
         <td className="stats-number total">
-          <a href={getTranslateUrl(pootlePath)} className="stats-data">
+          <a href={translateUrl} className="stats-data">
             <ColoredNumber n={total} />
           </a>
         </td>
@@ -102,19 +103,19 @@ const BrowserTableRow = React.createClass({
         <td className="stats-number critical">
           <NumberPill
             n={critical}
-            url={`${getTranslateUrl(pootlePath)}#filter=checks&category=critical`}
+            url={`${translateUrl}#filter=checks&category=critical`}
           />
         </td>
         <td className="stats-number suggestions">
           <NumberPill
             n={suggestions}
-            url={`${getTranslateUrl(pootlePath)}#filter=suggestions`}
+            url={`${translateUrl}#filter=suggestions`}
           />
         </td>
         <td className="stats-number need-translation">
           <NumberPill
             n={total - translated}
-            url={`${getTranslateUrl(pootlePath)}#filter=incomplete`}
+            url={`${translateUrl}#filter=incomplete`}
           />
         </td>
         <td className="last-activity">

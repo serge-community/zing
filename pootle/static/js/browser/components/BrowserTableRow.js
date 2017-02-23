@@ -10,12 +10,12 @@ import cx from 'classnames';
 import React from 'react';
 
 import LastActivity from 'components/LastActivity';
+import TimeSince from 'components/TimeSince';
 import { getTranslateUrl } from 'utils/url';
 
 import ColoredNumber from './ColoredNumber';
 import NumberPill from './NumberPill';
 import ProgressBar from './ProgressBar';
-import TimeSince from 'components/TimeSince';
 
 
 const ITEM_FILE = 0;

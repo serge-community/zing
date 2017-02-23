@@ -10,6 +10,7 @@ import cx from 'classnames';
 import React from 'react';
 
 import LastActivity from 'components/LastActivity';
+import { getTranslateUrl } from 'utils/url';
 
 import ColoredNumber from './ColoredNumber';
 import NumberPill from './NumberPill';
@@ -55,15 +56,6 @@ const BrowserTableRow = React.createClass({
     };
   },
 
-  getTranslateUrl() {
-    const { pootlePath } = this.props;
-    const pathItems = pootlePath.split('/'); // pootlePath starts with the slash
-    pathItems.shift(); // remove the first empty item
-    const lang = pathItems.shift();
-    const project = pathItems.shift();
-    return `/${lang}/${project}/translate/${pathItems.join('/')}`;
-  },
-
   render() {
     const {
       critical, fuzzy, isDisabled, isDirty, itemType, lastAction, lastUpdated,
@@ -100,7 +92,7 @@ const BrowserTableRow = React.createClass({
           {progressBar}
         </td>
         <td className="stats-number total">
-          <a href={this.getTranslateUrl()} className="stats-data">
+          <a href={getTranslateUrl(pootlePath)} className="stats-data">
             <ColoredNumber n={total} />
           </a>
         </td>
@@ -110,19 +102,19 @@ const BrowserTableRow = React.createClass({
         <td className="stats-number critical">
           <NumberPill
             n={critical}
-            url={`${this.getTranslateUrl()}#filter=checks&category=critical`}
+            url={`${getTranslateUrl(pootlePath)}#filter=checks&category=critical`}
           />
         </td>
         <td className="stats-number suggestions">
           <NumberPill
             n={suggestions}
-            url={`${this.getTranslateUrl()}#filter=suggestions`}
+            url={`${getTranslateUrl(pootlePath)}#filter=suggestions`}
           />
         </td>
         <td className="stats-number need-translation">
           <NumberPill
             n={total - translated}
-            url={`${this.getTranslateUrl()}#filter=incomplete`}
+            url={`${getTranslateUrl(pootlePath)}#filter=incomplete`}
           />
         </td>
         <td className="last-activity">

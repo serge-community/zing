@@ -25,10 +25,19 @@ def validate_pootle_path(value):
 
 class DueDateManager(models.Manager):
 
-    def for_project(self, project_code):
-        """Retrieves a queryset of due dates available for `project_code`."""
+    def for_project_path(self, pootle_path):
+        """Retrieves a queryset of due dates available for the `pootle_path`
+        resource across all languages.
+
+        :param pootle_path: internal path pointing to a project-specific
+            resource.
+        """
+        if not pootle_path.startswith('/projects/'):
+            return self.get_queryset().none()
+
+        xlang_regex = r'^%s$' % re.sub(r'^/projects/', '/[^/]*/', pootle_path)
         return self.get_queryset().filter(
-            pootle_path__regex=r'^/[^/]*/%s/' % project_code
+            pootle_path__regex=xlang_regex,
         )
 
 
@@ -65,8 +74,9 @@ class DueDate(models.Model):
         if self.language_code is not None:
             return
 
-        # The due date refers to a project: propagate changes to TPs
-        existing_due_dates = DueDate.objects.for_project(self.project_code)
+        # The due date refers to a project resource: propagate changes to
+        # resources at TPs
+        existing_due_dates = DueDate.objects.for_project_path(self.pootle_path)
         existing_due_dates.update(
             due_on=self.due_on,
             modified_by=self.modified_by,
@@ -101,4 +111,4 @@ class DueDate(models.Model):
         if self.language_code is not None:
             return
 
-        DueDate.objects.for_project(self.project_code).delete()
+        DueDate.objects.for_project_path(self.pootle_path).delete()

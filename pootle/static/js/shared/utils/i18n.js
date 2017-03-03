@@ -1,11 +1,12 @@
 /*
- * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
 
+import assign from 'object-assign';
 import React from 'react';
 
 
@@ -200,6 +201,35 @@ export function nt(singular, plural, count, ctx = null) {
 export function toLocaleString(number) {
   return number.toLocaleString(navigator.language);
 }
+
+
+export const dateFormatter = new Intl.DateTimeFormat(PTL.settings.UI_LOCALE, {
+  month: 'long',
+  day: 'numeric',
+});
+
+
+// Flag needed for IE11 as it doesn't support the `timeZone` option
+let isTzSupported = true;
+try {
+  (new Date()).toLocaleString('en', { timeZone: 'Europe/Amsterdam' });
+} catch (e) {
+  isTzSupported = !(e instanceof RangeError);
+}
+
+const tzOptions = isTzSupported ? {
+  timeZone: (new Intl.DateTimeFormat()).resolvedOptions().timeZone,
+  timeZoneName: 'short',
+} : {};
+export const dateTimeTzFormatter = new Intl.DateTimeFormat(
+  PTL.settings.UI_LOCALE,
+  assign({}, {
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  }, tzOptions)
+);
 
 
 /**

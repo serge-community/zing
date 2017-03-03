@@ -9,7 +9,7 @@
 import React from 'react';
 
 import { dueTime } from 'utils/dueTime';
-import { t, tct } from 'utils/i18n';
+import { t, tct, dateFormatter, dateTimeTzFormatter } from 'utils/i18n';
 import { getResourcePath, getTranslateUrl } from 'utils/url';
 
 
@@ -25,9 +25,8 @@ const TaskItem = ({ path, projectName, wordsLeft, dueOnMsEpoch, type }) => {
     actionUrl = `${actionUrl}#filter=incomplete`;
   }
 
-  const dueDate = new Date(dueOnMsEpoch);
-  const dueDateMsg = dueDate.toISOString();
-  const dueDateTooltip = dueDateMsg;
+  const dueDateMsg = dateFormatter.format(dueOnMsEpoch);
+  const dueDateTooltip = dateTimeTzFormatter.format(dueOnMsEpoch);
 
   const taskComp = (
     <span className={`task-action task-${type}`}>

@@ -45,6 +45,7 @@
     "plurr": "^1.0.2",
     "react": "^0.14.6",
     "react-addons-pure-render-mixin": "^0.14.6",
+    "react-day-picker": "^5.1.2",
     "react-dom": "^0.14.6",
     "react-redux": "^4.0.0",
     "react-select": "^0.9.1",

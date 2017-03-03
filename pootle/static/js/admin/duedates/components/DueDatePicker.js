@@ -7,8 +7,12 @@
  */
 
 import React from 'react';
+import DayPicker, { DateUtils } from 'react-day-picker';
 
 import { t } from 'utils/i18n';
+
+// XXX: use CSS modules so we only customize what's needed
+import './DueDatePicker.css';
 
 
 /**
@@ -33,10 +37,6 @@ class DueDatePicker extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.pickerEl.focus();
-  }
-
   componentWillReceiveProps(nextProps) {
     if (this.props.dueOn !== nextProps.dueOn) {
       this.initialIsoDate = fromUnixTimestamp(nextProps.dueOn);
@@ -51,9 +51,9 @@ class DueDatePicker extends React.Component {
     );
   }
 
-  handleChange() {
+  handleDayClick(day) {
     this.setState(() => ({
-      isoDate: this.pickerEl.value,
+      isoDate: day.toISOString().slice(0, -14),
     }));
   }
 
@@ -69,11 +69,6 @@ class DueDatePicker extends React.Component {
 
   render() {
     const styles = {
-      picker: {
-        boxSizing: 'border-box',  // FIXME: this should be part of reset
-        margin: '0 1em',
-        width: '100px',
-      },
       buttonsRow: {
         marginTop: '1em',
         float: 'right',
@@ -83,24 +78,21 @@ class DueDatePicker extends React.Component {
       },
     };
 
+    const now = new Date();
+    const selectedDate = new Date(this.state.isoDate);
+    // XXX: check bounds with respect to initial month?
+    const start = DateUtils.addMonths(now, -1);
+    const end = DateUtils.addMonths(now, 6);
     const { id } = this.props;
     return (
-      <form onSubmit={(e) => this.handleSubmit(e)}>
-        <div>
-          <label htmlFor="picker">{t('Due date (ISO):')}</label>
-          <input
-            type="text"
-            id="picker"
-            maxLength={15}
-            style={styles.picker}
-            ref={(el) => {
-              this.pickerEl = el;
-            }}
-            onChange={() => this.handleChange()}
-            onSubmit={() => this.handleSet()}
-            value={this.state.isoDate}
-          />
-        </div>
+      <div>
+        <DayPicker
+          initialMonth={selectedDate}
+          selectedDays={selectedDate}
+          fromMonth={start}
+          toMonth={end}
+          onDayClick={(day) => this.handleDayClick(day)}
+        />
         <div
           style={styles.buttonsRow}
         >
@@ -119,11 +111,12 @@ class DueDatePicker extends React.Component {
             className="btn btn-primary"
             style={styles.button}
             disabled={!this.canBeSubmitted()}
+            onClick={(e) => this.handleSubmit(e)}
           >
             {t('Set Due Date')}
           </button>
         </div>
-      </form>
+      </div>
     );
   }
 

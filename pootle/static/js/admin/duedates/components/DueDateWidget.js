@@ -10,8 +10,21 @@ import React from 'react';
 
 import DueDatePicker from './DueDatePicker';
 
-import { dueTime } from 'utils/dueTime';
+import { formatTimeDelta, formatTimeMessage } from 'utils/time';
 import { t } from 'utils/i18n';
+
+
+function _formatDueTime({ count, unit, isFuture }) {
+  const timeMsg = formatTimeMessage(unit, count);
+  if (isFuture) {
+    return t('Due in %(time)s', { time: timeMsg });
+  }
+  return t('Overdue by %(time)s', { time: timeMsg });
+}
+
+function formatDueTime(msEpoch) {
+  return formatTimeDelta(msEpoch, { formatFunction: _formatDueTime });
+}
 
 
 class DueDateWidget extends React.Component {
@@ -42,7 +55,7 @@ class DueDateWidget extends React.Component {
     let dueOnMsg = t('No due date set');
     let dueOnTooltip = '';
     if (dueOn) {
-      dueOnMsg = dueTime(dueOn * 1000);
+      dueOnMsg = formatDueTime(dueOn * 1000);
       dueOnTooltip = (new Date(dueOn * 1000)).toUTCString();
     }
 

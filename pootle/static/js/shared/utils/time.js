@@ -77,6 +77,7 @@ export function formatTimeMessage(unit, count) {
   return t('a few seconds');
 }
 
+
 /**
  * Formats the time difference from `msEpoch` to the current date as
  * provided by the client.
@@ -106,11 +107,16 @@ function formatUnit({ count, unit, addDirection, isFuture }) {
  *   If none is provided, `formatUnit` will be used.
  * @return {String} - A formatted string of the time difference since `msEpoch`.
  */
-export function formatTimeDelta(msEpoch, { addDirection = false } = {}) {
+export function formatTimeDelta(
+  msEpoch, { addDirection = false, formatFunction = null } = {}
+) {
   const now = Date.now();
   const delta = msEpoch - now;
   const seconds = Math.abs(delta / 1000);
 
+  const formatter = (
+    typeof formatFunction === 'function' ? formatFunction : formatUnit
+  );
   let formatted = '';
 
   const units = Object.keys(TIMEDELTA_UNITS);
@@ -122,7 +128,7 @@ export function formatTimeDelta(msEpoch, { addDirection = false } = {}) {
 
     if (value >= threshold) {
       const count = Math.round(value);
-      formatted = formatUnit({ count, unit, addDirection, isFuture: delta > 0 });
+      formatted = formatter({ count, unit, addDirection, isFuture: delta > 0 });
       break;
     }
   }

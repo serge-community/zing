@@ -8,9 +8,26 @@
 
 import React from 'react';
 
-import { dueTime } from 'utils/dueTime';
 import { t, tct, dateFormatter, dateTimeTzFormatter } from 'utils/i18n';
+import { formatTimeDelta, formatTimeMessage } from 'utils/time';
 import { getResourcePath, getTranslateUrl } from 'utils/url';
+
+
+function _formatDueTime({ count, unit, isFuture }) {
+  if (unit === 'minute' && count < 30) {
+    return t('due right now');
+  }
+
+  const timeMsg = formatTimeMessage(unit, count);
+  if (isFuture) {
+    return t('in %(time)s', { time: timeMsg });
+  }
+  return t('%(time)s late', { time: timeMsg });
+}
+
+function formatDueTime(msEpoch) {
+  return formatTimeDelta(msEpoch, { formatFunction: _formatDueTime });
+}
 
 
 const TaskItem = ({ path, projectName, wordsLeft, dueOnMsEpoch, type }) => {
@@ -48,7 +65,7 @@ const TaskItem = ({ path, projectName, wordsLeft, dueOnMsEpoch, type }) => {
   const dueOnComp = (
     <span
       className="due-on"
-    >{dueTime(dueOnMsEpoch)}</span>
+    >{formatDueTime(dueOnMsEpoch)}</span>
   );
 
   return (

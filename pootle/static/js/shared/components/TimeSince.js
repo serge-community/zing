@@ -10,7 +10,7 @@
 import React, { PropTypes } from 'react';
 import { PureRenderMixin } from 'react-addons-pure-render-mixin';
 
-import { relativeTime } from 'utils/relativeTime';
+import { formatTimeDelta } from 'utils/time';
 
 
 const TimeSince = React.createClass({
@@ -83,7 +83,7 @@ const TimeSince = React.createClass({
         dateTime={d.toUTCString()}
         {...this.props}
       >
-        {relativeTime(msEpoch)}
+        {formatTimeDelta(msEpoch, { addDirection: true })}
       </time>
     );
   },

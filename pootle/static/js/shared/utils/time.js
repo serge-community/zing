@@ -6,76 +6,126 @@
  * AUTHORS file for copyright and authorship information.
  */
 
-
-/**
- * Math.trunc. Included inline to avoid extra polyfills.
- */
-function trunc(value) {
-  return (value > 0 ? Math.floor : Math.ceil)(value);
-}
+import { nt, t } from './i18n';
 
 
-/**
- * A version of `Math.trunc` which returns absolute values.
- *
- * @param {Number} number - the number to truncate.
- * @return {Number} - positive integer
- */
-function absTrunc(number) {
-  const truncated = trunc(number);
-  return truncated < 0 ? truncated * -1 : truncated;
-}
+/* Mapping of units and seconds per unit */
+const TIMEDELTA_UNITS = {
+  year: 365 * 24 * 3600,
+  month: 30 * 24 * 3600,
+  week: 7 * 24 * 3600,
+  day: 24 * 3600,
+  hour: 3600, /* 60 * 60 */
+  minute: 60,
+  second: 1,
+};
+
+const TIMEDELTA_THRESHOLDS = {
+  year: 0.92, // 11M+
+  month: 0.83, // 25d+
+  week: 0.86, // 6d+
+  day: 0.937, // ~22.5h+
+  hour: 0.76,  // 45m+
+  minute: 0.76, // 45s+
+  second: 1,
+};
 
 
-/**
- * Calculates the time difference from `msEpoch` to the current date as
- * provided by the client.
- *
- * Note the difference calculation doesn't intend to be smart about leap years
- * and number of days per month, but rather a simple and naive implementation.
- *
- * @param {String} msEpoch - Number of milliseconds since epoch.
- * @return {Object} - An object with the delta difference specified in seconds,
- * minutes, hours, days, weeks and months. The `isFuture` boolean
- * property indicates whether the difference refers to a future time.
- * When the value passed is invalid or cannot be parsed, every property in the
- * object will be `null`.
- */
-export function timeDelta(msEpoch) {
-  if (typeof msEpoch !== 'number') {
-    return {
-      isFuture: null,
-      seconds: null,
-      minutes: null,
-      hours: null,
-      days: null,
-      weeks: null,
-      months: null,
-      years: null,
-    };
+export function formatTimeMessage(unit, count) {
+  if (unit === 'year') {
+    if (count === 1) {
+      return t('a year');
+    }
+    return nt('%(count)s year', '%(count)s years', count, { count });
   }
 
+  if (unit === 'month') {
+    if (count === 1) {
+      return t('a month');
+    }
+    return nt('%(count)s month', '%(count)s months', count, { count });
+  }
+
+  if (unit === 'week') {
+    if (count === 1) {
+      return t('a week');
+    }
+    return nt('%(count)s week', '%(count)s weeks', count, { count });
+  }
+
+  if (unit === 'day') {
+    if (count === 1) {
+      return t('a day');
+    }
+    return nt('%(count)s day', '%(count)s days', count, { count });
+  }
+
+  if (unit === 'hour') {
+    if (count === 1) {
+      return t('an hour');
+    }
+    return nt('%(count)s hour', '%(count)s hours', count, { count });
+  }
+
+  if (unit === 'minute') {
+    if (count === 1) {
+      return t('a minute');
+    }
+    return nt('%(count)s minute', '%(count)s minutes', count, { count });
+  }
+
+  return t('a few seconds');
+}
+
+/**
+ * Formats the time difference from `msEpoch` to the current date as
+ * provided by the client.
+ */
+function formatUnit({ count, unit, addDirection, isFuture }) {
+  const timeMsg = formatTimeMessage(unit, count);
+  if (!addDirection) {
+    return timeMsg;
+  }
+
+  if (isFuture) {
+    return t('in %(time)s', { time: timeMsg });
+  }
+  return t('%(time)s ago', { time: timeMsg });
+}
+
+
+/**
+ * Formats the time difference from `msEpoch` to the current date as
+ * provided by the client.
+ *
+ *
+ * @param {String} msEpoch - Number of milliseconds since epoch.
+ * @param {Boolean} addDirection - Whether to format using past/future
+ *   markers (`%s ago`, `in %s`). Defaults to `false`.
+ * @param {Function} formatFunction - alternative time formatting function.
+ *   If none is provided, `formatUnit` will be used.
+ * @return {String} - A formatted string of the time difference since `msEpoch`.
+ */
+export function formatTimeDelta(msEpoch, { addDirection = false } = {}) {
   const now = Date.now();
   const delta = msEpoch - now;
+  const seconds = Math.abs(delta / 1000);
 
-  const isFuture = delta > 0;
+  let formatted = '';
 
-  const seconds = absTrunc(delta / 1000);
-  const minutes = absTrunc(seconds / 60);
-  const hours = absTrunc(minutes / 60);
-  const days = absTrunc(hours / 24);
-  const weeks = absTrunc(days / 7);
-  const months = absTrunc(days / 30);  // naive: assuming 30 days per month
-  const years = absTrunc(days / 365);  // naive: assuming 365 days per year
+  const units = Object.keys(TIMEDELTA_UNITS);
+  // Using regular for as `forEach()` doesn't support breaking
+  for (let i = 0; i < units.length; i++) {
+    const unit = units[i];
+    const value = (seconds / TIMEDELTA_UNITS[unit]).toFixed(3);
+    const threshold = TIMEDELTA_THRESHOLDS[unit];
 
-  return {
-    isFuture,
-    seconds,
-    minutes,
-    hours,
-    days,
-    weeks,
-    months,
-    years,
-  };
+    if (value >= threshold) {
+      const count = Math.round(value);
+      formatted = formatUnit({ count, unit, addDirection, isFuture: delta > 0 });
+      break;
+    }
+  }
+
+  return formatted;
 }

@@ -9,7 +9,7 @@
 
 import $ from 'jquery';
 
-import { relativeTime } from 'utils/relativeTime';
+import { formatTimeDelta } from 'utils/time';
 
 
 function updateInputState($checkboxes, $input) {
@@ -26,7 +26,9 @@ const helpers = {
   /* Updates relative dates */
   updateRelativeDates() {
     $('.js-relative-date').each((i, e) => {
-      $(e).text(relativeTime(Date.parse($(e).attr('datetime'))));
+      $(e).text(
+        formatTimeDelta(Date.parse($(e).attr('datetime'), { addDirection: true }))
+      );
     });
   },
 

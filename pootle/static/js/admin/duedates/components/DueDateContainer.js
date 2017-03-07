@@ -32,7 +32,7 @@ class DueDateContainer extends React.Component {
       .then(() => this.setState({
         id: null,
         dueOn: 0,
-      }));
+      }, this.handlePostUpdate));
   }
 
   handleUpdate(isoDate) {
@@ -47,8 +47,13 @@ class DueDateContainer extends React.Component {
       this.setState(() => ({
         id: dueDate.id,
         dueOn: dueDate.due_on,
-      }));
+      }), this.handlePostUpdate);
     });
+  }
+
+  handlePostUpdate() {
+    // FIXME: dirty but okayish for now
+    PTL.stats.refreshTasks();
   }
 
   render() {

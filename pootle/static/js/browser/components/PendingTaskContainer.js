@@ -24,6 +24,12 @@ class PendingTaskContainer extends React.Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.hasOwnProperty('tasks')) {
+      this.setState({ tasks: nextProps.tasks });
+    }
+  }
+
   handleLoadMore(e) {
     e.preventDefault();
 

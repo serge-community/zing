@@ -15,6 +15,7 @@ import 'jquery-utils';
 import assign from 'object-assign';
 
 import StatsAPI from 'api/StatsAPI';
+import TaskAPI from 'api/TaskAPI';
 import LastActivity from 'components/LastActivity';
 import TimeSince from 'components/TimeSince';
 import { q } from 'utils/dom';
@@ -136,14 +137,7 @@ const stats = {
     });
 
     if (options.pendingTasks) {
-      ReactDOM.render(
-        <PendingTaskContainer
-          languageCode={options.languageCode}
-          tasks={options.pendingTasks.items}
-          total={options.pendingTasks.total}
-        />,
-        q('.js-mnt-pending-tasks')
-      );
+      this.setTasks(options.pendingTasks.items, options.pendingTasks.total);
     }
 
     ReactDOM.render(
@@ -180,6 +174,26 @@ const stats = {
         {}
     );
     this.updateUI();
+  },
+
+  setTasks(tasks, total) {
+    this.taskContainer = ReactDOM.render(
+      <PendingTaskContainer
+        languageCode={this.languageCode}
+        tasks={tasks}
+        total={total}
+      />,
+      q('.js-mnt-pending-tasks')
+    );
+  },
+
+  refreshTasks() {
+    // FIXME: don't access state like this. Move state up ASAP.
+    const currentTasksCount = this.taskContainer.state.tasks.length;
+    TaskAPI.get(this.languageCode, { limit: currentTasksCount })
+      .done((data) => {
+        this.setTasks(data.items, data.total);
+      });
   },
 
   refreshStats() {

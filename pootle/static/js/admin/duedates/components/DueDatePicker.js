@@ -79,7 +79,7 @@ class DueDatePicker extends React.Component {
     };
 
     const now = new Date();
-    const selectedDate = new Date(this.state.isoDate);
+    const selectedDate = this.state.isoDate ? new Date(this.state.isoDate) : now;
     // XXX: check bounds with respect to initial month?
     const start = DateUtils.addMonths(now, -1);
     const end = DateUtils.addMonths(now, 6);

@@ -11,6 +11,9 @@ from django import forms
 from pootle_language.models import Language
 
 
+PENDING_TASKS_LIMIT = 5
+
+
 class GetTaskForm(forms.Form):
 
     language = forms.ModelChoiceField(
@@ -18,6 +21,14 @@ class GetTaskForm(forms.Form):
         to_field_name='code',
     )
     offset = forms.IntegerField(required=False)
+    limit = forms.IntegerField(required=False)
 
     def clean_offset(self):
-        return self.cleaned_data.get('offset', 0) or 0
+        return self.cleaned_data.get('offset') or 0
+
+    def clean_limit(self):
+        limit = self.cleaned_data.get('limit') or PENDING_TASKS_LIMIT
+        # Allow at max 2 times the limit of tasks. This can be useful
+        # when the tasks list is expanded to more than `PENDING_TASKS_LIMIT`
+        # items and we want to refresh the existing items right away.
+        return min(limit, 2 * PENDING_TASKS_LIMIT)

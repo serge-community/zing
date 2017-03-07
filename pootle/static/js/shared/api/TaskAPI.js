@@ -13,11 +13,24 @@ const TaskAPI = {
 
   apiRoot: '/xhr/tasks/',
 
-  get(languageCode, { offset = 0 } = {}) {
+  get(languageCode, { offset = 0, limit = 0 } = {}) {
     let url = `${this.apiRoot}${languageCode}/`;
+    const params = {};
+
     if (offset > 0) {
-      url = `${url}?offset=${offset}`;
+      params.offset = offset;
     }
+    if (limit > 0) {
+      params.limit = limit;
+    }
+
+    const qs = Object.keys(params).map(
+      key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
+    ).join('&');
+    if (qs) {
+      url = `${url}?${qs}`;
+    }
+
     return fetch({ url });
   },
 

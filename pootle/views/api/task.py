@@ -14,9 +14,6 @@ from pootle.forms.task import GetTaskForm
 from pootle.models import DueDate
 
 
-PENDING_TASKS_LIMIT = 5
-
-
 class TaskView(View):
     http_method_names = ('get', )
     form_class = GetTaskForm
@@ -47,10 +44,10 @@ class TaskView(View):
         form = kwargs.pop('form')
         lang_code = form.cleaned_data['language'].code
         offset = form.cleaned_data['offset']
-        start = offset
-        end = offset + PENDING_TASKS_LIMIT
+        limit = form.cleaned_data['limit']
 
-        tasks = DueDate.tasks(lang_code, user=self.request.user)[start:end]
+        tasks = DueDate.tasks(lang_code, user=self.request.user)
         return {
-            'items': tasks,
+            'total': tasks.total,
+            'items': tasks[offset:offset + limit],
         }

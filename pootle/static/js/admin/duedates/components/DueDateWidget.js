@@ -10,6 +10,7 @@ import React from 'react';
 
 import DueDatePicker from './DueDatePicker';
 
+import Dropdown from 'components/Dropdown';
 import { formatTimeDelta, formatTimeMessage } from 'utils/time';
 import { t } from 'utils/i18n';
 
@@ -27,83 +28,32 @@ function formatDueTime(msEpoch) {
 }
 
 
-class DueDateWidget extends React.Component {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isOpen: false,
-    };
+const DueDateWidget = ({ dueOn, id, onRemove, onUpdate }) => {
+  let dueOnMsg = t('No due date set');
+  let dueOnTooltip = null;
+  if (dueOn) {
+    dueOnMsg = formatDueTime(dueOn * 1000);
+    dueOnTooltip = (new Date(dueOn * 1000)).toUTCString();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.dueOn !== nextProps.dueOn) {
-      this.setState((prevState) => ({ isOpen: !prevState.isOpen }));
-    }
-  }
+  const dropdownTrigger = (
+    <a title={dueOnTooltip}>
+      {dueOnMsg}
+      <span className="icon-desc" />
+    </a>
+  );
 
-  handleClick() {
-    this.setState((prevState) => ({
-      isOpen: !prevState.isOpen,
-    }));
-  }
-
-  render() {
-    const { dueOn } = this.props;
-
-    let dueOnMsg = t('No due date set');
-    let dueOnTooltip = '';
-    if (dueOn) {
-      dueOnMsg = formatDueTime(dueOn * 1000);
-      dueOnTooltip = (new Date(dueOn * 1000)).toUTCString();
-    }
-
-    const styles = {
-      widgetContainer: {
-        position: 'relative',
-      },
-      popupContainer: {
-        position: 'absolute',
-        width: '25em', // randomish
-        padding: '1em',
-
-        border: '1px solid #d9d9d9',
-        borderRadius: '0 0 3px 3px',
-        backgroundColor: '#eee',
-      },
-      dropdownToggle: {
-        fontFamily: 'ZingIcons',
-      },
-    };
-
-    return (
-      <div style={styles.widgetContainer}>
-        <a
-          className="due-dates-widget"
-          title={dueOnTooltip}
-          onClick={() => this.handleClick()}
-        >
-          {dueOnMsg}
-          <span
-            style={styles.dropdownToggle}
-          >J</span>
-        </a>
-        {this.state.isOpen &&
-          <div style={styles.popupContainer}>
-            <DueDatePicker
-              id={this.props.id}
-              dueOn={dueOn}
-              onRemove={this.props.onRemove}
-              onUpdate={this.props.onUpdate}
-            />
-          </div>
-        }
-      </div>
-    );
-  }
-
-}
+  return (
+    <Dropdown trigger={dropdownTrigger}>
+      <DueDatePicker
+        id={id}
+        dueOn={dueOn}
+        onRemove={onRemove}
+        onUpdate={onUpdate}
+      />
+    </Dropdown>
+  );
+};
 
 DueDateWidget.propTypes = {
   dueOn: React.PropTypes.number,

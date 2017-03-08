@@ -1,0 +1,65 @@
+/*
+ * Copyright (C) Zing contributors.
+ *
+ * This file is a part of the Zing project. It is distributed under the GPL3
+ * or later license. See the LICENSE file for a copy of the license and the
+ * AUTHORS file for copyright and authorship information.
+ */
+
+/* FIXME: make the search box use these component/styles */
+
+.dropdown-wrapper
+{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dropdown-container
+{
+    position: absolute;
+    display: inline-block;
+
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 3px;
+
+    padding: 1em; /* was: 5px */
+    top: 2.25rem; /* so that there is space for the arrow */
+    box-sizing: border-box;
+    outline: 0;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* container arrow */
+
+.dropdown-container::after,
+.dropdown-container::before
+{
+    bottom: 100%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.dropdown-container::after
+{
+    border-color: rgba(255, 255, 255, 0);
+    border-bottom-color: #fff;
+    border-width: 5px;
+    left: 50%;
+    margin-left: -5px;
+}
+
+.dropdown-container::before
+{
+    border-color: rgba(217, 217, 217, 0);
+    border-bottom-color: #d9d9d9;
+    border-width: 6px;
+    left: 50%;
+    margin-left: -6px;
+}

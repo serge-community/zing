@@ -16,13 +16,10 @@ import './DueDatePicker.css';
 
 
 /**
- * Convert a unix timestamp `ts` into an ISO 8601-formatted date.
+ * Convert a Date object `date` into an ISO 8601-formatted date.
  */
-function fromUnixTimestamp(ts) {
-  if (!ts) {
-    return '';
-  }
-  return (new Date(ts * 1000)).toISOString().slice(0, -14);
+function toISODate(date) {
+  return date.toISOString().slice(0, -14);
 }
 
 
@@ -31,30 +28,32 @@ class DueDatePicker extends React.Component {
   constructor(props) {
     super(props);
 
-    this.initialIsoDate = fromUnixTimestamp(this.props.dueOn);
+    this.initiallySelectedDay = (
+      this.props.dueOn ? new Date(this.props.dueOn * 1000) : new Date()
+    );
     this.state = {
-      isoDate: this.initialIsoDate,
+      selectedDay: this.initiallySelectedDay,
     };
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.dueOn !== nextProps.dueOn) {
-      this.initialIsoDate = fromUnixTimestamp(nextProps.dueOn);
-      this.setState({ isoDate: this.initialIsoDate });
+      this.initiallySelectedDay = (
+        nextProps.dueOn ? new Date(nextProps.dueOn * 1000) : new Date()
+      );
+      this.setState({ selectedDay: this.initiallySelectedDay });
     }
   }
 
   canBeSubmitted() {
     return (
-      this.state.isoDate !== this.initialIsoDate &&
-      this.state.isoDate.trim()
+      !this.props.dueOn ||
+      toISODate(this.state.selectedDay) !== toISODate(this.initiallySelectedDay)
     );
   }
 
   handleDayClick(day) {
-    this.setState(() => ({
-      isoDate: day.toISOString().slice(0, -14),
-    }));
+    this.setState({ selectedDay: day });
   }
 
   handleSubmit(e) {
@@ -64,7 +63,7 @@ class DueDatePicker extends React.Component {
       return;
     }
 
-    this.props.onUpdate(this.state.isoDate.slice(0, 10));
+    this.props.onUpdate(toISODate(this.state.selectedDay));
   }
 
   render() {
@@ -78,17 +77,15 @@ class DueDatePicker extends React.Component {
       },
     };
 
-    const now = new Date();
-    const selectedDate = this.state.isoDate ? new Date(this.state.isoDate) : now;
-    // XXX: check bounds with respect to initial month?
-    const start = DateUtils.addMonths(now, -1);
-    const end = DateUtils.addMonths(now, 6);
     const { id } = this.props;
+    const { selectedDay } = this.state;
+    const start = DateUtils.addMonths(selectedDay, -1);
+    const end = DateUtils.addMonths(selectedDay, 6);
     return (
       <div>
         <DayPicker
-          initialMonth={selectedDate}
-          selectedDays={selectedDate}
+          initialMonth={selectedDay}
+          selectedDays={selectedDay}
           fromMonth={start}
           toMonth={end}
           onDayClick={(day) => this.handleDayClick(day)}

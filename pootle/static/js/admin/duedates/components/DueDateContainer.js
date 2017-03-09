@@ -72,8 +72,8 @@ class DueDateContainer extends React.Component {
 DueDateContainer.propTypes = {
   initialDueDate: React.PropTypes.shape({
     id: React.PropTypes.number,
-    dueOn: React.PropTypes.number,
-    pootlePath: React.PropTypes.string,
+    due_on: React.PropTypes.number,
+    pootle_path: React.PropTypes.string,
   }),
 };
 DueDateContainer.defaultProps = {

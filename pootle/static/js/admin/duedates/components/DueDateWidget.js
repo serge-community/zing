@@ -12,7 +12,7 @@ import DueDatePicker from './DueDatePicker';
 
 import Dropdown from 'components/Dropdown';
 import { formatTimeDelta, formatTimeMessage } from 'utils/time';
-import { t } from 'utils/i18n';
+import { t, dateTimeTzFormatter } from 'utils/i18n';
 
 
 function _formatDueTime({ count, unit, isFuture }) {
@@ -33,7 +33,7 @@ const DueDateWidget = ({ dueOn, id, onRemove, onUpdate }) => {
   let dueOnTooltip = null;
   if (dueOn) {
     dueOnMsg = formatDueTime(dueOn * 1000);
-    dueOnTooltip = (new Date(dueOn * 1000)).toUTCString();
+    dueOnTooltip = dateTimeTzFormatter.format(dueOn * 1000);
   }
 
   const dropdownTrigger = (

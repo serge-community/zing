@@ -11,6 +11,7 @@ from django import forms
 from pootle_language.models import Language
 
 
+MIN_PENDING_TASKS = 3
 PENDING_TASKS_LIMIT = 5
 
 
@@ -31,4 +32,4 @@ class GetTaskForm(forms.Form):
         # Allow at max 2 times the limit of tasks. This can be useful
         # when the tasks list is expanded to more than `PENDING_TASKS_LIMIT`
         # items and we want to refresh the existing items right away.
-        return min(limit, 2 * PENDING_TASKS_LIMIT)
+        return max(MIN_PENDING_TASKS, min(limit, 2 * PENDING_TASKS_LIMIT))

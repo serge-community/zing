@@ -9,7 +9,9 @@
 import React from 'react';
 import DayPicker, { DateUtils } from 'react-day-picker';
 
-import { t } from 'utils/i18n';
+import { t, tct, dateTimeTzFormatter } from 'utils/i18n';
+
+import { formatDueTime } from '../utils';
 
 // XXX: use CSS modules so we only customize what's needed
 import './DueDatePicker.css';
@@ -66,6 +68,35 @@ class DueDatePicker extends React.Component {
     this.props.onUpdate(toISODate(this.state.selectedDay));
   }
 
+  renderHint() {
+    const { dueOn } = this.props;
+
+    if (!dueOn) {
+      // XXX: hackish but works for now
+      const timezone = (new Intl.DateTimeFormat(PTL.settings.UI_LOCALE, {
+        timeZone: PTL.settings.TIME_ZONE,
+        timeZoneName: 'long',
+      })).format(1).split(' ').slice(1).join(' ');
+      const hintMsg = tct(
+        'Use the calendar below to select a date by 9:00AM of which ' +
+        ' (in %(timezone)s) this section should be completed.',
+        { timezone }
+      );
+
+      return (
+        <p className="hint">{hintMsg}</p>
+      );
+    }
+
+    const dueOnMsEpoch = dueOn * 1000;
+    return (
+      <div>
+        <p>{dateTimeTzFormatter.format(dueOnMsEpoch)}</p>
+        <p>{formatDueTime(dueOnMsEpoch)}</p>
+      </div>
+    );
+  }
+
   render() {
     const { id } = this.props;
     const { selectedDay } = this.state;
@@ -74,6 +105,7 @@ class DueDatePicker extends React.Component {
 
     return (
       <div className="duedate-picker">
+        {this.renderHint()}
         <DayPicker
           initialMonth={selectedDay}
           selectedDays={selectedDay}

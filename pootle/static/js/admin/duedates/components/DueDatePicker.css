@@ -6,6 +6,27 @@
  * AUTHORS file for copyright and authorship information.
  */
 
+/* component styles */
+
+.duedate-picker
+{
+    font-weight: normal;
+    white-space: normal; /* to undo `nowrap` from `li` */
+    width: 20rem;
+}
+
+.duedate-picker-buttons
+{
+    margin: 0.5em auto;
+    float: right;
+}
+
+.duedate-picker-buttons button
+{
+    margin: 0 1em;
+}
+
+
 /* DayPicker styles */
 
 .DayPicker
@@ -16,7 +37,6 @@
     position: relative;
     padding: 1rem 0;
     user-select: none;
-    font-weight: normal;
 }
 
 .DayPicker-Month

@@ -67,22 +67,13 @@ class DueDatePicker extends React.Component {
   }
 
   render() {
-    const styles = {
-      buttonsRow: {
-        marginTop: '1em',
-        float: 'right',
-      },
-      button: {
-        margin: '0 1em',
-      },
-    };
-
     const { id } = this.props;
     const { selectedDay } = this.state;
     const start = DateUtils.addMonths(selectedDay, -1);
     const end = DateUtils.addMonths(selectedDay, 6);
+
     return (
-      <div>
+      <div className="duedate-picker">
         <DayPicker
           initialMonth={selectedDay}
           selectedDays={selectedDay}
@@ -90,14 +81,11 @@ class DueDatePicker extends React.Component {
           toMonth={end}
           onDayClick={(day) => this.handleDayClick(day)}
         />
-        <div
-          style={styles.buttonsRow}
-        >
+        <div className="duedate-picker-buttons">
         {id > 0 &&
           <button
             type="button"
             className="btn btn-danger"
-            style={styles.button}
             onClick={() => this.props.onRemove(id)}
           >
             {t('Remove Due Date')}
@@ -106,7 +94,6 @@ class DueDatePicker extends React.Component {
           <button
             type="submit"
             className="btn btn-primary"
-            style={styles.button}
             disabled={!this.canBeSubmitted()}
             onClick={(e) => this.handleSubmit(e)}
           >

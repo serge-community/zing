@@ -15,6 +15,17 @@
     width: 20rem;
 }
 
+.duedate-picker p
+{
+    text-align: center;
+    margin: 0.5em 0;
+}
+
+.duedate-picker .hint
+{
+    font-style: italic;
+}
+
 .duedate-picker-buttons
 {
     margin: 0.5em auto;

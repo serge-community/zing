@@ -11,21 +11,9 @@ import React from 'react';
 import DueDatePicker from './DueDatePicker';
 
 import Dropdown from 'components/Dropdown';
-import { formatTimeDelta, formatTimeMessage } from 'utils/time';
 import { t, dateTimeTzFormatter } from 'utils/i18n';
 
-
-function _formatDueTime({ count, unit, isFuture }) {
-  const timeMsg = formatTimeMessage(unit, count);
-  if (isFuture) {
-    return t('Due in %(time)s', { time: timeMsg });
-  }
-  return t('Overdue by %(time)s', { time: timeMsg });
-}
-
-function formatDueTime(msEpoch) {
-  return formatTimeDelta(msEpoch, { formatFunction: _formatDueTime });
-}
+import { formatDueTime } from '../utils';
 
 
 const DueDateWidget = ({ dueOn, id, onRemove, onUpdate }) => {

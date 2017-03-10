@@ -14,20 +14,46 @@ import { nt } from 'utils/i18n';
 import TaskList from './TaskList';
 
 
+const REFRESH_MINUTES = 10;
+
+
 class PendingTaskContainer extends React.Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      tasks: props.tasks,
+      tasks: props.initialTasks,
+      total: props.initialTotal,
     };
   }
 
+  componentDidMount() {
+    this.intervalId = setInterval(
+      () => this.handleRefresh(), REFRESH_MINUTES * 60 * 1000
+    );
+  }
+
   componentWillReceiveProps(nextProps) {
-    if (nextProps.hasOwnProperty('tasks')) {
-      this.setState({ tasks: nextProps.tasks });
+    if (nextProps.hasOwnProperty('initialTasks') &&
+        nextProps.hasOwnProperty('initialTotal')) {
+      this.setState({
+        tasks: nextProps.initialTasks,
+        total: nextProps.initialTotal,
+      });
     }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.intervalId);
+  }
+
+  handleRefresh() {
+    const currentTasksCount = this.state.tasks.length;
+    TaskAPI.get(this.props.languageCode, { limit: currentTasksCount })
+      .done((data) => {
+        this.setState({ tasks: data.items, total: data.total });
+      });
   }
 
   handleLoadMore(e) {
@@ -46,7 +72,7 @@ class PendingTaskContainer extends React.Component {
   }
 
   renderLoadMore() {
-    const remaining = this.props.total - this.state.tasks.length;
+    const remaining = this.state.total - this.state.tasks.length;
     if (remaining === 0) {
       return null;
     }
@@ -74,8 +100,8 @@ class PendingTaskContainer extends React.Component {
 
 PendingTaskContainer.propTypes = {
   languageCode: React.PropTypes.string.isRequired,
-  tasks: React.PropTypes.array.isRequired,
-  total: React.PropTypes.number.isRequired,
+  initialTasks: React.PropTypes.array.isRequired,
+  initialTotal: React.PropTypes.number.isRequired,
 };
 
 

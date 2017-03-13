@@ -21,6 +21,7 @@ import { q } from 'utils/dom';
 import { toLocaleString } from 'utils/i18n';
 
 import BrowserTable from './browser/components/BrowserTable';
+import FailingChecks from './browser/components/FailingChecks';
 import PendingTaskContainer from './browser/components/PendingTaskContainer';
 import Stats from './browser/components/Stats';
 import StatsCollapsed from './browser/components/StatsCollapsed';
@@ -93,6 +94,7 @@ const stats = {
 
     this.languageCode = options.languageCode;
     this.pootlePath = options.pootlePath;
+    this.canTranslateStats = options.canTranslateStats;
     this.isAdmin = options.isAdmin;
     this.statsRefreshAttemptsCount = options.statsRefreshAttemptsCount;
 
@@ -102,22 +104,6 @@ const stats = {
     $(document).on('click', '#js-path-summary', (e) => {
       e.preventDefault();
       this.toggleDetailedStats();
-    });
-    $(document).on('click', '.js-toggle-more-checks', (e) => {
-      let count = 0;
-      const data = this.state.checksData;
-      e.preventDefault();
-      $('.js-check').each(function toggleCheck() {
-        const $check = $(this);
-        const code = $check.data('code');
-        if (code in data) {
-          if (count >= 4) {
-            $check.toggle();
-          }
-          count++;
-        }
-      });
-      $(e.target).parent().toggleClass('collapsed');
     });
     $(document).on('click', '.js-stats-refresh', (e) => {
       e.preventDefault();
@@ -352,27 +338,19 @@ const stats = {
   },
 
   updateChecksUI() {
-    const data = this.state.checksData;
-    let count = 0;
-
-    if (data === null || !Object.keys(data).length) {
+    if (!this.state.checksData) {
       return;
     }
 
-    this.$extraDetails.find('.js-check').each(function updateCheck() {
-      const $check = $(this);
-      const code = $(this).data('code');
-      if (code in data) {
-        count++;
-        $check.toggle(count < 5);
-        $check.find('.check-count .check-data').html(data[code]);
-      } else {
-        $check.hide();
-      }
-    });
-
-    $('.js-more-checks').addClass('collapsed').toggle(count >= 5);
-    $('#js-stats-checks').show();
+    // FIXME: load component on-demand
+    ReactDOM.render(
+      <FailingChecks
+        canTranslate={this.canTranslateStats}
+        items={this.state.checksData}
+        pootlePath={this.pootlePath}
+      />,
+      q('.js-mnt-failing-checks')
+    );
   },
 
   updateTableUI() {

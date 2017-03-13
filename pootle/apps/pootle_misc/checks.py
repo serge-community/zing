@@ -15,6 +15,7 @@ from translate.filters.decorators import Category, cosmetic, critical
 from translate.lang import data
 
 from django.conf import settings
+from django.utils.lru_cache import lru_cache
 from django.utils.translation import ugettext_lazy as _
 
 from .util import import_func
@@ -1146,29 +1147,25 @@ def get_qualitycheck_schema():
     return result
 
 
-def get_qualitycheck_list(path_obj):
-    """
-    Returns list of checks sorted in alphabetical order
-    but having critical checks first.
-    """
-    result = []
+@lru_cache()
+def get_qualitycheck_dict():
     checks = get_qualitychecks()
 
-    for check, cat in checks.items():
-        result.append({
+    return {
+        check: {
             'code': check,
-            'is_critical': cat == Category.CRITICAL,
+            'is_critical': category == Category.CRITICAL,
             'title': u"%s" % check_names.get(check, check),
-            'url': path_obj.get_translate_url(check=check)
-        })
+        } for check, category in checks.items()
+    }
 
-    def alphabetical_critical_first(item):
-        critical_first = 0 if item['is_critical'] else 1
-        return critical_first, item['title'].lower()
 
-    result = sorted(result, key=alphabetical_critical_first)
-
-    return result
+def get_qc_data_by_name(check_name):
+    qc_dict = get_qualitycheck_dict()
+    try:
+        return qc_dict[check_name]
+    except KeyError:
+        return {}
 
 
 def _generic_check(str1, str2, regex, message):

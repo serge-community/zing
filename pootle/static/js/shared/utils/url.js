@@ -72,10 +72,17 @@ export function getResourcePath(path) {
  * Retrieves a translation URL out of an internal `path`
  * @param {string} path - internal path
  */
-export function getTranslateUrl(path) {
+export function getTranslateUrl(path, { check } = {}) {
   const pathItems = path.split('/'); // path starts with the slash
   pathItems.shift(); // remove the first empty item
   const lang = pathItems.shift();
   const project = pathItems.shift();
-  return `/${lang}/${project}/translate/${pathItems.join('/')}`;
+
+  const url = `/${lang}/${project}/translate/${pathItems.join('/')}`;
+
+  if (check) {
+    return `${url}#filter=checks&check=${check}`;
+  }
+
+  return url;
 }

@@ -1,0 +1,20 @@
+[
+  {
+    "code": "c_format",
+    "count": 23,
+    "is_critical": true,
+    "title": "C format placeholders"
+  },
+  {
+    "code": "percent_sign_placeholders",
+    "count": 23,
+    "is_critical": true,
+    "title": "Percent sign placeholders"
+  },
+  {
+    "code": "whitespace",
+    "count": 6,
+    "is_critical": true,
+    "title": "Whitespaces"
+  }
+]

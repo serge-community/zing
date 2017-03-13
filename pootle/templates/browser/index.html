@@ -43,32 +43,8 @@
             </tbody>
           </table>
         </div>
-        <div id="js-stats-checks" class="hide stats-checks">
-          <h3>{% trans "Failing Checks" %}</h3>
-          <div class="bd">
-            <table>
-            {% for check in checks %}
-              <tr class="{% if check.is_critical %}category-critical{% endif %} check js-check" data-code="{{ check.code }}">
-                {% if can_translate_stats %}
-                <td class="check-name">
-                  <a class="check-data" href="{{ check.url }}">{{ check.title }}</a>
-                </td>
-                <td class="check-count"><a class="check-data" href="{{ check.url }}">0</a></td>
-                {% else %}
-                <td class="check-name"><span class="check-data">{{ check.title }}</span></td>
-                <td class="check-count"><span class="check-data">0</span></td>
-                {% endif %}
-              </tr>
-            {% endfor %}
-            </table>
-            <div class="js-more-checks toggle-more-checks">
-              <a class="js-toggle-more-checks collapsed">
-                <span class="show-more">{% trans "More..." %}</span>
-                <span class="hide-more">{% trans "Less..." %}</span>
-              </a>
-            </div>
-          </div>
-        </div>
+
+        <div class="js-mnt-failing-checks"></div>
       </div>
 
       <div id="js-mnt-top-contributors"></div>
@@ -176,6 +152,7 @@ $(function () {
   PTL.search.init();
   PTL.stats.init({
     pootlePath: "{{ pootle_path }}",
+    canTranslateStats: {{ can_translate_stats|yesno:"true,false" }},
     isAdmin: {{ has_admin_access|yesno:"true,false" }},
     isInitiallyExpanded: {{ is_store|yesno:"true,false" }},
     initialData: {{ browsing_data|to_js }},

@@ -1,0 +1,14 @@
+[
+  {
+    "code": "c_format",
+    "count": 3,
+    "is_critical": true,
+    "title": "C format placeholders"
+  },
+  {
+    "code": "percent_sign_placeholders",
+    "count": 3,
+    "is_critical": true,
+    "title": "Percent sign placeholders"
+  }
+]

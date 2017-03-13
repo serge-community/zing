@@ -11,9 +11,9 @@ import pytest
 
 from translate.filters.checks import FilterFailure
 
-from pootle_misc.checks import (Category, ENChecker, check_names,
+from pootle_misc.checks import (ENChecker, check_names,
                                 get_category_code, get_category_name,
-                                get_qualitychecks, get_qualitycheck_list,
+                                get_qc_data_by_name, get_qualitychecks,
                                 get_qualitycheck_schema)
 
 try:
@@ -430,22 +430,9 @@ def test_get_qualitycheck_schema():
     assert result == get_qualitycheck_schema()
 
 
-@pytest.mark.django_db
-def test_get_qualitycheck_list(tp0):
-    result = []
-    checks = get_qualitychecks()
-    for check, cat in checks.items():
-        result.append({
-            'code': check,
-            'is_critical': cat == Category.CRITICAL,
-            'title': u"%s" % check_names.get(check, check),
-            'url': tp0.get_translate_url(check=check)
-        })
-
-    def alphabetical_critical_first(item):
-        sort_prefix = 0 if item['is_critical'] else 1
-        return "%d%s" % (sort_prefix, item['title'].lower())
-
-    result = sorted(result, key=alphabetical_critical_first)
-
-    assert result == get_qualitycheck_list(tp0)
+@pytest.mark.parametrize('fake_check_name', [
+    'fake-name', None, 0,
+])
+def test_get_qc_data_by_name(fake_check_name):
+    """Tests for invalid values in `get_qc_data_by_name`."""
+    assert get_qc_data_by_name(fake_check_name) == {}

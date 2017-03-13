@@ -21,7 +21,6 @@ from pootle.core.utils.stats import (TOP_CONTRIBUTORS_CHUNK_SIZE,
                                      get_translation_states)
 from pootle.models import DueDate
 from pootle_app.models.permissions import check_user_permission
-from pootle_misc.checks import get_qualitycheck_list
 
 from ..http import JsonResponse
 from .base import PootleDetailView
@@ -181,7 +180,6 @@ class PootleBrowseView(BrowseDataViewMixin, PootleDetailView):
                 settings.POOTLE_STATS_REFRESH_ATTEMPTS_COUNT,
             'browsing_data': self.get_browsing_data(),
             'translation_states': get_translation_states(self.object),
-            'checks': get_qualitycheck_list(self.object),
             'can_translate': can_translate,
             'can_translate_stats': can_translate_stats,
             'url_action_continue': url_action_continue,

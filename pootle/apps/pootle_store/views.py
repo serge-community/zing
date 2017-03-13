@@ -37,6 +37,7 @@ from pootle_app.models.permissions import (check_permission,
                                            check_user_permission)
 from pootle_comment.forms import UnsecuredCommentForm
 from pootle_language.views import LanguageBrowseView
+from pootle_misc.checks import get_qc_data_by_name
 from pootle_misc.util import ajax_required
 from pootle_project.views import ProjectBrowseView, ProjectsBrowseView
 from pootle_statistics.models import (Submission, SubmissionFields,
@@ -488,7 +489,20 @@ def permalink_redirect(request, unit):
 @get_resource
 def get_qualitycheck_stats(request, *args, **kwargs):
     failing_checks = request.resource_obj.get_checks()
-    return JsonResponse(failing_checks if failing_checks is not None else {})
+    if failing_checks is None:
+        return JsonResponse({})
+
+    result = [
+        dict(count=count, **get_qc_data_by_name(check))
+        for check, count in failing_checks.iteritems()
+    ]
+
+    def alphabetical_critical_first(item):
+        critical_first = 0 if item['is_critical'] else 1
+        return critical_first, item['title'].lower()
+
+    result = sorted(result, key=alphabetical_critical_first)
+    return JsonResponse(result)
 
 
 class TPBrowseDataJSON(BaseBrowseDataJSON, TPBrowseView):

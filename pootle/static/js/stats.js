@@ -227,24 +227,6 @@ const stats = {
     $action.find('.counter').text(formattedValue(count));
   },
 
-  updateItemStats($td, count) {
-    if (count) {
-      $td.removeClass('zero');
-      $td.removeClass('not-inited');
-      $td.addClass('non-zero');
-      $td.find('.stats-data').html(count);
-    } else if (count === 0) {
-      $td.find('.stats-data').html('');
-      $td.addClass('zero');
-      $td.removeClass('not-inited');
-      $td.removeClass('non-zero');
-    } else {
-      $td.removeClass('zero');
-      $td.removeClass('non-zero');
-      $td.addClass('not-inited');
-    }
-  },
-
   renderLastEvent(el, data) {
     if (data.mtime === 0) {
       return false;

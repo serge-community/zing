@@ -23,13 +23,6 @@ const Stats = React.createClass({
     pootlePath: React.PropTypes.string.isRequired,
   },
 
-  getDefaultProps() {
-    return {
-      topContributors: [],
-      hasMoreContributors: false,
-    };
-  },
-
   getInitialState() {
     return {
       topContributors: this.props.topContributors,
@@ -77,7 +70,7 @@ const Stats = React.createClass({
     );
 
     return (
-      <div className="summary-2-col">
+      <div>
         <h3 className="top">{t('Contributors, 30 Days')}</h3>
         <div className="bd">
           {content}

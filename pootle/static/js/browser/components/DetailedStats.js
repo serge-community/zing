@@ -35,7 +35,7 @@ const DetailedStats = ({
           canTranslate={canTranslate}
           pootlePath={pootlePath}
         />
-      {failingChecksData.length &&
+      {failingChecksData && failingChecksData.length > 0 &&
         <FailingChecks
           canTranslate={canTranslate}
           items={failingChecksData}

@@ -1561,15 +1561,8 @@ html[dir="rtl"] .expand-stats
     padding: 2em 1.5em 0;
 }
 
-.path-summary-more .path-summary-expanded,
-.path-summary-more.expand .path-summary-collapsed
-{
-    display: none;
-}
-
 .path-summary-more .path-summary-collapsed
 {
-    display: block;
     padding-bottom: 1em;
     white-space: nowrap;
 }
@@ -1578,11 +1571,6 @@ html[dir="rtl"] .path-summary-more .path-summary-collapsed
 {
     margin-left: auto;
     margin-right: -10px;
-}
-
-.path-summary-more.expand .path-summary-expanded
-{
-    display: block;
 }
 
 .path-summary-more .path-summary-collapsed label

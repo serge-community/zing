@@ -19,9 +19,8 @@ import { q } from 'utils/dom';
 import { toLocaleString } from 'utils/i18n';
 
 import BrowserTable from './browser/components/BrowserTable';
-import DetailedStats from './browser/components/DetailedStats';
+import StatsSummary from './browser/components/StatsSummary';
 import PendingTaskContainer from './browser/components/PendingTaskContainer';
-import StatsCollapsed from './browser/components/StatsCollapsed';
 
 
 function formattedValue(n) {
@@ -82,12 +81,11 @@ const stats = {
 
   init(options) {
     this.retries = 0;
-    const isExpanded = (options.isInitiallyExpanded ||
-                        window.location.search.indexOf('?details') !== -1);
-    this.state = {
-      isExpanded,
-      checksData: [],
-    };
+    this.isInitiallyExpanded = (
+      options.isInitiallyExpanded ||
+      window.location.search.indexOf('?details') !== -1
+    );
+    this.state = {};
 
     this.languageCode = options.languageCode;
     this.pootlePath = options.pootlePath;
@@ -95,13 +93,6 @@ const stats = {
     this.isAdmin = options.isAdmin;
     this.statsRefreshAttemptsCount = options.statsRefreshAttemptsCount;
 
-    this.$extraDetails = $('#js-path-summary-more');
-    this.$expandIcon = $('#js-expand-icon');
-
-    $(document).on('click', '#js-path-summary', (e) => {
-      e.preventDefault();
-      this.toggleDetailedStats();
-    });
     $(document).on('click', '.js-stats-refresh', (e) => {
       e.preventDefault();
       this.refreshStats();
@@ -111,33 +102,14 @@ const stats = {
       $('#autorefresh-notice').hide();
     });
 
-    window.addEventListener('popstate', (e) => {
-      const state = e.state;
-      if (state) {
-        this.setState({ isExpanded: state.isExpanded });
-      }
-    });
-
     if (options.pendingTasks) {
       this.setTasks(options.pendingTasks.items, options.pendingTasks.total);
     }
-
-    ReactDOM.render(
-      <StatsCollapsed
-        topContributors={options.topContributorsData.items}
-      />,
-      q('#js-path-summary-collapsed')
-    );
 
     this.setState({
       data: options.initialData,
       topContributorsData: options.topContributorsData,
     });
-
-    // Retrieve async data if needed
-    if (isExpanded) {
-      this.loadChecks();
-    }
   },
 
   setState(newState) {
@@ -243,33 +215,7 @@ const stats = {
       .done((data) => this.setState({ data }));
   },
 
-  loadChecks() {
-    return this.load('getChecks')
-      .done((data) => this.setState({ isExpanded: true, checksData: data }));
-  },
-
   /* Path summary */
-  toggleDetailedStats() {
-    if (this.state.checksData) {
-      this.setState({ isExpanded: !this.state.isExpanded });
-      this.navigate();
-    } else {
-      this.loadChecks().done(() => this.navigate());
-    }
-  },
-
-  updateChecksToggleUI() {
-    const { isExpanded } = this.state;
-
-    const newClass = isExpanded ? 'collapse' : 'expand';
-    const newText = isExpanded ? gettext('Collapse details') : gettext('Expand details');
-
-    this.$expandIcon.attr('class', `icon-${newClass}-stats`);
-    this.$expandIcon.attr('title', newText);
-
-    this.$extraDetails.toggleClass('expand', isExpanded);
-  },
-
   updateTableUI() {
     ReactDOM.render(
       <BrowserTable
@@ -280,36 +226,21 @@ const stats = {
   },
 
   updateUI() {
-    this.updateChecksToggleUI();
     this.updateStatsUI();
 
-    // FIXME: import component on demand
-    if (this.state.isExpanded) {
-      ReactDOM.render(
-        <DetailedStats
-          canTranslate={this.canTranslateStats}
-          failingChecksData={this.state.checksData}
-          hasMoreContributors={this.state.topContributorsData.has_more_items}
-          pootlePath={this.pootlePath}
-          statsData={this.state.data}
-          topContributorsData={this.state.topContributorsData.items}
-        />,
-        q('.js-mnt-detailed-stats')
-      );
-    } else {
-      ReactDOM.unmountComponentAtNode(q('.js-mnt-detailed-stats'));
-    }
+    ReactDOM.render(
+      <StatsSummary
+        isInitiallyExpanded={this.isInitiallyExpanded}
+        canTranslate={this.canTranslateStats}
+        hasMoreContributors={this.state.topContributorsData.has_more_items}
+        pootlePath={this.pootlePath}
+        statsData={this.state.data}
+        topContributorsData={this.state.topContributorsData.items}
+      />,
+      q('.js-mnt-stats-summary')
+    );
 
     this.updateTableUI();
-  },
-
-  navigate() {
-    const { isExpanded } = this.state;
-    const currentURL = `${window.location.pathname}${window.location.search}`;
-    const newURL = isExpanded ? `${this.pootlePath}?details` : this.pootlePath;
-    if (currentURL !== newURL) {
-      window.history.pushState({ isExpanded }, '', newURL);
-    }
   },
 
 };

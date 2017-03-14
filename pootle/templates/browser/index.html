@@ -23,26 +23,7 @@
     <div class="path-summary-collapsed" id="js-path-summary-collapsed"></div>
     <div class="path-summary-expanded">
       <div class="summary-1-col">
-        <h3 class="top">{% trans "Translation Statistics" %}</h3>
-        <div class="bd">
-          <table class="stats" lang="{{ LANGUAGE_CODE }}" dir="{% locale_dir %}">
-            <tbody>
-              {% for item in translation_states %}
-              <tr id="stats-{{ item.state }}">
-                <td id="stats-name">{{ item.title }}</td>
-                <td class="stats-number">
-                  {% if can_translate_stats %}
-                  <a href="{{ item.url }}" class="stats-data"></a>
-                  {% else %}
-                  <span class="stats-data"></span>
-                  {% endif %}
-                </td>
-                <td class="stats-percentage"><span></span>%</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
+        <div class="js-mnt-translation-state"></div>
 
         <div class="js-mnt-failing-checks"></div>
       </div>

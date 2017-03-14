@@ -25,6 +25,7 @@ import FailingChecks from './browser/components/FailingChecks';
 import PendingTaskContainer from './browser/components/PendingTaskContainer';
 import Stats from './browser/components/Stats';
 import StatsCollapsed from './browser/components/StatsCollapsed';
+import TranslationState from './browser/components/TranslationState';
 
 
 function formattedValue(n) {
@@ -200,14 +201,6 @@ const stats = {
     setTdWidth($td.find('td.untranslated'), untranslated);
   },
 
-  updateTranslationStats($tr, total, value, noTotalDefault) {
-    $tr.find('.stats-number .stats-data').html(formattedValue(value));
-    $tr.find('.stats-percentage span').html(
-      nicePercentage(value, total, noTotalDefault)
-    );
-    $tr.find('.stats-percentage').show();
-  },
-
   updateAction($action, count) {
     $action.toggleClass('non-zero', count > 0);
     $action.find('.counter').text(formattedValue(count));
@@ -269,18 +262,16 @@ const stats = {
     this.updateAction($('#js-action-fix-critical'), data.critical);
     this.updateAction($('#js-action-review'), data.suggestions);
 
-    this.updateTranslationStats($('#stats-total'),
-                                data.total, data.total, 100);
-    this.updateTranslationStats($('#stats-translated'),
-                                data.total, data.translated, 100);
-    this.updateTranslationStats($('#stats-fuzzy'),
-                                data.total, data.fuzzy, 0);
-
-    const untranslated = (data.total === null ?
-                          null :
-                          data.total - data.translated - data.fuzzy);
-    this.updateTranslationStats($('#stats-untranslated'),
-                                data.total, untranslated, 0);
+    ReactDOM.render(
+      <TranslationState
+        total={data.total}
+        translated={data.translated}
+        fuzzy={data.fuzzy}
+        canTranslate={this.canTranslateStats}
+        pootlePath={this.pootlePath}
+      />,
+      q('.js-mnt-translation-state')
+    );
     this.updateLastUpdates(data);
   },
 

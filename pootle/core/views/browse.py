@@ -17,8 +17,7 @@ from pootle.core.helpers import (SIDEBAR_COOKIE_NAME,
 from pootle.core.url_helpers import split_pootle_path
 from pootle.core.utils.json import remove_empty_from_dict
 from pootle.core.utils.stats import (TOP_CONTRIBUTORS_CHUNK_SIZE,
-                                     get_top_scorers_data,
-                                     get_translation_states)
+                                     get_top_scorers_data)
 from pootle.models import DueDate
 from pootle_app.models.permissions import check_user_permission
 
@@ -179,7 +178,6 @@ class PootleBrowseView(BrowseDataViewMixin, PootleDetailView):
             'stats_refresh_attempts_count':
                 settings.POOTLE_STATS_REFRESH_ATTEMPTS_COUNT,
             'browsing_data': self.get_browsing_data(),
-            'translation_states': get_translation_states(self.object),
             'can_translate': can_translate,
             'can_translate_stats': can_translate_stats,
             'url_action_continue': url_action_continue,

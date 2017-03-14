@@ -15,17 +15,13 @@ import 'jquery-utils';
 import assign from 'object-assign';
 
 import StatsAPI from 'api/StatsAPI';
-import LastActivity from 'components/LastActivity';
-import TimeSince from 'components/TimeSince';
 import { q } from 'utils/dom';
 import { toLocaleString } from 'utils/i18n';
 
 import BrowserTable from './browser/components/BrowserTable';
-import FailingChecks from './browser/components/FailingChecks';
+import DetailedStats from './browser/components/DetailedStats';
 import PendingTaskContainer from './browser/components/PendingTaskContainer';
-import Stats from './browser/components/Stats';
 import StatsCollapsed from './browser/components/StatsCollapsed';
-import TranslationState from './browser/components/TranslationState';
 
 
 function formattedValue(n) {
@@ -90,7 +86,7 @@ const stats = {
                         window.location.search.indexOf('?details') !== -1);
     this.state = {
       isExpanded,
-      checksData: null,
+      checksData: [],
     };
 
     this.languageCode = options.languageCode;
@@ -133,17 +129,9 @@ const stats = {
       q('#js-path-summary-collapsed')
     );
 
-    ReactDOM.render(
-      <Stats
-        hasMoreContributors={options.topContributorsData.has_more_items}
-        topContributors={options.topContributorsData.items}
-        pootlePath={this.pootlePath}
-      />,
-      q('#js-mnt-top-contributors')
-    );
-
     this.setState({
       data: options.initialData,
+      topContributorsData: options.topContributorsData,
     });
 
     // Retrieve async data if needed
@@ -206,40 +194,6 @@ const stats = {
     $action.find('.counter').text(formattedValue(count));
   },
 
-  renderLastEvent(el, data) {
-    if (data.mtime === 0) {
-      return false;
-    }
-    ReactDOM.render(<LastActivity {...data} />, el);
-    return true;
-  },
-
-  renderLastUpdate(el, timestamp) {
-    if (timestamp === 0) {
-      return false;
-    }
-
-    ReactDOM.render(<TimeSince timestamp={timestamp} />, el);
-    return true;
-  },
-
-  updateLastUpdates(statsData) {
-    const luWrapper = q('#js-last-updated-wrapper');
-    const hideLastUpdated = !statsData.lastupdated || statsData.lastupdated.mtime === 0;
-    luWrapper.classList.toggle('hide', hideLastUpdated);
-    if (statsData.lastupdated) {
-      const lastUpdated = q('#js-last-updated');
-      this.renderLastUpdate(lastUpdated, statsData.lastupdated);
-    }
-    const laWrapper = q('#js-last-action-wrapper');
-    const hideLastAction = !statsData.lastaction || statsData.lastaction.mtime === 0;
-    laWrapper.classList.toggle('hide', hideLastAction);
-    if (statsData.lastaction) {
-      const lastAction = q('#js-last-action');
-      this.renderLastEvent(lastAction, statsData.lastaction);
-    }
-  },
-
   updateStatsUI() {
     const { data } = this.state;
 
@@ -261,18 +215,6 @@ const stats = {
     this.updateAction($('#js-action-continue'), data.total - data.translated);
     this.updateAction($('#js-action-fix-critical'), data.critical);
     this.updateAction($('#js-action-review'), data.suggestions);
-
-    ReactDOM.render(
-      <TranslationState
-        total={data.total}
-        translated={data.translated}
-        fuzzy={data.fuzzy}
-        canTranslate={this.canTranslateStats}
-        pootlePath={this.pootlePath}
-      />,
-      q('.js-mnt-translation-state')
-    );
-    this.updateLastUpdates(data);
   },
 
   updateDirty({ hideSpin = false } = {}) {
@@ -328,22 +270,6 @@ const stats = {
     this.$extraDetails.toggleClass('expand', isExpanded);
   },
 
-  updateChecksUI() {
-    if (!this.state.checksData) {
-      return;
-    }
-
-    // FIXME: load component on-demand
-    ReactDOM.render(
-      <FailingChecks
-        canTranslate={this.canTranslateStats}
-        items={this.state.checksData}
-        pootlePath={this.pootlePath}
-      />,
-      q('.js-mnt-failing-checks')
-    );
-  },
-
   updateTableUI() {
     ReactDOM.render(
       <BrowserTable
@@ -355,8 +281,25 @@ const stats = {
 
   updateUI() {
     this.updateChecksToggleUI();
-    this.updateChecksUI();
     this.updateStatsUI();
+
+    // FIXME: import component on demand
+    if (this.state.isExpanded) {
+      ReactDOM.render(
+        <DetailedStats
+          canTranslate={this.canTranslateStats}
+          failingChecksData={this.state.checksData}
+          hasMoreContributors={this.state.topContributorsData.has_more_items}
+          pootlePath={this.pootlePath}
+          statsData={this.state.data}
+          topContributorsData={this.state.topContributorsData.items}
+        />,
+        q('.js-mnt-detailed-stats')
+      );
+    } else {
+      ReactDOM.unmountComponentAtNode(q('.js-mnt-detailed-stats'));
+    }
+
     this.updateTableUI();
   },
 

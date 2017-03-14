@@ -88,28 +88,6 @@
   "stats_refresh_attempts_count": 2,
   "translate_url": "/projects/project0/translate/",
   "translation_project": null,
-  "translation_states": [
-    {
-      "state": "total",
-      "title": "Total",
-      "url": "/projects/project0/translate/"
-    },
-    {
-      "state": "translated",
-      "title": "Translated",
-      "url": "/projects/project0/translate/#filter=translated"
-    },
-    {
-      "state": "fuzzy",
-      "title": "Fuzzy",
-      "url": "/projects/project0/translate/#filter=fuzzy"
-    },
-    {
-      "state": "untranslated",
-      "title": "Untranslated",
-      "url": "/projects/project0/translate/#filter=untranslated"
-    }
-  ],
   "url_action_continue": "/projects/project0/translate/#filter=incomplete",
   "url_action_fixcritical": "/projects/project0/translate/#filter=checks&category=critical",
   "url_action_review": "/projects/project0/translate/#filter=suggestions",

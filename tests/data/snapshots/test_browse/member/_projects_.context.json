@@ -84,28 +84,6 @@
   "stats_refresh_attempts_count": 2,
   "translate_url": "/projects/translate/",
   "translation_project": null,
-  "translation_states": [
-    {
-      "state": "total",
-      "title": "Total",
-      "url": "/projects/translate/"
-    },
-    {
-      "state": "translated",
-      "title": "Translated",
-      "url": "/projects/translate/#filter=translated"
-    },
-    {
-      "state": "fuzzy",
-      "title": "Fuzzy",
-      "url": "/projects/translate/#filter=fuzzy"
-    },
-    {
-      "state": "untranslated",
-      "title": "Untranslated",
-      "url": "/projects/translate/#filter=untranslated"
-    }
-  ],
   "url_action_continue": null,
   "url_action_fixcritical": null,
   "url_action_review": null,

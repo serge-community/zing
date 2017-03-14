@@ -63,28 +63,6 @@
   "stats_refresh_attempts_count": 2,
   "translate_url": "/language0/project0/translate/subdir0/store4.po",
   "translation_project": "/language0/project0/",
-  "translation_states": [
-    {
-      "state": "total",
-      "title": "Total",
-      "url": "/language0/project0/translate/subdir0/store4.po"
-    },
-    {
-      "state": "translated",
-      "title": "Translated",
-      "url": "/language0/project0/translate/subdir0/store4.po#filter=translated"
-    },
-    {
-      "state": "fuzzy",
-      "title": "Fuzzy",
-      "url": "/language0/project0/translate/subdir0/store4.po#filter=fuzzy"
-    },
-    {
-      "state": "untranslated",
-      "title": "Untranslated",
-      "url": "/language0/project0/translate/subdir0/store4.po#filter=untranslated"
-    }
-  ],
   "url_action_continue": "/language0/project0/translate/subdir0/store4.po#filter=incomplete",
   "url_action_fixcritical": "/language0/project0/translate/subdir0/store4.po#filter=checks&category=critical",
   "url_action_review": "/language0/project0/translate/subdir0/store4.po#filter=suggestions",

@@ -13,7 +13,7 @@ import React from 'react';
 import StatsAPI from 'api/StatsAPI';
 
 import DetailedStats from './DetailedStats';
-import StatsCollapsed from './StatsCollapsed';
+import TopContributorsList from './TopContributorsList';
 
 
 class StatsSummary extends React.Component {
@@ -119,7 +119,7 @@ class StatsSummary extends React.Component {
             topContributorsData={topContributorsData}
           />
           :
-          <StatsCollapsed
+          <TopContributorsList
             topContributors={topContributorsData}
           />
         }

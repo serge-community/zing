@@ -15,7 +15,7 @@ import { t } from 'utils/i18n';
 import TopContributorsTable from './TopContributorsTable';
 
 
-const Stats = React.createClass({
+const TopContributors = React.createClass({
 
   propTypes: {
     topContributors: React.PropTypes.array.isRequired,
@@ -83,4 +83,4 @@ const Stats = React.createClass({
 });
 
 
-export default Stats;
+export default TopContributors;

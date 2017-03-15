@@ -8,16 +8,7 @@
 {% block header_content_block %}
 <div class="js-mnt-pending-tasks"></div>
 
-<div id="top-stats" class="header">
-  {% block header_content %}
-  <a id="js-path-summary" href="#">
-    <div id="progressbar">
-      {% include "browser/_progressbar.html" %}
-    </div>
-  </a>
-  <div class="js-mnt-stats-summary"></div>
-  {% endblock %}
-</div>
+<div class="js-mnt-stats-summary"></div>
 {% endblock %}
 
 {% block actions %}

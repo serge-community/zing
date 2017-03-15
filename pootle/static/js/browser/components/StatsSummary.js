@@ -13,6 +13,7 @@ import React from 'react';
 import StatsAPI from 'api/StatsAPI';
 
 import DetailedStats from './DetailedStats';
+import ProgressBar from './ProgressBar';
 import TopContributorsList from './TopContributorsList';
 
 
@@ -100,29 +101,44 @@ class StatsSummary extends React.Component {
 
     // FIXME: import `<DetailedStats />` component on demand
     return (
-      <div className="path-summary-more">
+      <div id="top-stats" className="header">
         <a
-          className="expand-stats"
           href="#"
           onClick={(e) => this.handleClick(e)}
         >
-          <i className={iconClasses}></i>
+          <div id="progressbar">
+            <ProgressBar
+              total={statsData.total}
+              fuzzy={statsData.fuzzy}
+              translated={statsData.translated}
+            />
+          </div>
         </a>
-        <div className={wrapperClasses}>
-        {isExpanded ?
-          <DetailedStats
-            canTranslate={canTranslate}
-            failingChecksData={failingChecksData}
-            hasMoreContributors={hasMoreContributors}
-            pootlePath={pootlePath}
-            statsData={statsData}
-            topContributorsData={topContributorsData}
-          />
-          :
-          <TopContributorsList
-            topContributors={topContributorsData}
-          />
-        }
+        <div className="path-summary-more">
+          <a
+            className="expand-stats"
+            href="#"
+            onClick={(e) => this.handleClick(e)}
+          >
+            <i className={iconClasses}></i>
+          </a>
+
+          <div className={wrapperClasses}>
+          {isExpanded ?
+            <DetailedStats
+              canTranslate={canTranslate}
+              failingChecksData={failingChecksData}
+              hasMoreContributors={hasMoreContributors}
+              pootlePath={pootlePath}
+              statsData={statsData}
+              topContributorsData={topContributorsData}
+            />
+            :
+            <TopContributorsList
+              topContributors={topContributorsData}
+            />
+          }
+          </div>
         </div>
       </div>
     );

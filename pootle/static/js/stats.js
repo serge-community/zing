@@ -69,6 +69,9 @@ const stats = {
 
     this.languageCode = options.languageCode;
     this.pootlePath = options.pootlePath;
+    this.initialDueDate = options.dueDate;
+
+    this.canAdminDueDates = options.canAdminDueDates;
     this.canTranslateStats = options.canTranslateStats;
     this.isAdmin = options.isAdmin;
     this.statsRefreshAttemptsCount = options.statsRefreshAttemptsCount;
@@ -175,7 +178,22 @@ const stats = {
       .always(() => $('body').spin(false));
   },
 
-  /* Path summary */
+  updateDueDatesAdminUI() {
+    if (!this.canAdminDueDates) {
+      return;
+    }
+
+    require.ensure([], () => {
+      const DueDateContainer = (
+        require('./admin/duedates/components/DueDateContainer').default
+      );
+      ReactDOM.render(
+        <DueDateContainer initialDueDate={this.initialDueDate} />,
+        q('.js-mnt-duedate-manage')
+      );
+    }, 'admin/duedates');
+  },
+
   updateTableUI() {
     ReactDOM.render(
       <BrowserTable
@@ -200,6 +218,7 @@ const stats = {
       q('.js-mnt-stats-summary')
     );
 
+    this.updateDueDatesAdminUI();
     this.updateTableUI();
   },
 

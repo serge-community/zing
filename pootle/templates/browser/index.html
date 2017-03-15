@@ -73,19 +73,14 @@
 
 {% block scripts_extra %}
 {{ block.super }}
-
-{% if has_admin_access %}
-  {% assets 'js_admin_duedates' %}
-  <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-  {% endassets %}
-{% endif %}
-
 <script type="text/javascript">
 $(function () {
   PTL.search.init();
   PTL.stats.init({
     pootlePath: "{{ pootle_path }}",
+    canAdminDueDates: {{ can_admin_due_dates|yesno:"true,false" }},
     canTranslateStats: {{ can_translate_stats|yesno:"true,false" }},
+    dueDate: {{ due_date|to_js }},
     isAdmin: {{ has_admin_access|yesno:"true,false" }},
     isInitiallyExpanded: {{ is_store|yesno:"true,false" }},
     initialData: {{ browsing_data|to_js }},
@@ -95,11 +90,6 @@ $(function () {
     uiLocaleDir: '{{ LANGUAGE_BIDI|yesno:"rtl,ltr" }}',
     pendingTasks: {{ pending_tasks|to_js }},
   });
-  {% if can_admin_due_dates %}
-    PTL.duedates.init({
-      dueDate: {{ due_date|to_js }},
-    });
-  {% endif %}
 });
 </script>
 {% endblock %}

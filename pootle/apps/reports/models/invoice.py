@@ -255,8 +255,9 @@ class Invoice(object):
         """Adds a correction for the value of `total_amount` in the month being
         processed.
         """
-        initial_moment = self.now.replace(day=1, hour=0, minute=0, second=0,
-                                          tzinfo=timezone.get_default_timezone())
+        local_now = timezone.localtime(self.now)
+        initial_moment = local_now.replace(day=1, hour=0, minute=0, second=0)
+
         PaidTask.objects.create(
             task_type=PaidTaskTypes.CORRECTION,
             amount=(-1) * total_amount,

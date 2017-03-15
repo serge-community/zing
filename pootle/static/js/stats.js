@@ -138,7 +138,9 @@ const stats = {
     if (!!data.is_dirty) {
       if (dirtyStatsRefreshEnabled) {
         this.dirtyBackoff = Math.pow(2, this.retries);
-        this.dirtyBackoffId = setInterval(() => this.updateDirty({ hideSpin: true }), 1000);
+        this.dirtyBackoffId = setInterval(
+          () => this.updateDirty({ showSpin: false }), 1000
+        );
       } else {
         $('.js-stats-refresh').show();
       }
@@ -150,7 +152,7 @@ const stats = {
     this.updateAction($('#js-action-review'), data.suggestions);
   },
 
-  updateDirty({ hideSpin = false } = {}) {
+  updateDirty({ showSpin = true } = {}) {
     if (--this.dirtyBackoff === 0) {
       $('.js-stats-refresh').hide();
       clearInterval(this.dirtyBackoffId);
@@ -158,22 +160,19 @@ const stats = {
         if (this.retries < 5) {
           this.retries++;
         }
-        this.loadStats({ hideSpin });
+        this.loadStats({ showSpin });
       }, 250);
     }
   },
 
-  load(methodName, { hideSpin = false } = {}) {
-    if (!hideSpin) {
+  loadStats({ showSpin = true } = {}) {
+    if (showSpin) {
       $('body').spin();
     }
-    return StatsAPI[methodName](this.pootlePath)
+    return StatsAPI
+      .getStats(this.pootlePath)
+      .done((data) => this.setState({ data }))
       .always(() => $('body').spin(false));
-  },
-
-  loadStats({ hideSpin = false } = {}) {
-    return this.load('getStats', { hideSpin })
-      .done((data) => this.setState({ data }));
   },
 
   /* Path summary */

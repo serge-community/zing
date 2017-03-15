@@ -11,17 +11,7 @@ import React from 'react';
 import { t, toLocaleString } from 'utils/i18n';
 import { getTranslateUrl } from 'utils/url';
 
-
-function nicePercentage(part, total, noTotalDefault) {
-  const percentage = total ? part / total * 100 : noTotalDefault;
-  if (percentage > 99 && percentage < 100) {
-    return 99;
-  }
-  if (percentage > 0 && percentage < 1) {
-    return 1;
-  }
-  return percentage > 0 ? Math.round(percentage) : 0;
-}
+import { nicePercentage } from '../utils';
 
 
 const TranslationStateRow = ({

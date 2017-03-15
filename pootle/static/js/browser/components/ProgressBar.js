@@ -10,6 +10,9 @@ import React from 'react';
 
 import { t } from 'utils/i18n';
 
+import { nicePercentage } from '../utils';
+
+
 const ProgressBar = React.createClass({
   propTypes: {
     total: React.PropTypes.number,
@@ -27,9 +30,11 @@ const ProgressBar = React.createClass({
 
   render() {
     const { total, fuzzy, translated } = this.props;
-    const pTransNumber = total > 0 ? Math.round(translated / total * 100) : 100;
-    const pFuzzyNumber = total > 0 ? Math.round(fuzzy / total * 100) : 0;
-    const pUntransNumber = 100 - pTransNumber - pFuzzyNumber;
+    const untranslated = total - translated - fuzzy;
+
+    const pTransNumber = nicePercentage(translated, total, 100);
+    const pFuzzyNumber = nicePercentage(fuzzy, total, 0);
+    const pUntransNumber = nicePercentage(untranslated, total, 0);
 
     const titleParts = [];
     if (pTransNumber > 0) {

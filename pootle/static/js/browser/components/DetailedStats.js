@@ -12,7 +12,7 @@ import LastActivity from 'components/LastActivity';
 import TimeSince from 'components/TimeSince';
 
 import FailingChecks from './FailingChecks';
-import Stats from './Stats';
+import TopContributors from './TopContributors';
 import TranslationState from './TranslationState';
 
 import { t } from 'utils/i18n';
@@ -45,7 +45,7 @@ const DetailedStats = ({
       </div>
 
       <div className="summary-2-col">
-        <Stats
+        <TopContributors
           hasMoreContributors={hasMoreContributors}
           topContributors={topContributorsData}
           pootlePath={pootlePath}

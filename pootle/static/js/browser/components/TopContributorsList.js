@@ -13,7 +13,7 @@ import { t } from 'utils/i18n';
 import { getScoreText } from 'utils/score';
 
 
-const StatsCollapsed = React.createClass({
+const TopContributorsList = React.createClass({
   propTypes: {
     topContributors: React.PropTypes.array.isRequired,
   },
@@ -62,4 +62,4 @@ const StatsCollapsed = React.createClass({
   },
 });
 
-export default StatsCollapsed;
+export default TopContributorsList;

@@ -33,6 +33,7 @@ const TaskList = ({ tasks }) => (
         importanceFactor={task.importance_factor}
       >
         <TaskItem
+          dueDateId={task.due_date_id}
           dueOnMsEpoch={task.due_on * 1000}
           path={task.path}
           projectName={task.project_name}

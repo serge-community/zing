@@ -97,9 +97,12 @@ class DueDate(models.Model):
     @property
     def project_name(self):
         # FIXME: can we do something which doesn't require the fake user?
-        return Project.objects.cached_dict(
-            FakeUser()
-        )[self.project_code]['fullname']
+        try:
+            return Project.objects.cached_dict(
+                FakeUser()
+            )[self.project_code]['fullname']
+        except KeyError:
+            return self.project_code
 
     @classmethod
     def tasks(cls, language_code, now=None, user=None):
@@ -185,11 +188,8 @@ class DueDate(models.Model):
 
         pending = []
         task_kwargs = {
-            'path': self.pootle_path,
-            'due_on': self.due_on,
+            'due_date': self,
             'now': now,
-            'project_code': self.project_code,
-            'project_name': self.project_name,
         }
 
         critical_count = self.stats.critical

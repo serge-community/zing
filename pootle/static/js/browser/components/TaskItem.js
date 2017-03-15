@@ -30,7 +30,9 @@ function formatDueTime(msEpoch) {
 }
 
 
-const TaskItem = ({ path, projectName, wordsLeft, dueOnMsEpoch, type }) => {
+const TaskItem = ({
+  path, projectName, wordsLeft, dueDateId, dueOnMsEpoch, type,
+}) => {
   let label;
   let actionUrl = getTranslateUrl(path);
 
@@ -46,7 +48,7 @@ const TaskItem = ({ path, projectName, wordsLeft, dueOnMsEpoch, type }) => {
   const dueDateTooltip = dateTimeTzFormatter.format(dueOnMsEpoch);
 
   const taskComp = (
-    <span className={`task-action task-${type}`}>
+    <span className={`task-action task-${type} task-${dueDateId}`}>
       <span>{label}</span>
       <span className="counter">{wordsLeft}</span>
     </span>
@@ -80,6 +82,7 @@ const TaskItem = ({ path, projectName, wordsLeft, dueOnMsEpoch, type }) => {
   );
 };
 TaskItem.propTypes = {
+  dueDateId: React.PropTypes.number.isRequired,
   dueOnMsEpoch: React.PropTypes.number.isRequired,
   path: React.PropTypes.string.isRequired,
   projectName: React.PropTypes.string.isRequired,

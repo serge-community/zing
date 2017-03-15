@@ -10,6 +10,7 @@ from datetime import timedelta
 
 import pytest
 
+from pytest_pootle.factories import DueDateFactory
 from pytest_pootle.utils import as_dir
 
 from pootle.core.utils.timezone import aware_datetime
@@ -19,13 +20,11 @@ from pootle.models.task import CriticalTask, TaskResultSet, TranslationTask
 def test_translation_task_repr():
     """Tests `TranslationTask`'s representation."""
     due_on = now = aware_datetime(2017, 02, 28, 9, 00)
+    due_date = DueDateFactory.build(due_on=due_on)
     task = TranslationTask(
-        path='/foo/',
-        due_on=due_on,
+        due_date=due_date,
         now=now,
         words_left=1,
-        project_code='foo',
-        project_name='foo',
     )
     assert (
         task.__repr__() == '<TranslationTask: /foo/ (2017-02-28 09:00:00+01:00)>'
@@ -48,13 +47,11 @@ def test_translation_task_importance_factor(words_left, days_left,
     """Tests `TranslationTask`'s importance factor."""
     now = aware_datetime(2017, 02, 28, 9, 00)
     due_on = now + timedelta(days=days_left)
+    due_date = DueDateFactory.build(due_on=due_on)
     task = TranslationTask(
-        path='/foo/',
-        due_on=due_on,
+        due_date=due_date,
         now=now,
         words_left=words_left,
-        project_code='foo',
-        project_name='foo',
     )
     assert task.importance_factor == expected_factor
 
@@ -69,27 +66,24 @@ def test_critical_task_importance_factor(words_left, days_left,
     """Tests `CriticalTask`'s importance factor."""
     now = aware_datetime(2017, 02, 28, 9, 00)
     due_on = now + timedelta(days=days_left)
+    due_date = DueDateFactory.build(due_on=due_on)
     task = CriticalTask(
-        path='/foo/',
-        due_on=due_on,
+        due_date=due_date,
         now=now,
         words_left=words_left,
-        project_code='foo',
-        project_name='foo',
     )
     assert task.importance_factor == expected_factor
 
 
+@pytest.mark.django_db
 def test_taskresultset_get_single():
     """Tests retrieving a single task resultset item by index."""
     due_on = now = aware_datetime(2017, 02, 28, 9, 00)
+    due_date = DueDateFactory.build(due_on=due_on)
     task = TranslationTask(
-        path='/foo/',
-        due_on=due_on,
+        due_date=due_date,
         now=now,
         words_left=1,
-        project_code='foo',
-        project_name='foo',
     )
     task_resultset = TaskResultSet([task])
     assert task_resultset[0] == task.data
@@ -99,13 +93,11 @@ def test_taskresultset_get_single():
 def test_taskresultset_get_raises(index):
     """Tests retrieving from a task resultset by using an invalid index/slice."""
     due_on = now = aware_datetime(2017, 02, 28, 9, 00)
+    due_date = DueDateFactory.build(due_on=due_on)
     task = TranslationTask(
-        path='/foo/',
-        due_on=due_on,
+        due_date=due_date,
         now=now,
         words_left=1,
-        project_code='foo',
-        project_name='foo',
     )
     task_resultset = TaskResultSet([task])
     with pytest.raises(TypeError):
@@ -116,12 +108,12 @@ class LightTask(object):
     def __init__(self, importance_factor, days_left, path, *args, **kwargs):
         self.importance_factor = importance_factor
         self.days_left = days_left
-        self.path = path
+        self.due_date = DueDateFactory.build(pootle_path=path)
 
     @property
     def data(self):
         return {
-            'path': self.path,
+            'path': self.due_date.pootle_path,
             'days_left': self.days_left,
             'importance_factor': self.importance_factor,
         }

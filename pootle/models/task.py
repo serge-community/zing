@@ -22,21 +22,20 @@ class TranslationTask(object):
     type = 'translation'
     weight = 1
 
-    def __init__(self, path, due_on, now, words_left, project_code,
-                 project_name, **kwargs):
-        self.path = path
-        self.due_on = due_on
+    def __init__(self, due_date, now, words_left, **kwargs):
+        self.due_date = due_date
         self.now = now
         self.words_left = words_left
-        self.project_code = project_code
-        self.project_name = project_name
 
     def __repr__(self):
-        return '<%s: %s (%s)>' % (self.__class__.__name__, self.path, self.due_on)
+        return '<%s: %s (%s)>' % (
+            self.__class__.__name__, self.due_date.pootle_path,
+            self.due_date.due_on,
+        )
 
     @property
     def days_left(self):
-        return days_left(self.now, self.due_on)
+        return days_left(self.now, self.due_date.due_on)
 
     @property
     def importance_factor(self):
@@ -50,11 +49,12 @@ class TranslationTask(object):
     def data(self):
         return {
             'type': self.type,
-            'path': self.path,
-            'due_on': self.due_on,
             'words_left': self.words_left,
-            'project_name': self.project_name,
             'importance_factor': self.importance_factor,
+            'due_date_id': self.due_date.id,
+            'path': self.due_date.pootle_path,
+            'due_on': self.due_date.due_on,
+            'project_name': self.due_date.project_name,
         }
 
 
@@ -87,6 +87,7 @@ class TaskResultSet(object):
     def order_by_importance(self):
         self.tasks = sorted(
             self.tasks,
-            key=lambda x: (-x.importance_factor, x.days_left, x.path),
+            key=lambda x: (-x.importance_factor, x.days_left,
+                           x.due_date.pootle_path),
         )
         return self

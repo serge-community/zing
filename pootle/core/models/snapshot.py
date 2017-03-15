@@ -39,6 +39,7 @@ BLACKLISTED_KEYS = [
     'top_scorers',
     # Taken out until we are able to `reset_sequences` (pytest-django/#308)
     'id',
+    'due_date_id',
 ]
 
 

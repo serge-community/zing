@@ -100,8 +100,9 @@ class DueDatePicker extends React.Component {
   render() {
     const { id } = this.props;
     const { committedDay } = this;
-    const start = DateUtils.addMonths(committedDay, -1);
-    const end = DateUtils.addMonths(committedDay, 6);
+    const now = new Date();
+    const start = DateUtils.addMonths(now, -1);
+    const end = DateUtils.addMonths(now, 6);
 
     return (
       <div className="duedate-picker">

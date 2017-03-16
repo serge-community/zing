@@ -30,27 +30,27 @@ class DueDatePicker extends React.Component {
   constructor(props) {
     super(props);
 
-    this.initiallySelectedDay = (
+    this.committedDay = (
       this.props.dueOn ? new Date(this.props.dueOn * 1000) : new Date()
     );
     this.state = {
-      selectedDay: this.initiallySelectedDay,
+      selectedDay: this.committedDay,
     };
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.dueOn !== nextProps.dueOn) {
-      this.initiallySelectedDay = (
+      this.committedDay = (
         nextProps.dueOn ? new Date(nextProps.dueOn * 1000) : new Date()
       );
-      this.setState({ selectedDay: this.initiallySelectedDay });
+      this.setState({ selectedDay: this.committedDay });
     }
   }
 
   canBeSubmitted() {
     return (
       !this.props.dueOn ||
-      toISODate(this.state.selectedDay) !== toISODate(this.initiallySelectedDay)
+      toISODate(this.state.selectedDay) !== toISODate(this.committedDay)
     );
   }
 
@@ -99,19 +99,23 @@ class DueDatePicker extends React.Component {
 
   render() {
     const { id } = this.props;
-    const { selectedDay } = this.state;
-    const start = DateUtils.addMonths(selectedDay, -1);
-    const end = DateUtils.addMonths(selectedDay, 6);
+    const { committedDay } = this;
+    const start = DateUtils.addMonths(committedDay, -1);
+    const end = DateUtils.addMonths(committedDay, 6);
 
     return (
       <div className="duedate-picker">
         {this.renderHint()}
         <DayPicker
-          initialMonth={selectedDay}
-          selectedDays={selectedDay}
+          initialMonth={committedDay}
           fromMonth={start}
           toMonth={end}
           onDayClick={(day) => this.handleDayClick(day)}
+          onDayFocus={(day) => this.handleDayClick(day)}
+          modifiers={{
+            committed: (day) => DateUtils.isSameDay(day, committedDay),
+            selected: (day) => DateUtils.isSameDay(day, this.state.selectedDay),
+          }}
         />
         <div className="duedate-picker-buttons">
         {id > 0 &&

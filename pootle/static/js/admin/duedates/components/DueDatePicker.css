@@ -163,19 +163,15 @@
     color: #dce0e0;
 }
 
-/* Example modifiers */
-
-.DayPicker-Day--sunday
-{
-    background-color: #f7f8f8;
-}
-
-.DayPicker-Day--sunday:not(.DayPicker-Day--today)
-{
-    color: #dce0e0;
-}
+/* Modifiers */
 
 .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside)
+{
+    color: #000;
+    background-color: #cde3ea;
+}
+
+.DayPicker-Day--committed:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside)
 {
     color: #fff;
     background-color: #0489b7;

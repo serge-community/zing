@@ -17,21 +17,13 @@ import { formatDueTime } from '../utils';
 import './DueDatePicker.css';
 
 
-/**
- * Convert a Date object `date` into an ISO 8601-formatted date.
- */
-function toISODate(date) {
-  return date.toISOString().slice(0, -14);
-}
-
-
 class DueDatePicker extends React.Component {
 
   constructor(props) {
     super(props);
 
     this.committedDay = (
-      this.props.dueOn ? new Date(this.props.dueOn * 1000) : new Date()
+      this.props.dueOn ? new Date(this.props.dueOn * 1000) : null
     );
     this.state = {
       selectedDay: this.committedDay,
@@ -41,7 +33,7 @@ class DueDatePicker extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.dueOn !== nextProps.dueOn) {
       this.committedDay = (
-        nextProps.dueOn ? new Date(nextProps.dueOn * 1000) : new Date()
+        nextProps.dueOn ? new Date(nextProps.dueOn * 1000) : null
       );
       this.setState({ selectedDay: this.committedDay });
     }
@@ -49,8 +41,8 @@ class DueDatePicker extends React.Component {
 
   canBeSubmitted() {
     return (
-      !this.props.dueOn ||
-      toISODate(this.state.selectedDay) !== toISODate(this.committedDay)
+      this.state.selectedDay &&
+      !DateUtils.isSameDay(this.state.selectedDay, this.committedDay)
     );
   }
 
@@ -65,7 +57,9 @@ class DueDatePicker extends React.Component {
       return;
     }
 
-    this.props.onUpdate(toISODate(this.state.selectedDay));
+    this.props.onUpdate(
+      this.state.selectedDay.toISOString().slice(0, -14)
+    );
   }
 
   renderHint() {
@@ -109,7 +103,7 @@ class DueDatePicker extends React.Component {
       <div className="duedate-picker">
         {this.renderHint()}
         <DayPicker
-          initialMonth={committedDay}
+          initialMonth={committedDay || now}
           fromMonth={start}
           toMonth={end}
           onDayClick={(day) => this.handleDayClick(day)}

@@ -69,9 +69,9 @@ class DueDatePicker extends React.Component {
   }
 
   renderHint() {
-    const { dueOn } = this.props;
+    const { selectedDay } = this.state;
 
-    if (!dueOn) {
+    if (!selectedDay) {
       // XXX: hackish but works for now
       const timezone = (new Intl.DateTimeFormat(PTL.settings.UI_LOCALE, {
         timeZone: PTL.settings.TIME_ZONE,
@@ -88,11 +88,12 @@ class DueDatePicker extends React.Component {
       );
     }
 
-    const dueOnMsEpoch = dueOn * 1000;
+    // FIXME: this needs TZ info! otherwise times will be incorrect/in local TZ
+    const selectedDayMs = this.state.selectedDay.getTime();
     return (
       <div>
-        <p>{dateTimeTzFormatter.format(dueOnMsEpoch)}</p>
-        <p>{formatDueTime(dueOnMsEpoch)}</p>
+        <p>{dateTimeTzFormatter.format(selectedDayMs)}</p>
+        <p>{formatDueTime(selectedDayMs)}</p>
       </div>
     );
   }

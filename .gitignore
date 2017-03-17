@@ -74,6 +74,7 @@ Pootle.egg-info/
 
 # PyDev (Intellij) local configuration folder
 .idea
+*.iml
 
 # local log direcotry
 log/

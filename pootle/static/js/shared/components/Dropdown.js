@@ -58,7 +58,7 @@ class Dropdown extends React.Component {
     }
   }
 
-  handleClick() {
+  handleTriggerClick() {
     this.setState((prevState) => ({
       isOpen: !prevState.isOpen,
     }));
@@ -69,7 +69,7 @@ class Dropdown extends React.Component {
       <div
         className="dropdown-wrapper"
       >
-        <div onClick={() => this.handleClick()} >
+        <div onClick={() => this.handleTriggerClick()} >
           {this.props.trigger}
         </div>
         {this.state.isOpen &&

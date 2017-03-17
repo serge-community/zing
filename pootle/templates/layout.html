@@ -29,7 +29,8 @@
       MARKUP_FILTER: '{{ settings.POOTLE_MARKUP_FILTER }}',
       SOCIAL_AUTH_PROVIDERS: {{ SOCIAL_AUTH_PROVIDERS|to_js }},
       UI_LOCALE: '{{ LANGUAGE_CODE }}',
-      TIME_ZONE: '{{ settings.TIME_ZONE }}',
+      TZ_OFFSET: {{ settings.TZ_OFFSET }},
+      TZ_OFFSET_DISPLAY: '{{ settings.TZ_OFFSET_DISPLAY }}',
     };
     </script>
 

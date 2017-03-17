@@ -8,12 +8,17 @@
 # AUTHORS file for copyright and authorship information.
 
 from django.conf import settings
-from django.utils import translation
+from django.utils import timezone, translation
 
 from pootle.core.markup import get_markup_filter_name
 from pootle_language.models import Language
 from pootle_project.models import Project
 from staticpages.models import LegalPage
+
+
+local_now = timezone.localtime(timezone.now())
+TZ_OFFSET = local_now.utcoffset().total_seconds()
+TZ_OFFSET_DISPLAY = local_now.strftime('%z')
 
 
 def _agreement_context(request):
@@ -50,7 +55,8 @@ def pootle_context(request):
             'POOTLE_MARKUP_FILTER': get_markup_filter_name(),
             'POOTLE_SIGNUP_ENABLED': settings.POOTLE_SIGNUP_ENABLED,
             'POOTLE_CACHE_TIMEOUT': settings.POOTLE_CACHE_TIMEOUT,
-            'TIME_ZONE': settings.TIME_ZONE,
+            'TZ_OFFSET': TZ_OFFSET,
+            'TZ_OFFSET_DISPLAY': TZ_OFFSET_DISPLAY,
             'DEBUG': settings.DEBUG,
         },
         'custom': settings.POOTLE_CUSTOM_TEMPLATE_CONTEXT,

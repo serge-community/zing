@@ -10,6 +10,7 @@ import React from 'react';
 import DayPicker, { DateUtils } from 'react-day-picker';
 
 import { t, tct, dateTimeTzFormatter } from 'utils/i18n';
+import { toServerDate, setServerHours } from 'utils/time';
 
 import { formatDueTime } from '../utils';
 
@@ -66,14 +67,10 @@ class DueDatePicker extends React.Component {
     const { selectedDay } = this.state;
 
     if (!selectedDay) {
-      // XXX: hackish but works for now
-      const timezone = (new Intl.DateTimeFormat(PTL.settings.UI_LOCALE, {
-        timeZone: PTL.settings.TIME_ZONE,
-        timeZoneName: 'long',
-      })).format(1).split(' ').slice(1).join(' ');
+      const timezone = `UTC${PTL.settings.TZ_OFFSET_DISPLAY}`;
       const hintMsg = tct(
         'Use the calendar below to select a date by 9:00AM of which ' +
-        ' (in %(timezone)s) this section should be completed.',
+        ' (in %(timezone)s timezone) this section should be completed.',
         { timezone }
       );
 
@@ -82,12 +79,12 @@ class DueDatePicker extends React.Component {
       );
     }
 
-    // FIXME: this needs TZ info! otherwise times will be incorrect/in local TZ
-    const selectedDayMs = this.state.selectedDay.getTime();
+    const serverDate = toServerDate(selectedDay);
+    const serverDateStartOfDay = setServerHours(serverDate, 9, 0);
     return (
       <div>
-        <p>{dateTimeTzFormatter.format(selectedDayMs)}</p>
-        <p>{formatDueTime(selectedDayMs)}</p>
+        <p>{dateTimeTzFormatter.format(serverDateStartOfDay)}</p>
+        <p>{formatDueTime(serverDateStartOfDay)}</p>
       </div>
     );
   }

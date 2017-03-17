@@ -135,3 +135,47 @@ export function formatTimeDelta(
 
   return formatted;
 }
+
+
+/**
+ * Converts a `Date` object `localDate` into the server's timezone.
+ *
+ * @param Date localDate a Date object, represented in the local timezone.
+ * @param Integer serverUtcOffset server's offset with respect to UTC,
+ *   in seconds.
+ * @return Date `localDate` localized to server's timezone.
+ */
+export function toServerDate(localDate, {
+    serverUtcOffset = PTL.settings.TZ_OFFSET,
+  } = {}
+) {
+  const localUtcOffsetMs = localDate.getTimezoneOffset() * 60 * 1000;
+  const utcMs = localDate.getTime() - localUtcOffsetMs;
+  const serverUtcOffsetMs = serverUtcOffset * 1000;
+  return new Date(utcMs + serverUtcOffsetMs);
+}
+
+
+/**
+ * Sets a `Date` object's hours according to the server's timezone.
+ *
+ * @param Date date a Date object, represented in the server's timezone.
+ * @param Integer serverUtcOffset server's offset with respect to UTC,
+ *   in seconds.
+ * @return Date a given date's copy adjusted to `hours` in server's timezone.
+ */
+export function setServerHours(serverDate, hours, minutes = null, {
+    serverUtcOffset = PTL.settings.TZ_OFFSET,
+  } = {}
+) {
+  const newDate = new Date(serverDate.getTime());
+  const hoursOffset = serverUtcOffset / (60 * 60);
+  const newUTCHours = (hours - hoursOffset);
+  newDate.setUTCHours(newUTCHours);
+
+  if (minutes) {
+    newDate.setUTCMinutes(minutes);
+  }
+
+  return newDate;
+}

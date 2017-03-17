@@ -40,6 +40,8 @@
 .icon-reject-white,
 .icon-download,
 .icon-back,
+.icon-prev,
+.icon-next,
 .icon-accept-white,
 .icon-external-link,
 .icon-menu,
@@ -206,6 +208,18 @@
 .icon-back::before
 {
     content: 'T';
+}
+
+.icon-prev::before,
+.icon-next::before
+{
+    content: 'h';
+}
+
+.icon-prev
+{
+    /* flip horizontally */
+    transform: scale(-1, 1);
 }
 
 .icon-accept-white::before

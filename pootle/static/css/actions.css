@@ -23,6 +23,22 @@ a.task-item
     color: #fff;
 }
 
+.pending-tasks li a.task-item > *
+{
+    transition: opacity 0.25s ease-in-out;
+}
+
+.pending-tasks:hover li a.task-item > *
+{
+    opacity: 0.6;
+}
+
+a.task-item > .task-action,
+.pending-tasks:hover li:hover a.task-item > *
+{
+    opacity: 1;
+}
+
 a.task-item:hover
 {
     text-decoration: none;
@@ -36,7 +52,7 @@ a.task-item:hover
 .task-action
 {
     border-radius: 1em;
-    padding: 0.1em 0.5em;
+    padding: 2px 2px 2px 7px;
     font-weight: bold;
 }
 
@@ -44,7 +60,7 @@ a.task-item:hover
 {
     border-radius: 1em;
     padding: 0 0.5em;
-    margin: 0 -0.35em 0 0.5em;
+    margin-left: 5px;
     font-weight: normal;
 }
 
@@ -77,7 +93,8 @@ a.task-item:hover
     text-decoration: none;
 }
 
-.task-action:hover .counter
+.task-action:hover .counter,
+.pending-tasks li:hover .task-action .counter
 {
     background-color: #000;
 }
@@ -158,9 +175,15 @@ body.translate #actions
         margin-left: 1em;
     }
 
-    #translate-actions ul li .caption
+    #translate-actions ul li .caption,
+    #translate-actions ul li .dropdown-wrapper
     {
         font-size: 85%;
+    }
+
+    #translate-actions ul li .dropdown-wrapper .icon-desc
+    {
+        line-height: 125%;
     }
 }
 

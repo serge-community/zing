@@ -20,6 +20,9 @@ class Dropdown extends React.Component {
       isOpen: props.isInitiallyOpen,
     };
 
+    this.clickedInside = false;
+    this.clickTimeout = null;
+
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleDocClick = this.handleDocClick.bind(this);
   }
@@ -36,12 +39,13 @@ class Dropdown extends React.Component {
   }
 
   componentWillUnmount() {
+    clearTimeout(this.clickTimeout);
     document.removeEventListener('keydown', this.handleKeyDown);
     document.removeEventListener('click', this.handleDocClick);
   }
 
-  handleDocClick(e) {
-    if (this.containerRef.contains(e.target)) {
+  handleDocClick() {
+    if (this.clickedInside) {
       return;
     }
 
@@ -56,6 +60,14 @@ class Dropdown extends React.Component {
         isOpen: false,
       });
     }
+  }
+
+  handleContainerMouseDown() {
+    this.clickedInside = true;
+  }
+
+  handleContainerMouseUp() {
+    this.clickTimeout = setTimeout(() => (this.clickedInside = false), 0);
   }
 
   handleTriggerClick() {
@@ -75,7 +87,8 @@ class Dropdown extends React.Component {
         {this.state.isOpen &&
           <div
             className="dropdown-container"
-            ref={(el) => (this.containerRef = el)}
+            onMouseDown={() => this.handleContainerMouseDown()}
+            onMouseUp={() => this.handleContainerMouseUp()}
             tabIndex="0"
           >
           {React.Children.only(this.props.children)}

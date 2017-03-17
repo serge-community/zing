@@ -176,12 +176,12 @@ body.translate #actions
     }
 
     #translate-actions ul li .caption,
-    #translate-actions ul li .dropdown-wrapper
+    #translate-actions ul li .dropdown-label
     {
         font-size: 85%;
     }
 
-    #translate-actions ul li .dropdown-wrapper .icon-desc
+    #translate-actions ul li .dropdown-label .icon-desc
     {
         line-height: 125%;
     }

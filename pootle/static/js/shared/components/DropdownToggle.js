@@ -37,7 +37,9 @@ const DropdownToggle = ({ children, title, tag: Tag }, context) => {
       onClick={() => context.onToggle()}
       {...extraProps}
     >
-      {children}
+      <span className="dropdown-label">
+        {children}
+      </span>
       <span className="icon-desc" />
     </Tag>
   );

@@ -52,8 +52,10 @@ const TaskItem = ({ path, projectName, wordsLeft, dueOnMsEpoch, type }) => {
     </span>
   );
   const resourcePath = getResourcePath(path);
-  const projectComp = (
-    <span>{projectName}{resourcePath && ` ${resourcePath}`}</span>
+  const projectComp = resourcePath ? (
+    t('%(projectName)s → %(resourcePath)s', { projectName, resourcePath })
+  ) : (
+     <span>{projectName}</span>
   );
   const dateComp = (
     <span

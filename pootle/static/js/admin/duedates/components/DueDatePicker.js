@@ -69,20 +69,21 @@ class DueDatePicker extends React.Component {
     if (!selectedDay) {
       const timezone = `UTC${PTL.settings.TZ_OFFSET_DISPLAY}`;
       const hintMsg = tct(
-        'Use the calendar below to select a date by 9:00AM of which ' +
-        ' (in %(timezone)s timezone) this section should be completed.',
+        'Due time: 9:00am %(timezone)s',
         { timezone }
       );
-
       return (
-        <p className="hint">{hintMsg}</p>
+        <div className="current-selection placeholder">
+          <p>{t('Please select a due date')}</p>
+          <p>{hintMsg}</p>
+        </div>
       );
     }
 
     const serverDate = toServerDate(selectedDay);
     const serverDateStartOfDay = setServerHours(serverDate, 9, 0);
     return (
-      <div>
+      <div className="current-selection">
         <p>{dateTimeTzFormatter.format(serverDateStartOfDay)}</p>
         <p>{formatDueTime(serverDateStartOfDay)}</p>
       </div>
@@ -98,7 +99,6 @@ class DueDatePicker extends React.Component {
 
     return (
       <div className="duedate-picker">
-        {this.renderHint()}
         <DayPicker
           initialMonth={committedDay || now}
           fromMonth={start}
@@ -110,6 +110,7 @@ class DueDatePicker extends React.Component {
             selected: (day) => DateUtils.isSameDay(day, this.state.selectedDay),
           }}
         />
+        {this.renderHint()}
         <div className="duedate-picker-buttons">
         {id > 0 &&
           <button
@@ -117,7 +118,7 @@ class DueDatePicker extends React.Component {
             className="btn btn-danger"
             onClick={() => this.props.onRemove(id)}
           >
-            {t('Remove Due Date')}
+            {t('Remove')}
           </button>
         }
           <button
@@ -126,7 +127,7 @@ class DueDatePicker extends React.Component {
             disabled={!this.canBeSubmitted()}
             onClick={(e) => this.handleSubmit(e)}
           >
-            {t('Set Due Date')}
+            {t('Set')}
           </button>
         </div>
       </div>

@@ -21,6 +21,7 @@ class DueDateContainer extends React.Component {
     const { initialDueDate } = props;
     this.state = {
       id: initialDueDate.id,
+      isOpen: false,
       dueOn: initialDueDate.due_on,
       pootlePath: initialDueDate.pootle_path,
     };
@@ -56,12 +57,20 @@ class DueDateContainer extends React.Component {
     PTL.stats.refreshTasks();
   }
 
+  handleToggle() {
+    this.setState((prevState) => ({
+      isOpen: !prevState.isOpen,
+    }));
+  }
+
   render() {
     return (
       <DueDateWidget
         dueOn={this.state.dueOn}
         id={this.state.id}
+        isOpen={this.state.isOpen}
         onRemove={(id) => this.handleRemove(id)}
+        onToggle={() => this.handleToggle()}
         onUpdate={(isoDate) => this.handleUpdate(isoDate)}
       />
     );

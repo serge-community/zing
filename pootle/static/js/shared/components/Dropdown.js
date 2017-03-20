@@ -11,14 +11,33 @@ import React from 'react';
 import './Dropdown.css';
 
 
+const propTypes = {
+  children: React.PropTypes.node.isRequired,
+  isOpen: React.PropTypes.bool,
+  onToggle: React.PropTypes.func.isRequired,
+  tag: React.PropTypes.oneOfType([
+    React.PropTypes.func,
+    React.PropTypes.string,
+  ]),
+};
+
+const defaultProps = {
+  isOpen: false,
+  tag: 'div',
+};
+
+const childContextTypes = {
+  onMenuMouseDown: React.PropTypes.func.isRequired,
+  onMenuMouseUp: React.PropTypes.func.isRequired,
+  isOpen: React.PropTypes.bool.isRequired,
+  onToggle: React.PropTypes.func.isRequired,
+};
+
+
 class Dropdown extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      isOpen: props.isInitiallyOpen,
-    };
 
     this.clickedInside = false;
     this.clickTimeout = null;
@@ -27,12 +46,21 @@ class Dropdown extends React.Component {
     this.handleDocClick = this.handleDocClick.bind(this);
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (!prevState.isOpen && this.state.isOpen) {
+  getChildContext() {
+    return {
+      onMenuMouseDown: this.handleMenuMouseDown.bind(this),
+      onMenuMouseUp: this.handleMenuMouseUp.bind(this),
+      isOpen: this.props.isOpen,
+      onToggle: this.props.onToggle,
+    };
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.isOpen && this.props.isOpen) {
       document.addEventListener('keydown', this.handleKeyDown);
       document.addEventListener('click', this.handleDocClick);
     }
-    if (prevState.isOpen && !this.state.isOpen) {
+    if (prevProps.isOpen && !this.props.isOpen) {
       document.removeEventListener('keydown', this.handleKeyDown);
       document.removeEventListener('click', this.handleDocClick);
     }
@@ -49,65 +77,41 @@ class Dropdown extends React.Component {
       return;
     }
 
-    this.setState({
-      isOpen: false,
-    });
+    this.props.onToggle();
   }
 
   handleKeyDown(e) {
     if (e.key === 'Escape') {
-      this.setState({
-        isOpen: false,
-      });
+      this.props.onToggle();
     }
   }
 
-  handleContainerMouseDown() {
+  handleMenuMouseDown() {
     this.clickedInside = true;
   }
 
-  handleContainerMouseUp() {
-    this.clickTimeout = setTimeout(() => (this.clickedInside = false), 0);
-  }
-
-  handleTriggerClick() {
-    this.setState((prevState) => ({
-      isOpen: !prevState.isOpen,
-    }));
+  handleMenuMouseUp() {
+    this.clickTimeout = setTimeout(() => {
+      this.clickedInside = false;
+    }, 0);
   }
 
   render() {
+    const Tag = this.props.tag;
+
     return (
-      <div
+      <Tag
         className="dropdown-wrapper"
       >
-        <div onClick={() => this.handleTriggerClick()} >
-          {this.props.trigger}
-        </div>
-        {this.state.isOpen &&
-          <div
-            className="dropdown-container"
-            onMouseDown={() => this.handleContainerMouseDown()}
-            onMouseUp={() => this.handleContainerMouseUp()}
-            tabIndex="0"
-          >
-          {React.Children.only(this.props.children)}
-          </div>
-        }
-      </div>
+        {this.props.children}
+      </Tag>
     );
   }
 }
 
-Dropdown.propTypes = {
-  isInitiallyOpen: React.PropTypes.bool,
-  trigger: React.PropTypes.node.isRequired,
-  children: React.PropTypes.node.isRequired,
-};
-
-Dropdown.defaultProps = {
-  isInitiallyOpen: false,
-};
+Dropdown.propTypes = propTypes;
+Dropdown.defaultProps = defaultProps;
+Dropdown.childContextTypes = childContextTypes;
 
 
 export default Dropdown;

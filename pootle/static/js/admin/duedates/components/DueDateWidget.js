@@ -11,12 +11,29 @@ import React from 'react';
 import DueDatePicker from './DueDatePicker';
 
 import Dropdown from 'components/Dropdown';
+import DropdownMenu from 'components/DropdownMenu';
+import DropdownToggle from 'components/DropdownToggle';
 import { t, dateTimeTzFormatter } from 'utils/i18n';
 
 import { formatDueTime } from '../utils';
 
 
-const DueDateWidget = ({ dueOn, id, onRemove, onUpdate }) => {
+const propTypes = {
+  dueOn: React.PropTypes.number,
+  id: React.PropTypes.number,
+  isOpen: React.PropTypes.bool.isRequired,
+  onRemove: React.PropTypes.func.isRequired,
+  onToggle: React.PropTypes.func.isRequired,
+  onUpdate: React.PropTypes.func.isRequired,
+};
+
+const defaultProps = {
+  dueOn: 0,
+  id: 0,
+};
+
+
+const DueDateWidget = ({ dueOn, id, isOpen, onRemove, onToggle, onUpdate }) => {
   let dueOnMsg = t('No due date set');
   let dueOnTooltip = null;
   if (dueOn) {
@@ -24,35 +41,25 @@ const DueDateWidget = ({ dueOn, id, onRemove, onUpdate }) => {
     dueOnTooltip = dateTimeTzFormatter.format(dueOn * 1000);
   }
 
-  const dropdownTrigger = (
-    <a title={dueOnTooltip}>
-      {dueOnMsg}
-      <span className="icon-desc" />
-    </a>
-  );
-
   return (
-    <Dropdown trigger={dropdownTrigger}>
-      <DueDatePicker
-        id={id}
-        dueOn={dueOn}
-        onRemove={onRemove}
-        onUpdate={onUpdate}
-      />
+    <Dropdown isOpen={isOpen} onToggle={onToggle}>
+      <DropdownToggle title={dueOnTooltip}>
+        {dueOnMsg}
+      </DropdownToggle>
+      <DropdownMenu>
+        <DueDatePicker
+          id={id}
+          dueOn={dueOn}
+          onRemove={onRemove}
+          onUpdate={onUpdate}
+        />
+      </DropdownMenu>
     </Dropdown>
   );
 };
 
-DueDateWidget.propTypes = {
-  dueOn: React.PropTypes.number,
-  id: React.PropTypes.number,
-  onRemove: React.PropTypes.func.isRequired,
-  onUpdate: React.PropTypes.func.isRequired,
-};
-DueDateWidget.defaultProps = {
-  dueOn: 0,
-  id: 0,
-};
+DueDateWidget.propTypes = propTypes;
+DueDateWidget.defaultProps = defaultProps;
 
 
 export default DueDateWidget;

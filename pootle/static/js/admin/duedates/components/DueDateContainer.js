@@ -33,6 +33,7 @@ class DueDateContainer extends React.Component {
       .then(() => this.setState({
         id: null,
         dueOn: 0,
+        isOpen: false,
       }, this.handlePostUpdate));
   }
 
@@ -48,6 +49,7 @@ class DueDateContainer extends React.Component {
       this.setState(() => ({
         id: dueDate.id,
         dueOn: dueDate.due_on,
+        isOpen: false,
       }), this.handlePostUpdate);
     });
   }

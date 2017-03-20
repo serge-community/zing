@@ -18,7 +18,9 @@ from staticpages.models import LegalPage
 
 local_now = timezone.localtime(timezone.now())
 TZ_OFFSET = local_now.utcoffset().total_seconds()
-TZ_OFFSET_DISPLAY = local_now.strftime('%z')
+TZ_OFFSET_DISPLAY = (
+    local_now.strftime('%z') if local_now.tzinfo != timezone.utc else ''
+)
 
 
 def _agreement_context(request):

@@ -173,7 +173,7 @@ export function setServerHours(serverDate, hours, minutes = null, {
   const newUTCHours = (hours - hoursOffset);
   newDate.setUTCHours(newUTCHours);
 
-  if (minutes) {
+  if (minutes !== null) {
     newDate.setUTCMinutes(minutes);
   }
 

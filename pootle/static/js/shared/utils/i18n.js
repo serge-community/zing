@@ -221,6 +221,7 @@ const tzOptions = isTzSupported ? {
   timeZone: (new Intl.DateTimeFormat()).resolvedOptions().timeZone,
   timeZoneName: 'short',
 } : {};
+
 export const dateTimeTzFormatter = new Intl.DateTimeFormat(
   PTL.settings.UI_LOCALE,
   assign({}, {
@@ -229,6 +230,29 @@ export const dateTimeTzFormatter = new Intl.DateTimeFormat(
     hour: 'numeric',
     minute: 'numeric',
   }, tzOptions)
+);
+
+const serverTzOptions = isTzSupported ? {
+  timeZone: PTL.settings.TZ,
+  timeZoneName: 'short',
+} : {};
+
+export const serverDateTimeTzFormatter = new Intl.DateTimeFormat(
+  PTL.settings.UI_LOCALE,
+  assign({}, {
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  }, serverTzOptions)
+);
+
+export const serverTimeTzFormatter = new Intl.DateTimeFormat(
+  PTL.settings.UI_LOCALE,
+  assign({}, {
+    hour: 'numeric',
+    minute: 'numeric',
+  }, serverTzOptions)
 );
 
 

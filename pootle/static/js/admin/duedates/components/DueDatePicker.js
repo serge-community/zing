@@ -9,7 +9,7 @@
 import React from 'react';
 import DayPicker, { DateUtils } from 'react-day-picker';
 
-import { t, tct, dateTimeTzFormatter } from 'utils/i18n';
+import { t, serverDateTimeTzFormatter, serverTimeTzFormatter } from 'utils/i18n';
 import { toServerDate, setServerHours } from 'utils/time';
 
 import { formatDueTime } from '../utils';
@@ -67,15 +67,13 @@ class DueDatePicker extends React.Component {
     const { selectedDay } = this.state;
 
     if (!selectedDay) {
-      const timezone = `UTC${PTL.settings.TZ_OFFSET_DISPLAY}`;
-      const hintMsg = tct(
-        'Due time: 9:00am %(timezone)s',
-        { timezone }
-      );
+      const serverDate = toServerDate(new Date());
+      const serverDateStartOfDay = setServerHours(serverDate, 9, 0);
+      const dueTime = serverTimeTzFormatter.format(serverDateStartOfDay);
       return (
         <div className="current-selection placeholder">
           <p>{t('Please select a due date')}</p>
-          <p>{hintMsg}</p>
+          <p>{t('Due time: %(dueTime)s', { dueTime })}</p>
         </div>
       );
     }
@@ -84,7 +82,7 @@ class DueDatePicker extends React.Component {
     const serverDateStartOfDay = setServerHours(serverDate, 9, 0);
     return (
       <div className="current-selection">
-        <p>{dateTimeTzFormatter.format(serverDateStartOfDay)}</p>
+        <p>{serverDateTimeTzFormatter.format(serverDateStartOfDay)}</p>
         <p>{formatDueTime(serverDateStartOfDay)}</p>
       </div>
     );

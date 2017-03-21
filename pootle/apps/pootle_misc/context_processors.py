@@ -18,9 +18,6 @@ from staticpages.models import LegalPage
 
 local_now = timezone.localtime(timezone.now())
 TZ_OFFSET = local_now.utcoffset().total_seconds()
-TZ_OFFSET_DISPLAY = (
-    local_now.strftime('%z') if local_now.tzinfo != timezone.utc else ''
-)
 
 
 def _agreement_context(request):
@@ -57,8 +54,8 @@ def pootle_context(request):
             'POOTLE_MARKUP_FILTER': get_markup_filter_name(),
             'POOTLE_SIGNUP_ENABLED': settings.POOTLE_SIGNUP_ENABLED,
             'POOTLE_CACHE_TIMEOUT': settings.POOTLE_CACHE_TIMEOUT,
+            'TZ': settings.TIME_ZONE,
             'TZ_OFFSET': TZ_OFFSET,
-            'TZ_OFFSET_DISPLAY': TZ_OFFSET_DISPLAY,
             'DEBUG': settings.DEBUG,
         },
         'custom': settings.POOTLE_CUSTOM_TEMPLATE_CONTEXT,

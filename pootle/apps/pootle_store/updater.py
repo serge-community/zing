@@ -140,35 +140,32 @@ class UnitUpdater(object):
             self.unit.add_suggestion(self.newunit.target, self.update.user)[1]
         )
 
-    def record_submission(self):
+    def save_unit(self):
+        """Saves the updated unit to the DB.
+
+        The method takes care of recording submissions as well as setting
+        values for denormalized fields.
+        """
         self.unit.store.record_submissions(
             self.unit,
             self.original.target,
             self.original.state,
             self.at,
             self.update.user,
-            self.update.submission_type)
+            self.update.submission_type,
+        )
 
-    def save_unit(self):
-        self.unit.save(revision=self.update.update_revision)
-
-    def set_commented(self):
-        self.unit.commented_by = self.update.user
-        self.unit.commented_on = self.at
-
-    def set_submitted(self):
-        self.unit.submitted_by = self.update.user
-        self.unit.submitted_on = self.at
-        self.unit.reviewed_on = None
-        self.unit.reviewed_by = None
-
-    def set_unit(self):
-        self.record_submission()
         if self.translator_comment_updated:
-            self.set_commented()
+            self.unit.commented_by = self.update.user
+            self.unit.commented_on = self.at
+
         if self.target_updated:
-            self.set_submitted()
-        self.save_unit()
+            self.unit.submitted_by = self.update.user
+            self.unit.submitted_on = self.at
+            self.unit.reviewed_on = None
+            self.unit.reviewed_by = None
+
+        self.unit.save(revision=self.update.update_revision)
 
     def update_unit(self):
         suggested = False
@@ -180,7 +177,8 @@ class UnitUpdater(object):
             self.unit.index = self.update.get_index(self.uid)
             updated = True
         if updated:
-            self.set_unit()
+            self.save_unit()
+
         if self.should_create_suggestion:
             suggested = self.create_suggestion()
         return updated, suggested

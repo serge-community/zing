@@ -2,7 +2,9 @@ CWD = $(shell pwd)
 SRC_DIR = ${CWD}/pootle
 DOCS_DIR = ${CWD}/docs
 STATIC_DIR = ${SRC_DIR}/static
-ASSETS_DIR = $(shell python -c "from pootle.settings import *; print(STATIC_ROOT)")
+# The ASSETS_DIR is where STATIC_ROOT configuration variable
+# usually points to (see pootle/settings/10-base.conf)
+ASSETS_DIR = ${SRC_DIR}/assets
 JS_DIR = ${STATIC_DIR}/js
 FORMATS=--formats=bztar
 TEST_ENV_NAME = pootle_test_env
@@ -33,12 +35,12 @@ assets:
 	${POOTLE_CMD} collectstatic --noinput --clear -i node_modules -i .tox -i docs ${TAIL}
 	${POOTLE_CMD} assets build ${TAIL}
 
-	chmod 664 ${ASSETS_DIR}.webassets-cache/*
+	chmod 664 ${ASSETS_DIR}/.webassets-cache/*
 
 travis-assets:
 	npm --version
 	node --version
-	if [ -d "${ASSETS_DIR}.webassets-cache/" ]; then \
+	if [ -d "${ASSETS_DIR}/.webassets-cache" ]; then \
 		echo "eating cache - yum!"; \
 	else \
 		cd ${JS_DIR} && \
@@ -49,7 +51,7 @@ travis-assets:
 		mkdir -p ${ASSETS_DIR}; \
 		${POOTLE_CMD} collectstatic --noinput --clear -i node_modules -i .tox -i docs ${TAIL}; \
 		${POOTLE_CMD} assets build ${TAIL}; \
-		chmod 664 ${ASSETS_DIR}.webassets-cache/*; \
+		chmod 664 ${ASSETS_DIR}/.webassets-cache/*; \
 	fi
 
 docs:

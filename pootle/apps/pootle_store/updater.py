@@ -118,7 +118,8 @@ class UnitUpdater(object):
             and self.update.store_revision is not None
             and self.update.store_revision < self.unit.revision
             and (self.unit.target != self.newunit.target
-                 or self.unit.source != self.newunit.source))
+                 or self.unit.source != self.newunit.source)
+        )
 
     @property
     def should_create_suggestion(self):
@@ -139,6 +140,19 @@ class UnitUpdater(object):
         Merging considers source, target, comment and state changes.
         """
         return self.newunit and not self.conflict_found
+
+    @property
+    def should_resurrect(self):
+        """Determines whether the existing DB unit needs to be resurrected
+        because:
+            1. it was obsolete (but the new unit is not), and
+            2. it contained unsynced changes.
+        """
+        return (
+            self.unit.isobsolete()
+            and not self.newunit.isobsolete()
+            and self.unit.revision > self.update.store_revision
+        )
 
     @property
     def target_updated(self):
@@ -191,6 +205,8 @@ class UnitUpdater(object):
 
         if self.should_merge:
             updated = self.unit.update(self.newunit, user=self.update.user)
+        elif self.should_resurrect:
+            updated = self.unit.resurrect(is_fuzzy=self.unit.isfuzzy())
 
         if self.should_update_index:
             self.unit.index = self.update.get_index(self.uid)

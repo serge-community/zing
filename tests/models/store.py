@@ -199,6 +199,60 @@ def test_update_set_last_sync_revision(project0_disk, tp0, store0, test_fs):
     assert dbunit.revision == store0.last_sync_revision + 1
 
 
+@pytest.mark.django_db
+def test_update_restore_unsynced_and_obsoleted(project0_disk, tp0, store0):
+    """Tests unsynced and obsoleted units can be restored.
+
+    Refs. #246.
+    """
+    # Take a disk store
+    unit = store0.units.first()
+    store0.sync()
+
+    # Update a unit in this store, but don't sync it to disk
+    updated_translation = 'UPDATED TARGET'
+    unit.target = updated_translation
+    unit.save()
+
+    # Move the disk file somewhere else
+    orig_path = store0.file.path
+    backup_path = '%s.bkp' % orig_path
+    os.rename(orig_path, backup_path)
+
+    obsolete_count = store0.unit_set.filter(state=OBSOLETE).count()
+    active_count = store0.units.count()
+    unit_count = obsolete_count + active_count
+
+    # Now run `update_stores`, this should obsolete the store and its units
+    # Note: file scanning doesn't report obsoleting as a change
+    assert not tp0.update_from_disk()
+    store0.refresh_from_db()
+    unit.refresh_from_db()
+
+    assert store0.obsolete
+    assert unit.isobsolete()
+    assert store0.units.count() == 0
+    assert store0.unit_set.filter(state=OBSOLETE).count() == unit_count
+
+    # Move the original disk file back
+    os.rename(backup_path, orig_path)
+
+    # Run `update_stores` again, this should resurrect the store and its units
+    assert tp0.update_from_disk()
+    store0.refresh_from_db()
+    unit.refresh_from_db()
+
+    assert not store0.obsolete
+    assert not unit.isobsolete()
+    assert store0.units.count() == active_count
+    assert store0.unit_set.filter(state=OBSOLETE).count() == obsolete_count
+
+    # Resurrecting should include the updated but unsynced unit
+    assert unit.target == updated_translation
+    # and it should be syncable
+    assert unit.revision > store0.last_sync_revision
+
+
 def _test_store_update_indexes(store):
     # make sure indexes are not fooed indexes only have to be unique
     indexes = [x.index for x in store.units]
@@ -226,15 +280,6 @@ def _test_store_update_units_before(store, units_in_file, store_revision,
 
             continue
 
-        # unit is in update
-        if store_revision >= unit.revision:
-            assert not updated_unit.isobsolete()
-        elif unit.isobsolete():
-            # the unit has been obsoleted since store_revision
-            assert updated_unit.isobsolete()
-        else:
-            assert not updated_unit.isobsolete()
-
         if updated_unit.isobsolete():
             continue
 
@@ -255,18 +300,30 @@ def _test_store_update_units_before(store, units_in_file, store_revision,
 
             continue
 
+        # Unit changed after last sync but it was in obsolete state
+        # so it must be resurrected
+        if unit.isobsolete():
+            assert not updated_unit.isobsolete()
+            # assert updated_unit.target == unit.target
+            # This would apply if we were using the 1st approach
+            # assert updated_unit.target == updates[unit.source]
+
         # conflict found
-        suggestion = updated_unit.get_suggestions()[0]
+
+        # The unit should be left unchanged
         assert updated_unit.target == unit.target
         assert updated_unit.submitted_by == unit.submitted_by
+
+        # But a suggestion is added to the unit
+        suggestion = updated_unit.get_suggestions()[0]
         assert suggestion.target == updates[unit.source]
         assert suggestion.user == member2
 
 
 def _test_store_update_ordering(store, units_in_file, store_revision,
                                 units_before_update):
+    # FIXME: repeating app code here makes no sense — use snapshots
     updates = {unit[0]: unit[1] for unit in units_in_file}
-    old_units = {unit.source: unit for unit in units_before_update}
 
     # test ordering
     new_unit_list = []
@@ -276,20 +333,16 @@ def _test_store_update_ordering(store, units_in_file, store_revision,
                     and unit.revision > store_revision)
         if add_unit:
             new_unit_list.append(unit.source)
-    for source, target_ in units_in_file:
-        if source in old_units:
-            old_unit = old_units[source]
-            should_add = (not old_unit.isobsolete()
-                          or old_unit.revision <= store_revision)
-            if should_add:
-                new_unit_list.append(source)
-        else:
-            new_unit_list.append(source)
+
+    # Pick all other units from the file
+    new_unit_list.extend([unit[0] for unit in units_in_file])
+
     assert new_unit_list == [x.source for x in store.units]
 
 
 def _test_store_update_units_now(store, units_in_file, store_revision,
                                  units_before_update):
+    # FIXME: repeating app code here makes no sense — use snapshots
     # test that all the current units should be there
     updates = {unit[0]: unit[1] for unit in units_in_file}
     old_units = {unit.source: unit for unit in units_before_update}
@@ -348,12 +401,13 @@ def test_store_file_diff(store_diff_tests):
             sorted(diff_diff.keys())
             == ["add", "index", "obsolete", "update"])
 
+    # FIXME: repeating app code here makes no sense — use snapshots instead
     # obsoleted units have no index - so just check they are all they match
-    obsoleted = (store.unit_set.filter(state=OBSOLETE)
-                               .filter(revision__gt=store_revision)
-                               .values_list("source_f", flat=True))
-    assert len(diff.obsoleted_target_units) == obsoleted.count()
-    assert all(x in diff.obsoleted_target_units for x in obsoleted)
+    # obsoleted = (store.unit_set.filter(state=OBSOLETE)
+    #                            .filter(revision__gt=store_revision)
+    #                            .values_list("source_f", flat=True))
+    # assert len(diff.obsoleted_target_units) == obsoleted.count()
+    # assert all(x in diff.obsoleted_target_units for x in obsoleted)
 
     assert (
         diff.updated_target_units
@@ -517,22 +571,17 @@ def test_store_diff_obsoleted_target_unit(diffable_stores):
     obsolete_unit = target_store.units.first()
     obsolete_unit.makeobsolete()
     obsolete_unit.save()
-    # as the revision is higher it gets unobsoleted
+
+    # no matter the revision, the unit will be resurrected
     differ = StoreDiff(
         target_store,
         source_store,
-        target_store.get_max_unit_revision() + 1)
+        target_store.get_max_unit_revision(),
+    )
     result = differ.diff()
     assert result["update"][0] == set([obsolete_unit.pk])
     assert len(result["update"][1]) == 1
     assert result["update"][1][obsolete_unit.unitid]["dbid"] == obsolete_unit.pk
-
-    # if the revision is less - no change
-    differ = StoreDiff(
-        target_store,
-        source_store,
-        target_store.get_max_unit_revision() - 1)
-    assert not differ.diff()
 
 
 @pytest.mark.django_db

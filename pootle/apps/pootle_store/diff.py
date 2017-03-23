@@ -135,16 +135,6 @@ class DBStore(object):
         """Retrieves a comparable `DBUnit` object by `id`."""
         return DBUnit(self.units[id])
 
-    def get_obsoleted_uids(self, since_revision):
-        """Return a list of unit IDs that were obsoleted since
-        `since_revision` revision.
-        """
-        return [
-            uid for uid, unit in self.units.items()
-            if (unit['state'] == OBSOLETE
-                and unit['revision'] > since_revision)
-        ]
-
     def get_updated_uids(self, since_revision):
         """Return a list of *active* unit IDs that were updated since
         `since_revision` revision.
@@ -239,16 +229,11 @@ class StoreDiff(object):
         new_units = [u for u in self.updated_target_units
                      if u not in self.source.units]
 
-        # These unit are either present in both or only in the file so are
+        # These units are either present in both or only in the file so are
         # kept in the file order
-        new_units += [u for u in self.source.units.keys()
-                      if u not in self.obsoleted_target_units]
+        new_units += self.source.units.keys()
 
         return new_units
-
-    @cached_property
-    def obsoleted_target_units(self):
-        return self.target.get_obsoleted_uids(since_revision=self.source_revision)
 
     @cached_property
     def updated_target_units(self):

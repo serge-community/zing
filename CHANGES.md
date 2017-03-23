@@ -4,6 +4,9 @@ Zing Changelog
 v0.3.2 (in development)
 -----------------------
 
+* Fixed a synchronization bug where obsolete but unsynced units could not be
+  resurrected (#246).
+
 
 v0.3.1 (2017-02-15)
 -------------------

@@ -395,3 +395,12 @@ def test_unit_syncer_locations(unit_syncer):
     newunit = syncer.convert(unit_class)
     assert newunit.getlocations() == ["FOO"]
     _test_unit_syncer(unit, newunit)
+
+
+@pytest.mark.django_db
+def test_unit_resurrect_active_unit(store0):
+    """Tests unit resurrection does nothing for active units."""
+    unit = store0.units.first()
+    assert not unit.isobsolete()
+    assert not unit.resurrect()
+    assert not unit.isobsolete()

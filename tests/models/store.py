@@ -241,40 +241,44 @@ def _test_store_update_units_before(*test_args):
                 assert updated_unit.isobsolete()
             else:
                 assert not updated_unit.isobsolete()
+
+            continue
+
+        # unit is in update
+        if store_revision >= unit.revision:
+            assert not updated_unit.isobsolete()
+        elif unit.isobsolete():
+            # the unit has been obsoleted since store_revision
+            assert updated_unit.isobsolete()
         else:
-            # unit is in update
-            if store_revision >= unit.revision:
-                assert not updated_unit.isobsolete()
-            elif unit.isobsolete():
-                # the unit has been obsoleted since store_revision
-                assert updated_unit.isobsolete()
+            assert not updated_unit.isobsolete()
+
+        if updated_unit.isobsolete():
+            continue
+
+        if store_revision >= unit.revision:
+            # file store wins outright
+            assert updated_unit.target == updates[unit.source]
+            if unit.target != updates[unit.source]:
+                # unit has changed
+                assert updated_unit.submitted_by == member2
+
+                # damn mysql microsecond precision
+                if unit.submitted_on.time().microsecond != 0:
+                    assert updated_unit.submitted_on != unit.submitted_on
             else:
-                assert not updated_unit.isobsolete()
+                assert updated_unit.submitted_by == unit.submitted_by
+                assert updated_unit.submitted_on == unit.submitted_on
+            assert updated_unit.get_suggestions().count() == 0
 
-            if not updated_unit.isobsolete():
-                if store_revision >= unit.revision:
-                    # file store wins outright
-                    assert updated_unit.target == updates[unit.source]
-                    if unit.target != updates[unit.source]:
-                        # unit has changed
-                        assert updated_unit.submitted_by == member2
+            continue
 
-                        # damn mysql microsecond precision
-                        if unit.submitted_on.time().microsecond != 0:
-                            assert (
-                                updated_unit.submitted_on
-                                != unit.submitted_on)
-                    else:
-                        assert updated_unit.submitted_by == unit.submitted_by
-                        assert updated_unit.submitted_on == unit.submitted_on
-                    assert updated_unit.get_suggestions().count() == 0
-                else:
-                    # conflict found
-                    suggestion = updated_unit.get_suggestions()[0]
-                    assert updated_unit.target == unit.target
-                    assert updated_unit.submitted_by == unit.submitted_by
-                    assert suggestion.target == updates[unit.source]
-                    assert suggestion.user == member2
+        # conflict found
+        suggestion = updated_unit.get_suggestions()[0]
+        assert updated_unit.target == unit.target
+        assert updated_unit.submitted_by == unit.submitted_by
+        assert suggestion.target == updates[unit.source]
+        assert suggestion.user == member2
 
 
 def _test_store_update_ordering(*test_args):

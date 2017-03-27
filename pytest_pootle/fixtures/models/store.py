@@ -12,8 +12,6 @@ from collections import OrderedDict
 
 import pytest
 
-from translate.storage.factory import getclass
-
 from django.utils import timezone
 
 from pytest_pootle.utils import create_store, update_store
@@ -327,25 +325,11 @@ def store_po(tp0):
     return store
 
 
-@pytest.fixture(scope="session")
-def complex_ttk(test_fs):
-    with test_fs.open(("data", "po", "complex.po")) as f:
-        ttk = getclass(f)(f.read())
-    return ttk
-
-
 @pytest.fixture
 def complex_po():
     from pootle_store.models import Store
 
     return Store.objects.get(name="complex.po")
-
-
-@pytest.fixture
-def no_complex_po_():
-    from pootle_store.models import Store
-
-    Store.objects.get(name="complex.po").delete()
 
 
 @pytest.fixture

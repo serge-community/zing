@@ -868,6 +868,10 @@ class Unit(models.Model, base.TranslationUnit):
             self.index = 0
 
     def resurrect(self, is_fuzzy=False):
+        """Bring a unit's state back to life.
+
+        :param is_fuzzy: whether the unit is in fuzzy state or not.
+        """
         if self.state > OBSOLETE:
             return
 

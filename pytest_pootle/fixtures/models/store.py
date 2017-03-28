@@ -118,22 +118,23 @@ def _setup_store_test(store, member, member2, test):
                        % (unit.source_f, store_revision))
             _create_comment_on_unit(unit, member, comment)
 
-    store_revision, units_update = test["update_store"]
-    units_before = [
-        unit for unit in store.unit_set.all().order_by("index")]
+    store_revision, units_in_file = test['update_store']
+    units_before_update = [
+        unit for unit in store.unit_set.all().order_by('index')
+    ]
 
     if store_revision == "MAX":
         store_revision = store.get_max_unit_revision()
 
     elif store_revision == "MID":
-        revisions = [unit.revision for unit in units_before]
+        revisions = [unit.revision for unit in units_before_update]
         store_revision = sum(revisions) / len(revisions)
 
     return {
         'store': store,
-        'units_update': units_update,
+        'units_in_file': units_in_file,
         'store_revision': store_revision,
-        'units_before_update': units_before,
+        'units_before_update': units_before_update,
     }
 
 
@@ -148,12 +149,12 @@ def store_diff_tests(request, tp0, member, member2):
 
     test = _setup_store_test(store, member, member2,
                              UPDATE_STORE_TESTS[request.param])
-    test_store = create_store(units=test['units_update'])
+    test_store = create_store(units=test['units_in_file'])
 
     return {
         'diff': StoreDiff(test['store'], test_store, test['store_revision']),
         'store': test['store'],
-        'units_update': test['units_update'],
+        'units_in_file': test['units_in_file'],
         'store_revision': test['store_revision'],
     }
 
@@ -167,7 +168,7 @@ def param_update_store_test(request, tp0, member, member2):
                              UPDATE_STORE_TESTS[request.param])
     update_store(
         test['store'],
-        units=test['units_update'],
+        units=test['units_in_file'],
         store_revision=test['store_revision'],
         user=member2,
     )

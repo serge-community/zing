@@ -221,12 +221,12 @@ def _test_store_update_indexes(store):
     assert len(indexes) == len(set(indexes))
 
 
-def _test_store_update_units_before(store, units_update, store_revision,
-                                    units_before, member2):
+def _test_store_update_units_before(store, units_in_file, store_revision,
+                                    units_before_update, member2):
     # test what has happened to the units that were present before the update
-    updates = {unit[0]: unit[1] for unit in units_update}
+    updates = {unit[0]: unit[1] for unit in units_in_file}
 
-    for unit in units_before:
+    for unit in units_before_update:
         updated_unit = store.unit_set.get(unitid=unit.unitid)
 
         if unit.source not in updates:
@@ -279,20 +279,20 @@ def _test_store_update_units_before(store, units_update, store_revision,
         assert suggestion.user == member2
 
 
-def _test_store_update_ordering(store, units_update, store_revision,
-                                units_before):
-    updates = {unit[0]: unit[1] for unit in units_update}
-    old_units = {unit.source: unit for unit in units_before}
+def _test_store_update_ordering(store, units_in_file, store_revision,
+                                units_before_update):
+    updates = {unit[0]: unit[1] for unit in units_in_file}
+    old_units = {unit.source: unit for unit in units_before_update}
 
     # test ordering
     new_unit_list = []
-    for unit in units_before:
+    for unit in units_before_update:
         add_unit = (not unit.isobsolete()
                     and unit.source not in updates
                     and unit.revision > store_revision)
         if add_unit:
             new_unit_list.append(unit.source)
-    for source, target_ in units_update:
+    for source, target_ in units_in_file:
         if source in old_units:
             old_unit = old_units[source]
             should_add = (not old_unit.isobsolete()
@@ -304,11 +304,11 @@ def _test_store_update_ordering(store, units_update, store_revision,
     assert new_unit_list == [x.source for x in store.units]
 
 
-def _test_store_update_units_now(store, units_update, store_revision,
-                                 units_before):
+def _test_store_update_units_now(store, units_in_file, store_revision,
+                                 units_before_update):
     # test that all the current units should be there
-    updates = {unit[0]: unit[1] for unit in units_update}
-    old_units = {unit.source: unit for unit in units_before}
+    updates = {unit[0]: unit[1] for unit in units_in_file}
+    old_units = {unit.source: unit for unit in units_before_update}
     for unit in store.units:
         assert (
             unit.source in updates
@@ -319,19 +319,19 @@ def _test_store_update_units_now(store, units_update, store_revision,
 @pytest.mark.django_db
 def test_store_update(param_update_store_test, member2):
     store = param_update_store_test['store']
-    units_update = param_update_store_test['units_update']
+    units_in_file = param_update_store_test['units_in_file']
     store_revision = param_update_store_test['store_revision']
     units_before_update = param_update_store_test['units_before_update']
 
     _test_store_update_indexes(store)
 
-    _test_store_update_units_before(store, units_update, store_revision,
+    _test_store_update_units_before(store, units_in_file, store_revision,
                                     units_before_update, member2)
 
-    _test_store_update_units_now(store, units_update, store_revision,
+    _test_store_update_units_now(store, units_in_file, store_revision,
                                  units_before_update)
 
-    _test_store_update_ordering(store, units_update, store_revision,
+    _test_store_update_ordering(store, units_in_file, store_revision,
                                 units_before_update)
 
 
@@ -339,13 +339,13 @@ def test_store_update(param_update_store_test, member2):
 def test_store_file_diff(store_diff_tests):
     diff = store_diff_tests['diff']
     store = store_diff_tests['store']
-    update_units = store_diff_tests['units_update']
+    units_in_file = store_diff_tests['units_in_file']
     store_revision = store_diff_tests['store_revision']
 
     assert diff.target_store == store
     assert diff.source_revision == store_revision
     assert (
-        update_units
+        units_in_file
         == [(x.source, x.target) for x in diff.source_store.units[1:]]
         == [(v['source'], v['target']) for v in diff.source_units.values()])
     assert diff.active_target_units == [x.source for x in store.units]

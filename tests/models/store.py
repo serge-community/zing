@@ -27,18 +27,6 @@ from pootle_store.models import Store
 from pootle_store.syncer import PoStoreSyncer
 
 
-def _store_as_string(store):
-    ttk = store.syncer.convert(store.syncer.file_class)
-    if hasattr(ttk, "updateheader"):
-        # FIXME We need those headers on import
-        # However some formats just don't support setting metadata
-        ttk.updateheader(
-            add=True, X_Pootle_Path=store.pootle_path)
-        ttk.updateheader(
-            add=True, X_Pootle_Revision=store.get_max_unit_revision())
-    return str(ttk)
-
-
 @pytest.mark.django_db
 def test_delete_mark_obsolete(project0_disk, store0):
     """Tests that the in-DB Store and Directory are marked as obsolete

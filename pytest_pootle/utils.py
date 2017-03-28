@@ -33,7 +33,6 @@ msgstr ""
 
 STRING_POOTLE_HEADERS = """
 "X-Pootle-Path: %(pootle_path)s\\n"
-"X-Pootle-Revision: %(revision)s\\n"
 """
 
 STRING_UNIT = """
@@ -59,16 +58,16 @@ def setup_store(pootle_path):
         translation_project=tp, parent=directory, name=filename)
 
 
-def create_store(pootle_path=None, store_revision=None, units=None):
+def create_store(pootle_path=None, units=None):
     _units = []
     for src, target in units or []:
         _units.append(STRING_UNIT % {"src": src, "target": target})
     units = "\n\n".join(_units)
     x_pootle_headers = ""
-    if pootle_path and store_revision:
-        x_pootle_headers = (STRING_POOTLE_HEADERS.strip()
-                            % {"pootle_path": pootle_path,
-                               "revision": store_revision})
+    if pootle_path:
+        x_pootle_headers = (STRING_POOTLE_HEADERS.strip() % {
+            'pootle_path': pootle_path,
+        })
     string_store = STRING_STORE % {"x_pootle_headers": x_pootle_headers,
                                    "units": units}
     io_store = io.BytesIO(string_store.encode('utf-8'))

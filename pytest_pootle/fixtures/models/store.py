@@ -129,7 +129,12 @@ def _setup_store_test(store, member, member2, test):
         revisions = [unit.revision for unit in units_before]
         store_revision = sum(revisions) / len(revisions)
 
-    return (store, units_update, store_revision, units_before, member, member2)
+    return {
+        'store': store,
+        'units_update': units_update,
+        'store_revision': store_revision,
+        'units_before_update': units_before,
+    }
 
 
 @pytest.fixture(params=UPDATE_STORE_TESTS.keys())
@@ -143,24 +148,27 @@ def store_diff_tests(request, tp0, member, member2):
 
     test = _setup_store_test(store, member, member2,
                              UPDATE_STORE_TESTS[request.param])
-    test_store = create_store(units=test[1])
-    return [StoreDiff(test[0], test_store, test[2])] + list(test[:3])
+    test_store = create_store(units=test['units_update'])
+
+    return {
+        'diff': StoreDiff(test['store'], test_store, test['store_revision']),
+        'store': test['store'],
+        'units_update': test['units_update'],
+        'store_revision': test['store_revision'],
+    }
 
 
 @pytest.fixture(params=UPDATE_STORE_TESTS.keys())
 def param_update_store_test(request, tp0, member, member2):
     from pytest_pootle.factories import StoreDBFactory
 
-    store = StoreDBFactory(
-        translation_project=tp0,
-        parent=tp0.directory)
-    test = _setup_store_test(
-        store, member, member2,
-        UPDATE_STORE_TESTS[request.param])
+    store = StoreDBFactory(translation_project=tp0, parent=tp0.directory)
+    test = _setup_store_test(store, member, member2,
+                             UPDATE_STORE_TESTS[request.param])
     update_store(
-        test[0],
-        units=test[1],
-        store_revision=test[2],
+        test['store'],
+        units=test['units_update'],
+        store_revision=test['store_revision'],
         user=member2,
     )
     return test

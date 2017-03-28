@@ -215,17 +215,15 @@ def test_update_set_last_sync_revision(project0_disk, tp0, store0, test_fs):
     assert dbunit.revision == store0.last_sync_revision + 1
 
 
-def _test_store_update_indexes(store, *test_args):
+def _test_store_update_indexes(store):
     # make sure indexes are not fooed indexes only have to be unique
     indexes = [x.index for x in store.units]
     assert len(indexes) == len(set(indexes))
 
 
-def _test_store_update_units_before(*test_args):
+def _test_store_update_units_before(store, units_update, store_revision,
+                                    units_before, member2):
     # test what has happened to the units that were present before the update
-    (store, units_update, store_revision,
-     units_before, member_, member2) = test_args
-
     updates = {unit[0]: unit[1] for unit in units_update}
 
     for unit in units_before:
@@ -281,10 +279,8 @@ def _test_store_update_units_before(*test_args):
         assert suggestion.user == member2
 
 
-def _test_store_update_ordering(*test_args):
-    (store, units_update, store_revision,
-     units_before, member_, member2_) = test_args
-
+def _test_store_update_ordering(store, units_update, store_revision,
+                                units_before):
     updates = {unit[0]: unit[1] for unit in units_update}
     old_units = {unit.source: unit for unit in units_before}
 
@@ -308,10 +304,8 @@ def _test_store_update_ordering(*test_args):
     assert new_unit_list == [x.source for x in store.units]
 
 
-def _test_store_update_units_now(*test_args):
-    (store, units_update, store_revision,
-     units_before, member_, member2_) = test_args
-
+def _test_store_update_units_now(store, units_update, store_revision,
+                                 units_before):
     # test that all the current units should be there
     updates = {unit[0]: unit[1] for unit in units_update}
     old_units = {unit.source: unit for unit in units_before}
@@ -323,16 +317,30 @@ def _test_store_update_units_now(*test_args):
 
 
 @pytest.mark.django_db
-def test_store_update(param_update_store_test):
-    _test_store_update_indexes(*param_update_store_test)
-    _test_store_update_units_before(*param_update_store_test)
-    _test_store_update_units_now(*param_update_store_test)
-    _test_store_update_ordering(*param_update_store_test)
+def test_store_update(param_update_store_test, member2):
+    store = param_update_store_test['store']
+    units_update = param_update_store_test['units_update']
+    store_revision = param_update_store_test['store_revision']
+    units_before_update = param_update_store_test['units_before_update']
+
+    _test_store_update_indexes(store)
+
+    _test_store_update_units_before(store, units_update, store_revision,
+                                    units_before_update, member2)
+
+    _test_store_update_units_now(store, units_update, store_revision,
+                                 units_before_update)
+
+    _test_store_update_ordering(store, units_update, store_revision,
+                                units_before_update)
 
 
 @pytest.mark.django_db
 def test_store_file_diff(store_diff_tests):
-    diff, store, update_units, store_revision = store_diff_tests
+    diff = store_diff_tests['diff']
+    store = store_diff_tests['store']
+    update_units = store_diff_tests['units_update']
+    store_revision = store_diff_tests['store_revision']
 
     assert diff.target_store == store
     assert diff.source_revision == store_revision

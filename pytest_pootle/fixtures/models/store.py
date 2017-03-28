@@ -101,7 +101,7 @@ UPDATE_STORE_TESTS['max_obsolete'] = {
 }
 
 
-def _setup_store_test(store, member, member2, test):
+def _setup_store_test(store, member, test):
     setup = test.get("setup", None)
 
     if setup is None:
@@ -139,7 +139,7 @@ def _setup_store_test(store, member, member2, test):
 
 
 @pytest.fixture(params=UPDATE_STORE_TESTS.keys())
-def store_diff_tests(request, tp0, member, member2):
+def store_diff_tests(request, tp0, member):
     from pytest_pootle.factories import StoreDBFactory
     from pootle_store.diff import StoreDiff
 
@@ -147,8 +147,7 @@ def store_diff_tests(request, tp0, member, member2):
         translation_project=tp0,
         parent=tp0.directory)
 
-    test = _setup_store_test(store, member, member2,
-                             UPDATE_STORE_TESTS[request.param])
+    test = _setup_store_test(store, member, UPDATE_STORE_TESTS[request.param])
     test_store = create_store(units=test['units_in_file'])
 
     return {
@@ -164,8 +163,7 @@ def param_update_store_test(request, tp0, member, member2):
     from pytest_pootle.factories import StoreDBFactory
 
     store = StoreDBFactory(translation_project=tp0, parent=tp0.directory)
-    test = _setup_store_test(store, member, member2,
-                             UPDATE_STORE_TESTS[request.param])
+    test = _setup_store_test(store, member, UPDATE_STORE_TESTS[request.param])
     update_store(
         test['store'],
         units=test['units_in_file'],

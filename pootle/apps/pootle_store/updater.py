@@ -128,7 +128,7 @@ class UnitUpdater(object):
         )
 
     @property
-    def should_update_target(self):
+    def should_merge(self):
         return self.newunit and not self.conflict_found
 
     @property
@@ -170,17 +170,20 @@ class UnitUpdater(object):
     def update_unit(self):
         suggested = False
         updated = False
-        if self.should_update_target:
-            updated = self.unit.update(
-                self.newunit, user=self.update.user)
+
+        if self.should_merge:
+            updated = self.unit.update(self.newunit, user=self.update.user)
+
         if self.should_update_index:
             self.unit.index = self.update.get_index(self.uid)
             updated = True
+
         if updated:
             self.save_unit()
 
         if self.should_create_suggestion:
             suggested = self.create_suggestion()
+
         return updated, suggested
 
 

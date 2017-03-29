@@ -335,11 +335,11 @@ def test_store_file_diff(store_diff_tests):
     assert (
         units_in_file
         == [(x.source, x.target) for x in diff.source_store.units[1:]]
-        == [(v['source'], v['target']) for v in diff.source_units.values()])
+        == [(v['source'], v['target']) for v in diff.source.units.values()])
     assert diff.active_target_units == [x.source for x in store.units]
     assert diff.target_revision == store.get_max_unit_revision()
     assert (
-        diff.target_units
+        diff.target.units
         == {unit["source_f"]: unit
             for unit
             in store.unit_set.values("source_f", "index", "target_f",

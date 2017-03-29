@@ -189,8 +189,6 @@ class UnitUpdater(object):
 
 class StoreUpdater(object):
 
-    unit_updater_class = UnitUpdater
-
     def __init__(self, target_store):
         self.target_store = target_store
 
@@ -323,11 +321,12 @@ class StoreUpdater(object):
     def update_units(self, update):
         update_count = 0
         suggestion_count = 0
+
         for unit in self.units(update.uids):
-            updated, suggested = self.unit_updater_class(
-                unit, update).update_unit()
+            updated, suggested = UnitUpdater(unit, update).update_unit()
             if updated:
                 update_count += 1
             if suggested:
                 suggestion_count += 1
+
         return update_count, suggestion_count

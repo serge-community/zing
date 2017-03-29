@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -90,16 +91,6 @@ class PootleCommand(BaseCommand):
                 logging.exception(u"Failed to run %s over %s's files",
                                   self.name, tp)
                 return
-        elif hasattr(self, "handle_store"):
-            store_query = tp.stores.live()
-            for store in store_query.iterator():
-                logging.info(u"Running %s over %s",
-                             self.name, store.pootle_path)
-                try:
-                    self.handle_store(store, **options)
-                except Exception:
-                    logging.exception(u"Failed to run %s over %s",
-                                      self.name, store.pootle_path)
 
     def handle(self, **options):
         # adjust debug level to the verbosity option

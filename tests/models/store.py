@@ -336,7 +336,7 @@ def test_store_file_diff(store_diff_tests):
         units_in_file
         == [(x.source, x.target) for x in diff.source_store.units[1:]]
         == [(v['source'], v['target']) for v in diff.source.units.values()])
-    assert diff.active_target_units == [x.source for x in store.units]
+    assert diff.target.active_uids == [x.source for x in store.units]
     assert diff.target_revision == store.get_max_unit_revision()
     assert (
         diff.target.units

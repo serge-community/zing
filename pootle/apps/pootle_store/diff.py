@@ -114,9 +114,36 @@ class DBStore(object):
             (unit['unitid'], unit) for unit in units
         )
 
+    @cached_property
+    def active_uids(self):
+        return [
+            uid for uid, unit in self.units.items()
+            if unit['state'] != OBSOLETE
+        ]
+
     def get_unit(self, id):
         """Retrieves a comparable `DBUnit` object by `id`."""
         return DBUnit(self.units[id])
+
+    def get_obsoleted_uids(self, since_revision):
+        """Return a list of unit IDs that were obsoleted since
+        `since_revision` revision.
+        """
+        return [
+            uid for uid, unit in self.units.items()
+            if (unit['state'] == OBSOLETE
+                and unit['revision'] > since_revision)
+        ]
+
+    def get_updated_uids(self, since_revision):
+        """Return a list of unit IDs that were updated since
+        `since_revision` revision.
+        """
+        return [
+            uid for uid, unit in self.units.items()
+            if (unit['revision'] > since_revision
+                and unit['state'] != OBSOLETE)
+        ]
 
 
 class StoreDiff(object):
@@ -131,11 +158,6 @@ class StoreDiff(object):
         self.target_revision = self.target_store.get_max_unit_revision()
         self.source_store = source_store
         self.source_revision = source_revision
-
-    @cached_property
-    def active_target_units(self):
-        return [unitid for unitid, unit in self.target.units.items()
-                if unit['state'] != OBSOLETE]
 
     @cached_property
     def source(self):
@@ -165,11 +187,11 @@ class StoreDiff(object):
                 if i1 > 0:
                     insert_at = (
                         self.target.units[
-                            self.active_target_units[i1 - 1]]['index'])
+                            self.target.active_uids[i1 - 1]]['index'])
                 next_index = insert_at + 1
-                if i1 < len(self.active_target_units):
+                if i1 < len(self.target.active_uids):
                     next_index = self.target.units[
-                        self.active_target_units[i1]]["index"]
+                        self.target.active_uids[i1]]["index"]
                     update_index_delta = (
                         j2 - j1 - next_index + insert_at + 1)
 
@@ -180,9 +202,9 @@ class StoreDiff(object):
 
             elif tag == 'replace':
                 insert_at = self.target.units[
-                    self.active_target_units[i1 - 1]]['index']
+                    self.target.active_uids[i1 - 1]]['index']
                 next_index = self.target.units[
-                    self.active_target_units[i2 - 1]]['index']
+                    self.target.active_uids[i2 - 1]]['index']
                 inserts.append((insert_at,
                                 new_unitid_list[j1:j2],
                                 next_index,
@@ -211,22 +233,18 @@ class StoreDiff(object):
 
     @cached_property
     def obsoleted_target_units(self):
-        return [unitid for unitid, unit in self.target.units.items()
-                if (unit['state'] == OBSOLETE
-                    and unit["revision"] > self.source_revision)]
+        return self.target.get_obsoleted_uids(since_revision=self.source_revision)
+
+    @cached_property
+    def updated_target_units(self):
+        return self.target.get_updated_uids(since_revision=self.source_revision)
 
     @cached_property
     def opcodes(self):
         sm = difflib.SequenceMatcher(None,
-                                     self.active_target_units,
+                                     self.target.active_uids,
                                      self.new_unit_list)
         return sm.get_opcodes()
-
-    @cached_property
-    def updated_target_units(self):
-        return [unitid for unitid, unit in self.target.units.items()
-                if (unit['revision'] > self.source_revision
-                    and unit["state"] != OBSOLETE)]
 
     def diff(self):
         """Return a dictionary of change actions or None if there are no
@@ -265,7 +283,7 @@ class StoreDiff(object):
     def get_units_to_obsolete(self):
         return [unit['id'] for unitid, unit in self.target.units.items()
                 if (unitid not in self.source.units
-                    and unitid in self.active_target_units
+                    and unitid in self.target.active_uids
                     and unitid not in self.updated_target_units)]
 
     def get_units_to_update(self):
@@ -296,7 +314,7 @@ class StoreDiff(object):
 
             update_ids.update(set(
                 self.target.units[uid]['id']
-                for uid in self.active_target_units[i1:i2]
+                for uid in self.target.active_uids[i1:i2]
                 if (
                     uid in self.source.units
                     and self.source.get_unit(uid) != self.target.get_unit(uid)

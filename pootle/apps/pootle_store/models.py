@@ -365,7 +365,8 @@ class Unit(models.Model, base.TranslationUnit):
                     if not hasattr(self, '_save_action'):
                         self._save_action = TRANSLATION_CHANGED
             else:
-                self._save_action = TRANSLATION_DELETED
+                if not hasattr(self, '_save_action'):
+                    self._save_action = TRANSLATION_DELETED
                 # if it was TRANSLATED then set to UNTRANSLATED
                 if self.state > FUZZY:
                     self.state = UNTRANSLATED

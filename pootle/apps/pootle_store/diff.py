@@ -89,6 +89,10 @@ class FileStore(object):
             'translator_comment': unit.getnotes(origin='translator'),
         }
 
+    def get_unit(self, id):
+        """Retrieves a comparable `FileUnit` object by `id`."""
+        return FileUnit(self.units[id])
+
 
 class DBStore(object):
     """DB store representation for diffing."""
@@ -109,6 +113,10 @@ class DBStore(object):
         return OrderedDict(
             (unit['unitid'], unit) for unit in units
         )
+
+    def get_unit(self, id):
+        """Retrieves a comparable `DBUnit` object by `id`."""
+        return DBUnit(self.units[id])
 
 
 class StoreDiff(object):
@@ -291,8 +299,7 @@ class StoreDiff(object):
                 for uid in self.active_target_units[i1:i2]
                 if (
                     uid in self.source.units
-                    and FileUnit(self.source.units[uid])
-                    != DBUnit(self.target.units[uid])
+                    and self.source.get_unit(uid) != self.target.get_unit(uid)
                 )
             ))
 

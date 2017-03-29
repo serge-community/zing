@@ -107,6 +107,12 @@ class UnitUpdater(object):
 
     @cached_property
     def conflict_found(self):
+        """Determines whether a conflict has been found or not.
+
+        A conflict is found when:
+          - there were changes in the DB since the last sync
+          - source or target texts differ between the file and the DB units
+        """
         return (
             self.newunit
             and self.update.store_revision is not None
@@ -129,6 +135,11 @@ class UnitUpdater(object):
 
     @property
     def should_merge(self):
+        """Determines whether the new unit from the file needs to be
+        merged with the existing DB unit.
+
+        Merging considers source, target, comment and state changes.
+        """
         return self.newunit and not self.conflict_found
 
     @property
@@ -168,6 +179,15 @@ class UnitUpdater(object):
         self.unit.save(revision=self.update.update_revision)
 
     def update_unit(self):
+        """Updates the current `self.unit` in the DB.
+
+        This method serves as a layer above the unit-level update logic to
+        enhance it with conflict resolution.
+
+        :return: (updated, suggested) a tuple of booleans:
+            updated: whether an update to the unit was performed and saved .
+            suggested: whether a suggestion was added due to conflicts.
+        """
         suggested = False
         updated = False
 
@@ -281,9 +301,10 @@ class StoreUpdater(object):
         return changes
 
     def update_from_disk(self, overwrite=False):
-        """Update DB with units from the disk Store.
+        """Update DB with units from the disk file.
 
-        :param overwrite: make db match file regardless of last_sync_revision.
+        :param overwrite: process all units from the file regardless of
+            `last_sync_revision`.
         """
         changed = False
 
@@ -319,6 +340,18 @@ class StoreUpdater(object):
         return changed
 
     def update_units(self, update):
+        """Update individual DB units via `UnitUpdater`.
+
+        The specific units that need to go through the update are
+        specificed in the `update` configuraton's `uids` property.
+        These were previously calculated via a diff retrieved from
+        `StoreDiff().diff()`.
+
+        :param update: the update configuration, an instance of `StoreUpdate`.
+        :return: (update_count, suggestion_count) tuple of integers:
+            update_count: the amount of updates performed.
+            suggestion_count: the amount of suggestions added.
+        """
         update_count = 0
         suggestion_count = 0
 

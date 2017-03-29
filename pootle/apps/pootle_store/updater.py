@@ -303,11 +303,10 @@ class StoreUpdater(object):
 
         :param overwrite: process all units from the file regardless of
             `last_sync_revision`.
+        :return: boolean, whether the DB store has been changed or not.
         """
-        changed = False
-
         if not self.target_store.file:
-            return changed
+            return False
 
         if overwrite:
             store_revision = self.target_store.get_max_unit_revision()

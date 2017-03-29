@@ -170,6 +170,7 @@ class StoreDiff(object):
     @cached_property
     def insert_points(self):
         """Returns a list of insert points with update index info.
+
         :return: a list of tuples
             `(insert_at, uids_to_add, next_index, update_index_delta)` where
                 * `insert_at` is the point for inserting,
@@ -180,35 +181,37 @@ class StoreDiff(object):
         """
         inserts = []
         new_unitid_list = self.new_unit_list
+        units = self.target.units
+        active_uids = self.target.active_uids
+
         for (tag, i1, i2, j1, j2) in self.opcodes:
             if tag == 'insert':
                 update_index_delta = 0
                 insert_at = 0
                 if i1 > 0:
-                    insert_at = (
-                        self.target.units[
-                            self.target.active_uids[i1 - 1]]['index'])
-                next_index = insert_at + 1
-                if i1 < len(self.target.active_uids):
-                    next_index = self.target.units[
-                        self.target.active_uids[i1]]["index"]
-                    update_index_delta = (
-                        j2 - j1 - next_index + insert_at + 1)
+                    insert_at = units[active_uids[i1 - 1]]['index']
 
-                inserts.append((insert_at,
-                                new_unitid_list[j1:j2],
-                                next_index,
-                                update_index_delta))
+                next_index = insert_at + 1
+                if i1 < len(active_uids):
+                    next_index = units[active_uids[i1]]['index']
+                    update_index_delta = j2 - j1 - next_index + insert_at + 1
+
+                inserts.append((
+                    insert_at,
+                    new_unitid_list[j1:j2],
+                    next_index,
+                    update_index_delta,
+                ))
 
             elif tag == 'replace':
-                insert_at = self.target.units[
-                    self.target.active_uids[i1 - 1]]['index']
-                next_index = self.target.units[
-                    self.target.active_uids[i2 - 1]]['index']
-                inserts.append((insert_at,
-                                new_unitid_list[j1:j2],
-                                next_index,
-                                j2 - j1 - insert_at + next_index))
+                insert_at = units[active_uids[i1 - 1]]['index']
+                next_index = units[active_uids[i2 - 1]]['index']
+                inserts.append((
+                    insert_at,
+                    new_unitid_list[j1:j2],
+                    next_index,
+                    j2 - j1 - insert_at + next_index,
+                ))
 
         return inserts
 

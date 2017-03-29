@@ -122,9 +122,7 @@ class UnitUpdater(object):
 
     @property
     def should_create_suggestion(self):
-        return (
-            self.update.suggest_on_conflict
-            and self.conflict_found)
+        return self.update.suggest_on_conflict and self.conflict_found
 
     @property
     def should_update_index(self):

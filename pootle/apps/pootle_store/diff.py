@@ -54,9 +54,6 @@ class FileUnit(UnitDiffProxy):
 class DiffableStore(object):
     """Store representation for diffing."""
 
-    file_unit_class = FileUnit
-    db_unit_class = DBUnit
-
     unit_fields = (
         "unitid", "state", "id", "index", "revision",
         "source_f", "target_f", "developer_comment",
@@ -108,16 +105,6 @@ class DiffableStore(object):
         if isinstance(self.source_store, models.Model):
             return self.get_db_units(self.source_store.unit_set.live())
         return self.get_file_units(self.source_store.units)
-
-    @property
-    def target_unit_class(self):
-        return self.db_unit_class
-
-    @property
-    def source_unit_class(self):
-        if isinstance(self.source_store, models.Model):
-            return self.db_unit_class
-        return self.file_unit_class
 
 
 class StoreDiff(object):
@@ -299,15 +286,17 @@ class StoreDiff(object):
         for (tag, i1, i2, j1_, j2_) in self.opcodes:
             if tag != 'equal':
                 continue
-            update_ids.update(
-                set(self.target_units[uid]['id']
-                    for uid in self.active_target_units[i1:i2]
-                    if (uid in self.source_units
-                        and (
-                            self.diffable.target_unit_class(
-                                self.target_units[uid])
-                            != self.diffable.source_unit_class(
-                                self.source_units[uid])))))
+
+            update_ids.update(set(
+                self.target_units[uid]['id']
+                for uid in self.active_target_units[i1:i2]
+                if (
+                    uid in self.source_units
+                    and FileUnit(self.source_units[uid])
+                        != DBUnit(self.target_units[uid])
+                )
+            ))
+
         return update_ids
 
     def has_changes(self, diff):

@@ -26,13 +26,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\\n"
 "Content-Transfer-Encoding: 8bit\\n"
 "X-Generator: Pootle Tests\\n"
-%(x_pootle_headers)s
 
 %(units)s
-"""
-
-STRING_POOTLE_HEADERS = """
-"X-Pootle-Path: %(pootle_path)s\\n"
 """
 
 STRING_UNIT = """
@@ -58,18 +53,12 @@ def setup_store(pootle_path):
         translation_project=tp, parent=directory, name=filename)
 
 
-def create_store(pootle_path=None, units=None):
+def create_store(units=None):
     _units = []
     for src, target in units or []:
         _units.append(STRING_UNIT % {"src": src, "target": target})
     units = "\n\n".join(_units)
-    x_pootle_headers = ""
-    if pootle_path:
-        x_pootle_headers = (STRING_POOTLE_HEADERS.strip() % {
-            'pootle_path': pootle_path,
-        })
-    string_store = STRING_STORE % {"x_pootle_headers": x_pootle_headers,
-                                   "units": units}
+    string_store = STRING_STORE % {'units': units}
     io_store = io.BytesIO(string_store.encode('utf-8'))
     return getclass(io_store)(io_store.read())
 

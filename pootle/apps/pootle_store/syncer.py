@@ -20,7 +20,6 @@ from django.utils.functional import cached_property
 from pootle.core.log import log
 from pootle.core.mixins import CachedMethods
 from pootle.core.url_helpers import split_pootle_path
-from pootle.core.utils import dateformat
 from pootle.core.utils.timezone import datetime_min
 from pootle.core.utils.version import get_major_minor_version
 from pootle_statistics.models import Submission
@@ -402,14 +401,10 @@ class PoStoreSyncer(StoreSyncer):
     def get_po_revision_date(self, mtime):
         return '%s%s' % (mtime.strftime('%Y-%m-%d %H:%M'), poheader.tzstring())
 
-    def get_po_mtime(self, mtime):
-        return '%s.%06d' % (int(dateformat.format(mtime, 'U')), mtime.microsecond)
-
     def get_po_headers(self, mtime, user_displayname, user_email):
         headerupdates = {
             'PO_Revision_Date': self.get_po_revision_date(mtime),
             'X_Generator': "Zing %s" % get_major_minor_version(),
-            'X_POOTLE_MTIME': self.get_po_mtime(mtime),
         }
         headerupdates['Last_Translator'] = (
             user_displayname and user_email

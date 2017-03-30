@@ -135,7 +135,6 @@ def test_update_submission_ordering():
     unit.save()
 
     store = create_store(
-        unit.store.pootle_path,
         [(unit.source_f, "Translation for " + unit.source_f)]
     )
     unit.store.update(store)

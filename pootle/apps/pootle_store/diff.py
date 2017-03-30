@@ -136,7 +136,7 @@ class DBStore(object):
         ]
 
     def get_updated_uids(self, since_revision):
-        """Return a list of unit IDs that were updated since
+        """Return a list of *active* unit IDs that were updated since
         `since_revision` revision.
         """
         return [

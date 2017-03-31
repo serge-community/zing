@@ -10,6 +10,7 @@
 import difflib
 from collections import OrderedDict
 
+from django.db import models
 from django.utils.functional import cached_property
 
 from .constants import FUZZY, OBSOLETE, TRANSLATED, UNTRANSLATED
@@ -95,7 +96,12 @@ class FileStore(object):
 
 
 class DBStore(object):
-    """DB store representation for diffing."""
+    """DB store representation for diffing.
+
+    :param store: the DB store to wrap
+    :param only_active: whether to consider active units only
+        (i.e. filter out obsolete units)
+    """
 
     unit_fields = (
         'unitid', 'state', 'id', 'index', 'revision',
@@ -103,13 +109,17 @@ class DBStore(object):
         'translator_comment', 'locations', 'context',
     )
 
-    def __init__(self, store):
+    def __init__(self, store, only_active=False):
         self.store = store
+        self.only_active = only_active
 
     @cached_property
     def units(self):
         """Returns all DB units regardless of their state or revision."""
-        units = self.store.unit_set.values(*self.unit_fields).order_by('index')
+        qs = self.store.unit_set
+        if self.only_active:
+            qs = qs.live()
+        units = qs.values(*self.unit_fields).order_by('index')
         return OrderedDict(
             (unit['unitid'], unit) for unit in units
         )
@@ -161,6 +171,8 @@ class StoreDiff(object):
 
     @cached_property
     def source(self):
+        if isinstance(self.source_store, models.Model):
+            return DBStore(self.source_store, only_active=True)
         return FileStore(self.source_store)
 
     @cached_property

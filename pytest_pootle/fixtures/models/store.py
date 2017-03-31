@@ -17,91 +17,148 @@ from django.utils import timezone
 from pytest_pootle.utils import create_store, update_store
 
 
-DEFAULT_STORE_UNITS_1 = [("Unit 1", "Unit 1"),
-                         ("Unit 2", "Unit 2")]
+DEFAULT_STORE_UNITS_1 = [
+    ('Unit 1', 'Unit 1'),
+    ('Unit 2', 'Unit 2'),
+]
 
-DEFAULT_STORE_UNITS_2 = [("Unit 3", "Unit 3"),
-                         ("Unit 4", "Unit 4"),
-                         ("Unit 5", "Unit 5")]
+DEFAULT_STORE_UNITS_2 = [
+    ('Unit 3', 'Unit 3'),
+    ('Unit 4', 'Unit 4'),
+    ('Unit 5', 'Unit 5'),
+]
 
-DEFAULT_STORE_UNITS_3 = [("Unit 6", "Unit 6"),
-                         ("Unit 7", "Unit 7"),
-                         ("Unit 8", "Unit 8")]
+DEFAULT_STORE_UNITS_3 = [
+    ('Unit 6', 'Unit 6'),
+    ('Unit 7', 'Unit 7'),
+    ('Unit 8', 'Unit 8'),
+]
 
-UPDATED_STORE_UNITS_1 = [(src, "UPDATED %s" % target)
-                         for src, target
-                         in DEFAULT_STORE_UNITS_1]
+UPDATED_STORE_UNITS_1 = [
+    (src, 'UPDATED %s' % target)
+    for src, target in DEFAULT_STORE_UNITS_1
+]
 
-UPDATED_STORE_UNITS_2 = [(src, "UPDATED %s" % target)
-                         for src, target
-                         in DEFAULT_STORE_UNITS_2]
+UPDATED_STORE_UNITS_2 = [
+    (src, 'UPDATED %s' % target)
+    for src, target in DEFAULT_STORE_UNITS_2
+]
 
-UPDATED_STORE_UNITS_3 = [(src, "UPDATED %s" % target)
-                         for src, target
-                         in DEFAULT_STORE_UNITS_3]
+UPDATED_STORE_UNITS_3 = [
+    (src, 'UPDATED %s' % target)
+    for src, target in DEFAULT_STORE_UNITS_3
+]
 
 DEFAULT_STORE_TEST_SETUP = [
     (DEFAULT_STORE_UNITS_1),
     (DEFAULT_STORE_UNITS_1 + DEFAULT_STORE_UNITS_2),
 ]
 
+# The `UPDATE_STORE_TESTS` ordered dict takes the following shape:
+#
+#   * 'setup' key: indicates the setup steps to be performed:
+#       `update_stores` will be run for each item in this list.
+#       This makes it possible to make assertions on revisions afterwards.
+#
+#       The value of this key must contain a list of lists, where each
+#       contained list has a two-tuple with the source and target
+#       text values.
+#
+#       If no setup is provided, the `DEFAULT_STORE_TEST_SETUP` will be
+#       used in `_setup_store_test()`.
+#
+#   * 'store_revision' key: indicates the last sync revision to be
+#       considered for a store. The value can either be an actual number,
+#       or `MAX` or `MID`. In the latter case, the actual revision number
+#       will be calculated in the `_setup_store_test()` function,
+#       which will then be used by actual fixtures before handing
+#       the actual revision to tests.
+#
+#   * 'units_in_file' key: contains the updated units from the file
+#       which will be handed to the actual tests before doing any
+#       assertions.
+
 UPDATE_STORE_TESTS = OrderedDict()
-UPDATE_STORE_TESTS['min_empty'] = {"update_store": (0, [])}
+UPDATE_STORE_TESTS['min_empty'] = {
+    'store_revision': 0,
+    'units_in_file': [],
+}
 UPDATE_STORE_TESTS['min_new_units'] = {
-    "update_store": (0, DEFAULT_STORE_UNITS_3)
+    'store_revision': 0,
+    'units_in_file': DEFAULT_STORE_UNITS_3,
 }
 
-UPDATE_STORE_TESTS['old_empty'] = {"update_store": ("MID", [])}
+UPDATE_STORE_TESTS['old_empty'] = {
+    'store_revision': 'MID',
+    'units_in_file': [],
+}
 UPDATE_STORE_TESTS['old_subset_1'] = {
-    "update_store": ("MID", UPDATED_STORE_UNITS_1)
+    'store_revision': 'MID',
+    'units_in_file': UPDATED_STORE_UNITS_1,
 }
 UPDATE_STORE_TESTS['old_subset_2'] = {
-    "update_store": ("MID", UPDATED_STORE_UNITS_2),
+    'store_revision': 'MID',
+    'units_in_file': UPDATED_STORE_UNITS_2,
 }
 UPDATE_STORE_TESTS['old_same_updated'] = {
-    "update_store": ("MID", UPDATED_STORE_UNITS_1 + UPDATED_STORE_UNITS_2),
+    'store_revision': 'MID',
+    'units_in_file': UPDATED_STORE_UNITS_1 + UPDATED_STORE_UNITS_2,
 }
 
 UPDATE_STORE_TESTS['old_unobsolete'] = {
-    "setup": [DEFAULT_STORE_UNITS_1,
-              DEFAULT_STORE_UNITS_2,
-              []],
-    "update_store": ("MID", UPDATED_STORE_UNITS_1 + UPDATED_STORE_UNITS_2)
+    'setup': [
+        DEFAULT_STORE_UNITS_1,
+        DEFAULT_STORE_UNITS_2,
+        [],
+    ],
+    'store_revision': 'MID',
+    'units_in_file': UPDATED_STORE_UNITS_1 + UPDATED_STORE_UNITS_2,
 }
 
 UPDATE_STORE_TESTS['old_merge'] = {
-    "update_store": ("MID", UPDATED_STORE_UNITS_1 + UPDATED_STORE_UNITS_3)
+    'store_revision': 'MID',
+    'units_in_file': UPDATED_STORE_UNITS_1 + UPDATED_STORE_UNITS_2,
 }
 
-UPDATE_STORE_TESTS['max_empty'] = {"update_store": ("MAX", [])}
+UPDATE_STORE_TESTS['max_empty'] = {
+    'store_revision': 'MAX',
+    'units_in_file': [],
+}
 UPDATE_STORE_TESTS['max_subset'] = {
-    "update_store": ("MAX", DEFAULT_STORE_UNITS_1)
+    'store_revision': 'MAX',
+    'units_in_file': DEFAULT_STORE_UNITS_1,
 }
 UPDATE_STORE_TESTS['max_same'] = {
-    "update_store": ("MAX", DEFAULT_STORE_UNITS_1 + DEFAULT_STORE_UNITS_2)
+    'store_revision': 'MAX',
+    'units_in_file': DEFAULT_STORE_UNITS_1 + DEFAULT_STORE_UNITS_2,
 }
 UPDATE_STORE_TESTS['max_new_units'] = {
-    "update_store": ("MAX",
-                     (DEFAULT_STORE_UNITS_1
-                      + DEFAULT_STORE_UNITS_2
-                      + DEFAULT_STORE_UNITS_3))
+    'store_revision': 'MAX',
+    'units_in_file': (
+        DEFAULT_STORE_UNITS_1 + DEFAULT_STORE_UNITS_2 + DEFAULT_STORE_UNITS_3
+    ),
 }
 UPDATE_STORE_TESTS['max_change_order'] = {
-    "update_store": ("MAX", DEFAULT_STORE_UNITS_2 + DEFAULT_STORE_UNITS_1)
+    'store_revision': 'MAX',
+    'units_in_file': DEFAULT_STORE_UNITS_2 + DEFAULT_STORE_UNITS_1,
 }
 UPDATE_STORE_TESTS['max_unobsolete'] = {
-    "setup": [DEFAULT_STORE_UNITS_1 + DEFAULT_STORE_UNITS_2,
-              DEFAULT_STORE_UNITS_1],
-    "update_store": ("MAX", DEFAULT_STORE_UNITS_1 + DEFAULT_STORE_UNITS_2)
+    'setup': [
+        DEFAULT_STORE_UNITS_1 + DEFAULT_STORE_UNITS_2,
+        DEFAULT_STORE_UNITS_1,
+    ],
+    'store_revision': 'MAX',
+    'units_in_file': DEFAULT_STORE_UNITS_1 + DEFAULT_STORE_UNITS_2,
 }
 
 
 UPDATE_STORE_TESTS['max_obsolete'] = {
-    "setup": [DEFAULT_STORE_UNITS_1,
-              (DEFAULT_STORE_UNITS_1
-               + DEFAULT_STORE_UNITS_2
-               + DEFAULT_STORE_UNITS_3)],
-    "update_store": ("MAX", DEFAULT_STORE_UNITS_1 + DEFAULT_STORE_UNITS_3)
+    'setup': [
+        DEFAULT_STORE_UNITS_1,
+        DEFAULT_STORE_UNITS_1 + DEFAULT_STORE_UNITS_2 + DEFAULT_STORE_UNITS_3,
+    ],
+    'store_revision': 'MAX',
+    'units_in_file': DEFAULT_STORE_UNITS_1 + DEFAULT_STORE_UNITS_3,
 }
 
 
@@ -118,7 +175,7 @@ def _setup_store_test(store, member, test):
                        % (unit.source_f, store_revision))
             _create_comment_on_unit(unit, member, comment)
 
-    store_revision, units_in_file = test['update_store']
+    store_revision = test['store_revision']
     units_before_update = [
         unit for unit in store.unit_set.all().order_by('index')
     ]
@@ -132,7 +189,7 @@ def _setup_store_test(store, member, test):
 
     return {
         'store': store,
-        'units_in_file': units_in_file,
+        'units_in_file': test['units_in_file'],
         'store_revision': store_revision,
         'units_before_update': units_before_update,
     }

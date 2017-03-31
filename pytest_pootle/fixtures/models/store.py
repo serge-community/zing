@@ -40,6 +40,10 @@ UPDATED_STORE_UNITS_3 = [(src, "UPDATED %s" % target)
                          for src, target
                          in DEFAULT_STORE_UNITS_3]
 
+DEFAULT_STORE_TEST_SETUP = [
+    (DEFAULT_STORE_UNITS_1),
+    (DEFAULT_STORE_UNITS_1 + DEFAULT_STORE_UNITS_2),
+]
 
 UPDATE_STORE_TESTS = OrderedDict()
 UPDATE_STORE_TESTS['min_empty'] = {"update_store": (0, [])}
@@ -102,11 +106,7 @@ UPDATE_STORE_TESTS['max_obsolete'] = {
 
 
 def _setup_store_test(store, member, test):
-    setup = test.get("setup", None)
-
-    if setup is None:
-        setup = [(DEFAULT_STORE_UNITS_1),
-                 (DEFAULT_STORE_UNITS_1 + DEFAULT_STORE_UNITS_2)]
+    setup = test.get('setup', DEFAULT_STORE_TEST_SETUP)
 
     for units in setup:
         store_revision = store.get_max_unit_revision()

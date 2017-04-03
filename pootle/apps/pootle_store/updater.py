@@ -196,17 +196,21 @@ class UnitUpdater(object):
         This method serves as a layer above the unit-level update logic to
         enhance it with conflict resolution.
 
-        :return: (updated, suggested) a tuple of booleans:
+        :return: (updated, suggested, unsynced) a tuple of booleans:
             updated: whether an update to the unit was performed and saved .
             suggested: whether a suggestion was added due to conflicts.
+            unsynced: whether an obsolete unit was resurrected because it
+                contained unsynced changes.
         """
         suggested = False
         updated = False
+        unsynced = False
 
         if self.should_merge:
             updated = self.unit.update(self.newunit, user=self.update.user)
         elif self.should_resurrect:
             updated = self.unit.resurrect(is_fuzzy=self.unit.isfuzzy())
+            unsynced = updated
 
         if self.should_update_index:
             self.unit.index = self.update.get_index(self.uid)
@@ -218,7 +222,7 @@ class UnitUpdater(object):
         if self.should_create_suggestion:
             suggested = self.create_suggestion()
 
-        return updated, suggested
+        return updated, suggested, unsynced
 
 
 class StoreUpdater(object):
@@ -226,16 +230,25 @@ class StoreUpdater(object):
     def __init__(self, target_store):
         self.target_store = target_store
 
-    def increment_unsynced_unit_revision(self, update_revision):
-        filter_by = {
-            'revision__gt': self.target_store.last_sync_revision,
-            'revision__lt': update_revision,
-            'state__gt': OBSOLETE}
-        units = self.target_store.unit_set.filter(**filter_by)
-        count = units.count()
-        if count:
-            units.update(revision=Revision.incr())
-        return count
+    def get_unsynced_uids(self, update_revision):
+        return self.target_store.unit_set.filter(
+            revision__gt=self.target_store.last_sync_revision,
+            revision__lt=update_revision,
+            state__gt=OBSOLETE,
+        ).values_list('id', flat=True)
+
+    def incr_unit_revision(self, uid_list):
+        """Increments the revision for units within `uid_list`.
+
+        :return: the amount of units for which the revision has been
+            incremented.
+        """
+        if not uid_list:
+            return 0
+
+        return self.target_store.unit_set.filter(id__in=uid_list).update(
+            revision=Revision.incr()
+        )
 
     def units(self, uids):
         unit_set = self.target_store.unit_set.select_related("submitted_by")
@@ -254,11 +267,12 @@ class StoreUpdater(object):
 
         update_revision = None
         changes = {}
+        unsynced_uids = []
         try:
             diff = StoreDiff(self.target_store, store, store_revision).diff()
             if diff is not None:
                 update_revision = Revision.incr()
-                changes = self.update_from_diff(
+                changes, unsynced_uids = self.update_from_diff(
                     store,
                     store_revision,
                     diff, update_revision,
@@ -276,7 +290,8 @@ class StoreUpdater(object):
                     % (get_change_str(changes),
                        self.target_store.pootle_path,
                        self.target_store.get_max_unit_revision()))
-        return update_revision, changes
+
+        return update_revision, changes, unsynced_uids
 
     def update_from_diff(self, store, store_revision,
                          to_change, update_revision, user,
@@ -311,8 +326,12 @@ class StoreUpdater(object):
             store_revision=store_revision,
             update_revision=update_revision,
         )
-        changes['updated'], changes['suggested'] = self.update_units(update)
-        return changes
+        updated, suggested, unsynced_uids = self.update_units(update)
+        changes.update({
+            'updated': updated,
+            'suggested': suggested,
+        })
+        return changes, unsynced_uids
 
     def update_from_disk(self, overwrite=False):
         """Update DB with units from the disk file.
@@ -330,7 +349,7 @@ class StoreUpdater(object):
             store_revision = self.target_store.last_sync_revision or 0
 
         # update the units
-        update_revision, changes = self.update(
+        update_revision, changes, unsynced_uids = self.update(
             self.target_store.file.store,
             store_revision=store_revision)
 
@@ -339,18 +358,24 @@ class StoreUpdater(object):
 
         # update last_sync_revision if anything changed
         changed = changes and any(x > 0 for x in changes.values())
-        if changed:
-            update_unsynced = None
-            if self.target_store.last_sync_revision is not None:
-                update_unsynced = self.increment_unsynced_unit_revision(
-                    update_revision)
-            self.target_store.last_sync_revision = update_revision
-            if update_unsynced:
-                logging.info(u"[update] unsynced %d units in %s "
-                             "[revision: %d]", update_unsynced,
-                             self.target_store.pootle_path, update_revision)
+        if not changed:
+            self.target_store.save(update_cache=False)  # Saves mtime
+            return False
+
+        if self.target_store.last_sync_revision is not None:
+            unsynced_uids += list(self.get_unsynced_uids(update_revision))
+            unsynced_count = self.incr_unit_revision(unsynced_uids)
+            if unsynced_count:
+                logging.info(
+                    u'[update] unsynced %d units in %s [revision: %d]',
+                    unsynced_count, self.target_store.pootle_path,
+                    update_revision,
+                )
+
+        self.target_store.last_sync_revision = update_revision
         self.target_store.save(update_cache=False)
-        return changed
+
+        return True
 
     def update_units(self, update):
         """Update individual DB units via `UnitUpdater`.
@@ -361,18 +386,25 @@ class StoreUpdater(object):
         `StoreDiff().diff()`.
 
         :param update: the update configuration, an instance of `StoreUpdate`.
-        :return: (update_count, suggestion_count) tuple of integers:
+        :return: tuple of (update_count, suggestion_count, unsynced_uids):
             update_count: the amount of updates performed.
             suggestion_count: the amount of suggestions added.
+            unsynced_uids: list of ids of units that were resurrected
+                but are unsynced.
         """
         update_count = 0
         suggestion_count = 0
+        unsynced_uids = []
 
         for unit in self.units(update.uids):
-            updated, suggested = UnitUpdater(unit, update).update_unit()
+            updated, suggested, unsynced = (
+                UnitUpdater(unit, update).update_unit()
+            )
             if updated:
                 update_count += 1
             if suggested:
                 suggestion_count += 1
+            if unsynced:
+                unsynced_uids.append(unit.id)
 
-        return update_count, suggestion_count
+        return update_count, suggestion_count, unsynced_uids

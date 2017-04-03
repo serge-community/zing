@@ -144,19 +144,17 @@ def test_update_save_changed_units(project0_disk, store0):
 
 @pytest.mark.django_db
 def test_update_set_last_sync_revision(project0_disk, tp0, store0, test_fs):
-    """Tests setting last_sync_revision after store creation.
-    """
+    """Tests setting last_sync_revision after store creation."""
     unit = store0.units.first()
     unit.target = "UPDATED TARGET"
     unit.save()
 
     store0.sync()
 
-    # Store is already parsed and store.last_sync_revision should be equal to
-    # max unit revision
+    # Store is already parsed and nothing is unsynced
     assert store0.last_sync_revision == store0.get_max_unit_revision()
 
-    # store.last_sync_revision is not changed after empty update
+    # An empty update leaves `last_sync_revision` intact
     saved_last_sync_revision = store0.last_sync_revision
     store0.updater.update_from_disk()
     assert store0.last_sync_revision == saved_last_sync_revision
@@ -174,21 +172,19 @@ def test_update_set_last_sync_revision(project0_disk, tp0, store0, test_fs):
     store0.updater.update_from_disk()
     assert store0.last_sync_revision == next_revision
 
-    # store.last_sync_revision is not changed after empty update (even if it
-    # has unsynced units)
-    item_index = 0
+    # Make a change to a unit, so that it's unsynced
     next_unit_revision = Revision.get() + 1
     dbunit = store0.units.first()
     dbunit.target = "ANOTHER DB TARGET UPDATE"
     dbunit.save()
     assert dbunit.revision == next_unit_revision
 
+    # After the next empty update, the store's revision remains the same
     store0.updater.update_from_disk()
     assert store0.last_sync_revision == next_revision
 
-    # Non-empty update sets store.last_sync_revision to next global revision
-    # (even the store has unsynced units).  There is only one unsynced unit in
-    # this case so its revision should be set next to store.last_sync_revision
+    # Now that there are unsynced units, the next non-empty update
+    # will set the last sync revision to the next global revision
     next_revision = Revision.get() + 1
 
     with open(store0.file.path, "wb") as targetf:
@@ -196,10 +192,10 @@ def test_update_set_last_sync_revision(project0_disk, tp0, store0, test_fs):
 
     store0.updater.update_from_disk()
     assert store0.last_sync_revision == next_revision
-    # Get unsynced unit in DB. Its revision should be greater
-    # than store.last_sync_revision to allow to keep this change during
-    # update from a file
-    dbunit = store0.units[item_index]
+
+    # The unsynced unit's revision should be greater than the last sync
+    # revision to allow syncing it after this update
+    dbunit = store0.units[0]
     assert dbunit.revision == store0.last_sync_revision + 1
 
 

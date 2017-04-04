@@ -297,7 +297,13 @@ class TranslationProject(models.Model, CachedTreeItem):
         return self.project.code in Project.accessible_by_user(user)
 
     def update_from_disk(self, force=False, overwrite=False):
-        """Update all stores to reflect state on disk."""
+        """Update all stores to reflect state on disk.
+
+        :return: `True` if any of the existing stores were updated.
+            FIXME note: `scan_files()` doesn't report whether something
+            changed or not, but it can obsolete dirs/stores. Hence if that
+            happened the return value will be `False`, which is misleading.
+        """
         changed = False
 
         logging.info(u"Scanning for new files in %s", self)

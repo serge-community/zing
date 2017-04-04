@@ -156,7 +156,7 @@ def test_update_set_last_sync_revision(project0_disk, tp0, store0, test_fs):
 
     # An empty update leaves `last_sync_revision` intact
     saved_last_sync_revision = store0.last_sync_revision
-    store0.updater.update_from_disk()
+    assert not store0.updater.update_from_disk()
     assert store0.last_sync_revision == saved_last_sync_revision
 
     orig = str(store0)
@@ -169,7 +169,7 @@ def test_update_set_last_sync_revision(project0_disk, tp0, store0, test_fs):
 
     # any non-empty update sets last_sync_revision to next global revision
     next_revision = Revision.get() + 1
-    store0.updater.update_from_disk()
+    assert store0.updater.update_from_disk()
     assert store0.last_sync_revision == next_revision
 
     # Make a change to a unit, so that it's unsynced
@@ -180,7 +180,7 @@ def test_update_set_last_sync_revision(project0_disk, tp0, store0, test_fs):
     assert dbunit.revision == next_unit_revision
 
     # After the next empty update, the store's revision remains the same
-    store0.updater.update_from_disk()
+    assert not store0.updater.update_from_disk()
     assert store0.last_sync_revision == next_revision
 
     # Now that there are unsynced units, the next non-empty update
@@ -190,7 +190,7 @@ def test_update_set_last_sync_revision(project0_disk, tp0, store0, test_fs):
     with open(store0.file.path, "wb") as targetf:
         targetf.write(orig)
 
-    store0.updater.update_from_disk()
+    assert store0.updater.update_from_disk()
     assert store0.last_sync_revision == next_revision
 
     # The unsynced unit's revision should be greater than the last sync

@@ -4,6 +4,10 @@ Zing Changelog
 v0.3.3 (in development)
 -----------------------
 
+* New feature: pending tasks (#252).
+  Administrators can set due dates for projects or resources, which will then be
+  visible to translators on any browsing page within a language context.
+
 
 v0.3.2 (2017-04-04)
 -------------------

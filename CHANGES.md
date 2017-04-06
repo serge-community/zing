@@ -1,8 +1,8 @@
 Zing Changelog
 ==============
 
-v0.3.3 (in development)
------------------------
+v0.4.0 (2017-04-06)
+-------------------
 
 * New feature: pending tasks (#252).
   Administrators can set due dates for projects or resources, which will then be

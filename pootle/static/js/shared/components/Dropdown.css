@@ -20,6 +20,7 @@
 {
     position: absolute;
     display: inline-block;
+    z-index: 9999;
 
     background-color: #fff;
     border: 1px solid #d9d9d9;

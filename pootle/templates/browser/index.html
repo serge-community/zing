@@ -81,7 +81,7 @@ $(function () {
     canAdminDueDates: {{ can_admin_due_dates|yesno:"true,false" }},
     canTranslateStats: {{ can_translate_stats|yesno:"true,false" }},
     dueDate: {{ due_date|to_js }},
-    isAdmin: {{ has_admin_access|yesno:"true,false" }},
+    hasAdminAccess: {{ has_admin_access|yesno:"true,false" }},
     isInitiallyExpanded: {{ is_store|yesno:"true,false" }},
     initialData: {{ browsing_data|to_js }},
     topContributorsData: {{ top_scorers|to_js }},

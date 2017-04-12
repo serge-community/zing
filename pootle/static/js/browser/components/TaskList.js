@@ -25,7 +25,7 @@ TaskListItem.propTypes = {
 };
 
 
-const TaskList = ({ tasks }) => (
+const TaskList = ({ tasks, canAdmin }) => (
   <ul className="pending-tasks">
     {tasks.map((task, i) => (
       <TaskListItem
@@ -33,6 +33,7 @@ const TaskList = ({ tasks }) => (
         importanceFactor={task.importance_factor}
       >
         <TaskItem
+          canAdmin={canAdmin}
           dueDateId={task.due_date_id}
           dueOnMsEpoch={task.due_on * 1000}
           path={task.path}
@@ -45,6 +46,7 @@ const TaskList = ({ tasks }) => (
   </ul>
 );
 TaskList.propTypes = {
+  canAdmin: React.PropTypes.bool.isRequired,
   tasks: React.PropTypes.array.isRequired,
 };
 

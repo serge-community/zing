@@ -91,7 +91,10 @@ class PendingTaskContainer extends React.Component {
   render() {
     return (
       <div style={{ position: 'relative' }}>
-        <TaskList tasks={this.state.tasks} />
+        <TaskList
+          canAdmin={this.props.canAdmin}
+          tasks={this.state.tasks}
+        />
         {this.renderLoadMore()}
       </div>
     );
@@ -99,6 +102,7 @@ class PendingTaskContainer extends React.Component {
 }
 
 PendingTaskContainer.propTypes = {
+  canAdmin: React.PropTypes.bool.isRequired,
   languageCode: React.PropTypes.string.isRequired,
   initialTasks: React.PropTypes.array.isRequired,
   initialTotal: React.PropTypes.number.isRequired,

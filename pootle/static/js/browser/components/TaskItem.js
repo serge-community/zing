@@ -30,8 +30,23 @@ function formatDueTime(msEpoch) {
 }
 
 
+function getDueOnComp(dueOnMsEpoch, { canAdmin = false } = {}) {
+  const dueOnMsg = formatDueTime(dueOnMsEpoch);
+  if (!canAdmin) {
+    return (
+      <span className="due-on">{dueOnMsg}</span>
+    );
+  }
+
+  // TODO: provide editing widget
+  return (
+    <span className="due-on">{dueOnMsg}</span>
+  );
+}
+
+
 const TaskItem = ({
-  path, projectName, wordsLeft, dueDateId, dueOnMsEpoch, type,
+  canAdmin, path, projectName, wordsLeft, dueDateId, dueOnMsEpoch, type,
 }) => {
   let label;
   let actionUrl = getTranslateUrl(path);
@@ -65,12 +80,6 @@ const TaskItem = ({
       title={dueDateTooltip}
     >{dueDateMsg}</span>
   );
-  // TODO: provide due date picker when `hasAdminAccess` is true
-  const dueOnComp = (
-    <span
-      className="due-on"
-    >{formatDueTime(dueOnMsEpoch)}</span>
-  );
 
   return (
     <a className="task-item" href={actionUrl}>
@@ -78,12 +87,14 @@ const TaskItem = ({
         task: taskComp,
         project: projectComp,
         date: dateComp,
-        dueOn: dueOnComp,
+        dueOn: getDueOnComp(dueOnMsEpoch, { canAdmin }),
       })}
     </a>
   );
 };
+
 TaskItem.propTypes = {
+  canAdmin: React.PropTypes.bool.isRequired,
   dueDateId: React.PropTypes.number.isRequired,
   dueOnMsEpoch: React.PropTypes.number.isRequired,
   path: React.PropTypes.string.isRequired,

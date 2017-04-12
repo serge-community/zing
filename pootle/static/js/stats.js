@@ -73,7 +73,7 @@ const stats = {
 
     this.canAdminDueDates = options.canAdminDueDates;
     this.canTranslateStats = options.canTranslateStats;
-    this.isAdmin = options.isAdmin;
+    this.hasAdminAccess = options.hasAdminAccess;
     this.statsRefreshAttemptsCount = options.statsRefreshAttemptsCount;
 
     $(document).on('click', '.js-stats-refresh', (e) => {
@@ -108,6 +108,7 @@ const stats = {
   setTasks(tasks, total) {
     this.taskContainer = ReactDOM.render(
       <PendingTaskContainer
+        canAdmin={this.hasAdminAccess}
         languageCode={this.languageCode}
         initialTasks={tasks}
         initialTotal={total}

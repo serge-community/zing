@@ -10,6 +10,8 @@
 
 .duedate-picker
 {
+    background-color: #fff;
+    color: #130f30;
     font-weight: normal;
     white-space: normal; /* to undo `nowrap` from `li` */
 }

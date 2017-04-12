@@ -72,17 +72,17 @@ class Dropdown extends React.Component {
     document.removeEventListener('click', this.handleDocClick);
   }
 
-  handleDocClick() {
+  handleDocClick(e) {
     if (this.clickedInside) {
       return;
     }
 
-    this.props.onToggle();
+    this.props.onToggle(e);
   }
 
   handleKeyDown(e) {
     if (e.key === 'Escape') {
-      this.props.onToggle();
+      this.props.onToggle(e);
     }
   }
 

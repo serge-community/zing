@@ -34,7 +34,7 @@ const DropdownToggle = ({ children, title, tag: Tag }, context) => {
 
   return (
     <Tag
-      onClick={() => context.onToggle()}
+      onClick={(e) => context.onToggle(e)}
       {...extraProps}
     >
       <span className="dropdown-label">

@@ -32,13 +32,14 @@ const TranslationState = ({
 );
 TranslationState.propTypes = {
   total: React.PropTypes.number.isRequired,
-  translated: React.PropTypes.number.isRequired,
+  translated: React.PropTypes.number,
   fuzzy: React.PropTypes.number,
   canTranslate: React.PropTypes.bool.isRequired,
   pootlePath: React.PropTypes.string.isRequired,
 };
 TranslationState.defaultProps = {
   fuzzy: 0,
+  translated: 0,
 };
 
 export default TranslationState;

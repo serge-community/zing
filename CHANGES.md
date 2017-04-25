@@ -4,6 +4,8 @@ Zing Changelog
 v0.4.1 (in development)
 -----------------------
 
+* Fixed browsing pages for fully untranslated stores.
+
 
 v0.4.0 (2017-04-06)
 -------------------

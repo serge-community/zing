@@ -68,7 +68,7 @@ const DetailedStats = ({
           </div>
         </div>
       }
-      {lastAction.mtime !== 0 &&
+      {lastAction && lastAction.mtime !== 0 &&
         <div>
           <h3 className="top">{t('Translations')}</h3>
           <div className="bd">

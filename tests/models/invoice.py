@@ -342,35 +342,21 @@ def test_invoice_get_user_amounts(member, action_code, task_type):
     performed for the given user when their activities were recorded via both
     score logs and paid tasks.
     """
-    from pootle_store.models import Store
+    from pootle_statistics.models import Submission
     EVENT_COUNT = 5
     WORDCOUNT = 5
     TASK_COUNT = 5
     PAID_TASK_AMOUNT = 22
     month = timezone.datetime(2014, 04, 01)
 
-    submission_kwargs = {
-        'field': SubmissionFields.TARGET,
-        'type': SubmissionTypes.NORMAL,
-        'old_value': 'foo',
-        'new_value': 'bar',
-        'submitter': member,
-        'creation_time': month,
-    }
     for i in range(EVENT_COUNT):
-        store = Store.objects.all()[i]
-        submission_kwargs.update({
-            'store': store,
-            'unit': store.units[0],
-            'translation_project': store.translation_project,
-        })
         scorelog_kwargs = {
             'wordcount': WORDCOUNT,
             'similarity': 0,
             'action_code': action_code,
             'creation_time': month,
             'user': member,
-            'submission': SubmissionFactory(**submission_kwargs),
+            'submission': Submission.objects.all()[i],
         }
         ScoreLogFactory(**scorelog_kwargs)
 
@@ -491,7 +477,7 @@ def test_invoice_generate_add_correction(member, invoice_directory):
     """Tests that generating invoices multiple times for the same month + user
     will add corrections only once.
     """
-    from pootle_store.models import Store
+    from pootle_statistics.models import Submission
     EVENT_COUNT = 5
     WORDCOUNT = 5
     TRANSLATION_RATE = 0.5
@@ -510,28 +496,14 @@ def test_invoice_generate_add_correction(member, invoice_directory):
 
     # Fake some activity that will leave amounts below the minimum bar:
     # EVENT_COUNT * WORDCOUNT * TRANSLATION_RATE < MINIMAL_PAYMENT
-    submission_kwargs = {
-        'field': SubmissionFields.TARGET,
-        'type': SubmissionTypes.NORMAL,
-        'old_value': 'foo',
-        'new_value': 'bar',
-        'submitter': member,
-        'creation_time': month,
-    }
     for i in range(EVENT_COUNT):
-        store = Store.objects.all()[i]
-        submission_kwargs.update({
-            'store': store,
-            'unit': store.units[0],
-            'translation_project': store.translation_project,
-        })
         scorelog_kwargs = {
             'wordcount': WORDCOUNT,
             'similarity': 0,
             'action_code': TranslationActionCodes.NEW,
             'creation_time': month,
             'user': member,
-            'submission': SubmissionFactory(**submission_kwargs),
+            'submission': Submission.objects.all()[i],
         }
         ScoreLogFactory(**scorelog_kwargs)
 

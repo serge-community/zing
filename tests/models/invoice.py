@@ -544,7 +544,7 @@ def test_invoice_generate_add_correction(member, invoice_directory):
 
     # Subsequent invoice generations must not add any corrections
     for i in range(5):
-        invoice.get_total_amounts.cache_clear()
+        invoice.get_total_amounts.cache_clear()  # clears the LRU cache
         amounts = invoice.get_total_amounts()
         assert amounts['subtotal'] == 0
         assert not invoice.should_add_correction(amounts['subtotal'])

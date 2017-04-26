@@ -255,8 +255,6 @@ Configuration settings for applications used by Pootle.
 ``POOTLE_REPORTS_INVOICES_PHANTOMJS_BIN``
   Default: ``None`` (unset)
 
-  .. versionadded:: 2.7.3
-
   Absolute path to the `PhantomJS binary <http://phantomjs.org/>`_. This is
   needed in order to optionally generate PDF invoices out of user activity.
 
@@ -265,8 +263,6 @@ Configuration settings for applications used by Pootle.
 
 ``POOTLE_REPORTS_INVOICES_DIRECTORY``
   Default: ``working_path('invoices')``
-
-  .. versionadded:: 2.7.3
 
   Base directory where the invoices will be created. Invoices will be generated
   in subdirectories for each year and month combination, i.e.
@@ -278,8 +274,6 @@ Configuration settings for applications used by Pootle.
 ``POOTLE_REPORTS_INVOICES_COMPANY``
   Default: ``'ACME'``
 
-  .. versionadded:: 2.7.3
-
   Name of your company as displayed in the invoice. Check the templates at
   *templates/invoices/* for further details and customizations.
 
@@ -289,8 +283,6 @@ Configuration settings for applications used by Pootle.
 ``POOTLE_REPORTS_INVOICES_DEPARTMENT``
   Default: ``'ACME Department'``
 
-  .. versionadded:: 2.7.3
-
   Name of your company deparment as displayed in the invoices. Check the
   templates at *templates/invoices/* for further details and customizations.
 
@@ -299,8 +291,6 @@ Configuration settings for applications used by Pootle.
 
 ``POOTLE_REPORTS_INVOICES_RECIPIENTS``
   Default: ``{}`` (empty dictionary)
-
-  .. versionadded:: 2.7.3
 
   The list of usernames for whom invoices will be generated and send to.
 

@@ -88,7 +88,7 @@ def test_invoice_check_config_for(config, require_email_fields):
 
 
 @pytest.mark.django_db
-def test_invoice_get_rates_inconsistent_scorelog_rates(member):
+def test_invoice_get_rates_inconsistent_scorelog_rates(member, store0):
     USER_RATE_ONE = 0.5
     USER_RATE_TWO = 0.2
 
@@ -97,19 +97,17 @@ def test_invoice_get_rates_inconsistent_scorelog_rates(member):
     member.review_rate = USER_RATE_ONE
     member.save()
 
-    from pootle_store.models import Store
-    store = Store.objects.first()
     month = timezone.datetime(2014, 04, 01)
 
     submission_kwargs = {
-        'store': store,
-        'unit': store.units[0],
+        'store': store0,
+        'unit': store0.units[0],
         'field': SubmissionFields.TARGET,
         'type': SubmissionTypes.NORMAL,
         'old_value': 'foo',
         'new_value': 'bar',
         'submitter': member,
-        'translation_project': store.translation_project,
+        'translation_project': store0.translation_project,
         'creation_time': month,
     }
     scorelog_kwargs = {
@@ -128,7 +126,7 @@ def test_invoice_get_rates_inconsistent_scorelog_rates(member):
     member.review_rate = USER_RATE_TWO
     member.save()
 
-    submission_kwargs['unit'] = store.units[1]
+    submission_kwargs['unit'] = store0.units[1]
     scorelog_kwargs['submission'] = SubmissionFactory(**submission_kwargs)
 
     ScoreLogFactory(**scorelog_kwargs)
@@ -150,7 +148,8 @@ def test_invoice_get_rates_inconsistent_scorelog_rates(member):
 ])
 def test_invoice_get_rates_inconsistent_paidtask_rates(member, task_type,
                                                        task_type_name,
-                                                       user_rate_attr_name):
+                                                       user_rate_attr_name,
+                                                       store0):
     USER_RATE = 0.5
     PAID_TASK_RATE = 0.2
 
@@ -158,19 +157,17 @@ def test_invoice_get_rates_inconsistent_paidtask_rates(member, task_type,
     setattr(member, user_rate_attr_name, USER_RATE)
     member.save()
 
-    from pootle_store.models import Store
-    store = Store.objects.first()
     month = timezone.datetime(2014, 04, 01)
 
     submission_kwargs = {
-        'store': store,
-        'unit': store.units[0],
+        'store': store0,
+        'unit': store0.units[0],
         'field': SubmissionFields.TARGET,
         'type': SubmissionTypes.NORMAL,
         'old_value': 'foo',
         'new_value': 'bar',
         'submitter': member,
-        'translation_project': store.translation_project,
+        'translation_project': store0.translation_project,
         'creation_time': month,
     }
     scorelog_kwargs = {
@@ -235,7 +232,7 @@ def test_invoice_get_rates_inconsistent_hourly_paidtask_rates(member):
     (PaidTaskTypes.REVIEW, 'REVIEW', 'review_rate'),
 ])
 def test_invoice_get_rates_scorelog_rates(member, task_type, task_type_name,
-                                          user_rate_attr_name):
+                                          user_rate_attr_name, store0):
     """Tests that `Invoice.get_rates()` returns the rates set for users in their
     `ScoreLog` entries.
     """
@@ -246,19 +243,17 @@ def test_invoice_get_rates_scorelog_rates(member, task_type, task_type_name,
     setattr(member, user_rate_attr_name, USER_RATE_ONE)
     member.save()
 
-    from pootle_store.models import Store
-    store = Store.objects.first()
     month = timezone.datetime(2014, 04, 01)
 
     submission_kwargs = {
-        'store': store,
-        'unit': store.units[0],
+        'store': store0,
+        'unit': store0.units[0],
         'field': SubmissionFields.TARGET,
         'type': SubmissionTypes.NORMAL,
         'old_value': 'foo',
         'new_value': 'bar',
         'submitter': member,
-        'translation_project': store.translation_project,
+        'translation_project': store0.translation_project,
         'creation_time': month,
     }
     scorelog_kwargs = {

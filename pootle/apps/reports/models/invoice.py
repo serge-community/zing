@@ -327,7 +327,7 @@ class Invoice(object):
         ctx = self.get_context_data()
         for generator in self.generators:
             filepath = self.get_filepath(generator.extension)
-            logger.info('Generating %s at "%s"...' % (generator.name, filepath))
+            logger.info('Generating %s at "%s"...', generator.name, filepath)
             success = generator.generate(filepath, ctx)
             if success:
                 generated_files.append((filepath, generator.media_type))

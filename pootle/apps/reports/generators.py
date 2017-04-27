@@ -66,7 +66,7 @@ class PDFGenerator(object):
         html_filepath = filepath.replace('.pdf', '.html')
         if not os.path.exists(html_filepath):
             logger.info('HTML file does not exist: %s.\n'
-                        'PDF will not be generated.' % html_filepath)
+                        'PDF will not be generated.', html_filepath)
             return False
 
         html2pdf_js = os.path.join(os.path.abspath(os.path.dirname(__file__)),
@@ -74,7 +74,7 @@ class PDFGenerator(object):
         exit_code = call([settings.ZING_INVOICES_PHANTOMJS_BIN,
                           html2pdf_js, html_filepath, filepath])
         if exit_code:
-            logger.debug('Script exited with code: %s' % exit_code)
+            logger.debug('Script exited with code: %s', exit_code)
             return False
 
         return True

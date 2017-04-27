@@ -168,6 +168,7 @@ class Invoice(object):
         translation_amount = round(translated_words * translation_rate, 2)
         review_amount = round(reviewed_words * review_rate, 2)
         hours_amount = round(hours * hourly_rate, 2)
+        correction = round(correction, 2)
 
         subtotal = translation_amount + review_amount + hours_amount + correction
 

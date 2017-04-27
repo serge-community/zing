@@ -47,10 +47,10 @@ class PDFGenerator(object):
 
     @staticmethod
     def is_configured():
-        phantomjs_bin = settings.POOTLE_REPORTS_INVOICES_PHANTOMJS_BIN
+        phantomjs_bin = settings.ZING_INVOICES_PHANTOMJS_BIN
         if phantomjs_bin is None or not os.path.exists(phantomjs_bin):
             logger.warn(
-                'NOTICE: settings.POOTLE_REPORTS_INVOICES_PHANTOMJS_BIN '
+                'NOTICE: settings.ZING_INVOICES_PHANTOMJS_BIN '
                 'not defined or nothing found in the specified path. '
                 'PDFs will not be generated.'
             )
@@ -71,7 +71,7 @@ class PDFGenerator(object):
 
         html2pdf_js = os.path.join(os.path.abspath(os.path.dirname(__file__)),
                                    'html2pdf.js')
-        exit_code = call([settings.POOTLE_REPORTS_INVOICES_PHANTOMJS_BIN,
+        exit_code = call([settings.ZING_INVOICES_PHANTOMJS_BIN,
                           html2pdf_js, html_filepath, filepath])
         if exit_code:
             logger.debug('Script exited with code: %s' % exit_code)

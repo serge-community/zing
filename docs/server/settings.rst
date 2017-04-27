@@ -250,46 +250,46 @@ Configuration settings for applications used by Pootle.
   - ``label`` specifying the text that will be displayed next to the mark.
 
 
-.. setting:: POOTLE_REPORTS_INVOICES_PHANTOMJS_BIN
+.. setting:: ZING_INVOICES_PHANTOMJS_BIN
 
-``POOTLE_REPORTS_INVOICES_PHANTOMJS_BIN``
+``ZING_INVOICES_PHANTOMJS_BIN``
   Default: ``None`` (unset)
 
   Absolute path to the `PhantomJS binary <http://phantomjs.org/>`_. This is
   needed in order to optionally generate PDF invoices out of user activity.
 
 
-.. setting:: POOTLE_REPORTS_INVOICES_DIRECTORY
+.. setting:: ZING_INVOICES_DIRECTORY
 
-``POOTLE_REPORTS_INVOICES_DIRECTORY``
+``ZING_INVOICES_DIRECTORY``
   Default: ``working_path('invoices')``
 
   Base directory where the invoices will be created. Invoices will be generated
   in subdirectories for each year and month combination, i.e.
-  ``$POOTLE_REPORTS_INVOICES_DIRECTORY/<YYYY-MM>/``.
+  ``$ZING_INVOICES_DIRECTORY/<YYYY-MM>/``.
 
 
-.. setting:: POOTLE_REPORTS_INVOICES_COMPANY
+.. setting:: ZING_INVOICES_COMPANY
 
-``POOTLE_REPORTS_INVOICES_COMPANY``
+``ZING_INVOICES_COMPANY``
   Default: ``'ACME'``
 
   Name of your company as displayed in the invoice. Check the templates at
   *templates/invoices/* for further details and customizations.
 
 
-.. setting:: POOTLE_REPORTS_INVOICES_DEPARTMENT
+.. setting:: ZING_INVOICES_DEPARTMENT
 
-``POOTLE_REPORTS_INVOICES_DEPARTMENT``
+``ZING_INVOICES_DEPARTMENT``
   Default: ``'ACME Department'``
 
   Name of your company deparment as displayed in the invoices. Check the
   templates at *templates/invoices/* for further details and customizations.
 
 
-.. setting:: POOTLE_REPORTS_INVOICES_RECIPIENTS
+.. setting:: ZING_INVOICES_RECIPIENTS
 
-``POOTLE_REPORTS_INVOICES_RECIPIENTS``
+``ZING_INVOICES_RECIPIENTS``
   Default: ``{}`` (empty dictionary)
 
   The list of usernames for whom invoices will be generated and send to.
@@ -371,7 +371,7 @@ Configuration settings for applications used by Pootle.
 
   .. code-block:: python
 
-    POOTLE_REPORTS_INVOICES_RECIPIENTS = {
+    ZING_INVOICES_RECIPIENTS = {
         'johndoe': {
             'name': 'John Benjamin Doe',
             'invoice_prefix': 'JD-',

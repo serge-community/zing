@@ -23,6 +23,7 @@ from django.core.management.base import BaseCommand, CommandError
 from pootle.core.utils.docs import get_docs_url
 
 from ...models import Invoice
+from ...reporters import JSONReporter
 
 
 User = get_user_model()
@@ -86,6 +87,18 @@ class Command(BaseCommand):
             default=[],
         )
 
+        report_group = parser.add_argument_group(
+            'Reporting',
+            'Options for invoice-related reports.',
+        )
+        report_group.add_argument(
+            '--generate-report',
+            action='store_true',
+            dest='generate_report',
+            help='Generate a report of the invoicing job in JSON format.',
+            default=False,
+        )
+
     def handle(self, **options):
         send_emails = options['send_emails']
         month = options['month']
@@ -123,6 +136,7 @@ class Command(BaseCommand):
                 except User.DoesNotExist:
                     raise ImproperlyConfigured('User %s not found.' % username)
 
+        reporter = JSONReporter()
         for username, user_conf in users:
             subcontractors = [
                 user_dict[subcontractor_name]
@@ -131,6 +145,7 @@ class Command(BaseCommand):
             invoice = Invoice(user_dict[username], user_conf, month=month,
                               subcontractors=subcontractors,
                               add_correction=month is None)
+            reporter.add(invoice)
 
             fullname = user_conf['name']
 
@@ -148,3 +163,7 @@ class Command(BaseCommand):
                 self.stdout.write('Email sent')
             else:
                 self.stdout.write('ERROR: sending failed')
+
+        if options['generate_report']:
+            reporter.generate()
+            self.stdout.write('JSON report written to %s.' % reporter.filepath)

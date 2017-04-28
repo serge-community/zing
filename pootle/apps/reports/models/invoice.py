@@ -259,7 +259,7 @@ class Invoice(object):
         local_now = timezone.localtime(self.now)
         initial_moment = local_now.replace(day=1, hour=0, minute=0, second=0)
 
-        PaidTask.objects.create(
+        PaidTask.objects.get_or_create(
             task_type=PaidTaskTypes.CORRECTION,
             amount=(-1) * total_amount,
             rate=1,
@@ -267,7 +267,7 @@ class Invoice(object):
             description='Carryover to the next month',
             user=self.user,
         )
-        PaidTask.objects.create(
+        PaidTask.objects.get_or_create(
             task_type=PaidTaskTypes.CORRECTION,
             amount=total_amount,
             rate=1,

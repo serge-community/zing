@@ -3,7 +3,7 @@
 Invoice Generation
 ==================
 
-Out of users' activity and with the help of some extra configuration, Pootle is
+Out of users' activity and with the help of some extra configuration, Zing is
 able to generate monthly-based invoices and optionally send them via e-mail.
 This is useful when paid contractors and/or agencies are involved in the
 translation process.
@@ -58,7 +58,7 @@ Paid Tasks
 ^^^^^^^^^^
 
 There might be ocassions where some translation activities happened out of
-Pootle (e.g. via spreadsheets or documents sent via e-mail), and the way to
+Zing (e.g. via spreadsheets or documents sent via e-mail), and the way to
 track these is by manually adding paid tasks.
 
 Such tasks can refer to the translation or review of a certain amount of words,
@@ -136,7 +136,7 @@ the pre-defined :setting:`ZING_INVOICES_COMPANY` and
 for your use-case and see if the result is of your liking.
 
 Provided you already configured everything by following the previous steps, you
-can run ``pootle generate_invoices`` and check for the generated output under
+can run ``zing generate_invoices`` and check for the generated output under
 :setting:`ZING_INVOICES_DIRECTORY`.
 
 In case you are not satisfied with the look & feel of invoices or their wording

@@ -29,17 +29,6 @@ from ...reporters import JSONReporter
 User = get_user_model()
 
 
-def is_valid_month(month_string):
-    """Returns `True` if `month_string` conforms with the supported format,
-    returns `False` otherwise.
-    """
-    try:
-        datetime.strptime(month_string, '%Y-%m')
-        return True
-    except ValueError:
-        return False
-
-
 class Command(BaseCommand):
     help = "Generate invoices and send them via e-mail."
 
@@ -102,12 +91,15 @@ class Command(BaseCommand):
     def handle(self, **options):
         send_emails = options['send_emails']
         month = options['month']
-        if month is not None and not is_valid_month(month):
-            raise CommandError(
-                '--month parameter has an invalid format: "%s", '
-                'while it should be in "YYYY-MM" format'
-                % month
-            )
+        if month is not None:
+            try:
+                month = datetime.strptime(month, '%Y-%m')
+            except ValueError:
+                raise CommandError(
+                    '--month parameter has an invalid format: "%s", '
+                    'while it should be in "YYYY-MM" format'
+                    % month
+                )
 
         if not settings.ZING_INVOICES_RECIPIENTS:
             raise CommandError(

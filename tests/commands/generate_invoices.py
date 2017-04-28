@@ -23,6 +23,16 @@ def test_generate_invoices_invalid_month(month):
 
 @pytest.mark.cmd
 @pytest.mark.django_db
+def test_generate_invoices_no_recipients_setting(settings):
+    # Setting this to `None` is the same as having no setting at all
+    settings.ZING_INVOICES_RECIPIENTS = None
+    with pytest.raises(CommandError) as e:
+        call_command('generate_invoices')
+    assert 'No invoicing configuration found' in str(e)
+
+
+@pytest.mark.cmd
+@pytest.mark.django_db
 @pytest.mark.parametrize('recipients, args', [
     ({
         'bogus_member': {
@@ -52,3 +62,20 @@ def test_generate_invoices_incomplete_config(settings, recipients, args):
             call_command('generate_invoices')
         else:
             call_command('generate_invoices', args)
+
+
+@pytest.mark.cmd
+@pytest.mark.django_db
+def test_generate_invoices_generate_report(settings, member, capfd, tmpdir):
+    settings.ZING_INVOICES_RECIPIENTS = {
+        'member': {
+            'name': 'foo',
+            'paid_by': 'foo',
+            'wire_info': 'foo',
+        },
+    }
+    settings.ZING_INVOICES_DIRECTORY = tmpdir.strpath
+    call_command('generate_invoices', '--generate-report')
+
+    out, _ = capfd.readouterr()
+    assert 'JSON report written to' in out

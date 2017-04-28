@@ -47,7 +47,7 @@ class PDFGenerator(object):
 
     @staticmethod
     def is_configured():
-        phantomjs_bin = settings.ZING_INVOICES_PHANTOMJS_BIN
+        phantomjs_bin = getattr(settings, 'ZING_INVOICES_PHANTOMJS_BIN', None)
         if phantomjs_bin is None or not os.path.exists(phantomjs_bin):
             logger.warn(
                 'NOTICE: settings.ZING_INVOICES_PHANTOMJS_BIN '

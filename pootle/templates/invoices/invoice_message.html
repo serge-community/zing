@@ -14,6 +14,7 @@
       </p>
     {% endif %}
 
+    {% block body %}
     {% if accounting %}
       <p>This email is sent automatically by {{ POOTLE_TITLE }} on behalf of the user.</p>
 
@@ -23,6 +24,7 @@
 
       <p>In case of questions, please contact our your managers at manager@your-server.com</p>
     {% endif %}
+    {% endblock %}
 
     {% include 'invoices/_email_invoice_table.html' %}
   </body>

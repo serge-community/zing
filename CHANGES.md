@@ -1,10 +1,10 @@
 Zing Changelog
 ==============
 
-v0.4.2 (in development)
------------------------
+v0.5.0 (2017-05-01)
+-------------------
 
-* Integrated feature to generate invoices for translators.
+* Integrated feature to generate invoices for translators (#255).
 
 
 v0.4.1 (2017-04-25)

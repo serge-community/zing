@@ -364,7 +364,10 @@ class Invoice(object):
                                       override_to=override_to,
                                       override_bcc=override_bcc).send()
 
-        attachments = [file[0] for file in self.files if 'html' not in file[1]]
+        attachments = [
+            (file[0], file[1])  # file path, mime type
+            for file in self.files if 'html' not in file[1]
+        ]
         count = 0
         count += UserPaymentEmail(self.id, self.conf, ctx,
                                   override_to=override_to,

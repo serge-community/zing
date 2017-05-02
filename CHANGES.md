@@ -4,6 +4,8 @@ Zing Changelog
 v0.5.1 (in development)
 -----------------------
 
+* Fixed invoice emails' company/department data.
+
 
 v0.5.0 (2017-05-01)
 -------------------

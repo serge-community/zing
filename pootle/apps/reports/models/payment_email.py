@@ -6,6 +6,7 @@
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
+from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -49,6 +50,9 @@ class BasePaymentEmail(object):
             'to_email_list': self.get_recipient_list(),
             'cc_email_list': self.get_cc_list(),
             'bcc_email_list': self.get_bcc_list(),
+
+            'COMPANY': getattr(settings, 'ZING_INVOICES_COMPANY', ''),
+            'DEPARTMENT': getattr(settings, 'ZING_INVOICES_DEPARTMENT', ''),
         }
         ctx.update(self.invoice_ctx)
         return ctx

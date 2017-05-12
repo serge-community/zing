@@ -21,7 +21,6 @@ from django.utils.encoding import iri_to_uri
 from django_rq.queues import get_connection, get_queue
 
 from pootle.core.cache import get_cache
-from pootle.core.log import log
 from pootle.core.url_helpers import get_all_pootle_paths, split_pootle_path
 from pootle.core.utils.timezone import datetime_min
 from pootle_misc.util import dictsum
@@ -392,7 +391,7 @@ class CachedTreeItem(TreeItem):
             cache.delete(self.make_cache_key(key))
 
         if keys:
-            log("%s deleted from %s cache" % (keys, self.cache_key))
+            logger.debug("%s deleted from %s cache", keys, self.cache_key)
 
         self._dirty_cache = set()
 

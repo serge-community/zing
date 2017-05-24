@@ -21,11 +21,7 @@ class GetTaskForm(forms.Form):
         queryset=Language.live.all(),
         to_field_name='code',
     )
-    offset = forms.IntegerField(required=False)
     limit = forms.IntegerField(required=False)
-
-    def clean_offset(self):
-        return self.cleaned_data.get('offset') or 0
 
     def clean_limit(self):
         limit = self.cleaned_data.get('limit') or PENDING_TASKS_LIMIT

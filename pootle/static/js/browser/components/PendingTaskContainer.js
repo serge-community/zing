@@ -48,9 +48,9 @@ class PendingTaskContainer extends React.Component {
     clearInterval(this.intervalId);
   }
 
-  handleRefresh() {
-    const currentTasksCount = this.state.tasks.length;
-    TaskAPI.get(this.props.languageCode, { limit: currentTasksCount })
+  handleRefresh(opts = { extra: 0 }) {
+    const limit = this.state.tasks.length + opts.extra;
+    return TaskAPI.get(this.props.languageCode, { limit })
       .done((data) => {
         this.setState({ tasks: data.items, total: data.total });
       });
@@ -58,17 +58,7 @@ class PendingTaskContainer extends React.Component {
 
   handleLoadMore(e) {
     e.preventDefault();
-
-    const params = { offset: this.state.tasks.length };
-    return TaskAPI.get(this.props.languageCode, params)
-      .done((data) => {
-        this.setState((prevState) => {
-          const newItems = prevState.tasks.concat(data.items);
-          return {
-            tasks: newItems,
-          };
-        });
-      });
+    return this.handleRefresh({ extra: 5 });
   }
 
   renderLoadMore() {

@@ -43,11 +43,10 @@ class TaskView(View):
     def get_context_data(self, *args, **kwargs):
         form = kwargs.pop('form')
         lang_code = form.cleaned_data['language'].code
-        offset = form.cleaned_data['offset']
         limit = form.cleaned_data['limit']
 
         tasks = DueDate.tasks(lang_code, user=self.request.user)
         return {
             'total': tasks.total,
-            'items': tasks[offset:offset + limit],
+            'items': tasks[:limit],
         }

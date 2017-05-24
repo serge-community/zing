@@ -5,6 +5,7 @@ v0.5.1 (in development)
 -----------------------
 
 * Fixed invoice emails' company/department data.
+* Fixed pending task retrieval when updates happened (#256).
 
 
 v0.5.0 (2017-05-01)

@@ -1,8 +1,8 @@
 Zing Changelog
 ==============
 
-v0.5.1 (in development)
------------------------
+v0.5.1 (2017-05-29)
+-------------------
 
 * Fixed invoice emails' company/department data.
 * Fixed pending task retrieval when updates happened (#256).

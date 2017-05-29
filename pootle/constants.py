@@ -7,4 +7,4 @@
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
-VERSION = (0, 5, 1, 'beta', 0)
+VERSION = (0, 5, 1, 'final', 0)

@@ -18,10 +18,8 @@ from django.shortcuts import get_object_or_404
 from django.utils.functional import cached_property
 from django.views.generic import View
 
-from pootle.core.http import (
-    JsonResponse, JsonResponseBadRequest, JsonResponseForbidden,
-    JsonResponseNotFound
-)
+from pootle.core.http import (JsonResponse, JsonResponseBadRequest,
+                              JsonResponseForbidden, JsonResponseNotFound)
 
 
 class JSONDecodeError(ValueError):

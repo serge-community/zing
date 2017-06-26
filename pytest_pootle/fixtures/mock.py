@@ -10,7 +10,6 @@
 """Monkeypatching fixtures."""
 
 import pytest
-
 from _pytest.monkeypatch import MonkeyPatch
 
 

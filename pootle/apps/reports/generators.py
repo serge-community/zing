@@ -9,7 +9,6 @@
 import codecs
 import logging
 import os
-
 from subprocess import call
 
 from django.conf import settings

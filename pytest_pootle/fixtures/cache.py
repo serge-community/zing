@@ -7,7 +7,6 @@
 # AUTHORS file for copyright and authorship information.
 
 import pytest
-
 from django_redis import get_redis_connection
 
 

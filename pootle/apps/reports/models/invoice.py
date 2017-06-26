@@ -8,7 +8,6 @@
 
 import logging
 import os
-
 from datetime import timedelta
 
 from django.conf import settings
@@ -21,7 +20,6 @@ from pootle_statistics.models import ScoreLog
 
 from ..generators import HTMLGenerator, PDFGenerator
 from ..utils import get_grouped_word_stats
-
 from .paidtask import PaidTask, PaidTaskTypes
 from .payment_email import (AccountingPaymentEmail, UserNoPaymentEmail,
                             UserPaymentEmail)

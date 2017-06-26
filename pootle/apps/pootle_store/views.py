@@ -45,8 +45,8 @@ from pootle_statistics.models import (Submission, SubmissionFields,
 from pootle_translationproject.views import TPBrowseStoreView, TPBrowseView
 
 from .decorators import get_unit_context
-from .forms import (UnitSearchForm, UnitViewRowsForm, unit_comment_form_factory,
-                    unit_form_factory)
+from .forms import (UnitSearchForm, UnitViewRowsForm,
+                    unit_comment_form_factory, unit_form_factory)
 from .models import Unit
 from .unit.results import CtxRowResults, ViewRowResults
 from .unit.timeline import Timeline

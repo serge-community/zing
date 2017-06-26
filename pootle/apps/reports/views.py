@@ -39,18 +39,7 @@ from .models import PaidTask, PaidTaskTypes, ReportActionTypes
 from .utils import get_grouped_word_stats
 
 
-# Django field query aliases
-LANG_CODE = 'translation_project__language__code'
-LANG_NAME = 'translation_project__language__fullname'
-PRJ_CODE = 'translation_project__project__code'
-PRJ_NAME = 'translation_project__project__fullname'
-INITIAL = 'old_value'
-POOTLE_WORDCOUNT = 'unit__source_wordcount'
-
 SCORE_TRANSLATION_PROJECT = 'submission__translation_project'
-
-# field aliases
-DATE = 'creation_time_date'
 
 STAT_FIELDS = ['n1']
 INITIAL_STATES = ['new', 'edit']

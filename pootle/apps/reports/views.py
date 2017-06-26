@@ -39,8 +39,6 @@ from .models import PaidTask, PaidTaskTypes, ReportActionTypes
 from .utils import get_grouped_word_stats
 
 
-SCORE_TRANSLATION_PROJECT = 'submission__translation_project'
-
 STAT_FIELDS = ['n1']
 INITIAL_STATES = ['new', 'edit']
 
@@ -418,7 +416,7 @@ def get_activity_data(request, user, month):
 
     if user != '':
         scores = ScoreLog.objects.for_user_in_range(user, start, end)
-        scores = list(scores.order_by(SCORE_TRANSLATION_PROJECT))
+        scores = list(scores.order_by('submission__translation_project'))
         json['grouped'] = get_grouped_word_stats(scores, user, month)
         scores.sort(key=lambda x: x.creation_time)
         json['daily'] = get_daily_activity(user, scores, start, end)

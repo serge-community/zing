@@ -217,8 +217,23 @@ try {
   isTzSupported = !(e instanceof RangeError);
 }
 
+let userTimeZone = (new Intl.DateTimeFormat()).resolvedOptions().timeZone;
+
+// In older Android+Webkit browsers, the timezone might be reported as an
+// abbreviation (e.g. 'CET'), but Intl formatting functions require timezone
+// names as they appear in the IANA DB. In such cases, fall back to the server
+// timezone to avoid breakage.
+if (userTimeZone.indexOf('/') === -1 &&
+    ['UTC', 'GMT'].indexOf(userTimeZone) === -1) {
+  console.log(
+    'Intl.timeZone: got a timezone not compliant with the IANA DB: ',
+    userTimeZone
+  );
+  userTimeZone = PTL.settings.TZ;
+}
+
 const tzOptions = isTzSupported ? {
-  timeZone: (new Intl.DateTimeFormat()).resolvedOptions().timeZone,
+  timeZone: userTimeZone,
   timeZoneName: 'short',
 } : {};
 

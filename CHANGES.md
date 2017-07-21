@@ -1,10 +1,10 @@
 Zing Changelog
 ==============
 
-v0.5.2 (in development)
------------------------
+v0.5.2 (2017-07-21)
+-------------------
 
-* Worked aaround an issue in older versions of Android+Webkit, where timezones
+* Worked around an issue in older versions of Android+Webkit, where timezones
   would be reported as abbreviations, and not as IANA compliant names. This
   broke client scripts.
 

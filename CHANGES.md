@@ -4,6 +4,8 @@ Zing Changelog
 v0.5.3 (in development)
 -----------------------
 
+* Removed expensive server stats from the admin dashboard (#260).
+
 
 v0.5.2 (2017-07-21)
 -------------------

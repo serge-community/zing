@@ -4,28 +4,6 @@
 {% block section_body %}
 <div id="serverstats" class="module first" lang="{{ LANGUAGE_CODE }}">
   <div class="hd">
-    <h2>{% trans "Server Statistics" %}</h2>
-  </div>
-  <div class="bd">
-    <table>
-      <tbody>
-        <tr>
-          <th scope="row">{% trans "Submissions" %}</th>
-          <td class="stats-number">{{ server_stats.submission_count }}</td>
-        </tr>
-        <tr>
-          <th scope="row">{% trans "Pending suggestions" %}</th>
-          <td class="stats-number">{{ server_stats.pending_count }}</td>
-        </tr>
-        <tr>
-          <th scope="row">{% trans "Users" %}</th>
-          <td class="stats-number">{{ server_stats.user_count }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="hd">
     <h2>{% trans "Background Jobs" %}</h2>
   </div>
   <div class="bd">

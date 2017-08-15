@@ -170,26 +170,6 @@ POOTLE_CONTACT_REPORT_EMAIL = 'string_errors_manager@YOUR_DOMAIN.com'
 # The directory where the translation files are kept
 POOTLE_TRANSLATION_DIRECTORY = working_path('translations')
 
-# Two-tuple defining the markup filter to apply in certain textareas.
-#
-# - Accepted values for the first element are 'textile', 'markdown',
-#   'restructuredtext' and None.
-# - The second element should be a dictionary of keyword arguments that will be
-#   passed to the markup function.
-#
-# IMPORTANT: If you want to use one of these markup filters you must install on
-# your own the required packages.
-#
-# Examples:
-#    POOTLE_MARKUP_FILTER = (None, {})
-#    POOTLE_MARKUP_FILTER = ('markdown', {'safe_mode': 'escape'})
-#    POOTLE_MARKUP_FILTER = ('restructuredtext', {
-#                                'settings_overrides': {
-#                                    'report_level': 'quiet',
-#                                }
-#                            })
-POOTLE_MARKUP_FILTER = (None, {})
-
 # Set the backends you want to use to enable translation suggestions through
 # several online services. To disable this feature completely just comment all
 # the lines to set an empty list [] to the POOTLE_MT_BACKENDS setting.
@@ -198,26 +178,16 @@ POOTLE_MARKUP_FILTER = (None, {})
 # be used in case the service supports using an API key.
 #
 # Available options are:
-# 'CAIGHDEAN_TRANSLATE': Caighdeán Translate service.
-#             Provides translation from Manx Gaelic (gv) and
-#             Scottish Gaelic (gd), into Irish Gaelic (ga-IE)
-#             See more at https://github.com/kscanne/caighdean
 # 'GOOGLE_TRANSLATE': Google Translate service.
 #             For this service you need to set the API key.
 #             Note that Google Translate API is a paid service
 #             See more at https://cloud.google.com/translate/v2/pricing
-# 'WELSH_TRANSLATE': Welsh Translate service.
-#             Provides translation from English (en) to Welsh (cy)
-#             For this service you need an API key.
-#             See more at http://techiaith.cymru/api/translation/?lang=en
 # 'YANDEX_TRANSLATE': Yandex Translate service.
 #             For this service you need to set the API key.
 #             See more at https://tech.yandex.com/translate/
 #
 POOTLE_MT_BACKENDS = [
-#    ('CAIGHDEAN_TRANSLATE', ''),
 #    ('GOOGLE_TRANSLATE', ''),
-#    ('WELSH_TRANSLATE', ''),
 #    ('YANDEX_TRANSLATE', ''),
 ]
 

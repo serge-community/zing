@@ -3,10 +3,10 @@
 Installation
 ============
 
-These instructions will guide you through installing Pootle and its
+These instructions will guide you through installing Zing and its
 requirements in a virtual environment.
 
-If you only want to have a sneak peek of Pootle then the default configuration
+If you only want to have a sneak peek of Zing then the default configuration
 and the built-in server will suffice.
 
 For a production deployment we **strongly** recommend that you set up the following:
@@ -21,9 +21,9 @@ For a production deployment we **strongly** recommend that you set up the follow
    :ref:`necessary requirements <requirements>`.
 
 
-.. warning:: It is important to install Pootle into a virtual environment to ensure
-   the correct packages and permissions. It's even more important not to install Pootle
-   as the root user on your system. **Installing or running Pootle as the root user
+.. warning:: It is important to install Zing into a virtual environment to ensure
+   the correct packages and permissions. It's even more important not to install Zing
+   as the root user on your system. **Installing or running Zing as the root user
    will expose your system to many potential security vulnerabilities**
 
 
@@ -34,11 +34,11 @@ Setup assumptions
 
 We've made some assumptions in these instructions, adjust as needed:
 
-#. All of the :ref:`Pootle requirements <requirements#packages>` have been
+#. All of the :ref:`Zing requirements <requirements#packages>` have been
    installed.
-#. We're installing into :file:`~/dev/pootle`.
+#. We're installing into :file:`~/dev/zing`.
 #. We're using SQLite as it's easy to setup.
-#. We're setting up the essential parts of Pootle including Redis, and RQ
+#. We're setting up the essential parts of Zing including Redis, and RQ
    Workers.
 #. This is a test installation on a single server, and not optimised for
    production use.
@@ -50,7 +50,7 @@ We've made some assumptions in these instructions, adjust as needed:
 Setting up the virtual environment
 ----------------------------------
 
-In order to install Pootle first create a virtual environment. The virtual
+In order to install Zing first create a virtual environment. The virtual
 environment allows you to install dependencies independent of your system
 packages.
 
@@ -73,7 +73,7 @@ Now create a virtual environment on your location of choice by issuing the
 
 .. code-block:: console
 
-  $ cd ~/dev/pootle
+  $ cd ~/dev/zing
   $ virtualenv env
 
 .. note:: for versions of ``virtualenv`` prior to 1.10, you may need to call
@@ -96,29 +96,29 @@ Lastly, we want to make sure that we are using the latest version of
    (env) $ pip install --upgrade pip
 
 
-.. _installation#installing-pootle:
+.. _installation#installing-zing:
 
-Installing Pootle
------------------
+Installing Zing
+---------------
 
-Use :command:`pip` to install Pootle into the virtual environment:
+Use :command:`pip` to install Zing into the virtual environment:
 
 .. code-block:: console
 
-  (env) $ pip install --pre Pootle
+  (env) $ pip install https://github.com/evernote/zing/archive/master.zip
 
 
-This will also fetch and install Pootle's dependencies.
+This will also fetch and install Zing's dependencies.
 
 To verify that everything installed correctly, you should be able to access the
-:command:`pootle` command line tool within your environment.
+:command:`zing` command line tool within your environment.
 
 
 .. highlight:: console
 .. parsed-literal::
 
-  (env) $ pootle --version
-  Pootle |release| (Django |django_ver|, Translate Toolkit |ttk_ver|)
+  (env) $ zing --version
+  Zing |release| (Django |django_ver|, Translate Toolkit |ttk_ver|)
 
 
 .. _installation#initializing-the-configuration:
@@ -126,18 +126,18 @@ To verify that everything installed correctly, you should be able to access the
 Initializing the Configuration
 ------------------------------
 
-Once Pootle has been installed, you will need to initialize a configuration
+Once Zing has been installed, you will need to initialize a configuration
 file:
 
 .. code-block:: console
 
-  (env) $ pootle init
+  (env) $ zing init
 
-By default the configuration file is saved as :file:`~/.pootle/pootle.conf`. You can pass
+By default the configuration file is saved as :file:`~/.zing/zing.conf`. You can pass
 an alternative path as an argument if required - see the :djadmin:`init` command for all
 of the options.
 
-.. warning:: This default configuration is enough to experiment with Pootle.
+.. warning:: This default configuration is enough to experiment with Zing.
    **Don't use this configuration in a production environment**.
 
 The initial configuration includes the settings that you're most likely to
@@ -161,12 +161,12 @@ You can start the worker in the background with the following command:
 
 .. code-block:: console
 
-   (env) $ pootle rqworker &
+   (env) $ zing rqworker &
 
 In a production environment you may want to :ref:`run RQ workers as services
 <pootle#running_as_a_service>`.
 
-See here for :ref:`further information about RQ jobs in Pootle <rq>`.
+See here for :ref:`further information about RQ jobs in Zing <rq>`.
 
 
 .. _installation#populating-the-database:
@@ -174,7 +174,7 @@ See here for :ref:`further information about RQ jobs in Pootle <rq>`.
 Populating the Database
 -----------------------
 
-Before you run Pootle for the first time, you need to create the schema for
+Before you run Zing for the first time, you need to create the schema for
 the database and populate it with initial data. This is done by executing the
 :djadmin:`migrate` and :djadmin:`initdb` management commands:
 
@@ -184,8 +184,8 @@ the database and populate it with initial data. This is done by executing the
 
 .. code-block:: console
 
-  (env) $ pootle migrate
-  (env) $ pootle initdb
+  (env) $ zing migrate
+  (env) $ zing initdb
 
 Running :djadmin:`initdb` will take some time as it will create the default
 projects and stores.
@@ -196,12 +196,12 @@ projects and stores.
 Creating an admin user
 ----------------------
 
-Pootle needs at least one user with superuser rights which we create with the
+Zing needs at least one user with superuser rights which we create with the
 :djadmin:`createsuperuser` command.
 
 .. code-block:: console
 
-  (env) $ pootle createsuperuser
+  (env) $ zing createsuperuser
 
 
 All users are required to verify their email before logging in. If you wish to
@@ -212,27 +212,27 @@ their email address:
 
 .. code-block:: console
 
-  (env) $ pootle verify_user admin
+  (env) $ zing verify_user admin
 
 
 .. _installation#running_pootle:
 
-Running Pootle
---------------
+Running Zing
+------------
 
 The Django default server will be enough for quickly testing the software. To
 run it, just issue:
 
 .. code-block:: console
 
-   (env) $ pootle runserver --insecure
+   (env) $ zing runserver --insecure
 
 
 .. warning:: There are :ref:`serious drawbacks <django:staticfiles-runserver>`
    to using :command:`runserver`. Never use it in production.
 
 
-And the server will start listening on port 8000. Pootle can then be accessed
+And the server will start listening on port 8000. Zing can then be accessed
 from your web browser at `localhost:8000 <http://localhost:8000/>`_.
 
 
@@ -241,15 +241,15 @@ from your web browser at `localhost:8000 <http://localhost:8000/>`_.
 Next steps
 ----------
 
-Now that you have Pootle up and running you may want to consider some of the
+Now that you have Zing up and running you may want to consider some of the
 following in order to build a production environment.
 
 - :doc:`Create your first localisation project <project_setup>`
-- :ref:`Run Pootle and RQ workers as services <pootle#running_as_a_service>`
+- :ref:`Run Zing and RQ workers as services <pootle#running_as_a_service>`
 - :ref:`Set up a reverse-proxy web server for static files <apache#reverse_proxy>`
 - :ref:`Use a wsgi server to serve dynamic content <apache#mod_wsgi>`
 - :ref:`Check out the available settings <settings#available>`
-- :ref:`Check out Pootle management commands <commands>`
+- :ref:`Check out Zing management commands <commands>`
 - :doc:`Optimize your setup <optimization>`
 - :ref:`Set up a Translation Memory Server <translation_memory>`
-- :ref:`Customize the Pootle UI <customization>`
+- :ref:`Customize the Zing UI <customization>`

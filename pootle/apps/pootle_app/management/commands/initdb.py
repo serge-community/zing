@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
 # This file is a part of the Pootle project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
@@ -35,5 +36,5 @@ class Command(SkipChecksMixin, BaseCommand):
         self.stdout.write('Populating the database.')
         InitDB().init_db(options["create_projects"])
         self.stdout.write('Successfully populated the database.')
-        self.stdout.write("To create an admin user, use the `pootle "
+        self.stdout.write("To create an admin user, use the `zing "
                           "createsuperuser` command.")

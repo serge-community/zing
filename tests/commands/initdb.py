@@ -21,7 +21,7 @@ def test_cmd_initdb_noprojects(capfd, no_permission_sets, no_permissions, no_use
     call_command('initdb', '--no-projects')
     out, err = capfd.readouterr()
     assert "Successfully populated the database." in out
-    assert "pootle createsuperuser" in out
+    assert "createsuperuser" in out
     # FIXME ideally we want to check for these but it seems that test oders and
     # such means that these have already been added so we don't get any
     # reports.
@@ -41,7 +41,7 @@ def test_cmd_initdb(capfd, po_directory, no_permission_sets, no_permissions,
     call_command('initdb')
     out, err = capfd.readouterr()
     assert "Successfully populated the database." in out
-    assert "pootle createsuperuser" in out
+    assert "createsuperuser" in out
     assert (
         sorted(Project.objects.values_list("code", flat=True))
         == ["terminology", "tutorial"]

@@ -67,7 +67,7 @@ def pytest_configure():
         from pootle import syspath_override  # Needed for monkey-patching
         syspath_override
         os.environ['DJANGO_SETTINGS_MODULE'] = 'pootle.settings'
-        os.environ['POOTLE_SETTINGS'] = os.path.join(WORKING_DIR, 'settings.py')
+        os.environ['ZING_SETTINGS'] = os.path.join(WORKING_DIR, 'settings.py')
         # The call to `setup()` was needed before a fix for
         # pytest-dev/pytest-django#146 was available. This happened in version
         # 2.9; unfortunately upgrading to 2.9+ is not possible yet because a fix

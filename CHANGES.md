@@ -1,8 +1,8 @@
 Zing Changelog
 ==============
 
-v0.5.3 (in development)
------------------------
+v0.5.3 (2017-08-16)
+-------------------
 
 * Removed expensive server stats from the admin dashboard (#260).
 * Fixed bug in social account verification before linking it to an existing

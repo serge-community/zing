@@ -38,6 +38,12 @@ class SocialVerificationView(LoginView):
             'provider_name': self.sociallogin.account.get_provider().name,
         }
 
+    def get_form_class(self):
+        """Overridden to ensure SocialVerificationView's form is used, and not
+        the parent view's form.
+        """
+        return self.form_class
+
     def get_form_kwargs(self):
         kwargs = super(SocialVerificationView, self).get_form_kwargs()
         kwargs.update({

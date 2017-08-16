@@ -5,6 +5,8 @@ v0.5.3 (in development)
 -----------------------
 
 * Removed expensive server stats from the admin dashboard (#260).
+* Fixed bug in social account verification before linking it to an existing
+  local account (#262).
 
 
 v0.5.2 (2017-07-21)

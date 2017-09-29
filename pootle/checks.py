@@ -14,7 +14,7 @@ from pootle.i18n.gettext import ugettext as _
 
 
 # Minimum Translate Toolkit version required for Pootle to run.
-TTK_MINIMUM_REQUIRED_VERSION = (1, 13, 0)
+TTK_MINIMUM_REQUIRED_VERSION = (2, 2, 5)
 
 # Minimum Django version required for Pootle to run.
 DJANGO_MINIMUM_REQUIRED_VERSION = (1, 10, 5)

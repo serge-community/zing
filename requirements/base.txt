@@ -24,7 +24,7 @@ pytz==2016.6.1
 rq==0.7.1
 
 # Translate Toolkit
-translate-toolkit==2.0.0rc3
+translate-toolkit==2.2.5
 
 # Pin to avoid breakage
 urllib3==1.21.1

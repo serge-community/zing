@@ -17,7 +17,7 @@ from pootle.i18n.gettext import ugettext as _
 TTK_MINIMUM_REQUIRED_VERSION = (2, 2, 5)
 
 # Minimum Django version required for Pootle to run.
-DJANGO_MINIMUM_REQUIRED_VERSION = (1, 10, 5)
+DJANGO_MINIMUM_REQUIRED_VERSION = (1, 10, 8)
 
 # Minimum lxml version required for Pootle to run.
 LXML_MINIMUM_REQUIRED_VERSION = (3, 0, 0, 0)

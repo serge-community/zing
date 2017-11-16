@@ -35,6 +35,7 @@ def test_get_tasks_invalid_language(client, request_users, test_name,
         with snapshot_stack.push('context') as snapshot:
             snapshot.assert_matches(response.json())
 
+
 users_with_stats = set()
 
 

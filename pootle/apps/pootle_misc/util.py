@@ -7,6 +7,7 @@
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
+import calendar
 from datetime import datetime, timedelta
 from functools import wraps
 from importlib import import_module
@@ -88,7 +89,11 @@ def get_date_interval(month):
 
     if start < now:
         if start.month != now.month or start.year != now.year:
-            end = get_max_month_datetime(start)
+            days_in_month = calendar.monthrange(start.year, start.month)[1]
+            tz = timezone.get_default_timezone()
+            end = tz.normalize(
+                start + timedelta(days=days_in_month),
+            )
     else:
         end = start
 

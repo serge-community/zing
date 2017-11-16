@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
 # This file is a part of the Pootle project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
@@ -73,7 +74,7 @@ def get_date_interval(month):
     from pootle.core.utils.timezone import make_aware
 
     now = start = end = timezone.now()
-    default_month = start.strftime('%Y-%m')
+    default_month = now.strftime('%Y-%m')
 
     if month is None:
         month = default_month

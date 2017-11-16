@@ -25,7 +25,6 @@ assets:
 	npm --version
 	node --version
 	cd ${JS_DIR} && \
-	npm cache clear && \
 	npm install && \
 	cd ${CWD}
 	${POOTLE_CMD} compilejsi18n

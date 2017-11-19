@@ -8,7 +8,6 @@
  */
 
 import React, { PropTypes } from 'react';
-import { PureRenderMixin } from 'react-addons-pure-render-mixin';
 
 import Avatar from 'components/Avatar';
 import TimeSince from 'components/TimeSince';
@@ -45,8 +44,6 @@ const UserEvent = React.createClass({
     translationActionType: PropTypes.number,
     username: PropTypes.string.isRequired,
   },
-
-  mixins: [PureRenderMixin],
 
   getActionText(user) {
     const { checkName } = this.props;

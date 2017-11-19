@@ -1,5 +1,6 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
  * This file is a part of the Pootle project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
@@ -8,7 +9,6 @@
 
 import assign from 'object-assign';
 import React from 'react';
-import { PureRenderMixin } from 'react-addons-pure-render-mixin';
 
 import FormElement from 'components/FormElement';
 import FormMixin from 'mixins/FormMixin';
@@ -28,7 +28,7 @@ const PasswordResetForm = React.createClass({
     redirectTo: React.PropTypes.string,
   },
 
-  mixins: [PureRenderMixin, FormMixin],
+  mixins: [FormMixin],
 
   /* Lifecycle */
 

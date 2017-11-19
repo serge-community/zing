@@ -1,5 +1,6 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
  * This file is a part of the Pootle project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
@@ -8,7 +9,6 @@
 
 import cx from 'classnames';
 import React from 'react';
-import { PureRenderMixin } from 'react-addons-pure-render-mixin';
 
 
 const Tab = React.createClass({
@@ -19,8 +19,6 @@ const Tab = React.createClass({
     title: React.PropTypes.string.isRequired,
     selected: React.PropTypes.bool,
   },
-
-  mixins: [PureRenderMixin],
 
   render() {
     const classes = cx({

@@ -8,7 +8,6 @@
  */
 
 import React, { PropTypes } from 'react';
-import { PureRenderMixin } from 'react-addons-pure-render-mixin';
 import AutoIcon from './AutoIcon';
 import _ from 'underscore';
 
@@ -24,8 +23,6 @@ const Avatar = React.createClass({
     src: PropTypes.string,
     username: PropTypes.string,
   },
-
-  mixins: [PureRenderMixin],
 
   getDefaultProps() {
     return {

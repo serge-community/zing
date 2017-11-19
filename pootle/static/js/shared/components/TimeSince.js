@@ -8,7 +8,6 @@
  */
 
 import React, { PropTypes } from 'react';
-import { PureRenderMixin } from 'react-addons-pure-render-mixin';
 
 import { formatTimeDelta } from 'utils/time';
 
@@ -18,8 +17,6 @@ const TimeSince = React.createClass({
   propTypes: {
     timestamp: PropTypes.number,
   },
-
-  mixins: [PureRenderMixin],
 
   componentWillMount() {
     this.tickTimer = null;

@@ -36,7 +36,10 @@ MONTH_FORMAT = '%Y-%m'
 
 def get_previous_month():
     """Returns the previous month as a datetime object."""
-    return timezone.now().replace(day=1) - timedelta(days=1)
+    return (
+        timezone.now().replace(day=1, hour=0, minute=0, second=0) -
+        timedelta(days=1)
+    )
 
 
 class Invoice(object):

@@ -62,13 +62,23 @@ def ajax_required(f):
 
 
 def get_max_month_datetime(dt):
-    next_month = dt.replace(day=1) + timedelta(days=31)
-    if settings.USE_TZ:
-        tz = timezone.get_default_timezone()
-        next_month = timezone.localtime(next_month, tz)
+    """Returns the datetime representing the last microsecond of the month with
+    respect to the `dt` aware datetime.
+    """
+    days_in_month = calendar.monthrange(dt.year, dt.month)[1]
 
-    return next_month.replace(day=1, hour=0, minute=0, second=0) - \
-        timedelta(microseconds=1)
+    tz = timezone.get_default_timezone()
+    new_dt = tz.normalize(
+        dt.replace(day=days_in_month),
+    )
+
+    # DST adjustments could have shifted the month or day
+    if new_dt.month != dt.month:
+        new_dt = new_dt.replace(month=dt.month)
+    if new_dt.day != days_in_month:
+        new_dt = new_dt.replace(day=days_in_month)
+
+    return new_dt.replace(hour=23, minute=59, second=59, microsecond=999999)
 
 
 def get_date_interval(month):

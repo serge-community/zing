@@ -4,6 +4,8 @@ Zing Changelog
 v0.5.4 (in development)
 -----------------------
 
+* Invoices: added GBP to the list of currencies (#269).
+
 
 v0.5.3 (2017-08-16)
 -------------------

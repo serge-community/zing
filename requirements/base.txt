@@ -20,7 +20,6 @@ elasticsearch>=1.0.0,<2.0.0  # rq.filter: >=1.0,<2.0
 lxml>=3.5,<=3.6.4
 python-dateutil==2.5.3
 python-levenshtein==0.12.0
-pytz==2016.6.1
 rq==0.7.1
 
 # Translate Toolkit

@@ -22,8 +22,7 @@ var entries = {
   editor: ['./editor/app.js'],
   reports: ['./reports/app.js'],
   vendor: [
-    'react', 'react-dom', 'react-addons-pure-render-mixin', 'jquery',
-    'underscore', 'backbone'
+    'react', 'react-dom', 'jquery', 'underscore', 'backbone',
   ],
 };
 

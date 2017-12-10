@@ -1,27 +1,19 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
 
 import md5 from 'md5';
-import { link } from 'autolinker';
 import React from 'react';
 
 import FormElement from 'components/FormElement';
 import ModelFormMixin from 'mixins/ModelFormMixin';
 
 import Avatar from 'components/Avatar';
-
-
-// XXX: should probably live somewhere else
-function linkify(input) {
-  return {
-    __html: link(input),
-  };
-}
 
 
 export const UserProfileForm = React.createClass({
@@ -88,10 +80,7 @@ export const UserProfileForm = React.createClass({
               size={48}
               username={model.get('username')}
             />
-            <span
-              className="helptext"
-              dangerouslySetInnerHTML={linkify(avatarHelp)}
-            />
+            <span className="helptext">{avatarHelp}</span>
           </p>
           <p className="divider" />
           <FormElement

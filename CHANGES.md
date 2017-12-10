@@ -1,6 +1,12 @@
 Zing Changelog
 ==============
 
+v.next
+------
+
+* JS assets are built with the latest version of Webpack.
+
+
 v0.6.0 (2017-12-12)
 -------------------
 

@@ -4,7 +4,7 @@ Zing Changelog
 v.next
 ------
 
-* JS assets are built with the latest version of Webpack.
+* JS assets are built with the latest version of Webpack and Babel.
 * Editor: fixed bug which prevented from reopening the last unit once it was
   closed after a submission (#251).
 

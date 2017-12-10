@@ -9,6 +9,10 @@
 
 var webpack = require('webpack');
 var path = require('path');
+// The uglifyjs plugin that comes along with webpack does not support minifying
+// ES2015+ code, so until it does starting in 4.0, we need to use this
+// webpack-contrib module.
+var UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 var env = process.env.NODE_ENV;
 var DEBUG = env !== 'production';
@@ -108,7 +112,9 @@ var plugins = [];
 
 if (!DEBUG) {
   plugins = [
-    new webpack.optimize.UglifyJsPlugin(),
+    new UglifyJsPlugin({
+      parallel: true,
+    }),
   ];
 } else {
   env = 'development';
@@ -160,7 +166,21 @@ var config = {
           babelrc: false,
           cacheDirectory: true,
           presets: [
-            require.resolve('babel-preset-es2015'),
+            [
+              require.resolve('babel-preset-env'), {
+                targets: {
+                  browsers: [
+                    "last 2 chrome versions",
+                    "last 2 firefox versions",
+                    "last 2 safari versions",
+                    "last 2 edge versions",
+                    "last 2 ios versions",
+                    "last 1 and_chr version",
+                    "last 1 and_uc version",
+                  ],
+                },
+              },
+            ],
             require.resolve('babel-preset-react'),
           ],
         },

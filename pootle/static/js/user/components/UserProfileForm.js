@@ -19,19 +19,10 @@ import Avatar from 'components/Avatar';
 export const UserProfileForm = React.createClass({
 
   propTypes: {
-    onDirty: React.PropTypes.func.isRequired,
     onSuccess: React.PropTypes.func.isRequired,
   },
 
   mixins: [ModelFormMixin],
-
-  /* Lifecycle */
-
-  componentWillUpdate(nextProps, nextState) {
-    if (nextState.isDirty !== this.state.isDirty) {
-      this.props.onDirty(nextState.isDirty);
-    }
-  },
 
   fields: ['full_name', 'twitter', 'linkedin', 'website', 'bio'],
 

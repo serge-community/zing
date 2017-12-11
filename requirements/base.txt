@@ -11,7 +11,7 @@ django-contact-form==1.4.2
 django-contrib-comments==1.7.3
 django-overextends==0.4.2
 django-redis==4.5.0
-django-rq==0.9.3
+django-rq==1.0.0
 django-statici18n==1.2.1
 
 # Libraries

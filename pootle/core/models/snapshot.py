@@ -40,6 +40,8 @@ BLACKLISTED_KEYS = [
     # Taken out until we are able to `reset_sequences` (pytest-django/#308)
     'id',
     'due_date_id',
+    # Taken out because the order of render attributes is not deterministic
+    'search_form',
 ]
 
 

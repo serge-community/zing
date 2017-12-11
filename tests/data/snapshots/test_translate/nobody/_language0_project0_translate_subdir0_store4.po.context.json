@@ -156,11 +156,39 @@
   "ctx_path": "/language0/project0/",
   "editor_extends": "translation_projects/base.html",
   "export_url": "/language0/project0/export-view/subdir0/store4.po",
+  "group": null,
   "has_admin_access": false,
+  "index": 0,
   "is_disabled": false,
   "language": "Language 0 - language0",
   "nav": "translation_projects/_nav.html",
   "object": "/language0/project0/subdir0/store4.po",
+  "option": {
+    "attrs": {
+      "checked": true
+    },
+    "index": "0",
+    "label": "Source Text",
+    "name": "sfields",
+    "selected": true,
+    "template_name": "django/forms/widgets/checkbox_option.html",
+    "type": "checkbox",
+    "value": "source"
+  },
+  "options": [
+    {
+      "attrs": {
+        "checked": true
+      },
+      "index": "0",
+      "label": "Source Text",
+      "name": "sfields",
+      "selected": true,
+      "template_name": "django/forms/widgets/checkbox_option.html",
+      "type": "checkbox",
+      "value": "source"
+    }
+  ],
   "page": "translate",
   "pootle_path": "/language0/project0/subdir0/store4.po",
   "previous_url": "/",
@@ -172,8 +200,22 @@
     "subdir0/store4.po"
   ],
   "search_action": "/language0/project0/translate/subdir0/store4.po",
-  "search_form": "<tr><th><label for=\"id_search\">Search:</label></th><td><input id=\"id_search\" name=\"search\" placeholder=\"Search\" size=\"15\" title=\"Search (Ctrl+Shift+S)&lt;br/&gt;Type and press Enter to search\" type=\"text\" required /></td></tr>\n<tr><th><label for=\"id_soptions_0\">Soptions:</label></th><td><ul id=\"id_soptions\"><li><label for=\"id_soptions_0\"><input id=\"id_soptions_0\" name=\"soptions\" type=\"checkbox\" value=\"exact\" /> Exact Match</label></li></ul></td></tr>\n<tr><th><label for=\"id_sfields_0\">Sfields:</label></th><td><ul id=\"id_sfields\"><li><label for=\"id_sfields_0\"><input checked=\"checked\" id=\"id_sfields_0\" name=\"sfields\" type=\"checkbox\" value=\"source\" /> Source Text</label></li>\n<li><label for=\"id_sfields_1\"><input checked=\"checked\" id=\"id_sfields_1\" name=\"sfields\" type=\"checkbox\" value=\"target\" /> Target Text</label></li>\n<li><label for=\"id_sfields_2\"><input id=\"id_sfields_2\" name=\"sfields\" type=\"checkbox\" value=\"notes\" /> Comments</label></li>\n<li><label for=\"id_sfields_3\"><input id=\"id_sfields_3\" name=\"sfields\" type=\"checkbox\" value=\"locations\" /> Locations</label></li></ul></td></tr>",
   "translate_url": "/language0/project0/translate/subdir0/store4.po",
   "translation_project": "/language0/project0/",
-  "user": "nobody"
+  "user": "nobody",
+  "widget": {
+    "attrs": {
+      "placeholder": "Search",
+      "required": true,
+      "size": "15",
+      "title": "Search (Ctrl+Shift+S)<br/>Type and press Enter to search"
+    },
+    "is_hidden": false,
+    "name": "search",
+    "required": true,
+    "template_name": "django/forms/widgets/text.html",
+    "type": "text",
+    "value": null
+  },
+  "wrap_label": true
 }

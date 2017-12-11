@@ -15,7 +15,6 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.urls import Resolver404, resolve
 from django.utils import timezone
-from django.utils.translation import get_language
 
 from pootle.core.log import (TRANSLATION_ADDED, TRANSLATION_CHANGED,
                              TRANSLATION_DELETED)
@@ -64,7 +63,12 @@ UNIT_SEARCH_SORT_CHOICES = (
 # # # # # # #  text cleanup and highlighting # # # # # # # # # # # # #
 
 
-class MultiStringWidgetMixin(object):
+class MultiStringWidget(forms.MultiWidget):
+    """Custom Widget for editing multistrings."""
+
+    def __init__(self, attrs=None, nplurals=1):
+        widgets = [forms.Textarea(attrs=attrs) for i_ in xrange(nplurals)]
+        super(MultiStringWidget, self).__init__(widgets, attrs)
 
     def decompress(self, value):
         if value is None:
@@ -79,63 +83,10 @@ class MultiStringWidgetMixin(object):
         raise ValueError
 
 
-class MultiStringWidget(MultiStringWidgetMixin, forms.MultiWidget):
-    """Custom Widget for editing multistrings, expands number of text
-    area based on number of plural forms.
-    """
-
-    def __init__(self, attrs=None, nplurals=1, textarea=True):
-        if textarea:
-            widget = forms.Textarea
-        else:
-            widget = forms.TextInput
-
-        widgets = [widget(attrs=attrs) for i_ in xrange(nplurals)]
-        super(MultiStringWidget, self).__init__(widgets, attrs)
-
-    def format_output(self, rendered_widgets):
-        from django.utils.safestring import mark_safe
-        if len(rendered_widgets) == 1:
-            return mark_safe(rendered_widgets[0])
-
-        output = ''
-        for i, widget in enumerate(rendered_widgets):
-            output += '<div lang="%s" title="%s">' % \
-                (get_language(), _('Plural Form %d', i))
-            output += widget
-            output += '</div>'
-
-        return mark_safe(output)
-
-
-class HiddenMultiStringWidget(MultiStringWidgetMixin, forms.MultiWidget):
-    """Uses hidden input instead of textareas."""
-
-    def __init__(self, attrs=None, nplurals=1):
-        widgets = [forms.HiddenInput(attrs=attrs) for i_ in xrange(nplurals)]
-        super(HiddenMultiStringWidget, self).__init__(widgets, attrs)
-
-    def format_output(self, rendered_widgets):
-        return super(
-            HiddenMultiStringWidget, self).format_output(rendered_widgets)
-
-    def __call__(self):
-        # HACKISH: Django is inconsistent in how it handles Field.widget and
-        # Field.hidden_widget, it expects widget to be an instantiated object
-        # and hidden_widget to be a class, since we need to specify nplurals at
-        # run time we can let django instantiate hidden_widget.
-        #
-        # making the object callable let's us get away with forcing an object
-        # where django expects a class
-        return self
-
-
 class MultiStringFormField(forms.MultiValueField):
 
-    def __init__(self, nplurals=1, attrs=None, textarea=True, *args, **kwargs):
-        self.widget = MultiStringWidget(nplurals=nplurals, attrs=attrs,
-                                        textarea=textarea)
-        self.hidden_widget = HiddenMultiStringWidget(nplurals=nplurals)
+    def __init__(self, nplurals=1, attrs=None, *args, **kwargs):
+        self.widget = MultiStringWidget(nplurals=nplurals, attrs=attrs)
         fields = [forms.CharField(strip=False) for i_ in range(nplurals)]
         super(MultiStringFormField, self).__init__(fields=fields,
                                                    *args, **kwargs)

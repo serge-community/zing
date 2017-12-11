@@ -21,7 +21,7 @@ BLACKLISTED_KEYS = [
     # Django template language-specific context
     'block', 'forloop', 'False', 'True', 'None',
     # More Django stuff
-    'request', 'perms', 'csrf_token', 'OVEREXTENDS_DIRS',
+    'request', 'perms', 'csrf_token',
     # i18n context
     'LANGUAGES', 'LANGUAGE_BIDI', 'LANGUAGE_CODE',
     # Static and settings context

@@ -106,9 +106,3 @@ SILENCED_SYSTEM_CHECKS = [
     'pootle.W005',  # DEBUG = True
     'pootle.W011',  # POOTLE_CONTACT_EMAIL has default setting
 ]
-
-
-# Need to set these to their default values to avoid pytest-django's
-# incompatibility with django-appconf (pytest-django/557)
-STATICI18N_DOMAIN = 'djangojs'
-STATICI18N_FILENAME_FUNCTION = 'statici18n.utils.default_filename'

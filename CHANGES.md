@@ -4,6 +4,8 @@ Zing Changelog
 v0.5.5 (in development)
 -----------------------
 
+* Upgraded to Django 1.11.
+
 
 v0.5.4 (2017-12-07)
 -------------------

@@ -98,7 +98,7 @@ class UnitsList {
   }
 
   goto(uid) {
-    if (uid === this.uid) {
+    if (uid === this.uid && this.idx !== this.total - 1) {
       return;
     }
     this.uid = uid;

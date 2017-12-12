@@ -32,9 +32,23 @@ class UserDetailView(NoDefaultUserMixin, UserObjectMixin, DetailView):
     template_name = 'user/profile.html'
 
     def get_context_data(self, **kwargs):
-        context = super(UserDetailView, self).get_context_data(**kwargs)
-        context['user_is_manager'] = self.request.user.has_manager_permissions()
-        return context
+        ctx = super(UserDetailView, self).get_context_data(**kwargs)
+        ctx['user_is_manager'] = self.request.user.has_manager_permissions()
+
+        if self.object == self.request.user:
+            user = self.object
+            ctx['user_profile_data'] = {
+                'id': user.id,
+                'full_name': user.full_name,
+                'twitter': user.twitter,
+                'linkedin': user.linkedin,
+                'website': user.website,
+                'bio': user.bio,
+                'email': user.email,
+                'email_md5': user.email_hash,
+            }
+
+        return ctx
 
 
 class UserSettingsView(TestUserFieldMixin, UserObjectMixin, UpdateView):

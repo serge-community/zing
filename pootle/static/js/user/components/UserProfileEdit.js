@@ -78,7 +78,7 @@ const UserProfileEdit = React.createClass({
         >
           <div id="user-edit">
             <UserProfileForm
-              model={this.props.user}
+              user={this.props.user}
               onSuccess={this.handleSave}
             />
           </div>

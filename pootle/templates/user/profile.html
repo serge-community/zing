@@ -122,8 +122,8 @@
 <script type="text/javascript">
 $(function() {
   PTL.user.init({
-    {% if user == object %}
-    userData: {{ user.field_values|to_js }},
+    {% if user_profile_data %}
+    userData: {{ user_profile_data|to_js }},
     appRoot: '{{ user.get_absolute_url }}',
     {% endif %}
     lastEvent: {{ object.last_event.get_submission_info|to_js }},

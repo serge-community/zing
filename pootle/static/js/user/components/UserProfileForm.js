@@ -7,51 +7,81 @@
  * AUTHORS file for copyright and authorship information.
  */
 
-import md5 from 'md5';
+import assign from 'object-assign';
 import React from 'react';
+import _ from 'underscore';
 
-import FormElement from 'components/FormElement';
-import ModelFormMixin from 'mixins/ModelFormMixin';
+import UserAPI from 'api/UserAPI';
 
 import Avatar from 'components/Avatar';
+import FormElement from 'components/FormElement';
 
 
 export const UserProfileForm = React.createClass({
 
   propTypes: {
     onSuccess: React.PropTypes.func.isRequired,
+    user: React.PropTypes.object.isRequired,
   },
 
-  mixins: [ModelFormMixin],
+  getInitialState() {
+    const formData = _.pick(
+      this.props.user,
+      'full_name', 'twitter', 'linkedin', 'website', 'bio'
+    );
+    return {
+      formData,
+      errors: {},
+    };
+  },
 
-  fields: ['full_name', 'twitter', 'linkedin', 'website', 'bio'],
+  handleChange(name, value) {
+    this.setState((prevState, props) => {
+      const newData = assign({}, prevState.formData);
+      newData[name] = value;
+      const isDirty = !_.isEqual(newData, props.user);
 
-  /* Handlers */
+      return {
+        isDirty,
+        formData: newData,
+      };
+    });
+  },
 
-  handleSuccess(user) {
-    this.props.onSuccess(user);
+  handleSubmit(e) {
+    e.preventDefault();
+    UserAPI.update(this.props.user.id, this.state.formData)
+      .then(
+        () => {
+          this.props.onSuccess();
+        },
+        (data) => {
+          this.setState(() => ({
+            errors: data.responseJSON.errors,
+          }));
+        }
+      );
   },
 
 
   /* Layout */
 
   render() {
-    const model = this.getResource();
+    const { user } = this.props;
     const { errors } = this.state;
     const { formData } = this.state;
     const avatarHelpMsg = gettext(
       'To set or change your avatar image for your email address ' +
       '(%(email)s), please go to gravatar.com.'
     );
-    const avatarHelp = interpolate(avatarHelpMsg, { email: model.get('email') },
-                                   true);
+    const avatarHelp = interpolate(avatarHelpMsg, { email: user.email }, true);
 
     return (
       <form
         method="post"
         id="item-form"
         autoComplete="off"
-        onSubmit={this.handleFormSubmit}
+        onSubmit={this.handleSubmit}
       >
         <div className="fields">
           <FormElement
@@ -66,10 +96,10 @@ export const UserProfileForm = React.createClass({
           <p>
             <label>{gettext('Avatar')}</label>
             <Avatar
-              email={md5(model.get('email'))}
+              email={user.email_md5}
               displayName={formData.full_name}
               size={48}
-              username={model.get('username')}
+              username={user.username}
             />
             <span className="helptext">{avatarHelp}</span>
           </p>

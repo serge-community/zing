@@ -11,7 +11,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import LastActivity from 'components/LastActivity';
-import { User } from 'models/user';
 import { q, qAll } from 'utils/dom';
 
 import UserProfileEdit from './components/UserProfileEdit';
@@ -26,13 +25,11 @@ PTL.user = {
     if (opts.userData !== undefined) {
       const editButton = q('.js-user-profile-edit');
 
-      const user = new User(opts.userData, { urlRoot: '/xhr/users/' });
-      const props = {
-        user,
-        appRoot: opts.appRoot,
-      };
       if (editButton) {
-        ReactDOM.render(<UserProfileEdit {...props} />, editButton);
+        ReactDOM.render(
+          <UserProfileEdit user={opts.userData} appRoot={opts.appRoot} />,
+          editButton
+        );
       }
 
       // FIXME: let's make the whole profile page a component, so a lot of the

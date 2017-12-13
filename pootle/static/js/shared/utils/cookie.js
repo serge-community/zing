@@ -28,7 +28,7 @@ function setCookie(name, value, options = {}) {
   const newValue = value === null ? '' : value;
   const expiryDate = value === null ? -1 : options.expires;
 
-  let expires = '';
+  let maxAge = '';
 
   if (expiryDate &&
       (typeof expiryDate === 'number' || expiryDate.toUTCString)) {
@@ -39,8 +39,7 @@ function setCookie(name, value, options = {}) {
     } else {
       date = options.expiryDate;
     }
-    // use expires attribute, max-age is not supported by IE
-    expires = `; expires=${date.toUTCString()}`;
+    maxAge = `; max-age=${date.getTime() / 1000}`;
   }
 
   // CAUTION: Needed to parenthesize options.path and options.domain
@@ -50,7 +49,7 @@ function setCookie(name, value, options = {}) {
   const domain = options.domain ? `; domain=${options.domain}` : '';
   const secure = options.secure ? '; secure' : '';
   document.cookie = `${name}=${encodeURIComponent(newValue)}` +
-                    `${expires}${path}${domain}${secure}`;
+                    `${maxAge}${path}${domain}${secure}`;
 }
 
 

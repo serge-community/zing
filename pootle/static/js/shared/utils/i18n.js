@@ -194,7 +194,7 @@ export function nt(singular, plural, count, ctx = null) {
  * user's preferred language for the time being.
  *
  * Please note browsers implement `toLocaleString()` very differently and when
- * it comes to number decimals, it doesn't work at all in Safari 9 and IE11,
+ * it comes to number decimals, it doesn't work at all in Safari 9 and Edge,
  * Chrome always omits the parameter passed to `toLocaleString()` and Firefox is
  * the only one obeying it.
  */
@@ -209,7 +209,7 @@ export const dateFormatter = new Intl.DateTimeFormat(PTL.settings.UI_LOCALE, {
 });
 
 
-// Flag needed for IE11 as it doesn't support the `timeZone` option
+// Flag needed for Edge as it doesn't support the `timeZone` option
 let isTzSupported = true;
 try {
   (new Date()).toLocaleString('en', { timeZone: 'Europe/Amsterdam' });

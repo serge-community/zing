@@ -1,7 +1,8 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
@@ -222,18 +223,9 @@ export class RawFontAware {
       this.adjustSelection(moveForward);
     });
 
-    let start = target.selectionStart;
-    let end = target.selectionEnd;
+    const start = target.selectionStart;
+    const end = target.selectionEnd;
     const { value } = target;
-
-    // IE11 sometimes has start/end set past the actual string length, so adjust
-    // the selection to be able to get proper charBefore/charAfter values.
-    if (start > value.length) {
-      start = value.length;
-    }
-    if (end > value.length) {
-      end = value.length;
-    }
 
     const charBefore = value.substr(end - 1, 1);
     const charAfter = value.substr(end, 1);
@@ -266,13 +258,7 @@ export class RawFontAware {
     const end = target.selectionEnd;
     const selection = this.sym2raw(target.value.substring(start, end));
 
-    // IE11 uses `Text` instead of `text/plain` content type
-    // and global window.clipboardData instead of e.clipboardData
-    if (e.clipboardData) {
-      e.clipboardData.setData('text/plain', selection);
-    } else {
-      window.clipboardData.setData('Text', selection);
-    }
+    e.clipboardData.setData('text/plain', selection);
 
     // Replace current selection with the empty string (otherwise with the
     // default event being cancelled the selection won't be deleted)

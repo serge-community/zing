@@ -1,7 +1,8 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
@@ -82,9 +83,7 @@ export function highlightHtml(text, className = '') {
 export function highlightSymbols(text, className = '') {
   function replace(match) {
     const charCode = BASE_MAP_REVERSE_HL[match].charCodeAt().toString(16);
-    // String.prototype.repeat() is not supported by IE,
-    // so use a cross-browser implementation based on Array.join()
-    const zeros = Array(4 - charCode.length + 1).join('0');
+    const zeros = '0'.repeat(4 - charCode.length + 1);
     const codePoint = `\\u${zeros}${charCode.toUpperCase()}`;
     return (
       `<span class="${className}" data-codepoint="${codePoint}">${match}</span>`

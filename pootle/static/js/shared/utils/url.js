@@ -39,8 +39,7 @@ export function splitPootlePath(path) {
   if (slashCount !== 0 && path !== '/projects/') {
     if (slashCount === 2) {
       languageCode = parts[0];
-    // FIXME: use `.startsWith()` after dropping IE11 support
-    } else if (/^\/projects\//.test(path)) {
+    } else if (path.startsWith('/projects/')) {
       projectCode = parts[1];
       ctx = parts[2];
     } else if (slashCount !== 1) {

@@ -1652,7 +1652,7 @@ PTL.editor = {
                                ['filter', 'search', 'sfields', 'soptions'])
         );
       } else {
-        PTL.editor.units.goto(uid);
+        PTL.editor.units.goto(uid, { force: true });
       }
     }
     return true;

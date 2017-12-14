@@ -44,11 +44,6 @@ class AbstractPage(DirtyFieldsMixin, models.Model):
         blank=True,
         help_text=_('Allowed markup: %s', get_markup_filter_display_name()),
     )
-    url = models.URLField(
-        _("Redirect to URL"),
-        blank=True,
-        help_text=_('If set, this page will redirect to this URL'),
-    )
     modified_on = models.DateTimeField(
         default=now,
         editable=False,
@@ -70,9 +65,6 @@ class AbstractPage(DirtyFieldsMixin, models.Model):
         super(AbstractPage, self).save(**kwargs)
 
     def get_absolute_url(self):
-        if self.url:
-            return self.url
-
         return reverse('pootle-staticpages-display', args=[self.virtual_path])
 
     @staticmethod
@@ -87,12 +79,12 @@ class AbstractPage(DirtyFieldsMixin, models.Model):
     def clean(self):
         """Fail validation if:
 
-        - URL and body are blank
+        - Body is blank
         - Current virtual path exists in other page models
         """
-        if not self.url and not self.body:
-            # Translators: 'URL' and 'content' refer to form fields.
-            raise ValidationError(_('URL or content must be provided.'))
+        if not self.body:
+            # Translators: 'content' refer to a form field.
+            raise ValidationError(_('Content must be provided.'))
 
         pages = [p.objects.filter(Q(virtual_path=self.virtual_path),
                                   ~Q(pk=self.pk),).exists() for p in
@@ -102,7 +94,7 @@ class AbstractPage(DirtyFieldsMixin, models.Model):
 
     def has_changes(self):
         dirty_fields = self.get_dirty_fields()
-        return any(field in dirty_fields for field in ('title', 'body', 'url'))
+        return any(field in dirty_fields for field in ('title', 'body'))
 
 
 class LegalPage(AbstractPage):

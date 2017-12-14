@@ -9,7 +9,7 @@
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.template.loader import get_template
 from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
@@ -101,7 +101,7 @@ class PageCreateView(SuperuserRequiredMixin, AdminCtxMixin, PageModelMixin,
 
 class PageUpdateView(SuperuserRequiredMixin, AdminCtxMixin, PageModelMixin,
                      UpdateView):
-    fields = ('title', 'virtual_path', 'active', 'url', 'body')
+    fields = ('title', 'virtual_path', 'active', 'body')
 
     success_url = reverse_lazy('pootle-staticpages')
     template_name = 'admin/staticpages/page_update.html'
@@ -132,9 +132,6 @@ def display_page(request, virtual_path):
 
     if page is None:
         raise Http404
-
-    if page.url:
-        return redirect(page.url)
 
     template_name = 'staticpages/page_display.html'
     if request.is_ajax():

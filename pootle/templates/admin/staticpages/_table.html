@@ -6,7 +6,6 @@
       <th>{% trans "Active" %}</th>
       <th>{% trans "Virtual Path" %}</th>
       <th>{% trans "Page Title" %}</th>
-      <th>{% trans "Redirect to URL" %}</th>
       <th>{% trans "Last Edited" %}</th>
     </tr>
   </thead>
@@ -24,7 +23,6 @@
           <span class="action">{% trans "view" %}</span>{{ page.title }}
         </a>
       </td>
-      <td>{% if page.url %}<a href="{{ page.url }}">{{ page.url }}</a>{% endif %}</td>
       <td>
         <time class="js-relative-date" title="{{ page.modified_on|dateformat }}"
           datetime="{{ page.modified_on.isoformat }}">&nbsp;</time>

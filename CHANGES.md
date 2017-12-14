@@ -11,6 +11,7 @@ v.next
   closed after a submission (#251).
 * Removed the so-called "announcements" because their use-case is already
   covered by due dates (#284).
+* Removed the redirect field from static pages (#285).
 
 
 v0.6.0 (2017-12-12)

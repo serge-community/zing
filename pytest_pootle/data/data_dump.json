@@ -38322,7 +38322,6 @@
       "virtual_path": "announcements/en",
       "title": "Language announcement for: English - en",
       "body": "<div dir=\"ltr\" lang=\"en\">This is an example announcements. Just like a real announcement it contains text and some markup, and even a random link about localisation.<br /><a href=\"http://docs.translatehouse.org/languages/localization-guide/en/latest/guide/start.html\">localisation guide</a>.</div>",
-      "url": "",
       "modified_on": "2017-01-23T15:13:35.845Z"
    }
 },
@@ -38334,7 +38333,6 @@
       "virtual_path": "announcements/language0",
       "title": "Language announcement for: Language 0 - language0",
       "body": "<div dir=\"ltr\" lang=\"en\">This is an example announcements. Just like a real announcement it contains text and some markup, and even a random link about localisation.<br /><a href=\"http://docs.translatehouse.org/languages/localization-guide/en/latest/guide/start.html\">localisation guide</a>.</div>",
-      "url": "",
       "modified_on": "2017-01-23T15:13:35.846Z"
    }
 },
@@ -38346,7 +38344,6 @@
       "virtual_path": "announcements/language1",
       "title": "Language announcement for: Language 1 - language1",
       "body": "<div dir=\"ltr\" lang=\"en\">This is an example announcements. Just like a real announcement it contains text and some markup, and even a random link about localisation.<br /><a href=\"http://docs.translatehouse.org/languages/localization-guide/en/latest/guide/start.html\">localisation guide</a>.</div>",
-      "url": "",
       "modified_on": "2017-01-23T15:13:35.848Z"
    }
 },
@@ -38358,7 +38355,6 @@
       "virtual_path": "announcements/projects/disabled_project0",
       "title": "Project announcement for: Disabled Project 0",
       "body": "<div dir=\"ltr\" lang=\"en\">This is an example announcements. Just like a real announcement it contains text and some markup, and even a random link about localisation.<br /><a href=\"http://docs.translatehouse.org/projects/localization-guide/en/latest/guide/start.html\">localisation guide</a>.</div>",
-      "url": "",
       "modified_on": "2017-01-23T15:13:35.856Z"
    }
 },
@@ -38370,7 +38366,6 @@
       "virtual_path": "announcements/projects/project0",
       "title": "Project announcement for: Project 0",
       "body": "<div dir=\"ltr\" lang=\"en\">This is an example announcements. Just like a real announcement it contains text and some markup, and even a random link about localisation.<br /><a href=\"http://docs.translatehouse.org/projects/localization-guide/en/latest/guide/start.html\">localisation guide</a>.</div>",
-      "url": "",
       "modified_on": "2017-01-23T15:13:35.863Z"
    }
 },
@@ -38382,7 +38377,6 @@
       "virtual_path": "announcements/projects/project1",
       "title": "Project announcement for: Project 1",
       "body": "<div dir=\"ltr\" lang=\"en\">This is an example announcements. Just like a real announcement it contains text and some markup, and even a random link about localisation.<br /><a href=\"http://docs.translatehouse.org/projects/localization-guide/en/latest/guide/start.html\">localisation guide</a>.</div>",
-      "url": "",
       "modified_on": "2017-01-23T15:13:35.877Z"
    }
 },
@@ -38394,7 +38388,6 @@
       "virtual_path": "announcements/language0/project0",
       "title": "TP announcement for: /language0/project0/",
       "body": "<div dir=\"ltr\" lang=\"en\">This is an example announcements. Just like a real announcement it contains text and some markup, and even a random link about localisation.<br /><a href=\"http://docs.translatehouse.org/tps/localization-guide/en/latest/guide/start.html\">localisation guide</a>.</div>",
-      "url": "",
       "modified_on": "2017-01-23T15:13:35.883Z"
    }
 },
@@ -38406,7 +38399,6 @@
       "virtual_path": "announcements/language1/project0",
       "title": "TP announcement for: /language1/project0/",
       "body": "<div dir=\"ltr\" lang=\"en\">This is an example announcements. Just like a real announcement it contains text and some markup, and even a random link about localisation.<br /><a href=\"http://docs.translatehouse.org/tps/localization-guide/en/latest/guide/start.html\">localisation guide</a>.</div>",
-      "url": "",
       "modified_on": "2017-01-23T15:13:35.892Z"
    }
 },
@@ -38418,7 +38410,6 @@
       "virtual_path": "announcements/language0/project1",
       "title": "TP announcement for: /language0/project1/",
       "body": "<div dir=\"ltr\" lang=\"en\">This is an example announcements. Just like a real announcement it contains text and some markup, and even a random link about localisation.<br /><a href=\"http://docs.translatehouse.org/tps/localization-guide/en/latest/guide/start.html\">localisation guide</a>.</div>",
-      "url": "",
       "modified_on": "2017-01-23T15:13:35.902Z"
    }
 },
@@ -38430,7 +38421,6 @@
       "virtual_path": "announcements/language1/project1",
       "title": "TP announcement for: /language1/project1/",
       "body": "<div dir=\"ltr\" lang=\"en\">This is an example announcements. Just like a real announcement it contains text and some markup, and even a random link about localisation.<br /><a href=\"http://docs.translatehouse.org/tps/localization-guide/en/latest/guide/start.html\">localisation guide</a>.</div>",
-      "url": "",
       "modified_on": "2017-01-23T15:13:35.911Z"
    }
 },
@@ -38442,7 +38432,6 @@
       "virtual_path": "announcements/language0/disabled_project0",
       "title": "TP announcement for: /language0/disabled_project0/",
       "body": "<div dir=\"ltr\" lang=\"en\">This is an example announcements. Just like a real announcement it contains text and some markup, and even a random link about localisation.<br /><a href=\"http://docs.translatehouse.org/tps/localization-guide/en/latest/guide/start.html\">localisation guide</a>.</div>",
-      "url": "",
       "modified_on": "2017-01-23T15:13:35.926Z"
    }
 },

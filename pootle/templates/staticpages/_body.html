@@ -18,6 +18,6 @@
     {% endif %}
   </h1>
   {% with language_code=language.code %}
-  {{ page.body|rewrite_language_links:language_code }}
+  {{ page.body }}
   {% endwith %}
 </div>

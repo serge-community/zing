@@ -1,20 +1,17 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
-
-import re
 
 from lxml.html import fromstring, tostring
 
 from django import template
 from django.template.defaultfilters import stringfilter
 from django.utils.safestring import mark_safe
-
-from pootle.core.utils.html import rewrite_links
 
 
 register = template.Library()
@@ -61,18 +58,3 @@ def url_trim(html):
         el.text = new_link_text
 
     return mark_safe(tostring(fragment, encoding=unicode))
-
-
-LANGUAGE_LINK_RE = re.compile(ur'/xx/', re.IGNORECASE)
-
-
-@register.filter
-@stringfilter
-def rewrite_language_links(html, language_code):
-    if language_code:
-        html = rewrite_links(
-            html,
-            lambda lnk: LANGUAGE_LINK_RE.sub(u'/' + language_code + u'/', lnk)
-        )
-
-    return mark_safe(html)

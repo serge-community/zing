@@ -6,6 +6,7 @@
  * AUTHORS file for copyright and authorship information.
  */
 
+import 'backbone-safesync';
 import 'imports-loader?Backbone=>require("backbone")!backbone-move';
 
 import React from 'react';

@@ -74,7 +74,6 @@ PTL.auth = auth;
 PTL.agreement = agreement;
 PTL.browser = browser;
 PTL.captcha = captcha;
-PTL.cookie = cookie;
 PTL.contact = contact;
 PTL.dropdown = dropdown;
 PTL.score = score;

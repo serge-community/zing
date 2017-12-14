@@ -4,7 +4,9 @@ Zing Changelog
 v.next
 ------
 
-* JS assets are built with the latest version of Webpack and Babel.
+* Dropped support for IE11 (#275).
+* JS assets are built with the latest version of Webpack and Babel (#272, #278,
+  #279).
 * Editor: fixed bug which prevented from reopening the last unit once it was
   closed after a submission (#251).
 

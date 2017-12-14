@@ -22,7 +22,7 @@ class PootleTestEnv(object):
         "redis", "case_sensitive_schema", "site_root",
         "languages", "site_matrix", "system_users", "permissions",
         "site_permissions", "tps",
-        "disabled_project", "subdirs", "submissions", "announcements",
+        "disabled_project", "subdirs", "submissions",
         "terminology", "complex_po",
     )
 
@@ -69,50 +69,6 @@ class PootleTestEnv(object):
             translation_project=tp,
             name="complex.po")
         store.update(ttk)
-
-    def setup_announcements(self):
-        from pytest_pootle.factories import AnnouncementFactory
-
-        from pootle_project.models import Project
-        from pootle_language.models import Language
-        from pootle_translationproject.models import TranslationProject
-
-        for language in Language.objects.all():
-            AnnouncementFactory(
-                title="Language announcement for: %s" % language,
-                body=(
-                    '<div dir="ltr" lang="en">This is an example announcements. '
-                    'Just like a real announcement it contains text and some '
-                    'markup, and even a random link about localisation.<br />'
-                    '<a href="http://docs.translatehouse.org/languages/'
-                    'localization-guide/en/latest/guide/start.html">localisation '
-                    'guide</a>.</div>'),
-                virtual_path="announcements/%s" % language.code)
-
-        for project in Project.objects.all():
-            AnnouncementFactory(
-                title="Project announcement for: %s" % project,
-                body=(
-                    '<div dir="ltr" lang="en">This is an example announcements. '
-                    'Just like a real announcement it contains text and some '
-                    'markup, and even a random link about localisation.<br />'
-                    '<a href="http://docs.translatehouse.org/projects/'
-                    'localization-guide/en/latest/guide/start.html">localisation '
-                    'guide</a>.</div>'),
-                virtual_path="announcements/projects/%s" % project.code)
-
-        for tp in TranslationProject.objects.all():
-            AnnouncementFactory(
-                title="TP announcement for: %s" % tp,
-                body=(
-                    '<div dir="ltr" lang="en">This is an example announcements. '
-                    'Just like a real announcement it contains text and some '
-                    'markup, and even a random link about localisation.<br />'
-                    '<a href="http://docs.translatehouse.org/tps/'
-                    'localization-guide/en/latest/guide/start.html">localisation '
-                    'guide</a>.</div>'),
-                virtual_path="announcements/%s/%s"
-                % (tp.language.code, tp.project.code))
 
     def setup_case_sensitive_schema(self):
         from django.db import connection

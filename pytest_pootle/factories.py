@@ -47,6 +47,12 @@ class LegalPageFactory(factory.django.DjangoModelFactory):
         model = 'staticpages.LegalPage'
 
 
+class StaticPageFactory(factory.django.DjangoModelFactory):
+
+    class Meta(object):
+        model = 'staticpages.StaticPage'
+
+
 class AgreementFactory(factory.django.DjangoModelFactory):
     user = factory.SubFactory(UserFactory)
     document = factory.SubFactory(LegalPageFactory)
@@ -207,13 +213,6 @@ class UnitDBFactory(factory.django.DjangoModelFactory):
     @factory.lazy_attribute
     def target_wordcount(self):
         return pootle_store.models.count_words(self.target_f)
-
-
-class AnnouncementFactory(factory.django.DjangoModelFactory):
-
-    class Meta(object):
-        model = 'staticpages.StaticPage'
-    active = True
 
 
 class SuggestionFactory(factory.django.DjangoModelFactory):

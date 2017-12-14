@@ -19,18 +19,3 @@ There are three types of static pages:
 
 
 Use **Admin -- Static Pages** to create and manage static pages.
-
-The static pages are by default formatted using HTML. But you can use Markdown
-or RestructuredText by setting :setting:`POOTLE_MARKUP_FILTER` correctly.
-
-
-Links in static pages
----------------------
-
-When linking to a static page externally or in any customisations, your links
-would be pointing to ``/pages/$slug``, such as ``/pages/gettting-started``.
-
-For linking to another static page from within a static page use the
-``#/$slug`` syntax.  Thus, if you created a *Getting Started* page as a static
-page which pointed to your *Licence Statement* legal page we'd use this
-``#/licence_statement`` in the URL.

@@ -20,7 +20,6 @@ const staticpages = {
     ReactDOM.render(
       <LiveEditor
         initialValue={opts.initialValue}
-        markup={opts.markup}
         name={opts.htmlName}
       />,
       q('.js-staticpage-editor')

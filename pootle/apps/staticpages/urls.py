@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
 from django.conf.urls import include, url
 
 from .views import (AdminTemplateView, PageCreateView, PageDeleteView,
-                    PageUpdateView, display_page, legal_agreement,
-                    preview_content)
+                    PageUpdateView, display_page, legal_agreement)
 
 
 page_patterns = [
@@ -39,16 +39,7 @@ admin_patterns = [
 ]
 
 
-xhr_patterns = [
-    url(r'^preview/?$',
-        preview_content,
-        name='pootle-xhr-preview'),
-]
-
-
 urlpatterns = [
     url(r'^pages/',
         include(page_patterns)),
-    url(r'^xhr/',
-        include(xhr_patterns)),
 ]

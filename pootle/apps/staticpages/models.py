@@ -16,7 +16,6 @@ from django.urls import reverse
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 
-from pootle.core.markup import MarkupField, get_markup_filter_display_name
 from pootle.core.mixins import DirtyFieldsMixin
 
 from .managers import PageManager
@@ -38,11 +37,11 @@ class AbstractPage(DirtyFieldsMixin, models.Model):
     )
     # TODO: make title and body localizable fields
     title = models.CharField(_("Title"), max_length=100)
-    body = MarkupField(
+    body = models.TextField(
         # Translators: Content that will be used to display this static page
         _("Display Content"),
         blank=True,
-        help_text=_('Allowed markup: %s', get_markup_filter_display_name()),
+        help_text=_('Allowed markup: HTML'),
     )
     modified_on = models.DateTimeField(
         default=now,

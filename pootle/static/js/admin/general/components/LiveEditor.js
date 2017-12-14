@@ -8,11 +8,9 @@
  */
 
 import React from 'react';
-import _ from 'underscore';
 
 import { outerHeight } from 'utils/dimensions';
 import { q, qAll } from 'utils/dom';
-import fetch from 'utils/fetch';
 
 import ContentEditor from './ContentEditor';
 import ContentPreview from './ContentPreview';
@@ -28,7 +26,6 @@ const WRAPPER_MARGIN = 40;  // ~2em
 export const LiveEditor = React.createClass({
 
   propTypes: {
-    markup: React.PropTypes.string.isRequired,
     // Temporarily needed to support submitting forms not controlled by JS
     name: React.PropTypes.string.isRequired,
     initialValue: React.PropTypes.string.isRequired,
@@ -37,23 +34,14 @@ export const LiveEditor = React.createClass({
   getInitialState() {
     return {
       value: this.props.initialValue,
-      renderedValue: '',
     };
   },
 
   componentWillMount() {
-    if (this.props.markup === 'html') {
-      this.loadPreview = () => this.setState({ renderedValue: this.state.value });
-    } else {
-      this.loadPreview = _.debounce(this.loadRemotePreview, 300);
-    }
-
     this.updateDimensions();
   },
 
   componentDidMount() {
-    this.loadPreview();
-
     window.addEventListener('resize', this.updateDimensions);
   },
 
@@ -92,25 +80,12 @@ export const LiveEditor = React.createClass({
     });
   },
 
-  loadRemotePreview() {
-    fetch({
-      url: '/xhr/preview/',
-      method: 'POST',
-      body: {
-        text: this.state.value,
-      },
-    }).then((response) => {
-      this.setState({ renderedValue: response.rendered });
-    });
-  },
-
   handleChange(newValue) {
     this.setState({ value: newValue });
-    this.loadPreview();
   },
 
   render() {
-    const { renderedValue, value } = this.state;
+    const { value } = this.state;
     const contentHeight = Math.max(100, this.getContentHeight());
     const contentStyle = {
       height: contentHeight,
@@ -121,7 +96,6 @@ export const LiveEditor = React.createClass({
     return (
       <div className="live-editor">
         <ContentEditor
-          markup={this.props.markup}
           name={this.props.name}
           onChange={this.handleChange}
           style={contentStyle}
@@ -129,7 +103,7 @@ export const LiveEditor = React.createClass({
         />
         <ContentPreview
           style={contentStyle}
-          value={renderedValue}
+          value={value}
         />
       </div>
     );

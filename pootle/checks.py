@@ -251,44 +251,6 @@ def check_settings(app_configs=None, **kwargs):
             id="pootle.W010",
         ))
 
-    try:
-        markup_filter = settings.POOTLE_MARKUP_FILTER[0]
-    except AttributeError:
-        errors.append(checks.Warning(
-            _("POOTLE_MARKUP_FILTER is missing."),
-            hint=_("Set POOTLE_MARKUP_FILTER."),
-            id="pootle.W012",
-        ))
-    except (IndexError, TypeError, ValueError):
-        errors.append(checks.Warning(
-            _("Invalid value in POOTLE_MARKUP_FILTER."),
-            hint=_("Set a valid value for POOTLE_MARKUP_FILTER."),
-            id="pootle.W013",
-        ))
-    else:
-        if markup_filter is not None:
-            try:
-                if markup_filter == 'textile':
-                    import textile  # noqa
-                elif markup_filter == 'markdown':
-                    import markdown  # noqa
-                elif markup_filter == 'restructuredtext':
-                    import docutils  # noqa
-                else:
-                    errors.append(checks.Warning(
-                        _("Invalid markup in POOTLE_MARKUP_FILTER."),
-                        hint=_("Set a valid markup for POOTLE_MARKUP_FILTER."),
-                        id="pootle.W014",
-                    ))
-            except ImportError:
-                errors.append(checks.Warning(
-                    _("POOTLE_MARKUP_FILTER is set to '%s' markup, but the "
-                      "package that provides can't be found.", markup_filter),
-                    hint=_("Install the package or change "
-                           "POOTLE_MARKUP_FILTER."),
-                    id="pootle.W015",
-                ))
-
     if settings.POOTLE_TM_SERVER:
         tm_indexes = []
 

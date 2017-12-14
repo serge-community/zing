@@ -17,8 +17,6 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.utils import dateformat
 from django.utils.encoding import force_unicode
 
-from ..markup import Markup
-
 
 class PootleJSONEncoder(DjangoJSONEncoder):
     """Custom JSON encoder for Pootle.
@@ -29,9 +27,6 @@ class PootleJSONEncoder(DjangoJSONEncoder):
     """
 
     def default(self, obj):
-        if isinstance(obj, Markup):
-            return force_unicode(obj)
-
         if (isinstance(obj, datetime.datetime) or
             isinstance(obj, datetime.date) or
             isinstance(obj, datetime.time)):

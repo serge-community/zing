@@ -125,10 +125,6 @@ plugins.push.apply(plugins, [
     'process.env': {NODE_ENV: JSON.stringify(env)}
   }),
   new webpack.IgnorePlugin(/^\.\/locale$/, /vendor$/),
-  new webpack.ContextReplacementPlugin(
-    /codemirror[\/\\]mode$/,
-    /htmlmixed|markdown|rst|textile/
-  ),
   new webpack.ProvidePlugin({
     'window.Backbone': 'backbone',
   }),

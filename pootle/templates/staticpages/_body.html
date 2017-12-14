@@ -17,7 +17,5 @@
     </span>
     {% endif %}
   </h1>
-  {% with language_code=language.code %}
-  {{ page.body }}
-  {% endwith %}
+  {{ page.body|safe }}
 </div>

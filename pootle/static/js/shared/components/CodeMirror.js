@@ -1,7 +1,8 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
@@ -12,15 +13,13 @@ import * as CM from 'codemirror';
 import 'codemirror/addon/display/placeholder';
 import 'codemirror/lib/codemirror.css';
 
-import { getMode } from 'utils/markup';
-
 import './CodeMirror.css';
 
 
 const CodeMirror = React.createClass({
 
   propTypes: {
-    markup: React.PropTypes.string,
+    mode: React.PropTypes.string.isRequired,
     // Temporarily needed to support submitting forms not controlled by JS
     name: React.PropTypes.string,
     onChange: React.PropTypes.func,
@@ -28,25 +27,15 @@ const CodeMirror = React.createClass({
     value: React.PropTypes.string,
   },
 
-  getDefaultProps() {
-    return {
-      markup: 'html',
-    };
-  },
-
   componentDidMount() {
-    const mode = getMode(this.props.markup);
+    const { mode } = this.props;
 
-    // Using webpack's `bundle` loader so each mode goes into a separate chunk
-    const bundledResult = require(`bundle-loader!codemirror/mode/${mode}/${mode}.js`);
-    bundledResult(() => {
-      this.codemirror = CM.fromTextArea(this.refs.editor, {
-        mode,
-        lineWrapping: true,
-      });
-
-      this.codemirror.on('change', this.handleChange);
+    this.codemirror = CM.fromTextArea(this.refs.editor, {
+      mode,
+      lineWrapping: true,
     });
+
+    this.codemirror.on('change', this.handleChange);
   },
 
   handleChange() {

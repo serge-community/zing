@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import pootle.core.markup.fields
 import pootle.core.mixins.dirtyfields
 import django.utils.timezone
 from django.conf import settings
@@ -22,7 +21,7 @@ class Migration(migrations.Migration):
                 ('active', models.BooleanField(default=False, help_text='Whether this page is active or not.', verbose_name='Active')),
                 ('virtual_path', models.CharField(default=b'', help_text=b'/pages/', unique=True, max_length=100, verbose_name='Virtual Path')),
                 ('title', models.CharField(max_length=100, verbose_name='Title')),
-                ('body', pootle.core.markup.fields.MarkupField(help_text='Allowed markup: HTML', verbose_name='Display Content', blank=True)),
+                ('body', models.TextField(help_text='Allowed markup: HTML', verbose_name='Display Content', blank=True)),
                 ('url', models.URLField(help_text='If set, any references to this page will redirect to this URL', verbose_name='Redirect to URL', blank=True)),
                 ('modified_on', models.DateTimeField(default=django.utils.timezone.now, editable=False)),
             ],
@@ -38,7 +37,7 @@ class Migration(migrations.Migration):
                 ('active', models.BooleanField(default=False, help_text='Whether this page is active or not.', verbose_name='Active')),
                 ('virtual_path', models.CharField(default=b'', help_text=b'/pages/', unique=True, max_length=100, verbose_name='Virtual Path')),
                 ('title', models.CharField(max_length=100, verbose_name='Title')),
-                ('body', pootle.core.markup.fields.MarkupField(help_text='Allowed markup: HTML', verbose_name='Display Content', blank=True)),
+                ('body', models.TextField(help_text='Allowed markup: HTML', verbose_name='Display Content', blank=True)),
                 ('url', models.URLField(help_text='If set, any references to this page will redirect to this URL', verbose_name='Redirect to URL', blank=True)),
                 ('modified_on', models.DateTimeField(default=django.utils.timezone.now, editable=False)),
             ],

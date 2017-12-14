@@ -10,7 +10,6 @@
 from django.conf import settings
 from django.utils import timezone, translation
 
-from pootle.core.markup import get_markup_filter_name
 from pootle_language.models import Language
 from pootle_project.models import Project
 from staticpages.models import LegalPage
@@ -51,7 +50,6 @@ def pootle_context(request):
             'POOTLE_INSTANCE_ID': settings.POOTLE_INSTANCE_ID,
             'POOTLE_CONTACT_ENABLED': (settings.POOTLE_CONTACT_ENABLED and
                                        settings.POOTLE_CONTACT_EMAIL),
-            'POOTLE_MARKUP_FILTER': get_markup_filter_name(),
             'POOTLE_SIGNUP_ENABLED': settings.POOTLE_SIGNUP_ENABLED,
             'POOTLE_CACHE_TIMEOUT': settings.POOTLE_CACHE_TIMEOUT,
             'TZ': settings.TIME_ZONE,

@@ -187,32 +187,6 @@ Configuration settings for applications used by Pootle.
   and won't track scores.
 
 
-.. setting:: POOTLE_MARKUP_FILTER
-
-``POOTLE_MARKUP_FILTER``
-  Default: ``(None, {})``
-
-  Two-tuple defining the markup filter to apply in certain textareas.
-
-  - Accepted values for the first element are ``textile``, ``markdown``,
-    ``restructuredtext`` and None
-
-  - The second element should be a dictionary of keyword arguments that
-    will be passed to the markup function
-
-  Examples::
-
-    POOTLE_MARKUP_FILTER = (None, {})
-
-    POOTLE_MARKUP_FILTER = ('markdown', {'safe_mode': 'escape'})
-
-    POOTLE_MARKUP_FILTER = ('restructuredtext', {
-                                'settings_overrides': {
-                                    'report_level': 'quiet',
-                                 }
-                            })
-
-
 .. setting:: POOTLE_CAPTCHA_ENABLED
 
 ``POOTLE_CAPTCHA_ENABLED``

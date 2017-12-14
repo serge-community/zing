@@ -71,7 +71,6 @@ window.PTL = window.PTL || {};
 
 PTL.auth = auth;
 PTL.agreement = agreement;
-PTL.browser = browser;
 PTL.captcha = captcha;
 PTL.contact = contact;
 PTL.dropdown = dropdown;
@@ -89,7 +88,7 @@ PTL.common = {
 
   init(opts) {
     PTL.auth.init();
-    PTL.browser.init();
+    browser.init();
 
     $(window).load(() => {
       $('body').removeClass('preload');

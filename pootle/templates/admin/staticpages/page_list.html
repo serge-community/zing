@@ -1,5 +1,11 @@
-{% extends "admin/staticpages/base.html" %}
+{% extends "admin/base.html" %}
 {% load i18n %}
+
+{% block title %}{% trans "Static Pages" %} | {{ block.super }}{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}<li>{% trans "Static Pages" %}</li>
+{% endblock %}
 
 {% block section_body %}
 <div class="staticpages settings-container centered">

@@ -6,12 +6,10 @@
  * AUTHORS file for copyright and authorship information.
  */
 
-import assign from 'object-assign';
-
 import fetch from 'utils/fetch';
 
 
-const jsonFetch = (opts) => fetch(assign({}, opts, {
+const jsonFetch = (opts) => fetch(Object.assign({}, opts, {
   contentType: 'application/json',
   body: JSON.stringify(opts.body),
 }));

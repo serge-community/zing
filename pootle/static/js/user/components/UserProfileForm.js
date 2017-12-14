@@ -7,7 +7,6 @@
  * AUTHORS file for copyright and authorship information.
  */
 
-import assign from 'object-assign';
 import React from 'react';
 import _ from 'underscore';
 
@@ -37,7 +36,7 @@ export const UserProfileForm = React.createClass({
 
   handleChange(name, value) {
     this.setState((prevState, props) => {
-      const newData = assign({}, prevState.formData);
+      const newData = Object.assign({}, prevState.formData);
       newData[name] = value;
       const isDirty = !_.isEqual(newData, props.user);
 

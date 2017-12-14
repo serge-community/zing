@@ -1,14 +1,14 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
 
 import $ from 'jquery';
 import moment from 'moment';
-import assign from 'object-assign';
 import _ from 'underscore';
 
 import 'jquery-flot';
@@ -338,7 +338,7 @@ PTL.reports = {
     let scoreDeltaTotal = 0;
     let translatedFloorTotal = 0;
 
-    const data = assign({}, origData);
+    const data = Object.assign({}, origData);
     data.paid_task_summary = [];
 
     for (const index in data.paid_tasks) {

@@ -6,7 +6,6 @@
  * AUTHORS file for copyright and authorship information.
  */
 
-import assign from 'object-assign';
 import React from 'react';
 
 
@@ -239,7 +238,7 @@ const tzOptions = isTzSupported ? {
 
 export const dateTimeTzFormatter = new Intl.DateTimeFormat(
   PTL.settings.UI_LOCALE,
-  assign({}, {
+  Object.assign({}, {
     month: 'long',
     day: 'numeric',
     hour: 'numeric',
@@ -254,7 +253,7 @@ const serverTzOptions = isTzSupported ? {
 
 export const serverDateTimeTzFormatter = new Intl.DateTimeFormat(
   PTL.settings.UI_LOCALE,
-  assign({}, {
+  Object.assign({}, {
     month: 'long',
     day: 'numeric',
     hour: 'numeric',
@@ -264,7 +263,7 @@ export const serverDateTimeTzFormatter = new Intl.DateTimeFormat(
 
 export const serverTimeTzFormatter = new Intl.DateTimeFormat(
   PTL.settings.UI_LOCALE,
-  assign({}, {
+  Object.assign({}, {
     hour: 'numeric',
     minute: 'numeric',
   }, serverTzOptions)

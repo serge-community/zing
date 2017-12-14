@@ -1,12 +1,12 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
 
-import assign from 'object-assign';
 import Mousetrap from 'mousetrap';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -153,7 +153,7 @@ const RawFontTextarea = React.createClass({
   },
 
   render() {
-    const style = assign({}, {
+    const style = Object.assign({}, {
       boxSizing: 'border-box',
       margin: '0 0 0.5em 0',
       padding: '0.3em',

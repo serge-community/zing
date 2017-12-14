@@ -40,7 +40,6 @@
     "diff-match-patch": "^1.0.0",
     "imports-loader": "^0.6.3",
     "mousetrap": "^1.5.3",
-    "object-assign": "^2.0.0",
     "plurr": "^1.0.2",
     "react": "^0.14.6",
     "react-day-picker": "^5.1.2",

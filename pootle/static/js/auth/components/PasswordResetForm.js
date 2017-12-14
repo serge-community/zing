@@ -7,7 +7,6 @@
  * AUTHORS file for copyright and authorship information.
  */
 
-import assign from 'object-assign';
 import React from 'react';
 
 import FormElement from 'components/FormElement';
@@ -38,7 +37,7 @@ const PasswordResetForm = React.createClass({
       password2: '',
     };
     return {
-      formData: assign({}, this.initialData),
+      formData: Object.assign({}, this.initialData),
     };
   },
 

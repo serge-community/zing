@@ -27,7 +27,6 @@ import 'jquery-utils';
 import cx from 'classnames';
 import Levenshtein from 'levenshtein';
 import mousetrap from 'mousetrap';
-import assign from 'object-assign';
 
 import StatsAPI from 'api/StatsAPI';
 import UnitAPI from 'api/UnitAPI';
@@ -66,7 +65,7 @@ const filterSelectOpts = {
   dropdownCssClass: 'checks-dropdown',
   width: 'off',
 };
-const sortSelectOpts = assign({
+const sortSelectOpts = Object.assign({
   minimumResultsForSearch: -1,
 }, filterSelectOpts);
 
@@ -108,7 +107,7 @@ PTL.editor = {
     };
 
     if (options) {
-      assign(this.settings, options);
+      Object.assign(this.settings, options);
     }
 
     /* Cached elements */
@@ -516,7 +515,7 @@ PTL.editor = {
       const reqData = {
         path: this.settings.pootlePath,
       };
-      assign(reqData, this.getReqData());
+      Object.assign(reqData, this.getReqData());
 
       if (params.unit) {
         reqData.uid = parseInt(params.unit, 10);
@@ -1516,9 +1515,11 @@ PTL.editor = {
       this.checkSimilarTranslations();
     }
 
-    const body = assign({}, this.getCheckedStateData(), valueStateData,
-                        this.getReqData(), this.getSimilarityData(),
-                        captchaCallbacks);
+    const body = Object.assign(
+      {}, this.getCheckedStateData(), valueStateData,
+      this.getReqData(), this.getSimilarityData(),
+      captchaCallbacks
+    );
 
     el.disabled = true;
 
@@ -1528,7 +1529,7 @@ PTL.editor = {
         suggestion: this.selectedSuggestionId,
         comment,
       };
-      assign(body, suggData);
+      Object.assign(body, suggData);
     }
 
     UnitAPI.addTranslation(this.units.uid, body)
@@ -1571,7 +1572,7 @@ PTL.editor = {
 
     this.updateUnitDefaultProperties();
 
-    const body = assign({}, this.getValueStateData(), this.getReqData(),
+    const body = Object.assign({}, this.getValueStateData(), this.getReqData(),
                         this.getSimilarityData(), captchaCallbacks);
 
     UnitAPI.addSuggestion(this.units.uid, body)
@@ -2061,7 +2062,7 @@ PTL.editor = {
 
   runHooks() {
     mtProviders.forEach((provider) => provider.init({
-      unit: assign({}, this.units.unit),
+      unit: Object.assign({}, this.units.unit),
     }));
   },
 

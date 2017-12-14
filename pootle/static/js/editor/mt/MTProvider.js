@@ -8,7 +8,6 @@
  */
 
 import $ from 'jquery';
-import assign from 'object-assign';
 
 import fetch from 'utils/fetch';
 import { normalizeCode } from '../utils';
@@ -19,7 +18,7 @@ class MTProvider {
 
   constructor(opts) {
     this.method = 'GET';
-    assign(this, opts);
+    Object.assign(this, opts);
 
     // FIXME: retrieve pairs asynchronously using provider APIs (#3718)
     this.pairs = opts.supportedLanguages.map((langCode) => [langCode, langCode]);
@@ -82,7 +81,7 @@ class MTProvider {
         if (!('translation' in result)) {
           return result;
         }
-        const newResult = assign({}, result);
+        const newResult = Object.assign({}, result);
         newResult.translation = placeholderCleaner.recover(result.translation);
         return newResult;
       }

@@ -12,7 +12,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import 'jquery-utils';
-import assign from 'object-assign';
 
 import StatsAPI from 'api/StatsAPI';
 import { q } from 'utils/dom';
@@ -32,7 +31,7 @@ function provideStatsDefaults(stats) {
     return stats;
   }
 
-  const newStats = assign({}, stats);
+  const newStats = Object.assign({}, stats);
   newStats.children = [];
   Object.keys(stats.children).forEach((key) => {
     const item = stats.children[key];
@@ -96,7 +95,7 @@ const stats = {
   },
 
   setState(newState) {
-    this.state = assign(
+    this.state = Object.assign(
       {}, this.state, newState,
       newState.hasOwnProperty('data') ?
         { data: provideStatsDefaults(newState.data) } :

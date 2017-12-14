@@ -1,14 +1,14 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
 
 import $ from 'jquery';
 import mousetrap from 'mousetrap';
-import assign from 'object-assign';
 
 import cookie from 'utils/cookie';
 
@@ -34,7 +34,7 @@ const search = {
     this.$options = $('.js-search-options');
     this.$input = $('#id_search');
 
-    this.settings = assign({
+    this.settings = Object.assign({
       onSearch: this.onSearch,
     }, options);
 
@@ -90,7 +90,7 @@ const search = {
   },
 
   setState(newState) {
-    this.state = assign({}, this.state, newState);
+    this.state = Object.assign({}, this.state, newState);
     this.updateUI();
   },
 

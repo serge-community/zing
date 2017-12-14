@@ -7,7 +7,6 @@
  * AUTHORS file for copyright and authorship information.
  */
 
-import assign from 'object-assign';
 import React from 'react';
 
 
@@ -19,7 +18,7 @@ const AuthContent = React.createClass({
 
   render() {
     // FIXME: use flexbox when possible
-    const outer = assign({
+    const outer = Object.assign({
       display: 'table',
       height: '22em',
       width: '100%',

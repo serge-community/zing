@@ -1,12 +1,12 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
 
-import assign from 'object-assign';
 import _ from 'underscore';
 
 
@@ -92,7 +92,7 @@ export const BASE_MAP = {
   [CHARACTERS.CR]: SYMBOLS.CR,
 };
 
-export const FULL_MAP = assign({}, BASE_MAP, {
+export const FULL_MAP = Object.assign({}, BASE_MAP, {
   [CHARACTERS.ALM]: SYMBOLS.ALM,
   [CHARACTERS.ZWS]: SYMBOLS.ZWS,
   [CHARACTERS.ZWNJ]: SYMBOLS.ZWNJ,
@@ -112,13 +112,13 @@ export const FULL_MAP = assign({}, BASE_MAP, {
 });
 
 
-const BASE_MAP_REV = assign({}, _.invert(BASE_MAP), {
+const BASE_MAP_REV = Object.assign({}, _.invert(BASE_MAP), {
   [SYMBOLS.LF]: '',
   [SYMBOLS.CR]: '',
 });
 
 // Only for highlight purposes
-export const BASE_MAP_REVERSE_HL = assign({}, BASE_MAP_REV, {
+export const BASE_MAP_REVERSE_HL = Object.assign({}, BASE_MAP_REV, {
   [SYMBOLS.LF]: CHARACTERS.LF,
   [SYMBOLS.CR]: CHARACTERS.CR,
 });

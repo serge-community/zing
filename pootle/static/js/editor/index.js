@@ -1,12 +1,12 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
 
-import assign from 'object-assign';
 import React from 'react';
 
 import ReactRenderer from 'utils/ReactRenderer';
@@ -35,7 +35,7 @@ const ReactEditor = {
   },
 
   setProps(props) {
-    this.props = assign(this.props, props);
+    this.props = Object.assign(this.props, props);
 
     /*           ,
      *  __  _.-"` `'-.

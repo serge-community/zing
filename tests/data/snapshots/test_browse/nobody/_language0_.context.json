@@ -1,8 +1,4 @@
 {
-  "announcement": "announcements/language0",
-  "announcements": [
-    "announcements/language0"
-  ],
   "browse_url": "/language0/",
   "browser_extends": "languages/base.html",
   "browsing_data": {
@@ -74,10 +70,8 @@
   "export_url": "/language0/export-view/",
   "group": null,
   "has_admin_access": false,
-  "has_sidebar": true,
   "index": 0,
   "is_disabled": false,
-  "is_sidebar_open": true,
   "language": {
     "code": "language0",
     "name": "Language 0"

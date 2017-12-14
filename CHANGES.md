@@ -9,6 +9,8 @@ v.next
   #279).
 * Editor: fixed bug which prevented from reopening the last unit once it was
   closed after a submission (#251).
+* Removed the so-called "announcements" because their use-case is already
+  covered by due dates.
 
 
 v0.6.0 (2017-12-12)

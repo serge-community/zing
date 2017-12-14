@@ -50,7 +50,6 @@
 
     $(function () {
       PTL.common.init({
-        hasSidebar: {{ has_sidebar|yesno:'true, false' }},
         user: {
           username: {{ user.username|to_js }},
           email: {{ user.email_hash|to_js }},

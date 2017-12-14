@@ -32,26 +32,6 @@ const helpers = {
     });
   },
 
-  fixSidebarHeight() {
-    const $body = $('#body');
-    const bodyHeight = $body.height();
-    const bodyPadding = parseInt($body.css('padding-bottom'), 10);
-    const contentAreaHeight = $('#wrapper').height() - $body.offset().top -
-                              bodyPadding;
-
-    // Set sidebar width before measuring height of content
-    $('#sidebar').css('width', '30%');
-    const sidebarHeight = $('#sidebar #sidebar-content').height() +
-                          $('#footer').height() + bodyPadding;
-    const newHeight = Math.max(contentAreaHeight, sidebarHeight);
-
-    // Remove sidebar width setting - allow CSS to set width
-    $('#sidebar').css('width', '');
-    if (bodyHeight < newHeight) {
-      $body.css('height', newHeight);
-    }
-  },
-
   /* Updates the disabled state of an input button according to the
    * checked status of input checkboxes.
    */

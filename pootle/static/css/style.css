@@ -348,7 +348,6 @@ tt
 
 .browser-parent a:hover,
 td.stats-name a:hover,
-.sidebar-action a:hover,
 .last-action > a:hover
 {
     text-decoration: none;
@@ -356,7 +355,6 @@ td.stats-name a:hover,
 
 .browser-parent a:hover > i + span,
 td.stats-name a:hover > i + span,
-.sidebar-action a:hover > i + span,
 .last-action > a:hover > .user-name
 {
     text-decoration: underline;
@@ -469,110 +467,6 @@ td.stats-name a:hover > i + span,
     background-color: #ff9;
     outline: 5px solid #ff9;
     color: #880;
-}
-
-
-/*
- * PAGE SIDEBAR
- */
-
-#sidebar
-{
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    width: 0;
-    z-index: 1;
-
-    background-color: #fff;
-
-    box-shadow: -1px 0 2px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease 0s;
-}
-
-#sidebar-content
-{
-    margin: 2em auto;
-    padding: 0 2em;
-    max-width: 960px;
-}
-
-#sidebar.sidebar-open
-{
-    width: 30%;
-}
-
-html[dir="rtl"] #sidebar
-{
-    right: auto;
-    left: 0;
-
-    box-shadow: 1px 0 2px rgba(0, 0, 0, 0.2);
-}
-
-#sidebar #sidebar-content
-{
-    display: none;
-}
-
-#sidebar.sidebar-open #sidebar-content
-{
-    display: block;
-}
-
-.sidebar-open #sidebar-toggle::after
-{
-    content: '»';
-}
-
-#sidebar-toggle::after
-{
-    content: '«';
-}
-
-#sidebar-toggle
-{
-    position: absolute;
-    top: 1.5em;
-    left: -1em;
-    width: 1em;
-    height: 1em;
-    line-height: 1;
-
-    background-color: #fff;
-    color: #d9d9d9;
-    text-align: center;
-    text-decoration: none;
-    font-size: 24px;
-
-    box-shadow: -2px 0 2px rgba(0, 0, 0, 0.2);
-    border-radius: 2px 0 0 2px;
-}
-
-html[dir="rtl"] #sidebar-toggle
-{
-    left: auto;
-    right: -1em;
-
-    box-shadow: 2px 0 2px rgba(0, 0, 0, 0.2);
-    border-radius: 0 2px 2px 0;
-}
-
-.sidebar-group,
-.sidebar-group .staticpage
-{
-    margin: 0;
-    padding: 0;
-    padding-bottom: 2em;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.sidebar-group:last-child,
-.sidebar-group .staticpage:last-child
-{
-    padding: 0;
-    border-bottom: none;
 }
 
 

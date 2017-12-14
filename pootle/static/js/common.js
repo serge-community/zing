@@ -35,7 +35,6 @@ import browser from './browser';
 import captcha from './captcha';
 import contact from './contact';
 import dropdown from './dropdown';
-import helpers from './helpers';
 import score from './score';
 import search from './search';
 import stats from './stats';
@@ -98,11 +97,6 @@ PTL.common = {
       $('body').removeClass('preload');
     });
 
-    if (opts.hasSidebar) {
-      helpers.fixSidebarHeight();
-      $(window).on('resize', helpers.fixSidebarHeight);
-    }
-
     // Tipsy setup
     $(document).tipsy({
       gravity: $.fn.tipsy.autoBounds2(150, 'n'),
@@ -129,20 +123,6 @@ PTL.common = {
           xhr.setRequestHeader('X-CSRFToken', cookie('csrftoken'));
         }
       },
-    });
-
-    /* Page sidebar */
-    // TODO: create a named function
-    $(document).on('click', '.js-sidebar-toggle', () => {
-      const $sidebar = $('.js-sidebar');
-      const openClass = 'sidebar-open';
-      const cookieName = 'pootle-browser-sidebar';
-      const cookieData = JSON.parse(cookie(cookieName)) || {};
-
-      $sidebar.toggleClass(openClass);
-
-      cookieData.isOpen = $sidebar.hasClass(openClass);
-      cookie(cookieName, JSON.stringify(cookieData), { path: '/' });
     });
 
     /* Popups */

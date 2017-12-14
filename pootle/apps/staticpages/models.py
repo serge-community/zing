@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -19,10 +20,6 @@ from pootle.core.markup import MarkupField, get_markup_filter_display_name
 from pootle.core.mixins import DirtyFieldsMixin
 
 from .managers import PageManager
-
-
-ANN_TYPE = u'announcements'
-ANN_VPATH = ANN_TYPE + u'/'
 
 
 class AbstractPage(DirtyFieldsMixin, models.Model):
@@ -123,20 +120,8 @@ class StaticPage(AbstractPage):
 
     display_name = _('Regular Page')
 
-    @classmethod
-    def get_announcement_for(cls, pootle_path, user=None):
-        """Return the announcement for the specified pootle path and user."""
-        virtual_path = ANN_VPATH + pootle_path.strip('/')
-        try:
-            return cls.objects.live(user).get(virtual_path=virtual_path)
-        except StaticPage.DoesNotExist:
-            return None
-
     def get_edit_url(self):
-        page_type = 'static'
-        if self.virtual_path.startswith(ANN_VPATH):
-            page_type = ANN_TYPE
-        return reverse('pootle-staticpages-edit', args=[page_type, self.pk])
+        return reverse('pootle-staticpages-edit', args=['static', self.pk])
 
 
 class Agreement(models.Model):

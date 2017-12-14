@@ -1,10 +1,4 @@
 {
-  "announcement": "announcements/language0/project0",
-  "announcements": [
-    "announcements/projects/project0",
-    "announcements/language0",
-    "announcements/language0/project0"
-  ],
   "browse_url": "/language0/project0/store0.po",
   "browser_extends": "translation_projects/base.html",
   "browsing_data": {
@@ -35,10 +29,8 @@
   "export_url": "/language0/project0/export-view/store0.po",
   "group": null,
   "has_admin_access": true,
-  "has_sidebar": true,
   "index": 0,
   "is_disabled": false,
-  "is_sidebar_open": true,
   "is_store": true,
   "language": "Language 0 - language0",
   "nav": "translation_projects/_nav.html",

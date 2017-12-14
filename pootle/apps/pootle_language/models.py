@@ -22,7 +22,6 @@ from pootle.core.cache import make_method_key
 from pootle.core.mixins import TreeItem
 from pootle.core.url_helpers import get_editor_filter
 from pootle.i18n.gettext import language_dir, tr_lang
-from staticpages.models import StaticPage
 
 
 class LiveLanguageManager(models.Manager):
@@ -215,10 +214,6 @@ class Language(models.Model, TreeItem):
         ).select_related(
             "project"
         )
-
-    def get_announcement(self, user=None):
-        """Return the related announcement, if any."""
-        return StaticPage.get_announcement_for(self.pootle_path, user)
 
 
 @receiver([post_delete, post_save])

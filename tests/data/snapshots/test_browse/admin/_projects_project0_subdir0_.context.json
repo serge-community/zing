@@ -1,8 +1,4 @@
 {
-  "announcement": "announcements/projects/project0",
-  "announcements": [
-    "announcements/projects/project0"
-  ],
   "browse_url": "/projects/project0/subdir0/",
   "browser_extends": "projects/base.html",
   "browsing_data": {
@@ -72,10 +68,8 @@
   "export_url": "/projects/project0/export-view/subdir0/",
   "group": null,
   "has_admin_access": true,
-  "has_sidebar": true,
   "index": 0,
   "is_disabled": false,
-  "is_sidebar_open": true,
   "language": null,
   "nav": "projects/_nav.html",
   "object": "/projects/project0/subdir0/",

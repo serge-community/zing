@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -21,7 +22,7 @@ from pootle.core.views.mixins import SuperuserRequiredMixin
 from pootle_misc.util import ajax_required
 
 from .forms import agreement_form_factory
-from .models import ANN_TYPE, ANN_VPATH, AbstractPage, LegalPage, StaticPage
+from .models import AbstractPage, LegalPage, StaticPage
 
 
 class PageModelMixin(object):
@@ -34,7 +35,6 @@ class PageModelMixin(object):
         self.model = {
             'legal': LegalPage,
             'static': StaticPage,
-            ANN_TYPE: StaticPage,
         }.get(self.page_type)
 
         if self.model is None:
@@ -55,22 +55,6 @@ class PageModelMixin(object):
         kwargs.update({'label_suffix': ''})
         return kwargs
 
-    def get_form(self, form_class=None):
-        form = super(PageModelMixin, self).get_form(form_class)
-
-        if self.page_type == ANN_TYPE:
-            form.fields['virtual_path'].help_text = u'/pages/' + ANN_VPATH
-
-        return form
-
-    def form_valid(self, form):
-        if (self.page_type == ANN_TYPE and not
-            form.cleaned_data['virtual_path'].startswith(ANN_VPATH)):
-            orig_vpath = form.cleaned_data['virtual_path']
-            form.instance.virtual_path = ANN_VPATH + orig_vpath
-
-        return super(PageModelMixin, self).form_valid(form)
-
 
 class AdminCtxMixin(object):
 
@@ -87,19 +71,10 @@ class AdminTemplateView(SuperuserRequiredMixin, AdminCtxMixin, TemplateView):
     template_name = 'admin/staticpages/page_list.html'
 
     def get_context_data(self, **kwargs):
-        legal_pages = LegalPage.objects.all()
-        static_pages = StaticPage.objects.exclude(
-            virtual_path__startswith=ANN_VPATH,
-        )
-        announcements = StaticPage.objects.filter(
-            virtual_path__startswith=ANN_VPATH,
-        )
-
         ctx = super(AdminTemplateView, self).get_context_data(**kwargs)
         ctx.update({
-            'legalpages': legal_pages,
-            'staticpages': static_pages,
-            ANN_TYPE: announcements,
+            'legalpages': LegalPage.objects.all(),
+            'staticpages': StaticPage.objects.all(),
         })
         return ctx
 
@@ -114,30 +89,15 @@ class PageCreateView(SuperuserRequiredMixin, AdminCtxMixin, PageModelMixin,
     def get_initial(self):
         initial = super(PageModelMixin, self).get_initial()
 
+        next_page_number = AbstractPage.max_pk() + 1
         initial_args = {
             'title': _('Page Title'),
+            'virtual_path': 'page-%d' % next_page_number,
         }
-
-        if self.page_type != ANN_TYPE:
-            next_page_number = AbstractPage.max_pk() + 1
-            initial_args['virtual_path'] = 'page-%d' % next_page_number
 
         initial.update(initial_args)
 
         return initial
-
-    def get_form(self, form_class=None):
-        form = super(PageCreateView, self).get_form(form_class)
-
-        if self.page_type == ANN_TYPE:
-            del form.fields['url']
-            # Translators: 'projects' must not be translated.
-            msg = _(u'projects/<project_code> or <language_code> or '
-                    u'<language_code>/<project_code>')
-            form.fields['virtual_path'].widget.attrs['placeholder'] = msg
-            form.fields['virtual_path'].widget.attrs['size'] = 60
-
-        return form
 
 
 class PageUpdateView(SuperuserRequiredMixin, AdminCtxMixin, PageModelMixin,
@@ -154,16 +114,6 @@ class PageUpdateView(SuperuserRequiredMixin, AdminCtxMixin, PageModelMixin,
             'page_type': self.page_type,
         })
         return ctx
-
-    def get_form_kwargs(self):
-        kwargs = super(PageUpdateView, self).get_form_kwargs()
-
-        if self.page_type == ANN_TYPE:
-            orig_vpath = self.object.virtual_path
-            self.object.virtual_path = orig_vpath.replace(ANN_VPATH, '')
-            kwargs.update({'instance': self.object})
-
-        return kwargs
 
 
 class PageDeleteView(SuperuserRequiredMixin, PageModelMixin, DeleteView):

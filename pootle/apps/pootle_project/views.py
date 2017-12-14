@@ -15,7 +15,6 @@ from django.utils.lru_cache import lru_cache
 
 from pootle.core.browser import ItemTypes
 from pootle.core.decorators import get_path_obj, permission_required
-from pootle.core.helpers import get_sidebar_announcements_context
 from pootle.core.views import (PootleBrowseView, PootleExportView,
                                PootleTranslateView)
 from pootle_app.models import Directory
@@ -115,12 +114,6 @@ class ProjectBrowseView(ProjectMixin, PootleBrowseView):
     def permission_context(self):
         return self.project.directory
 
-    @cached_property
-    def sidebar_announcements(self):
-        return get_sidebar_announcements_context(
-            self.request,
-            (self.project, ))
-
     @property
     def url_kwargs(self):
         return self.kwargs
@@ -200,10 +193,6 @@ class ProjectsMixin(object):
 
 
 class ProjectsBrowseView(ProjectsMixin, PootleBrowseView):
-
-    @property
-    def sidebar_announcements(self):
-        return {}, None
 
     def get(self, *args, **kwargs):
         response = super(ProjectsBrowseView, self).get(*args, **kwargs)

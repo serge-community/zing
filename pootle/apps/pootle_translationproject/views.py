@@ -17,7 +17,6 @@ from django.utils.lru_cache import lru_cache
 
 from pootle.core.browser import ItemTypes, get_parent
 from pootle.core.decorators import get_path_obj, permission_required
-from pootle.core.helpers import get_sidebar_announcements_context
 from pootle.core.views import (
     PootleBrowseView, PootleExportView, PootleTranslateView)
 from pootle_app.models import Directory
@@ -147,12 +146,6 @@ class TPMixin(object):
     @cached_property
     def language(self):
         return self.tp.language
-
-    @cached_property
-    def sidebar_announcements(self):
-        return get_sidebar_announcements_context(
-            self.request,
-            (self.project, self.language, self.tp))
 
 
 class TPDirectoryMixin(TPMixin):

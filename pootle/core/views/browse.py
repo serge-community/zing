@@ -12,8 +12,6 @@ from django.contrib.auth import get_user_model
 from django.http import Http404
 from django.utils.functional import cached_property
 
-from pootle.core.helpers import (SIDEBAR_COOKIE_NAME,
-                                 get_sidebar_announcements_context)
 from pootle.core.url_helpers import split_pootle_path
 from pootle.core.utils.json import remove_empty_from_dict
 from pootle.core.utils.stats import (TOP_CONTRIBUTORS_CHUNK_SIZE,
@@ -91,21 +89,6 @@ class PootleBrowseView(BrowseDataViewMixin, PootleDetailView):
     def path(self):
         return self.request.path
 
-    @cached_property
-    def cookie_data(self):
-        ctx_, cookie_data = self.sidebar_announcements
-        return cookie_data
-
-    @cached_property
-    def sidebar_announcements(self):
-        return get_sidebar_announcements_context(self.request, (self.object,))
-
-    def get(self, *args, **kwargs):
-        response = super(PootleBrowseView, self).get(*args, **kwargs)
-        if self.cookie_data:
-            response.set_cookie(SIDEBAR_COOKIE_NAME, self.cookie_data)
-        return response
-
     def get_context_data(self, *args, **kwargs):
         filters = {}
         can_translate = False
@@ -132,9 +115,8 @@ class PootleBrowseView(BrowseDataViewMixin, PootleDetailView):
             url_action_fixcritical = None
             url_action_review = None
             url_action_view_all = None
-        ctx, cookie_data_ = self.sidebar_announcements
 
-        ctx.update(super(PootleBrowseView, self).get_context_data(*args, **kwargs))
+        ctx = super(PootleBrowseView, self).get_context_data(*args, **kwargs)
 
         lang_code, proj_code = split_pootle_path(self.pootle_path)[:2]
         top_scorers = User.top_scorers(

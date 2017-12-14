@@ -13,7 +13,7 @@ import ReactRenderer from 'utils/ReactRenderer';
 import { q, qAll } from 'utils/dom';
 
 import EditorContainer from './containers/EditorContainer';
-import { loadFormatAdaptor } from './formats/FormatLoader';
+import UnitSource from './components/UnitSource';
 import { hasCRLF, normalize, denormalize } from './utils/normalizer';
 import { insertAtCaret, setValue } from './utils/RawFontAware';
 
@@ -27,11 +27,9 @@ const ReactEditor = {
     this.props = {};
     this.hasCRLF = props.sourceValues.some(hasCRLF);
 
-    loadFormatAdaptor(props, (newProps, adaptor) => {
-      this.formatAdaptor = adaptor;
-      ReactRenderer.unmountComponents();
-      this.setProps(newProps);
-    });
+    ReactRenderer.unmountComponents();
+
+    this.setProps(props);
   },
 
   setProps(props) {
@@ -55,14 +53,13 @@ const ReactEditor = {
     this.editorInstance = ReactRenderer.render(
       <EditorContainer
         onChange={this.handleChange}
-        editorComponent={this.formatAdaptor.editorComponent}
         {...this.props}
         {...extraProps}
       />,
       this.node
     );
     ReactRenderer.render(
-      <this.formatAdaptor.unitSourceComponent
+      <UnitSource
         id={this.props.unitId}
         values={this.props.sourceValues}
         hasPlurals={this.props.hasPlurals}
@@ -75,7 +72,7 @@ const ReactEditor = {
       const mountNode = this.alternativeSourceNodes[i];
       const unit = this.props.alternativeSources[mountNode.dataset.id];
       ReactRenderer.render(
-        <this.formatAdaptor.unitSourceComponent
+        <UnitSource
           id={unit.id}
           values={unit.target}
           hasPlurals={unit.has_plurals}

@@ -1,7 +1,7 @@
 Zing Changelog
 ==============
 
-v.next
+v0.7.0
 ------
 
 * Dropped support for IE11 (#275).

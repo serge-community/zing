@@ -1,6 +1,13 @@
 Zing Changelog
 ==============
 
+v.next
+------
+
+* Fixed a bug where the editor would crash if a terminology unit contained
+  suggestions (#291).
+
+
 v0.7.0
 ------
 

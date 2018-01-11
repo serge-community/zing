@@ -141,7 +141,7 @@ class Suggestion(models.Model, base.TranslationUnit):
         return self.unit._source
 
     @property
-    def translator_comment(self, value):
+    def translator_comment(self):
         return self.translator_comment_f
 
     @translator_comment.setter

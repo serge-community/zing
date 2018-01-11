@@ -8,8 +8,8 @@ v.next
   suggestions (#291).
 
 
-v0.7.0
-------
+v0.7.0 (2018-01-10)
+-------------------
 
 * Dropped support for IE11 (#275).
 * JS assets are built with the latest version of Webpack and Babel (#272, #278,

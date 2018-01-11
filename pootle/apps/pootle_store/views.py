@@ -376,8 +376,6 @@ class UnitTimelineJSON(PootleUnitJSON):
 class UnitEditJSON(PootleUnitJSON):
 
     def get_edit_template(self):
-        if self.project.is_terminology:
-            return loader.get_template('editor/units/term_edit.html')
         return loader.get_template('editor/units/edit.html')
 
     def render_edit_template(self, context):

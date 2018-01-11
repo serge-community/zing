@@ -341,7 +341,6 @@
             </div>
             {% endfor %}
             <div class="suggestion-feedback js-mnt-suggestion-feedback-{{ sugg.id }}"></div>
-            {% block suggestion_comment %}{% endblock %}
             {% if sugg.creation_time %}
             <time class="extra-item-meta js-relative-date"
               title="{{ sugg.creation_time|dateformat }}"

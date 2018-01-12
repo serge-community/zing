@@ -296,11 +296,7 @@ def run_app(project, default_settings_path, settings_template,
 
 def get_version():
     from pootle import __version__
-    from translate import __version__ as tt_version
-    from django import get_version as django_version
-
-    return ('Zing %s (Django %s, Translate Toolkit %s)' %
-            (__version__, django_version(), tt_version.sver))
+    return 'Zing %s' % (__version__)
 
 
 def main():

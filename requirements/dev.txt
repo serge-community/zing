@@ -2,7 +2,6 @@
 
 -r base.txt
 -r tests.txt
--r _docs.txt
 -r _lint.txt
 
 django-extensions

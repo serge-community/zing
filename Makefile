@@ -1,6 +1,6 @@
 CWD = $(shell pwd)
 SRC_DIR = ${CWD}/pootle
-DOCS_DIR = ${CWD}/docs
+WEBSITE_DIR = ${CWD}/website
 STATIC_DIR = ${SRC_DIR}/static
 # The ASSETS_DIR is where STATIC_ROOT configuration variable
 # usually points to (see pootle/settings/10-base.conf)
@@ -50,9 +50,7 @@ travis-assets:
 	fi
 
 docs:
-	# The following creates the HTML docs.
-	# NOTE: cd and make must be in the same line.
-	cd ${DOCS_DIR}; make SPHINXOPTS="-W -q -j 4" html ${TAIL}
+	cd ${WEBSITE_DIR}; npm run build ${TAIL}
 
 clean:
 	npm cache clear

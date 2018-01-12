@@ -1,0 +1,16 @@
+{
+  "docs": {
+    "Get Started": [
+      "introduction", "installation", "initial-setup"
+    ],
+    "Workflow": [
+      "workflow-overview", "continuous-localization"
+    ],
+    "Features": [
+      "editor", "invoices"
+    ],
+    "Reference": [
+      "settings", "commands"
+    ]
+  }
+}

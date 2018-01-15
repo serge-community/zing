@@ -56,7 +56,6 @@ def pootle_context(request):
             'TZ_OFFSET': TZ_OFFSET,
             'DEBUG': settings.DEBUG,
         },
-        'custom': settings.POOTLE_CUSTOM_TEMPLATE_CONTEXT,
         'ALL_LANGUAGES': Language.live.cached_dict(translation.get_language(),
                                                    request.user.is_superuser),
         'ALL_PROJECTS': Project.objects.cached_dict(request.user),

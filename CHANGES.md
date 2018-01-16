@@ -6,6 +6,10 @@ v.next
 
 * Fixed a bug where the editor would crash if a terminology unit contained
   suggestions (#291).
+* Cleaned up unused commands:
+  * `dump`, `find_duplicate_emails`, `update_user_email` (#296)
+* Cleaned up unused settings:
+  * `POOTLE_CUSTOM_TEMPLATE_CONTEXT` (#293)
 
 
 v0.7.0 (2018-01-10)

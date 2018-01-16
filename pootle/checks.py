@@ -53,30 +53,6 @@ def _version_to_string(version, significance=None):
     return '.'.join(str(n) for n in version)
 
 
-@checks.register('data')
-def check_duplicate_emails(app_configs=None, **kwargs):
-    from accounts.utils import get_duplicate_emails
-    errors = []
-    try:
-        if len(get_duplicate_emails()):
-            errors.append(
-                checks.Warning(
-                    _("There are user accounts with duplicate emails. This "
-                      "will not be allowed in Pootle 2.8."),
-                    hint=_("Try using 'pootle find_duplicate_emails', and "
-                           "then update user emails with 'pootle "
-                           "update_user_email username email'. You might also "
-                           "want to consider using pootle merge_user or "
-                           "purge_user commands"),
-                    id="pootle.W017"
-                )
-            )
-    except (OperationalError, ProgrammingError):
-        # no accounts set up - most likely in a test
-        pass
-    return errors
-
-
 @checks.register()
 def check_library_versions(app_configs=None, **kwargs):
     from django import VERSION as DJANGO_VERSION

@@ -460,40 +460,6 @@ By default, :djadmin:`test_checks` tests all existing checks. When
 ``--check=<checkname>`` is set, only specific checks will be tested against.
 
 
-.. django-admin:: dump
-
-dump
-^^^^
-
-.. versionadded:: 2.7
-
-Prints data or stats data (depending on :option:`--data` or :option:`--stats` option)
-in specific format.
-
-.. django-admin-option:: --data
-
-::
-
-  object_id:class_name
-  8276:Directory	name=android	parent=/uk/	pootle_path=/uk/android/
-  24394:Store	file=android/uk/strings.xml.po	translation_project=/uk/android/	pootle_path=/uk/android/strings.xml.po	name=strings.xml.pstate=2
-  806705:Unit	source=Create Account	target=Створити аккаунт	source_wordcount=2	target_wordcount=2	developer_comment=create_account	translator_commentlocations=File:\nstrings.xml\nID:\ne82a8ea14a0b9f92b1b67ebfde2c16e9	isobsolete=False	isfuzzy=False	istranslated=True
-  115654:Suggestion	target_f=Необхідна електронна адреса	user_id=104481
-
-.. django-admin-option:: --stats
-
-::
-
-  pootle_path total,translated,fuzzy,suggestions,criticals,is_dirty,last_action_unit_id,last_updated_unit_id
-  /uk/android/strings.xml.po  11126,10597,383,231,0,False,4710214,4735242
-  /uk/android/widget/strings.xml.po  339,339,0,26,0,False,2277376,3738609
-  /uk/android/widget/  339,339,0,26,0,False,2277376,3738609
-  /uk/android/  11465,10936,383,257,0,False,4710214,4735242
-
-This command can be used by developers to check if all data kept after
-migrations or stats calculating algorithm was changed.
-
-
 .. _commands#translation-memory:
 
 Translation Memory
@@ -751,23 +717,6 @@ Managing users
 --------------
 
 
-.. django-admin:: find_duplicate_emails
-
-find_duplicate_emails
-^^^^^^^^^^^^^^^^^^^^^
-
-.. versionadded:: 2.7.1
-
-As of Pootle version 2.8, it will no longer be possible to have users with
-duplicate emails. This command will find any user accounts that have duplicate
-emails. It also shows the last login time for each affected user and indicates
-if they are superusers of the site.
-
-.. code-block:: console
-
-    $ pootle find_duplicate_emails
-
-
 .. django-admin:: merge_user
 
 merge_user
@@ -814,29 +763,6 @@ username for a user of your site.
 .. code-block:: console
 
     $ pootle purge_user username [username ...]
-
-
-.. django-admin:: update_user_email
-
-update_user_email
-^^^^^^^^^^^^^^^^^
-
-.. versionadded:: 2.7.1
-
-
-.. code-block:: console
-
-    $ pootle update_user_email username email
-
-This command can be used if you wish to update a user's email address. This
-might be useful if you have users with duplicate email addresses.
-
-This command requires a mandatory ``username``, which should be a valid
-username for a user of your site, and a mandatory valid ``email`` address.
-
-.. code-block:: console
-
-    $ pootle update_user_email username email
 
 
 .. django-admin:: verify_user

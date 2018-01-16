@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -11,8 +12,7 @@ import logging
 import sys
 
 from django.contrib.auth import get_user_model
-from django.core.validators import ValidationError, validate_email
-from django.db.models import Count
+from django.core.validators import ValidationError
 
 from allauth.account.models import EmailAddress
 from allauth.account.utils import sync_user_email_addresses
@@ -349,18 +349,13 @@ def verify_user(user):
     :param user: `User` to verify
     """
     if not user.email:
-        raise ValidationError("You cannot verify an account with no email "
-                              "set. You can set this user's email with "
-                              "'pootle update_user_email %s EMAIL'"
-                              % user.username)
+        raise ValidationError("You cannot verify an account with no email set.")
 
     # Ensure this user's email address is unique
     try:
         validate_email_unique(user.email, user)
     except ValidationError:
-        raise ValidationError("This user's email is not unique. You can find "
-                              "duplicate emails with 'pootle "
-                              "find_duplicate_emails'")
+        raise ValidationError("This user's email is not unique.")
 
     # already has primary?
     existing_primary = EmailAddress.objects.filter(user=user, primary=True)
@@ -383,16 +378,6 @@ def verify_user(user):
     email_address.save()
 
 
-def get_duplicate_emails():
-    """Get a list of emails that occur more than once in user accounts.
-    """
-    return (get_user_model().objects.hide_meta()
-                                    .values('email')
-                                    .annotate(Count('email'))
-                                    .filter(email__count__gt=1)
-                                    .values_list("email", flat=True))
-
-
 def validate_email_unique(email, for_user=None):
     """Validates an email to ensure it does not already exist in the system.
 
@@ -407,15 +392,3 @@ def validate_email_unique(email, for_user=None):
 
     if existing_accounts.exists() or existing_email.exists():
         raise ValidationError("A user with that email address already exists")
-
-
-def update_user_email(user, new_email):
-    """Updates a user's email with new_email.
-
-    :param user: `User` to update email for.
-    :param new_email: Email address to update with.
-    """
-    validate_email_unique(new_email)
-    validate_email(new_email)
-    user.email = new_email
-    user.save()

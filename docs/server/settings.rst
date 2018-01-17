@@ -423,20 +423,10 @@ Translation environment configuration settings.
   .. code-block:: python
 
     {
-        'local': {
-            'ENGINE': 'pootle.core.search.backends.ElasticSearchBackend',
-            'HOST': 'localhost',
-            'PORT': 9200,
-            'INDEX_NAME': 'translations',
-            'WEIGHT': 1,
-        },
-        'external': {
-            'ENGINE': 'pootle.core.search.backends.ElasticSearchBackend',
-            'HOST': 'localhost',
-            'PORT': 9200,
-            'INDEX_NAME': 'external-translations',
-            'WEIGHT': 0.9,
-        },
+        'ENGINE': 'pootle.core.search.backends.ElasticSearchBackend',
+        'HOST': 'localhost',
+        'PORT': 9200,
+        'INDEX_NAME': 'translations',
     }
 
 
@@ -449,12 +439,6 @@ Translation environment configuration settings.
   .. setting:: POOTLE_TM_SERVER-INDEX_NAME
 
   Every TM server must have its own unique ``INDEX_NAME``.
-
-  .. setting:: POOTLE_TM_SERVER-WEIGHT
-
-  ``WEIGHT`` provides a weighting factor to alter the final score for TM
-  results from this TM server. Valid values are between ``0.0`` and ``1.0``,
-  both included. Defaults to ``1.0`` if not provided.
 
   .. setting:: POOTLE_TM_SERVER-MIN_SIMILARITY
 

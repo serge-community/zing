@@ -35,32 +35,11 @@ def __test_update_tmserver_noargs(capfd, tp0, settings):
             .exclude(target_f__exact=''))
 
     settings.POOTLE_TM_SERVER = {
-        'local': {
-            'ENGINE': 'pootle.core.search.backends.ElasticSearchBackend',
-            'HOST': 'localhost',
-            'PORT': 9200,
-            'INDEX_NAME': 'translations',
-        }
+        'HOST': 'localhost',
+        'PORT': 9200,
     }
     call_command('update_tmserver')
     out, err = capfd.readouterr()
     assert "Last indexed revision = -1" in out
 
     assert ("%d translations to index" % units_qs.count()) in out
-
-
-@pytest.mark.cmd
-@pytest.mark.django_db
-def test_update_tmserver_bad_tm(capfd, settings):
-    """Non-existant TM in the server"""
-    settings.POOTLE_TM_SERVER = {
-        'local': {
-            'ENGINE': 'pootle.core.search.backends.ElasticSearchBackend',
-            'HOST': 'localhost',
-            'PORT': 9200,
-            'INDEX_NAME': 'translations',
-        }
-    }
-    with pytest.raises(CommandError) as e:
-        call_command('update_tmserver', '--tm=i_dont_exist')
-    assert "Translation Memory 'i_dont_exist' is not defined" in str(e)

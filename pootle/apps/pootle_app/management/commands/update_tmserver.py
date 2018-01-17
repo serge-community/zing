@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -129,14 +130,6 @@ class Command(BaseCommand):
             default=False,
             help='Add translations from disabled projects'
         )
-        parser.add_argument(
-            '--tm',
-            action='store',
-            dest='tm',
-            default='local',
-            help="TM to use. TM must exist on settings. TM will be "
-                 "created on the server if it doesn't exist"
-        )
 
     def _parse_translations(self, **options):
         units, total = self.parser.get_units()
@@ -168,20 +161,14 @@ class Command(BaseCommand):
         if not settings.POOTLE_TM_SERVER:
             raise CommandError('POOTLE_TM_SERVER setting is missing.')
 
-        try:
-            self.tm_settings = settings.POOTLE_TM_SERVER[options['tm']]
-        except KeyError:
-            raise CommandError("Translation Memory '%s' is not defined in the "
-                               "POOTLE_TM_SERVER setting. Please ensure it "
-                               "exists and double-check you typed it "
-                               "correctly." % options['tm'])
+        tm_settings = settings.POOTLE_TM_SERVER
 
-        self.INDEX_NAME = self.tm_settings['INDEX_NAME']
+        self.INDEX_NAME = tm_settings['INDEX_NAME']
 
         self.es = Elasticsearch([
             {
-                'host': self.tm_settings['HOST'],
-                'port': self.tm_settings['PORT'],
+                'host': tm_settings['HOST'],
+                'port': tm_settings['PORT'],
             }], retry_on_timeout=True
         )
 

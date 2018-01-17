@@ -15,14 +15,8 @@ SERVER_SETTINGS_NAME = 'POOTLE_TM_SERVER'
 
 class SearchBackend(object):
 
-    def __init__(self, config_name=None):
-        self._setup_settings(config_name)
-        self.weight = 1.0
-
-    def _setup_settings(self, config_name):
+    def __init__(self):
         self._settings = getattr(settings, SERVER_SETTINGS_NAME, None)
-        if config_name is not None:
-            self._settings = self._settings[config_name]
 
     def search(self, unit):
         """Search for TM results.

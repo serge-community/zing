@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -64,12 +65,10 @@ def filter_hits_by_distance(hits, source_text,
 
 
 class ElasticSearchBackend(SearchBackend):
-    def __init__(self, config_name):
-        super(ElasticSearchBackend, self).__init__(config_name)
+    def __init__(self):
+        super(ElasticSearchBackend, self).__init__()
         self._es = self._get_es_server()
         self._create_index_if_missing()
-        self.weight = min(max(self._settings.get('WEIGHT', self.weight),
-                              0.0), 1.0)
 
     def _get_es_server(self):
         return Elasticsearch([
@@ -151,7 +150,7 @@ class ElasticSearchBackend(SearchBackend):
                         'fullname': body['fullname'],
                         'email_md5': body['email_md5'],
                         'mtime': body.get('mtime', None),
-                        'score': hit['_score'] * self.weight,
+                        'score': hit['_score'],
                     })
                 else:
                     counter[translation_pair] += 1

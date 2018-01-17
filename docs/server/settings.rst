@@ -418,7 +418,7 @@ Translation environment configuration settings.
 
   Default: ``{}`` (empty dict)
 
-  Example configuration for local/external TM server:
+  Example configuration for TM server:
 
   .. code-block:: python
 
@@ -444,9 +444,7 @@ Translation environment configuration settings.
   settings for any non-standard setup.  Change ``HOST`` and ``PORT`` settings
   as required.
 
-  The default ``local`` TM is automatically updated every time a new
-  translation is submitted. The other TMs are not automatically updated so they
-  can be trusted to provide selected high quality translations.
+  The TM is automatically updated every time a new translation is submitted.
 
   .. setting:: POOTLE_TM_SERVER-INDEX_NAME
 

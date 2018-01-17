@@ -31,10 +31,6 @@ Configuring Translation Memory
 ------------------------------
 
 Translation Memory will work out of the box with a default Pootle installation.
-There are two methods of getting Translation Memory.
-
-1. Elasticsearch - for local Translation Memory
-2. Elasticsearch - for external Translation Memory
 
 
 .. _translation_memory#elasticsearch_based_tms:
@@ -44,7 +40,7 @@ Elasticsearch-based TMs
 
 .. versionadded:: 2.7
 
-Pootle can also retrieve TM matches stored on Elasticsearch-based TM servers.
+Pootle can retrieve TM matches stored on Elasticsearch-based TM servers.
 These TM servers require
 `Elasticsearch <https://www.elastic.co/products/elasticsearch>`_ to be
 installed and running.
@@ -54,34 +50,11 @@ installed and running.
   <https://www.elastic.co/guide/en/elasticsearch/reference/1.6/setup-service.html#_installing_the_oracle_jdk>`_.
 
 
-Pootle supports two types of Elasticsearch-based TMs:
-
-- **Local TM**: (just one, named ``local``) is populated using translations
-  stored in Pootle database and every new translation gets automatically
-  imported to it.
-
-- **External TMs**: (several) are populated from translation files specifically
-  provided by the server admins, and are not automatically updated.
+The settings can be adjusted with :setting:`POOTLE_TM_SERVER`. A configuration
+example for can be found in the default :file:`~/.pootle/pootle.conf`.
 
 
-Both local and external TM settings can be adjusted in
-:setting:`POOTLE_TM_SERVER`. A configuration example for local and external TM
-can be found in the default :file:`~/.pootle/pootle.conf`, and can be enabled by
-uncommenting the example.
-
-Please see the :setting:`POOTLE_TM_SERVER-WEIGHT` for a full example of the
-configuration necessary to set up local/external TM.
-
-
-.. _translation_memory#local_translation_memory:
-
-Elasticsearch-based local TM
-++++++++++++++++++++++++++++
-
-.. versionadded:: 2.7
-
-To use it, the ``local`` TM must be enabled on :setting:`POOTLE_TM_SERVER` and
-will need to be populated using the :djadmin:`update_tmserver` command:
+The TM can be populated using the :djadmin:`update_tmserver` command:
 
 .. code-block:: console
 
@@ -89,33 +62,6 @@ will need to be populated using the :djadmin:`update_tmserver` command:
 
 
 Once populated Pootle will keep Local TM up-to-date.
-
-
-.. _translation_memory#external_translation_memories:
-
-Elasticsearch-based external TMs
-++++++++++++++++++++++++++++++++
-
-.. versionadded:: 2.7.3
-
-In order to use them they must be enabled on :setting:`POOTLE_TM_SERVER` and
-you will need to populate them using the :djadmin:`update_tmserver` command
-specifying the TM to use with :option:`--tm <update_tmserver --tm>` and the
-display name with :option:`--display-name <update_tmserver --display-name>`:
-
-.. code-block:: console
-
-   (env) $ pootle update_tmserver --tm=external --display-name=Pidgin af.po gl.tmx
-
-
-A display name is a label used to group translations within a TM. A given TM
-can host translations for several labels. Just specify them with
-:option:`--display-name <update_tmserver --display-name>`:
-
-.. code-block:: console
-
-   (env) $ pootle update_tmserver --tm=external --display-name=GNOME pt.tmx eu.po xh.po
-
 
 It is possible to have several Elasticsearch-based external TM servers working
 at once, along with the Elasticsearch-based local TM server. In order to do so
@@ -141,18 +87,3 @@ Make sure :setting:`INDEX_NAME <POOTLE_TM_SERVER-INDEX_NAME>` is unique. You
 might also want to tweak :setting:`WEIGHT <POOTLE_TM_SERVER-WEIGHT>` to change
 the score of the TM results in relation to other TM servers (valid values are
 between ``0.0`` and ``1.0``).
-
-To use these additional external TMs you will need to populate them using the
-:djadmin:`update_tmserver` command specifying the TM server with :option:`--tm
-<update_tmserver --tm>`:
-
-.. code-block:: console
-
-   (env) $ pootle update_tmserver --tm=libreoffice --display-name=LibreOffice af.po gl.tmx
-
-
-Check :djadmin:`update_tmserver` for more options.
-
-Note that Pootle will not push new translations to these TM servers unless you
-explicitly use the :djadmin:`update_tmserver` command, giving you full control
-of which translations make into them.

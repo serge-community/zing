@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
-
-import os
 
 import pytest
 
@@ -65,51 +64,3 @@ def test_update_tmserver_bad_tm(capfd, settings):
     with pytest.raises(CommandError) as e:
         call_command('update_tmserver', '--tm=i_dont_exist')
     assert "Translation Memory 'i_dont_exist' is not defined" in str(e)
-
-
-@pytest.mark.cmd
-@pytest.mark.django_db
-def test_update_tmserver_files_no_displayname(capfd, settings, tmpdir):
-    """File based TM needs a display-name"""
-    settings.POOTLE_TM_SERVER = {
-        'external': {
-            'ENGINE': 'pootle.core.search.backends.ElasticSearchBackend',
-            'HOST': 'localhost',
-            'PORT': 9200,
-            'INDEX_NAME': 'translations-external',
-        }
-    }
-    with pytest.raises(CommandError) as e:
-        call_command('update_tmserver', '--tm=external', 'fake_file.po')
-    assert "--display-name" in str(e)
-
-
-@pytest.mark.cmd
-@pytest.mark.django_db
-def test_update_tmserver_files(capfd, settings, tmpdir):
-    """Load TM from files"""
-    settings.POOTLE_TM_SERVER = {
-        'external': {
-            'ENGINE': 'pootle.core.search.backends.ElasticSearchBackend',
-            'HOST': 'localhost',
-            'PORT': 9200,
-            'INDEX_NAME': 'translations-external',
-        }
-    }
-    p = tmpdir.mkdir("tmserver_files").join("tutorial.po")
-    p.write("""msgid "rest"
-msgstr "test"
-           """)
-
-    # First try without a --target-language (headers in above PO would sort
-    # this out)
-    with pytest.raises(CommandError) as e:
-        call_command('update_tmserver', '--tm=external', '--display-name=Test',
-                     os.path.join(p.dirname, p.basename))
-    assert "Unable to determine target language" in str(e)
-
-    # Now set the --target-language
-    call_command('update_tmserver', '--tm=external', '--display-name=Test',
-                 '--target-language=af', os.path.join(p.dirname, p.basename))
-    out, err = capfd.readouterr()
-    assert "1 translations to index" in out

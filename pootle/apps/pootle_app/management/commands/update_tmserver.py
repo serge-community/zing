@@ -14,7 +14,6 @@ from hashlib import md5
 os.environ['DJANGO_SETTINGS_MODULE'] = 'pootle.settings'
 
 from elasticsearch import Elasticsearch, helpers
-from translate.storage import factory
 
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
@@ -33,7 +32,7 @@ class DBParser(object):
         self.INDEX_NAME = kwargs.pop('index', None)
         self.exclude_disabled_projects = not kwargs.pop('disabled_projects')
 
-    def get_units(self, filenames):
+    def get_units(self):
         """Gets the units to import and its total count."""
         units_qs = Unit.simple_objects \
             .exclude(target_f__isnull=True) \
@@ -96,72 +95,6 @@ class DBParser(object):
         }
 
 
-class FileParser(object):
-
-    def __init__(self, *args, **kwargs):
-        self.stdout = kwargs.pop('stdout')
-        self.INDEX_NAME = kwargs.pop('index', None)
-        self.target_language = kwargs.pop('language', None)
-        self.project = kwargs.pop('project', None)
-
-    def get_units(self, filenames):
-        """Gets the units to import and its total count."""
-        units = []
-        all_filenames = set()
-
-        for filename in filenames:
-            if not os.path.exists(filename):
-                self.stdout.write("File %s doesn't exist. Skipping it." %
-                                  filename)
-                continue
-
-            if os.path.isdir(filename):
-                for dirpath, dirs_, fnames in os.walk(filename):
-                    if (os.path.basename(dirpath) in
-                        ["CVS", ".svn", "_darcs", ".git", ".hg", ".bzr"]):
-
-                        continue
-
-                    for f in fnames:
-                        all_filenames.add(os.path.join(dirpath, f))
-            else:
-                all_filenames.add(filename)
-
-        for filename in all_filenames:
-            store = factory.getobject(filename)
-            if not store.gettargetlanguage() and not self.target_language:
-                raise CommandError("Unable to determine target language for "
-                                   "'%s'. Try again specifying a fallback "
-                                   "target language with --target-language" %
-                                   filename)
-
-            self.filename = filename
-            units.extend([unit for unit in store.units if unit.istranslated()])
-
-        return units, len(units)
-
-    def get_unit_data(self, unit):
-        """Return dict with data to import for a single unit."""
-        target_language = unit.gettargetlanguage()
-        if target_language is None:
-            target_language = self.target_language
-
-        return {
-            '_index': self.INDEX_NAME,
-            '_type': target_language,
-            '_id': unit.getid(),
-            'revision': 0,
-            'project': self.project,
-            'path': self.filename,
-            'username': None,
-            'fullname': None,
-            'email_md5': None,
-            'source': unit.source,
-            'target': unit.target,
-            'mtime': None,
-        }
-
-
 class Command(BaseCommand):
     help = "Load Translation Memory with translations"
 
@@ -189,27 +122,14 @@ class Command(BaseCommand):
             default=False,
             help='Report the number of translations to index and quit'
         )
-
-        # Local TM specific options.
-        local = parser.add_argument_group('Local TM', 'Pootle Local '
-                                          'Translation Memory')
-        local.add_argument(
+        parser.add_argument(
             '--include-disabled-projects',
             action='store_true',
             dest='disabled_projects',
             default=False,
             help='Add translations from disabled projects'
         )
-
-        # External TM specific options.
-        external = parser.add_argument_group('External TM', 'Pootle External '
-                                             'Translation Memory')
-        external.add_argument(
-            nargs='*',
-            dest='files',
-            help='Translation memory files',
-        )
-        external.add_argument(
+        parser.add_argument(
             '--tm',
             action='store',
             dest='tm',
@@ -217,25 +137,9 @@ class Command(BaseCommand):
             help="TM to use. TM must exist on settings. TM will be "
                  "created on the server if it doesn't exist"
         )
-        external.add_argument(
-            '--target-language',
-            action='store',
-            dest='target_language',
-            default='',
-            help="Target language to fallback to use in case it can't "
-                 "be guessed for any of the input files."
-        )
-        external.add_argument(
-            '--display-name',
-            action='store',
-            dest='project',
-            default='',
-            help='Name used when displaying TM matches for these '
-                 'translations.'
-        )
 
     def _parse_translations(self, **options):
-        units, total = self.parser.get_units(options['files'])
+        units, total = self.parser.get_units()
 
         if total == 0:
             self.stdout.write("No translations to index")
@@ -273,7 +177,6 @@ class Command(BaseCommand):
                                "correctly." % options['tm'])
 
         self.INDEX_NAME = self.tm_settings['INDEX_NAME']
-        self.is_local_tm = options['tm'] == 'local'
 
         self.es = Elasticsearch([
             {
@@ -282,25 +185,10 @@ class Command(BaseCommand):
             }], retry_on_timeout=True
         )
 
-        # If files to import have been provided.
-        if options['files']:
-            if self.is_local_tm:
-                raise CommandError('You cannot add translations from files to '
-                                   'a local TM.')
-
-            if not options['project']:
-                raise CommandError('You must specify a project name with '
-                                   '--display-name.')
-            self.parser = FileParser(stdout=self.stdout, index=self.INDEX_NAME,
-                                     language=options['target_language'],
-                                     project=options['project'])
-        elif not self.is_local_tm:
-            raise CommandError('You cannot add translations from database to '
-                               'an external TM.')
-        else:
-            self.parser = DBParser(
-                stdout=self.stdout, index=self.INDEX_NAME,
-                disabled_projects=options['disabled_projects'])
+        self.parser = DBParser(
+            stdout=self.stdout, index=self.INDEX_NAME,
+            disabled_projects=options['disabled_projects'],
+        )
 
     def _set_latest_indexed_revision(self, **options):
         self.last_indexed_revision = -1
@@ -343,7 +231,6 @@ class Command(BaseCommand):
 
             self.es.indices.create(index=self.INDEX_NAME)
 
-        if self.is_local_tm:
-            self._set_latest_indexed_revision(**options)
+        self._set_latest_indexed_revision(**options)
 
         helpers.bulk(self.es, self._parse_translations(**options))

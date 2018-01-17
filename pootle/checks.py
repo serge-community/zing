@@ -228,62 +228,36 @@ def check_settings(app_configs=None, **kwargs):
         ))
 
     if settings.POOTLE_TM_SERVER:
-        tm_indexes = []
+        if 'INDEX_NAME' not in settings.POOTLE_TM_SERVER:
+            errors.append(checks.Critical(
+                _("POOTLE_TM_SERVER has no INDEX_NAME."),
+                hint=_("Set an INDEX_NAME for POOTLE_TM_SERVER."),
+                id="pootle.C008",
+            ))
 
-        for server in settings.POOTLE_TM_SERVER:
-            if 'INDEX_NAME' not in settings.POOTLE_TM_SERVER[server]:
-                errors.append(checks.Critical(
-                    _("POOTLE_TM_SERVER['%s'] has no INDEX_NAME.", server),
-                    hint=_("Set an INDEX_NAME for POOTLE_TM_SERVER['%s'].",
-                           server),
-                    id="pootle.C008",
-                ))
-            elif settings.POOTLE_TM_SERVER[server]['INDEX_NAME'] in tm_indexes:
-                errors.append(checks.Critical(
-                    _("Duplicate '%s' INDEX_NAME in POOTLE_TM_SERVER.",
-                      settings.POOTLE_TM_SERVER[server]['INDEX_NAME']),
-                    hint=_("Set different INDEX_NAME for all servers in "
-                           "POOTLE_TM_SERVER."),
-                    id="pootle.C009",
-                ))
-            else:
-                tm_indexes.append(
-                    settings.POOTLE_TM_SERVER[server]['INDEX_NAME'])
+        if 'HOST' not in settings.POOTLE_TM_SERVER:
+            errors.append(checks.Critical(
+                _("POOTLE_TM_SERVER has no HOST."),
+                hint=_("Set a HOST for POOTLE_TM_SERVER."),
+                id="pootle.C011",
+            ))
 
-            if 'ENGINE' not in settings.POOTLE_TM_SERVER[server]:
-                errors.append(checks.Critical(
-                    _("POOTLE_TM_SERVER['%s'] has no ENGINE.", server),
-                    hint=_("Set a ENGINE for POOTLE_TM_SERVER['%s'].",
-                           server),
-                    id="pootle.C010",
-                ))
+        if 'PORT' not in settings.POOTLE_TM_SERVER:
+            errors.append(checks.Critical(
+                _("POOTLE_TM_SERVER has no PORT."),
+                hint=_("Set a PORT for POOTLE_TM_SERVER."),
+                id="pootle.C012",
+            ))
 
-            if 'HOST' not in settings.POOTLE_TM_SERVER[server]:
-                errors.append(checks.Critical(
-                    _("POOTLE_TM_SERVER['%s'] has no HOST.", server),
-                    hint=_("Set a HOST for POOTLE_TM_SERVER['%s'].",
-                           server),
-                    id="pootle.C011",
-                ))
-
-            if 'PORT' not in settings.POOTLE_TM_SERVER[server]:
-                errors.append(checks.Critical(
-                    _("POOTLE_TM_SERVER['%s'] has no PORT.", server),
-                    hint=_("Set a PORT for POOTLE_TM_SERVER['%s'].",
-                           server),
-                    id="pootle.C012",
-                ))
-
-            if ('WEIGHT' in settings.POOTLE_TM_SERVER[server] and
-                not (0.0 <= settings.POOTLE_TM_SERVER[server]['WEIGHT']
-                     <= 1.0)):
-                errors.append(checks.Warning(
-                    _("POOTLE_TM_SERVER['%s'] has a WEIGHT less than 0.0 or "
-                      "greater than 1.0", server),
-                    hint=_("Set a WEIGHT between 0.0 and 1.0 (both included) "
-                           "for POOTLE_TM_SERVER['%s'].", server),
-                    id="pootle.W019",
-                ))
+        if ('WEIGHT' in settings.POOTLE_TM_SERVER and
+            not (0.0 <= settings.POOTLE_TM_SERVER['WEIGHT'] <= 1.0)):
+            errors.append(checks.Warning(
+                _("POOTLE_TM_SERVER has a WEIGHT less than 0.0 or "
+                  "greater than 1.0"),
+                hint=_("Set a WEIGHT between 0.0 and 1.0 (both included) "
+                       "for POOTLE_TM_SERVER."),
+                id="pootle.W019",
+            ))
 
     for coefficient_name in ['EDIT', 'REVIEW', 'SUGGEST', 'ANALYZE']:
         if coefficient_name not in settings.POOTLE_SCORE_COEFFICIENTS:

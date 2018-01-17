@@ -96,24 +96,10 @@ DATABASES = {
 # on the projects hosted on Pootle.
 #
 #POOTLE_TM_SERVER = {
-#    'local': {
-#        'ENGINE': 'pootle.core.search.backends.ElasticSearchBackend',
-#        'HOST': 'localhost',
-#        'PORT': 9200,
-#        # Every TM server must have its own unique index.
-#        'INDEX_NAME': 'translations',
-#        # Provides a weighting factor to alter the final score for TM results
-#        # from this TM server. Valid values are between ``0.0`` and ``1.0``,
-#        # both included. Defaults to ``1.0`` if not provided.
-#        'WEIGHT': 1.0,
-#    },
-#    'external': {
-#        'ENGINE': 'pootle.core.search.backends.ElasticSearchBackend',
-#        'HOST': 'localhost',
-#        'PORT': 9200,
-#        'INDEX_NAME': 'external-translations',
-#        'WEIGHT': 0.9,
-#    },
+#    'HOST': 'localhost',
+#    'PORT': 9200,
+#    # Optional index name
+#    'INDEX_NAME': 'translations',
 #}
 
 #

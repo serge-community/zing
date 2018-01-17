@@ -13,6 +13,9 @@ import logging
 from . import SearchBackend
 
 
+DEFAULT_ENGINE_MODULE = 'pootle.core.search.backends.ElasticSearchBackend'
+
+
 class SearchBroker(SearchBackend):
 
     def __init__(self):
@@ -26,12 +29,13 @@ class SearchBroker(SearchBackend):
             return
 
         try:
-            _module = '.'.join(self._settings['ENGINE'].split('.')[:-1])
-            _search_class = self._settings['ENGINE'].split('.')[-1]
+            engine = self._settings['ENGINE']
         except KeyError:
-            logging.warning("The TM search backend is missing the "
-                            "required 'ENGINE' setting")
-            return
+            engine = DEFAULT_ENGINE_MODULE
+
+        _module = '.'.join(engine.split('.')[:-1])
+        _search_class = engine.split('.')[-1]
+
         try:
             module = importlib.import_module(_module)
             try:

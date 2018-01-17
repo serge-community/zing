@@ -423,7 +423,6 @@ Translation environment configuration settings.
   .. code-block:: python
 
     {
-        'ENGINE': 'pootle.core.search.backends.ElasticSearchBackend',
         'HOST': 'localhost',
         'PORT': 9200,
         'INDEX_NAME': 'translations',

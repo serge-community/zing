@@ -8,6 +8,8 @@ v.next
   suggestions (#291).
 * Cleaned up unused commands:
   * `dump`, `find_duplicate_emails`, `update_user_email` (#296)
+  * `list_languages`, `list_projects`, `contributors`, `changed_languages`,
+    `test_checks` (#297)
 * Cleaned up unused settings:
   * `POOTLE_CUSTOM_TEMPLATE_CONTEXT` (#293)
 

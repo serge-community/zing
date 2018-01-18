@@ -6,6 +6,8 @@ v.next
 
 * Fixed a bug where the editor would crash if a terminology unit contained
   suggestions (#291).
+* TM is now simplified to a single server and sane defaults are provided for
+  settings (#298).
 * Cleaned up unused commands:
   * `dump`, `find_duplicate_emails`, `update_user_email` (#296)
   * `list_languages`, `list_projects`, `contributors`, `changed_languages`,

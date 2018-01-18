@@ -425,7 +425,6 @@ Translation environment configuration settings.
     {
         'HOST': 'localhost',
         'PORT': 9200,
-        'INDEX_NAME': 'translations',
     }
 
 
@@ -437,7 +436,8 @@ Translation environment configuration settings.
 
   .. setting:: POOTLE_TM_SERVER-INDEX_NAME
 
-  Every TM server must have its own unique ``INDEX_NAME``.
+  ``INDEX_NAME`` is the name of the index to be created. It is optional, it
+  defaults to *translations*.
 
   .. setting:: POOTLE_TM_SERVER-MIN_SIMILARITY
 

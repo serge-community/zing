@@ -228,13 +228,6 @@ def check_settings(app_configs=None, **kwargs):
         ))
 
     if settings.POOTLE_TM_SERVER:
-        if 'INDEX_NAME' not in settings.POOTLE_TM_SERVER:
-            errors.append(checks.Critical(
-                _("POOTLE_TM_SERVER has no INDEX_NAME."),
-                hint=_("Set an INDEX_NAME for POOTLE_TM_SERVER."),
-                id="pootle.C008",
-            ))
-
         if 'HOST' not in settings.POOTLE_TM_SERVER:
             errors.append(checks.Critical(
                 _("POOTLE_TM_SERVER has no HOST."),

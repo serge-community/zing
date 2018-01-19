@@ -13,7 +13,6 @@ from collections import OrderedDict
 
 from translate.filters import checks
 
-from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -25,6 +24,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 from pootle.core.cache import make_method_key
+from pootle.core.constants import CACHE_TIMEOUT
 from pootle.core.mixins import CachedTreeItem
 from pootle.core.models import VirtualResource
 from pootle.core.url_helpers import (get_editor_filter, get_path_sortkey,
@@ -78,7 +78,7 @@ class ProjectManager(models.Manager):
             projects = OrderedDict(
                 (project.pop('code'), project) for project in projects_dict
             )
-            cache.set(cache_key, projects, settings.POOTLE_CACHE_TIMEOUT)
+            cache.set(cache_key, projects, CACHE_TIMEOUT)
 
         return projects
 
@@ -279,7 +279,7 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
                 allow_projects)).difference(forbid_projects)
 
         user_projects = list(user_projects)
-        cache.set(key, user_projects, settings.POOTLE_CACHE_TIMEOUT)
+        cache.set(key, user_projects, CACHE_TIMEOUT)
 
         return user_projects
 
@@ -329,7 +329,7 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
              in (set(stores.values_list("pootle_path", flat=True))
                  | set(dirs.values_list("pootle_path", flat=True)))},
             key=get_path_sortkey)
-        cache.set(cache_key, resources, settings.POOTLE_CACHE_TIMEOUT)
+        cache.set(cache_key, resources, CACHE_TIMEOUT)
         return resources
 
     # # # # # # # # # # # # # #  Methods # # # # # # # # # # # # # # # # # # #

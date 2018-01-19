@@ -14,3 +14,8 @@
 # number of files will be removed from the pool.
 PARSE_POOL_SIZE = 40
 PARSE_POOL_CULL_FREQUENCY = 4
+
+# Certain items such as template fragments, permissions, language
+# and project names etc are cached. These are kept in memory for the duration in
+# seconds defined here.
+CACHE_TIMEOUT = 604800

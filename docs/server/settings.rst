@@ -65,27 +65,6 @@ This file contains base configuration settings.
   The name of the Pootle server.
 
 
-20-backends.conf
-^^^^^^^^^^^^^^^^
-
-Backend and caching settings.
-
-
-.. setting:: POOTLE_CACHE_TIMEOUT
-
-``POOTLE_CACHE_TIMEOUT``
-  Default: ``604800`` (a week)
-
-  .. versionadded:: 2.7
-
-  Time in seconds to keep certain objects cached in memory (template fragments,
-  language and project lists, permissions, etc.).
-
-  Note that for anonymous users Pootle also uses :ref:`Django's caching
-  middleware <django:the-per-site-cache>`, and its settings can be configured
-  separately.
-
-
 25-logging.conf
 ^^^^^^^^^^^^^^^
 

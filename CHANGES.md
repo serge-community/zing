@@ -17,6 +17,7 @@ v.next
   * `POOTLE_META_USERS` 
   * `POOTLE_CONTACT_ENABLED` (consolidated into `POOTLE_CONTACT_EMAIL`)
   * `PARSE_POOL_CULL_FREQUENCY` and `PARSE_POOL_SIZE` (moved to constants)
+  * `POOTLE_CACHE_TIMEOUT` (moved to a constant)
 
 
 v0.7.0 (2018-01-10)

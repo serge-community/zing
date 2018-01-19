@@ -10,6 +10,7 @@
 from django.conf import settings
 from django.utils import timezone, translation
 
+from pootle.core.constants import CACHE_TIMEOUT
 from pootle_language.models import Language
 from pootle_project.models import Project
 from staticpages.models import LegalPage
@@ -49,7 +50,7 @@ def pootle_context(request):
             'POOTLE_TITLE': settings.POOTLE_TITLE,
             'POOTLE_INSTANCE_ID': settings.POOTLE_INSTANCE_ID,
             'POOTLE_SIGNUP_ENABLED': settings.POOTLE_SIGNUP_ENABLED,
-            'POOTLE_CACHE_TIMEOUT': settings.POOTLE_CACHE_TIMEOUT,
+            'CACHE_TIMEOUT': CACHE_TIMEOUT,
             'CAN_CONTACT': bool(settings.POOTLE_CONTACT_EMAIL.strip()),
             'TZ': settings.TIME_ZONE,
             'TZ_OFFSET': TZ_OFFSET,

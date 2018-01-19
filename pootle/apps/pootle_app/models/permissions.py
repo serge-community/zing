@@ -14,6 +14,8 @@ from django.core.cache import cache
 from django.db import models
 from django.utils.encoding import iri_to_uri
 
+from pootle.core.constants import CACHE_TIMEOUT
+
 
 def get_permission_contenttype():
     content_type = ContentType.objects.filter(app_label='pootle_app',
@@ -60,7 +62,7 @@ def get_permissions_by_username(username, directory):
         else:
             permissions_cache[pootle_path] = None
 
-        cache.set(key, permissions_cache, settings.POOTLE_CACHE_TIMEOUT)
+        cache.set(key, permissions_cache, CACHE_TIMEOUT)
 
     return permissions_cache[pootle_path]
 

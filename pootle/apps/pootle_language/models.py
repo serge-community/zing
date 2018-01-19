@@ -10,7 +10,6 @@
 import locale
 from collections import OrderedDict
 
-from django.conf import settings
 from django.core.cache import cache
 from django.db import models
 from django.db.models.signals import post_delete, post_save
@@ -19,6 +18,7 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from pootle.core.cache import make_method_key
+from pootle.core.constants import CACHE_TIMEOUT
 from pootle.core.mixins import TreeItem
 from pootle.core.url_helpers import get_editor_filter
 from pootle.i18n.gettext import language_dir, tr_lang
@@ -70,7 +70,7 @@ class LiveLanguageManager(models.Manager):
                        cmp=locale.strcoll,
                        key=lambda x: x[1])
             )
-            cache.set(key, languages, settings.POOTLE_CACHE_TIMEOUT)
+            cache.set(key, languages, CACHE_TIMEOUT)
 
         return languages
 

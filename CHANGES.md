@@ -16,6 +16,7 @@ v.next
   * `POOTLE_CUSTOM_TEMPLATE_CONTEXT` (#293)
   * `POOTLE_META_USERS` 
   * `POOTLE_CONTACT_ENABLED` (consolidated into `POOTLE_CONTACT_EMAIL`)
+  * `PARSE_POOL_CULL_FREQUENCY` and `PARSE_POOL_SIZE` (moved to constants)
 
 
 v0.7.0 (2018-01-10)

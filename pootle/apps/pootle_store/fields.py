@@ -17,6 +17,7 @@ from translate.misc.multistring import multistring
 from django.db import models
 from django.db.models.fields.files import FieldFile, FileField
 
+from pootle.core.constants import PARSE_POOL_CULL_FREQUENCY, PARSE_POOL_SIZE
 from pootle.core.utils.multistring import (parse_multistring,
                                            unparse_multistring)
 
@@ -122,10 +123,8 @@ class TranslationStoreFieldFile(FieldFile):
     """
 
     from translate.misc.lru import LRUCachingDict
-    from django.conf import settings
 
-    _store_cache = LRUCachingDict(settings.PARSE_POOL_SIZE,
-                                  settings.PARSE_POOL_CULL_FREQUENCY)
+    _store_cache = LRUCachingDict(PARSE_POOL_SIZE, PARSE_POOL_CULL_FREQUENCY)
 
     def getpomtime(self):
         file_stat = os.stat(self.realpath)

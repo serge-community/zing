@@ -446,26 +446,6 @@ Translation environment configuration settings.
     For this service you need to `obtain a Yandex API key
     <https://tech.yandex.com/keys/get/?service=trnsl>`_.
 
-.. setting:: PARSE_POOL_CULL_FREQUENCY
-
-``PARSE_POOL_CULL_FREQUENCY``
-  Default: ``4``
-
-  When the pool fills up, 1/PARSE_POOL_CULL_FREQUENCY number of files will be
-  removed from the pool.
-
-
-.. setting:: PARSE_POOL_SIZE
-
-``PARSE_POOL_SIZE``
-  Default: ``40``
-
-  To avoid rereading and reparsing translation files from disk on
-  every request, Pootle keeps a pool of already parsed files in memory.
-
-  Larger pools will offer better performance, but higher memory usage
-  (per server process).
-
 
 .. setting:: POOTLE_TRANSLATION_DIRECTORY
 

@@ -78,8 +78,6 @@ some tips for performance tuning on your Pootle installation.
 
 - Increase the cache timeout for users who are not logged in.
 
-- Increase your :setting:`PARSE_POOL_SIZE` if you have enough memory available.
-
 - Enable ``'django.contrib.sessions.backends.cached_db'``.
 
 - Disable swap on the server.  Things should be configured so that physical

@@ -18,6 +18,7 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.functional import cached_property
 
+from pootle.core.constants import PARSE_POOL_CULL_FREQUENCY, PARSE_POOL_SIZE
 from pootle.core.mixins import CachedMethods, CachedTreeItem
 from pootle.core.url_helpers import get_editor_filter, split_pootle_path
 from pootle_app.models.directory import Directory
@@ -166,8 +167,8 @@ class TranslationProject(models.Model, CachedTreeItem):
     creation_time = models.DateTimeField(auto_now_add=True, db_index=True,
                                          editable=False, null=True)
 
-    _non_db_state_cache = LRUCachingDict(settings.PARSE_POOL_SIZE,
-                                         settings.PARSE_POOL_CULL_FREQUENCY)
+    _non_db_state_cache = LRUCachingDict(PARSE_POOL_SIZE,
+                                         PARSE_POOL_CULL_FREQUENCY)
 
     objects = TranslationProjectManager()
 

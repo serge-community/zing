@@ -14,7 +14,8 @@ v.next
     `test_checks` (#297)
 * Cleaned up unused settings:
   * `POOTLE_CUSTOM_TEMPLATE_CONTEXT` (#293)
-  * `POOTLE_META_USERS`
+  * `POOTLE_META_USERS` 
+  * `POOTLE_CONTACT_ENABLED` (consolidated into `POOTLE_CONTACT_EMAIL`)
 
 
 v0.7.0 (2018-01-10)

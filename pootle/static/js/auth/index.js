@@ -19,7 +19,7 @@ import Auth from './containers/Auth';
 
 const mountNodeSelector = '.js-auth';
 const commonProps = {
-  canContact: PTL.settings.CONTACT_ENABLED,
+  canContact: PTL.settings.CAN_CONTACT,
   canRegister: PTL.settings.SIGNUP_ENABLED,
   socialAuthProviders: PTL.settings.SOCIAL_AUTH_PROVIDERS,
 };

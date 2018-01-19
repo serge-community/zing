@@ -125,9 +125,8 @@ ADMINS = (
 # https://docs.djangoproject.com/en/dev/ref/settings/#default-from-email
 DEFAULT_FROM_EMAIL = 'info@YOUR_DOMAIN.com'
 
-# Address to receive messages sent by contact form.
+# Email address to receive messages sent by contact form.
 POOTLE_CONTACT_EMAIL = 'info@YOUR_DOMAIN.com'
-POOTLE_CONTACT_ENABLED = True
 
 # Email address to report string errors to, unless a report email was set for
 # the project for which the string error is being reported.

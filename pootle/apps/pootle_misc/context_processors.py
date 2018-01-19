@@ -48,10 +48,9 @@ def pootle_context(request):
         'settings': {
             'POOTLE_TITLE': settings.POOTLE_TITLE,
             'POOTLE_INSTANCE_ID': settings.POOTLE_INSTANCE_ID,
-            'POOTLE_CONTACT_ENABLED': (settings.POOTLE_CONTACT_ENABLED and
-                                       settings.POOTLE_CONTACT_EMAIL),
             'POOTLE_SIGNUP_ENABLED': settings.POOTLE_SIGNUP_ENABLED,
             'POOTLE_CACHE_TIMEOUT': settings.POOTLE_CACHE_TIMEOUT,
+            'CAN_CONTACT': bool(settings.POOTLE_CONTACT_EMAIL.strip()),
             'TZ': settings.TIME_ZONE,
             'TZ_OFFSET': TZ_OFFSET,
             'DEBUG': settings.DEBUG,

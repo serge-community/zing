@@ -191,16 +191,7 @@ def check_settings(app_configs=None, **kwargs):
             id="pootle.W007",
         ))
 
-    if not settings.POOTLE_CONTACT_EMAIL and settings.POOTLE_CONTACT_ENABLED:
-        errors.append(checks.Warning(
-            _("POOTLE_CONTACT_EMAIL is not set."),
-            hint=_("Set POOTLE_CONTACT_EMAIL to allow users to contact "
-                   "administrators through the Pootle contact form."),
-            id="pootle.W008",
-        ))
-
-    if settings.POOTLE_CONTACT_EMAIL in ("info@YOUR_DOMAIN.com") \
-       and settings.POOTLE_CONTACT_ENABLED:
+    if settings.POOTLE_CONTACT_EMAIL == "info@YOUR_DOMAIN.com":
         errors.append(checks.Warning(
             _("POOTLE_CONTACT_EMAIL is using the following default "
               "setting %r." % settings.POOTLE_CONTACT_EMAIL),
@@ -301,7 +292,7 @@ def check_email_server_is_alive(app_configs=None, **kwargs):
     from django.conf import settings
 
     errors = []
-    if settings.POOTLE_SIGNUP_ENABLED or settings.POOTLE_CONTACT_ENABLED:
+    if settings.POOTLE_SIGNUP_ENABLED or settings.POOTLE_CONTACT_EMAIL.strip():
         from django.core.mail import get_connection
 
         connection = get_connection()

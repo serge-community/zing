@@ -24,7 +24,7 @@
     <script type="text/javascript">
     window.PTL = window.PTL || {};
     PTL.settings = {
-      CONTACT_ENABLED: {{ settings.POOTLE_CONTACT_ENABLED|yesno:'true, false' }},
+      CAN_CONTACT: {{ settings.CAN_CONTACT|yesno:'true, false' }},
       SIGNUP_ENABLED: {{ settings.POOTLE_SIGNUP_ENABLED|yesno:'true, false' }},
       SOCIAL_AUTH_PROVIDERS: {{ SOCIAL_AUTH_PROVIDERS|to_js }},
       UI_LOCALE: '{{ LANGUAGE_CODE }}',
@@ -113,7 +113,7 @@
               <li><a href="{% url 'account_logout' %}"><i class="icon-exit"></i>{% trans 'Sign out' %}</a></li>
               <li class="menu-divider"></li>
               {% block nav_items_pre %}{% endblock %}
-              {% if settings.POOTLE_CONTACT_ENABLED %}
+              {% if settings.CAN_CONTACT %}
                 <li><a class="js-contact" href="{% url 'pootle-contact' %}">{% trans "Contact Us" %}</a></li>
               {% endif %}
               <li><a class="js-about-link" href="#">{% trans "About" %}</a></li>

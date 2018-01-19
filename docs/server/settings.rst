@@ -106,22 +106,12 @@ Backend and caching settings.
 Site-specific settings.
 
 
-.. setting:: POOTLE_CONTACT_ENABLED
-
-``POOTLE_CONTACT_ENABLED``
-  Default: ``True``
-
-  Controls whether users will be able to use the contact form. The address to
-  receive messages is controlled by :setting:`POOTLE_CONTACT_EMAIL`.
-
-
 .. setting:: POOTLE_CONTACT_EMAIL
 
 ``POOTLE_CONTACT_EMAIL``
   Default: ``info@YOUR_DOMAIN.com``
 
-  Address to receive messages sent through the contact form. This will only
-  have effect if :setting:`POOTLE_CONTACT_ENABLED` is set to ``True``.
+  Address to receive messages sent through the contact form.
 
 
 .. setting:: POOTLE_CONTACT_REPORT_EMAIL

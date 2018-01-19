@@ -14,6 +14,7 @@ v.next
     `test_checks` (#297)
 * Cleaned up unused settings:
   * `POOTLE_CUSTOM_TEMPLATE_CONTEXT` (#293)
+  * `POOTLE_META_USERS`
 
 
 v0.7.0 (2018-01-10)

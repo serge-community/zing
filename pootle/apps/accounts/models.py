@@ -11,7 +11,6 @@ import datetime
 import re
 from hashlib import md5
 
-from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
@@ -141,8 +140,7 @@ class User(AbstractBaseUser):
     @cached_property
     def is_meta(self):
         """Returns `True` if this is a special fake user."""
-        return self.username in \
-            UserManager.META_USERS + settings.POOTLE_META_USERS
+        return self.username in UserManager.META_USERS
 
     @cached_property
     def email_hash(self):

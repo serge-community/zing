@@ -163,19 +163,6 @@ Configuration settings for applications used by Pootle.
   for the Pootle instance. Don't change this unless you know what you're
   doing.
 
-.. setting:: POOTLE_META_USERS
-
-``POOTLE_META_USERS``
-  Default: ``()``
-
-  .. versionadded:: 2.7
-
-  Additional meta, or non-human, accounts. Pootle already manages the 'system'
-  and 'nobody' users who own system updates to translations and submissions by
-  anonymous users.  These meta accounts have their own simple public profiles
-  and won't track scores.
-
-
 .. setting:: POOTLE_CAPTCHA_ENABLED
 
 ``POOTLE_CAPTCHA_ENABLED``

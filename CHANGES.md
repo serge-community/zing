@@ -8,6 +8,7 @@ v.next
   suggestions (#291).
 * TM is now simplified to a single server and sane defaults are provided for
   settings (#298).
+* Removed `SetLocale` middleware (#301).
 * Cleaned up unused commands:
   * `dump`, `find_duplicate_emails`, `update_user_email` (#296)
   * `list_languages`, `list_projects`, `contributors`, `changed_languages`,

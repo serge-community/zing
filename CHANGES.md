@@ -4,6 +4,7 @@ Zing Changelog
 v.next
 ------
 
+* Editor: incorporated live editor for Plurr-formatted strings (#303).
 * Fixed a bug where the editor would crash if a terminology unit contained
   suggestions (#291).
 * TM is now simplified to a single server and sane defaults are provided for

@@ -12,6 +12,7 @@ export {
 } from './highlight';
 export { normalizeCode } from './language';
 export { escapeUnsafeRegexSymbols, makeRegexForMultipleWords } from './search';
+export { detectFormat, Formats } from './strings';
 
 
 export function getAreaId(index) {

@@ -12,8 +12,9 @@ import React from 'react';
 import { t } from 'utils/i18n';
 
 import EditingArea from '../components/EditingArea';
+import PlurrEditor from '../components/plurr/PlurrEditor';
 import RawFontTextarea from '../components/RawFontTextarea';
-import { getAreaId } from '../utils';
+import { getAreaId, detectFormat, Formats } from '../utils';
 
 
 const Editor = React.createClass({
@@ -35,9 +36,20 @@ const Editor = React.createClass({
     };
   },
 
+  getTextareaComponent() {
+    // FIXME: load these on-demand
+    const { values } = this.props;
+    switch (detectFormat(values[0])) {
+      case Formats.PLURR:
+        return PlurrEditor;
+      default:
+        return RawFontTextarea;
+    }
+  },
+
   render() {
     const editingAreas = [];
-    const TextareaComponent = RawFontTextarea;
+    const TextareaComponent = this.getTextareaComponent();
 
     for (let i = 0; i < this.props.targetNplurals; i++) {
       const extraProps = {};

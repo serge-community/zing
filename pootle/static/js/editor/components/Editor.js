@@ -1,7 +1,8 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
@@ -25,19 +26,18 @@ const Editor = React.createClass({
     onChange: React.PropTypes.func.isRequired,
     style: React.PropTypes.object,
     targetNplurals: React.PropTypes.number.isRequired,
-    textareaComponent: React.PropTypes.func,
     values: React.PropTypes.array,
   },
 
   getDefaultProps() {
     return {
       initialValues: [],
-      textareaComponent: RawFontTextarea,
     };
   },
 
   render() {
     const editingAreas = [];
+    const TextareaComponent = RawFontTextarea;
 
     for (let i = 0; i < this.props.targetNplurals; i++) {
       const extraProps = {};
@@ -55,7 +55,7 @@ const Editor = React.createClass({
               { t('Plural form %(index)s', { index: i }) }
             </div>
           }
-          <this.props.textareaComponent
+          <TextareaComponent
             autoFocus={i === 0}
             id={getAreaId(i)}
             initialValue={this.props.initialValues[i]}

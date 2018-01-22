@@ -1,7 +1,8 @@
 /*
  * Copyright (C) Pootle contributors.
+ * Copyright (C) Zing contributors.
  *
- * This file is a part of the Pootle project. It is distributed under the GPL3
+ * This file is a part of the Zing project. It is distributed under the GPL3
  * or later license. See the LICENSE file for a copy of the license and the
  * AUTHORS file for copyright and authorship information.
  */
@@ -11,7 +12,6 @@ import React from 'react';
 import { qAll } from 'utils/dom';
 
 import Editor from '../components/Editor';
-import RawFontTextarea from '../components/RawFontTextarea';
 
 
 const EditorContainer = React.createClass({
@@ -28,8 +28,6 @@ const EditorContainer = React.createClass({
     sourceValues: React.PropTypes.array,
     style: React.PropTypes.object,
     targetNplurals: React.PropTypes.number.isRequired,
-    textareaComponent: React.PropTypes.func,
-    editorComponent: React.PropTypes.func,
   },
 
   // FIXME: move context to a higher-order component. It _cannot_ be done now
@@ -44,8 +42,6 @@ const EditorContainer = React.createClass({
   getDefaultProps() {
     return {
       initialValues: [],
-      textareaComponent: RawFontTextarea,
-      editorComponent: Editor,
     };
   },
 
@@ -84,12 +80,11 @@ const EditorContainer = React.createClass({
 
   render() {
     return (
-      <this.props.editorComponent
+      <Editor
         isDisabled={this.props.isDisabled}
         isRawMode={this.props.isRawMode}
         style={this.props.style}
         targetNplurals={this.props.targetNplurals}
-        textareaComponent={this.props.textareaComponent}
         initialValues={this.props.initialValues}
         onChange={this.handleChange}
         sourceValues={this.props.sourceValues}

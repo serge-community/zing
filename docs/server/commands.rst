@@ -555,25 +555,6 @@ to make these preparations using the command ``assets build``. This command is
 usually executed after the :ref:`collectstatic <commands#collectstatic>` one.
 
 
-.. django-admin:: webpack
-
-webpack
-^^^^^^^
-
-.. versionadded:: 2.7
-
-The `webpack <http://webpack.github.io/>`_ tool is used under the hood to
-bundle JavaScript scripts, and this management command is a convenient
-wrapper that sets everything up ready for production and makes sure to
-include any 3rd party customizations.
-
-.. django-admin-option:: --dev
-
-When the :option:`--dev` flag is enabled, development builds will be created
-and the process will start a watchdog to track any client-side scripts for
-changes. Use this only when developing Pootle.
-
-
 .. _commands#user-management:
 
 Managing users

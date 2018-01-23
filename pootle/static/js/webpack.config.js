@@ -67,45 +67,6 @@ var resolve = {
 };
 
 
-// Read extra `resolve.modules` paths from the `WEBPACK_ROOT` envvar
-// and merge the entry definitions from the manifest files
-var root = process.env.WEBPACK_ROOT;
-if (root !== undefined) {
-  var customPaths = root.split(';');
-  resolve.modules.push(path.join(__dirname, 'node_modules'));
-  customPaths.forEach(path => {
-    resolve.modules.push(path);
-  });
-
-  function mergeWithArrays(target, source) {
-    var rv = Object(target);
-    var value;
-    Object.getOwnPropertyNames(source).forEach(function (key) {
-      value = source[key];
-      // Merge values if a key exists both in source and target objects and the
-      // target contains an array
-      if (target.hasOwnProperty(key) && Array.isArray(target[key])) {
-        value = target[key].concat(source[key]);
-      }
-      rv[key] = value;
-    });
-
-    return rv;
-  }
-
-  for (var i=0; i<customPaths.length; i++) {
-    var customPath = customPaths[i];
-
-    try {
-      var manifestEntries = require(path.join(customPath, 'manifest.json'));
-      entries = mergeWithArrays(entries, manifestEntries);
-    } catch (e) {
-      console.error(e.message);
-    }
-  }
-}
-
-
 /* Plugins */
 
 var plugins = [];

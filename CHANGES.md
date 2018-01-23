@@ -14,6 +14,7 @@ v.next
   * `dump`, `find_duplicate_emails`, `update_user_email` (#296)
   * `list_languages`, `list_projects`, `contributors`, `changed_languages`,
     `test_checks` (#297)
+  * `webpack`, which has been replaced by an `npm` script (#304).
 * Cleaned up unused settings:
   * `POOTLE_CUSTOM_TEMPLATE_CONTEXT` (#293)
   * `POOTLE_META_USERS` 

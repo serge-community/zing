@@ -7,6 +7,9 @@
     "url": "git://github.com/evernote/zing.git"
   },
   "scripts": {
+    "build": "NODE_ENV=production webpack",
+    "dev": "webpack --progress --watch",
+    "dev:nowatch": "webpack --progress",
     "lint": "eslint .",
     "stylelint": "stylelint --config=stylelint.json ../css/**/*.css **/*.css",
     "test": "mocha --compilers js:babel-register --require setup.test.js \"./{,!(node_modules)/**/}*.test.js\""

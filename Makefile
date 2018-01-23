@@ -22,13 +22,11 @@ build: docs assets
 	python setup.py sdist ${FORMATS} ${TAIL}
 
 assets:
-	npm --version
-	node --version
 	cd ${JS_DIR} && \
 	npm install && \
+	npm run build -- --display-error-details && \
 	cd ${CWD}
 	${POOTLE_CMD} compilejsi18n
-	${POOTLE_CMD} webpack --extra=--display-error-details
 	mkdir -p ${ASSETS_DIR}
 
 	${POOTLE_CMD} collectstatic --noinput --clear -i node_modules -i .tox -i docs ${TAIL}
@@ -37,16 +35,14 @@ assets:
 	chmod 664 ${ASSETS_DIR}/.webassets-cache/*
 
 travis-assets:
-	npm --version
-	node --version
 	if [ -d "${ASSETS_DIR}/.webassets-cache" ]; then \
 		echo "eating cache - yum!"; \
 	else \
 		cd ${JS_DIR} && \
 		npm install && \
+		npm run dev:nowatch && \
 		cd ${CWD}; \
 		${POOTLE_CMD} compilejsi18n; \
-		${POOTLE_CMD} webpack --dev --nowatch; \
 		mkdir -p ${ASSETS_DIR}; \
 		${POOTLE_CMD} collectstatic --noinput --clear -i node_modules -i .tox -i docs ${TAIL}; \
 		${POOTLE_CMD} assets build ${TAIL}; \

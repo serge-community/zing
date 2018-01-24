@@ -1,7 +1,6 @@
 # Travis testing https://travis-ci.org/translate/pootle
 
 -r tests.txt
--r _docs.txt
 -r _lint.txt
 
 tox>=2.3

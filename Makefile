@@ -50,7 +50,9 @@ travis-assets:
 	fi
 
 docs:
-	cd ${WEBSITE_DIR}; npm run build ${TAIL}
+	cd ${WEBSITE_DIR} && \
+	npm install && \
+	npm run build ${TAIL}
 
 clean:
 	npm cache clear

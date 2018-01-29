@@ -1,8 +1,8 @@
 Zing Changelog
 ==============
 
-v.next
-------
+v0.8.0 (2018-01-29)
+-------------------
 
 * Editor: incorporated live editor for Plurr-formatted strings (#303).
 * Fixed a bug where the editor would crash if a terminology unit contained

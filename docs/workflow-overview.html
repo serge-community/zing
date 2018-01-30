@@ -1,0 +1,98 @@
+<html lang="en"><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Workflow · Zing</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta property="og:title" content="Workflow · Zing"/><meta property="og:type" content="website"/><meta property="og:url" content="https://evernote.github.io/zing//zing/index.html"/><meta property="og:description" content="In this section we will show you how Zing works with files and the prerequisites"/><link rel="shortcut icon" href="/zing/undefined"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="stylesheet" href="/zing/css/main.css"/></head><body class="sideNavVisible"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/zing/"><img class="logo" src="/zing/img/logo.svg"/><h2 class="headerTitle">Zing</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li><a href="/zing/docs/introduction.html" target="_self">Docs</a></li><li><a href="/zing/en/faq.html" target="_self">FAQ</a></li><li><a href="https://github.com/evernote/zing/" target="_blank">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Workflow</span></h2></div><div class="navGroups"><div class="navGroup navGroupActive"><h3>Get Started</h3><ul><li class="navListItem"><a class="navItem" href="/zing/docs/introduction.html">Introduction</a></li><li class="navListItem"><a class="navItem" href="/zing/docs/installation.html">Installation</a></li><li class="navListItem"><a class="navItem" href="/zing/docs/initial-setup.html">Initial Setup</a></li></ul></div><div class="navGroup navGroupActive"><h3>Workflow</h3><ul><li class="navListItem navListItemActive"><a class="navItem navItemActive" href="/zing/docs/workflow-overview.html">Overview</a></li><li class="navListItem"><a class="navItem" href="/zing/docs/continuous-localization.html">Continuous Localization</a></li></ul></div><div class="navGroup navGroupActive"><h3>Features</h3><ul><li class="navListItem"><a class="navItem" href="/zing/docs/editor.html">Translation Editor</a></li><li class="navListItem"><a class="navItem" href="/zing/docs/invoices.html">Invoice Generation</a></li></ul></div><div class="navGroup navGroupActive"><h3>Reference</h3><ul><li class="navListItem"><a class="navItem" href="/zing/docs/settings.html">Settings</a></li><li class="navListItem"><a class="navItem" href="/zing/docs/commands.html">Commands</a></li></ul></div></div></section></div><script>
+          var toggler = document.getElementById('navToggler');
+          var nav = document.getElementById('docsNav');
+          toggler.onclick = function() {
+            nav.classList.toggle('docsSliderActive');
+          };
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/evernote/zing/edit/master/docs/workflow-overview.md" target="_blank">Edit</a><h1>Workflow</h1></header><article><div><span><p>In this section we will show you how Zing works with files and the prerequisites
+it involves. Knowing all of that, you will be ready to setup your own projects
+and workflows.</p>
+<h2><a class="anchor" aria-hidden="true" name="prerequisites"></a><a href="#prerequisites" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Prerequisites</h2>
+<h3><a class="anchor" aria-hidden="true" name="interchange-file-format"></a><a href="#interchange-file-format" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Interchange File Format</h3>
+<p>For interchange purposes between external processes/workflows and the Zing
+translation database, Zing by design <a href="faq.html">only uses Gettext PO files</a>.
+This fits perfectly when <a href="workflow-serge-integration.md">integrating with Serge</a>.</p>
+<h3><a class="anchor" aria-hidden="true" name="file-location"></a><a href="#file-location" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>File Location</h3>
+<p>Interchange translation files will be looked under the directory specified by
+the
+<a href="/zing/docs/settings.html#pootle-translation-directory"><code>POOTLE_TRANSLATION_DIRECTORY</code></a>
+setting.</p>
+<p>You should make sure the OS process running Zing has enough rights to access
+this directory.</p>
+<h3><a class="anchor" aria-hidden="true" name="directory-structure"></a><a href="#directory-structure" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Directory Structure</h3>
+<p>Under the <a href="#file-location">translation directory</a>, Zing expects a specific
+directory structure where it can find project- and language-specific files.</p>
+<p>At the root there will be directories named after the <em>project code</em>. Under
+project directories, there will be directories named after the <em>locale code</em>.
+The combination of a project and a locale is a <em>translation project</em>.</p>
+<p>An example structure would be as follows:</p>
+<pre><code class="hljs">myproject/
+|<span class="hljs-comment">-- eu</span>
+|   |<span class="hljs-comment">-- subfolder</span>
+|   |   `<span class="hljs-comment">-- bar.po</span>
+|   `<span class="hljs-comment">-- foo.po</span>
+|<span class="hljs-comment">-- ca</span>
+|   `<span class="hljs-comment">-- foo.po</span>
+`<span class="hljs-comment">-- ru</span>
+    `<span class="hljs-comment">-- foo.po</span>
+</code></pre>
+<p>Note how individual translation projects can contain arbitrary files. In other
+words, under translation projects, the structure of the filesystem can be freely
+laid out.</p>
+<p>Likewise, translation files and directories can differ across languages within
+the same project.</p>
+<h3><a class="anchor" aria-hidden="true" name="locale-codes"></a><a href="#locale-codes" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Locale Codes</h3>
+<p>The <em>locale codes</em> used for filesystem synchronization as well as for browsing
+URLs are defined in the <em>Administration</em> -&gt; <em>Languages</em> section of the Zing User
+Interface.</p>
+<p>By default, a set of common pre-defined locale codes is included, which should
+be enough for most cases. Should you need to use different locale codes, this is
+the place to adjust them as needed.</p>
+<h2><a class="anchor" aria-hidden="true" name="project-creation"></a><a href="#project-creation" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Project Creation</h2>
+<p>Setting up projects enables separation of work and allows Zing to match files to
+projects. The mapping of filesystem and database projects is done via the
+<em>project code</em>.</p>
+<p>Projects need to be explicitly created in the Zing User Interface before using
+any file synchronization commands. This can be done in the <em>Administration</em> -&gt;
+<em>Projects</em> section of Zing, by clicking the <em>Add Project</em> button and filling in
+the project code and display name.</p>
+<h2><a class="anchor" aria-hidden="true" name="file-synchronization"></a><a href="#file-synchronization" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>File Synchronization</h2>
+<p>Synchronization between the file system and the Zing database occurs via the
+<code>update_stores</code> and <code>sync_stores</code> commands.</p>
+<p>By default, these commands work across the entire server but at will, they can
+work selectively to synchronize files only to specific projects, languages or
+translation projects.</p>
+<h3><a class="anchor" aria-hidden="true" name="update-stores"></a><a href="#update-stores" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>update_stores</code></h3>
+<p>The <code>update_stores</code> command will take translation interchange files, and import
+them to the Zing database, effectively reflecting in the database the state of
+the files on disk.</p>
+<p>New languages added on disk will be auto-discovered, whereas languages that
+ceased to exist will be disabled.</p>
+<p>To learn more, please refer to the <a href="/zing/docs/commands.html#update-stores"><code>update_stores</code> command
+reference</a>.</p>
+<h3><a class="anchor" aria-hidden="true" name="sync-stores"></a><a href="#sync-stores" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>sync_stores</code></h3>
+<p>The <code>sync_stores</code> command will take the state of the database and reflect it in
+the files on disk. This is the opposite of <code>update_stores</code>.</p>
+<p>To learn more, please refer to the <a href="/zing/docs/commands.html#sync-stores"><code>sync_stores</code> command
+reference</a>.</p>
+<h2><a class="anchor" aria-hidden="true" name="automating-the-workflow"></a><a href="#automating-the-workflow" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Automating the Workflow</h2>
+<p>Knowing all of this, you are now ready to insert Zing as part of your
+localization workflow.</p>
+<p>The level of automation is really up to you — from bash scripts to cron jobs.
+The more automated and robust, the fastest and cheapest the entire localization
+workflow will be.</p>
+<p>We are particularly fond of automating all parts of the process in what we call
+<a href="/zing/docs/continuous-localization.html">continuous localization</a>, which is a
+recommended option to consider next.</p>
+<h2><a class="anchor" aria-hidden="true" name="reference"></a><a href="#reference" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference</h2>
+<p>Commands:</p>
+<ul>
+<li><a href="/zing/docs/commands.html#sync_stores"><code>sync_stores</code></a></li>
+<li><a href="/zing/docs/commands.html#update_stores"><code>update_stores</code></a></li>
+</ul>
+<p>Settings:</p>
+<ul>
+<li><a href="/zing/docs/settings.html#pootle-sync-file-mode"><code>POOTLE_SYNC_FILE_MODE</code></a></li>
+<li><a href="/zing/docs/settings.html#pootle-translation-directory"><code>POOTLE_TRANSLATION_DIRECTORY</code></a></li>
+</ul>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="initial-setup.html">← Initial Setup</a><a class="docs-next button" href="continuous-localization.html">Continuous Localization →</a></div></div></div></div><footer class="nav-footer" id="footer"><section class="copyright">Copyright © 2018 Zing Contributors.</section></footer></div></body></html>

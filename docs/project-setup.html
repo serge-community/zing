@@ -1,0 +1,33 @@
+<html lang="en"><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Project Setup · Zing</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta property="og:title" content="Project Setup · Zing"/><meta property="og:type" content="website"/><meta property="og:url" content="https://evernote.github.io/zing//zing/index.html"/><meta property="og:description" content="Setting up projects enables separation of work and allows Zing to match files to"/><link rel="shortcut icon" href="/zing/undefined"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="stylesheet" href="/zing/css/main.css"/></head><body class="sideNavVisible"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/zing/"><img class="logo" src="/zing/img/logo.svg"/><h2 class="headerTitle">Zing</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li><a href="/zing/docs/introduction.html" target="_self">Docs</a></li><li><a href="/zing/en/faq.html" target="_self">FAQ</a></li><li><a href="https://github.com/evernote/zing/" target="_blank">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/evernote/zing/edit/master/docs/workflow-project-setup.md" target="_blank">Edit</a><h1>Project Setup</h1></header><article><div><span><p>Setting up projects enables separation of work and allows Zing to match files to
+projects. The mapping of filesystem and database projects is done via the
+<em>project code</em>.</p>
+<p>Projects need to be explicitly created in the Zing User Interface before using
+any file synchronization commands. This can be done in the <em>Administration</em> -&gt;
+<em>Projects</em> section of Zing, by clicking the <em>Add Project</em> button and filling in
+the project code and display name.</p>
+<h2><a class="anchor" aria-hidden="true" name="file-synchronization"></a><a href="#file-synchronization" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>File Synchronization</h2>
+<p>Synchronization between the file system and the Zing database occurs via the
+<code>update_stores</code> and <code>sync_stores</code> commands.</p>
+<p>By default, these commands work across the entire server but at will, they can
+work selectively to synchronize files only to specific projects, languages or
+translation projects.</p>
+<h3><a class="anchor" aria-hidden="true" name="update-stores"></a><a href="#update-stores" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>update_stores</code></h3>
+<p>The <code>update_stores</code> command will take translation interchange files, and import
+them to the Zing database, effectively reflecting in the database the state of
+the files on disk.</p>
+<p>New languages added on disk will be auto-discovered, whereas languages that
+ceased to exist will be disabled.</p>
+<p>To learn more, please refer to the <a href="/zing/docs/commands.html#update_stores"><code>update_stores</code> command
+reference</a>.</p>
+<h3><a class="anchor" aria-hidden="true" name="sync-stores"></a><a href="#sync-stores" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>sync_stores</code></h3>
+<p>The <code>sync_stores</code> command will take the state of the database and reflect it in
+the files on disk. This is the opposite of <code>update_stores</code>.</p>
+<p>To learn more, please refer to the <a href="/zing/docs/commands.html#sync_stores"><code>sync_stores</code> command
+reference</a>.</p>
+<h2><a class="anchor" aria-hidden="true" name="reference"></a><a href="#reference" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference</h2>
+<p>Commands:</p>
+<ul>
+<li><a href="/zing/docs/commands.html#sync_stores"><code>sync_stores</code></a></li>
+<li><a href="/zing/docs/commands.html#update_stores"><code>update_stores</code></a></li>
+</ul>
+</span></div></article></div><div class="docs-prevnext"></div></div></div></div><footer class="nav-footer" id="footer"><section class="copyright">Copyright © 2018 Zing Contributors.</section></footer></div></body></html>

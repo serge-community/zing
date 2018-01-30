@@ -1,0 +1,35 @@
+<html lang="en"><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Installation · Zing</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta property="og:title" content="Installation · Zing"/><meta property="og:type" content="website"/><meta property="og:url" content="https://evernote.github.io/zing//zing/index.html"/><meta property="og:description" content="&gt; The installation instructions **do not fully work** for the time being as we"/><link rel="shortcut icon" href="/zing/undefined"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="stylesheet" href="/zing/css/main.css"/></head><body class="sideNavVisible"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/zing/"><img class="logo" src="/zing/img/logo.svg"/><h2 class="headerTitle">Zing</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li><a href="/zing/docs/introduction.html" target="_self">Docs</a></li><li><a href="/zing/en/faq.html" target="_self">FAQ</a></li><li><a href="https://github.com/evernote/zing/" target="_blank">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Get Started</span></h2></div><div class="navGroups"><div class="navGroup navGroupActive"><h3>Get Started</h3><ul><li class="navListItem"><a class="navItem" href="/zing/docs/introduction.html">Introduction</a></li><li class="navListItem navListItemActive"><a class="navItem navItemActive" href="/zing/docs/installation.html">Installation</a></li><li class="navListItem"><a class="navItem" href="/zing/docs/initial-setup.html">Initial Setup</a></li></ul></div><div class="navGroup navGroupActive"><h3>Workflow</h3><ul><li class="navListItem"><a class="navItem" href="/zing/docs/workflow-overview.html">Overview</a></li><li class="navListItem"><a class="navItem" href="/zing/docs/continuous-localization.html">Continuous Localization</a></li></ul></div><div class="navGroup navGroupActive"><h3>Features</h3><ul><li class="navListItem"><a class="navItem" href="/zing/docs/editor.html">Translation Editor</a></li><li class="navListItem"><a class="navItem" href="/zing/docs/invoices.html">Invoice Generation</a></li></ul></div><div class="navGroup navGroupActive"><h3>Reference</h3><ul><li class="navListItem"><a class="navItem" href="/zing/docs/settings.html">Settings</a></li><li class="navListItem"><a class="navItem" href="/zing/docs/commands.html">Commands</a></li></ul></div></div></section></div><script>
+          var toggler = document.getElementById('navToggler');
+          var nav = document.getElementById('docsNav');
+          toggler.onclick = function() {
+            nav.classList.toggle('docsSliderActive');
+          };
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/evernote/zing/edit/master/docs/start-installation.md" target="_blank">Edit</a><h1>Installation</h1></header><article><div><span><blockquote>
+<p>The installation instructions <strong>do not fully work</strong> for the time being as we
+are planning to change some internal details. Please bear with us while we are
+in the process to fix this! 🙏</p>
+</blockquote>
+<h2><a class="anchor" aria-hidden="true" name="preparation"></a><a href="#preparation" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Preparation</h2>
+<p>We will create a virtual environment so that dependencies are installed
+independent of system packages.</p>
+<p>To create the environment, <code>cd</code> to a directory of your choice and run
+<code>virtualenv</code> by providing a meaningful name for the new environment:</p>
+<pre><code class="hljs css shell">virtualenv zing-env
+</code></pre>
+<p>To activate the virtual environment, run the <code>activate</code> script:</p>
+<pre><code class="hljs css shell">source zing-env/bin/activate
+</code></pre>
+<p>This will prepend <code>(zing-env)</code> to your shell prompt, indicating the virtual
+environment is active.</p>
+<h2><a class="anchor" aria-hidden="true" name="installing-zing"></a><a href="#installing-zing" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installing Zing</h2>
+<p>Use <code>pip</code> to install Zing into the virtual environment:</p>
+<pre><code class="hljs css shell">pip install https://github.com/evernote/zing/archive/master.zip
+</code></pre>
+<p>This will also fetch and install Zing's dependencies.</p>
+<p>To verify that everything is installed correctly, you should be able to access
+the <code>zing</code> command line tool within your environment.</p>
+<pre><code class="hljs css shell">zing --version
+Zing |release|
+</code></pre>
+<p>Now you are ready to <a href="intro-initial-setup.md">perform the initial setup</a>.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="introduction.html">← Introduction</a><a class="docs-next button" href="initial-setup.html">Initial Setup →</a></div></div></div></div><footer class="nav-footer" id="footer"><section class="copyright">Copyright © 2018 Zing Contributors.</section></footer></div></body></html>

@@ -17,6 +17,9 @@ var UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 var env = process.env.NODE_ENV;
 var DEBUG = env !== 'production';
 
+// XXX: kinda hard-coded, although we should stick to /static/ really
+var STATIC_URL = (DEBUG ? '/static/' : '/assets/') + '/js/';
+
 
 var entries = {
   'admin/general': './admin/general/app.js',
@@ -103,7 +106,7 @@ var config = {
   entry: entries,
   output: {
     path: __dirname,
-    publicPath: process.env.WEBPACK_PUBLIC_PATH,
+    publicPath: STATIC_URL,
     filename: '[name]/app.bundle.js',
     chunkFilename: '[name]/app.bundle.js'
   },

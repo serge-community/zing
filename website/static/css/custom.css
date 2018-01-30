@@ -28,3 +28,7 @@ footer.nav-footer {
 .navPusher {
   height: calc(100% - 50px);
 }
+
+.imageAlignTop .blockImage {
+  max-width: 160px;
+}

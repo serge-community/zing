@@ -93,21 +93,21 @@ const Features = props => (
     {[
       {
         content: `Online Computer-Assisted [Translation environment](${URL_FEATURE_EDITOR}) with helpful hints for translators.`,
-        //image: imgUrl('feat-editor.svg'),
+        image: imgUrl('feat-editor.svg'),
         imageAlign: 'top',
         imageUrl: URL_FEATURE_EDITOR,
         title: 'Online Editor',
       },
       {
         content: `Seamless [integration with Serge](${URL_FEATURE_SERGE}) to enable true and robust continuous localization.`,
-        //image: imgUrl('feat-serge.svg'),
+        image: imgUrl('feat-serge.svg'),
         imageAlign: 'top',
         imageUrl: URL_FEATURE_SERGE,
         title: 'Serge Integration',
       },
       {
         content: `Built-in [invoicing and reporting](${URL_FEATURE_INVOICES}) capabilities to track and pay for the work done by translators.`,
-        //image: imgUrl('feat-invoicing.svg'),
+        image: imgUrl('feat-invoicing.svg'),
         imageAlign: 'top',
         imageUrl: URL_FEATURE_INVOICES,
         title: 'Invoicing and Reporting',

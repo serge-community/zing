@@ -1,8 +1,8 @@
 Zing Changelog
 ==============
 
-v.next
-------
+v0.8.1 (2018-01-31)
+-------------------
 
 * Editor: fixed a bug where the Plurr editor would go away and miss its state
   (#310).

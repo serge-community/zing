@@ -26,6 +26,10 @@ provide an out-of-the-box installation method. In the mean-time, one can
 experiment to run Zing from source, although we are not committed to support
 it.
 
+**IMPORTANT NOTE**: Zing adheres to [semantic
+versioning](https://semver.org/#spec-item-4), and as such backward incompatible
+changes can be expected anytime before reaching v1.0.
+
 
 Copying
 -------

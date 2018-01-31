@@ -1,8 +1,8 @@
 Zing Changelog
 ==============
 
-v.next
-------
+v0.8.2 (2018-01-31)
+-------------------
 
 * Editor: properly provide source values for determining the editor to be used.
 

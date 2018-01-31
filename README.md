@@ -5,7 +5,7 @@
 [![test coverage](https://img.shields.io/codecov/c/github/evernote/zing/master.svg?style=flat-square)](https://codecov.io/gh/evernote/zing?branch=master)
 
 [Issues](https://github.com/evernote/zing/issues) |
-[Docs](https://evernote.github.io/zing/docs/introduction.html) |
+[Docs](https://evernote.github.io/zing/) |
 [Changes](https://github.com/evernote/zing/blob/master/CHANGES.md) |
 [Contributing](https://github.com/evernote/zing/blob/master/CONTRIBUTING.md) |
 [Vision](https://github.com/evernote/zing/blob/master/GOALS.md)

@@ -5,7 +5,7 @@ v.next
 ------
 
 * Editor: fixed a bug where the Plurr editor would go away and miss its state
-  (#309).
+  (#310).
 
 
 v0.8.0 (2018-01-29)

@@ -12,6 +12,9 @@ import React from 'react';
 import { qAll } from 'utils/dom';
 
 import Editor from '../components/Editor';
+import PlurrEditor from '../components/plurr/PlurrEditor';
+import RawFontTextarea from '../components/RawFontTextarea';
+import { detectFormat, Formats } from '../utils';
 
 
 const EditorContainer = React.createClass({
@@ -58,8 +61,23 @@ const EditorContainer = React.createClass({
     };
   },
 
+  componentWillMount() {
+    this.textareaComponent = this.getTextareaComponent();
+  },
+
   componentDidMount() {
     this.areas = qAll('.js-translation-area');
+  },
+
+  getTextareaComponent() {
+    // FIXME: load these on-demand
+    const { initialValues } = this.props;
+    switch (detectFormat(initialValues[0])) {
+      case Formats.PLURR:
+        return PlurrEditor;
+      default:
+        return RawFontTextarea;
+    }
   },
 
   getAreas() {
@@ -85,6 +103,7 @@ const EditorContainer = React.createClass({
         isRawMode={this.props.isRawMode}
         style={this.props.style}
         targetNplurals={this.props.targetNplurals}
+        textareaComponent={this.textareaComponent}
         initialValues={this.props.initialValues}
         onChange={this.handleChange}
         sourceValues={this.props.sourceValues}

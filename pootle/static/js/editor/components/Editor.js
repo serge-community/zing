@@ -12,9 +12,7 @@ import React from 'react';
 import { t } from 'utils/i18n';
 
 import EditingArea from '../components/EditingArea';
-import PlurrEditor from '../components/plurr/PlurrEditor';
-import RawFontTextarea from '../components/RawFontTextarea';
-import { getAreaId, detectFormat, Formats } from '../utils';
+import { getAreaId } from '../utils';
 
 
 const Editor = React.createClass({
@@ -27,6 +25,7 @@ const Editor = React.createClass({
     onChange: React.PropTypes.func.isRequired,
     style: React.PropTypes.object,
     targetNplurals: React.PropTypes.number.isRequired,
+    textareaComponent: React.PropTypes.func.isRequired,
     values: React.PropTypes.array,
   },
 
@@ -36,20 +35,8 @@ const Editor = React.createClass({
     };
   },
 
-  getTextareaComponent() {
-    // FIXME: load these on-demand
-    const { values } = this.props;
-    switch (detectFormat(values[0])) {
-      case Formats.PLURR:
-        return PlurrEditor;
-      default:
-        return RawFontTextarea;
-    }
-  },
-
   render() {
     const editingAreas = [];
-    const TextareaComponent = this.getTextareaComponent();
 
     for (let i = 0; i < this.props.targetNplurals; i++) {
       const extraProps = {};
@@ -67,7 +54,7 @@ const Editor = React.createClass({
               { t('Plural form %(index)s', { index: i }) }
             </div>
           }
-          <TextareaComponent
+          <this.props.textareaComponent
             autoFocus={i === 0}
             id={getAreaId(i)}
             initialValue={this.props.initialValues[i]}

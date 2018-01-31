@@ -71,8 +71,8 @@ const EditorContainer = React.createClass({
 
   getTextareaComponent() {
     // FIXME: load these on-demand
-    const { initialValues } = this.props;
-    switch (detectFormat(initialValues[0])) {
+    const { sourceValues } = this.props;
+    switch (detectFormat(sourceValues[0])) {
       case Formats.PLURR:
         return PlurrEditor;
       default:

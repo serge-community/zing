@@ -202,6 +202,11 @@ of the configured users by passing the `--users <user1 user2... userN>`
 argument. Note all users defined in the configuration need to exist, otherwise
 the command will complain and create no invoices at all.
 
+Optionally a report can be created in JSON format by passing the
+`--generate-report` flag. The report includes the date and time the invoices
+were generated at, as well as a list of individual invoice information, with
+their identifier, amount and extra metadata from the configuration file.
+
 Invoices will also be sent by email if the `--send-emails` flag is set. There
 are a couple more options to control how email will be sent:
 

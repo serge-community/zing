@@ -56,7 +56,7 @@ Controls whether user sign ups are allowed or not. If set to `False`,
 administrators will still be able to create new user accounts.
 
 
-### `POOTLE_LEGALPAGE_NOCHECK_PREFIXES`
+### `ZING_LEGALPAGE_NOCHECK_PREFIXES`
 
 Default: `('/about', '/accounts', '/admin', '/contact', '/jsi18n', '/pages', )`
 

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
 # This file is a part of the Pootle project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
@@ -18,7 +19,7 @@ def mkstemp(*args, **kwargs):
     """
     fd, name = tempfile.mkstemp(*args, **kwargs)
     if hasattr(os, 'fchmod'):
-        os.fchmod(fd, settings.POOTLE_SYNC_FILE_MODE)
+        os.fchmod(fd, settings.ZING_SYNC_FILE_MODE)
     else:
-        os.chmod(name, settings.POOTLE_SYNC_FILE_MODE)
+        os.chmod(name, settings.ZING_SYNC_FILE_MODE)
     return fd, name

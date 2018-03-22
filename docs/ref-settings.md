@@ -255,7 +255,7 @@ Parameters:
   suggestions and penalty for the rejected suggestion.
 
 
-### `POOTLE_SYNC_FILE_MODE`
+### `ZING_SYNC_FILE_MODE`
 
 Default: `0644`
 

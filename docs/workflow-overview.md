@@ -132,5 +132,5 @@ Commands:
 
 Settings:
 
-* [`POOTLE_SYNC_FILE_MODE`](ref-settings.md#pootle-sync-file-mode)
+* [`ZING_SYNC_FILE_MODE`](ref-settings.md#zing-sync-file-mode)
 * [`ZING_TRANSLATION_DIRECTORY`](ref-settings.md#zing-translation-directory)

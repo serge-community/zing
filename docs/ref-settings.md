@@ -264,7 +264,7 @@ Use `0644` for publically-readable files or `0600` if you want only the Zing
 user to be able to read them.
 
 
-### `POOTLE_TM_SERVER`
+### `ZING_TM_SERVER`
 
 Default: `{}` (empty dict)
 
@@ -275,7 +275,7 @@ In order to enable the feature, the `HOST` and `PORT` configuration keys need to
 be provided:
 
 ```python
-POOTLE_TM_SERVER = {
+ZING_TM_SERVER = {
   'HOST': 'localhost',
   'PORT': 9200,
 }

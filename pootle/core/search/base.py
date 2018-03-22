@@ -13,7 +13,7 @@ from django.conf import settings
 class SearchBackend(object):
 
     def __init__(self):
-        self._settings = getattr(settings, 'POOTLE_TM_SERVER', None)
+        self._settings = getattr(settings, 'ZING_TM_SERVER', None)
 
     def search(self, unit):
         """Search for TM results.

@@ -158,10 +158,10 @@ class Command(BaseCommand):
             self.stdout.write("Expected %d, loaded %d." % (total, i))
 
     def _initialize(self, **options):
-        if not settings.POOTLE_TM_SERVER:
-            raise CommandError('POOTLE_TM_SERVER setting is missing.')
+        if not settings.ZING_TM_SERVER:
+            raise CommandError('ZING_TM_SERVER setting is missing.')
 
-        tm_settings = settings.POOTLE_TM_SERVER
+        tm_settings = settings.ZING_TM_SERVER
 
         self.INDEX_NAME = tm_settings['INDEX_NAME']
 

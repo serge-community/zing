@@ -19,7 +19,7 @@ def test_update_tmserver_nosetting(capfd, po_directory, tp0):
     """We need configured TM for anything to work"""
     with pytest.raises(CommandError) as e:
         call_command('update_tmserver')
-    assert "POOTLE_TM_SERVER setting is missing." in str(e)
+    assert "ZING_TM_SERVER setting is missing." in str(e)
 
 
 @pytest.mark.cmd
@@ -34,7 +34,7 @@ def __test_update_tmserver_noargs(capfd, tp0, settings):
             .exclude(target_f__isnull=True)
             .exclude(target_f__exact=''))
 
-    settings.POOTLE_TM_SERVER = {
+    settings.ZING_TM_SERVER = {
         'HOST': 'localhost',
         'PORT': 9200,
     }

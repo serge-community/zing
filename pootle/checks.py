@@ -218,28 +218,28 @@ def check_settings(app_configs=None, **kwargs):
             id="pootle.W010",
         ))
 
-    if settings.POOTLE_TM_SERVER:
-        if 'HOST' not in settings.POOTLE_TM_SERVER:
+    if settings.ZING_TM_SERVER:
+        if 'HOST' not in settings.ZING_TM_SERVER:
             errors.append(checks.Critical(
-                _("POOTLE_TM_SERVER has no HOST."),
-                hint=_("Set a HOST for POOTLE_TM_SERVER."),
+                _("ZING_TM_SERVER has no HOST."),
+                hint=_("Set a HOST for ZING_TM_SERVER."),
                 id="pootle.C011",
             ))
 
-        if 'PORT' not in settings.POOTLE_TM_SERVER:
+        if 'PORT' not in settings.ZING_TM_SERVER:
             errors.append(checks.Critical(
-                _("POOTLE_TM_SERVER has no PORT."),
-                hint=_("Set a PORT for POOTLE_TM_SERVER."),
+                _("ZING_TM_SERVER has no PORT."),
+                hint=_("Set a PORT for ZING_TM_SERVER."),
                 id="pootle.C012",
             ))
 
-        if ('WEIGHT' in settings.POOTLE_TM_SERVER and
-            not (0.0 <= settings.POOTLE_TM_SERVER['WEIGHT'] <= 1.0)):
+        if ('WEIGHT' in settings.ZING_TM_SERVER and
+            not (0.0 <= settings.ZING_TM_SERVER['WEIGHT'] <= 1.0)):
             errors.append(checks.Warning(
-                _("POOTLE_TM_SERVER has a WEIGHT less than 0.0 or "
+                _("ZING_TM_SERVER has a WEIGHT less than 0.0 or "
                   "greater than 1.0"),
                 hint=_("Set a WEIGHT between 0.0 and 1.0 (both included) "
-                       "for POOTLE_TM_SERVER."),
+                       "for ZING_TM_SERVER."),
                 id="pootle.W019",
             ))
 

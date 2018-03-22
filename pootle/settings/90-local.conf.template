@@ -95,7 +95,7 @@ DATABASES = {
 # Setup for connection to the ElasticSearch server for translation memory based
 # on the projects hosted on Pootle.
 #
-#POOTLE_TM_SERVER = {
+#ZING_TM_SERVER = {
 #    'HOST': 'localhost',
 #    'PORT': 9200,
 #    # Optional index name

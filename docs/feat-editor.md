@@ -22,7 +22,7 @@ highlighted, allowing translators to easily spot what has changed.
 To enable Translation Memory support, first ensure you have an Elasticsearch
 server up & running and accessible from the Zing server. Then, proceed to
 specify the connection details in the
-[`POOTLE_TM_SERVER`](ref-settings.md#pootle-tm-server) setting.
+[`ZING_TM_SERVER`](ref-settings.md#zing-tm-server) setting.
 
 If you just set up the TM server and your Zing server already had projects with
 existing translations, you may want to populate the TM index:
@@ -42,7 +42,7 @@ Commands:
 
 Settings:
 
-* [`POOTLE_TM_SERVER`](ref-settings.md#pootle-tm-server)
+* [`ZING_TM_SERVER`](ref-settings.md#zing-tm-server)
 
 
 ## Machine Translation

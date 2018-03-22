@@ -153,7 +153,7 @@ POOTLE_CONTACT_REPORT_EMAIL = 'string_errors_manager@YOUR_DOMAIN.com'
 #
 
 # The directory where the translation files are kept
-POOTLE_TRANSLATION_DIRECTORY = working_path('translations')
+ZING_TRANSLATION_DIRECTORY = working_path('translations')
 
 # Set the backends you want to use to enable translation suggestions through
 # several online services. To disable this feature completely just comment all

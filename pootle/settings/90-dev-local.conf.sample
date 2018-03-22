@@ -139,7 +139,7 @@ INSTALLED_APPS += ['django_extensions']
 #
 
 # The directory where the translation files are kept
-POOTLE_TRANSLATION_DIRECTORY = working_path('translations')
+ZING_TRANSLATION_DIRECTORY = working_path('translations')
 
 # Two-tuple defining the markup filter to apply in certain textareas.
 #

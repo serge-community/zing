@@ -47,7 +47,7 @@ These commands perform tasks related to file synchronization.
 ### `sync_stores`
 
 Save all translations currently in the database to the file system, thereby
-bringing the files under the `POOTLE_TRANSLATION_DIRECTORY` directory
+bringing the files under the `ZING_TRANSLATION_DIRECTORY` directory
 in sync with the Zing database. Disabled projects are skipped.
 
 You must run this command before taking backups or running scripts that modify
@@ -83,7 +83,7 @@ Ignores files missing on disk, and no new files will be created.
 
 Load translation files currently on the file system into the database, thereby
 bringing the Zing database in sync with the files under the
-`POOTLE_TRANSLATION_DIRECTORY` directory.
+`ZING_TRANSLATION_DIRECTORY` directory.
 
 Zing will not detect changes in the file system on its own. This is the opposite
 of `sync_stores`.

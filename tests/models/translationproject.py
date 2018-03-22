@@ -42,7 +42,7 @@ def test_tp_create_fail(po_directory, tutorial, english):
 
 @pytest.mark.django_db
 def test_tp_create_with_files(project0_directory, project0, store0, settings):
-    trans_dir = settings.POOTLE_TRANSLATION_DIRECTORY
+    trans_dir = settings.ZING_TRANSLATION_DIRECTORY
     language = LanguageDBFactory()
     tp_dir = os.path.join(trans_dir, "project0/%s" % language.code)
     os.makedirs(tp_dir)

@@ -64,10 +64,10 @@ def translations_directory(request):
     """used by PootleEnv"""
     from django.conf import settings
 
-    settings.POOTLE_TRANSLATION_DIRECTORY = tempfile.mkdtemp()
+    settings.ZING_TRANSLATION_DIRECTORY = tempfile.mkdtemp()
 
     def rm_tmp_dir():
-        shutil.rmtree(settings.POOTLE_TRANSLATION_DIRECTORY)
+        shutil.rmtree(settings.ZING_TRANSLATION_DIRECTORY)
 
     request.addfinalizer(rm_tmp_dir)
 

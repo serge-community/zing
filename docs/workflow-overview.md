@@ -20,7 +20,7 @@ This fits perfectly when [integrating with Serge](workflow-serge-integration.md)
 
 Interchange translation files will be looked under the directory specified by
 the
-[`POOTLE_TRANSLATION_DIRECTORY`](ref-settings.md#pootle-translation-directory)
+[`ZING_TRANSLATION_DIRECTORY`](ref-settings.md#zing-translation-directory)
 setting.
 
 You should make sure the OS process running Zing has enough rights to access
@@ -133,4 +133,4 @@ Commands:
 Settings:
 
 * [`POOTLE_SYNC_FILE_MODE`](ref-settings.md#pootle-sync-file-mode)
-* [`POOTLE_TRANSLATION_DIRECTORY`](ref-settings.md#pootle-translation-directory)
+* [`ZING_TRANSLATION_DIRECTORY`](ref-settings.md#zing-translation-directory)

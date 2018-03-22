@@ -316,7 +316,7 @@ Available options are:
   [obtain a Yandex API key](https://tech.yandex.com/keys/get/?service=trnsl).
 
 
-### `POOTLE_TRANSLATION_DIRECTORY`
+### `ZING_TRANSLATION_DIRECTORY`
 
 Default: `working_path('translations')`
 

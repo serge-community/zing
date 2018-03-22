@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
 # This file is a part of the Pootle project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
@@ -36,9 +37,8 @@ def tutorial(english, settings):
         os.path.join(
             os.path.dirname(pytest_pootle.__file__),
             "data", "po", "tutorial"),
-        os.path.join(
-            settings.POOTLE_TRANSLATION_DIRECTORY,
-            "tutorial"))
+        os.path.join(settings.ZING_TRANSLATION_DIRECTORY, "tutorial")
+    )
 
     return _require_project('tutorial', 'Tutorial', english)
 

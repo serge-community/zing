@@ -336,21 +336,21 @@ def _make_member_updates(store, member):
 def af_tutorial_po(po_directory, settings, afrikaans_tutorial):
     """Require the /af/tutorial/tutorial.po store."""
     return _require_store(afrikaans_tutorial,
-                          settings.POOTLE_TRANSLATION_DIRECTORY, 'tutorial.po')
+                          settings.ZING_TRANSLATION_DIRECTORY, 'tutorial.po')
 
 
 @pytest.fixture
 def en_tutorial_po(po_directory, settings, english_tutorial):
     """Require the /en/tutorial/tutorial.po store."""
     return _require_store(english_tutorial,
-                          settings.POOTLE_TRANSLATION_DIRECTORY, 'tutorial.po')
+                          settings.ZING_TRANSLATION_DIRECTORY, 'tutorial.po')
 
 
 @pytest.fixture
 def en_tutorial_po_member_updated(po_directory, settings, english_tutorial, member):
     """Require the /en/tutorial/tutorial.po store."""
     store = _require_store(english_tutorial,
-                           settings.POOTLE_TRANSLATION_DIRECTORY,
+                           settings.ZING_TRANSLATION_DIRECTORY,
                            'tutorial.po')
     _make_member_updates(store, member)
     return store
@@ -360,14 +360,14 @@ def en_tutorial_po_member_updated(po_directory, settings, english_tutorial, memb
 def it_tutorial_po(po_directory, settings, italian_tutorial):
     """Require the /it/tutorial/tutorial.po store."""
     return _require_store(italian_tutorial,
-                          settings.POOTLE_TRANSLATION_DIRECTORY, 'tutorial.po')
+                          settings.ZING_TRANSLATION_DIRECTORY, 'tutorial.po')
 
 
 @pytest.fixture
 def issue_2401_po(po_directory, settings, afrikaans_tutorial):
     """Require the /af/tutorial/issue_2401.po store."""
     return _require_store(afrikaans_tutorial,
-                          settings.POOTLE_TRANSLATION_DIRECTORY,
+                          settings.ZING_TRANSLATION_DIRECTORY,
                           'issue_2401.po')
 
 

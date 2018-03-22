@@ -31,16 +31,15 @@ def add_trailing_slash(path):
 
 
 def relative_real_path(p):
-    if p.startswith(settings.POOTLE_TRANSLATION_DIRECTORY):
-        return p[len(add_trailing_slash(
-            settings.POOTLE_TRANSLATION_DIRECTORY)):]
+    if p.startswith(settings.ZING_TRANSLATION_DIRECTORY):
+        return p[len(add_trailing_slash(settings.ZING_TRANSLATION_DIRECTORY)):]
     else:
         return p
 
 
 def absolute_real_path(p):
-    if not p.startswith(settings.POOTLE_TRANSLATION_DIRECTORY):
-        return os.path.join(settings.POOTLE_TRANSLATION_DIRECTORY, p)
+    if not p.startswith(settings.ZING_TRANSLATION_DIRECTORY):
+        return os.path.join(settings.ZING_TRANSLATION_DIRECTORY, p)
     else:
         return p
 

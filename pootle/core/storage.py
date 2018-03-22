@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
 # This file is a part of the Pootle project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
@@ -21,6 +22,6 @@ class PootleFileSystemStorage(FileSystemStorage):
 
     def __init__(self, **kwargs):
         kwargs.update({
-            'location': settings.POOTLE_TRANSLATION_DIRECTORY,
+            'location': settings.ZING_TRANSLATION_DIRECTORY,
         })
         super(PootleFileSystemStorage, self).__init__(**kwargs)

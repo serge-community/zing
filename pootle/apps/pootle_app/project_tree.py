@@ -204,7 +204,7 @@ def add_files(translation_project, relative_dir, db_dir):
 
 def to_podir_path(path):
     path = relative_real_path(path)
-    return os.path.join(settings.POOTLE_TRANSLATION_DIRECTORY, path)
+    return os.path.join(settings.ZING_TRANSLATION_DIRECTORY, path)
 
 
 def translation_project_dir_exists(language, project):

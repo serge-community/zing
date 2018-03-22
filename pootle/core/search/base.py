@@ -10,13 +10,10 @@
 from django.conf import settings
 
 
-SERVER_SETTINGS_NAME = 'POOTLE_TM_SERVER'
-
-
 class SearchBackend(object):
 
     def __init__(self):
-        self._settings = getattr(settings, SERVER_SETTINGS_NAME, None)
+        self._settings = getattr(settings, 'POOTLE_TM_SERVER', None)
 
     def search(self, unit):
         """Search for TM results.

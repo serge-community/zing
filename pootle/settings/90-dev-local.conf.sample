@@ -16,7 +16,7 @@ need to change the extension of this file from ``.conf.sample`` to ``.conf``.
 # Site title
 ZING_TITLE = 'Zing Development Server'
 
-POOTLE_INSTANCE_ID = 'development'
+ZING_INSTANCE_ID = 'development'
 
 # Some dummy secret key fine for dev
 SECRET_KEY = '__P00TL3d3vS3CR3T__'

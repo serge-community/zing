@@ -10,7 +10,7 @@ title: Settings
 ## Reference
 
 
-### `POOTLE_INSTANCE_ID`
+### `ZING_INSTANCE_ID`
 
 Instance ID. This is to differentiate multiple instances of the same app (e.g.
 development, staging and production).  By default this value is exposed as a

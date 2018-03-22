@@ -244,20 +244,20 @@ def check_settings(app_configs=None, **kwargs):
             ))
 
     for coefficient_name in ['EDIT', 'REVIEW', 'SUGGEST', 'ANALYZE']:
-        if coefficient_name not in settings.POOTLE_SCORE_COEFFICIENTS:
+        if coefficient_name not in settings.ZING_SCORE_COEFFICIENTS:
             errors.append(checks.Critical(
-                _("POOTLE_SCORE_COEFFICIENTS has no %s.", coefficient_name),
-                hint=_("Set %s in POOTLE_SCORE_COEFFICIENTS.", coefficient_name),
+                _("ZING_SCORE_COEFFICIENTS has no %s.", coefficient_name),
+                hint=_("Set %s in ZING_SCORE_COEFFICIENTS.", coefficient_name),
                 id="pootle.C014",
             ))
         else:
-            coef = settings.POOTLE_SCORE_COEFFICIENTS[coefficient_name]
+            coef = settings.ZING_SCORE_COEFFICIENTS[coefficient_name]
             if not isinstance(coef, float):
                 errors.append(checks.Critical(
-                    _("Invalid value for %s in POOTLE_SCORE_COEFFICIENTS.",
+                    _("Invalid value for %s in ZING_SCORE_COEFFICIENTS.",
                         coefficient_name),
                     hint=_("Set a valid value for %s "
-                           "in POOTLE_SCORE_COEFFICIENTS.", coefficient_name),
+                           "in ZING_SCORE_COEFFICIENTS.", coefficient_name),
                     id="pootle.C015",
                 ))
 

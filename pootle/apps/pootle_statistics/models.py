@@ -547,10 +547,10 @@ class ScoreLog(models.Model):
 
     def get_score_delta(self):
         """Returns the score change performed by the current action."""
-        EDIT_COEF = settings.POOTLE_SCORE_COEFFICIENTS['EDIT']
-        REVIEW_COEF = settings.POOTLE_SCORE_COEFFICIENTS['REVIEW']
-        SUGG_COEF = settings.POOTLE_SCORE_COEFFICIENTS['SUGGEST']
-        ANALYZE_COEF = settings.POOTLE_SCORE_COEFFICIENTS['ANALYZE']
+        EDIT_COEF = settings.ZING_SCORE_COEFFICIENTS['EDIT']
+        REVIEW_COEF = settings.ZING_SCORE_COEFFICIENTS['REVIEW']
+        SUGG_COEF = settings.ZING_SCORE_COEFFICIENTS['SUGGEST']
+        ANALYZE_COEF = settings.ZING_SCORE_COEFFICIENTS['ANALYZE']
 
         ns = self.wordcount
         s = self.similarity
@@ -651,8 +651,8 @@ class ScoreLog(models.Model):
         action.
         """
 
-        EDIT_COEF = settings.POOTLE_SCORE_COEFFICIENTS['EDIT']
-        REVIEW_COEF = settings.POOTLE_SCORE_COEFFICIENTS['REVIEW']
+        EDIT_COEF = settings.ZING_SCORE_COEFFICIENTS['EDIT']
+        REVIEW_COEF = settings.ZING_SCORE_COEFFICIENTS['REVIEW']
 
         ns = self.wordcount
         s = self.get_similarity()

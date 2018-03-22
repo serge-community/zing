@@ -13,9 +13,6 @@ See https://docs.djangoproject.com/en/1.8/ref/applications/
 """
 
 from django.apps import AppConfig
-from django.core import checks
-
-from pootle.core.utils import deprecation
 
 
 class PootleConfig(AppConfig):
@@ -23,5 +20,4 @@ class PootleConfig(AppConfig):
     verbose_name = "Pootle"
 
     def ready(self):
-        from pootle import checks as pootle_checks  # noqa
-        checks.register(deprecation.check_deprecated_settings, "settings")
+        from pootle import checks  # noqa

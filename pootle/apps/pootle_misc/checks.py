@@ -1097,8 +1097,8 @@ def run_given_filters(checker, unit, check_names=None):
 def get_qualitychecks():
     available_checks = {}
 
-    if settings.POOTLE_QUALITY_CHECKER:
-        checkers = [import_func(settings.POOTLE_QUALITY_CHECKER)()]
+    if settings.ZING_QUALITY_CHECKER:
+        checkers = [import_func(settings.ZING_QUALITY_CHECKER)()]
     else:
         checkers = [checker() for checker in checks.projectcheckers.values()]
 

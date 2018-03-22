@@ -59,8 +59,8 @@ def test_tp_checker(po_directory, tp_checker_tests, settings):
     checker_name_, project = tp_checker_tests
     tp = TranslationProject.objects.create(project=project, language=language)
 
-    if settings.POOTLE_QUALITY_CHECKER:
-        checkerclasses = [import_func(settings.POOTLE_QUALITY_CHECKER)]
+    if settings.ZING_QUALITY_CHECKER:
+        checkerclasses = [import_func(settings.ZING_QUALITY_CHECKER)]
     else:
         checkerclasses = [
             checks.projectcheckers.get(tp.project.checkstyle,

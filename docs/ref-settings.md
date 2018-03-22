@@ -325,7 +325,7 @@ The directory where projects hosted on Zing store their translation files.
 this directory.
 
 
-### `POOTLE_QUALITY_CHECKER`
+### `ZING_QUALITY_CHECKER`
 
 Default: `pootle_misc.checks.ENChecker`
 

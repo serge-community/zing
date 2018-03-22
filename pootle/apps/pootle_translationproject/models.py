@@ -208,9 +208,9 @@ class TranslationProject(models.Model, CachedTreeItem):
         from translate.filters import checks
         # We do not use default Translate Toolkit checkers; instead use
         # our own one
-        if settings.POOTLE_QUALITY_CHECKER:
+        if settings.ZING_QUALITY_CHECKER:
             from pootle_misc.util import import_func
-            checkerclasses = [import_func(settings.POOTLE_QUALITY_CHECKER)]
+            checkerclasses = [import_func(settings.ZING_QUALITY_CHECKER)]
         else:
             checkerclasses = [
                 checks.projectcheckers.get(self.project.checkstyle,

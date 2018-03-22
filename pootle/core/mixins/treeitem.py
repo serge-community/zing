@@ -29,10 +29,10 @@ from pootle_misc.util import dictsum
 __all__ = ('TreeItem', 'CachedTreeItem', 'CachedMethods')
 
 
-POOTLE_DIRTY_TREEITEMS = 'pootle:dirty:treeitems'
-POOTLE_REFRESH_STATS = 'pootle:refresh:stats'
-POOTLE_STATS_LAST_JOB_PREFIX = "pootle:stats:lastjob:"
-POOTLE_STATS_JOB_PARAMS_PREFIX = "pootle:stats:job.params:"
+KEY_DIRTY_TREEITEMS = 'pootle:dirty:treeitems'
+KEY_REFRESH_STATS = 'pootle:refresh:stats'
+KEY_STATS_LAST_JOB_PREFIX = "pootle:stats:lastjob:"
+KEY_STATS_JOB_PARAMS_PREFIX = "pootle:stats:job.params:"
 
 
 logger = logging.getLogger('stats')
@@ -272,7 +272,7 @@ class CachedTreeItem(TreeItem):
 
     def get_last_job_key(self):
         key = self.cache_key
-        return POOTLE_STATS_LAST_JOB_PREFIX + key.replace("/", ".").strip(".")
+        return KEY_STATS_LAST_JOB_PREFIX + key.replace("/", ".").strip(".")
 
     def update_cached(self, name):
         """calculate stat value and update cached value"""
@@ -406,7 +406,7 @@ class CachedTreeItem(TreeItem):
     def is_being_refreshed(self):
         """Checks if current TreeItem is being refreshed"""
         r_con = get_connection()
-        path = r_con.get(POOTLE_REFRESH_STATS)
+        path = r_con.get(KEY_REFRESH_STATS)
 
         if path is None:
             return False
@@ -425,7 +425,7 @@ class CachedTreeItem(TreeItem):
         """
         r_con = get_connection()
         for p in self.all_pootle_paths():
-            r_con.zincrby(POOTLE_DIRTY_TREEITEMS, p)
+            r_con.zincrby(KEY_DIRTY_TREEITEMS, p)
 
     def unregister_all_dirty(self, decrement=1):
         """Unregister current TreeItem and all parent paths as dirty
@@ -439,7 +439,7 @@ class CachedTreeItem(TreeItem):
                              p, decrement, job.id)
             else:
                 logger.debug('UNREGISTER %s (-%s)', p, decrement)
-            r_con.zincrby(POOTLE_DIRTY_TREEITEMS, p, 0 - decrement)
+            r_con.zincrby(KEY_DIRTY_TREEITEMS, p, 0 - decrement)
 
     def unregister_dirty(self, decrement=1):
         """Unregister current TreeItem as dirty
@@ -452,12 +452,12 @@ class CachedTreeItem(TreeItem):
                          self.cache_key, decrement, job.id)
         else:
             logger.debug('UNREGISTER %s (-%s)', self.cache_key, decrement)
-        r_con.zincrby(POOTLE_DIRTY_TREEITEMS, self.cache_key,
+        r_con.zincrby(KEY_DIRTY_TREEITEMS, self.cache_key,
                       0 - decrement)
 
     def get_dirty_score(self):
         r_con = get_connection()
-        return r_con.zscore(POOTLE_DIRTY_TREEITEMS, self.cache_key)
+        return r_con.zscore(KEY_DIRTY_TREEITEMS, self.cache_key)
 
     def update_dirty_cache(self):
         """Add a RQ job which updates dirty cached stats of current TreeItem
@@ -549,7 +549,7 @@ class JobWrapper(object):
         """
         Gets Redis key for keeping Job params
         """
-        return POOTLE_STATS_JOB_PARAMS_PREFIX + id
+        return KEY_STATS_JOB_PARAMS_PREFIX + id
 
     def get_job_params_key(self):
         return self.params_key_for(self.id)

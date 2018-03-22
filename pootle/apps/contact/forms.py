@@ -57,7 +57,7 @@ class ContactForm(MathCaptchaForm, OriginalContactForm):
         )
 
     def recipient_list(self):
-        return [settings.POOTLE_CONTACT_EMAIL]
+        return [settings.ZING_CONTACT_EMAIL]
 
     def save(self, fail_silently=False):
         """Build and send the email message."""
@@ -93,5 +93,5 @@ class ReportForm(ContactForm):
             return [self.cleaned_data['report_email']]
 
         report_email = getattr(settings, 'POOTLE_CONTACT_REPORT_EMAIL',
-                               settings.POOTLE_CONTACT_EMAIL)
+                               settings.ZING_CONTACT_EMAIL)
         return [report_email]

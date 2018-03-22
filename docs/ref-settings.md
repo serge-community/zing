@@ -33,7 +33,7 @@ The directory where Zing writes event logs to. These are high-level
 logs of events on store/unit changes and manage.py commands executed
 
 
-### `POOTLE_CONTACT_EMAIL`
+### `ZING_CONTACT_EMAIL`
 
 Default: _""_ (disabled)
 
@@ -43,7 +43,7 @@ form feature won't be available.
 
 ### `POOTLE_CONTACT_REPORT_EMAIL`
 
-Default: `POOTLE_CONTACT_EMAIL`
+Default: `ZING_CONTACT_EMAIL`
 
 Email address to report errors on strings.
 

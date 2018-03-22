@@ -191,11 +191,11 @@ def check_settings(app_configs=None, **kwargs):
             id="pootle.W007",
         ))
 
-    if settings.POOTLE_CONTACT_EMAIL == "info@YOUR_DOMAIN.com":
+    if settings.ZING_CONTACT_EMAIL == "info@YOUR_DOMAIN.com":
         errors.append(checks.Warning(
-            _("POOTLE_CONTACT_EMAIL is using the following default "
-              "setting %r." % settings.POOTLE_CONTACT_EMAIL),
-            hint=_("POOTLE_CONTACT_EMAIL is the address that will receive "
+            _("ZING_CONTACT_EMAIL is using the following default "
+              "setting %r." % settings.ZING_CONTACT_EMAIL),
+            hint=_("ZING_CONTACT_EMAIL is the address that will receive "
                    "messages sent by the contact form."),
             id="pootle.W011",
         ))
@@ -292,7 +292,7 @@ def check_email_server_is_alive(app_configs=None, **kwargs):
     from django.conf import settings
 
     errors = []
-    if settings.POOTLE_SIGNUP_ENABLED or settings.POOTLE_CONTACT_EMAIL.strip():
+    if settings.POOTLE_SIGNUP_ENABLED or settings.ZING_CONTACT_EMAIL.strip():
         from django.core.mail import get_connection
 
         connection = get_connection()

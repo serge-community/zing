@@ -51,7 +51,7 @@ def pootle_context(request):
             'POOTLE_INSTANCE_ID': settings.POOTLE_INSTANCE_ID,
             'POOTLE_SIGNUP_ENABLED': settings.POOTLE_SIGNUP_ENABLED,
             'CACHE_TIMEOUT': CACHE_TIMEOUT,
-            'CAN_CONTACT': bool(settings.POOTLE_CONTACT_EMAIL.strip()),
+            'CAN_CONTACT': bool(settings.ZING_CONTACT_EMAIL.strip()),
             'TZ': settings.TIME_ZONE,
             'TZ_OFFSET': TZ_OFFSET,
             'DEBUG': settings.DEBUG,

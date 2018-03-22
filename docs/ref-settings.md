@@ -25,7 +25,7 @@ Default: _'Zing Translation Server'_
 The name of the Zing server.
 
 
-### `POOTLE_LOG_DIRECTORY`
+### `ZING_LOG_DIRECTORY`
 
 Default: `working_path('log')`
 

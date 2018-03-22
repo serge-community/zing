@@ -107,7 +107,7 @@ DATABASES = {
 #
 
 # The directory where Pootle writes its logs
-POOTLE_LOG_DIRECTORY = working_path('log')
+ZING_LOG_DIRECTORY = working_path('log')
 
 
 #

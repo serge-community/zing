@@ -73,7 +73,7 @@ Default: `True`
 Enable spam prevention through a captcha.
 
 
-### `POOTLE_REPORTS_MARK_FUNC`
+### `ZING_REPORTS_MARK_FUNC`
 
 Default: _""_ (unset)
 

@@ -470,9 +470,9 @@ def get_daily_activity(user, scores, start, end):
         'nonempty': False,
     }
 
-    if settings.POOTLE_REPORTS_MARK_FUNC:
+    if settings.ZING_REPORTS_MARK_FUNC:
         try:
-            get_mark_data = import_func(settings.POOTLE_REPORTS_MARK_FUNC)
+            get_mark_data = import_func(settings.ZING_REPORTS_MARK_FUNC)
             result['data'].append({
                 'data': [],
                 'marks': {'show': True},

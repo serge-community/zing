@@ -141,26 +141,6 @@ INSTALLED_APPS += ['django_extensions']
 # The directory where the translation files are kept
 ZING_TRANSLATION_DIRECTORY = working_path('translations')
 
-# Two-tuple defining the markup filter to apply in certain textareas.
-#
-# - Accepted values for the first element are 'textile', 'markdown',
-#   'restructuredtext' and None.
-# - The second element should be a dictionary of keyword arguments that will be
-#   passed to the markup function.
-#
-# IMPORTANT: If you want to use one of these markup filters you must install on
-# your own the required packages.
-#
-# Examples:
-#    POOTLE_MARKUP_FILTER = (None, {})
-#    POOTLE_MARKUP_FILTER = ('markdown', {'safe_mode': 'escape'})
-#    POOTLE_MARKUP_FILTER = ('restructuredtext', {
-#                                'settings_overrides': {
-#                                    'report_level': 'quiet',
-#                                }
-#                            })
-POOTLE_MARKUP_FILTER = (None, {})
-
 # Suggestions through Machine Translation services (service name, API key).
 ZING_MT_BACKENDS = [
 #        ('GOOGLE_TRANSLATE', ''),

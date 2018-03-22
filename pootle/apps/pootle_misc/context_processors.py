@@ -47,7 +47,7 @@ def pootle_context(request):
     # FIXME: maybe we should expose relevant settings only?
     return {
         'settings': {
-            'POOTLE_TITLE': settings.POOTLE_TITLE,
+            'ZING_TITLE': settings.ZING_TITLE,
             'POOTLE_INSTANCE_ID': settings.POOTLE_INSTANCE_ID,
             'ZING_SIGNUP_ENABLED': settings.ZING_SIGNUP_ENABLED,
             'CACHE_TIMEOUT': CACHE_TIMEOUT,

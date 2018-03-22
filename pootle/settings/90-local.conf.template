@@ -14,7 +14,7 @@ https://github.com/evernote/zing/blob/master/docs/server/settings.rst
 #
 
 # Site title
-POOTLE_TITLE = 'Zing Translation Server'
+ZING_TITLE = 'Zing Translation Server'
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name

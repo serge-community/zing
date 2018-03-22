@@ -18,7 +18,7 @@ global `<html>` class name to allow overriding CSS rules based on the instance
 type.
 
 
-### `POOTLE_TITLE`
+### `ZING_TITLE`
 
 Default: _'Zing Translation Server'_
 

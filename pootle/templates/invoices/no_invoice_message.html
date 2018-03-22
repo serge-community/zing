@@ -16,11 +16,11 @@
 
     {% block body %}
     {% if correction_added %}
-      <p>This is to inform you that your balance at {{ POOTLE_TITLE }} is {{ balance }} {{ user.currency }}, which is less than the minimal payment of {{ minimal_payment }} {{ user.currency }} defined for your account.</p>
+      <p>This is to inform you that your balance at {{ ZING_TITLE }} is {{ balance }} {{ user.currency }}, which is less than the minimal payment of {{ minimal_payment }} {{ user.currency }} defined for your account.</p>
       <p>Because of this, there will be no payments from us during this payment cycle. The amount of {{ balance }} {{ user.currency }} will be carried over to the next payment cycle. You will see two corrections in your statistics dashboard reflecting the carry-over (one in the previous month, and on in the current one).</p>
     {% else %}
     <p>
-      This is to inform you that your balance at {{ POOTLE_TITLE }} is 0 {{ user.currency }}, and thus there will be no payments from us during this payment cycle.
+      This is to inform you that your balance at {{ ZING_TITLE }} is 0 {{ user.currency }}, and thus there will be no payments from us during this payment cycle.
     </p>
     {% endif %}
 

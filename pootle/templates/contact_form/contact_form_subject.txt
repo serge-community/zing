@@ -1,1 +1,1 @@
-[{{ settings.POOTLE_TITLE }}] {{ summary }}
+[{{ settings.ZING_TITLE }}] {{ summary }}

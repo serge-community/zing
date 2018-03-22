@@ -7,7 +7,6 @@
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
-from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.http import Http404
 from django.utils.functional import cached_property
@@ -21,6 +20,9 @@ from pootle_app.models.permissions import check_user_permission
 
 from ..http import JsonResponse
 from .base import PootleDetailView
+
+
+STATS_REFRESH_ATTEMPTS_COUNT = 2
 
 
 class BrowseDataViewMixin(object):
@@ -157,8 +159,7 @@ class PootleBrowseView(BrowseDataViewMixin, PootleDetailView):
 
         ctx.update({
             'page': 'browse',
-            'stats_refresh_attempts_count':
-                settings.POOTLE_STATS_REFRESH_ATTEMPTS_COUNT,
+            'stats_refresh_attempts_count': STATS_REFRESH_ATTEMPTS_COUNT,
             'browsing_data': self.get_browsing_data(),
             'can_translate': can_translate,
             'can_translate_stats': can_translate_stats,

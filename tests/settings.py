@@ -24,7 +24,7 @@ TIME_ZONE = 'Europe/Amsterdam'
 ROOT_DIR = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 ZING_TRANSLATION_DIRECTORY = os.path.join(ROOT_DIR, 'pytest_pootle', 'data', 'po')
 
-POOTLE_MT_BACKENDS = [
+ZING_MT_BACKENDS = [
     ['fake_test_backend', 'api_key']
 ]
 

@@ -297,7 +297,7 @@ Optionally, a couple of details can be configured:
   might vary.
 
 
-### `POOTLE_MT_BACKENDS`
+### `ZING_MT_BACKENDS`
 
 Default: `[]` (empty list)
 

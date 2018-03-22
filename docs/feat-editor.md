@@ -54,10 +54,10 @@ suggestions to translators.
 
 To enable a certain Machine Translation Service, edit your configuration file
 and add the desired service within the
-[`POOTLE_MT_BACKENDS`](ref-settings.md#pootle-mt-backends).
+[`ZING_MT_BACKENDS`](ref-settings.md#zing-mt-backends).
 
 ### Reference
 
 Settings:
 
-* [`POOTLE_MT_BACKENDS`](ref-settings.md#pootle-mt-backends)
+* [`ZING_MT_BACKENDS`](ref-settings.md#zing-mt-backends)

@@ -35,7 +35,7 @@ class PootleTranslateView(PootleDetailView):
             'canreview': check_permission("review", self.request),
             'search_form': make_search_form(request=self.request),
             'previous_url': get_previous_url(self.request),
-            'POOTLE_MT_BACKENDS': settings.POOTLE_MT_BACKENDS,
+            'ZING_MT_BACKENDS': settings.ZING_MT_BACKENDS,
             'editor_extends': self.template_extends,
         })
         return ctx

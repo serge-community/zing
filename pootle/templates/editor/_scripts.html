@@ -19,7 +19,7 @@ $(function() {
   };
   {% if cansuggest or cantranslate %}
   options.mt = [
-    {% for provider, apikey in POOTLE_MT_BACKENDS %}
+    {% for provider, apikey in ZING_MT_BACKENDS %}
     { name: '{{ provider }}', key: '{{ apikey }}' },
     {% endfor %}
   ];

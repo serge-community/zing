@@ -162,7 +162,7 @@ ZING_TRANSLATION_DIRECTORY = working_path('translations')
 POOTLE_MARKUP_FILTER = (None, {})
 
 # Suggestions through Machine Translation services (service name, API key).
-POOTLE_MT_BACKENDS = [
+ZING_MT_BACKENDS = [
 #        ('GOOGLE_TRANSLATE', ''),
 #        ('YANDEX_TRANSLATE', ''),
 ]

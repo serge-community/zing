@@ -66,7 +66,7 @@ for the Zing instance. Don't change this unless you know what you're
 doing.
 
 
-### `POOTLE_CAPTCHA_ENABLED`
+### `ZING_CAPTCHA_ENABLED`
 
 Default: `True`
 

@@ -28,7 +28,7 @@ ZING_MT_BACKENDS = [
     ['fake_test_backend', 'api_key']
 ]
 
-POOTLE_CAPTCHA_ENABLED = False
+ZING_CAPTCHA_ENABLED = False
 
 
 MIDDLEWARE = [

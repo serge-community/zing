@@ -339,7 +339,7 @@ be set on a per-project basis from the projects admin pages.
 > Translate Toolkit counterparts. Both cannot be selectively applied.
 
 
-### `POOTLE_WORDCOUNT_FUNC`
+### `ZING_WORDCOUNT_FUNC`
 
 Default: `translate.storage.statsdb.wordcount`
 

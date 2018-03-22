@@ -165,7 +165,7 @@ class Suggestion(models.Model, base.TranslationUnit):
 
 # # # # # # # # Unit # # # # # # # # # #
 
-wordcount_f = import_func(settings.POOTLE_WORDCOUNT_FUNC)
+wordcount_f = import_func(settings.ZING_WORDCOUNT_FUNC)
 
 
 def count_words(strings):

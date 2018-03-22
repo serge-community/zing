@@ -92,6 +92,6 @@ class ReportForm(ContactForm):
         if self.cleaned_data['report_email']:
             return [self.cleaned_data['report_email']]
 
-        report_email = getattr(settings, 'POOTLE_CONTACT_REPORT_EMAIL',
+        report_email = getattr(settings, 'ZING_CONTACT_REPORT_EMAIL',
                                settings.ZING_CONTACT_EMAIL)
         return [report_email]

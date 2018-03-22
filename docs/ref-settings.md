@@ -41,7 +41,7 @@ Address to receive messages sent through the contact form. If unset, the contact
 form feature won't be available.
 
 
-### `POOTLE_CONTACT_REPORT_EMAIL`
+### `ZING_CONTACT_REPORT_EMAIL`
 
 Default: `ZING_CONTACT_EMAIL`
 

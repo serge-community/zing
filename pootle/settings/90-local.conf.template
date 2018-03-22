@@ -132,7 +132,7 @@ ZING_CONTACT_EMAIL = 'info@YOUR_DOMAIN.com'
 # the project for which the string error is being reported.
 # Use this as a way to forward string error reports to an address
 # different from the general contact address.
-POOTLE_CONTACT_REPORT_EMAIL = 'string_errors_manager@YOUR_DOMAIN.com'
+ZING_CONTACT_REPORT_EMAIL = 'string_errors_manager@YOUR_DOMAIN.com'
 
 # Mail server settings
 

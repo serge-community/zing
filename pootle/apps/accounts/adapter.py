@@ -45,10 +45,10 @@ class PootleAccountAdapter(DefaultAccountAdapter):
     def is_open_for_signup(self, request):
         """Controls whether signups are enabled on the site.
 
-        This can be changed by setting `POOTLE_SIGNUP_ENABLED = False` in
+        This can be changed by setting `ZING_SIGNUP_ENABLED = False` in
         the settings. Defaults to `True`.
         """
-        return getattr(settings, 'POOTLE_SIGNUP_ENABLED', True)
+        return getattr(settings, 'ZING_SIGNUP_ENABLED', True)
 
     def add_message(self, request, level, message_template, *args, **kwargs):
         """Silence messages altogether."""

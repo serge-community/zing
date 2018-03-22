@@ -292,7 +292,7 @@ def check_email_server_is_alive(app_configs=None, **kwargs):
     from django.conf import settings
 
     errors = []
-    if settings.POOTLE_SIGNUP_ENABLED or settings.ZING_CONTACT_EMAIL.strip():
+    if settings.ZING_SIGNUP_ENABLED or settings.ZING_CONTACT_EMAIL.strip():
         from django.core.mail import get_connection
 
         connection = get_connection()

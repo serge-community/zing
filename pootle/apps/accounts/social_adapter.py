@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
 # This file is a part of the Pootle project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
@@ -27,14 +28,14 @@ class PootleSocialAccountAdapter(DefaultSocialAccountAdapter):
         social authentication methods.
         """
         # Allauth's default behavior is to disallow creating *any* users if the
-        # account adapter forbids so. In Pootle's case, the adapter's
+        # account adapter forbids so. In Zing's case, the adapter's
         # `is_open_for_signup()` is controlled by
-        # `settings.POOTLE_SIGNUP_ENABLED`, and we want to apply its semantics
+        # `settings.ZING_SIGNUP_ENABLED`, and we want to apply its semantics
         # only to regular user accounts, not social accounts. So social
         # accounts can sign up for new user accounts anytime.  If this is
         # considered to be problematic in the future, we might want to
         # introduce a new setting to control this, separate from
-        # `POOTLE_SIGNUP_ENABLED`.
+        # `ZING_SIGNUP_ENABLED`.
         return True
 
     def pre_social_login(self, request, sociallogin):

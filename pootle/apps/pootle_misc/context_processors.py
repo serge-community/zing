@@ -49,7 +49,7 @@ def pootle_context(request):
         'settings': {
             'POOTLE_TITLE': settings.POOTLE_TITLE,
             'POOTLE_INSTANCE_ID': settings.POOTLE_INSTANCE_ID,
-            'POOTLE_SIGNUP_ENABLED': settings.POOTLE_SIGNUP_ENABLED,
+            'ZING_SIGNUP_ENABLED': settings.ZING_SIGNUP_ENABLED,
             'CACHE_TIMEOUT': CACHE_TIMEOUT,
             'CAN_CONTACT': bool(settings.ZING_CONTACT_EMAIL.strip()),
             'TZ': settings.TIME_ZONE,

@@ -48,7 +48,7 @@ Default: `ZING_CONTACT_EMAIL`
 Email address to report errors on strings.
 
 
-### `POOTLE_SIGNUP_ENABLED`
+### `ZING_SIGNUP_ENABLED`
 
 Default: `True`
 

@@ -25,7 +25,7 @@
     window.PTL = window.PTL || {};
     PTL.settings = {
       CAN_CONTACT: {{ settings.CAN_CONTACT|yesno:'true, false' }},
-      SIGNUP_ENABLED: {{ settings.POOTLE_SIGNUP_ENABLED|yesno:'true, false' }},
+      SIGNUP_ENABLED: {{ settings.ZING_SIGNUP_ENABLED|yesno:'true, false' }},
       SOCIAL_AUTH_PROVIDERS: {{ SOCIAL_AUTH_PROVIDERS|to_js }},
       UI_LOCALE: '{{ LANGUAGE_CODE }}',
       TZ: '{{ settings.TZ }}',

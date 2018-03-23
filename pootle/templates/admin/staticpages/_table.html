@@ -24,8 +24,7 @@
         </a>
       </td>
       <td>
-        <time class="js-relative-date" title="{{ page.modified_on|dateformat }}"
-          datetime="{{ page.modified_on.isoformat }}">&nbsp;</time>
+        {{ page.modified_on|dateformat:"SHORT_DATE_FORMAT" }}
       </td>
     </tr>
   {% endfor %}

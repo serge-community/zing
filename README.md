@@ -18,6 +18,10 @@ originates from the [Pootle](http://pootle.translatehouse.org/) project and
 still shares much of the DNA with it, but stays aligned with our [goals and
 vision](https://github.com/evernote/zing/blob/master/GOALS.md).
 
+**IMPORTANT NOTE**: Zing adheres to [semantic
+versioning](https://semver.org/#spec-item-4), and as such backward incompatible
+changes can be expected anytime before reaching v1.0.
+
 
 Installation
 ------------
@@ -26,10 +30,6 @@ We are [currently working](https://github.com/evernote/zing/issues/25) to
 provide an out-of-the-box installation method. In the mean-time, one can
 experiment to run Zing from source, although we are not committed to support
 it.
-
-**IMPORTANT NOTE**: Zing adheres to [semantic
-versioning](https://semver.org/#spec-item-4), and as such backward incompatible
-changes can be expected anytime before reaching v1.0.
 
 
 Copying

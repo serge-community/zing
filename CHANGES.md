@@ -4,6 +4,7 @@ Zing Changelog
 v.next (not released yet)
 -------------------------
 
+* Removed `ZING_INSTANCE_ID`. This can easily be implemented by anyone.
 * Cleaned up setting names and removed obsoletes:
   * `POOTLE_TM_SERVER` -> `ZING_TM_SERVER`
   * `POOTLE_CONTACT_EMAIL` -> `ZING_CONTACT_EMAIL`

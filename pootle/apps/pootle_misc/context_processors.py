@@ -48,7 +48,6 @@ def pootle_context(request):
     return {
         'settings': {
             'ZING_TITLE': settings.ZING_TITLE,
-            'ZING_INSTANCE_ID': settings.ZING_INSTANCE_ID,
             'ZING_SIGNUP_ENABLED': settings.ZING_SIGNUP_ENABLED,
             'CACHE_TIMEOUT': CACHE_TIMEOUT,
             'CAN_CONTACT': bool(settings.ZING_CONTACT_EMAIL.strip()),

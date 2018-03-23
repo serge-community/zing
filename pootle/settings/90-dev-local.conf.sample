@@ -2,7 +2,7 @@
 
 """Sample development configuration file.
 
-This file includes settings that are suited for hacking Pootle. For further
+This file includes settings that are suited for development. For further
 customizations, you can find the defaults in the ``*.conf`` files.
 
 In order for this configuration changes to take effect, bear in mind that you
@@ -15,8 +15,6 @@ need to change the extension of this file from ``.conf.sample`` to ``.conf``.
 
 # Site title
 ZING_TITLE = 'Zing Development Server'
-
-ZING_INSTANCE_ID = 'development'
 
 # Some dummy secret key fine for dev
 SECRET_KEY = '__P00TL3d3vS3CR3T__'

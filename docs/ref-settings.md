@@ -58,13 +58,6 @@ for the Zing instance. Don't change this unless you know what you're
 doing.
 
 
-### `ZING_CAPTCHA_ENABLED`
-
-Default: `True`
-
-Enable spam prevention through a captcha.
-
-
 ### `ZING_REPORTS_MARK_FUNC`
 
 Default: _""_ (unset)

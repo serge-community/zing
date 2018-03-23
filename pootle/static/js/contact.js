@@ -99,11 +99,6 @@ const contact = {
     const $form = $(sel.form);
     const url = $form.attr('action');
     const data = $form.serializeObject();
-    const captchaCallbacks = {
-      sfn: 'PTL.contact.onSubmit',
-      efn: 'PTL.contact.onError',
-    };
-    $.extend(data, captchaCallbacks);
 
     this.sendMessage(url, data);
   },

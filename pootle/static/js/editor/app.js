@@ -38,7 +38,6 @@ import linkHashtags from 'utils/linkHashtags';
 import SimilarTranslationList from './components/SimilarTranslationList';
 import SuggestionFeedbackForm from './components/SuggestionFeedbackForm';
 
-import captcha from '../captcha';
 import helpers from '../helpers';
 import msg from '../msg';
 import score from '../score';
@@ -1015,8 +1014,6 @@ PTL.editor = {
 
     if (xhr.status === 0) {
       text = t('Error while connecting to the server');
-    } else if (xhr.status === 402) {
-      captcha.onError(xhr, 'PTL.editor.error');
     } else if (xhr.status === 404) {
       text = t('Not found');
     } else if (xhr.status === 500) {
@@ -1483,10 +1480,6 @@ PTL.editor = {
         id: this.dataset.suggId,
       };
     }).get();
-    const captchaCallbacks = {
-      sfn: 'PTL.editor.processSubmission',
-      efn: 'PTL.editor.error',
-    };
 
     this.updateUnitDefaultProperties();
 
@@ -1517,8 +1510,7 @@ PTL.editor = {
 
     const body = Object.assign(
       {}, this.getCheckedStateData(), valueStateData,
-      this.getReqData(), this.getSimilarityData(),
-      captchaCallbacks
+      this.getReqData(), this.getSimilarityData()
     );
 
     el.disabled = true;
@@ -1565,15 +1557,10 @@ PTL.editor = {
 
   /* Pushes translation suggestions and moves to the next unit */
   handleSuggest() {
-    const captchaCallbacks = {
-      sfn: 'PTL.editor.processSuggestion',
-      efn: 'PTL.editor.error',
-    };
-
     this.updateUnitDefaultProperties();
 
     const body = Object.assign({}, this.getValueStateData(), this.getReqData(),
-                        this.getSimilarityData(), captchaCallbacks);
+                        this.getSimilarityData());
 
     UnitAPI.addSuggestion(this.units.uid, body)
       .then(

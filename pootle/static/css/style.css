@@ -867,41 +867,6 @@ ul.errorlist
 
 
 /*
- * CAPTCHA FORM
- */
-
-.form .captcha
-{
-    text-align: left;
-    margin-top: 1em;
-}
-
-.form .captcha label
-{
-    font-size: 120%;
-    margin-right: 0.6em;
-}
-
-.form .captcha input[type="text"]
-{
-    font-size: 120%;
-    width: 3em;
-}
-
-.form .captcha input[type="submit"]
-{
-    margin-left: 1em;
-    vertical-align: bottom;
-}
-
-.form .captcha ul.errorlist
-{
-    float: right;
-    line-height: 2em;
-}
-
-
-/*
  * SETTINGS PAGE
  */
 

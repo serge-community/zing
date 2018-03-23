@@ -29,7 +29,6 @@ import mousetrap from 'mousetrap';
 import agreement from './agreement';
 import auth from './auth';
 import browser from './browser';
-import captcha from './captcha';
 import contact from './contact';
 import dropdown from './dropdown';
 import score from './score';
@@ -69,7 +68,6 @@ window.PTL = window.PTL || {};
 
 PTL.auth = auth;
 PTL.agreement = agreement;
-PTL.captcha = captcha;
 PTL.contact = contact;
 PTL.dropdown = dropdown;
 PTL.score = score;

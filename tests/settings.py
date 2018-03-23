@@ -28,8 +28,6 @@ ZING_MT_BACKENDS = [
     ['fake_test_backend', 'api_key']
 ]
 
-ZING_CAPTCHA_ENABLED = False
-
 
 MIDDLEWARE = [
     #: Must be as high as possible (see above)
@@ -51,8 +49,6 @@ MIDDLEWARE = [
     #: Nice 500 and 403 pages (must be after locale to have translated versions)
     'pootle.middleware.errorpages.ErrorPagesMiddleware',
     'django.middleware.common.CommonMiddleware',
-    #: Must be early in the response cycle (close to bottom)
-    'pootle.middleware.captcha.CaptchaMiddleware',
 ]
 
 # Using the only Redis DB for testing

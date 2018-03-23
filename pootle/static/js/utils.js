@@ -168,19 +168,6 @@ export function highlightRWNodes(selector) {
 }
 
 
-export function executeFunctionByName(functionName, ctx, ...args) {
-  const namespaces = functionName.split('.');
-  const func = namespaces.pop();
-
-  let context = ctx;
-  for (let i = 0; i < namespaces.length; i++) {
-    context = context[namespaces[i]];
-  }
-
-  return context[func].apply(this, args);
-}
-
-
 export function blinkClass($elem, className, n, delay) {
   $elem.toggleClass(className);
   if (n > 1) {
@@ -191,7 +178,6 @@ export function blinkClass($elem, className, n, delay) {
 
 export default {
   blinkClass,
-  executeFunctionByName,
   highlightRO,
   highlightRW,
   highlightRONodes,

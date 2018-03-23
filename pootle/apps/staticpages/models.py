@@ -16,12 +16,10 @@ from django.urls import reverse
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 
-from pootle.core.mixins import DirtyFieldsMixin
-
 from .managers import PageManager
 
 
-class AbstractPage(DirtyFieldsMixin, models.Model):
+class AbstractPage(models.Model):
 
     active = models.BooleanField(
         _('Active'),
@@ -47,6 +45,8 @@ class AbstractPage(DirtyFieldsMixin, models.Model):
         default=now,
         editable=False,
     )
+
+    _track_fields = ('title', 'body')
 
     objects = PageManager()
 
@@ -92,8 +92,14 @@ class AbstractPage(DirtyFieldsMixin, models.Model):
             raise ValidationError(_(u'Virtual path already in use.'))
 
     def has_changes(self):
-        dirty_fields = self.get_dirty_fields()
-        return any(field in dirty_fields for field in ('title', 'body'))
+        if self.pk is None:
+            return False
+
+        obj = self.__class__.objects.get(pk=self.pk)
+        for field_name in self._track_fields:
+            if getattr(self, field_name) != getattr(obj, field_name):
+                return True
+        return False
 
 
 class LegalPage(AbstractPage):

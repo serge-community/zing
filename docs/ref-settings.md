@@ -48,16 +48,6 @@ Controls whether user sign ups are allowed or not. If set to `False`,
 administrators will still be able to create new user accounts.
 
 
-### `ZING_LEGALPAGE_NOCHECK_PREFIXES`
-
-Default: `('/about', '/accounts', '/admin', '/contact', '/jsi18n', '/pages', )`
-
-List of path prefixes where the `LegalAgreementMiddleware` will check
-if the current logged-in user has agreed all the legal documents defined
-for the Zing instance. Don't change this unless you know what you're
-doing.
-
-
 ### `ZING_REPORTS_MARK_FUNC`
 
 Default: _""_ (unset)

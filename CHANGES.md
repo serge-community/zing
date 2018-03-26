@@ -4,6 +4,7 @@ Zing Changelog
 v.next (not released yet)
 -------------------------
 
+* Moved `LEGALPAGE_NOCHECK_PREFIXES` into a constant.
 * Removed captcha middleware and associated setting.
 * Removed `ZING_INSTANCE_ID`. This can easily be implemented by anyone.
 * Cleaned up setting names and removed obsoletes:

@@ -12,15 +12,6 @@ import $ from 'jquery';
 import { formatTimeDelta } from 'utils/time';
 
 
-function updateInputState($checkboxes, $input) {
-  if ($checkboxes.length === $checkboxes.filter(':checked').length) {
-    $input.prop('disabled', false);
-  } else {
-    $input.prop('disabled', true);
-  }
-}
-
-
 const helpers = {
 
   /* Updates relative dates */
@@ -30,20 +21,6 @@ const helpers = {
         formatTimeDelta(Date.parse($(e).attr('datetime'), { addDirection: true }))
       );
     });
-  },
-
-  /* Updates the disabled state of an input button according to the
-   * checked status of input checkboxes.
-   */
-  updateInputState(checkboxSelector, inputSelector) {
-    const $checkbox = $(checkboxSelector);
-    if ($checkbox.length) {
-      const $input = $(inputSelector);
-      updateInputState($checkbox, $input);
-      $checkbox.change(() => {
-        updateInputState($checkbox, $input);
-      });
-    }
   },
 
 };

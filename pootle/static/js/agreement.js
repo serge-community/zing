@@ -11,8 +11,6 @@ import 'jquery-magnific-popup';
 import 'jquery-serializeObject';
 import 'jquery-utils';
 
-import { updateInputState } from './helpers';
-
 
 const agreement = {
 
@@ -35,9 +33,6 @@ const agreement = {
         parseAjax(mfpResponse) {
           // eslint-disable-next-line no-param-reassign
           mfpResponse.data = mfpResponse.data.form;
-        },
-        ajaxContentAdded() {
-          updateInputState('.js-legalfield', '.js-agreement-continue');
         },
       },
       modal: true,

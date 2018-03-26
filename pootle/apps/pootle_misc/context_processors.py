@@ -13,24 +13,10 @@ from django.utils import timezone, translation
 from pootle.core.constants import CACHE_TIMEOUT
 from pootle_language.models import Language
 from pootle_project.models import Project
-from staticpages.models import LegalPage
 
 
 local_now = timezone.localtime(timezone.now())
 TZ_OFFSET = local_now.utcoffset().total_seconds()
-
-
-def _agreement_context(request):
-    """Returns whether the agreement box should be displayed or not."""
-    request_path = request.META['PATH_INFO']
-    nocheck = filter(lambda x: request_path.startswith(x),
-                     settings.ZING_LEGALPAGE_NOCHECK_PREFIXES)
-
-    if (request.user.is_authenticated and not nocheck and
-        LegalPage.objects.has_pending_agreement(request.user)):
-        return True
-
-    return False
 
 
 def _get_social_auth_providers(request):
@@ -59,5 +45,4 @@ def pootle_context(request):
                                                    request.user.is_superuser),
         'ALL_PROJECTS': Project.objects.cached_dict(request.user),
         'SOCIAL_AUTH_PROVIDERS': _get_social_auth_providers(request),
-        'display_agreement': _agreement_context(request),
     }

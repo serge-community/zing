@@ -406,6 +406,7 @@ def test_invoice_get_user_amounts(member, action_code, task_type):
         assert correction == 0
 
 
+@pytest.mark.django_db
 def test_invoice_get_total_amounts_below_minimal_payment(monkeypatch):
     """Tests total amounts' correctness when the accrued total is below the
     minimal payment bar.
@@ -429,6 +430,7 @@ def test_invoice_get_total_amounts_below_minimal_payment(monkeypatch):
     assert total_amounts['extra_amount'] == 0
 
 
+@pytest.mark.django_db
 def test_invoice_get_total_amounts_extra_add(monkeypatch):
     """Tests total amounts' correctness when there is an extra amount to be
     added to the accrued total.
@@ -511,15 +513,15 @@ def test_invoice_generate_add_correction(member, invoice_directory):
     # Generate an invoice first
     amounts = invoice.get_total_amounts()
     assert amounts['subtotal'] == INITIAL_SUBTOTAL
+    assert amounts['total'] == 0
     assert invoice.should_add_correction(amounts['subtotal'])
     invoice.generate()
     _check_single_paidtask(invoice, INITIAL_SUBTOTAL)
 
     # Subsequent invoice generations must not add any corrections
-    for i in range(5):
-        invoice.get_total_amounts.cache_clear()  # clears the LRU cache
-        amounts = invoice.get_total_amounts()
-        assert amounts['subtotal'] == 0
-        assert not invoice.should_add_correction(amounts['subtotal'])
-        invoice.generate()
-        _check_single_paidtask(invoice, INITIAL_SUBTOTAL)
+    invoice.get_total_amounts.cache_clear()  # clears the LRU cache
+    amounts = invoice.get_total_amounts()
+    assert amounts['total'] == INITIAL_SUBTOTAL
+    assert not invoice.should_add_correction(amounts['subtotal'])
+    invoice.generate()
+    _check_single_paidtask(invoice, INITIAL_SUBTOTAL)

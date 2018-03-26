@@ -246,12 +246,43 @@ class Invoice(object):
         return (translated_words, reviewed_words, hours, correction)
 
     def should_add_correction(self, subtotal):
-        """Returns `True` if given the `subtotal` amount a carry-over correction
+        """Returns `True` if given the `subtotal` amount carry-over correction
         should be added to this invoice.
         """
         return (self.add_correction and
                 subtotal > 0 and
-                subtotal < self.conf.get('minimal_payment', 0))
+                subtotal < self.conf.get('minimal_payment', 0) and
+                not self._has_correction(subtotal))
+
+    def _has_correction(self, amount):
+        """Returns `True` if a correction of `amount` quantity already exists
+        for the month being processed.
+        """
+        try:
+            PaidTask.objects.get(
+                task_type=PaidTaskTypes.CORRECTION,
+                amount=(-1) * amount,
+                rate=1,
+                datetime=self.month_end,
+                description='Carryover to the next month',
+                user=self.user,
+            )
+
+            server_tz = timezone.get_default_timezone()
+            local_now = timezone.localtime(self.now, server_tz)
+            initial_moment = local_now.replace(day=1, hour=0, minute=0, second=0)
+            PaidTask.objects.get(
+                task_type=PaidTaskTypes.CORRECTION,
+                amount=amount,
+                rate=1,
+                datetime=initial_moment,
+                description='Carryover from the previous month',
+                user=self.user,
+            )
+
+            return True
+        except PaidTask.DoesNotExist:
+            return False
 
     def _add_correction(self, total_amount):
         """Adds a correction for the value of `total_amount` in the month being

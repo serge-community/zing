@@ -4,10 +4,11 @@ Zing Changelog
 v.next (not released yet)
 -------------------------
 
-* Moved `LEGALPAGE_NOCHECK_PREFIXES` into a constant.
-* Removed captcha middleware and associated setting.
-* Removed `ZING_INSTANCE_ID`. This can easily be implemented by anyone.
-* Cleaned up setting names and removed obsoletes:
+* Fixed issue where static pages wouldn't update their timestamps (#316).
+* Moved `LEGALPAGE_NOCHECK_PREFIXES` setting into a constant (#319).
+* Removed captcha middleware and associated setting (#315).
+* Removed `ZING_INSTANCE_ID`. This can easily be implemented by anyone (#314).
+* Cleaned up setting names and removed obsoletes (#313):
   * `POOTLE_TM_SERVER` -> `ZING_TM_SERVER`
   * `POOTLE_CONTACT_EMAIL` -> `ZING_CONTACT_EMAIL`
   * `POOTLE_TRANSLATION_DIRECTORY` -> `ZING_TRANSLATION_DIRECTORY`

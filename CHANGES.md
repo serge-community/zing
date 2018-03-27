@@ -4,6 +4,7 @@ Zing Changelog
 v.next (not released yet)
 -------------------------
 
+* Fixed issue when saving users without linkedin accounts (#321).
 * Fixed issue where static pages wouldn't update their timestamps (#316).
 * Moved `LEGALPAGE_NOCHECK_PREFIXES` setting into a constant (#319).
 * Removed captcha middleware and associated setting (#315).

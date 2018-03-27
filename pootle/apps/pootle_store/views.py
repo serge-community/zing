@@ -25,7 +25,6 @@ from django.views.decorators.http import require_http_methods
 
 from pootle.core.decorators import (get_path_obj, get_resource,
                                     permission_required)
-from pootle.core.delegate import search_backend
 from pootle.core.exceptions import Http400
 from pootle.core.http import JsonResponse, JsonResponseBadRequest
 from pootle.core.utils import dateformat
@@ -49,6 +48,7 @@ from .forms import (UnitSearchForm, UnitViewRowsForm,
                     unit_comment_form_factory, unit_form_factory)
 from .models import Unit
 from .unit.results import CtxRowResults, ViewRowResults
+from .unit.search import DBSearchBackend
 from .unit.timeline import Timeline
 from .util import find_altsrcs
 
@@ -137,7 +137,7 @@ def get_uids(request):
                     raise Http400(_('Arguments missing.'))
         raise Http404(forms.ValidationError(search_form.errors).messages)
 
-    begin, end, total, uids = search_backend.get(Unit)(
+    begin, end, total, uids = DBSearchBackend(
         request.user, **search_form.cleaned_data
     ).get_uids()
 
@@ -180,9 +180,7 @@ def get_units(request):
                     raise Http400(error.message)
         raise Http404(forms.ValidationError(form.errors).messages)
 
-    units = search_backend.get(Unit)(
-        request.user, **form.cleaned_data
-    ).get_units()
+    units = DBSearchBackend(request.user, **form.cleaned_data).get_units()
 
     return JsonResponse(ViewRowResults(units, form.cleaned_data['headers']).data)
 

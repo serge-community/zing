@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Pootle contributors.
+# Copyright (C) Zing contributors.
 #
-# This file is a part of the Pootle project. It is distributed under the GPL3
+# This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
@@ -13,10 +14,6 @@ from django.contrib.auth import get_user_model
 from django.utils.functional import cached_property
 
 from django_comments.forms import CommentForm as DjCommentForm
-
-from .delegate import comment_should_not_be_saved
-from .exceptions import CommentNotSaved
-from .signals import comment_was_saved
 
 
 User = get_user_model()
@@ -43,23 +40,11 @@ class CommentForm(DjCommentForm):
     def comment(self):
         return self.get_comment_object()
 
-    def clean(self):
-        super(CommentForm, self).clean()
-        should_not_save = comment_should_not_be_saved.get(
-            self.target_object.__class__,
-            instance=self.target_object,
-            comment=self.comment)
-        if should_not_save:
-            raise CommentNotSaved(dict(comment=should_not_save))
-
     def save(self):
         comment = self.comment
         comment.user = self.cleaned_data["user"]
         comment.submit_date = datetime.now()
         comment.save()
-        comment_was_saved.send(
-            sender=comment.__class__,
-            comment=comment)
 
 
 class UnsecuredCommentForm(CommentForm):

@@ -12,10 +12,9 @@ from itertools import groupby
 from django.forms import ValidationError
 from django.http import Http404
 
-from pootle.core.delegate import search_backend
 from pootle.core.helpers import get_filter_name
 from pootle_store.forms import UnitExportForm
-from pootle_store.models import Unit
+from pootle_store.unit.search import DBSearchBackend
 
 from .base import PootleDetailView
 
@@ -44,8 +43,9 @@ class PootleExportView(PootleDetailView):
             raise Http404(
                 ValidationError(search_form.errors).messages)
 
-        total, start_, end_, units_qs = search_backend.get(Unit)(
-            self.request.user, **search_form.cleaned_data).search()
+        total, start_, end_, units_qs = DBSearchBackend(
+            self.request.user, **search_form.cleaned_data
+        ).search()
 
         units_qs = units_qs.select_related('store')
 

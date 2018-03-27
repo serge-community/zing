@@ -104,11 +104,15 @@ class UserForm(forms.ModelForm):
 
     def clean_linkedin(self):
         url = self.cleaned_data['linkedin']
-        if url is not None and url != '':
-            parsed = urlparse.urlparse(url)
-            if 'linkedin.com' not in parsed.netloc or parsed.path == '/':
-                raise forms.ValidationError(
-                    _('Please enter a valid LinkedIn user profile URL.')
-                )
+
+        if url is None or url == '':
+            return None
+
+        parsed = urlparse.urlparse(url)
+        if (not parsed.netloc.endswith('linkedin.com') or
+            (not parsed.path.startswith('/in/') or len(parsed.path) < 5)):
+            raise forms.ValidationError(
+                _('Please enter a valid LinkedIn user profile URL.')
+            )
 
         return url

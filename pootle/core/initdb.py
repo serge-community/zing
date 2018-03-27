@@ -19,7 +19,6 @@ from pootle_app.models import Directory
 from pootle_app.models.permissions import PermissionSet, get_pootle_permission
 from pootle_language.models import Language
 from pootle_project.models import Project
-from staticpages.models import StaticPage as Announcement
 
 
 logger = logging.getLogger(__name__)
@@ -76,7 +75,7 @@ class InitDB(object):
     def create_essential_users(self):
         """Create the 'default' and 'nobody' User instances.
 
-        These users are required for Pootle's permission system.
+        These users are required for the permission system.
         """
         # The nobody user is used to represent an anonymous user in cases
         # where we need to associate model information with such a user. An
@@ -232,21 +231,7 @@ class InitDB(object):
             'fullname': u"Tutorial",
             'checkstyle': "standard",
         }
-        tutorial = self._create_object(Project, **criteria)[0]
-
-        criteria = {
-            'active': True,
-            'title': "Project instructions",
-            'body': (
-                '<div dir="ltr" lang="en">Tutorial project where users can '
-                'play with Pootle and learn more about translation and '
-                'localisation.<br />For more help on localisation, visit the '
-                '<a href="http://docs.translatehouse.org/projects/'
-                'localization-guide/en/latest/guide/start.html">localisation '
-                'guide</a>.</div>'),
-            'virtual_path': "announcements/projects/"+tutorial.code,
-        }
-        self._create_object(Announcement, **criteria)
+        self._create_object(Project, **criteria)[0]
 
     def create_default_languages(self):
         """Create the default languages."""

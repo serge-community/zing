@@ -1,8 +1,8 @@
 Zing Changelog
 ==============
 
-v.next (not released yet)
--------------------------
+v0.8.3 (2018-03-27)
+-------------------
 
 * Fixed issue when saving users without linkedin accounts (#321).
 * Fixed issue where static pages wouldn't update their timestamps (#316).

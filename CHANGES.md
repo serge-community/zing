@@ -1,6 +1,12 @@
 Zing Changelog
 ==============
 
+v.next (not release yet)
+------------------------
+
+* Enforced uniqueness of email addresses at the DB level (#295).
+
+
 v0.8.3 (2018-03-27)
 -------------------
 

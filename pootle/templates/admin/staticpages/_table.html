@@ -1,4 +1,4 @@
-{% load i18n locale %}
+{% load i18n %}
 {% if object_list %}
 <table class="staticpages">
   <thead>
@@ -24,7 +24,7 @@
         </a>
       </td>
       <td>
-        {{ page.modified_on|dateformat:"SHORT_DATE_FORMAT" }}
+        {{ page.modified_on|date:"SHORT_DATE_FORMAT" }}
       </td>
     </tr>
   {% endfor %}

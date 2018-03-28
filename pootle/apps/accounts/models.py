@@ -71,7 +71,7 @@ class User(AbstractBaseUser):
                            'invalid')
         ],
     )
-    email = models.EmailField(_('Email Address'), max_length=255)
+    email = models.EmailField(_('Email Address'), max_length=255, unique=True)
     full_name = models.CharField(_('Full Name'), max_length=255, blank=True)
 
     is_active = models.BooleanField(

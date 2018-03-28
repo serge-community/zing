@@ -63,29 +63,32 @@ def meta_users(request):
 
 
 def _require_user(username, fullname, password=None,
-                  is_superuser=False, email=None, alt_src_lang=None):
+                  is_superuser=False, email=None, alt_src_lang=None,
+                  verify=False):
     """Helper to get/create a new user."""
     from accounts.utils import verify_user
     from django.contrib.auth import get_user_model
     User = get_user_model()
 
+    email = email if email is not None else '%s@example.com' % username
     criteria = {
         'username': username,
         'full_name': fullname,
+        'email': email,
         'is_active': True,
         'is_superuser': is_superuser,
     }
     user, created = User.objects.get_or_create(**criteria)
+
     if created:
         if password is None:
             user.set_unusable_password()
         else:
             user.set_password(password)
-        if email:
-            user.email = email
         user.save()
-        if email:
+        if verify:
             verify_user(user)
+
     if alt_src_lang is not None:
         user.alt_src_langs.add(alt_src_lang())
 
@@ -133,18 +136,15 @@ def member():
 
 
 @pytest.fixture
-def trans_member():
-    """Require a member user."""
-    return _require_user('trans_member', 'Transactional member')
+def unverified_member():
+    """Require a user with an unverified email."""
+    return _require_user('unverified_member', 'Unverified member')
 
 
 @pytest.fixture
-def member_with_email():
+def trans_member():
     """Require a member user."""
-    user = _require_user('member_with_email', 'Member with email')
-    user.email = "member_with_email@this.test"
-    user.save()
-    return user
+    return _require_user('trans_member', 'Transactional member')
 
 
 @pytest.fixture
@@ -156,12 +156,9 @@ def member2():
 
 
 @pytest.fixture
-def member2_with_email():
-    """Require a member2 user."""
-    user = _require_user('member2_with_email', 'Member2 with email')
-    user.email = "member2_with_email@this.test"
-    user.save()
-    return user
+def unverified_member2():
+    """Require another user with an unverified email."""
+    return _require_user('unverified_member2', 'Unverified member2')
 
 
 @pytest.fixture

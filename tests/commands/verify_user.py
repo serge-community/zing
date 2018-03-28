@@ -24,7 +24,7 @@ def test_verify_user_nouser(capfd):
 @pytest.mark.django_db
 def test_verify_user_user_and_all(capfd):
     with pytest.raises(CommandError) as e:
-        call_command('verify_user', '--all', 'member_with_email')
+        call_command('verify_user', '--all', 'member')
     assert "Either provide a 'user' to verify or use '--all'" in str(e)
 
 
@@ -38,33 +38,25 @@ def test_verify_user_unknownuser(capfd):
 
 @pytest.mark.cmd
 @pytest.mark.django_db
-def test_verify_user_noemail(capfd, member):
-    call_command('verify_user', 'member')
+def test_verify_unverified(capfd, unverified_member):
+    call_command('verify_user', 'unverified_member')
     out, err = capfd.readouterr()
-    assert "You cannot verify an account with no email set" in err
+    assert "User 'unverified_member' has been verified" in out
 
 
 @pytest.mark.cmd
 @pytest.mark.django_db
-def test_verify_user_hasemail(capfd, member_with_email):
-    call_command('verify_user', 'member_with_email')
-    out, err = capfd.readouterr()
-    assert "User 'member_with_email' has been verified" in out
-
-
-@pytest.mark.cmd
-@pytest.mark.django_db
-def test_verify_user_all(capfd, member_with_email, member2_with_email):
+def test_verify_user_all(capfd, unverified_member, unverified_member2):
     call_command('verify_user', '--all')
     out, err = capfd.readouterr()
-    assert "Verified user 'member_with_email'" in out
-    assert "Verified user 'member2_with_email'" in out
+    assert "Verified user 'unverified_member'" in out
+    assert "Verified user 'unverified_member2'" in out
 
 
 @pytest.mark.cmd
 @pytest.mark.django_db
-def test_verify_user_multiple(capfd, member_with_email, member2_with_email):
-    call_command('verify_user', 'member_with_email', 'member2_with_email')
+def test_verify_user_multiple(capfd, unverified_member, unverified_member2):
+    call_command('verify_user', 'unverified_member', 'unverified_member2')
     out, err = capfd.readouterr()
-    assert "User 'member_with_email' has been verified" in out
-    assert "User 'member2_with_email' has been verified" in out
+    assert "User 'unverified_member' has been verified" in out
+    assert "User 'unverified_member2' has been verified" in out

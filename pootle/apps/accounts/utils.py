@@ -348,9 +348,6 @@ def verify_user(user):
 
     :param user: `User` to verify
     """
-    if not user.email:
-        raise ValidationError("You cannot verify an account with no email set.")
-
     # Ensure this user's email address is unique
     try:
         validate_email_unique(user.email, user)

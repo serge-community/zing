@@ -84,6 +84,7 @@ class InitDB(object):
         criteria = {
             'username': u"nobody",
             'full_name': u"any anonymous user",
+            'email': 'nobody@example.com',
             'is_active': True,
         }
         self._create_pootle_user(**criteria)
@@ -98,6 +99,7 @@ class InitDB(object):
         criteria = {
             'username': u"default",
             'full_name': u"any authenticated user",
+            'email': 'default@example.com',
             'is_active': True,
         }
         self._create_pootle_user(**criteria)
@@ -107,6 +109,7 @@ class InitDB(object):
         criteria = {
             'username': u"system",
             'full_name': u"system user",
+            'email': 'system@example.com',
             'is_active': True,
         }
         self._create_pootle_user(**criteria)

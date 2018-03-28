@@ -63,10 +63,8 @@ def meta_users(request):
 
 
 def _require_user(username, fullname, password=None,
-                  is_superuser=False, email=None, alt_src_lang=None,
-                  verify=False):
+                  is_superuser=False, email=None, alt_src_lang=None):
     """Helper to get/create a new user."""
-    from accounts.utils import verify_user
     from django.contrib.auth import get_user_model
     User = get_user_model()
 
@@ -86,8 +84,6 @@ def _require_user(username, fullname, password=None,
         else:
             user.set_password(password)
         user.save()
-        if verify:
-            verify_user(user)
 
     if alt_src_lang is not None:
         user.alt_src_langs.add(alt_src_lang())

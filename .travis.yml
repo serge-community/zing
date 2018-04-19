@@ -1,11 +1,11 @@
 sudo: false
 language: python
 env:
-  - TOXENV=py27-django111-sqlite PYTHONPATH=$HOME/virtualenv/python2.7.14/lib/python2.7/site-packages  TOX_TESTENV_PASSENV="PYTHONPATH"
-  - TOXENV=py27-django111-mysql PYTHONPATH=$HOME/virtualenv/python2.7.14/lib/python2.7/site-packages  TOX_TESTENV_PASSENV="PYTHONPATH"
-  - TOXENV=py27-django111-postgres PYTHONPATH=$HOME/virtualenv/python2.7.14/lib/python2.7/site-packages  TOX_TESTENV_PASSENV="PYTHONPATH"
+  - TOXENV=py27-django111-sqlite
+  - TOXENV=py27-django111-mysql
+  - TOXENV=py27-django111-postgres
   # Meta
-  - TOXENV=project PYTHONPATH=$HOME/virtualenv/python2.7.14/lib/python2.7/site-packages  TOX_TESTENV_PASSENV="PYTHONPATH"
+  - TOXENV=project
 cache:
   directories:
     - pootle/static/js/node_modules

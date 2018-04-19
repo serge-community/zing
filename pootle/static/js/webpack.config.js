@@ -139,6 +139,7 @@ var config = {
                     "last 1 and_uc version",
                   ],
                 },
+                uglify: true,
               },
             ],
             require.resolve('babel-preset-react'),

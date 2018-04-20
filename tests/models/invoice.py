@@ -487,7 +487,7 @@ def test_invoice_generate_add_correction(member, invoice_directory):
     INITIAL_SUBTOTAL = EVENT_COUNT * WORDCOUNT * TRANSLATION_RATE
     MINIMAL_PAYMENT = 20
 
-    month = get_previous_month()
+    month = timezone.datetime(2014, 04, 01)
     config = dict({
         'minimal_payment': MINIMAL_PAYMENT,
     }, **FAKE_CONFIG)
@@ -521,7 +521,8 @@ def test_invoice_generate_add_correction(member, invoice_directory):
     # Subsequent invoice generations must not add any corrections
     invoice.get_total_amounts.cache_clear()  # clears the LRU cache
     amounts = invoice.get_total_amounts()
-    assert amounts['total'] == INITIAL_SUBTOTAL
+    assert amounts['subtotal'] == 0
+    assert amounts['correction'] == INITIAL_SUBTOTAL * -1
     assert not invoice.should_add_correction(amounts['subtotal'])
     invoice.generate()
     _check_single_paidtask(invoice, INITIAL_SUBTOTAL)

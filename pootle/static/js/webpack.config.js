@@ -126,22 +126,7 @@ var config = {
           babelrc: false,
           cacheDirectory: true,
           presets: [
-            [
-              require.resolve('babel-preset-env'), {
-                targets: {
-                  browsers: [
-                    "last 2 chrome versions",
-                    "last 2 firefox versions",
-                    "last 2 safari versions",
-                    "last 2 edge versions",
-                    "last 2 ios versions",
-                    "last 1 and_chr version",
-                    "last 1 and_uc version",
-                  ],
-                },
-                uglify: true,
-              },
-            ],
+            require.resolve('babel-preset-env'),
             require.resolve('babel-preset-react'),
           ],
         },

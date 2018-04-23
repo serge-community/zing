@@ -5,6 +5,7 @@ v.next (not release yet)
 ------------------------
 
 * Enforced uniqueness of email addresses at the DB level (#295).
+* Editor: fixed a bug where view rows wouldn't expose proper styling (#329).
 
 
 v0.8.3 (2018-03-27)

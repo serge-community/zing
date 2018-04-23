@@ -149,6 +149,7 @@ class UnitsList {
         const ctxData = {
           before: data.before.map(unitData => new Unit({
             id: unitData.id,
+            isfuzzy: unitData.isfuzzy,
             source: unitData.source,
             sourceLang: unitData.source_lang,
             target: unitData.target,
@@ -156,6 +157,7 @@ class UnitsList {
           })),
           after: data.after.map(unitData => new Unit({
             id: unitData.id,
+            isfuzzy: unitData.isfuzzy,
             source: unitData.source,
             sourceLang: unitData.source_lang,
             target: unitData.target,
@@ -258,6 +260,7 @@ class UnitsList {
           const unit = units[uid];
           this.units[uid] = new Unit({
             id: uid,
+            isfuzzy: unit.isfuzzy,
             source: unit.source,
             sourceLang: unit.source_lang,
             target: unit.target,

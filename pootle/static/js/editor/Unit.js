@@ -12,10 +12,11 @@ import { dir } from 'utils/i18n';
 class Unit {
 
   constructor({
-    id, source, sourceLang, target, targetLang,
+    id, isfuzzy, source, sourceLang, target, targetLang,
     targetLanguageName, projectName, file,
   }) {
     this.id = id;
+    this.isfuzzy = isfuzzy;
     this.source = source;
     this.sourceDir = dir(sourceLang);
     this.sourceLang = sourceLang;

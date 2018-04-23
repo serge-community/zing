@@ -130,44 +130,6 @@ PTL.common = {
       showAboutDialog();
     });
 
-    /* Generic toggle */
-    $(document).on('click', '.js-toggle', function toggle(e) {
-      e.preventDefault();
-      const target = $(this).attr('href') || $(this).data('target');
-      $(target).toggle();
-    });
-
-    /* Sorts language names within select elements */
-    const ids = ['id_languages', 'id_alt_src_langs',
-                 '-source_language'];
-
-    $.each(ids, (i, id) => {
-      const $selects = $(`select[id$="${id}"]`);
-
-      $.each($selects, (j, select) => {
-        const $select = $(select);
-        const options = $('option', $select);
-        let selected;
-
-        if (options.length) {
-          if (!$select.is('[multiple]')) {
-            selected = $(':selected', $select);
-          }
-
-          const opsArray = $.makeArray(options);
-          opsArray.sort((a, b) => utils.strCmp($(a).text(), $(b).text()));
-
-          options.remove();
-          $select.append($(opsArray));
-
-          if (!$select.is('[multiple]')) {
-            $select.get(0).selectedIndex = $(opsArray).index(selected);
-          }
-        }
-      });
-    });
-
-
     /* Bind hotkeys */
     const hotkeys = mousetrap(document.body);
 

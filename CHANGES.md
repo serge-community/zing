@@ -1,8 +1,8 @@
 Zing Changelog
 ==============
 
-v.next (not release yet)
-------------------------
+v0.8.4 (2018-04-23)
+-------------------
 
 * Enforced uniqueness of email addresses at the DB level (#295).
 * Editor: fixed a bug where view rows wouldn't expose proper styling (#329).

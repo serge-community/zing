@@ -47,6 +47,7 @@
 
 /* END HACK */
 
+.select2-results .locale,
 .select2-results .project-disabled
 {
     font-style: italic;

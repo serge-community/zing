@@ -237,7 +237,12 @@ function formatProject(path, container, query) {
 
 
 function formatLanguage(path, container, query) {
-  return formatResult(path.text, query.term);
+  const text = formatResult(path.text, query.term);
+  if (!path.id) {
+    return text;
+  }
+
+  return `${text} <span class="locale">(${formatResult(path.id, query.term)})</span>`;
 }
 
 
@@ -260,6 +265,10 @@ const browser = {
     makeNavDropdown(sel.language, {
       placeholder: gettext('All Languages'),
       formatResult: formatLanguage,
+      matcher: (term, text, opt) => (
+        text.toUpperCase().indexOf(term.toUpperCase()) >= 0 ||
+        opt[0].value.toUpperCase().indexOf(term.toUpperCase()) >= 0
+      ),
     });
     makeNavDropdown(sel.project, {
       placeholder: gettext('All Projects'),

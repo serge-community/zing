@@ -1,6 +1,12 @@
 Zing Changelog
 ==============
 
+v.next (unreleased)
+-------------------
+
+* Fixed bug which prevented adding static pages (#331).
+
+
 v0.8.4 (2018-04-23)
 -------------------
 

@@ -135,7 +135,7 @@ class UserNoPaymentEmail(BasePaymentEmail):
         """Returns the subject of the email sent to the user."""
         # FIXME: make subjects customizable
         ctx = self.get_context_data()
-        if ctx['correction_added']:
+        if ctx['has_correction']:
             return (
                 u'Notice: No payment will be sent this month to %s'
                 u'; unpaid balance carried over to next month' % ctx['name']

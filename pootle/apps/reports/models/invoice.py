@@ -326,7 +326,7 @@ class Invoice(object):
         amounts = self.get_total_amounts()
         ctx.update(amounts)
         ctx.update({
-            'correction_added': self.should_add_correction(amounts['subtotal']),
+            'has_correction': self.should_add_correction(amounts['subtotal']),
         })
         ctx.update(self.conf)
         ctx.update({

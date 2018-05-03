@@ -513,6 +513,7 @@ def test_invoice_generate_add_correction(member, invoice_directory):
     # Generate an invoice first
     amounts = invoice.get_total_amounts()
     assert amounts['subtotal'] == INITIAL_SUBTOTAL
+    assert amounts['correction'] == 0
     assert amounts['total'] == 0
     assert invoice.should_add_correction(amounts['subtotal'])
     invoice.generate()

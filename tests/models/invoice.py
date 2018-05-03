@@ -517,6 +517,8 @@ def test_invoice_generate_add_correction(member, invoice_directory):
     assert invoice.should_add_correction(amounts['subtotal'])
     invoice.generate()
     _check_single_paidtask(invoice, INITIAL_SUBTOTAL)
+    # The ctx data must indicate a correction was added
+    assert invoice.get_context_data()['has_correction']
 
     # Subsequent invoice generations must not add any corrections
     invoice.get_total_amounts.cache_clear()  # clears the LRU cache
@@ -526,3 +528,5 @@ def test_invoice_generate_add_correction(member, invoice_directory):
     assert not invoice.should_add_correction(amounts['subtotal'])
     invoice.generate()
     _check_single_paidtask(invoice, INITIAL_SUBTOTAL)
+    # ...but still report that a correction was added for this invoice
+    assert invoice.get_context_data()['has_correction']

@@ -62,6 +62,9 @@ class Invoice(object):
         self.month_end = month_end
         self.now = timezone.now()
 
+        # Calculated invoice amounts
+        self.amounts = None
+
         # Holds a list of tuples with generated file paths and their media types
         self.files = []
         self.generators = (
@@ -153,10 +156,9 @@ class Invoice(object):
 
         return rate, review_rate, hourly_rate
 
-    @lru_cache()
-    def get_total_amounts(self):
+    def _calculate_amounts(self):
         """Calculates and returns the total amounts for the invoice's user and
-        month.
+        month. Only to be used via `generate()`.
         """
         (translated_words, reviewed_words,
          hours, correction) = self._get_full_user_amounts(self.user)
@@ -171,11 +173,13 @@ class Invoice(object):
         hours_amount = round(hours * hourly_rate, 2)
         correction = round(correction, 2)
 
-        subtotal = translation_amount + review_amount + hours_amount + correction
+        work_done = translation_amount + review_amount + hours_amount
+        subtotal = work_done + correction
 
-        if self.should_add_correction(subtotal):
+        has_correction = subtotal == 0 and work_done > 0
+        if has_correction:
             extra_amount = 0
-            balance = subtotal
+            balance = work_done
             total = 0
         else:
             extra_amount = (self.conf['extra_add']
@@ -189,6 +193,10 @@ class Invoice(object):
             'extra_amount': extra_amount,
             'total': total,
             'balance': balance,
+
+            'work_done': work_done,
+            'correction': correction,
+            'has_correction': has_correction,
 
             'translated_words': translated_words,
             'reviewed_words': reviewed_words,
@@ -251,38 +259,7 @@ class Invoice(object):
         """
         return (self.add_correction and
                 subtotal > 0 and
-                subtotal < self.conf.get('minimal_payment', 0) and
-                not self._has_correction(subtotal))
-
-    def _has_correction(self, amount):
-        """Returns `True` if a correction of `amount` quantity already exists
-        for the month being processed.
-        """
-        try:
-            PaidTask.objects.get(
-                task_type=PaidTaskTypes.CORRECTION,
-                amount=(-1) * amount,
-                rate=1,
-                datetime=self.month_end,
-                description='Carryover to the next month',
-                user=self.user,
-            )
-
-            server_tz = timezone.get_default_timezone()
-            local_now = timezone.localtime(self.now, server_tz)
-            initial_moment = local_now.replace(day=1, hour=0, minute=0, second=0)
-            PaidTask.objects.get(
-                task_type=PaidTaskTypes.CORRECTION,
-                amount=amount,
-                rate=1,
-                datetime=initial_moment,
-                description='Carryover from the previous month',
-                user=self.user,
-            )
-
-            return True
-        except PaidTask.DoesNotExist:
-            return False
+                subtotal < self.conf.get('minimal_payment', 0))
 
     def _add_correction(self, total_amount):
         """Adds a correction for the value of `total_amount` in the month being
@@ -323,16 +300,11 @@ class Invoice(object):
             'hourly_rate': hourly_rate,
         }
 
-        amounts = self.get_total_amounts()
-        has_correction = (
-            self._has_correction(amounts['subtotal']) or
-            amounts['correction'] != 0
+        assert self.amounts is not None, (
+            'Amounts missing. Did you run `generate()`?'
         )
 
-        ctx.update(amounts)
-        ctx.update({
-            'has_correction': has_correction,
-        })
+        ctx.update(self.amounts)
         ctx.update(self.conf)
         ctx.update({
             'wire_info': self.conf['wire_info'].lstrip(),
@@ -380,9 +352,21 @@ class Invoice(object):
             below the minimum stipulated.
         * Side-effect: this method populates the object's `files` member.
         """
-        amounts = self.get_total_amounts()
-        if self.should_add_correction(amounts['subtotal']):
-            self._add_correction(amounts['subtotal'])
+        self.amounts = self._calculate_amounts()
+
+        has_correction = self.amounts['has_correction']
+        work_done = self.amounts['work_done']
+
+        if not has_correction and self.should_add_correction(work_done):
+            self._add_correction(work_done)
+
+            self.amounts.update({
+                'has_correction': True,
+                'correction': work_done * -1,
+                'extra_amount': 0,
+                'balance': work_done,
+                'total': 0,
+            })
 
         self.files = self._write_to_disk()
 
@@ -396,8 +380,7 @@ class Invoice(object):
         """
         ctx = self.get_context_data()
 
-        amounts = self.get_total_amounts()
-        if amounts['total'] <= 0:
+        if self.amounts['total'] <= 0:
             return UserNoPaymentEmail(self.id, self.conf, ctx,
                                       override_to=override_to,
                                       override_bcc=override_bcc).send()

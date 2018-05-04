@@ -1,6 +1,13 @@
 Zing Changelog
 ==============
 
+v.next (unreleased)
+--------------------
+
+* Invoices: fixed an issue where the carry-over balance wouldn't be properly
+  reported in emails (#332).
+
+
 v.0.8.5 (2018-05-02)
 --------------------
 

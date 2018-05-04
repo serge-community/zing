@@ -407,31 +407,31 @@ def test_invoice_get_user_amounts(member, action_code, task_type):
 
 
 @pytest.mark.django_db
-def test_invoice_get_total_amounts_below_minimal_payment(monkeypatch):
+def test_invoice_amounts_below_minimal_payment(member, monkeypatch):
     """Tests total amounts' correctness when the accrued total is below the
     minimal payment bar.
     """
-    user = UserFactory.build()
     config = dict({
         'minimal_payment': 10,
         'extra_add': 5,
     }, **FAKE_CONFIG)
-    invoice = Invoice(user, config, add_correction=True)
+    invoice = Invoice(member, config, add_correction=True)
 
     rates = (0.5, 0.5, 0.5)
     monkeypatch.setattr(invoice, 'get_rates', lambda: rates)
     amounts = (5, 5, 5, 0)
     monkeypatch.setattr(invoice, '_get_full_user_amounts', lambda x: amounts)
 
-    total_amounts = invoice.get_total_amounts()
-    assert total_amounts['subtotal'] == 3 * (amounts[0] * rates[0])
-    assert total_amounts['balance'] == 3 * (amounts[0] * rates[0])
-    assert total_amounts['total'] == 0
-    assert total_amounts['extra_amount'] == 0
+    invoice.generate()
+
+    assert invoice.amounts['subtotal'] == 3 * (amounts[0] * rates[0])
+    assert invoice.amounts['balance'] == 3 * (amounts[0] * rates[0])
+    assert invoice.amounts['total'] == 0
+    assert invoice.amounts['extra_amount'] == 0
 
 
 @pytest.mark.django_db
-def test_invoice_get_total_amounts_extra_add(monkeypatch):
+def test_invoice_amounts_with_extra_add(member, monkeypatch):
     """Tests total amounts' correctness when there is an extra amount to be
     added to the accrued total.
     """
@@ -447,11 +447,12 @@ def test_invoice_get_total_amounts_extra_add(monkeypatch):
     amounts = (5, 5, 5, 0)
     monkeypatch.setattr(invoice, '_get_full_user_amounts', lambda x: amounts)
 
-    total_amounts = invoice.get_total_amounts()
-    assert total_amounts['subtotal'] == 3 * (amounts[0] * rates[0])
-    assert total_amounts['balance'] is None
-    assert total_amounts['total'] == 3 * (amounts[0] * rates[0]) + extra_add
-    assert total_amounts['extra_amount'] == extra_add
+    invoice.generate()
+
+    assert invoice.amounts['subtotal'] == 3 * (amounts[0] * rates[0])
+    assert invoice.amounts['balance'] is None
+    assert invoice.amounts['total'] == 3 * (amounts[0] * rates[0]) + extra_add
+    assert invoice.amounts['extra_amount'] == extra_add
 
 
 def _check_single_paidtask(invoice, amount):
@@ -510,24 +511,57 @@ def test_invoice_generate_add_correction(member, invoice_directory):
         }
         ScoreLogFactory(**scorelog_kwargs)
 
-    # Generate an invoice first
-    amounts = invoice.get_total_amounts()
+    # Inspect numbers prior to actual generation
+    amounts = invoice._calculate_amounts()
     assert amounts['subtotal'] == INITIAL_SUBTOTAL
     assert amounts['correction'] == 0
-    assert amounts['total'] == 0
+    assert not amounts['has_correction']
+    assert amounts['total'] == INITIAL_SUBTOTAL
     assert invoice.should_add_correction(amounts['subtotal'])
-    invoice.generate()
-    _check_single_paidtask(invoice, INITIAL_SUBTOTAL)
-    # The ctx data must indicate a correction was added
-    assert invoice.get_context_data()['has_correction']
 
-    # Subsequent invoice generations must not add any corrections
-    invoice.get_total_amounts.cache_clear()  # clears the LRU cache
-    amounts = invoice.get_total_amounts()
+    # Generate an invoice first
+    invoice.generate()
+
+    # Now numbers have been adjusted
+    _check_single_paidtask(invoice, INITIAL_SUBTOTAL)
+    assert invoice.amounts['balance'] == INITIAL_SUBTOTAL
+    assert invoice.amounts['correction'] == INITIAL_SUBTOTAL * -1  # carry-over
+    assert invoice.amounts['has_correction']
+    assert invoice.amounts['total'] == 0
+
+    # Inspecting numbers doesn't alter anything
+    amounts = invoice._calculate_amounts()
     assert amounts['subtotal'] == 0
     assert amounts['correction'] == INITIAL_SUBTOTAL * -1
+    assert amounts['has_correction']
+    assert amounts['total'] == 0
     assert not invoice.should_add_correction(amounts['subtotal'])
+
+    # Subsequent invoice generations must not add any corrections
     invoice.generate()
+
     _check_single_paidtask(invoice, INITIAL_SUBTOTAL)
-    # ...but still report that a correction was added for this invoice
-    assert invoice.get_context_data()['has_correction']
+
+    assert amounts['subtotal'] == 0
+    assert amounts['correction'] == INITIAL_SUBTOTAL * -1
+    assert amounts['has_correction']
+    assert amounts['total'] == 0
+    assert not invoice.should_add_correction(amounts['subtotal'])
+
+
+@pytest.mark.django_db
+def test_invoice_get_context_data_empty_amounts(member):
+    """Tests getting the context data when amounts haven't been calculated
+    yet.
+    """
+    user = UserFactory.build()
+    invoice = Invoice(user, FAKE_CONFIG)
+
+    assert invoice.amounts is None
+
+    with pytest.raises(AssertionError):
+        invoice.get_context_data()
+
+    invoice.generate()
+
+    assert invoice.amounts is not None

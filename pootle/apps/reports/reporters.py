@@ -53,7 +53,7 @@ class JSONReporter(BaseReporter):
         """Gets individual invoice data."""
         return {
             'id': invoice.id,
-            'amount': invoice.get_total_amounts()['total'],
+            'amount': invoice.amounts['total'],
             'vendor': {
                 key: self.clean_config_value(value)
                 for key, value in invoice.conf.iteritems()

@@ -344,6 +344,13 @@ PTL.editor = {
       this.gotoNext({ isSubmission: false });
     });
 
+    hotkeys.bind(['ctrl+alt+c'], (e) => {
+      e.preventDefault();
+      const sources = qAll('.js-copyoriginal');
+      const languageCode = sources[sources.length - 1].dataset.languageCode;
+      this.copyOriginal(languageCode);
+    });
+
     /* XHR activity indicator */
     $(document).ajaxStart(() => {
       clearTimeout(this.delayedActivityTimer);

@@ -41,6 +41,7 @@ const HelpDialogContent = React.createClass({
 
     const modKey = macOS ? <kbd className="clover" /> : <kbd>Ctrl</kbd>;
     const ctrlKey = macOS ? <kbd>Control</kbd> : <kbd>Ctrl</kbd>;
+    const altKey = macOS ? <kbd>Option</kbd> : <kbd>Alt</kbd>;
     const shiftKey = <kbd>Shift</kbd>;
     const enterKey = <kbd>Enter</kbd>;
     const spaceKey = <kbd>Space</kbd>;
@@ -85,6 +86,10 @@ const HelpDialogContent = React.createClass({
                 {or}
                 {ctrlKey}{spaceKey}
               </td>
+            </tr>
+            <tr>
+              <td>{t('Copy original text to translation')}</td>
+              <td>{ctrlKey}{altKey}<kbd>c</kbd></td>
             </tr>
             </tbody>
           </table>

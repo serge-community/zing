@@ -297,6 +297,9 @@ class Invoice(object):
             'rate': translation_rate,
             'review_rate': review_rate,
             'hourly_rate': hourly_rate,
+
+            'wire_info': self.conf['wire_info'].lstrip(),
+            'paid_by': self.conf['paid_by'].lstrip(),
         }
 
         assert self.amounts is not None, (
@@ -305,10 +308,6 @@ class Invoice(object):
 
         ctx.update(self.amounts)
         ctx.update(self.conf)
-        ctx.update({
-            'wire_info': self.conf['wire_info'].lstrip(),
-            'paid_by': self.conf['paid_by'].lstrip(),
-        })
 
         return ctx
 

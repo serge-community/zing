@@ -195,7 +195,6 @@ class Invoice(object):
             'balance': balance,
 
             'work_done': work_done,
-            'correction': correction,
             'has_correction': has_correction,
 
             'translated_words': translated_words,

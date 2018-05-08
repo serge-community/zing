@@ -514,9 +514,9 @@ def test_invoice_generate_add_carry_over(member, invoice_directory):
     amounts = invoice._calculate_amounts()
     assert amounts['subtotal'] == INITIAL_SUBTOTAL
     assert amounts['correction'] == 0
-    assert not amounts['is_carried_over']
     assert amounts['total'] == INITIAL_SUBTOTAL
     assert invoice.should_add_correction(amounts['subtotal'])
+    assert not invoice.is_carried_over
 
     # Generate an invoice first
     invoice.generate()
@@ -527,14 +527,14 @@ def test_invoice_generate_add_carry_over(member, invoice_directory):
     # Now numbers have been adjusted
     assert invoice.amounts['balance'] == INITIAL_SUBTOTAL
     assert invoice.amounts['correction'] == INITIAL_SUBTOTAL * -1  # carry-over
-    assert invoice.amounts['is_carried_over']
     assert invoice.amounts['total'] == 0
+
+    assert invoice.is_carried_over
 
     # Inspecting numbers doesn't alter anything
     amounts = invoice._calculate_amounts()
     assert amounts['subtotal'] == 0
     assert amounts['correction'] == INITIAL_SUBTOTAL * -1
-    assert amounts['is_carried_over']
     assert amounts['total'] == 0
     assert not invoice.should_add_correction(amounts['subtotal'])
 
@@ -546,9 +546,9 @@ def test_invoice_generate_add_carry_over(member, invoice_directory):
 
     assert amounts['subtotal'] == 0
     assert amounts['correction'] == INITIAL_SUBTOTAL * -1
-    assert amounts['is_carried_over']
     assert amounts['total'] == 0
     assert not invoice.should_add_correction(amounts['subtotal'])
+    assert invoice.is_carried_over
 
 
 @pytest.mark.django_db
@@ -597,7 +597,7 @@ def test_invoice_generate_negative_balance(member, invoice_directory):
     assert amounts['correction'] == CORRECTION
     assert amounts['total'] == SUBTOTAL
 
-    assert not amounts['is_carried_over']
+    assert not invoice.is_carried_over
 
     invoice.generate()
 
@@ -610,7 +610,7 @@ def test_invoice_generate_negative_balance(member, invoice_directory):
     assert invoice.amounts['total'] == 0
 
     assert not invoice.should_add_correction(invoice.amounts['subtotal'])
-    assert invoice.amounts['is_carried_over']
+    assert invoice.is_carried_over
 
 
 @pytest.mark.skip('The assertion needs to be part of a property')

@@ -176,8 +176,7 @@ class Invoice(object):
         work_done = translation_amount + review_amount + hours_amount
         subtotal = work_done + correction
 
-        is_carried_over = subtotal == 0 and work_done > 0
-        if is_carried_over:
+        if self.is_carried_over:
             extra_amount = 0
             balance = work_done
             total = 0
@@ -195,7 +194,6 @@ class Invoice(object):
             'balance': balance,
 
             'work_done': work_done,
-            'is_carried_over': is_carried_over,
 
             'translated_words': translated_words,
             'reviewed_words': reviewed_words,
@@ -285,6 +283,21 @@ class Invoice(object):
             user=self.user,
         )
 
+    @property
+    def is_carried_over(self):
+        try:
+            PaidTask.objects.get(
+                task_type=PaidTaskTypes.CORRECTION,
+                rate=1,
+                datetime=self.month_end,
+                description='Carryover to the next month',
+                user=self.user,
+            )
+        except PaidTask.DoesNotExist:
+            return False
+
+        return True
+
     def get_context_data(self):
         translation_rate, review_rate, hourly_rate = self.get_rates()
 
@@ -297,6 +310,8 @@ class Invoice(object):
             'rate': translation_rate,
             'review_rate': review_rate,
             'hourly_rate': hourly_rate,
+
+            'is_carried_over': self.is_carried_over,
 
             'wire_info': self.conf['wire_info'].lstrip(),
             'paid_by': self.conf['paid_by'].lstrip(),
@@ -352,14 +367,12 @@ class Invoice(object):
         """
         self.amounts = self._calculate_amounts()
 
-        is_carried_over = self.amounts['is_carried_over']
         work_done = self.amounts['work_done']
 
-        if not is_carried_over and self.should_add_correction(work_done):
+        if not self.is_carried_over and self.should_add_correction(work_done):
             self._add_carry_over(work_done)
 
             self.amounts.update({
-                'is_carried_over': True,
                 'correction': work_done * -1,
                 'extra_amount': 0,
                 'balance': work_done,

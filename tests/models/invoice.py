@@ -473,7 +473,6 @@ def _check_single_paidtask(invoice, amount):
         description='Carryover from the previous month',
         user=invoice.user,
     )
-    assert PaidTask.objects.filter(task_type=PaidTaskTypes.CORRECTION).count() == 2
 
 
 @pytest.mark.django_db
@@ -522,8 +521,10 @@ def test_invoice_generate_add_correction(member, invoice_directory):
     # Generate an invoice first
     invoice.generate()
 
-    # Now numbers have been adjusted
     _check_single_paidtask(invoice, INITIAL_SUBTOTAL)
+    assert PaidTask.objects.filter(task_type=PaidTaskTypes.CORRECTION).count() == 2
+
+    # Now numbers have been adjusted
     assert invoice.amounts['balance'] == INITIAL_SUBTOTAL
     assert invoice.amounts['correction'] == INITIAL_SUBTOTAL * -1  # carry-over
     assert invoice.amounts['has_correction']
@@ -541,6 +542,7 @@ def test_invoice_generate_add_correction(member, invoice_directory):
     invoice.generate()
 
     _check_single_paidtask(invoice, INITIAL_SUBTOTAL)
+    assert PaidTask.objects.filter(task_type=PaidTaskTypes.CORRECTION).count() == 2
 
     assert amounts['subtotal'] == 0
     assert amounts['correction'] == INITIAL_SUBTOTAL * -1

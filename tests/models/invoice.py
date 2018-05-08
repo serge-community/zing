@@ -476,9 +476,9 @@ def _check_single_paidtask(invoice, amount):
 
 
 @pytest.mark.django_db
-def test_invoice_generate_add_correction(member, invoice_directory):
+def test_invoice_generate_add_carry_over(member, invoice_directory):
     """Tests that generating invoices multiple times for the same month + user
-    will add corrections only once.
+    will add carry-over corrections only once.
     """
     from pootle_statistics.models import Submission
     EVENT_COUNT = 5
@@ -514,7 +514,7 @@ def test_invoice_generate_add_correction(member, invoice_directory):
     amounts = invoice._calculate_amounts()
     assert amounts['subtotal'] == INITIAL_SUBTOTAL
     assert amounts['correction'] == 0
-    assert not amounts['has_correction']
+    assert not amounts['is_carried_over']
     assert amounts['total'] == INITIAL_SUBTOTAL
     assert invoice.should_add_correction(amounts['subtotal'])
 
@@ -527,14 +527,14 @@ def test_invoice_generate_add_correction(member, invoice_directory):
     # Now numbers have been adjusted
     assert invoice.amounts['balance'] == INITIAL_SUBTOTAL
     assert invoice.amounts['correction'] == INITIAL_SUBTOTAL * -1  # carry-over
-    assert invoice.amounts['has_correction']
+    assert invoice.amounts['is_carried_over']
     assert invoice.amounts['total'] == 0
 
     # Inspecting numbers doesn't alter anything
     amounts = invoice._calculate_amounts()
     assert amounts['subtotal'] == 0
     assert amounts['correction'] == INITIAL_SUBTOTAL * -1
-    assert amounts['has_correction']
+    assert amounts['is_carried_over']
     assert amounts['total'] == 0
     assert not invoice.should_add_correction(amounts['subtotal'])
 
@@ -546,7 +546,7 @@ def test_invoice_generate_add_correction(member, invoice_directory):
 
     assert amounts['subtotal'] == 0
     assert amounts['correction'] == INITIAL_SUBTOTAL * -1
-    assert amounts['has_correction']
+    assert amounts['is_carried_over']
     assert amounts['total'] == 0
     assert not invoice.should_add_correction(amounts['subtotal'])
 

@@ -176,8 +176,8 @@ class Invoice(object):
         work_done = translation_amount + review_amount + hours_amount
         subtotal = work_done + correction
 
-        has_correction = subtotal == 0 and work_done > 0
-        if has_correction:
+        is_carried_over = subtotal == 0 and work_done > 0
+        if is_carried_over:
             extra_amount = 0
             balance = work_done
             total = 0
@@ -195,7 +195,7 @@ class Invoice(object):
             'balance': balance,
 
             'work_done': work_done,
-            'has_correction': has_correction,
+            'is_carried_over': is_carried_over,
 
             'translated_words': translated_words,
             'reviewed_words': reviewed_words,
@@ -260,9 +260,9 @@ class Invoice(object):
                 subtotal > 0 and
                 subtotal < self.conf.get('minimal_payment', 0))
 
-    def _add_correction(self, total_amount):
-        """Adds a correction for the value of `total_amount` in the month being
-        processed.
+    def _add_carry_over(self, total_amount):
+        """Adds a carry-over correction for the value of `total_amount` from the
+        month being processed to the next month.
         """
         server_tz = timezone.get_default_timezone()
         local_now = timezone.localtime(self.now, server_tz)
@@ -353,14 +353,14 @@ class Invoice(object):
         """
         self.amounts = self._calculate_amounts()
 
-        has_correction = self.amounts['has_correction']
+        is_carried_over = self.amounts['is_carried_over']
         work_done = self.amounts['work_done']
 
-        if not has_correction and self.should_add_correction(work_done):
-            self._add_correction(work_done)
+        if not is_carried_over and self.should_add_correction(work_done):
+            self._add_carry_over(work_done)
 
             self.amounts.update({
-                'has_correction': True,
+                'is_carried_over': True,
                 'correction': work_done * -1,
                 'extra_amount': 0,
                 'balance': work_done,

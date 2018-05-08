@@ -257,14 +257,6 @@ class Invoice(object):
 
         return (translated_words, reviewed_words, hours, correction)
 
-    def should_add_correction(self, subtotal):
-        """Returns `True` if given the `subtotal` amount carry-over correction
-        should be added to this invoice.
-        """
-        return (self.add_correction and
-                subtotal > 0 and
-                subtotal < self.conf.get('minimal_payment', 0))
-
     def _add_carry_over(self, total_amount):
         """Adds a carry-over correction for the value of `total_amount` from the
         month being processed to the next month.
@@ -304,6 +296,14 @@ class Invoice(object):
             return False
 
         return True
+
+    @property
+    def needs_carry_over(self):
+        return (
+            self.add_correction and
+            not self.is_carried_over and
+            self.amounts['subtotal'] < self.conf.get('minimal_payment', 0)
+        )
 
     def get_context_data(self):
         translation_rate, review_rate, hourly_rate = self.get_rates()
@@ -371,15 +371,15 @@ class Invoice(object):
         """
         amounts = self._calculate_amounts()
 
-        work_done = amounts['work_done']
+        if self.needs_carry_over:
+            subtotal = amounts['subtotal']
 
-        if not self.is_carried_over and self.should_add_correction(work_done):
-            self._add_carry_over(work_done)
+            self._add_carry_over(subtotal)
 
             amounts.update({
-                'correction': work_done * -1,
+                'correction': subtotal * -1,
                 'extra_amount': 0,
-                'balance': work_done,
+                'balance': subtotal,
                 'total': 0,
             })
 

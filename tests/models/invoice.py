@@ -515,7 +515,7 @@ def test_invoice_generate_add_carry_over(member, invoice_directory):
     assert amounts['subtotal'] == INITIAL_SUBTOTAL
     assert amounts['correction'] == 0
     assert amounts['total'] == INITIAL_SUBTOTAL
-    assert invoice.should_add_correction(amounts['subtotal'])
+
     assert not invoice.is_carried_over
 
     # Generate an invoice first
@@ -529,6 +529,7 @@ def test_invoice_generate_add_carry_over(member, invoice_directory):
     assert invoice.amounts['correction'] == INITIAL_SUBTOTAL * -1  # carry-over
     assert invoice.amounts['total'] == 0
 
+    assert not invoice.needs_carry_over
     assert invoice.is_carried_over
 
     # Inspecting numbers doesn't alter anything
@@ -536,7 +537,6 @@ def test_invoice_generate_add_carry_over(member, invoice_directory):
     assert amounts['subtotal'] == 0
     assert amounts['correction'] == INITIAL_SUBTOTAL * -1
     assert amounts['total'] == 0
-    assert not invoice.should_add_correction(amounts['subtotal'])
 
     # Subsequent invoice generations must not add any corrections
     invoice.generate()
@@ -544,10 +544,11 @@ def test_invoice_generate_add_carry_over(member, invoice_directory):
     _check_single_paidtask(invoice, INITIAL_SUBTOTAL)
     assert PaidTask.objects.filter(task_type=PaidTaskTypes.CORRECTION).count() == 2
 
-    assert amounts['subtotal'] == 0
-    assert amounts['correction'] == INITIAL_SUBTOTAL * -1
-    assert amounts['total'] == 0
-    assert not invoice.should_add_correction(amounts['subtotal'])
+    assert invoice.amounts['subtotal'] == 0
+    assert invoice.amounts['correction'] == INITIAL_SUBTOTAL * -1
+    assert invoice.amounts['total'] == 0
+
+    assert not invoice.needs_carry_over
     assert invoice.is_carried_over
 
 
@@ -609,7 +610,7 @@ def test_invoice_generate_negative_balance(member, invoice_directory):
     assert invoice.amounts['correction'] == SUBTOTAL * -1  # carry-over
     assert invoice.amounts['total'] == 0
 
-    assert not invoice.should_add_correction(invoice.amounts['subtotal'])
+    assert not invoice.needs_carry_over
     assert invoice.is_carried_over
 
 

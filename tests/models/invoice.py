@@ -551,6 +551,68 @@ def test_invoice_generate_add_carry_over(member, invoice_directory):
     assert not invoice.should_add_correction(amounts['subtotal'])
 
 
+@pytest.mark.django_db
+def test_invoice_generate_negative_balance(member, invoice_directory):
+    """Tests that generated invoices that resulted in a negative balance (debt)
+    are carried over the next month.
+    """
+    from pootle_statistics.models import Submission
+
+    WORDCOUNT = 5
+    TRANSLATION_RATE = 5
+    WORK_DONE = WORDCOUNT * TRANSLATION_RATE
+    CORRECTION = -100
+    SUBTOTAL = WORK_DONE + CORRECTION
+
+    month = timezone.datetime(2014, 04, 01)
+    invoice = Invoice(member, FAKE_CONFIG, month=month, add_correction=True)
+
+    # Set some rates
+    member.rate = TRANSLATION_RATE
+    member.save()
+
+    # Work done + negative correction leaves amounts in negative
+    scorelog_kwargs = {
+        'wordcount': WORDCOUNT,
+        'similarity': 0,
+        'action_code': TranslationActionCodes.NEW,
+        'creation_time': month,
+        'user': member,
+        'submission': Submission.objects.first(),
+    }
+    ScoreLogFactory(**scorelog_kwargs)
+
+    paid_task_kwargs = {
+        'amount': CORRECTION,
+        'rate': 1,
+        'datetime': month,
+        'user': member,
+        'task_type': PaidTaskTypes.CORRECTION,
+    }
+    PaidTaskFactory(**paid_task_kwargs)
+
+    # Inspect numbers prior to actual generation
+    amounts = invoice._calculate_amounts()
+    assert amounts['subtotal'] == SUBTOTAL
+    assert amounts['correction'] == CORRECTION
+    assert amounts['total'] == SUBTOTAL
+
+    assert not amounts['is_carried_over']
+
+    invoice.generate()
+
+    _check_single_paidtask(invoice, SUBTOTAL)
+    assert PaidTask.objects.filter(task_type=PaidTaskTypes.CORRECTION).count() == 3
+
+    # Now numbers have been adjusted
+    assert invoice.amounts['balance'] == SUBTOTAL
+    assert invoice.amounts['correction'] == SUBTOTAL * -1  # carry-over
+    assert invoice.amounts['total'] == 0
+
+    assert not invoice.should_add_correction(invoice.amounts['subtotal'])
+    assert invoice.amounts['is_carried_over']
+
+
 @pytest.mark.skip('The assertion needs to be part of a property')
 @pytest.mark.django_db
 def test_invoice_get_context_data_empty_amounts(member):

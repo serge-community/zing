@@ -613,19 +613,15 @@ def test_invoice_generate_negative_balance(member, invoice_directory):
     assert invoice.is_carried_over
 
 
-@pytest.mark.skip('The assertion needs to be part of a property')
 @pytest.mark.django_db
-def test_invoice_get_context_data_empty_amounts(member):
-    """Tests getting the context data when amounts haven't been calculated
-    yet.
+def test_invoice_get_amounts(member):
+    """Tests accessing amounts when they haven't been calculated yet.
     """
     user = UserFactory.build()
     invoice = Invoice(user, FAKE_CONFIG)
 
-    assert invoice.amounts is None
-
     with pytest.raises(AssertionError):
-        invoice.get_context_data()
+        invoice.amounts
 
     invoice.generate()
 

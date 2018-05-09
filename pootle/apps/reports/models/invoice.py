@@ -63,7 +63,7 @@ class Invoice(object):
         self.now = timezone.now()
 
         # Calculated invoice amounts
-        self.amounts = None
+        self._amounts = None
 
         # Holds a list of tuples with generated file paths and their media types
         self.files = []
@@ -107,6 +107,13 @@ class Invoice(object):
     @property
     def month_string(self):
         return self.month.strftime(MONTH_FORMAT)
+
+    @property
+    def amounts(self):
+        assert self._amounts is not None, (
+            'Amounts missing. Did you run `generate()`?'
+        )
+        return self._amounts
 
     @lru_cache()
     def get_rates(self):
@@ -317,10 +324,6 @@ class Invoice(object):
             'paid_by': self.conf['paid_by'].lstrip(),
         }
 
-        assert self.amounts is not None, (
-            'Amounts missing. Did you run `generate()`?'
-        )
-
         ctx.update(self.amounts)
         ctx.update(self.conf)
 
@@ -361,18 +364,19 @@ class Invoice(object):
     def generate(self):
         """Calculates invoices' amounts and generates the invoices on disk.
 
-        * Side-effect: this method writes a correction if the total amount is
-            below the minimum stipulated.
-        * Side-effect: this method populates the object's `files` member.
+        * Side-effect: populates the invoice's amounts.
+        * Side-effect: writes a correction if the total amount is below the
+            minimum stipulated.
+        * Side-effect: populates the object's `files` member.
         """
-        self.amounts = self._calculate_amounts()
+        self._amounts = self._calculate_amounts()
 
         work_done = self.amounts['work_done']
 
         if not self.is_carried_over and self.should_add_correction(work_done):
             self._add_carry_over(work_done)
 
-            self.amounts.update({
+            self._amounts.update({
                 'correction': work_done * -1,
                 'extra_amount': 0,
                 'balance': work_done,

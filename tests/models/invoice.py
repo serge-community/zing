@@ -458,7 +458,8 @@ def test_invoice_amounts_with_extra_add(member, monkeypatch):
 def _check_single_paidtask(invoice, amount):
     server_tz = timezone.get_default_timezone()
     local_now = timezone.localtime(invoice.now, server_tz)
-    current_month_start = local_now.replace(day=1, hour=0, minute=0, second=0)
+    current_month_start = local_now.replace(day=1, hour=0, minute=0, second=0,
+                                            microsecond=0)
     PaidTask.objects.get(
         task_type=PaidTaskTypes.CORRECTION,
         amount=(-1) * amount,

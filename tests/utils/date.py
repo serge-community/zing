@@ -28,23 +28,23 @@ def tz_name(request):
 @pytest.mark.parametrize('input, expected', [
     (
         datetime(2017, 3, 1, 23, 55, 0),
-        datetime(2017, 3, 31, 23, 59, 59, 999999),
+        datetime(2017, 3, 31, 23, 59, 59, 0),
     ),
     (
         datetime(2017, 4, 1, 23, 55, 0),
-        datetime(2017, 4, 30, 23, 59, 59, 999999),
+        datetime(2017, 4, 30, 23, 59, 59, 0),
     ),
     (
         datetime(2017, 10, 1, 0, 0, 0),
-        datetime(2017, 10, 31, 23, 59, 59, 999999),
+        datetime(2017, 10, 31, 23, 59, 59, 0),
     ),
     (
         datetime(2017, 11, 1, 0, 0, 0),
-        datetime(2017, 11, 30, 23, 59, 59, 999999),
+        datetime(2017, 11, 30, 23, 59, 59, 0),
     ),
     (
         datetime(2017, 12, 1, 0, 0, 0),
-        datetime(2017, 12, 31, 23, 59, 59, 999999),
+        datetime(2017, 12, 31, 23, 59, 59, 0),
     ),
 ])
 def test_get_max_month_datetime(input, expected, settings, tz_name):

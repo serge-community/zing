@@ -62,7 +62,7 @@ def ajax_required(f):
 
 
 def get_max_month_datetime(dt):
-    """Returns the datetime representing the last microsecond of the month with
+    """Returns the datetime representing the last second of the month with
     respect to the `dt` aware datetime.
     """
     days_in_month = calendar.monthrange(dt.year, dt.month)[1]
@@ -78,7 +78,7 @@ def get_max_month_datetime(dt):
     if new_dt.day != days_in_month:
         new_dt = new_dt.replace(day=days_in_month)
 
-    return new_dt.replace(hour=23, minute=59, second=59, microsecond=999999)
+    return new_dt.replace(hour=23, minute=59, second=59, microsecond=0)
 
 
 def get_date_interval(month):
@@ -103,7 +103,7 @@ def get_date_interval(month):
     else:
         end = start
 
-    start = start.replace(hour=0, minute=0, second=0)
-    end = end.replace(hour=23, minute=59, second=59, microsecond=999999)
+    start = start.replace(hour=0, minute=0, second=0, microsecond=0)
+    end = end.replace(hour=23, minute=59, second=59, microsecond=0)
 
     return [start, end]

@@ -37,7 +37,7 @@ MONTH_FORMAT = '%Y-%m'
 def get_previous_month():
     """Returns the previous month as a datetime object."""
     return (
-        timezone.now().replace(day=1, hour=0, minute=0, second=0) -
+        timezone.now().replace(day=1, hour=0, minute=0, second=0, microsecond=0) -
         timedelta(days=1)
     )
 
@@ -263,7 +263,8 @@ class Invoice(object):
         """
         server_tz = timezone.get_default_timezone()
         local_now = timezone.localtime(self.now, server_tz)
-        initial_moment = local_now.replace(day=1, hour=0, minute=0, second=0)
+        initial_moment = local_now.replace(day=1, hour=0, minute=0, second=0,
+                                           microsecond=0)
 
         PaidTask.objects.get_or_create(
             task_type=PaidTaskTypes.CORRECTION,

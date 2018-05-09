@@ -4,8 +4,10 @@ Zing Changelog
 v.next (unreleased)
 --------------------
 
-* Invoices: fixed an issue where the carry-over balance wouldn't be properly
-  reported in emails (#332).
+* Invoices:
+  * Fixed an issue where the carry-over balance wouldn't be properly reported
+    in emails (#332).
+  * Added support for negative carry-over balances (#335).
 * Editor: made copying from source text actually work (#333).
 
 

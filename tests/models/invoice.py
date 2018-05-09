@@ -616,6 +616,57 @@ def test_invoice_generate_negative_balance(member, invoice_directory):
 
 
 @pytest.mark.django_db
+def test_invoice_generate_balance_with_carry_over(member, invoice_directory):
+    """Tests that balance is properly reported even if a carry-over already
+    existed.
+    """
+    from pootle_statistics.models import Submission
+
+    WORDCOUNT = 5
+    TRANSLATION_RATE = 5
+    WORK_DONE = WORDCOUNT * TRANSLATION_RATE
+    CORRECTION = -100
+    SUBTOTAL = WORK_DONE + CORRECTION
+    month = timezone.datetime(2014, 04, 01)
+
+    # Set some rates
+    member.rate = TRANSLATION_RATE
+    member.save()
+
+    # Record work
+    scorelog_kwargs = {
+        'wordcount': WORDCOUNT,
+        'similarity': 0,
+        'action_code': TranslationActionCodes.NEW,
+        'creation_time': month,
+        'user': member,
+        'submission': Submission.objects.first(),
+    }
+    ScoreLogFactory(**scorelog_kwargs)
+
+    paid_task_kwargs = {
+        'amount': CORRECTION,
+        'rate': 1,
+        'datetime': month,
+        'user': member,
+        'task_type': PaidTaskTypes.CORRECTION,
+    }
+    PaidTaskFactory(**paid_task_kwargs)
+
+    invoice = Invoice(member, FAKE_CONFIG, month=month, add_correction=True)
+    assert not invoice.is_carried_over
+    invoice.generate()
+    assert invoice.is_carried_over
+    assert invoice.amounts['balance'] == SUBTOTAL
+
+    invoice_copy = Invoice(member, FAKE_CONFIG, month=month, add_correction=True)
+    assert invoice_copy.is_carried_over
+    invoice_copy.generate()
+    assert invoice_copy.is_carried_over
+    assert invoice_copy.amounts['balance'] == SUBTOTAL
+
+
+@pytest.mark.django_db
 def test_invoice_get_amounts(member):
     """Tests accessing amounts when they haven't been calculated yet.
     """

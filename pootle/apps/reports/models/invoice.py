@@ -185,7 +185,7 @@ class Invoice(object):
 
         if self.is_carried_over:
             extra_amount = 0
-            balance = work_done
+            balance = subtotal - self.carry_over
             total = 0
         else:
             extra_amount = (self.conf['extra_add']
@@ -284,19 +284,21 @@ class Invoice(object):
         )
 
     @property
-    def is_carried_over(self):
+    def carry_over(self):
         try:
-            PaidTask.objects.get(
+            return PaidTask.objects.get(
                 task_type=PaidTaskTypes.CORRECTION,
                 rate=1,
                 datetime=self.month_end,
                 description='Carryover to the next month',
                 user=self.user,
-            )
+            ).amount
         except PaidTask.DoesNotExist:
-            return False
+            return None
 
-        return True
+    @property
+    def is_carried_over(self):
+        return self.carry_over is not None
 
     def needs_carry_over(self, subtotal):
         return (
@@ -373,7 +375,6 @@ class Invoice(object):
         subtotal = amounts['subtotal']
 
         if self.needs_carry_over(subtotal):
-
             self._add_carry_over(subtotal)
 
             amounts.update({

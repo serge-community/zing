@@ -369,20 +369,21 @@ class Invoice(object):
             minimum stipulated.
         * Side-effect: populates the object's `files` member.
         """
-        self._amounts = self._calculate_amounts()
+        amounts = self._calculate_amounts()
 
-        work_done = self.amounts['work_done']
+        work_done = amounts['work_done']
 
         if not self.is_carried_over and self.should_add_correction(work_done):
             self._add_carry_over(work_done)
 
-            self._amounts.update({
+            amounts.update({
                 'correction': work_done * -1,
                 'extra_amount': 0,
                 'balance': work_done,
                 'total': 0,
             })
 
+        self._amounts = amounts
         self.files = self._write_to_disk()
 
     def send_by_email(self, override_to=None, override_bcc=None):

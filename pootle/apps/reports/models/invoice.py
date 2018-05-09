@@ -297,12 +297,11 @@ class Invoice(object):
 
         return True
 
-    @property
-    def needs_carry_over(self):
+    def needs_carry_over(self, subtotal):
         return (
             self.add_correction and
             not self.is_carried_over and
-            self.amounts['subtotal'] < self.conf.get('minimal_payment', 0)
+            subtotal < self.conf.get('minimal_payment', 0)
         )
 
     def get_context_data(self):
@@ -370,9 +369,9 @@ class Invoice(object):
         * Side-effect: populates the object's `files` member.
         """
         amounts = self._calculate_amounts()
+        subtotal = amounts['subtotal']
 
-        if self.needs_carry_over:
-            subtotal = amounts['subtotal']
+        if self.needs_carry_over(subtotal):
 
             self._add_carry_over(subtotal)
 

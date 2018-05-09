@@ -529,7 +529,7 @@ def test_invoice_generate_add_carry_over(member, invoice_directory):
     assert invoice.amounts['correction'] == INITIAL_SUBTOTAL * -1  # carry-over
     assert invoice.amounts['total'] == 0
 
-    assert not invoice.needs_carry_over
+    assert not invoice.needs_carry_over(invoice.amounts['subtotal'])
     assert invoice.is_carried_over
 
     # Inspecting numbers doesn't alter anything
@@ -548,7 +548,7 @@ def test_invoice_generate_add_carry_over(member, invoice_directory):
     assert invoice.amounts['correction'] == INITIAL_SUBTOTAL * -1
     assert invoice.amounts['total'] == 0
 
-    assert not invoice.needs_carry_over
+    assert not invoice.needs_carry_over(invoice.amounts['subtotal'])
     assert invoice.is_carried_over
 
 
@@ -610,7 +610,7 @@ def test_invoice_generate_negative_balance(member, invoice_directory):
     assert invoice.amounts['correction'] == SUBTOTAL * -1  # carry-over
     assert invoice.amounts['total'] == 0
 
-    assert not invoice.needs_carry_over
+    assert not invoice.needs_carry_over(invoice.amounts['subtotal'])
     assert invoice.is_carried_over
 
 

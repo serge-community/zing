@@ -187,9 +187,6 @@ class InitDB(object):
         self._create_pootle_permission_set(
             [view, suggest, translate], **criteria)
 
-        criteria['user'] = default
-        self._create_pootle_permission_set([], **criteria)
-
     def require_english(self):
         """Create the English Language item."""
         criteria = {

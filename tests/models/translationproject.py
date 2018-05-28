@@ -20,7 +20,8 @@ from pytest_pootle.factories import LanguageDBFactory
 from pootle_language.models import Language
 from pootle_misc.util import import_func
 from pootle_project.models import Project
-from pootle_translationproject.models import TranslationProject
+from pootle_translationproject.models import (create_translation_project,
+                                              TranslationProject)
 
 
 @pytest.mark.django_db
@@ -35,7 +36,8 @@ def test_tp_create_fail(po_directory, tutorial, english):
     with pytest.raises(Project.DoesNotExist):
         TranslationProject.objects.create(language=english)
 
-    # There is already an english tutorial was automagically set up
+    create_translation_project(english, tutorial)
+    # There is already an English Tutorial translation project
     with pytest.raises(IntegrityError):
         TranslationProject.objects.create(project=tutorial, language=english)
 

@@ -13,8 +13,6 @@ from translate.misc.lru import LRUCachingDict
 
 from django.conf import settings
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.functional import cached_property
 
@@ -394,35 +392,3 @@ class TranslationProject(models.Model, CachedTreeItem):
             self.non_db_state.termmatchermtime = mtime
 
         return self.non_db_state.termmatcher
-
-    ###########################################################################
-
-
-@receiver(post_save, sender=Project)
-def scan_languages(**kwargs):
-    instance = kwargs["instance"]
-    created = kwargs.get("created", False)
-    raw = kwargs.get("raw", False)
-
-    if not created or raw or instance.disabled:
-        return
-
-    for language in Language.objects.iterator():
-        tp = create_translation_project(language, instance)
-        if tp is not None:
-            tp.update_from_disk()
-
-
-@receiver(post_save, sender=Language)
-def scan_projects(**kwargs):
-    instance = kwargs["instance"]
-    created = kwargs.get("created", False)
-    raw = kwargs.get("raw", False)
-
-    if not created or raw:
-        return
-
-    for project in Project.objects.enabled().iterator():
-        tp = create_translation_project(instance, project)
-        if tp is not None:
-            tp.update_from_disk()

@@ -4,6 +4,10 @@ Zing Changelog
 v.next (unreleased)
 --------------------
 
+* Adding projects/languages via the UI won't trigger creation of translation
+  projects and file scanning.
+  This must be done via the management commands, which will take care of setting
+  up the translation projects and initializing them (#263).
 * Adjusted default permission set to be more restrictive. This only affects to
   new installations (#337).
 

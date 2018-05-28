@@ -174,18 +174,16 @@ class InitDB(object):
 
         view = get_pootle_permission('view')
         suggest = get_pootle_permission('suggest')
-        translate = get_pootle_permission('translate')
 
         # Default permissions for tree root.
         criteria = {
             'user': nobody,
             'directory': Directory.objects.root,
         }
-        self._create_pootle_permission_set([view, suggest], **criteria)
+        self._create_pootle_permission_set([view], **criteria)
 
         criteria['user'] = default
-        self._create_pootle_permission_set(
-            [view, suggest, translate], **criteria)
+        self._create_pootle_permission_set([view, suggest], **criteria)
 
     def require_english(self):
         """Create the English Language item."""

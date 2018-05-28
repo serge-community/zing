@@ -1,6 +1,13 @@
 Zing Changelog
 ==============
 
+v.next (unreleased)
+--------------------
+
+* Adjusted default permission set to be more restrictive. This only affects to
+  new installations (#337).
+
+
 v.0.8.6 (2018-05-28)
 --------------------
 

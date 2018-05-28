@@ -1,7 +1,7 @@
 Zing Changelog
 ==============
 
-v.next (unreleased)
+v.0.8.6 (2018-05-28)
 --------------------
 
 * Invoices:

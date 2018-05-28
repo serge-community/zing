@@ -71,7 +71,25 @@ class ProjectForm(forms.ModelForm):
         return self.cleaned_data['code'].strip()
 
 
-class UserForm(forms.ModelForm):
+class BaseUserForm(forms.ModelForm):
+
+    def clean_linkedin(self):
+        url = self.cleaned_data['linkedin']
+
+        if url is None or url == '':
+            return None
+
+        parsed = urlparse.urlparse(url)
+        if (not parsed.netloc.endswith('linkedin.com') or
+            (not parsed.path.startswith('/in/') or len(parsed.path) < 5)):
+            raise forms.ValidationError(
+                _('Please enter a valid LinkedIn user profile URL.')
+            )
+
+        return url
+
+
+class UserForm(BaseUserForm):
 
     password = forms.CharField(label=_('Password'), required=False,
                                widget=forms.PasswordInput)
@@ -101,18 +119,3 @@ class UserForm(forms.ModelForm):
             user = super(UserForm, self).save(commit=commit)
 
         return user
-
-    def clean_linkedin(self):
-        url = self.cleaned_data['linkedin']
-
-        if url is None or url == '':
-            return None
-
-        parsed = urlparse.urlparse(url)
-        if (not parsed.netloc.endswith('linkedin.com') or
-            (not parsed.path.startswith('/in/') or len(parsed.path) < 5)):
-            raise forms.ValidationError(
-                _('Please enter a valid LinkedIn user profile URL.')
-            )
-
-        return url

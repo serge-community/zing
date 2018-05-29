@@ -44,6 +44,8 @@ class DueDateQuerySet(models.QuerySet):
         xlang_regex = r'^%s$' % re.sub(r'^/projects/', '/[^/]*/', pootle_path)
         return self.filter(
             pootle_path__regex=xlang_regex,
+        ).exclude(
+            pootle_path__startswith='/projects/',
         )
 
     def for_language(self, language_code):

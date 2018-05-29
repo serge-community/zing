@@ -4,6 +4,7 @@ Zing Changelog
 v.next (unreleased)
 --------------------
 
+* Due dates: fixed deadlock when updating/deleting deadlines (#340).
 * Adding projects/languages via the UI won't trigger creation of translation
   projects and file scanning.
   This must be done via the management commands, which will take care of setting

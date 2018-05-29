@@ -1,7 +1,7 @@
 Zing Changelog
 ==============
 
-v.next (unreleased)
+v0.8.7 (2018-05-29)
 --------------------
 
 * Due dates: fixed deadlock when updating/deleting deadlines (#340).
@@ -13,8 +13,8 @@ v.next (unreleased)
   new installations (#337).
 
 
-v.0.8.6 (2018-05-28)
---------------------
+v0.8.6 (2018-05-28)
+-------------------
 
 * Invoices:
   * Fixed an issue where the carry-over balance wouldn't be properly reported
@@ -23,8 +23,8 @@ v.0.8.6 (2018-05-28)
 * Editor: made copying from source text actually work (#333).
 
 
-v.0.8.5 (2018-05-02)
---------------------
+v0.8.5 (2018-05-02)
+-------------------
 
 * Fixed bug which prevented adding static pages (#331).
 

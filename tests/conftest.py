@@ -164,13 +164,13 @@ def pytest_collection_modifyitems(items, config):
 
 @pytest.fixture(scope='session')
 def data_dir():
-    return lambda path: os.path.join(WORKING_DIR, 'data', path)
+    return lambda *path: os.path.join(WORKING_DIR, 'data', *path)
 
 
 @pytest.fixture
 def tests_dir():
     """Helper function to join a path relative to the tests directory."""
-    return lambda path: os.path.join(WORKING_DIR, path)
+    return lambda *path: os.path.join(WORKING_DIR, *path)
 
 
 def pytest_configure():

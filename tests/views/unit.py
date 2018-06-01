@@ -13,7 +13,7 @@ import pytest
 
 from django.http import Http404
 
-from pytest_pootle.utils import create_api_request
+from tests.utils import create_api_request
 
 from translate.misc.multistring import multistring
 

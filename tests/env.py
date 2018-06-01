@@ -50,12 +50,12 @@ class PootleTestEnv(object):
             getattr(self, "setup_%s" % method)()
 
     def setup_complex_po(self):
-        import pytest_pootle
-        from pytest_pootle.factories import StoreDBFactory
+        import tests
+        from tests.factories import StoreDBFactory
         from pootle_translationproject.models import TranslationProject
 
         po_file = os.path.join(
-            os.path.dirname(pytest_pootle.__file__),
+            os.path.dirname(tests.__file__),
             *("data", "po", "complex.po"))
         with open(po_file) as f:
             ttk = getclass(f)(f.read())
@@ -220,14 +220,14 @@ class PootleTestEnv(object):
             permission_set.save()
 
     def setup_site_root(self):
-        from pytest_pootle.factories import DirectoryFactory
+        from tests.factories import DirectoryFactory
 
         DirectoryFactory(
             name="projects",
             parent=DirectoryFactory(parent=None, name=""))
 
     def setup_site_matrix(self):
-        from pytest_pootle.factories import ProjectDBFactory, LanguageDBFactory
+        from tests.factories import ProjectDBFactory, LanguageDBFactory
 
         from pootle_language.models import Language
 
@@ -241,7 +241,7 @@ class PootleTestEnv(object):
             ProjectDBFactory(source_language=source_language)
 
     def setup_terminology(self):
-        from pytest_pootle.factories import (
+        from tests.factories import (
             ProjectDBFactory, StoreDBFactory, TranslationProjectFactory,
             UnitDBFactory
         )
@@ -261,9 +261,8 @@ class PootleTestEnv(object):
                 UnitDBFactory(store=store)
 
     def setup_disabled_project(self):
-        from pytest_pootle.factories import (DirectoryFactory,
-                                             ProjectDBFactory,
-                                             TranslationProjectFactory)
+        from tests.factories import (DirectoryFactory, ProjectDBFactory,
+                                     TranslationProjectFactory)
 
         from pootle_language.models import Language
 
@@ -283,7 +282,7 @@ class PootleTestEnv(object):
         self._add_stores(tp, n=(1, 1), parent=subdir0)
 
     def setup_subdirs(self):
-        from pytest_pootle.factories import DirectoryFactory
+        from tests.factories import DirectoryFactory
 
         from pootle_translationproject.models import TranslationProject
 
@@ -320,7 +319,7 @@ class PootleTestEnv(object):
     def setup_tps(self):
         from pootle_project.models import Project
         from pootle_language.models import Language
-        from pytest_pootle.factories import TranslationProjectFactory
+        from tests.factories import TranslationProjectFactory
 
         for project in Project.objects.all():
             for language in Language.objects.exclude(code="en"):
@@ -334,7 +333,7 @@ class PootleTestEnv(object):
                 self._add_stores(tp)
 
     def _add_stores(self, tp, n=(3, 2), parent=None):
-        from pytest_pootle.factories import StoreDBFactory, UnitDBFactory
+        from tests.factories import StoreDBFactory, UnitDBFactory
 
         from pootle_store.constants import UNTRANSLATED, TRANSLATED, FUZZY, OBSOLETE
 

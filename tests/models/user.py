@@ -14,9 +14,9 @@ import pytest
 
 from allauth.account.models import EmailAddress
 
-from pytest_pootle.fixtures.models.permission_set import _require_permission_set
-from pytest_pootle.fixtures.models.store import (_create_submission_and_suggestion,
-                                                 _create_comment_on_unit)
+from tests.fixtures.models.permission_set import _require_permission_set
+from tests.fixtures.models.store import (_create_submission_and_suggestion,
+                                         _create_comment_on_unit)
 
 import accounts
 

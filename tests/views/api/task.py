@@ -10,9 +10,9 @@ from datetime import timedelta
 
 import pytest
 
-from pytest_pootle.factories import DueDateFactory
-from pytest_pootle.fixtures.models.permission_set import _require_permission_set
-from pytest_pootle.utils import as_dir
+from tests.factories import DueDateFactory
+from tests.fixtures.models.permission_set import _require_permission_set
+from tests.utils import as_dir
 
 from pootle.core.utils.timezone import aware_datetime
 

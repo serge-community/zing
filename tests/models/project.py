@@ -11,9 +11,9 @@ import pytest
 
 from django.core.exceptions import ValidationError
 
-from pytest_pootle.factories import UserFactory
-from pytest_pootle.fixtures.models.permission_set import _require_permission_set
-from pytest_pootle.utils import items_equal
+from tests.factories import UserFactory
+from tests.fixtures.models.permission_set import _require_permission_set
+from tests.utils import items_equal
 
 from pootle_project.models import Project, RESERVED_PROJECT_CODES
 

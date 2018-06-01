@@ -10,8 +10,8 @@ from datetime import timedelta
 
 import pytest
 
-from pytest_pootle.factories import DueDateFactory
-from pytest_pootle.utils import as_dir
+from tests.factories import DueDateFactory
+from tests.utils import as_dir
 
 from pootle.core.utils.timezone import aware_datetime
 from pootle.models.task import CriticalTask, TaskResultSet, TranslationTask

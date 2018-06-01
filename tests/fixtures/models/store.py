@@ -14,7 +14,7 @@ import pytest
 
 from django.utils import timezone
 
-from pytest_pootle.utils import create_store, update_store
+from tests.utils import create_store, update_store
 
 
 DEFAULT_STORE_UNITS_1 = [
@@ -197,7 +197,7 @@ def _setup_store_test(store, member, test):
 
 @pytest.fixture(params=UPDATE_STORE_TESTS.keys())
 def store_diff_tests(request, tp0, member):
-    from pytest_pootle.factories import StoreDBFactory
+    from tests.factories import StoreDBFactory
     from pootle_store.diff import StoreDiff
 
     store = StoreDBFactory(
@@ -217,7 +217,7 @@ def store_diff_tests(request, tp0, member):
 
 @pytest.fixture(params=UPDATE_STORE_TESTS.keys())
 def param_update_store_test(request, tp0, member, member2):
-    from pytest_pootle.factories import StoreDBFactory
+    from tests.factories import StoreDBFactory
 
     store = StoreDBFactory(translation_project=tp0, parent=tp0.directory)
     test = _setup_store_test(store, member, UPDATE_STORE_TESTS[request.param])
@@ -376,7 +376,7 @@ def store_po(tp0):
     """An empty Store in the /language0/project0 TP"""
     from pootle_translationproject.models import TranslationProject
 
-    from pytest_pootle.factories import StoreDBFactory
+    from tests.factories import StoreDBFactory
 
     tp = TranslationProject.objects.get(
         project__code="project0",
@@ -579,7 +579,7 @@ def store0(tp0):
 @pytest.fixture
 def ordered_po(test_fs, tp0):
     """Create a store with ordered units."""
-    from pytest_pootle.factories import StoreDBFactory
+    from tests.factories import StoreDBFactory
 
     store = StoreDBFactory(
         name="ordered.po",
@@ -593,8 +593,9 @@ def ordered_po(test_fs, tp0):
 @pytest.fixture
 def numbered_po(test_fs, project0_disk):
     """Create a store with numbered units."""
-    from pytest_pootle.factories import (
-        LanguageDBFactory, StoreDBFactory, TranslationProjectFactory)
+    from tests.factories import (
+        LanguageDBFactory, StoreDBFactory, TranslationProjectFactory,
+    )
 
     tp = TranslationProjectFactory(
         project=project0_disk,

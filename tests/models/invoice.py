@@ -11,8 +11,8 @@ import pytest
 from django.core.exceptions import ImproperlyConfigured
 from django.utils import timezone
 
-from pytest_pootle.factories import (PaidTaskFactory, SubmissionFactory,
-                                     ScoreLogFactory, UserFactory)
+from tests.factories import (PaidTaskFactory, SubmissionFactory,
+                             ScoreLogFactory, UserFactory)
 
 from pootle_statistics.models import (SubmissionFields, SubmissionTypes,
                                       TranslationActionCodes)

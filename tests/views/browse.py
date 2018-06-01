@@ -8,7 +8,7 @@
 
 import pytest
 
-from pytest_pootle.utils import as_dir, url_name
+from tests.utils import as_dir, url_name
 
 
 users_with_stats = set()

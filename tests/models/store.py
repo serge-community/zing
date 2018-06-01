@@ -12,8 +12,8 @@ import os
 
 import pytest
 
-from pytest_pootle.factories import (LanguageDBFactory, StoreDBFactory,
-                                     TranslationProjectFactory)
+from tests.factories import (LanguageDBFactory, StoreDBFactory,
+                             TranslationProjectFactory)
 
 from translate.storage.factory import getclass
 

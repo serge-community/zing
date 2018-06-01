@@ -13,8 +13,8 @@ import pytest
 
 from django import forms
 
-from pytest_pootle.factories import UserFactory
-from pytest_pootle.utils import create_api_request
+from tests.factories import UserFactory
+from tests.utils import create_api_request
 
 from pootle.core.views import APIView
 from accounts.models import User

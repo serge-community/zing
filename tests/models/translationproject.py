@@ -15,7 +15,7 @@ from translate.filters import checks
 
 from django.db import IntegrityError
 
-from pytest_pootle.factories import LanguageDBFactory
+from tests.factories import LanguageDBFactory
 
 from pootle_language.models import Language
 from pootle_misc.util import import_func

@@ -22,7 +22,7 @@ def unit_syncer(store0):
 @pytest.fixture
 def unit_plural(store0):
     from pootle_store.constants import TRANSLATED
-    from ...factories import UnitDBFactory
+    from tests.factories import UnitDBFactory
 
     return UnitDBFactory(
         store=store0,
@@ -37,7 +37,7 @@ def get_edit_unit(default):
     from pootle_store.constants import TRANSLATED
     from pootle_store.models import Store, Unit
 
-    from ...factories import UnitDBFactory
+    from tests.factories import UnitDBFactory
 
     unit = Unit.objects.get_translatable(
         default,

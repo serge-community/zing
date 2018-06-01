@@ -8,7 +8,7 @@
 
 import pytest
 
-from pytest_pootle.factories import StaticPageFactory
+from tests.factories import StaticPageFactory
 
 
 def test_staticpage_repr():

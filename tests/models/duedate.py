@@ -10,7 +10,7 @@ import pytest
 
 from django.core.exceptions import ValidationError
 
-from pytest_pootle.factories import DueDateFactory, UserFactory
+from tests.factories import DueDateFactory, UserFactory
 
 from pootle.core.utils.timezone import aware_datetime
 from pootle.models import DueDate

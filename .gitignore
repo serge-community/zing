@@ -91,7 +91,7 @@ manage
 
 .cache
 
-pytest_pootle/data/po/.tmp
+tests/data/po/.tmp
 
 # Yarn
 yarn.lock

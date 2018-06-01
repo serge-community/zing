@@ -11,8 +11,8 @@ import pytest
 
 from django.utils import timezone
 
-from pytest_pootle.factories import SubmissionFactory
-from pytest_pootle.utils import create_store
+from tests.factories import SubmissionFactory
+from tests.utils import create_store
 
 from pootle_app.models.permissions import check_permission
 from pootle_statistics.models import (Submission, SubmissionFields,

@@ -15,7 +15,7 @@ import pytest
 
 from django.urls import reverse
 
-from pytest_pootle.utils import get_test_uids
+from tests.utils import get_test_uids
 
 
 BAD_VIEW_TESTS = OrderedDict((

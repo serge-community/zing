@@ -100,13 +100,6 @@ def setup_db_if_needed(request, tests_use_db):
 
 
 @pytest.fixture(scope='session')
-def data_dir():
-    return lambda path: os.path.join(
-        os.path.dirname(__file__), 'data', path
-    )
-
-
-@pytest.fixture(scope='session')
 def post_db_setup(translations_directory, django_db_setup, django_db_blocker,
                   tests_use_db, request, data_dir):
     """Sets up the site DB for the test session."""
@@ -167,6 +160,11 @@ def pytest_collection_modifyitems(items, config):
             deselected_items.append(item)
     config.hook.pytest_deselected(items=deselected_items)
     items[:] = selected_items
+
+
+@pytest.fixture(scope='session')
+def data_dir():
+    return lambda path: os.path.join(WORKING_DIR, 'data', path)
 
 
 @pytest.fixture

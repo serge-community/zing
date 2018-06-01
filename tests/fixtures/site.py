@@ -73,14 +73,12 @@ def translations_directory(request):
 
 
 @pytest.fixture(scope="session")
-def test_fs():
+def test_fs(tests_dir):
     """A convenience fixture for retrieving data from test files"""
-    import tests
-
     class TestFs(object):
 
         def path(self, path):
-            return os.path.join(os.path.dirname(tests.__file__), path)
+            return tests_dir(path)
 
         def open(self, paths, *args, **kwargs):
             if isinstance(paths, (list, tuple)):

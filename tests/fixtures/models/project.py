@@ -29,15 +29,10 @@ def _require_project(code, name, source_language, **kwargs):
 
 
 @pytest.fixture
-def tutorial(english, settings):
+def tutorial(english, settings, data_dir):
     """Require `tutorial` test project."""
-    import tests
-
     shutil.copytree(
-        os.path.join(
-            os.path.dirname(tests.__file__),
-            'data', 'po', 'tutorial',
-        ),
+        data_dir('po', 'tutorial'),
         os.path.join(settings.ZING_TRANSLATION_DIRECTORY, "tutorial")
     )
 

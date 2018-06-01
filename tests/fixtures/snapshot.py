@@ -10,11 +10,11 @@ import pytest
 
 
 @pytest.fixture
-def snapshot_stack(tests_dir, should_generate_snapshots):
+def snapshot_stack(data_dir, should_generate_snapshots):
     """Context processor providing a stack for snapshots."""
     from pootle.core.models.snapshot import SnapshotStack
     snapshot_kwargs = {
-        'data_dir': tests_dir('data/snapshots'),
+        'data_dir': data_dir('snapshots'),
         'generate': should_generate_snapshots,
     }
     return SnapshotStack(snapshot_kwargs)

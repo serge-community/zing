@@ -167,7 +167,7 @@ def data_dir():
     return lambda *path: os.path.join(WORKING_DIR, 'data', *path)
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def tests_dir():
     """Helper function to join a path relative to the tests directory."""
     return lambda *path: os.path.join(WORKING_DIR, *path)

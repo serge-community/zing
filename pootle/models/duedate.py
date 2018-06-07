@@ -80,6 +80,11 @@ class DueDate(models.Model):
 
     objects = DueDateQuerySet.as_manager()
 
+    class Meta:
+        indexes = (
+            models.Index(fields=['due_on', 'pootle_path', 'modified_by']),
+        )
+
     @cached_property
     def stats(self):
         return Stats(self.pootle_path)

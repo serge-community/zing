@@ -1,6 +1,13 @@
 Zing Changelog
 ==============
 
+v.next (unreleased)
+--------------------
+
+* Top scorers: the information will be provided taking entire days into account,
+  starting at midnight (#342).
+
+
 v0.8.7 (2018-05-29)
 --------------------
 

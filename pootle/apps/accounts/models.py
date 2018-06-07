@@ -173,7 +173,7 @@ class User(AbstractBaseUser):
         if top_scorers is not None:
             return top_scorers
 
-        now = timezone.now()
+        now = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
         past = now + datetime.timedelta(-days)
 
         lookup_kwargs = {

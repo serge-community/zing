@@ -435,4 +435,8 @@ def test_get_qualitycheck_schema():
 ])
 def test_get_qc_data_by_name(fake_check_name):
     """Tests for invalid values in `get_qc_data_by_name`."""
-    assert get_qc_data_by_name(fake_check_name) == {}
+    assert get_qc_data_by_name(fake_check_name) == {
+        'code': fake_check_name,
+        'is_critical': False,
+        'title': fake_check_name,
+    }

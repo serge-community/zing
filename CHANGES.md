@@ -4,6 +4,8 @@ Zing Changelog
 v.next (unreleased)
 --------------------
 
+* Checks: fixed bug where language-specific checks would prevent check stats
+  from being loaded (#343).
 * Top scorers: the information will be provided taking entire days into account,
   starting at midnight (#342).
 

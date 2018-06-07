@@ -1165,7 +1165,11 @@ def get_qc_data_by_name(check_name):
     try:
         return qc_dict[check_name]
     except KeyError:
-        return {}
+        return {
+            'code': check_name,
+            'is_critical': False,
+            'title': check_name,
+        }
 
 
 def _generic_check(str1, str2, regex, message):

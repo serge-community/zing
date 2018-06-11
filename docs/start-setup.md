@@ -34,14 +34,19 @@ Once the workers are running and before you run Zing for the first time, you
 need to create the schema for the database and populate it with initial data.
 This is done by executing the `migrate` and `initdb` management commands:
 
-
 ```shell
 zing migrate
 zing initdb
 ```
 
-Running `initdb` will take some time as it will create the default projects and
-populate them with default data.
+Now some initial data can be imported:
+
+```shell
+zing update_stores
+```
+
+Please note that running `update_stores` will take some time as it will populate
+the default projects with data.
 
 
 ## Creating an Admin User

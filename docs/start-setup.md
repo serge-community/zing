@@ -65,6 +65,16 @@ bypass this step for the user you just created, you can use the `verify_user` co
 zing verify_user admin
 ```
 
+
+## Building static assets
+
+Lastly, the static files need to be built and gathered together:
+
+```shell
+zing build_assets
+```
+
+
 ## Running Zing
 
 The Django default server will be enough for **quickly testing** the software:

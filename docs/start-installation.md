@@ -3,11 +3,6 @@ id: installation
 title: Installation
 ---
 
-> The installation instructions **do not fully work** for the time being as we
-> are planning to change some internal details. Please bear with us while we are
-> in the process to fix this! 🙏
-
-
 ## Preparation
 
 We will create a virtual environment so that dependencies are installed

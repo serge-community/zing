@@ -4,6 +4,7 @@ Zing Changelog
 v.next (unreleased)
 --------------------
 
+* Fixed installation instructions (#348).
 * Checks: fixed bug where language-specific checks would prevent check stats
   from being loaded (#343).
 * Top scorers: the information will be provided taking entire days into account,

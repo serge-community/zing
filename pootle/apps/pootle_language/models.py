@@ -216,6 +216,11 @@ class Language(models.Model, TreeItem):
         )
 
 
+def clear_language_list_cache():
+    key = make_method_key('LiveLanguageManager', 'cached_dict', '*')
+    cache.delete_pattern(key)
+
+
 @receiver([post_delete, post_save])
 def invalidate_language_list_cache(**kwargs):
     instance = kwargs["instance"]
@@ -223,5 +228,4 @@ def invalidate_language_list_cache(**kwargs):
     if instance.__class__.__name__ not in ['Language', 'TranslationProject']:
         return
 
-    key = make_method_key('LiveLanguageManager', 'cached_dict', '*')
-    cache.delete_pattern(key)
+    clear_language_list_cache()

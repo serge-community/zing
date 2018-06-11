@@ -12,6 +12,7 @@ import os
 os.environ['DJANGO_SETTINGS_MODULE'] = 'pootle.settings'
 
 from pootle_app.management.commands import PootleCommand
+from pootle_language.models import clear_language_list_cache
 from pootle_translationproject.models import scan_translation_projects
 
 
@@ -62,3 +63,5 @@ class Command(PootleCommand):
                                   projects=self.projects)
 
         super(Command, self).handle_all(**options)
+
+        clear_language_list_cache()

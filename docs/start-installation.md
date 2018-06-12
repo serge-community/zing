@@ -30,7 +30,7 @@ environment is active.
 Use `pip` to install Zing into the virtual environment:
 
 ```shell
-pip install https://github.com/evernote/zing/archive/master.zip
+pip install https://github.com/evernote/zing/archive/v0.8.8.zip
 ```
 
 This will also fetch and install Zing's dependencies.

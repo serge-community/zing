@@ -84,4 +84,6 @@ class Command(SkipChecksMixin, BaseCommand):
         settings.STATIC_ROOT = self.static_dir
         management.call_command('assets', 'build')
         settings.STATIC_ROOT = cfg_root
-        management.call_command('collectstatic', '--noinput', '-i', 'node_modules')
+        management.call_command(
+            'collectstatic', '--clear', '--noinput', '-i', 'node_modules'
+        )

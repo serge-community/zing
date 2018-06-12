@@ -46,7 +46,7 @@ zing update_stores
 ```
 
 Please note that running `update_stores` will take some time as it will populate
-the default projects with data.
+the default projects with data and calculate statistics.
 
 
 ## Creating an Admin User

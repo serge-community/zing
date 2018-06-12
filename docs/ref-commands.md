@@ -418,7 +418,8 @@ Initializes a new Zing installation.
 
 This is an optional part of Zing's install process, it creates the default
 _admin_ user, populates the language table with several languages, initializes
-the terminology project, and creates the tutorial project among other tasks.
+the terminology project, and creates the tutorial project among other tasks. The
+projects will be empty until `update_stores` is run.
 
 `initdb` can only be run after `migrate`.
 
@@ -427,6 +428,3 @@ the terminology project, and creates the tutorial project among other tasks.
 #### `--no-projects`
 
 Don't create the default `terminology` and `tutorial` projects.
-
-> `initdb` will import translations into the database, so it can be slow to run.
-> You should have an `rqworker` running or run with the `--no-rq`.

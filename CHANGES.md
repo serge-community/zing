@@ -1,8 +1,8 @@
 Zing Changelog
 ==============
 
-v.next (unreleased)
---------------------
+v0.8.8 (2018-06-12)
+-------------------
 
 * Fixed installation instructions (#348).
 * Checks: fixed bug where language-specific checks would prevent check stats
@@ -12,7 +12,7 @@ v.next (unreleased)
 
 
 v0.8.7 (2018-05-29)
---------------------
+-------------------
 
 * Due dates: fixed deadlock when updating/deleting deadlines (#340).
 * Adding projects/languages via the UI won't trigger creation of translation

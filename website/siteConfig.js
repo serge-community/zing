@@ -10,6 +10,7 @@ const siteConfig = {
   tagline: 'Opinionated translation server for continuous localization.',
   url: 'https://evernote.github.io/zing/',
   baseUrl: '/zing/',
+  cleanUrl: true,
   projectName: PROJECT_NAME,
   headerLinks: [
     {

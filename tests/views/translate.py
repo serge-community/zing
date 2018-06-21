@@ -10,6 +10,9 @@ import pytest
 
 from tests.utils import as_dir, url_name
 
+from pootle_store.constants import FUZZY
+from pootle_store.models import Unit
+
 
 @pytest.mark.django_db
 @pytest.mark.parametrize('url', [
@@ -44,3 +47,22 @@ def test_translate(client, request_users, test_name, snapshot_stack, url):
 
         with snapshot_stack.push('context') as snapshot:
             snapshot.assert_matches(response.context)
+
+
+@pytest.mark.django_db
+def test_submit_invalid_form(client, member):
+    client.force_login(member)
+
+    unit = Unit.objects.first()
+    url = '/xhr/units/%d/' % unit.id
+
+    response = client.post(
+        url,
+        {
+            'state': FUZZY,
+        },
+        HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+    )
+
+    assert response.status_code == 400
+    assert response.json()['msg'] == 'Failed to process submission.'

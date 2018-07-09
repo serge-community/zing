@@ -75,8 +75,14 @@ class Command(SkipChecksMixin, BaseCommand):
         env = dict(os.environ)
         env['NODE_ENV'] = 'production'
 
-        self._run(['node_modules/.bin/webpack', '--bail'],
-                  cwd=self.js_dir, env=env)
+        try:
+            self._run(['node_modules/.bin/webpack', '--bail'],
+                      cwd=self.js_dir, env=env)
+        except OSError:
+            raise CommandError(
+                'Cannot find `webpack` executable. Please make sure your node '
+                'version is recent enough and retry.'
+            )
 
         # HACK: temporarily modify where assets will be built to, otherwise
         # `collectstatic` needs to be run twice

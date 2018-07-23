@@ -101,8 +101,8 @@ help:
 	@echo
 	@echo "  assets - collect and rebuild the static assets"
 	@echo "  build - create sdist with required prep"
-	@echo "  docs - build Sphinx docs"
-	@echo "  clean - remove any temporal files"
+	@echo "  docs - build the Zing website"
+	@echo "  clean - remove temporary files"
 	@echo "  test - run test suite"
 	@echo "  pot - update the POT translations templates"
 	@echo "  linguas - update the LINGUAS file with languages over 80% complete"

@@ -44,4 +44,4 @@ zing --version
 Zing |release|
 ```
 
-Now you are ready to [perform the initial setup](intro-initial-setup.md).
+Now you are ready to [perform the initial setup](start-setup.md).

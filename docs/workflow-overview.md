@@ -13,7 +13,7 @@ and workflows.
 ### Interchange File Format
 
 For interchange purposes between external processes/workflows and the Zing
-translation database, Zing by design [only uses Gettext PO files](../en/faq.html).
+translation database, Zing by design [only uses Gettext PO files](/faq).
 This fits perfectly when [integrating with Serge](workflow-continuous-localization.md#continuous-localization-with-serge).
 
 ### File Location

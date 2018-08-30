@@ -87,4 +87,6 @@ class Command(SkipChecksMixin, BaseCommand):
         management.call_command(
             'collectstatic', '--clear', '--noinput', '-i', 'node_modules'
         )
-        management.call_command('assets', 'build')
+        manifest_file = os.path.join(self.static_dir, 'manifest.json')
+        management.call_command('assets', 'build', '--manifest',
+                                'json:%s' % manifest_file)

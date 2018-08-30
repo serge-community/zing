@@ -84,6 +84,7 @@ class Command(SkipChecksMixin, BaseCommand):
                 'version is recent enough and retry.'
             )
 
+        management.call_command('compilejsi18n')
         # HACK: temporarily modify where assets will be built to, otherwise
         # `collectstatic` needs to be run twice
         cfg_root = settings.STATIC_ROOT

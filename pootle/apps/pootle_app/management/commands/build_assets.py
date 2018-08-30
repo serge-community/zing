@@ -10,7 +10,6 @@ import logging
 import os
 from subprocess import check_output, CalledProcessError
 
-from django.conf import settings
 from django.core import management
 from django.core.management.base import BaseCommand, CommandError
 
@@ -85,12 +84,7 @@ class Command(SkipChecksMixin, BaseCommand):
             )
 
         management.call_command('compilejsi18n')
-        # HACK: temporarily modify where assets will be built to, otherwise
-        # `collectstatic` needs to be run twice
-        cfg_root = settings.STATIC_ROOT
-        settings.STATIC_ROOT = self.static_dir
-        management.call_command('assets', 'build')
-        settings.STATIC_ROOT = cfg_root
         management.call_command(
             'collectstatic', '--clear', '--noinput', '-i', 'node_modules'
         )
+        management.call_command('assets', 'build')

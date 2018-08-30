@@ -33,6 +33,7 @@ class Command(SkipChecksMixin, BaseCommand):
         )
         self.static_dir = os.path.join(self.pkg_dir, 'static')
         self.js_dir = os.path.join(self.static_dir, 'js')
+        self.target_dir = os.path.join(self.pkg_dir, 'assets')
 
         self.stdout.write('Building static files...')
 
@@ -65,9 +66,8 @@ class Command(SkipChecksMixin, BaseCommand):
         self._run(['npm', 'install', '--quiet'], cwd=self.js_dir)
 
     def _setup_dirs(self):
-        assets_dir = os.path.join(self.pkg_dir, 'assets')
         try:
-            os.mkdir(assets_dir)
+            os.mkdir(self.target_dir)
         except OSError:
             pass
 

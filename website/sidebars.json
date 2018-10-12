@@ -1,7 +1,7 @@
 {
   "docs": {
     "Get Started": [
-      "introduction", "installation", "initial-setup"
+      "introduction", "installation", "initial-setup", "upgrading"
     ],
     "Workflow": [
       "workflow-overview", "continuous-localization"

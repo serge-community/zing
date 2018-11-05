@@ -1,6 +1,15 @@
 Zing Changelog
 ==============
 
+v.next (unreleased)
+-------------------
+
+* Do not use local time for mtime optimizations (#77).
+  Important: this change won't enable file change optimizations until the next
+  time `update_stores` is run. This means the first run after this change is
+  applied will potentially be slow.
+
+
 v0.8.8 (2018-06-12)
 -------------------
 

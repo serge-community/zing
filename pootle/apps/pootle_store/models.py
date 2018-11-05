@@ -7,7 +7,6 @@
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
-import datetime
 import io
 import logging
 import operator
@@ -45,7 +44,7 @@ from pootle.core.url_helpers import (get_editor_filter, split_pootle_path,
 from pootle.core.utils import dateformat
 from pootle.core.utils.aggregate import max_column
 from pootle.core.utils.multistring import PLURAL_PLACEHOLDER, SEPARATOR
-from pootle.core.utils.timezone import datetime_min, make_aware
+from pootle.core.utils.timezone import datetime_min
 from pootle_misc.checks import check_names
 from pootle_misc.util import import_func
 from pootle_statistics.models import (Submission, SubmissionFields,
@@ -1138,7 +1137,7 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
     name = models.CharField(max_length=128, null=False, editable=False,
                             validators=[validate_no_slashes])
 
-    file_mtime = models.DateTimeField(default=datetime_min)
+    file_mtime = models.IntegerField(null=False, default=0)
     state = models.IntegerField(null=False, default=NEW, editable=False,
                                 db_index=True)
     creation_time = models.DateTimeField(auto_now_add=True, db_index=True,
@@ -1264,12 +1263,11 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
                 yield unit
 
     def get_file_mtime(self):
-        disk_mtime = datetime.datetime.fromtimestamp(self.file.getpomtime()[0])
-        # set microsecond to 0 for comparing with a time value without
-        # microseconds
-        disk_mtime = make_aware(disk_mtime.replace(microsecond=0))
-
-        return disk_mtime
+        try:
+            # Convert to int; there's no need for microsecond precision
+            return int(self.file.getpomtime()[0])
+        except (OSError, ValueError):
+            return 0
 
     def update_index(self, start, delta):
         Unit.objects.filter(store_id=self.id, index__gte=start).update(

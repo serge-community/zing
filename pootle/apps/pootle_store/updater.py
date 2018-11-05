@@ -333,14 +333,24 @@ class StoreUpdater(object):
         })
         return changes, unsynced_uids
 
-    def update_from_disk(self, overwrite=False):
+    def update_from_disk(self, force=False, overwrite=False):
         """Update DB with units from the disk file.
 
+        :param force: uncondintionally process store (even if it appears
+            unchanged on disk).
         :param overwrite: process all units from the file regardless of
             `last_sync_revision`.
         :return: boolean, whether the DB store has been changed or not.
         """
         if not self.target_store.file:
+            return False
+
+        if (not force and
+            self.target_store.file_mtime == self.target_store.get_file_mtime()):
+            logging.info(
+                u"[update] File didn't change since last sync, skipping %s",
+                self.target_store.pootle_path,
+            )
             return False
 
         if overwrite:

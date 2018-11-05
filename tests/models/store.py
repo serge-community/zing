@@ -8,6 +8,7 @@
 # AUTHORS file for copyright and authorship information.
 
 import io
+import logging
 import os
 
 import pytest
@@ -169,7 +170,8 @@ def test_update_set_last_sync_revision(project0_disk, tp0, store0, test_fs):
 
     # any non-empty update sets last_sync_revision to next global revision
     next_revision = Revision.get() + 1
-    assert store0.updater.update_from_disk()
+    # uses `force` to omit mtime optimizations
+    assert store0.updater.update_from_disk(force=True)
     assert store0.last_sync_revision == next_revision
 
     # Make a change to a unit, so that it's unsynced
@@ -190,7 +192,8 @@ def test_update_set_last_sync_revision(project0_disk, tp0, store0, test_fs):
     with open(store0.file.path, "wb") as targetf:
         targetf.write(orig)
 
-    assert store0.updater.update_from_disk()
+    # uses `force` to omit mtime optimizations
+    assert store0.updater.update_from_disk(force=True)
     assert store0.last_sync_revision == next_revision
 
     # The unsynced unit's revision should be greater than the last sync
@@ -879,3 +882,26 @@ def test_store_syncer_new_units(dummy_store_syncer_units, tp0):
 @pytest.mark.django_db
 def test_store_path(store0):
     assert store0.path == to_tp_relative_path(store0.pootle_path)
+
+
+@pytest.mark.django_db
+def test_update_mtime_optimization(caplog, project0_disk, tp0, store0, test_fs):
+    """Tests mtime optimizations kick in when updating files from disk."""
+    assert store0.file_mtime == 0  # unitialized / unsynced
+    store0.sync()
+    mtime = store0.file_mtime
+    assert mtime != 0
+
+    unchanged_msg = u"[update] File didn't change since last sync, skipping"
+    caplog.set_level(logging.INFO)
+    # FIXME: upgrade to latest pytest for improved built-in caplog reset feature
+    caplog.handler.records = []
+
+    assert not store0.updater.update_from_disk()
+    assert store0.file_mtime == store0.get_file_mtime() == mtime
+    assert unchanged_msg in caplog.records[0].message
+
+    caplog.handler.records = []
+    assert not store0.updater.update_from_disk(force=True)
+    assert store0.file_mtime == store0.get_file_mtime() == mtime
+    assert len(caplog.records) == 0

@@ -307,18 +307,10 @@ class TranslationProject(models.Model, CachedTreeItem):
         stores = self.stores.live().select_related('parent').exclude(file='')
         # Update store content from disk store
         for store in stores.iterator():
-            if not store.file:
-                continue
-            disk_mtime = store.get_file_mtime()
-            if not force and disk_mtime == store.file_mtime:
-                # The file on disk wasn't changed since the last sync
-                logging.debug(u"File didn't change since last sync, "
-                              u"skipping %s", store.pootle_path)
-                continue
-
             changed = (
-                store.updater.update_from_disk(overwrite=overwrite)
-                or changed)
+                store.updater.update_from_disk(force=force, overwrite=overwrite)
+                or changed
+            )
 
         # If this TP has no stores, cache should be updated forcibly.
         if not changed and stores.count() == 0:

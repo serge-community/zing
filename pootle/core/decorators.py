@@ -243,36 +243,11 @@ def get_resource(func):
     @wraps(func)
     def wrapped(request, path_obj, dir_path, filename):
         """Gets resources associated to the current context."""
-        try:
-            directory = getattr(path_obj, 'directory', path_obj)
-            if directory.is_project() and (dir_path or filename):
-                set_project_resource(request, path_obj, dir_path, filename)
-            else:
-                set_resource(request, path_obj, dir_path, filename)
-        except Http404:
-            if not request.is_ajax():
-                user_choice = request.COOKIES.get('user-choice', None)
-                url = None
-
-                if hasattr(request, 'redirect_url'):
-                    url = request.redirect_url
-                elif user_choice in ('language', 'resource',):
-                    project = (path_obj
-                               if isinstance(path_obj, Project)
-                               else path_obj.project)
-                    url = reverse('pootle-project-browse',
-                                  args=[project.code, dir_path, filename])
-
-                if url is not None:
-                    response = redirect(url)
-
-                    if user_choice in ('language', 'resource',):
-                        # XXX: should we rather delete this in a single place?
-                        response.delete_cookie('user-choice')
-
-                    return response
-
-            raise Http404
+        directory = getattr(path_obj, 'directory', path_obj)
+        if directory.is_project() and (dir_path or filename):
+            set_project_resource(request, path_obj, dir_path, filename)
+        else:
+            set_resource(request, path_obj, dir_path, filename)
 
         return func(request, path_obj, dir_path, filename)
 

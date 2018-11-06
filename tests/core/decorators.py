@@ -125,9 +125,6 @@ def test_get_resource_tp(rf, default, tp0):
     store_name = 'store0.po'
     subdir_name = 'subdir0/'
 
-    subdir_name_fake = 'fake_subdir/'
-    store_name_fake = 'fake_store.po'
-
     request = rf.get('/')
     request.user = default
 
@@ -145,20 +142,6 @@ def test_get_resource_tp(rf, default, tp0):
     # TP, directory resource
     func(request, tp0, subdir_name, '')
     assert isinstance(request.resource_obj, Directory)
-
-    # TP, missing file/dir resource, redirects to parent resource
-    response = func(request, tp0, '', store_name_fake)
-    assert response.status_code == 302
-    assert tp0.pootle_path in response.get('location')
-
-    response = func(request, tp0, subdir_name, store_name_fake)
-    assert response.status_code == 302
-    assert (''.join([tp0.pootle_path, subdir_name]) in
-            response.get('location'))
-
-    response = func(request, tp0, subdir_name_fake, '')
-    assert response.status_code == 302
-    assert tp0.pootle_path in response.get('location')
 
 
 @pytest.mark.django_db

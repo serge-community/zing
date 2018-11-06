@@ -1,5 +1,18 @@
 {
-  "login_message": "You need to <a class=\"js-login\" href=\"/accounts/login/\">login</a> to access this page.",
-  "permission_error": "Insufficient rights to access this page.",
+  "displayed_unit_count": 1,
+  "filter_extra": null,
+  "filter_name": null,
+  "language": null,
+  "project": "Project 0",
+  "source_language": "en",
+  "unit_groups": [
+    [
+      "/language0/project0/complex.po",
+      [
+        "Please sign in again: \\n%s"
+      ]
+    ]
+  ],
+  "unit_total_count": 79,
   "user": "nobody"
 }

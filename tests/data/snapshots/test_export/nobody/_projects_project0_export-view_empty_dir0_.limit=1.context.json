@@ -1,5 +1,5 @@
 {
-  "login_message": "You need to <a class=\"js-login\" href=\"/accounts/login/\">login</a> to access this page.",
-  "permission_error": "Insufficient rights to access this page.",
+  "exception": "Http404",
+  "request_path": "/projects/project0/export-view/empty_dir0/",
   "user": "nobody"
 }

@@ -1,4 +1,9 @@
 {
-  "permission_error": "Insufficient rights to access this page.",
+  "filter_extra": null,
+  "filter_name": null,
+  "language": null,
+  "project": "Project 0",
+  "source_language": "en",
+  "unit_groups": [],
   "user": "member"
 }

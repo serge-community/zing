@@ -1,4 +1,5 @@
 {
-  "permission_error": "Insufficient rights to access this page.",
+  "exception": "Http404",
+  "request_path": "/projects/project0/export-view/empty_dir0/",
   "user": "member"
 }

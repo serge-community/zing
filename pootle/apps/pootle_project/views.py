@@ -136,7 +136,7 @@ class ProjectTranslateView(ProjectMixin, PootleTranslateView):
 
 
 class ProjectExportView(ProjectMixin, PootleExportView):
-    required_permission = 'administrate'
+    required_permission = 'view'
     source_language = "en"
 
 

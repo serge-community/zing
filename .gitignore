@@ -88,3 +88,5 @@ manage
 
 tests/data/po/.tmp
 
+# Static files' manifest
+manifest.json

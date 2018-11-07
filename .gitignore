@@ -28,11 +28,6 @@
 *.bak
 *.pyc
 *.pyo
-*.prefs
-*.stats
-*.pending
-*.po.tm
-.translation_index
 .DS_Store
 
 # Django cache
@@ -93,5 +88,3 @@ manage
 
 tests/data/po/.tmp
 
-# Yarn
-yarn.lock

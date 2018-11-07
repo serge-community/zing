@@ -26,8 +26,7 @@
 
 # General
 *.bak
-*.pyc
-*.pyo
+*.py[oc]
 .DS_Store
 
 # Django cache
@@ -48,9 +47,7 @@ node_modules/
 ~*
 
 # ViM-generated
-*.swn
-*.swo
-*.swp
+*.sw[nop]
 *~
 
 # Emacs-generated

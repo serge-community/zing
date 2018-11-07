@@ -1,50 +1,16 @@
-# /docs/
-/docs/_build/
+#
+# General-purpose
+#
 
-# /pootle/assets/*/
-/pootle/assets/
-
-# /pootle/dbs/
-/pootle/dbs/*.db
-
-# /pootle/locale/*/LC_MESSAGES/
-/pootle/locale/*/LC_MESSAGES/
-
-# /pootle/translations/
-/pootle/translations/*/
-!/pootle/translations/tutorial/
-!/pootle/translations/templates/
-
-# /pootle/static/translations/*
-/pootle/static/translations/
-
-# /pootle/settings/
-/pootle/settings/*-local.conf
-
-# TTK checks descriptions template
-/pootle/templates/help/_ttk_quality_checks.html
-
-# General
+~*
 *.bak
 *.py[oc]
 .DS_Store
 
-# Django cache
-*.djcache
 
-# npm
-node_modules/
-
-# webpack
-.module-cache
-*.bundle.js
-*.bundle.js.map
-
-# Minified CSS
-*.min.*.css
-
-# Temporary/local files
-~*
+#
+# Editors
+#
 
 # ViM-generated
 *.sw[nop]
@@ -54,36 +20,48 @@ node_modules/
 .#*
 \#*#
 
-# Ignore stuff from the 'gh-pages' branch
-assets/
-_layouts/
-_site/
-
-# Build stuff
-dist/
-build/
-Pootle.egg-info/
-
 # PyDev (Intellij) local configuration folder
 .idea
 *.iml
-
-# local log direcotry
-log/
 
 # Eclipse PyDev projects
 .project
 .pydevproject
 
-# custom manage shell script
-rqworker
-manage
 
-.coverage
+#
+# Zing-specific
+#
 
 .cache
-
-tests/data/po/.tmp
-
-# Static files' manifest
+.coverage
+*-local.conf
+*.db
+*.min.*.css
 manifest.json
+
+/docs/_build/
+
+/pootle/assets/
+/pootle/locale/*/LC_MESSAGES/
+/pootle/log/
+/pootle/static/translations/
+/pootle/templates/help/_ttk_quality_checks.html
+
+/tests/data/po/.tmp
+
+# Build
+dist/
+build/
+*.egg-info/
+
+# JavaScript
+node_modules/
+.module-cache
+*.bundle.js
+*.map
+
+# 'gh-pages' branch
+assets/
+_layouts/
+_site/

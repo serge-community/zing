@@ -1,13 +1,15 @@
 Zing Changelog
 ==============
 
-v.next (unreleased)
+v0.8.9 (2018-11-07)
 -------------------
 
 * Do not use local time for mtime optimizations (#77).
   Important: this change won't enable file change optimizations until the next
   time `update_stores` is run. This means the first run after this change is
   applied will potentially be slow.
+* Users will now be able to access export view in cross-language contexts
+  (permissions apply) (#361).
 
 
 v0.8.8 (2018-06-12)

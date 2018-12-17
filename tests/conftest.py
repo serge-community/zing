@@ -7,11 +7,9 @@
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
-import functools
 import logging
 import os
 import shutil
-import time
 from pkgutil import iter_modules
 
 import pytest
@@ -27,25 +25,6 @@ from .fixtures.core import utils as fixtures_core_utils
 logging.getLogger("factory").setLevel(logging.WARN)
 
 WORKING_DIR = os.path.abspath(os.path.dirname(__file__))
-
-
-@pytest.fixture(autouse=True)
-def test_timing(request, settings, log_timings):
-    from django.db import reset_queries
-
-    if not request.config.getoption("--debug-tests"):
-        return
-
-    settings.DEBUG = True
-    reset_queries()
-    start = time.time()
-    request.addfinalizer(
-        functools.partial(
-            log_timings,
-            request.node.name,
-            start,
-        )
-    )
 
 
 @pytest.fixture
@@ -128,12 +107,6 @@ def pytest_addoption(parser):
         action='store_true',
         default=False,
         help='Generate snapshots for tests marked with the `snapshot` mark.'
-    )
-    parser.addoption(
-        '--debug-tests',
-        action='store',
-        default="",
-        help='Debug tests to a given file'
     )
 
 

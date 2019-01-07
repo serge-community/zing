@@ -23,6 +23,3 @@ rq==0.7.1
 
 # Translate Toolkit
 translate-toolkit==2.2.5
-
-# Pin to avoid breakage
-urllib3==1.21.1

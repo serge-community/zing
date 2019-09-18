@@ -28,3 +28,4 @@ services:
   - redis-server
   - elasticsearch
   - mysql
+  - postgresql

@@ -25,7 +25,4 @@ class GetTaskForm(forms.Form):
 
     def clean_limit(self):
         limit = self.cleaned_data.get('limit') or PENDING_TASKS_LIMIT
-        # Allow at max 2 times the limit of tasks. This can be useful
-        # when the tasks list is expanded to more than `PENDING_TASKS_LIMIT`
-        # items and we want to refresh the existing items right away.
-        return max(MIN_PENDING_TASKS, min(limit, 2 * PENDING_TASKS_LIMIT))
+        return max(MIN_PENDING_TASKS, limit)

@@ -11,7 +11,7 @@ django-contact-form==1.7.0
 django-contrib-comments==1.9.1
 django-redis==4.9.1
 django-rq==1.0.0
-django-statici18n==1.5.0
+django-statici18n==1.8.3
 
 # Libraries
 cssmin==0.2.0

@@ -1,6 +1,12 @@
 Zing Changelog
 ==============
 
+v.next (unreleased)
+-------------------
+
+* Tasks: removed limit of displaying 10 tasks.
+
+
 v0.8.9 (2018-11-07)
 -------------------
 

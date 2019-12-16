@@ -27,7 +27,10 @@ class PootleAccountAdapter(DefaultAccountAdapter):
       - form_errors is renamed to errors
     """
 
-    def ajax_response(self, request, response, redirect_to=None, form=None):
+    def ajax_response(
+        self, request, response, redirect_to=None, form=None, data=None,
+        **kwargs
+    ):
         data = {}
         if redirect_to:
             status = 200

@@ -60,7 +60,7 @@ def po_directory(request, po_test_dir, settings):
 def tests_use_db(request):
     return bool(
         [item for item in request.node.items
-         if item.get_marker('django_db')])
+         if item.get_closest_marker('django_db')])
 
 
 @pytest.fixture(scope='session')
@@ -68,14 +68,14 @@ def tests_use_migration(request, tests_use_db):
     return bool(
         tests_use_db
         and [item for item in request.node.items
-             if item.get_marker('django_migration')])
+             if item.get_closest_marker('django_migration')])
 
 
 @pytest.fixture(autouse=True, scope='session')
 def setup_db_if_needed(request, tests_use_db):
     """Sets up the site DB only if tests requested to use the DB (autouse)."""
     if tests_use_db and not request.config.getvalue('reuse_db'):
-        return request.getfuncargvalue('post_db_setup')
+        return request.getfixturevalue('post_db_setup')
 
 
 @pytest.fixture(scope='session')

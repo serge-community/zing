@@ -86,7 +86,7 @@ def post_db_setup(translations_directory, django_db_setup, django_db_blocker,
         return
 
     with django_db_blocker.unblock():
-        PootleTestEnv(data_file=data_dir('data_dump.json')).setup()
+        PootleTestEnv(data_file=data_dir('data_dump.json')).setup(request)
 
 
 @pytest.fixture(scope='session')

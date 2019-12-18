@@ -21,7 +21,7 @@ class PootleTestEnv(object):
     def __init__(self, data_file, *args, **kwargs):
         self.data_file = data_file
 
-    def setup(self):
+    def setup(self, request):
         """Setup test environment by trying to load a data dump file. If this is
         missing, populate the DB and generate the dump for use in future test runs.
         """
@@ -33,7 +33,7 @@ class PootleTestEnv(object):
             call_command('loaddata', data_file)
             self.setup_redis(revision=Unit.max_revision())
         else:
-            self.setup_site_db()
+            self.setup_site_db(request)
             with open(data_file, 'w') as file:
                 call_command('dumpdata', '--indent=3', stdout=file)
 
@@ -43,7 +43,7 @@ class PootleTestEnv(object):
         self.setup_site_root()
         self.setup_languages()
         self.setup_site_matrix()
-        self.setup_system_users()
+        self.setup_system_users(request)
         self.setup_permissions()
         self.setup_site_permissions()
         self.setup_tps()
@@ -187,11 +187,11 @@ class PootleTestEnv(object):
         else:
             Revision.set(revision)
 
-    def setup_system_users(self):
+    def setup_system_users(self, request):
         from .fixtures.models.user import TEST_USERS, _require_user
 
         for username, user_params in TEST_USERS.items():
-            _require_user(username=username, **user_params)
+            _require_user(username=username, request=request, **user_params)
 
     def setup_site_permissions(self):
         from django.contrib.auth import get_user_model

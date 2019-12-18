@@ -11,8 +11,6 @@ import copy
 
 import pytest
 
-from .language import language0
-
 
 TEST_USERS = {
     'nobody': dict(
@@ -32,7 +30,7 @@ TEST_USERS = {
     'member': dict(
         fullname='Member',
         password='',
-        alt_src_lang=language0),
+        alt_src_lang_code='language0'),
     'member2': dict(
         fullname='Member2',
         password='')}
@@ -63,7 +61,8 @@ def meta_users(request):
 
 
 def _require_user(username, fullname, password=None,
-                  is_superuser=False, email=None, alt_src_lang=None):
+                  is_superuser=False, email=None, alt_src_lang_code=None,
+                  request=None):
     """Helper to get/create a new user."""
     from django.contrib.auth import get_user_model
     User = get_user_model()
@@ -85,7 +84,8 @@ def _require_user(username, fullname, password=None,
             user.set_password(password)
         user.save()
 
-    if alt_src_lang is not None:
+    if alt_src_lang_code is not None and request is not None:
+        alt_src_lang = request.getfixturevalue(alt_src_lang_code)
         user.alt_src_langs.add(alt_src_lang())
 
     return user

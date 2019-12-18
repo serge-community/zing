@@ -18,14 +18,6 @@ from django.core.management import call_command
 
 class PootleTestEnv(object):
 
-    methods = (
-        "redis", "case_sensitive_schema", "site_root",
-        "languages", "site_matrix", "system_users", "permissions",
-        "site_permissions", "tps",
-        "disabled_project", "subdirs", "submissions",
-        "terminology", "complex_po",
-    )
-
     def __init__(self, data_file, *args, **kwargs):
         self.data_file = data_file
 
@@ -45,9 +37,21 @@ class PootleTestEnv(object):
             with open(data_file, 'w') as file:
                 call_command('dumpdata', '--indent=3', stdout=file)
 
-    def setup_site_db(self, **kwargs):
-        for method in self.methods:
-            getattr(self, "setup_%s" % method)()
+    def setup_site_db(self, request, **kwargs):
+        self.setup_redis()
+        self.setup_case_sensitive_schema()
+        self.setup_site_root()
+        self.setup_languages()
+        self.setup_site_matrix()
+        self.setup_system_users()
+        self.setup_permissions()
+        self.setup_site_permissions()
+        self.setup_tps()
+        self.setup_disabled_project()
+        self.setup_subdirs()
+        self.setup_submissions()
+        self.setup_terminology()
+        self.setup_complex_po()
 
     def setup_complex_po(self):
         import tests

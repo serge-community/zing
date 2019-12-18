@@ -46,17 +46,17 @@ def _get_user(username):
     return user_dict
 
 
-@pytest.fixture(scope='session', params=['nobody', 'admin', 'member'])
+@pytest.fixture(params=['nobody', 'admin', 'member'])
 def request_users(request):
     return _get_user(request.param)
 
 
-@pytest.fixture(scope="session", params=TEST_USERS.keys())
+@pytest.fixture(params=TEST_USERS.keys())
 def site_users(request):
     return _get_user(request.param)
 
 
-@pytest.fixture(scope='session', params=['default', 'nobody', 'system'])
+@pytest.fixture(params=['default', 'nobody', 'system'])
 def meta_users(request):
     """Require meta users."""
     return _get_user(request.param)

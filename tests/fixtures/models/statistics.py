@@ -9,7 +9,7 @@
 import pytest
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def submissions():
     """A dictionary of submission.id, submission for all
     submissions created in test env

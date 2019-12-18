@@ -9,7 +9,7 @@
 import pytest
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def pootle_content_type():
     """Require the pootle ContentType."""
     from django.contrib.contenttypes.models import ContentType
@@ -35,21 +35,21 @@ def _require_permission(code, name, content_type):
     return permission
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def view(pootle_content_type):
     """Require the `view` permission."""
     return _require_permission('view', 'Can access a project',
                                pootle_content_type)
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def hide(pootle_content_type):
     """Require the `hide` permission."""
     return _require_permission('hide', 'Cannot access a project',
                                pootle_content_type)
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def administrate(pootle_content_type):
     """Require the `suggest` permission."""
     return _require_permission('administrate', 'Can administrate a TP',

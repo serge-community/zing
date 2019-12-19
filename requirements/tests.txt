@@ -4,5 +4,5 @@ factory_boy==2.12.0
 fakeredis==0.8.1
 python-dateutil==2.8.1
 pytest==4.6.0
-pytest-cov==2.3.1
+pytest-cov==2.8.1
 pytest-django==3.7.0

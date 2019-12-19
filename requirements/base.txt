@@ -9,7 +9,7 @@ django-allauth==0.40.0
 django-assets==0.12
 django-contact-form==1.7.0
 django-contrib-comments==1.9.1
-django-redis==4.9.1
+django-redis==4.10.0
 django-rq==1.0.0
 django-statici18n==1.8.3
 

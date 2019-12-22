@@ -5,7 +5,7 @@
 
 # Databases
 mysqlclient>=1.4.6
-psycopg2>=2.4.5
+psycopg2>=2.8.4
 
 # Test coverage
 codecov

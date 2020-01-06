@@ -10,9 +10,7 @@ django-assets==0.12
 django-contact-form==1.7.0
 django-contrib-comments==1.9.1
 django-redis==4.10.0
-# TODO: drop redis from here when upgrading redis-related deps.
-redis==2.10.6
-django-rq==1.0.0
+django-rq==2.1.0
 django-statici18n==1.8.3
 
 # Libraries
@@ -20,7 +18,7 @@ cssmin==0.2.0
 elasticsearch>=1.0.0,<2.0.0  # rq.filter: >=1.0,<2.0
 lxml==4.4.2
 python-levenshtein==0.12.0
-rq==0.7.1
+rq==1.1.0
 
 # Translate Toolkit
 translate-toolkit==2.2.5

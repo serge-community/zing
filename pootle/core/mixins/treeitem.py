@@ -425,7 +425,7 @@ class CachedTreeItem(TreeItem):
         """
         r_con = get_connection()
         for p in self.all_pootle_paths():
-            r_con.zincrby(KEY_DIRTY_TREEITEMS, p)
+            r_con.zincrby(KEY_DIRTY_TREEITEMS, 1, p)
 
     def unregister_all_dirty(self, decrement=1):
         """Unregister current TreeItem and all parent paths as dirty
@@ -439,7 +439,7 @@ class CachedTreeItem(TreeItem):
                              p, decrement, job.id)
             else:
                 logger.debug('UNREGISTER %s (-%s)', p, decrement)
-            r_con.zincrby(KEY_DIRTY_TREEITEMS, p, 0 - decrement)
+            r_con.zincrby(KEY_DIRTY_TREEITEMS, 0 - decrement, p)
 
     def unregister_dirty(self, decrement=1):
         """Unregister current TreeItem as dirty
@@ -452,8 +452,7 @@ class CachedTreeItem(TreeItem):
                          self.cache_key, decrement, job.id)
         else:
             logger.debug('UNREGISTER %s (-%s)', self.cache_key, decrement)
-        r_con.zincrby(KEY_DIRTY_TREEITEMS, self.cache_key,
-                      0 - decrement)
+        r_con.zincrby(KEY_DIRTY_TREEITEMS, 0 - decrement, self.cache_key)
 
     def get_dirty_score(self):
         r_con = get_connection()

@@ -645,7 +645,7 @@ def update_cache_job(instance):
 
 def create_update_cache_job_wrapper(instance, keys, decrement=1):
     queue = get_queue('default')
-    if queue._async:
+    if queue._is_async:
 
         def _create_update_cache_job():
             create_update_cache_job(queue, instance, keys, decrement=decrement)

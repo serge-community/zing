@@ -8,10 +8,11 @@
 # AUTHORS file for copyright and authorship information.
 
 from redis.exceptions import ConnectionError
+from rq.registry import FailedJobRegistry
 
 from django.shortcuts import render
 
-from django_rq.queues import get_failed_queue, get_queue
+from django_rq.queues import get_queue
 from django_rq.workers import Worker
 
 from pootle.core.decorators import admin_required
@@ -20,7 +21,6 @@ from pootle.i18n.gettext import ugettext as _, ungettext
 
 def rq_stats():
     queue = get_queue()
-    failed_queue = get_failed_queue()
     try:
         workers = Worker.all(queue.connection)
     except ConnectionError:
@@ -36,9 +36,10 @@ def rq_stats():
         # Translators: this refers to the status of the background job worker
         status_msg = _('Stopped')
 
+    failed_job_registry = FailedJobRegistry(queue.name, queue.connection)
     result = {
         'job_count': queue.count,
-        'failed_job_count': failed_queue.count,
+        'failed_job_count': len(failed_job_registry),
         'is_running': is_running,
         'status_msg': status_msg,
     }

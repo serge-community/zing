@@ -14,13 +14,16 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'pootle.settings'
 
 from django.core.management.base import BaseCommand
 
-from django_rq.queues import get_failed_queue
+from django_rq.queues import get_queue
+
+from rq.registry import FailedJobRegistry
 
 
 class Command(BaseCommand):
     help = "Retry failed RQ jobs."
 
     def handle(self, **options):
-        failed_queue = get_failed_queue()
-        for job_id in failed_queue.get_job_ids():
-            failed_queue.requeue(job_id=job_id)
+        queue = get_queue()
+        failed_job_registry = FailedJobRegistry(queue.name, queue.connection)
+        for job_id in failed_job_registry.get_job_ids():
+            failed_job_registry.requeue(job_id)

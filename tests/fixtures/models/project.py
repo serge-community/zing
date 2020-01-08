@@ -81,7 +81,7 @@ def project0_directory(po_directory, project0):
 
 
 @pytest.fixture
-def project0_disk(project0_directory, project0, settings):
+def project0_disk(project0_directory, project0):
     """`project0` fixture but with on-disk directories and TPs."""
     project0.save()
     for tp in project0.translationproject_set.all():

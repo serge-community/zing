@@ -258,7 +258,10 @@ class InitDB(object):
         for code in data.languages.keys():
             if code in existing_lang_codes:
                 continue
-            tk_lang = factory.getlanguage(code)
+            try:
+                tk_lang = factory.getlanguage(code)
+            except AttributeError:
+                continue
             criteria = {
                 'code': code,
                 'fullname': tk_lang.fullname,

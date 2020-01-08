@@ -27,18 +27,14 @@ class PootleTestEnv(object):
         """
         data_file = self.data_file
         if os.path.isfile(data_file):
-            from pootle_store.models import Unit
-
             self.setup_case_sensitive_schema()
             call_command('loaddata', data_file)
-            self.setup_redis(revision=Unit.max_revision())
         else:
             self.setup_site_db(request)
             with open(data_file, 'w') as file:
                 call_command('dumpdata', '--indent=3', stdout=file)
 
     def setup_site_db(self, request, **kwargs):
-        self.setup_redis()
         self.setup_case_sensitive_schema()
         self.setup_site_root()
         self.setup_languages()
@@ -178,14 +174,6 @@ class PootleTestEnv(object):
     def setup_languages(self):
         from .fixtures.models.language import _require_language
         _require_language('en', 'English')
-
-    def setup_redis(self, revision=None):
-        from pootle.core.models import Revision
-
-        if revision is None:
-            Revision.initialize(force=True)
-        else:
-            Revision.set(revision)
 
     def setup_system_users(self, request):
         from .fixtures.models.user import TEST_USERS, _require_user

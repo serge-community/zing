@@ -274,7 +274,7 @@ def test_timeline_view_unit_disabled_project(client, request_users,
 
 @pytest.mark.django_db
 def test_timeline_view_unit_with_suggestion(client, request_users,
-                                            system, admin, store0):
+                                            system, admin, store0, revision):
     # test with "state change" subission - apparently this is what is required
     # to get one
     suggestion = Suggestion.objects.filter(

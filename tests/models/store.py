@@ -29,7 +29,7 @@ from pootle_store.syncer import PoStoreSyncer
 
 
 @pytest.mark.django_db
-def test_delete_mark_obsolete(project0_disk, store0):
+def test_delete_mark_obsolete(project0_disk, store0, revision):
     """Tests that the in-DB Store and Directory are marked as obsolete
     after the on-disk file ceased to exist.
 

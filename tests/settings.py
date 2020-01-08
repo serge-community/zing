@@ -62,8 +62,9 @@ CACHES = {
         'BACKEND': 'django_redis.cache.RedisCache',
         'LOCATION': 'redis://127.0.0.1:6379/15',
         'TIMEOUT': None,
-        # FIXME: can't use `fakeredis` here as django-redis' `incr` uses Redis'
-        # `eval()` command, which is unsupported in `fakeredis`.
+        'OPTIONS': {
+            'REDIS_CLIENT_CLASS': 'fakeredis.FakeStrictRedis',
+        },
     },
     'stats': {
         'BACKEND': 'django_redis.cache.RedisCache',

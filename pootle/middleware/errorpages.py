@@ -19,9 +19,9 @@ from django.utils.deprecation import MiddlewareMixin
 from django.utils.encoding import force_unicode
 
 try:
-    from raven.contrib.django.models import sentry_exception_handler
+    import sentry_sdk
 except ImportError:
-    sentry_exception_handler = None
+    sentry_sdk = None
 
 from pootle.core.exceptions import Http400
 from pootle.core.http import (JsonResponseBadRequest, JsonResponseForbidden,
@@ -30,28 +30,26 @@ from pootle.i18n.gettext import ugettext as _
 
 
 def log_exception(request, exception, tb):
-    if sentry_exception_handler is None:
-        # Send email to admins with details about exception
-        ip_type = (request.META.get('REMOTE_ADDR') in
-                   settings.INTERNAL_IPS and 'internal' or
-                   'EXTERNAL')
-        msg_args = {
-            'ip_type': ip_type,
-            'path': request.path,
-        }
-        subject = 'Error (%(ip_type)s IP): %(path)s' % msg_args
+    if sentry_sdk is not None:
+        return
 
-        try:
-            request_repr = repr(request)
-        except:
-            request_repr = "Request repr() unavailable"
+    # Send email to admins with details about exception
+    ip_type = (request.META.get('REMOTE_ADDR') in settings.INTERNAL_IPS and
+               'internal' or 'EXTERNAL')
+    msg_args = {
+        'ip_type': ip_type,
+        'path': request.path,
+    }
+    subject = 'Error (%(ip_type)s IP): %(path)s' % msg_args
 
-        msg_args = (unicode(exception.args[0]), tb,
-                    request_repr)
-        message = "%s\n\n%s\n\n%s" % msg_args
-        mail_admins(subject, message, fail_silently=True)
-    else:
-        sentry_exception_handler(request=request)
+    try:
+        request_repr = repr(request)
+    except:
+        request_repr = "Request repr() unavailable"
+
+    msg_args = (unicode(exception.args[0]), tb, request_repr)
+    message = "%s\n\n%s\n\n%s" % msg_args
+    mail_admins(subject, message, fail_silently=True)
 
 
 def handle_exception(request, exception, template_name):

@@ -9,8 +9,8 @@
 import functools
 
 from django.core.exceptions import PermissionDenied
+from django.utils.translation import ugettext as _
 
-from pootle.i18n.gettext import ugettext as _
 from pootle_app.models.permissions import get_matching_permissions
 
 

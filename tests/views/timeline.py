@@ -91,16 +91,16 @@ def _get_suggestion_description(submission):
 
     if comment:
         sugg_accepted_desc = _(
-            u'Accepted suggestion from %(author)s with comment: %(comment)s',
+            u'Accepted suggestion from %(author)s with comment: %(comment)s' %
             params
         )
         sugg_rejected_desc = _(
-            u'Rejected suggestion from %(author)s with comment: %(comment)s',
+            u'Rejected suggestion from %(author)s with comment: %(comment)s' %
             params
         )
     else:
-        sugg_accepted_desc = _(u'Accepted suggestion from %(author)s', params)
-        sugg_rejected_desc = _(u'Rejected suggestion from %(author)s', params)
+        sugg_accepted_desc = _(u'Accepted suggestion from %(author)s' % params)
+        sugg_rejected_desc = _(u'Rejected suggestion from %(author)s' % params)
 
     return {
         SubmissionTypes.SUGG_ADD: _(u'Added suggestion'),

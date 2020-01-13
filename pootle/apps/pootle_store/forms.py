@@ -15,12 +15,12 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.urls import Resolver404, resolve
 from django.utils import timezone
+from django.utils.translation import ugettext as _
 
 from pootle.core.log import (TRANSLATION_ADDED, TRANSLATION_CHANGED,
                              TRANSLATION_DELETED)
 from pootle.core.mixins import CachedMethods
 from pootle.core.url_helpers import split_pootle_path
-from pootle.i18n.gettext import ugettext as _
 from pootle_app.models import Directory
 from pootle_app.models.permissions import check_permission, check_user_permission
 from pootle_misc.checks import CATEGORY_CODES, check_names

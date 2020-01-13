@@ -10,40 +10,6 @@ from translate.lang import data as langdata
 
 from django.conf import settings
 from django.utils import translation
-from django.utils.translation import _trans
-
-
-def _format_translation(message, variables=None):
-    """Overrides the gettext function, handling variable errors more
-    gracefully.
-
-    This is needed to avoid tracebacks on translation errors with live
-    translation.
-    """
-    if variables is not None:
-        try:
-            return message % variables
-        except:
-            pass
-
-    return message
-
-
-def ugettext(message, variables=None):
-    return _format_translation(_trans.ugettext(message), variables)
-
-
-def gettext(message, variables=None):
-    return _format_translation(_trans.gettext(message), variables)
-
-
-def ungettext(singular, plural, number, variables=None):
-    return _format_translation(_trans.ungettext(singular, plural, number),
-                               variables)
-
-
-def ngettext(singular, plural, number, variables=None):
-    return _format_translation(_trans.ngettext(singular, plural, number), variables)
 
 
 def tr_lang(language_name):

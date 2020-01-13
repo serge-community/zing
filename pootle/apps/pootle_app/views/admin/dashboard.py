@@ -11,12 +11,12 @@ from redis.exceptions import ConnectionError
 from rq.registry import FailedJobRegistry
 
 from django.shortcuts import render
+from django.utils.translation import ugettext as _, ungettext
 
 from django_rq.queues import get_queue
 from django_rq.workers import Worker
 
 from pootle.core.decorators import admin_required
-from pootle.i18n.gettext import ugettext as _, ungettext
 
 
 def rq_stats():

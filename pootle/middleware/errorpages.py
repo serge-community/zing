@@ -17,6 +17,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.deprecation import MiddlewareMixin
 from django.utils.encoding import force_unicode
+from django.utils.translation import ugettext as _
 
 try:
     import sentry_sdk
@@ -26,7 +27,6 @@ except ImportError:
 from pootle.core.exceptions import Http400
 from pootle.core.http import (JsonResponseBadRequest, JsonResponseForbidden,
                               JsonResponseNotFound, JsonResponseServerError)
-from pootle.i18n.gettext import ugettext as _
 
 
 def log_exception(request, exception, tb):
@@ -77,7 +77,7 @@ def handle_exception(request, exception, template_name):
                 'errormsg': exception.strerror,
             }
             msg = _('Error accessing %(filename)s, Filesystem '
-                    'sent error: %(errormsg)s', msg_args)
+                    'sent error: %(errormsg)s' % msg_args)
             ctx['fserror'] = msg
 
         return HttpResponseServerError(
@@ -113,7 +113,7 @@ class ErrorPagesMiddleware(MiddlewareMixin):
                 }
                 login_msg = _(
                     'You need to <a class="js-login" '
-                    'href="%(login_link)s">login</a> to access this page.',
+                    'href="%(login_link)s">login</a> to access this page.' %
                     msg_args
                 )
                 ctx["login_message"] = login_msg

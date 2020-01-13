@@ -14,9 +14,9 @@ from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext as _
 
 from accounts.proxy import DisplayUser
-from pootle.i18n.gettext import ugettext as _
 from pootle_comment import get_model as get_comment_model
 from pootle_misc.checks import check_names
 from pootle_statistics.models import (
@@ -44,8 +44,8 @@ class SuggestionEvent(object):
         params = {
             'author': self.user.author_link
         }
-        sugg_accepted_desc = _(u'Accepted suggestion from %(author)s', params)
-        sugg_rejected_desc = _(u'Rejected suggestion from %(author)s', params)
+        sugg_accepted_desc = _(u'Accepted suggestion from %(author)s' % params)
+        sugg_rejected_desc = _(u'Rejected suggestion from %(author)s' % params)
 
         if self.comment:
             params.update({
@@ -54,12 +54,12 @@ class SuggestionEvent(object):
             })
             sugg_accepted_desc = _(
                 u'Accepted suggestion from %(author)s '
-                u'with comment: %(comment)s',
+                u'with comment: %(comment)s' %
                 params
             )
             sugg_rejected_desc = _(
                 u'Rejected suggestion from %(author)s '
-                u'with comment: %(comment)s',
+                u'with comment: %(comment)s' %
                 params
             )
 

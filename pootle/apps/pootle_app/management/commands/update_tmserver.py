@@ -80,9 +80,9 @@ class DBParser(object):
         if unit['submitted_on']:
             mtime = int(dateformat.format(unit['submitted_on'], 'U'))
 
+        index_name = unit['store__translation_project__language__code'].lower()
         return {
-            '_index': self.INDEX_NAME,
-            '_type': unit['store__translation_project__language__code'],
+            '_index': index_name,
             '_id': unit['id'],
             'revision': int(unit['revision']),
             'project': unit['store__translation_project__project__fullname'],

@@ -98,8 +98,6 @@ DATABASES = {
 #ZING_TM_SERVER = {
 #    'HOST': 'localhost',
 #    'PORT': 9200,
-#    # Optional index name
-#    'INDEX_NAME': 'translations',
 #}
 
 #

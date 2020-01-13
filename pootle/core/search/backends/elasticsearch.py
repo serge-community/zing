@@ -28,7 +28,6 @@ __all__ = ('ElasticSearchBackend',)
 logger = logging.getLogger(__name__)
 
 
-DEFAULT_INDEX_NAME = 'translations'
 DEFAULT_MIN_SIMILARITY = 0.7
 
 
@@ -69,8 +68,6 @@ class ElasticSearchBackend(SearchBackend):
     def __init__(self):
         super(ElasticSearchBackend, self).__init__()
         self._es = self._get_es_server()
-        self._index_name = self._settings.get('INDEX_NAME', DEFAULT_INDEX_NAME)
-        self._create_index_if_missing()
 
     def _get_es_server(self):
         return Elasticsearch([
@@ -78,10 +75,10 @@ class ElasticSearchBackend(SearchBackend):
              'port': self._settings['PORT']},
         ])
 
-    def _create_index_if_missing(self):
+    def _create_index_if_missing(self, name):
         try:
-            if not self._es.indices.exists(self._index_name):
-                self._es.indices.create(self._index_name)
+            if not self._es.indices.exists(name):
+                self._es.indices.create(name)
         except ElasticsearchException as e:
             self._log_error(e)
 
@@ -105,8 +102,7 @@ class ElasticSearchBackend(SearchBackend):
         language = unit.store.translation_project.language.code
         es_res = self._es_call(
             "search",
-            index=self._index_name,
-            doc_type=language,
+            index=language,
             body={
                 "query": {
                     "match": {
@@ -163,10 +159,11 @@ class ElasticSearchBackend(SearchBackend):
         return res
 
     def update(self, language, obj):
+        index_name = language.lower()
+        self._create_index_if_missing(index_name)
         self._es_call(
             "index",
-            index=self._index_name,
-            doc_type=language,
+            index=index_name,
             body=obj,
             id=obj['id']
         )

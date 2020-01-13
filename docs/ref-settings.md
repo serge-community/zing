@@ -258,11 +258,7 @@ ZING_TM_SERVER = {
 
 The TM is automatically updated every time a new translation is submitted.
 
-Optionally, a couple of details can be configured:
-
-* `INDEX_NAME` (_string_) allows defining the name of the index under which the
-  Translation Memory database will be constructed. It defaults to
-  `translations`.
+Optionally, matching similarity can be configured:
 
 * `MIN_SIMILARITY` (_float_) serves as a threshold value to filter out results
   that are potentially too far from the source text. The Levenshtein distance is

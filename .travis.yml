@@ -12,6 +12,14 @@ cache:
     - pootle/static/js/node_modules
     - pootle/assets
 install: pip install tox===3.0.0
+before_script:
+  - curl -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.5.1-amd64.deb
+  - sudo dpkg -i --force-confnew elasticsearch-7.5.1-amd64.deb
+  - sudo sed -i.old 's/-Xms1g/-Xms128m/' /etc/elasticsearch/jvm.options
+  - sudo sed -i.old 's/-Xmx1g/-Xmx128m/' /etc/elasticsearch/jvm.options
+  - echo -e '-XX:+DisableExplicitGC\n-Djdk.io.permissionsUseCanonicalPath=true\n-Dlog4j.skipJansi=true\n-server\n' | sudo tee -a /etc/elasticsearch/jvm.options
+  - sudo chown -R elasticsearch:elasticsearch /etc/default/elasticsearch
+  - sudo systemctl start elasticsearch
 script:
   - tox -e $TOXENV
 after_script:
@@ -26,6 +34,5 @@ before_cache:
   - if [[ "$TRAVIS_BRANCH" == "master" && "$TRAVIS_PULL_REQUEST" == "false" ]]; then rm -rf pootle/static/js/node_modules/* pootle/assets/* pootle/assets/.webassets-cache;  fi
 services:
   - redis-server
-  - elasticsearch
   - mysql
   - postgresql

@@ -15,7 +15,7 @@ django-statici18n==1.8.3
 
 # Libraries
 cssmin==0.2.0
-elasticsearch>=1.0.0,<2.0.0  # rq.filter: >=1.0,<2.0
+elasticsearch>=7.0.0,<8.0.0
 lxml==4.4.2
 python-levenshtein==0.12.0
 rq==1.1.0

@@ -16,7 +16,7 @@ from django.http import Http404, HttpResponseForbidden, HttpResponseServerError
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.deprecation import MiddlewareMixin
-from django.utils.encoding import force_unicode
+from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _
 
 try:
@@ -63,7 +63,7 @@ def handle_exception(request, exception, template_name):
     try:
         log_exception(request, exception, tb)
 
-        msg = force_unicode(exception)
+        msg = force_text(exception)
 
         if request.is_ajax():
             return JsonResponseServerError({'msg': msg})
@@ -92,7 +92,7 @@ class ErrorPagesMiddleware(MiddlewareMixin):
     """Friendlier error pages."""
 
     def process_exception(self, request, exception):
-        msg = force_unicode(exception)
+        msg = force_text(exception)
         if isinstance(exception, Http404):
             if request.is_ajax():
                 return JsonResponseNotFound({'msg': msg})

@@ -167,7 +167,7 @@ def _setup_store_test(store, member, test):
 
     for units in setup:
         store_revision = store.get_max_unit_revision()
-        print "setup store: %s %s" % (store_revision, units)
+        print("setup store: %s %s" % (store_revision, units))
         update_store(store, store_revision=store_revision, units=units,
                      user=member)
         for unit in store.units:

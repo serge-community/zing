@@ -17,7 +17,7 @@ def test_user_stats_link(client, request_users):
         client.force_login(user)
     response = client.get("/user/member/")
     assert (
-        ("user-detailed-stats" in response.content) == (not user.is_anonymous)
+        (b"user-detailed-stats" in response.content) == (not user.is_anonymous)
     )
 
 

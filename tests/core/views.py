@@ -426,4 +426,4 @@ def test_apiview_delete_meta_user(rf, meta_users):
 
     response = view(request, id=user.id)
     assert response.status_code == 405
-    assert 'Cannot remove meta user instances' in response.content
+    assert b'Cannot remove meta user instances' in response.content

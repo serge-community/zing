@@ -200,9 +200,9 @@ class Submission(models.Model):
     # similarity ratio to the result of machine translation
     mt_similarity = models.FloatField(blank=True, null=True)
 
-    def __unicode__(self):
-        return u"%s (%s)" % (self.creation_time.strftime("%Y-%m-%d %H:%M"),
-                             unicode(self.submitter))
+    def __str__(self):
+        return "%s (%s)" % (self.creation_time.strftime("%Y-%m-%d %H:%M"),
+                            str(self.submitter))
 
     @cached_property
     def max_similarity(self):

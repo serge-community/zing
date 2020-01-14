@@ -255,7 +255,7 @@ class User(AbstractBaseUser):
         cache.set(cache_key, top_scorers, 60)
         return top_scorers
 
-    def __unicode__(self):
+    def __str__(self):
         return self.username
 
     def save(self, *args, **kwargs):

@@ -242,7 +242,7 @@ class TranslationProject(models.Model, CachedTreeItem):
 
     # # # # # # # # # # # # # #  Methods # # # # # # # # # # # # # # # # # # #
 
-    def __unicode__(self):
+    def __str__(self):
         return self.pootle_path
 
     def __init__(self, *args, **kwargs):

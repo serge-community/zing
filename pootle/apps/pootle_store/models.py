@@ -80,7 +80,7 @@ class QualityCheck(models.Model):
     message = models.TextField()
     false_positive = models.BooleanField(default=False, db_index=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     @property
@@ -150,8 +150,8 @@ class Suggestion(models.Model, base.TranslationUnit):
 
     # # # # # # # # # # # # # #  Methods # # # # # # # # # # # # # # # # # # #
 
-    def __unicode__(self):
-        return unicode(self.target)
+    def __str__(self):
+        return str(self.target)
 
     def _set_hash(self):
         string = self.translator_comment_f
@@ -281,12 +281,9 @@ class Unit(models.Model, base.TranslationUnit):
 
     # # # # # # # # # # # # # #  Methods # # # # # # # # # # # # # # # # # # #
 
-    def __unicode__(self):
-        # FIXME: consider using unit id instead?
-        return unicode(self.source)
-
     def __str__(self):
-        return str(self.convert())
+        # FIXME: consider using unit id instead?
+        return str(self.source)
 
     def __init__(self, *args, **kwargs):
         super(Unit, self).__init__(*args, **kwargs)
@@ -1189,11 +1186,8 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
     def __init__(self, *args, **kwargs):
         super(Store, self).__init__(*args, **kwargs)
 
-    def __unicode__(self):
-        return unicode(self.pootle_path)
-
     def __str__(self):
-        return str(self.syncer.convert())
+        return str(self.pootle_path)
 
     def save(self, *args, **kwargs):
         created = not self.id

@@ -70,8 +70,8 @@ class PaidTask(models.Model):
     def get_task_type_title(cls, task_type):
         return dict(cls.type_choices).get(task_type, '')
 
-    def __unicode__(self):
-        return (u'Task: [id=%s, user=%s, month=%s, '
+    def __str__(self):
+        return ('Task: [id=%s, user=%s, month=%s, '
                 'type=%s, amount=%s, comment=%s]' %
                 (self.id, self.user.username, self.datetime.strftime('%Y-%m'),
                  PaidTask.get_task_type_title(self.task_type), self.amount,

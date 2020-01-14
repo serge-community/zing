@@ -135,7 +135,7 @@ class PermissionSet(models.Model):
     negative_permissions = models.ManyToManyField(
         Permission, db_index=True, related_name='permission_sets_negative')
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s : %s" % (self.user.username,
                             self.directory.pootle_path)
 

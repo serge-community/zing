@@ -53,7 +53,7 @@ class AbstractPage(models.Model):
     class Meta(object):
         abstract = True
 
-    def __unicode__(self):
+    def __str__(self):
         return self.virtual_path
 
     def save(self, **kwargs):
@@ -131,8 +131,8 @@ class Agreement(models.Model):
     class Meta(object):
         unique_together = ('user', 'document',)
 
-    def __unicode__(self):
-        return u'%s (%s@%s)' % (self.document, self.user, self.agreed_on)
+    def __str__(self):
+        return '%s (%s@%s)' % (self.document, self.user, self.agreed_on)
 
     def save(self, **kwargs):
         # When updating always explicitly renew agreement date

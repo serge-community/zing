@@ -133,8 +133,8 @@ class DueDate(models.Model):
 
         return TaskResultSet(due_tasks).order_by_importance()
 
-    def __unicode__(self):
-        return u'<DueDate: %s>' % (self.due_on)
+    def __str__(self):
+        return '<DueDate: %s>' % (self.due_on)
 
     def save(self, *args, **kwargs):
         self.full_clean()

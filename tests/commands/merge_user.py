@@ -17,7 +17,7 @@ from django.core.management.base import CommandError
 def test_merge_user_nousers():
     with pytest.raises(CommandError) as e:
         call_command('merge_user')
-    assert "too few arguments" in str(e)
+    assert "the following arguments are required: user, other_user" in str(e)
 
 
 @pytest.mark.cmd
@@ -25,7 +25,7 @@ def test_merge_user_nousers():
 def test_merge_user_only_one_user(member):
     with pytest.raises(CommandError) as e:
         call_command('merge_user', 'member')
-    assert "too few arguments" in str(e)
+    assert "the following arguments are required: other_user" in str(e)
 
 
 @pytest.mark.cmd

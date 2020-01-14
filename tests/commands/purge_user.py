@@ -16,7 +16,7 @@ from django.core.management.base import CommandError
 def test_purge_user_nouser():
     with pytest.raises(CommandError) as e:
         call_command('purge_user')
-    assert "too few arguments" in str(e)
+    assert "the following arguments are required: user" in str(e)
 
 
 @pytest.mark.cmd

@@ -73,7 +73,7 @@ class UnitResult(UnitProxy):
             u'%s%s'
             % (reverse("pootle-tp-store-translate",
                        args=split_pootle_path(self.pootle_path)),
-               '#unit=%s' % unicode(self.id)))
+               '#unit=%s' % str(self.id)))
 
     @property
     def isfuzzy(self):

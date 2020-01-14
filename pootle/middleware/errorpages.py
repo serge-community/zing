@@ -47,7 +47,7 @@ def log_exception(request, exception, tb):
     except:
         request_repr = "Request repr() unavailable"
 
-    msg_args = (unicode(exception.args[0]), tb, request_repr)
+    msg_args = (str(exception.args[0]), tb, request_repr)
     message = "%s\n\n%s\n\n%s" % msg_args
     mail_admins(subject, message, fail_silently=True)
 

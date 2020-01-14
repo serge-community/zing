@@ -55,7 +55,7 @@ def test_admin_view_projects(client, request_users, english):
         assert response.status_code == 403
         return
     languages = Language.objects.all()
-    language_choices = [(lang.id, unicode(lang)) for lang in languages]
+    language_choices = [(lang.id, str(lang)) for lang in languages]
     expected = {
         'page': 'admin-projects',
         'form_choices': {

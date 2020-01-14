@@ -262,7 +262,7 @@ def get_category_code(cid):
 
 
 def get_category_name(code):
-    return unicode(CATEGORY_NAMES.get(code))
+    return str(CATEGORY_NAMES.get(code))
 
 
 class SkipCheck(Exception):
@@ -1071,7 +1071,7 @@ def run_given_filters(checker, unit, check_names=None):
             filterresult = checker.run_test(filterfunction, unit)
         except checks.FilterFailure as e:
             filterresult = False
-            filtermessage = unicode(e)
+            filtermessage = str(e)
         except Exception as e:
             if checker.errorhandler is None:
                 raise ValueError("error in filter %s: %r, %r, %s" %

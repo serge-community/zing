@@ -17,5 +17,5 @@ def test_submission_repr():
     assert (
         "<Submission: %s (%s)>"
         % (submission.creation_time.strftime("%Y-%m-%d %H:%M"),
-           unicode(submission.submitter))
+           str(submission.submitter))
         == repr(submission))

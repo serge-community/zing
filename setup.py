@@ -187,7 +187,7 @@ class BuildChecksTemplatesCommand(Command):
             """
             # Provide a header with an anchor to refer to.
             description = ('\n<h3 id="%s">%s</h3>\n\n' %
-                           (name, unicode(check_names[name])))
+                           (name, str(check_names[name])))
 
             # Clean the leading whitespace on each docstring line so it gets
             # properly rendered.

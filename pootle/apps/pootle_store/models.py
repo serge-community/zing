@@ -444,7 +444,7 @@ class Unit(models.Model, base.TranslationUnit):
         return (
             "%s%s"
             % (self.store.get_translate_url(),
-               '#unit=%s' % unicode(self.id)))
+               '#unit=%s' % str(self.id)))
 
     def get_search_locations_url(self):
         (proj_code, dir_path,
@@ -610,7 +610,7 @@ class Unit(models.Model, base.TranslationUnit):
             changed = True
 
         if self.unitid != unit.getid():
-            self.unitid = unicode(unit.getid()) or unicode(unit.source)
+            self.unitid = str(unit.getid()) or str(unit.source)
             self.unitid_hash = md5(self.unitid.encode("utf-8")).hexdigest()
             changed = True
 

@@ -162,7 +162,7 @@ class SubmissionProxy(object):
         return (
             "%s%s"
             % (store_url,
-               '#unit=%s' % unicode(self.unit)))
+               '#unit=%s' % str(self.unit)))
 
     @property
     def unit_info(self):

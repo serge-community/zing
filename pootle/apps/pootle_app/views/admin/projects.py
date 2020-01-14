@@ -24,7 +24,7 @@ class ProjectAdminView(SuperuserRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         languages = Language.objects.all()
-        language_choices = [(lang.id, unicode(lang)) for lang in languages]
+        language_choices = [(lang.id, str(lang)) for lang in languages]
         try:
             english = Language.objects.get(code='en')
             default_language = english.id

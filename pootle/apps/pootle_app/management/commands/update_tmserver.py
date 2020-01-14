@@ -74,7 +74,9 @@ class DBParser(object):
 
         email_md5 = None
         if unit['submitted_by__email']:
-            email_md5 = md5(unit['submitted_by__email']).hexdigest()
+            email_md5 = md5(
+                unit['submitted_by__email'].encode('utf-8')
+            ).hexdigest()
 
         mtime = None
         if unit['submitted_on']:

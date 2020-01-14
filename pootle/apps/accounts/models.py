@@ -145,7 +145,7 @@ class User(AbstractBaseUser):
     @cached_property
     def email_hash(self):
         try:
-            return md5(self.email).hexdigest()
+            return md5(self.email.encode('utf-8')).hexdigest()
         except UnicodeEncodeError:
             return None
 

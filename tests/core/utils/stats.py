@@ -18,7 +18,7 @@ class MockUser(object):
         self.email = email
         self.display_name = display_name
         self.username = username
-        self.email_hash = md5(email).hexdigest()
+        self.email_hash = md5(email.encode('utf-8')).hexdigest()
 
 
 TEST_TOP_SCORERS = [

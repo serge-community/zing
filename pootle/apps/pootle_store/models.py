@@ -758,7 +758,9 @@ class Unit(models.Model, base.TranslationUnit):
             obj.update({
                 'username': self.submitted_by.username,
                 'fullname': self.submitted_by.full_name,
-                'email_md5': md5(self.submitted_by.email).hexdigest(),
+                'email_md5': md5(
+                    self.submitted_by.email.encode("utf-8")
+                ).hexdigest(),
             })
 
         get_tm_broker().update(self.store.translation_project.language.code,

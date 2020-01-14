@@ -57,7 +57,9 @@ class ProxyTimelineUser(object):
             args=[self.submission["submitter__username"]])
 
     def gravatar_url(self, size=80):
-        email_hash = md5(self.submission['submitter__email']).hexdigest()
+        email_hash = md5(
+            self.submission['submitter__email'].encode('utf-8')
+        ).hexdigest()
         return (
             'https://secure.gravatar.com/avatar/%s?s=%d&d=mm'
             % (email_hash, size))

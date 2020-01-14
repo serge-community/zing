@@ -35,7 +35,7 @@ class DisplayUser(object):
 
     @property
     def email_hash(self):
-        return md5(self.email).hexdigest()
+        return md5(self.email.encode('utf-8')).hexdigest()
 
     def get_absolute_url(self):
         return reverse(

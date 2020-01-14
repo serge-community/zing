@@ -100,7 +100,7 @@ class Snapshot(object):
 
         # use binary mode not to convert \n to OS-specific newlines;
         with open(self.filepath, 'wb') as outfile:
-            outfile.write(ctx_data)
+            outfile.write(ctx_data.encode('utf-8'))
 
     def assert_matches(self, ctx_data):
         """Asserts whether `ctx_data` matches the reference snapshot.

@@ -247,7 +247,8 @@ class StoreSyncer(object):
     def update_newer(self, last_revision):
         return (
             not self.store.file.exists()
-            or last_revision > self.store.last_sync_revision
+            or (self.store.last_sync_revision is not None
+                and last_revision > self.store.last_sync_revision)
         )
 
     @cached_property

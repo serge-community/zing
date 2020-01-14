@@ -456,7 +456,10 @@ class CachedTreeItem(TreeItem):
 
     def get_dirty_score(self):
         r_con = get_connection()
-        return r_con.zscore(KEY_DIRTY_TREEITEMS, self.cache_key)
+        rv = r_con.zscore(KEY_DIRTY_TREEITEMS, self.cache_key)
+        if rv is None:
+            return 0
+        return rv
 
     def update_dirty_cache(self):
         """Add a RQ job which updates dirty cached stats of current TreeItem

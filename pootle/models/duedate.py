@@ -200,12 +200,12 @@ class DueDate(models.Model):
         }
 
         critical_count = self.stats.critical
-        if critical_count > 0:
+        if critical_count is not None and critical_count > 0:
             kwargs = dict(task_kwargs, words_left=critical_count)
             pending.append(CriticalTask(**kwargs))
 
         incomplete_count = self.stats.incomplete
-        if incomplete_count > 0:
+        if incomplete_count is not None and incomplete_count > 0:
             kwargs = dict(task_kwargs, words_left=incomplete_count)
             pending.append(TranslationTask(**kwargs))
 

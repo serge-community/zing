@@ -207,11 +207,7 @@ class Submission(models.Model):
     @cached_property
     def max_similarity(self):
         """Returns current submission's maximum similarity."""
-        if (self.similarity is not None or
-            self.mt_similarity is not None):
-            return max(self.similarity, self.mt_similarity)
-
-        return 0
+        return max(self.similarity or 0, self.mt_similarity or 0)
 
     def needs_scorelog(self):
         """Returns ``True`` if the submission needs to log its score."""
@@ -637,7 +633,9 @@ class ScoreLog(models.Model):
             else 0
 
     def is_similarity_taken_from_mt(self):
-        return self.submission.similarity < self.submission.mt_similarity
+        similarity = self.submission.similarity or -1
+        mt_similarity = self.submission.mt_similarity or -1
+        return similarity < mt_similarity
 
     def get_suggested_wordcount(self):
         """Returns the suggested wordcount in the current action."""

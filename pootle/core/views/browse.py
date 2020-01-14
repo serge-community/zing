@@ -78,7 +78,10 @@ class BrowseDataViewMixin(object):
                 for path, data in (
                     self.get_item_data(item, children_stats[i])
                     for i, item in enumerate(self.items)
-                ) if data['total'] > 0 or has_admin_access
+                ) if (
+                    (data['total'] is not None and data['total'] > 0) or
+                    has_admin_access
+                )
             },
         })
         return browsing_data

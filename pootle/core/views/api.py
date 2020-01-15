@@ -242,7 +242,7 @@ class APIView(View):
             obj.delete()
             return JsonResponse({})
         except ProtectedError as e:
-            return self.status_msg(e[0], status=405)
+            return self.status_msg(str(e), status=405)
 
     def object_to_values(self, object):
         """Convert an object to values for serialization."""

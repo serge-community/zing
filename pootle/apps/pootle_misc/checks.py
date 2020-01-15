@@ -991,7 +991,7 @@ class ENChecker(checks.UnitChecker):
                 'callback': lambda x: '',
             })
         except SyntaxError as e:
-            raise checks.FilterFailure(e.message)
+            raise checks.FilterFailure(str(e))
 
         return True
 

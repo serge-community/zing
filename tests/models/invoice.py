@@ -137,7 +137,7 @@ def test_invoice_get_rates_inconsistent_scorelog_rates(member, store0):
 
     assert (
         'Multiple rate values recorded for user %s' % (member.username, )
-        in e.value.message
+        in str(e)
     )
 
 
@@ -195,7 +195,7 @@ def test_invoice_get_rates_inconsistent_paidtask_rates(member, task_type,
     assert (
         'Multiple %s rate values for user %s' % (task_type_name,
                                                  member.username)
-        in e.value.message
+        in str(e)
     )
 
 
@@ -222,7 +222,7 @@ def test_invoice_get_rates_inconsistent_hourly_paidtask_rates(member):
 
     assert (
         'Multiple HOURLY_WORK rate values for user %s' % (member.username)
-        in e.value.message
+        in str(e)
     )
 
 

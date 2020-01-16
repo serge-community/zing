@@ -15,7 +15,7 @@ from argparse import SUPPRESS, ArgumentParser
 from django.conf import settings
 from django.core import management
 
-import syspath_override  # noqa
+from . import syspath_override  # noqa
 
 
 #: Length for the generated :setting:`SECRET_KEY`

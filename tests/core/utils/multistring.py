@@ -14,7 +14,7 @@ from pootle.core.utils.multistring import (PLURAL_PLACEHOLDER, SEPARATOR,
                                            parse_multistring, unparse_multistring)
 
 
-@pytest.mark.parametrize('invalid_value', [None, [], (), 69, 69L])
+@pytest.mark.parametrize('invalid_value', [None, [], (), 69, 69])
 def test_parse_multistring_invalid(invalid_value):
     """Tests parsing doesn't support non-string values"""
     with pytest.raises(ValueError):
@@ -35,7 +35,7 @@ def test_parse_multistring(db_string, expected_ms, is_plural):
     assert parsed_ms.plural == is_plural
 
 
-@pytest.mark.parametrize('invalid_value', [None, (), 69, 69L])
+@pytest.mark.parametrize('invalid_value', [None, (), 69, 69])
 def test_unparse_multistring_invalid(invalid_value):
     """Tests unparsing does nothing for unsupported values."""
     assert unparse_multistring(invalid_value) == invalid_value

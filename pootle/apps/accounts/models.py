@@ -236,7 +236,7 @@ class User(AbstractBaseUser):
             ),
         ).order_by('-total_score')[offset:]
 
-        if isinstance(limit, (int, long)) and limit > 0:
+        if isinstance(limit, int) and limit > 0:
             top_scores = top_scores[:limit]
 
         users = dict(

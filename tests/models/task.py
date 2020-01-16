@@ -19,7 +19,7 @@ from pootle.models.task import CriticalTask, TaskResultSet, TranslationTask
 
 def test_translation_task_repr():
     """Tests `TranslationTask`'s representation."""
-    due_on = now = aware_datetime(2017, 02, 28, 9, 00)
+    due_on = now = aware_datetime(2017, 2, 28, 9, 0)
     due_date = DueDateFactory.build(due_on=due_on)
     task = TranslationTask(
         due_date=due_date,
@@ -45,7 +45,7 @@ def test_translation_task_repr():
 def test_translation_task_importance_factor(words_left, days_left,
                                             expected_factor):
     """Tests `TranslationTask`'s importance factor."""
-    now = aware_datetime(2017, 02, 28, 9, 00)
+    now = aware_datetime(2017, 2, 28, 9, 0)
     due_on = now + timedelta(days=days_left)
     due_date = DueDateFactory.build(due_on=due_on)
     task = TranslationTask(
@@ -64,7 +64,7 @@ def test_translation_task_importance_factor(words_left, days_left,
 def test_critical_task_importance_factor(words_left, days_left,
                                          expected_factor):
     """Tests `CriticalTask`'s importance factor."""
-    now = aware_datetime(2017, 02, 28, 9, 00)
+    now = aware_datetime(2017, 2, 28, 9, 0)
     due_on = now + timedelta(days=days_left)
     due_date = DueDateFactory.build(due_on=due_on)
     task = CriticalTask(
@@ -78,7 +78,7 @@ def test_critical_task_importance_factor(words_left, days_left,
 @pytest.mark.django_db
 def test_taskresultset_get_single():
     """Tests retrieving a single task resultset item by index."""
-    due_on = now = aware_datetime(2017, 02, 28, 9, 00)
+    due_on = now = aware_datetime(2017, 2, 28, 9, 0)
     due_date = DueDateFactory.build(due_on=due_on)
     task = TranslationTask(
         due_date=due_date,
@@ -92,7 +92,7 @@ def test_taskresultset_get_single():
 @pytest.mark.parametrize('index', [None, 1.0, '1'])
 def test_taskresultset_get_raises(index):
     """Tests retrieving from a task resultset by using an invalid index/slice."""
-    due_on = now = aware_datetime(2017, 02, 28, 9, 00)
+    due_on = now = aware_datetime(2017, 2, 28, 9, 0)
     due_date = DueDateFactory.build(due_on=due_on)
     task = TranslationTask(
         due_date=due_date,

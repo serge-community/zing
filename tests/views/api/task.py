@@ -53,7 +53,7 @@ def test_get_tasks(client, request, request_users, test_name, snapshot_stack,
         request.getfixturevalue('refresh_stats')
         users_with_stats.add(user)
 
-    now = aware_datetime(2017, 02, 28, 9, 00)
+    now = aware_datetime(2017, 2, 28, 9, 0)
     patch_timezone_now(now)
 
     DueDateFactory.create(
@@ -101,7 +101,7 @@ def test_get_tasks_permissions(client, test_name, snapshot_stack, refresh_stats,
         request.getfixturevalue('refresh_stats')
         users_with_stats.add(user)
 
-    now = aware_datetime(2017, 02, 28, 9, 00)
+    now = aware_datetime(2017, 2, 28, 9, 0)
     patch_timezone_now(now)
 
     DueDateFactory.create(

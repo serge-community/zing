@@ -68,7 +68,7 @@ def test_duedate_update(client, request_users, test_name, snapshot_stack, path):
     """Tests updating existing due dates."""
     user = request_users['user']
 
-    initial_due_on = aware_datetime(2017, 01, 26, 01, 02, 03)
+    initial_due_on = aware_datetime(2017, 1, 26, 1, 2, 3)
     data = {
         'due_on': initial_due_on,
         'modified_by': user,

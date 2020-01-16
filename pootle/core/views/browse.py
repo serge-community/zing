@@ -61,7 +61,7 @@ class BrowseDataViewMixin(object):
     def get_browsing_data(self):
         browsing_data = remove_empty_from_dict({
             key: value
-            for key, value in self.stats.iteritems()
+            for key, value in iter(self.stats.items())
             if key != 'children'
         })
 

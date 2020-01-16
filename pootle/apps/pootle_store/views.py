@@ -489,7 +489,7 @@ def get_qualitycheck_stats(request, *args, **kwargs):
 
     result = [
         dict(count=count, **get_qc_data_by_name(check))
-        for check, count in failing_checks.iteritems()
+        for check, count in iter(failing_checks.items())
     ]
 
     def alphabetical_critical_first(item):

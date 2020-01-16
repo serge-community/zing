@@ -30,7 +30,7 @@ CATEGORY_IDS = {
     'extraction': Category.EXTRACTION,
     'other': Category.NO_CATEGORY,
 }
-CATEGORY_CODES = {v: k for k, v in CATEGORY_IDS.iteritems()}
+CATEGORY_CODES = {v: k for k, v in iter(CATEGORY_IDS.items())}
 CATEGORY_NAMES = {
     Category.CRITICAL: _("Critical"),
     Category.COSMETIC: _("Cosmetic"),

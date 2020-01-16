@@ -56,7 +56,7 @@ class JSONReporter(BaseReporter):
             'amount': invoice.amounts['total'],
             'vendor': {
                 key: self.clean_config_value(value)
-                for key, value in invoice.conf.iteritems()
+                for key, value in iter(invoice.conf.items())
             },
         }
 

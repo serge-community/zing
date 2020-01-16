@@ -56,6 +56,6 @@ def remove_empty_from_dict(input):
 
     return {
         key: remove_empty_from_dict(value)
-        for key, value in input.iteritems()
+        for key, value in iter(input.items())
         if value and remove_empty_from_dict(value)
     }

@@ -19,7 +19,7 @@ CORE_APPS_WITH_COMMANDS = (
 @pytest.mark.cmd
 @pytest.mark.parametrize("command,app", [
     (command, app)
-    for command, app in get_commands().iteritems()
+    for command, app in iter(get_commands().items())
     if app.startswith('pootle_') or app in CORE_APPS_WITH_COMMANDS
 ])
 def test_initdb_help(capfd, command, app):

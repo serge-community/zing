@@ -77,7 +77,7 @@ class MultiStringWidget(forms.MultiWidget):
             return [string for string in value.strings]
         elif isinstance(value, list):
             return value
-        elif isinstance(value, basestring):
+        elif isinstance(value, str):
             return [value]
 
         raise ValueError
@@ -109,7 +109,7 @@ class UnitStateField(forms.BooleanField):
             states and for the 'False' string.
         """
         truthy_values = (str(s) for s in (UNTRANSLATED, FUZZY, TRANSLATED))
-        if (isinstance(value, basestring) and
+        if (isinstance(value, str) and
             (value.lower() == 'false' or value not in truthy_values)):
             value = False
         else:

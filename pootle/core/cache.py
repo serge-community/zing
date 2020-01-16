@@ -26,7 +26,7 @@ def make_method_key(model, method, key):
     """
     prefix = 'method-cache'
 
-    if isinstance(model, basestring):
+    if isinstance(model, str):
         name = model
     else:
         name = (model.__name__

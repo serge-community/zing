@@ -27,7 +27,7 @@ def list_empty(strings):
 
 def parse_multistring(db_string):
     """Parses a `db_string` coming from the DB into a multistring object."""
-    if not isinstance(db_string, basestring):
+    if not isinstance(db_string, str):
         raise ValueError('Parsing into a multistring requires a string input.')
 
     strings = db_string.split(SEPARATOR)

@@ -45,7 +45,7 @@ class JSONReporter(BaseReporter):
         return os.path.join(month_dir, 'report.json')
 
     def clean_config_value(self, value):
-        if not isinstance(value, basestring):
+        if not isinstance(value, str):
             return value
         return re.sub('\n\s+', '\n', value)
 

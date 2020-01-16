@@ -15,7 +15,7 @@ def flatten(elements):
     Source: http://stackoverflow.com/a/2158532/783019
     """
     for element in elements:
-        if isinstance(element, Iterable) and not isinstance(element, basestring):
+        if isinstance(element, Iterable) and not isinstance(element, str):
             for sub in flatten(element):
                 yield sub
         else:

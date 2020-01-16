@@ -205,7 +205,7 @@ def test_multistringwidget_decompress_strings(value):
 def test_multistringwidget_decompress_multistrings(value):
     """Tests unit's `MultiStringWidget` decompresses string values."""
     widget = MultiStringWidget()
-    expected_value = [value] if isinstance(value, basestring) else value
+    expected_value = [value] if isinstance(value, str) else value
     assert widget.decompress(multistring.multistring(value)) == expected_value
 
 

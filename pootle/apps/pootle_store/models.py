@@ -669,7 +669,7 @@ class Unit(models.Model, base.TranslationUnit):
         checker = self.store.translation_project.checker
         qc_failures = checker.run_filters(self, categorised=True)
         checks_to_add = []
-        for name in qc_failures.iterkeys():
+        for name in iter(qc_failures.keys()):
             if name in existing:
                 # keep false-positive checks if check is active
                 if (existing[name]['false_positive'] and

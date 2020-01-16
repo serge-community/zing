@@ -57,4 +57,4 @@ def url_trim(html):
         new_link_text = trim_url(el.text_content())
         el.text = new_link_text
 
-    return mark_safe(tostring(fragment, encoding=unicode))
+    return mark_safe(tostring(fragment, encoding='unicode'))

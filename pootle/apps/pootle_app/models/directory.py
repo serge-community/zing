@@ -221,7 +221,7 @@ class Directory(models.Model, CachedTreeItem):
         parents = []
         start = 1
 
-        for i in xrange(start, len(path_parts)):
+        for i in range(start, len(path_parts)):
             path = '/'.join(path_parts[:i]) + '/'
             parents.append(path)
 

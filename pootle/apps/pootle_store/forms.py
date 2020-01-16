@@ -67,7 +67,7 @@ class MultiStringWidget(forms.MultiWidget):
     """Custom Widget for editing multistrings."""
 
     def __init__(self, attrs=None, nplurals=1):
-        widgets = [forms.Textarea(attrs=attrs) for i_ in xrange(nplurals)]
+        widgets = [forms.Textarea(attrs=attrs) for i_ in range(nplurals)]
         super(MultiStringWidget, self).__init__(widgets, attrs)
 
     def decompress(self, value):

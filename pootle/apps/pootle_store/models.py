@@ -1253,7 +1253,7 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
 
     def findid_bulk(self, ids, unit_set=None):
         chunks = 200
-        for i in xrange(0, len(ids), chunks):
+        for i in range(0, len(ids), chunks):
             units = (unit_set or self.unit_set).filter(id__in=ids[i:i+chunks])
             for unit in units.iterator():
                 yield unit

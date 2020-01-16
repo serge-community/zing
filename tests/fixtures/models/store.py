@@ -442,7 +442,7 @@ def dummy_store_structure_syncer():
 
         def addunit(self, newunit):
             unit, unit_class = newunit
-            assert unit == self._units.next().unit
+            assert unit == next(self._units).unit
             assert unit_class == self.UnitClass
 
     class DummyStoreSyncer(StoreSyncer):
@@ -462,7 +462,7 @@ def dummy_store_structure_syncer():
 
         def obsolete_unit(self, unit, conservative):
             assert conservative == self.expected["conservative"]
-            assert unit == self._units.next()
+            assert unit == next(self._units)
             return self.expected["obsolete_delete"]
 
     return DummyStoreSyncer, DummyUnit

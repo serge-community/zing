@@ -9,6 +9,7 @@
 
 import json
 import operator
+from functools import reduce
 
 from django.core.exceptions import PermissionDenied
 from django.db.models import ProtectedError, Q

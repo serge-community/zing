@@ -22,7 +22,7 @@ def pytest_collection_modifyitems(items):
         if 'settings' not in item.fixturenames:
             continue
 
-        code = item.function.func_code
+        code = item.function.__code__
         if 'settings' not in code.co_varnames:
             # `settings` not being modified, skip
             continue

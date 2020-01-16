@@ -27,10 +27,6 @@ DEFAULT_SETTINGS_PATH = '~/.zing/zing.conf'
 #: Template that will be used to initialize settings from
 SETTINGS_TEMPLATE_FILENAME = 'settings/90-local.conf.template'
 
-# Python 2+3 support for input()
-if sys.version_info[0] < 3:
-    input = raw_input
-
 
 def add_help_to_parser(parser):
     parser.add_help = True

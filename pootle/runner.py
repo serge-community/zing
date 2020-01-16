@@ -175,7 +175,7 @@ def set_sync_mode(noinput=False):
                 exit(2)
 
     # Update settings to set queues to ASYNC = False.
-    for q in settings.RQ_QUEUES.itervalues():
+    for q in iter(settings.RQ_QUEUES.values()):
         q['ASYNC'] = False
 
 

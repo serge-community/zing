@@ -245,10 +245,10 @@ class StoreSyncer(object):
         self.store.save()
 
     def update_newer(self, last_revision):
+        last_sync_revision = self.store.last_sync_revision or -1
         return (
             not self.store.file.exists()
-            or (self.store.last_sync_revision is not None
-                and last_revision > self.store.last_sync_revision)
+            or last_revision > last_sync_revision
         )
 
     @cached_property
@@ -265,7 +265,7 @@ class StoreSyncer(object):
         if only_newer and not self.update_newer(last_revision):
             logging.info(
                 u"[sync] No updates for %s after [revision: %d]",
-                self.store.pootle_path, self.store.last_sync_revision)
+                self.store.pootle_path, self.store.last_sync_revision or -1)
             return
 
         if not self.store.file.exists():
@@ -338,10 +338,11 @@ class StoreSyncer(object):
 
     def get_modified_units(self, last_revision):
         from .models import Unit
+        last_sync_revision = self.store.last_sync_revision or -1
         return set(
             Unit.objects.filter(**self.get_revision_filters(last_revision))
                         .values_list('id', flat=True).distinct()
-            if last_revision > self.store.last_sync_revision
+            if last_revision > last_sync_revision
             else []
         )
 

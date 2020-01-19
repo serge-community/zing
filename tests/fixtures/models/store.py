@@ -80,11 +80,11 @@ DEFAULT_STORE_TEST_SETUP = [
 
 UPDATE_STORE_TESTS = OrderedDict()
 UPDATE_STORE_TESTS['min_empty'] = {
-    'store_revision': 0,
+    'store_revision': -1,
     'units_in_file': [],
 }
 UPDATE_STORE_TESTS['min_new_units'] = {
-    'store_revision': 0,
+    'store_revision': -1,
     'units_in_file': DEFAULT_STORE_UNITS_3,
 }
 

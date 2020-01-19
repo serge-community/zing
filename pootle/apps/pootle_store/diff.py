@@ -141,8 +141,7 @@ class DBStore(object):
         """
         return [
             uid for uid, unit in self.units.items()
-            if (since_revision is not None
-                and unit['revision'] > since_revision
+            if (unit['revision'] > since_revision
                 and unit['state'] != OBSOLETE)
         ]
 
@@ -158,7 +157,7 @@ class StoreDiff(object):
         self.target_store = target_store
         self.target_revision = self.target_store.get_max_unit_revision()
         self.source_store = source_store
-        self.source_revision = source_revision
+        self.source_revision = source_revision or -1
 
     @cached_property
     def source(self):
@@ -222,8 +221,7 @@ class StoreDiff(object):
     def new_unit_list(self):
         # If source_revision is gte than the target_revision then new unit list
         # will be exactly what is in the file
-        if (self.source_revision is not None and
-            self.source_revision >= self.target_revision):
+        if self.source_revision >= self.target_revision:
             return self.source.units.keys()
 
         # These units are kept as they have been updated since source_revision

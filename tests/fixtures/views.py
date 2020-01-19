@@ -8,7 +8,7 @@
 # AUTHORS file for copyright and authorship information.
 
 import functools
-import urllib
+import urllib.parse
 from collections import OrderedDict
 
 import pytest
@@ -179,7 +179,7 @@ def get_units_views(request, client, request_users):
     if user.username != "nobody":
         client.force_login(user)
 
-    url_params = urllib.urlencode(params, True)
+    url_params = urllib.parse.urlencode(params, True)
     response = client.get(
         "%s?%s"
         % (reverse("pootle-xhr-uids"),

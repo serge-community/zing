@@ -56,10 +56,10 @@ def make_search_form(*args, **kwargs):
 
         if sparams_cookie:
             import json
-            import urllib
+            import urllib.parse
 
             try:
-                initial_sparams = json.loads(urllib.unquote(sparams_cookie))
+                initial_sparams = json.loads(urllib.parse.unquote(sparams_cookie))
             except ValueError:
                 pass
             else:

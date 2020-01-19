@@ -8,7 +8,7 @@
 # AUTHORS file for copyright and authorship information.
 
 import re
-import urlparse
+import urllib.parse
 from collections import OrderedDict
 
 from django import forms
@@ -79,7 +79,7 @@ class BaseUserForm(forms.ModelForm):
         if url is None or url == '':
             return None
 
-        parsed = urlparse.urlparse(url)
+        parsed = urllib.parse.urlparse(url)
         if (not parsed.netloc.endswith('linkedin.com') or
             (not parsed.path.startswith('/in/') or len(parsed.path) < 5)):
             raise forms.ValidationError(

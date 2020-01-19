@@ -585,7 +585,7 @@ def ordered_po(test_fs, tp0):
         name="ordered.po",
         translation_project=tp0,
         parent=tp0.directory)
-    with test_fs.open("data/po/ordered.po") as src:
+    with test_fs.open("data/po/ordered.po", "rb") as src:
         store.update(store.deserialize(src.read()))
     return store
 
@@ -605,13 +605,13 @@ def numbered_po(test_fs, project0_disk):
         name="numbered.po",
         translation_project=tp,
         parent=tp.directory)
-    with test_fs.open("data/po/1234.po") as src:
+    with test_fs.open("data/po/1234.po", "rb") as src:
         store.update(store.deserialize(src.read()))
     return store
 
 
 @pytest.fixture
 def ordered_update_ttk(test_fs, store0):
-    with test_fs.open("data/po/ordered_updated.po") as src:
+    with test_fs.open("data/po/ordered_updated.po", "rb") as src:
         ttk = store0.deserialize(src.read())
     return ttk

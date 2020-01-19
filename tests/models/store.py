@@ -84,7 +84,7 @@ def test_update_with_non_ascii(store0, test_fs):
     store0.state = PARSED
     orig_units = store0.units.count()
     with test_fs.open(['data', 'po', 'tutorial', 'en',
-                       'tutorial_non_ascii.po']) as f:
+                       'tutorial_non_ascii.po'], 'rb') as f:
         store = getclass(f)(f.read())
     store0.update(store)
     assert store0.units[orig_units].target == "Hèḽḽě, ŵôrḽḓ"
@@ -160,10 +160,10 @@ def test_update_set_last_sync_revision(project0_disk, tp0, store0, test_fs):
     assert not store0.updater.update_from_disk()
     assert store0.last_sync_revision == saved_last_sync_revision
 
-    orig = str(store0)
+    orig = store0.serialize()
     update_file = test_fs.open(
         "data/po/tutorial/ru/update_set_last_sync_revision_updated.po",
-        "r")
+        "rb")
     with update_file as sourcef:
         with open(store0.file.path, "wb") as targetf:
             targetf.write(sourcef.read())
@@ -427,25 +427,26 @@ def test_store_repr():
 @pytest.mark.django_db
 def test_store_po_deserializer(test_fs, store_po):
 
-    with test_fs.open("data/po/complex.po") as test_file:
-        test_string = test_file.read()
-        ttk_po = getclass(test_file)(test_string)
+    with test_fs.open("data/po/complex.po", "rb") as test_file:
+        file_bytes = test_file.read()
+        ttk_po = getclass(test_file)(file_bytes)
 
-    store_po.update(store_po.deserialize(test_string))
-    assert len(ttk_po.units) - 1 == store_po.units.count()
+        store_po.update(store_po.deserialize(file_bytes))
+        assert len(ttk_po.units) - 1 == store_po.units.count()
 
 
 @pytest.mark.django_db
 def test_store_po_serializer(test_fs, store_po):
 
-    with test_fs.open("data/po/complex.po") as test_file:
-        test_string = test_file.read()
-        ttk_po = getclass(test_file)(test_string)
+    with test_fs.open("data/po/complex.po", "rb") as test_file:
+        file_bytes = test_file.read()
+        ttk_po = getclass(test_file)(file_bytes)
 
-    store_po.update(store_po.deserialize(test_string))
-    store_io = io.BytesIO(store_po.serialize())
-    store_ttk = getclass(store_io)(store_io.read())
-    assert len(store_ttk.units) == len(ttk_po.units)
+        store_po.update(store_po.deserialize(file_bytes))
+        store_bytes = store_po.serialize()
+        store_io = io.BytesIO(store_bytes)
+        store_ttk = getclass(store_io)(store_bytes)
+        assert len(store_ttk.units) == len(ttk_po.units)
 
 
 @pytest.mark.django_db

@@ -49,7 +49,7 @@ def test_tp_create_with_files(project0_directory, project0, store0, settings):
     tp_dir = os.path.join(trans_dir, "project0/%s" % language.code)
     os.makedirs(tp_dir)
 
-    with open(os.path.join(tp_dir, "store0.po"), "w") as f:
+    with open(os.path.join(tp_dir, "store0.po"), "wb") as f:
         f.write(store0.serialize())
 
     TranslationProject.objects.create(project=project0, language=language)

@@ -12,40 +12,36 @@ import re
 re._MAXCACHE = 1000
 
 
-remove = re.compile(u"[\.]+", re.U)  # dots
-delimiters = re.compile(u"[\W]+", re.U)  # anything except a-z, A-Z and _
-delimiters_begin = re.compile(u"^[\W]+",
-                              re.U)  # anything except a-z, A-Z and _
-delimiters_end = re.compile(u"[\W]+$", re.U)  # anything except a-z, A-Z and _
+remove = re.compile(u"[\.]+")  # dots
+delimiters = re.compile(u"[\W]+")  # anything except a-z, A-Z and _
+delimiters_begin = re.compile(u"^[\W]+")  # anything except a-z, A-Z and _
+delimiters_end = re.compile(u"[\W]+$")  # anything except a-z, A-Z and _
 
 english_date = re.compile(
     u"(^|\W)(January|February|March|April|May|June|July|August|September|"
-    u"October|November|December)\s+\d{1,2},\s+(?:\d{2})?\d{2}(\W|$)",
-    re.U
+    u"October|November|December)\s+\d{1,2},\s+(?:\d{2})?\d{2}(\W|$)"
 )
 
-escaped_xmltag_regex = re.compile(u'(&lt;\/?[\w]+.*?>)', re.U)
-xmltag_regex = re.compile(u'(<\/?[\w]+.*?>)', re.U)
-java_format_regex = re.compile(u'(\\\{\d+\\\}|\{\d+\})', re.U)
-template_format_regex = re.compile(u'(\$\{[\w\.\:]+\})', re.U)
-android_format_regex = re.compile(u'(%\d\$\w)', re.U)
-sprintf_regex = re.compile(u'(%[\d]*(?:.\d+)*(?:h|l|I|I32|I64)*[cdiouxefgns])',
-                           re.U)
-objective_c_regex = re.compile(u'(%@)', re.U)
-dollar_sign_regex = re.compile(u'(\$[\w\d]+?\$)', re.U)
-persent_sign_regex = re.compile(u'(\%[\w\d]+?\%)', re.U)
-newline_regex = re.compile(u'(\{\\\n\})', re.U)
-escaping_sqc_regex = re.compile(u'(\\\+[rnt])', re.U)
-xml_entities_regex = re.compile(u'(&#\d+;|&\w+;)', re.U)
+escaped_xmltag_regex = re.compile(u'(&lt;\/?[\w]+.*?>)')
+xmltag_regex = re.compile(u'(<\/?[\w]+.*?>)')
+java_format_regex = re.compile(u'(\\\{\d+\\\}|\{\d+\})')
+template_format_regex = re.compile(u'(\$\{[\w\.\:]+\})')
+android_format_regex = re.compile(u'(%\d\$\w)')
+sprintf_regex = re.compile(u'(%[\d]*(?:.\d+)*(?:h|l|I|I32|I64)*[cdiouxefgns])')
+objective_c_regex = re.compile(u'(%@)')
+dollar_sign_regex = re.compile(u'(\$[\w\d]+?\$)')
+persent_sign_regex = re.compile(u'(\%[\w\d]+?\%)')
+newline_regex = re.compile(u'(\{\\\n\})')
+escaping_sqc_regex = re.compile(u'(\\\+[rnt])')
+xml_entities_regex = re.compile(u'(&#\d+;|&\w+;)')
 product_names_regex = re.compile(
     u"(Evernote International|Evernote Food|Evernote Hello|Evernote Clearly|"
-    u"Evernote Business|Skitch|Evernote®?|Food|^Hello$|Clearly)",
-    re.U
+    u"Evernote Business|Skitch|Evernote®?|Food|^Hello$|Clearly)"
 )
-shortcuts_regex = re.compile(u'(Ctrl\+\w$|Shift\+\w$|Alt\+\w$)', re.U)
-shortcuts_modifier_regex = re.compile(u'(Ctrl\+$|Shift\+$|Alt\+$)', re.U)
+shortcuts_regex = re.compile(u'(Ctrl\+\w$|Shift\+\w$|Alt\+\w$)')
+shortcuts_modifier_regex = re.compile(u'(Ctrl\+$|Shift\+$|Alt\+$)')
 hanging_symbols_regex = \
-    re.compile(u'(^[^\w\&]\s|\s[^\w\&]\s|\s[^\w\&]$|^[^\w\&]$)', re.U)
+    re.compile(u'(^[^\w\&]\s|\s[^\w\&]\s|\s[^\w\&]$|^[^\w\&]$)')
 
 
 def find_placeholders(aref, regex, cls=''):

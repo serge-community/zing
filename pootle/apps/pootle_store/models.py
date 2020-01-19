@@ -1368,7 +1368,7 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
         return getobject(buffered_data)
 
     def serialize(self):
-        return str(self)
+        return bytes(self.syncer.convert())
 
     def sync(self, update_structure=False, conservative=True,
              user=None, skip_missing=False, only_newer=True):

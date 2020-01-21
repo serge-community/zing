@@ -9,6 +9,7 @@
 
 import locale
 from collections import OrderedDict
+from operator import itemgetter
 
 from django.core.cache import cache
 from django.db import models
@@ -65,10 +66,11 @@ class LiveLanguageManager(models.Manager):
         if languages is None:
             qs = self.get_all_queryset() if show_all else self.get_queryset()
             languages = OrderedDict(
-                sorted([(lang[0], tr_lang(lang[1]))
-                        for lang in qs.values_list('code', 'fullname')],
-                       cmp=locale.strcoll,
-                       key=lambda x: x[1])
+                sorted(
+                    [(locale.strxfrm(lang[0]), tr_lang(lang[1]))
+                     for lang in qs.values_list('code', 'fullname')],
+                    key=itemgetter(0)
+                )
             )
             cache.set(key, languages, CACHE_TIMEOUT)
 

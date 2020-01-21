@@ -222,7 +222,7 @@ class StoreDiff(object):
         # If source_revision is gte than the target_revision then new unit list
         # will be exactly what is in the file
         if self.source_revision >= self.target_revision:
-            return self.source.units.keys()
+            return list(self.source.units.keys())
 
         # These units are kept as they have been updated since source_revision
         # but do not appear in the file
@@ -231,7 +231,7 @@ class StoreDiff(object):
 
         # These units are either present in both or only in the file so are
         # kept in the file order
-        new_units += self.source.units.keys()
+        new_units += list(self.source.units.keys())
 
         return new_units
 

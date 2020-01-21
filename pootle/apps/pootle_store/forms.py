@@ -362,10 +362,10 @@ class UnitSearchForm(forms.Form):
     checks = forms.MultipleChoiceField(
         required=False,
         widget=CommaSeparatedCheckboxSelectMultiple,
-        choices=check_names.items())
+        choices=list(check_names.items()))
     category = CategoryChoiceField(
         required=False,
-        choices=CATEGORY_CODES.items())
+        choices=list(CATEGORY_CODES.items()))
     month = forms.DateField(
         required=False,
         input_formats=['%Y-%m'])

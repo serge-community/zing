@@ -18,25 +18,25 @@ from pootle_project.models import PROJECT_CHECKERS, RESERVED_PROJECT_CODES
 def test_clean_code_invalid(reserved_code):
     form_data = {
         'code': reserved_code,
-        'checkstyle': PROJECT_CHECKERS.keys()[0],
+        'checkstyle': list(PROJECT_CHECKERS.keys())[0],
         'fullname': 'Foo',
         'source_language': 1,
     }
     form = ProjectForm(form_data)
     assert not form.is_valid()
     assert 'code' in form.errors
-    assert len(form.errors.keys()) == 1
+    assert len(list(form.errors.keys())) == 1
 
 
 @pytest.mark.django_db
 def test_clean_code_blank_invalid():
     form_data = {
         'code': '  ',
-        'checkstyle': PROJECT_CHECKERS.keys()[0],
+        'checkstyle': list(PROJECT_CHECKERS.keys())[0],
         'fullname': 'Foo',
         'source_language': 1,
     }
     form = ProjectForm(form_data)
     assert not form.is_valid()
     assert 'code' in form.errors
-    assert len(form.errors.keys()) == 1
+    assert len(list(form.errors.keys())) == 1

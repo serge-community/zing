@@ -90,7 +90,7 @@ class QualityCheck(models.Model):
     @classmethod
     def delete_unknown_checks(cls):
         unknown_checks = QualityCheck.objects \
-            .exclude(name__in=check_names.keys())
+            .exclude(name__in=list(check_names.keys()))
         unknown_checks.delete()
 
 # # # # # # # # # Suggestion # # # # # # # #

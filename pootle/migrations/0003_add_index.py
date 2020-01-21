@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddIndex(
             model_name='duedate',
-            index=models.Index(fields=[b'due_on', b'pootle_path', b'modified_by'], name='pootle_dued_due_on_ee8c5e_idx'),
+            index=models.Index(fields=['due_on', 'pootle_path', 'modified_by'], name='pootle_dued_due_on_ee8c5e_idx'),
         ),
     ]

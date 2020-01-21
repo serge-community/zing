@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('code', models.CharField(db_index=True, help_text='A short code for the project. This should only contain ASCII characters, numbers, and the underscore (_) character.', max_length=255, unique=True, validators=[pootle_project.models.validate_not_reserved], verbose_name='Code')),
                 ('fullname', models.CharField(max_length=255, verbose_name='Full Name')),
-                ('checkstyle', models.CharField(choices=[(b'creativecommons', b'creativecommons'), (b'drupal', b'drupal'), (b'gnome', b'gnome'), (b'kde', b'kde'), (b'libreoffice', b'libreoffice'), (b'mozilla', b'mozilla'), (b'openoffice', b'openoffice'), (b'standard', b'standard'), (b'terminology', b'terminology'), (b'wx', b'wx')], default=b'standard', max_length=50, verbose_name='Quality Checks')),
+                ('checkstyle', models.CharField(choices=[('creativecommons', 'creativecommons'), ('drupal', 'drupal'), ('gnome', 'gnome'), ('kde', 'kde'), ('libreoffice', 'libreoffice'), ('mozilla', 'mozilla'), ('openoffice', 'openoffice'), ('standard', 'standard'), ('terminology', 'terminology'), ('wx', 'wx')], default='standard', max_length=50, verbose_name='Quality Checks')),
                 ('report_email', models.EmailField(blank=True, help_text='An email address where issues with the source text can be reported.', max_length=254, verbose_name='Errors Report Email')),
                 ('screenshot_search_prefix', models.URLField(blank=True, null=True, verbose_name='Screenshot Search Prefix')),
                 ('creation_time', models.DateTimeField(auto_now_add=True, db_index=True, null=True)),

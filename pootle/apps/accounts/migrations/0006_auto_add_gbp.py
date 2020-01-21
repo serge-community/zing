@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='user',
             name='currency',
-            field=models.CharField(blank=True, choices=[(b'USD', b'USD'), (b'EUR', b'EUR'), (b'CNY', b'CNY'), (b'JPY', b'JPY'), (b'GBP', b'GBP')], max_length=3, null=True, verbose_name='Currency'),
+            field=models.CharField(blank=True, choices=[('USD', 'USD'), ('EUR', 'EUR'), ('CNY', 'CNY'), ('JPY', 'JPY'), ('GBP', 'GBP')], max_length=3, null=True, verbose_name='Currency'),
         ),
     ]

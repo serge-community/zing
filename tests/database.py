@@ -14,4 +14,4 @@ def test_backend_db():
     from django.db import connection, connections
 
     if connection.vendor == "sqlite":
-        assert connections.databases["default"]["NAME"] == ":memory:"
+        assert "file:memorydb" in connections.databases["default"]["NAME"]

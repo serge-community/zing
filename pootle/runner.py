@@ -86,10 +86,10 @@ def init_settings(settings_filepath, template_filename,
         "db_port": db_port,
     }
 
-    with open(settings_filepath, 'w') as settings:
-        with open(template_filename) as template:
+    with open(settings_filepath, 'w', encoding='utf-8') as settings:
+        with open(template_filename, encoding='utf-8') as template:
             settings.write(
-                (template.read().decode("utf8") % context).encode("utf8"))
+                (template.read() % context))
 
 
 def init_command(parser, settings_template, args):

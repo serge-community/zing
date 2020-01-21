@@ -48,7 +48,7 @@ class PDFGenerator(object):
     def is_configured():
         phantomjs_bin = getattr(settings, 'ZING_INVOICES_PHANTOMJS_BIN', None)
         if phantomjs_bin is None or not os.path.exists(phantomjs_bin):
-            logger.warn(
+            logger.warning(
                 'NOTICE: settings.ZING_INVOICES_PHANTOMJS_BIN '
                 'not defined or nothing found in the specified path. '
                 'PDFs will not be generated.'

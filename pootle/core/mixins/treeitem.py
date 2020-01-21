@@ -58,7 +58,7 @@ class CachedMethods(object):
     @classmethod
     def get_all(cls):
         return [getattr(cls, x) for x in
-                filter(lambda x: x[:2] != '__' and x != 'get_all', dir(cls))]
+                [x for x in dir(cls) if x[:2] != '__' and x != 'get_all']]
 
 
 class TreeItem(object):

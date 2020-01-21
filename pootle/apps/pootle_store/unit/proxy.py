@@ -32,7 +32,7 @@ class UnitProxy(object):
     def getlocations(self):
         if self.locations is None:
             return []
-        return filter(None, self.locations.split('\n'))
+        return [_f for _f in self.locations.split('\n') if _f]
 
     def hasplural(self):
         return (

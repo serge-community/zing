@@ -32,7 +32,7 @@ def get_pootle_permission(codename):
 
 def get_permissions_by_username(username, directory):
     pootle_path = directory.pootle_path
-    path_parts = filter(None, pootle_path.split('/'))
+    path_parts = [_f for _f in pootle_path.split('/') if _f]
     key = iri_to_uri('Permissions:%s' % username)
     permissions_cache = cache.get(key, {})
 
@@ -45,8 +45,12 @@ def get_permissions_by_username(username, directory):
             permissionset = None
 
         if (len(path_parts) > 1 and path_parts[0] != 'projects' and
-            (permissionset is None or
-            len(filter(None, permissionset.directory.pootle_path.split('/'))) < 2)):
+                (permissionset is None or
+                    len([
+                        _f
+                        for _f in permissionset.directory.pootle_path.split('/')
+                        if _f
+                    ]) < 2)):
             # Active permission at language level or higher, check project
             # level permission
             try:

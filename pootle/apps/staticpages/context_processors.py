@@ -23,7 +23,7 @@ NOCHECK_PREFIXES = (
 def agreement(request):
     """Returns whether the agreement box should be displayed or not."""
     request_path = request.META['PATH_INFO']
-    nocheck = filter(lambda x: request_path.startswith(x), NOCHECK_PREFIXES)
+    nocheck = [x for x in NOCHECK_PREFIXES if request_path.startswith(x)]
 
     display_agreement = False
     if (request.user.is_authenticated and not nocheck and

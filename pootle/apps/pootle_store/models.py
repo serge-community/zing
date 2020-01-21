@@ -350,7 +350,7 @@ class Unit(models.Model, base.TranslationUnit):
             self.target_wordcount = count_words(self.target_f.strings)
             self.target_length = len(self.target_f)
             self.store.mark_dirty(CachedMethods.LAST_ACTION)
-            if filter(None, self.target_f.strings):
+            if [_f for _f in self.target_f.strings if _f]:
                 if self.state == UNTRANSLATED:
                     self.state = TRANSLATED
                     self.store.mark_dirty(CachedMethods.WORDCOUNT_STATS)
@@ -564,10 +564,10 @@ class Unit(models.Model, base.TranslationUnit):
 
         if (self.target != unit.target or
             len(self.target.strings) != stringcount(unit.target)):
-            notempty = filter(None, self.target_f.strings)
+            notempty = [_f for _f in self.target_f.strings if _f]
             self.target = unit.target
 
-            if filter(None, self.target_f.strings) or notempty:
+            if [_f for _f in self.target_f.strings if _f] or notempty:
                 # FIXME: we need to do this cause we discard nplurals for empty
                 # plurals
                 changed = True
@@ -631,7 +631,7 @@ class Unit(models.Model, base.TranslationUnit):
             self.source_wordcount = 1
 
             if (auto_translate
-                and not bool(filter(None, self.target_f.strings))):
+                and not bool([_f for _f in self.target_f.strings if _f])):
                 # auto-translate untranslated strings
                 self.target = self.source
                 self.state = FUZZY
@@ -804,7 +804,7 @@ class Unit(models.Model, base.TranslationUnit):
     def getlocations(self):
         if self.locations is None:
             return []
-        return filter(None, self.locations.split('\n'))
+        return [_f for _f in self.locations.split('\n') if _f]
 
     def addlocation(self, location):
         if self.locations is None:
@@ -838,7 +838,7 @@ class Unit(models.Model, base.TranslationUnit):
         if value:
             self.state = FUZZY
         elif self.state <= FUZZY:
-            if filter(None, self.target_f.strings):
+            if [_f for _f in self.target_f.strings if _f]:
                 self.state = TRANSLATED
             else:
                 self.state = UNTRANSLATED
@@ -875,7 +875,7 @@ class Unit(models.Model, base.TranslationUnit):
         if self.state > OBSOLETE:
             return False
 
-        if filter(None, self.target_f.strings):
+        if [_f for _f in self.target_f.strings if _f]:
             # when Unit toggles its OBSOLETE state the number of translated
             # words or fuzzy words also changes
             if is_fuzzy:
@@ -893,7 +893,7 @@ class Unit(models.Model, base.TranslationUnit):
 
     def istranslated(self):
         if self._target_updated and not self.isfuzzy():
-            return bool(filter(None, self.target_f.strings))
+            return bool([_f for _f in self.target_f.strings if _f])
         return self.state >= TRANSLATED
 
 # # # # # # # # # # # Suggestions # # # # # # # # # # # # # # # # #
@@ -916,7 +916,7 @@ class Unit(models.Model, base.TranslationUnit):
             boolean indicating if the suggestion was successfully added.
             If the suggestion already exists it's returned as well.
         """
-        if not filter(None, translation):
+        if not [_f for _f in translation if _f]:
             return (None, False)
 
         if translation == self.target:

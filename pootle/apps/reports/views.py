@@ -124,10 +124,9 @@ def reports(request):
 
     ctx = {
         'page': 'admin-reports',
-        'users': map(
-            lambda x: {'id': x.username, 'text': x.formatted_name},
-            User.objects.hide_meta()
-        ),
+        'users': [{
+            'id': x.username, 'text': x.formatted_name
+        } for x in User.objects.hide_meta()],
         'user_rates_form': UserRatesForm(),
         'paid_task_form': PaidTaskForm(),
         'now': now.strftime('%Y-%m-%d %H:%M:%S'),

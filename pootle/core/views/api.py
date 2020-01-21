@@ -76,8 +76,8 @@ class APIView(View):
         methods = [m for m in self.http_method_names if hasattr(self, m)]
 
         if self.restrict_to_methods is not None:
-            restricted_to = map(lambda x: x.lower(), self.restrict_to_methods)
-            methods = filter(lambda x: x in restricted_to, methods)
+            restricted_to = [x.lower() for x in self.restrict_to_methods]
+            methods = [x for x in methods if x in restricted_to]
 
         return methods
 

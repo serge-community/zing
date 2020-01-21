@@ -107,9 +107,9 @@ class Command(BaseCommand):
                 'Please read the docs at %s to learn more about how to '
                 'use this feature.' % (get_docs_url('features/invoices.html'),)
             )
-        users = settings.ZING_INVOICES_RECIPIENTS.items()
+        users = list(settings.ZING_INVOICES_RECIPIENTS.items())
         if options['user_list']:
-            users = filter(lambda x: x[0] in options['user_list'], users)
+            users = [x for x in users if x[0] in options['user_list']]
 
         # Abort if a user defined in the configuration does not exist or its
         # configuration is missing required fields

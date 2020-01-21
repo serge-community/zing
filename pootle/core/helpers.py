@@ -27,8 +27,9 @@ def get_filter_name(GET):
         if filter.startswith('user-'):
             extra = [GET.get('user', _('User missing'))]
         elif filter == 'checks' and 'checks' in GET:
-            extra = map(lambda check: check_names.get(check, check),
-                        GET['checks'].split(','))
+            extra = [
+                check_names.get(check, check) for check in GET['checks'].split(',')
+            ]
     elif 'search' in GET:
         filter = 'search'
 

@@ -24,7 +24,7 @@ IMAGE_URL_RE = re.compile("(https?://[^\s]+\.(png|jpe?g|gif))", re.IGNORECASE)
 @register.filter
 def image_urls(text):
     """Return a list of image URLs extracted from `text`."""
-    return map(lambda x: x[0], IMAGE_URL_RE.findall(text))
+    return [x[0] for x in IMAGE_URL_RE.findall(text)]
 
 
 @register.filter('pluralize_source')

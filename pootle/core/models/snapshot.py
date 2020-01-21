@@ -157,10 +157,10 @@ class SnapshotStack(object):
     @property
     def ctx_name(self):
         # Disallow leading forward slashes
-        stack_items = filter(None, [
+        stack_items = [_f for _f in [
             item.replace('/', '', 1) if item.startswith('/') else item
             for item in flatten(self.stack)
-        ])
+        ] if _f]
         return ''.join([
             '%s%s' % (
                 '' if i == 0 or i != 0 and stack_items[i-1].endswith('/') else '.',

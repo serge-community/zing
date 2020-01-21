@@ -87,14 +87,15 @@ class MathCaptchaForm(forms.Form):
         return ("%s+%s" % (a, b), a+b)
 
     def _make_token(self, q, a, expires):
-        data = base64.urlsafe_b64encode(jsonify({'q': q, 'expires': expires}))
-        return self._sign(q, a, expires) + data
+        to_encode = jsonify({'q': q, 'expires': expires}).encode('utf-8')
+        data = base64.urlsafe_b64encode(to_encode)
+        return self._sign(q, a, expires) + data.decode('utf-8')
 
     def _sign(self, q, a, expires):
         plain = [getattr(settings, 'SITE_URL', ''), settings.SECRET_KEY,
                  q, a, expires]
         plain = "".join([str(p) for p in plain])
-        return sha1(plain).hexdigest()
+        return sha1(plain.encode('utf-8')).hexdigest()
 
     @property
     def plain_question(self):
@@ -120,7 +121,8 @@ class MathCaptchaForm(forms.Form):
     def _parse_token(self, t):
         try:
             sign, data = t[:40], t[40:]
-            data = json.loads(base64.urlsafe_b64decode(str(data)))
+            str_data = base64.urlsafe_b64decode(str(data)).decode('utf-8')
+            data = json.loads(str_data)
             return {'q': data['q'],
                     'expires': float(data['expires']),
                     'sign': sign}

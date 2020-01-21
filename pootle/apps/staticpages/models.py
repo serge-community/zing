@@ -73,7 +73,7 @@ class AbstractPage(models.Model):
         """Returns the sum of all the highest PKs for each submodel."""
         return reduce(
             lambda x, y: x + y,
-            [int(p.objects.aggregate(Max('pk')).values()[0] or 0)
+            [int(list(p.objects.aggregate(Max('pk')).values())[0] or 0)
              for p in AbstractPage.__subclasses__()],
         )
 

@@ -671,7 +671,7 @@ def create_update_cache_job(queue, instance, keys, decrement=1):
         while True:
             try:
                 pipe.watch(last_job_key)
-                last_job_id = queue.connection.get(last_job_key)
+                last_job_id = str(queue.connection.get(last_job_key))
                 depends_on_wrapper = None
                 if last_job_id is not None:
                     pipe.watch(Job.key_for(last_job_id),

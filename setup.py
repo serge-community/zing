@@ -254,7 +254,7 @@ setup(
         "Operating System :: Microsoft :: Windows",
         "Operating System :: Unix",
         "Programming Language :: JavaScript",
-        "Programming Language :: Python",
+        "Programming Language :: Python :: 3 :: Only",
         "Topic :: Software Development :: Localization",
         "Topic :: Text Processing :: Linguistic"
     ],

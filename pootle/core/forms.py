@@ -41,7 +41,7 @@ class MathCaptchaForm(forms.Form):
     http://www.mysoftparade.com/blog/improved-mathematical-captcha/
     """
 
-    A_RE = re.compile("^(\d+)$")
+    A_RE = re.compile(r"^(\d+)$")
 
     captcha_answer = forms.CharField(
         max_length=2, required=True,

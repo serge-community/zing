@@ -125,58 +125,58 @@ excluded_filters = ['hassuggestion', 'spellcheck', 'isfuzzy',
 
 # pre-compile all regexps
 
-fmt = u"\{\d+(?:,(?:number|date|time|choice))\}"
-fmt_esc = u"\\\{\d+\\\}"
+fmt = r"{\d+(?:,(?:number|date|time|choice))}"
+fmt_esc = r"\\{\d+\\}"
 java_format_regex = re.compile(u"(%s|%s)" % (fmt, fmt_esc))
 
-fmt = u"\$\{[a-zA-Z_\d\.\:]+\}"
+fmt = r"\${[a-zA-Z_\d\.\:]+}"
 template_format_regex = re.compile(u"(%s)" % fmt)
 
-fmt = u"%\d+\$[a-z]+"
+fmt = r"%\d+\$[a-z]+"
 android_format_regex = re.compile(u"(%s)" % fmt)
 
-fmt = u"%@|%\d+\$@"
+fmt = r"%@|%\d+\$@"
 objective_c_format_regex = re.compile(u"(%s)" % fmt)
 
-fmt = u"\\\\u[a-fA-F0-9]{4}"
+fmt = r"\\\\u[a-fA-F0-9]{4}"
 javaencoded_unicode_regex = re.compile(u"(%s)" % fmt)
 
-fmt = u"\$[a-zA-Z_\d]+?(?![\$\%])"
+fmt = r"\$[a-zA-Z_\d]+?(?![$%])"
 dollar_sign_placeholders_regex = re.compile(u"(%s)" % fmt)
 
-fmt = u"\$[a-zA-Z_\d]+?\$"
+fmt = r"\$[a-zA-Z_\d]+?\$"
 dollar_sign_closure_placeholders_regex = re.compile(u"(%s)" % fmt)
 
-fmt = u"\%\%[a-zA-Z_\d]+?\%\%"
+fmt = r"%%[a-zA-Z_\d]+?%%"
 percent_sign_closure_placeholders_regex = re.compile(u"(%s)" % fmt)
 
-fmt = u"\%[a-zA-Z_]+?(?![\$\%])"
+fmt = r"%[a-zA-Z_]+?(?![$%])"
 percent_sign_placeholders_regex = re.compile(u"(%s)" % fmt)
 
-fmt = u"[A-Z_][A-Z0-9]*_[A-Z0-9_]*(?![a-z])"
+fmt = r"[A-Z_][A-Z0-9]*_[A-Z0-9_]*(?![a-z])"
 uppercase_placeholders_regex = re.compile(u"(%s)" % fmt)
 
-fmt4 = u"\{{1}\d+,[^\}]+\}{1}"
-fmt3 = u"\{{3}\S+?\}{3}"
-fmt2 = u"\{{2}\S+?\}{2}"
-fmt1 = u"\{{1}\S+?\}{1}"
+fmt4 = r"{{1}\d+,[^}]+}{1}"
+fmt3 = r"{{3}\S+?}{3}"
+fmt2 = r"{{2}\S+?}{2}"
+fmt1 = r"{{1}\S+?}{1}"
 
 mustache_placeholders_regex = re.compile(
     u"(%s|%s|%s|%s)" % (fmt4, fmt3, fmt2, fmt1))
 
 mustache_placeholder_pairs_open_tag_regex = re.compile(
-    u"\{{2}[#\^][^\}]+\}{2}")
-fmt = u"\{{2}[#\^\/][^\}]+\}{2}"
+    r"{{2}[#^][^}]+}{2}")
+fmt = r"{{2}[#^/][^}]+}{2}"
 mustache_placeholder_pairs_regex = re.compile(u"(%s)" % fmt)
 
-fmt = u"\{{2}[\/]?[^\}]+\}{2}"
+fmt = r"{{2}/?[^}]+}{2}"
 mustache_like_placeholder_pairs_regex = re.compile(u"(%s)" % fmt)
 
 # date_format
-df_blocks = u"|".join(
-    map(lambda x: '%s+' % x, 'GyYMwWDdFEuaHkKhmsSzZX')) + u"|\'[\w]+\'"
-df_glued_blocks = u"X+|Z+|\'[\w]*\'"
-df_delimiter = u"[^\w']+|\'[\w]*\'"
+df_blocks = "|".join(
+    map(lambda x: '%s+' % x, 'GyYMwWDdFEuaHkKhmsSzZX')) + r"|'[\w]+'"
+df_glued_blocks = r"X+|Z+|'[\w]*'"
+df_delimiter = r"[^\w']+|'[\w]*'"
 date_format_regex = re.compile(
     u"^(%(blocks)s)(%(glued_blocks)s)?((%(delimiter)s)+(%(blocks)s))*$" % {
         'blocks': df_blocks,
@@ -185,63 +185,63 @@ date_format_regex = re.compile(
     })
 date_format_exception_regex = re.compile(u"^(M|S|W|F)$", re.I)
 
-fmt = u"^\s+|\s+$"
+fmt = r"^\s+|\s+$"
 whitespace_regex = re.compile(u"(%s)" % fmt)
 
-fmt = u"&#\d+;|&[a-zA-Z]+;|&#x[0-9a-fA-F]+;"
+fmt = r"&#\d+;|&[a-zA-Z]+;|&#x[0-9a-fA-F]+;"
 escaped_entities_regex = re.compile(u"(%s)" % fmt)
 broken_ampersand_regex = re.compile(u"(&[^#a-zA-Z]+)")
 
-img_banner_regex = re.compile(u'^\<img src="\/images\/account\/bnr_')
+img_banner_regex = re.compile(r'^<img src="/images/account/bnr_')
 
-fmt1 = u"\b(?!alt|placeholder|title)[a-zA-Z_\d]+\s*=\s*'(?:.*?)'"
-fmt2 = u'\b(?!alt|placeholder|title)[a-zA-Z_\d]+\s*=\s*"(?:.*?)"'
+fmt1 = r"\b(?!alt|placeholder|title)[a-zA-Z_\d]+\s*=\s*'(?:.*?)'"
+fmt2 = r'\b(?!alt|placeholder|title)[a-zA-Z_\d]+\s*=\s*"(?:.*?)"'
 changed_attributes_regex = re.compile(u"(%s|%s)" % (fmt2, fmt1))
 
-fmt = u"%[\d]*(?:.\d+)*(?:h|l|I|I32|I64)*[cdiouxefgns]"
+fmt = r"%[\d]*(?:.\d+)*(?:h|l|I|I32|I64)*[cdiouxefgns]"
 c_format_regex = re.compile(u"(%s)" % fmt)
 
-fmt = u"[\000-\011\013-\037]"
+fmt = r"[\000-\011\013-\037]"
 non_printable_regex = re.compile(u"(%s)" % fmt)
 
-fmt = u"[\<\>]"
+fmt = r"[<>]"
 unbalanced_tag_braces_regex = re.compile(u"(%s)" % fmt)
 
-fmt = u"[\{\}]"
+fmt = r"[{}]"
 unbalanced_curly_braces_regex = re.compile(u"(%s)" % fmt)
 
 fmt = u'^<(Sync Required|None|no attributes|no tags|' + \
     u'no saved|searches|notebook|not available)>$'
 no_tags_regex = re.compile(fmt)
 
-fmt = u"<\/?[a-zA-Z_]+.*?>"
-cdata_fmt = u'<!\[CDATA\[(?:[^]]|\](?!\]>))*\]\]>'
+fmt = r"</?[a-zA-Z_]+.*?>"
+cdata_fmt = r'<!\[CDATA\[(?:[^]]|\](?!\]>))*\]\]>'
 tags_differ_regex_0 = re.compile(u"(%s|%s)" % (fmt, cdata_fmt))
-tags_differ_regex_1 = re.compile(u"<(\/?[a-zA-Z_]+).*?>")
+tags_differ_regex_1 = re.compile(r"<(/?[a-zA-Z_]+).*?>")
 
-accelerators_regex_0 = re.compile(u"&(\w+);")
-fmt = u"[&_\^]"
-accelerators_regex_1 = re.compile(u"(%s)(?=\w)" % fmt)
+accelerators_regex_0 = re.compile(r"&(\w+);")
+fmt = r"[&_^]"
+accelerators_regex_1 = re.compile(r"(%s)(?=\w)" % fmt)
 
-fmt = u"&#?[0-9a-zA-Z]+;?"
+fmt = r"&#?[0-9a-zA-Z]+;?"
 broken_entities_regex_0 = re.compile(u"(%s)" % fmt)
 entities = [
     'amp', 'deg', 'frac14', 'frac12', 'frac34', 'lt', 'gt', 'nbsp', 'mdash',
     'ndash', 'hellip', 'laquo', 'raquo', 'ldquo', 'rdquo', 'lsquo', 'rsquo',
     'larr', 'rarr'
 ]
-broken_entities_regex_1 = re.compile(u"^&(%s)$" % '|'.join(entities))
-broken_entities_regex_2 = re.compile(u"^&#x?[0-9a-fA-F]+$")
-broken_entities_regex_3 = re.compile(u"&\d+;")
-broken_entities_regex_4 = re.compile(u"&x[0-9a-fA-F]+;")
-broken_entities_regex_5 = re.compile(u"&#([^x\d])([0-9a-fA-F]+);")
-broken_entities_regex_6 = re.compile(u"&#(\d+);")
-broken_entities_regex_7 = re.compile(u"&#x([a-zA-Z_]+);")
+broken_entities_regex_1 = re.compile(r"^&(%s)$" % '|'.join(entities))
+broken_entities_regex_2 = re.compile(r"^&#x?[0-9a-fA-F]+$")
+broken_entities_regex_3 = re.compile(r"&\d+;")
+broken_entities_regex_4 = re.compile(r"&x[0-9a-fA-F]+;")
+broken_entities_regex_5 = re.compile(r"&#([^x\d])([0-9a-fA-F]+);")
+broken_entities_regex_6 = re.compile(r"&#(\d+);")
+broken_entities_regex_7 = re.compile(r"&#x([a-zA-Z_]+);")
 
 fmt = u"[$%_@]"
 potential_placeholders_regex = re.compile(u"(%s)" % fmt)
 
-fmt = u"\%\{{1}[^\}]+\}{1}"
+fmt = r"%{{1}[^}]+}{1}"
 percent_brace_placeholders_regex = re.compile(u"(%s)" % fmt)
 
 plurr_format_regex = re.compile(u'{[^{}]*:.*?}')
@@ -758,7 +758,7 @@ class ENChecker(checks.UnitChecker):
             underscore_count = 0
             circumflex_count = 0
 
-            regex = re.compile(u"\001(\w+)\001")
+            regex = re.compile(r"\001(\w+)\001")
             for chunk in chunks:
                 translate = not translate
                 if translate:
@@ -830,7 +830,7 @@ class ENChecker(checks.UnitChecker):
                 # something else) for a hexadecimal entity
                 mo = broken_entities_regex_5.match(chunk)
                 if mo:
-                    regex = re.compile(u"\D")
+                    regex = re.compile(r"\D")
                     if regex.match(mo.group(1)) or regex.match(mo.group(2)):
                         fingerprint += 1
 

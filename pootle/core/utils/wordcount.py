@@ -12,36 +12,36 @@ import re
 re._MAXCACHE = 1000
 
 
-remove = re.compile(u"[\.]+")  # dots
-delimiters = re.compile(u"[\W]+")  # anything except a-z, A-Z and _
-delimiters_begin = re.compile(u"^[\W]+")  # anything except a-z, A-Z and _
-delimiters_end = re.compile(u"[\W]+$")  # anything except a-z, A-Z and _
+remove = re.compile(r"[.]+")  # dots
+delimiters = re.compile(r"[\W]+")  # anything except a-z, A-Z and _
+delimiters_begin = re.compile(r"^[\W]+")  # anything except a-z, A-Z and _
+delimiters_end = re.compile(r"[\W]+$")  # anything except a-z, A-Z and _
 
 english_date = re.compile(
-    u"(^|\W)(January|February|March|April|May|June|July|August|September|"
-    u"October|November|December)\s+\d{1,2},\s+(?:\d{2})?\d{2}(\W|$)"
+    r"(^|\W)(January|February|March|April|May|June|July|August|September|"
+    r"October|November|December)\s+\d{1,2},\s+(?:\d{2})?\d{2}(\W|$)"
 )
 
-escaped_xmltag_regex = re.compile(u'(&lt;\/?[\w]+.*?>)')
-xmltag_regex = re.compile(u'(<\/?[\w]+.*?>)')
-java_format_regex = re.compile(u'(\\\{\d+\\\}|\{\d+\})')
-template_format_regex = re.compile(u'(\$\{[\w\.\:]+\})')
-android_format_regex = re.compile(u'(%\d\$\w)')
-sprintf_regex = re.compile(u'(%[\d]*(?:.\d+)*(?:h|l|I|I32|I64)*[cdiouxefgns])')
-objective_c_regex = re.compile(u'(%@)')
-dollar_sign_regex = re.compile(u'(\$[\w\d]+?\$)')
-persent_sign_regex = re.compile(u'(\%[\w\d]+?\%)')
-newline_regex = re.compile(u'(\{\\\n\})')
-escaping_sqc_regex = re.compile(u'(\\\+[rnt])')
-xml_entities_regex = re.compile(u'(&#\d+;|&\w+;)')
+escaped_xmltag_regex = re.compile(r'(&lt;/?[\w]+.*?>)')
+xmltag_regex = re.compile(r'(</?[\w]+.*?>)')
+java_format_regex = re.compile(r'(\\{\d+\\}|{\d+})')
+template_format_regex = re.compile(r'(\${[\w.:]+})')
+android_format_regex = re.compile(r'(%\d\$\w)')
+sprintf_regex = re.compile(r'(%[\d]*(?:.\d+)*(?:h|l|I|I32|I64)*[cdiouxefgns])')
+objective_c_regex = re.compile(r'(%@)')
+dollar_sign_regex = re.compile(r'(\$[\w\d]+?\$)')
+persent_sign_regex = re.compile(r'(%[\w\d]+?%)')
+newline_regex = re.compile(r'({\\\n})')
+# escaping_sqc_regex = re.compile(u'(\\\+[rnt])')
+escaping_sqc_regex = re.compile(r'(\\\+[rnt])')
+xml_entities_regex = re.compile(r'(&#\d+;|&\w+;)')
 product_names_regex = re.compile(
     u"(Evernote International|Evernote Food|Evernote Hello|Evernote Clearly|"
     u"Evernote Business|Skitch|Evernote®?|Food|^Hello$|Clearly)"
 )
-shortcuts_regex = re.compile(u'(Ctrl\+\w$|Shift\+\w$|Alt\+\w$)')
-shortcuts_modifier_regex = re.compile(u'(Ctrl\+$|Shift\+$|Alt\+$)')
-hanging_symbols_regex = \
-    re.compile(u'(^[^\w\&]\s|\s[^\w\&]\s|\s[^\w\&]$|^[^\w\&]$)')
+shortcuts_regex = re.compile(r'(Ctrl\+\w$|Shift\+\w$|Alt\+\w$)')
+shortcuts_modifier_regex = re.compile(r'(Ctrl\+$|Shift\+$|Alt\+$)')
+hanging_symbols_regex = re.compile(r'(^[^\w&]\s|\s[^\w&]\s|\s[^\w&]$|^[^\w&]$)')
 
 
 def find_placeholders(aref, regex, cls=''):
@@ -126,7 +126,7 @@ def _count_words(aref):
             s = chunk['string']
             # Replace the date with just the month name (i.e. count as a single
             # word)
-            s = english_date.sub(u'\g<1>\g<2>\g<3>', s)
+            s = english_date.sub(r'\g<1>\g<2>\g<3>', s)
 
             s = remove.sub(u'', s)
             s = delimiters_begin.sub(u'', s)

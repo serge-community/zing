@@ -47,7 +47,7 @@ class JSONReporter(BaseReporter):
     def clean_config_value(self, value):
         if not isinstance(value, str):
             return value
-        return re.sub('\n\s+', '\n', value)
+        return re.sub(r'\n\s+', r'\n', value)
 
     def get_invoice_data(self, invoice):
         """Gets individual invoice data."""

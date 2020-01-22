@@ -18,7 +18,7 @@ from pootle.core.utils.templates import get_template_source
 register = template.Library()
 
 
-IMAGE_URL_RE = re.compile("(https?://[^\s]+\.(png|jpe?g|gif))", re.IGNORECASE)
+IMAGE_URL_RE = re.compile(r"(https?://[^\s]+.(png|jpe?g|gif))", re.IGNORECASE)
 
 
 @register.filter

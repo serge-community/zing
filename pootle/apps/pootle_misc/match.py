@@ -11,7 +11,7 @@ import re
 from translate.search import match, terminology
 
 
-delimiters = re.compile(u"[\W]+")
+delimiters = re.compile(r"[\W]+")
 
 
 class Matcher(match.terminologymatcher):

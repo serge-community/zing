@@ -110,8 +110,6 @@ class BaseSubmissionManager(models.Manager):
 
 class SubmissionManager(BaseSubmissionManager):
 
-    use_for_related_fields = True
-
     def get_unit_comments(self):
         """Submissions that change a `Unit`'s comment.
 
@@ -165,6 +163,7 @@ class Submission(models.Model):
         ordering = ["creation_time", "pk"]
         get_latest_by = "creation_time"
         db_table = 'pootle_app_submission'
+        base_manager_name = 'objects'
 
     objects = SubmissionManager()
     simple_objects = BaseSubmissionManager()

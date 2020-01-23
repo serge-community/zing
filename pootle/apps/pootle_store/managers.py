@@ -96,7 +96,6 @@ class UnitManager(models.Manager):
 
 
 class StoreManager(models.Manager):
-    use_for_related_fields = True
 
     def live(self):
         """Filters non-obsolete stores."""

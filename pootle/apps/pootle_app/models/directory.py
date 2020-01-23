@@ -18,7 +18,6 @@ from pootle.core.url_helpers import (get_editor_filter, split_pootle_path,
 
 
 class DirectoryManager(models.Manager):
-    use_for_related_fields = True
 
     def live(self):
         """Filters non-obsolete directories."""
@@ -62,6 +61,7 @@ class Directory(models.Model, CachedTreeItem):
         ordering = ['name']
         default_permissions = ()
         app_label = "pootle_app"
+        base_manager_name = 'objects'
 
     # # # # # # # # # # # # # #  Properties # # # # # # # # # # # # # # # # # #
 

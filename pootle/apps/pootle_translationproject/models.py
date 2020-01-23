@@ -87,8 +87,6 @@ def scan_translation_projects(languages=None, projects=None):
 
 
 class TranslationProjectManager(models.Manager):
-    # disabled objects are hidden for related objects too
-    use_for_related_fields = True
 
     def get_terminology_project(self, language_id):
         # FIXME: the code below currently uses the same approach to determine
@@ -174,6 +172,7 @@ class TranslationProject(models.Model, CachedTreeItem):
     class Meta(object):
         unique_together = ('language', 'project')
         db_table = 'pootle_app_translationproject'
+        base_manager_name = 'objects'
 
     @cached_property
     def code(self):

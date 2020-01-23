@@ -104,6 +104,6 @@ def do_include_raw(parser, token):
             template_name[-1] == template_name[0]):
         template_name = template_name[1:-1]
 
-    source, __ = get_template_source(template_name)
+    source = get_template_source(template_name)
 
     return template.base.TextNode(source)

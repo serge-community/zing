@@ -6,8 +6,10 @@
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
+from django.core.exceptions import SuspiciousFileOperation
 from django.template import TemplateDoesNotExist
 from django.template.engine import Engine
+from django.utils._os import safe_join
 
 
 def get_template_source(name, dirs=None):
@@ -26,9 +28,18 @@ def get_template_source(name, dirs=None):
             loaders.append(loader)
 
     for loader in loaders:
-        try:
-            return loader.load_template_source(name, template_dirs=dirs)
-        except TemplateDoesNotExist:
-            pass
+        for template_dir in loader.get_dirs():
+            try:
+                filename = safe_join(template_dir, name)
+            except SuspiciousFileOperation:
+                # The joined path was located outside of this template_dir
+                # (it might be inside another one, so this isn't fatal).
+                continue
+
+            try:
+                with open(filename, encoding=loader.engine.file_charset) as fp:
+                    return fp.read()
+            except FileNotFoundError:
+                continue
 
     raise TemplateDoesNotExist(name)

@@ -62,7 +62,7 @@ class PaidTask(models.Model):
     rate = models.FloatField(null=False, default=0)
     datetime = models.DateTimeField(_('Date'), null=False, db_index=True)
     description = models.TextField(_('Description'), null=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     objects = PaidTaskManager()
 

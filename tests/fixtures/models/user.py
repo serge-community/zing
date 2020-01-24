@@ -85,8 +85,8 @@ def _require_user(username, fullname, password=None,
         user.save()
 
     if alt_src_lang_code is not None and request is not None:
-        alt_src_lang = request.getfixturevalue(alt_src_lang_code)
-        user.alt_src_langs.add(alt_src_lang())
+        alt_src_lang = request.getfixturevalue("%s_factory" % alt_src_lang_code)
+        user.alt_src_langs.add(alt_src_lang)
 
     return user
 

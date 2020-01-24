@@ -65,3 +65,11 @@ def language1():
     from pootle_language.models import Language
 
     return Language.objects.get(code="language1")
+
+
+@pytest.fixture(scope="session")
+def language0_factory():
+    """language0 session-scoped"""
+    from pootle_language.models import Language
+
+    return Language.objects.get(code="language0")

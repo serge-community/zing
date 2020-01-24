@@ -8,6 +8,7 @@
 # AUTHORS file for copyright and authorship information.
 
 import os
+from collections import OrderedDict
 from datetime import timedelta
 
 from dateutil.relativedelta import relativedelta
@@ -183,7 +184,8 @@ class PootleTestEnv(object):
     def setup_system_users(self, request):
         from .fixtures.models.user import TEST_USERS, _require_user
 
-        for username, user_params in TEST_USERS.items():
+        users = OrderedDict(sorted(TEST_USERS.items()))
+        for username, user_params in users.items():
             _require_user(username=username, request=request, **user_params)
 
     def setup_site_permissions(self):

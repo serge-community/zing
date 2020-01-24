@@ -1,7 +1,7 @@
 # Base requirements
 
 # Note: also adjust pootle/checks::DJANGO_MINIMUM_REQUIRED_VERSION
-Django==2.1.15
+Django==2.2.9
 
 
 # Django apps

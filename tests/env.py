@@ -58,7 +58,7 @@ class PootleTestEnv(object):
         po_file = os.path.join(
             os.path.dirname(tests.__file__),
             *("data", "po", "complex.po"))
-        with open(po_file) as f:
+        with open(po_file, 'rb') as f:
             ttk = getclass(f)(f.read())
 
         tp = TranslationProject.objects.get(

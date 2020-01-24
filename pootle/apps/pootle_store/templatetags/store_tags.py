@@ -43,7 +43,7 @@ def pluralize_source(unit):
 
     forms = []
     for i, source in enumerate(unit.source.strings):
-        forms.append((i, source, _('Plural Form %d', i)))
+        forms.append((i, source, _('Plural Form %d' % i)))
     return forms
 
 
@@ -60,14 +60,14 @@ def pluralize_target(unit, nplurals=None):
     forms = []
     if nplurals is None:
         for i, target in enumerate(unit.target.strings):
-            forms.append((i, target, _('Plural Form %d', i)))
+            forms.append((i, target, _('Plural Form %d' % i)))
     else:
         for i in range(nplurals):
             try:
                 target = unit.target.strings[i]
             except IndexError:
                 target = ''
-            forms.append((i, target, _('Plural Form %d', i)))
+            forms.append((i, target, _('Plural Form %d' % i)))
 
     return forms
 
@@ -80,7 +80,7 @@ def pluralize_sugg(sugg):
 
     forms = []
     for i, target in enumerate(sugg.target.strings):
-        forms.append((i, target, _('Plural Form %d', i)))
+        forms.append((i, target, _('Plural Form %d' % i)))
 
     return forms
 

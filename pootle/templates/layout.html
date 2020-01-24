@@ -1,4 +1,4 @@
-{% load core i18n assets locale profile_tags humanize staticfiles statici18n %}
+{% load core i18n assets locale profile_tags humanize static statici18n %}
 {% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}" dir="{% locale_dir %}" class="{% block html_class %}{% endblock %}">

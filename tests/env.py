@@ -35,6 +35,7 @@ class PootleTestEnv(object):
                 call_command('dumpdata', '--indent=3', stdout=file)
 
     def setup_site_db(self, request, **kwargs):
+        self.setup_redis()
         self.setup_case_sensitive_schema()
         self.setup_site_root()
         self.setup_languages()
@@ -174,6 +175,10 @@ class PootleTestEnv(object):
     def setup_languages(self):
         from .fixtures.models.language import _require_language
         _require_language('en', 'English')
+
+    def setup_redis(self):
+        from pootle.core.models import Revision
+        Revision.initialize(force=True)
 
     def setup_system_users(self, request):
         from .fixtures.models.user import TEST_USERS, _require_user

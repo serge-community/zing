@@ -9,7 +9,7 @@
         "lastaction": {
           "displayname": "Member",
           "email": "a4fae232e2bfebd9f4dc8d7cb6caecb2",
-          "mtime": 1540206718,
+          "mtime": 1578661828,
           "source": "Translated Source /language0/project0/subdir0/s...",
           "translation_action_type": 1,
           "type": 1,
@@ -27,7 +27,7 @@
         "lastaction": {
           "displayname": "Member",
           "email": "a4fae232e2bfebd9f4dc8d7cb6caecb2",
-          "mtime": 1540206718,
+          "mtime": 1578661829,
           "source": "Translated Source /language0/project0/subdir0/s...",
           "translation_action_type": 1,
           "type": 1,
@@ -45,7 +45,7 @@
         "lastaction": {
           "displayname": "Member",
           "email": "a4fae232e2bfebd9f4dc8d7cb6caecb2",
-          "mtime": 1540206718,
+          "mtime": 1578661829,
           "source": "Translated Source /language0/project0/subdir0/s...",
           "translation_action_type": 1,
           "type": 1,
@@ -64,11 +64,11 @@
     "lastaction": {
       "displayname": "Member",
       "email": "a4fae232e2bfebd9f4dc8d7cb6caecb2",
-      "mtime": 1540206718,
+      "mtime": 1578661829,
       "source": "Translated Source /language0/project0/subdir0/s...",
       "translation_action_type": 1,
       "type": 1,
-      "uid": 106,
+      "uid": 110,
       "username": "member"
     },
     "suggestions": 9,
@@ -100,7 +100,8 @@
     "selected": true,
     "template_name": "django/forms/widgets/checkbox_option.html",
     "type": "checkbox",
-    "value": "source"
+    "value": "source",
+    "wrap_label": true
   },
   "options": [
     {
@@ -113,7 +114,8 @@
       "selected": true,
       "template_name": "django/forms/widgets/checkbox_option.html",
       "type": "checkbox",
-      "value": "source"
+      "value": "source",
+      "wrap_label": true
     }
   ],
   "page": "browse",
@@ -154,6 +156,5 @@
     "template_name": "django/forms/widgets/text.html",
     "type": "text",
     "value": null
-  },
-  "wrap_label": true
+  }
 }

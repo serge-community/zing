@@ -30,7 +30,8 @@
     "selected": true,
     "template_name": "django/forms/widgets/checkbox_option.html",
     "type": "checkbox",
-    "value": "source"
+    "value": "source",
+    "wrap_label": true
   },
   "options": [
     {
@@ -43,7 +44,8 @@
       "selected": true,
       "template_name": "django/forms/widgets/checkbox_option.html",
       "type": "checkbox",
-      "value": "source"
+      "value": "source",
+      "wrap_label": true
     }
   ],
   "page": "browse",
@@ -85,6 +87,5 @@
     "template_name": "django/forms/widgets/text.html",
     "type": "text",
     "value": null
-  },
-  "wrap_label": true
+  }
 }

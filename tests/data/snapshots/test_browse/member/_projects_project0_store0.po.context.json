@@ -9,7 +9,7 @@
         "lastaction": {
           "displayname": "Member",
           "email": "a4fae232e2bfebd9f4dc8d7cb6caecb2",
-          "mtime": 1540206716,
+          "mtime": 1578661826,
           "source": "Translated Source /language0/project0/store0.po...",
           "translation_action_type": 1,
           "type": 1,
@@ -28,7 +28,7 @@
         "lastaction": {
           "displayname": "Member",
           "email": "a4fae232e2bfebd9f4dc8d7cb6caecb2",
-          "mtime": 1540206722,
+          "mtime": 1578661834,
           "source": "Translated Source /language1/project0/store0.po...",
           "translation_action_type": 1,
           "type": 1,
@@ -47,7 +47,7 @@
     "lastaction": {
       "displayname": "Member",
       "email": "a4fae232e2bfebd9f4dc8d7cb6caecb2",
-      "mtime": 1540206722,
+      "mtime": 1578661834,
       "source": "Translated Source /language1/project0/store0.po...",
       "translation_action_type": 1,
       "type": 1,
@@ -80,7 +80,8 @@
     "selected": true,
     "template_name": "django/forms/widgets/checkbox_option.html",
     "type": "checkbox",
-    "value": "source"
+    "value": "source",
+    "wrap_label": true
   },
   "options": [
     {
@@ -93,7 +94,8 @@
       "selected": true,
       "template_name": "django/forms/widgets/checkbox_option.html",
       "type": "checkbox",
-      "value": "source"
+      "value": "source",
+      "wrap_label": true
     }
   ],
   "page": "browse",
@@ -129,6 +131,5 @@
     "template_name": "django/forms/widgets/text.html",
     "type": "text",
     "value": null
-  },
-  "wrap_label": true
+  }
 }

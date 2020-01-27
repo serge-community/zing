@@ -84,7 +84,7 @@ class MultiStringField(models.Field):
     def to_python(self, value):
         return to_python(value)
 
-    def from_db_value(self, value, expression, connection, context):
+    def from_db_value(self, value, expression, connection):
         return to_python(value)
 
     def get_prep_value(self, value):

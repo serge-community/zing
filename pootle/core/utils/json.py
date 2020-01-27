@@ -14,13 +14,13 @@ import json
 from django.conf import settings
 from django.core.serializers.json import DjangoJSONEncoder
 from django.utils import dateformat
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 
 
 class PootleJSONEncoder(DjangoJSONEncoder):
     """Custom JSON encoder for Pootle.
 
-    This is mostly implemented to avoid calling `force_text` all the time on
+    This is mostly implemented to avoid calling `force_str` all the time on
     certain types of objects.
     https://docs.djangoproject.com/en/1.4/topics/serialization/#id2
     """
@@ -34,7 +34,7 @@ class PootleJSONEncoder(DjangoJSONEncoder):
         try:
             return super(PootleJSONEncoder, self).default(obj)
         except TypeError:
-            return force_text(obj)
+            return force_str(obj)
 
 
 def jsonify(obj, indent=None):

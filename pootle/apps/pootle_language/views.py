@@ -7,11 +7,12 @@
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
+from functools import lru_cache
+
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.functional import cached_property
-from django.utils.lru_cache import lru_cache
 
 from pootle.core.browser import ItemTypes
 from pootle.core.decorators import get_path_obj, permission_required

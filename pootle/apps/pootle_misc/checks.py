@@ -9,13 +9,13 @@
 
 import logging
 import re
+from functools import lru_cache
 
 from translate.filters import checks
 from translate.filters.decorators import Category, cosmetic, critical
 from translate.lang import data
 
 from django.conf import settings
-from django.utils.lru_cache import lru_cache
 from django.utils.translation import ugettext_lazy as _
 
 from .util import import_func

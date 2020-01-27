@@ -8,10 +8,10 @@
 
 import logging
 import time
+from functools import lru_cache
 
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.lru_cache import lru_cache
 
 from pootle.core.mixins.treeitem import CachedMethods
 from pootle_misc.checks import run_given_filters

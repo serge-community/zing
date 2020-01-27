@@ -14,16 +14,7 @@
 import datetime
 import os
 import subprocess
-
-try:
-    from django.utils.lru_cache import lru_cache
-except ImportError:
-    # Required for Python 2.7 support and when backported Django version is
-    # unavailable
-    def lru_cache():
-        def fake(func):
-            return func
-        return fake
+from functools import lru_cache
 
 from pootle.constants import VERSION
 

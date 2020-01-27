@@ -7,13 +7,12 @@
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
-import functools
+from functools import lru_cache, wraps
 
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import resolve, reverse
 from django.utils.functional import cached_property
-from django.utils.lru_cache import lru_cache
 
 from pootle.core.browser import ItemTypes, get_parent
 from pootle.core.decorators import get_path_obj, permission_required
@@ -54,7 +53,7 @@ def admin_permissions(request, translation_project):
 
 def redirect_to_tp_on_404(f):
 
-    @functools.wraps(f)
+    @wraps(f)
     def method_wrapper(self, request, *args, **kwargs):
         try:
             request.permissions = get_matching_permissions(

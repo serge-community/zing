@@ -8,6 +8,7 @@
 # AUTHORS file for copyright and authorship information.
 
 import copy
+from functools import lru_cache
 
 from translate.lang import data
 
@@ -18,7 +19,6 @@ from django.shortcuts import redirect
 from django.template import loader
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.lru_cache import lru_cache
 from django.utils.translation import to_locale, ugettext as _
 from django.utils.translation.trans_real import parse_accept_lang_header
 from django.views.decorators.http import require_http_methods

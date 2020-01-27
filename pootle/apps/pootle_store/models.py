@@ -11,6 +11,7 @@ import io
 import logging
 import operator
 from hashlib import md5
+from urllib.parse import quote
 
 from collections import OrderedDict
 
@@ -26,7 +27,6 @@ from django.db.models import F
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.http import urlquote
 from django.utils.translation import ugettext_lazy as _
 
 from pootle.core.log import (
@@ -467,7 +467,7 @@ class Unit(models.Model, base.TranslationUnit):
         prefix = self.store.translation_project.\
             project.screenshot_search_prefix
         if prefix:
-            return prefix + urlquote(self.source_f)
+            return prefix + quote(self.source_f)
 
     def is_accessible_by(self, user):
         """Returns `True` if the current unit is accessible by `user`."""

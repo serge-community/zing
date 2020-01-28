@@ -5,4 +5,4 @@ fakeredis==1.1.0
 python-dateutil==2.8.1
 pytest==4.6.0
 pytest-cov==2.8.1
-pytest-django==3.7.0
+pytest-django==3.8.0

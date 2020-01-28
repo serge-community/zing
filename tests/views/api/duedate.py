@@ -6,9 +6,9 @@
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
-from datetime import datetime
-
 import pytest
+
+from django.utils import timezone
 
 from tests.factories import DueDateFactory
 from tests.utils import as_dir, url_name
@@ -118,7 +118,7 @@ def test_duedate_delete(client, request_users, test_name, snapshot_stack, path):
     user = request_users['user']
 
     data = {
-        'due_on': datetime.now(),
+        'due_on': timezone.now(),
         'modified_by': user,
         'pootle_path': path,
     }

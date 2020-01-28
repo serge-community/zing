@@ -42,7 +42,7 @@ def invoice_directory(settings, tmpdir):
 
 
 @pytest.mark.parametrize('month', [
-    None, timezone.now(), timezone.datetime(2014, 4, 1),
+    None, timezone.now(), timezone.make_aware(timezone.datetime(2014, 4, 1)),
 ])
 def test_invoice_repr(month):
     user = UserFactory.build()
@@ -97,7 +97,7 @@ def test_invoice_get_rates_inconsistent_scorelog_rates(member, store0):
     member.review_rate = USER_RATE_ONE
     member.save()
 
-    month = timezone.datetime(2014, 4, 1)
+    month = timezone.make_aware(timezone.datetime(2014, 4, 1))
 
     submission_kwargs = {
         'store': store0,
@@ -157,7 +157,7 @@ def test_invoice_get_rates_inconsistent_paidtask_rates(member, task_type,
     setattr(member, user_rate_attr_name, USER_RATE)
     member.save()
 
-    month = timezone.datetime(2014, 4, 1)
+    month = timezone.make_aware(timezone.datetime(2014, 4, 1))
 
     submission_kwargs = {
         'store': store0,
@@ -204,7 +204,7 @@ def test_invoice_get_rates_inconsistent_hourly_paidtask_rates(member):
     PAID_TASK_RATE_ONE = 0.5
     PAID_TASK_RATE_TWO = 0.2
 
-    month = timezone.datetime(2014, 4, 1)
+    month = timezone.make_aware(timezone.datetime(2014, 4, 1))
 
     paid_task_kwargs = {
         'rate': PAID_TASK_RATE_ONE,  # Note how this doesn't match user's rate
@@ -243,7 +243,7 @@ def test_invoice_get_rates_scorelog_rates(member, task_type, task_type_name,
     setattr(member, user_rate_attr_name, USER_RATE_ONE)
     member.save()
 
-    month = timezone.datetime(2014, 4, 1)
+    month = timezone.make_aware(timezone.datetime(2014, 4, 1))
 
     submission_kwargs = {
         'store': store0,
@@ -288,7 +288,7 @@ def test_invoice_get_rates_paidtask_rates(member):
     member.hourly_rate = USER_RATE_ONE
     member.save()
 
-    month = timezone.datetime(2014, 4, 1)
+    month = timezone.make_aware(timezone.datetime(2014, 4, 1))
 
     paid_task_kwargs = {
         'rate': USER_RATE_ONE,
@@ -321,7 +321,7 @@ def test_invoice_get_rates_user(member):
     member.hourly_rate = USER_RATE
     member.save()
 
-    month = timezone.datetime(2014, 4, 1)
+    month = timezone.make_aware(timezone.datetime(2014, 4, 1))
     invoice = Invoice(member, FAKE_CONFIG, month=month)
 
     rate, review_rate, hourly_rate = invoice.get_rates()
@@ -347,7 +347,7 @@ def test_invoice_get_user_amounts(member, action_code, task_type):
     WORDCOUNT = 5
     TASK_COUNT = 5
     PAID_TASK_AMOUNT = 22
-    month = timezone.datetime(2014, 4, 1)
+    month = timezone.make_aware(timezone.datetime(2014, 4, 1))
 
     for i in range(EVENT_COUNT):
         scorelog_kwargs = {
@@ -488,7 +488,7 @@ def test_invoice_generate_add_carry_over(member, invoice_directory):
     INITIAL_SUBTOTAL = EVENT_COUNT * WORDCOUNT * TRANSLATION_RATE
     MINIMAL_PAYMENT = 20
 
-    month = timezone.datetime(2014, 4, 1)
+    month = timezone.make_aware(timezone.datetime(2014, 4, 1))
     config = dict({
         'minimal_payment': MINIMAL_PAYMENT,
     }, **FAKE_CONFIG)
@@ -566,7 +566,7 @@ def test_invoice_generate_negative_balance(member, invoice_directory):
     CORRECTION = -100
     SUBTOTAL = WORK_DONE + CORRECTION
 
-    month = timezone.datetime(2014, 4, 1)
+    month = timezone.make_aware(timezone.datetime(2014, 4, 1))
     invoice = Invoice(member, FAKE_CONFIG, month=month, add_correction=True)
 
     # Set some rates
@@ -627,7 +627,7 @@ def test_invoice_generate_balance_with_carry_over(member, invoice_directory):
     WORK_DONE = WORDCOUNT * TRANSLATION_RATE
     CORRECTION = -100
     SUBTOTAL = WORK_DONE + CORRECTION
-    month = timezone.datetime(2014, 4, 1)
+    month = timezone.make_aware(timezone.datetime(2014, 4, 1))
 
     # Set some rates
     member.rate = TRANSLATION_RATE

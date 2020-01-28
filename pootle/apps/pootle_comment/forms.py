@@ -7,10 +7,9 @@
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
-from datetime import datetime
-
 from django import forms
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 from django.utils.functional import cached_property
 
 from django_comments.forms import CommentForm as DjCommentForm
@@ -43,7 +42,7 @@ class CommentForm(DjCommentForm):
     def save(self):
         comment = self.comment
         comment.user = self.cleaned_data["user"]
-        comment.submit_date = datetime.now()
+        comment.submit_date = timezone.now()
         comment.save()
 
 

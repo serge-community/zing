@@ -9,7 +9,7 @@
 
 import pytest
 
-from datetime import datetime
+from django.utils import timezone
 
 from tests.factories import ScoreLogFactory, SubmissionFactory
 
@@ -37,7 +37,7 @@ def test_record_submission(member, submission_type, store0):
         'mt_similarity': 0,
         'submitter': member,
         'translation_project': store0.translation_project,
-        'creation_time': datetime.now(),
+        'creation_time': timezone.now(),
     }
 
     sub = SubmissionFactory(**submission_params)

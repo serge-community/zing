@@ -19,7 +19,7 @@ from django.shortcuts import redirect
 from django.template import loader
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.translation import to_locale, ugettext as _
+from django.utils.translation import gettext as _, to_locale
 from django.utils.translation.trans_real import parse_accept_lang_header
 from django.views.decorators.http import require_http_methods
 

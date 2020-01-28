@@ -13,7 +13,7 @@ from django.db import models
 from django.db.models import F
 from django.template.defaultfilters import truncatechars
 from django.utils.functional import cached_property
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from pootle.core.log import SCORE_CHANGED, log
 from pootle.core.utils import dateformat

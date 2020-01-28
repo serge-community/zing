@@ -9,7 +9,7 @@
 import logging
 
 from django import forms
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from allauth.account import app_settings
 from allauth.account.app_settings import AuthenticationMethod

@@ -7,7 +7,7 @@
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 from pootle_misc.checks import check_names
 

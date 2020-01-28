@@ -11,7 +11,7 @@ from redis.exceptions import ConnectionError
 from rq.registry import FailedJobRegistry
 
 from django.shortcuts import render
-from django.utils.translation import ugettext as _, ungettext
+from django.utils.translation import gettext as _, ungettext
 
 from django_rq.queues import get_queue
 from django_rq.workers import Worker

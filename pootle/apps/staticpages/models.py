@@ -16,7 +16,7 @@ from django.db.models import Q
 from django.db.models.aggregates import Max
 from django.urls import reverse
 from django.utils.timezone import now
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from .managers import PageManager
 

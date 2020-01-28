@@ -9,7 +9,7 @@
 
 from django import forms
 from django.forms.models import ModelChoiceIterator
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 
 class GroupedModelChoiceIterator(ModelChoiceIterator):

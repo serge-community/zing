@@ -9,7 +9,7 @@
 
 from django.core import checks
 from django.db import OperationalError, ProgrammingError
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 
 # Minimum Translate Toolkit version required for Pootle to run.

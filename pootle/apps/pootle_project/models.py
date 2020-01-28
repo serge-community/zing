@@ -21,7 +21,7 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.encoding import iri_to_uri
 from django.utils.functional import cached_property
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from pootle.core.cache import make_method_key
 from pootle.core.constants import CACHE_TIMEOUT

@@ -14,7 +14,7 @@ from django.db import connection
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 from pootle_app.models.directory import Directory
 from pootle_app.models.permissions import (check_permission,

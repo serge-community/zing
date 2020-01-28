@@ -15,7 +15,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.urls import Resolver404, resolve
 from django.utils import timezone
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 from pootle.core.log import (TRANSLATION_ADDED, TRANSLATION_CHANGED,
                              TRANSLATION_DELETED)

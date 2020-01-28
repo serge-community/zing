@@ -13,7 +13,7 @@ import pytest
 def pytest_generate_tests(metafunc):
     from pootle_project.models import PROJECT_CHECKERS
 
-    if 'checkers' in metafunc.funcargnames:
+    if 'checkers' in metafunc.fixturenames:
         metafunc.parametrize("checkers", PROJECT_CHECKERS.keys())
 
 

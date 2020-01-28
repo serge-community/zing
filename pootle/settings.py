@@ -25,4 +25,5 @@ conf_files = glob.glob(conf_files_path)
 conf_files.sort()
 
 for f in conf_files:
-    exec(open(os.path.abspath(f)).read())
+    with open(os.path.abspath(f)) as config:
+        exec(config.read())

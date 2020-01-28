@@ -17,7 +17,7 @@ from django.core.management.base import CommandError
 def test_verify_user_nouser(capfd):
     with pytest.raises(CommandError) as e:
         call_command('verify_user')
-    assert "Either provide a 'user' to verify or use '--all'" in str(e)
+    assert "Either provide a 'user' to verify or use '--all'" in str(e.value)
 
 
 @pytest.mark.cmd
@@ -25,7 +25,7 @@ def test_verify_user_nouser(capfd):
 def test_verify_user_user_and_all(capfd):
     with pytest.raises(CommandError) as e:
         call_command('verify_user', '--all', 'member')
-    assert "Either provide a 'user' to verify or use '--all'" in str(e)
+    assert "Either provide a 'user' to verify or use '--all'" in str(e.value)
 
 
 @pytest.mark.cmd
@@ -33,7 +33,7 @@ def test_verify_user_user_and_all(capfd):
 def test_verify_user_unknownuser(capfd):
     with pytest.raises(CommandError) as e:
         call_command('verify_user', 'not_a_user')
-    assert "User not_a_user does not exist" in str(e)
+    assert "User not_a_user does not exist" in str(e.value)
 
 
 @pytest.mark.cmd

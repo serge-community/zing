@@ -27,4 +27,4 @@ def test_flush_cache(capfd):
 def test_flush_cache_no_options():
     with pytest.raises(CommandError) as e:
         call_command('flush_cache')
-    assert "No options were provided." in str(e)
+    assert "No options were provided." in str(e.value)

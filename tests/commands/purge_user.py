@@ -16,7 +16,7 @@ from django.core.management.base import CommandError
 def test_purge_user_nouser():
     with pytest.raises(CommandError) as e:
         call_command('purge_user')
-    assert "the following arguments are required: user" in str(e)
+    assert "the following arguments are required: user" in str(e.value)
 
 
 @pytest.mark.cmd
@@ -41,4 +41,4 @@ def test_purge_user_multiple_users(capfd, member, member2):
 def test_purge_user_unkownuser():
     with pytest.raises(CommandError) as e:
         call_command('purge_user', 'not_a_user')
-    assert "User not_a_user does not exist" in str(e)
+    assert "User not_a_user does not exist" in str(e.value)

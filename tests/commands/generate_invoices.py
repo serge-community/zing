@@ -18,7 +18,7 @@ from django.core.management.base import CommandError
 def test_generate_invoices_invalid_month(month):
     with pytest.raises(CommandError) as e:
         call_command('generate_invoices', '--month=%s' % month)
-    assert 'month parameter has an invalid format' in str(e)
+    assert 'month parameter has an invalid format' in str(e.value)
 
 
 @pytest.mark.cmd
@@ -28,7 +28,7 @@ def test_generate_invoices_no_recipients_setting(settings):
     settings.ZING_INVOICES_RECIPIENTS = None
     with pytest.raises(CommandError) as e:
         call_command('generate_invoices')
-    assert 'No invoicing configuration found' in str(e)
+    assert 'No invoicing configuration found' in str(e.value)
 
 
 @pytest.mark.cmd

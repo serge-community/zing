@@ -20,7 +20,7 @@ def test_update_tmserver_nosetting(capfd, po_directory, tp0, settings):
     settings.ZING_TM_SERVER = None
     with pytest.raises(CommandError) as e:
         call_command('update_tmserver')
-    assert "ZING_TM_SERVER setting is missing." in str(e)
+    assert "ZING_TM_SERVER setting is missing." in str(e.value)
 
 
 @pytest.mark.cmd

@@ -8,12 +8,9 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0004_allow_null_last_login'),
+        ("accounts", "0004_allow_null_last_login"),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='user',
-            name='unit_rows',
-        ),
+        migrations.RemoveField(model_name="user", name="unit_rows",),
     ]

@@ -16,8 +16,7 @@ from django.utils.functional import cached_property
 
 from pootle.core.browser import ItemTypes
 from pootle.core.decorators import get_path_obj, permission_required
-from pootle.core.views import (
-    PootleBrowseView, PootleTranslateView, PootleExportView)
+from pootle.core.views import PootleBrowseView, PootleTranslateView, PootleExportView
 from pootle.i18n.gettext import tr_lang
 from pootle_app.views.admin.permissions import admin_permissions
 
@@ -30,7 +29,7 @@ class LanguageMixin(object):
     browse_url_path = "pootle-language-browse"
     export_url_path = "pootle-language-export"
     translate_url_path = "pootle-language-translate"
-    template_extends = 'languages/base.html'
+    template_extends = "languages/base.html"
 
     @property
     def language(self):
@@ -54,10 +53,7 @@ class LanguageMixin(object):
     def get(self, *args, **kwargs):
         self.object = self.get_object()
         if self.object.code != kwargs["language_code"]:
-            return redirect(
-                self.url_pattern_name,
-                self.object.code,
-                permanent=True)
+            return redirect(self.url_pattern_name, self.object.code, permanent=True)
         return super(LanguageMixin, self).get(*args, **kwargs)
 
 
@@ -74,13 +70,11 @@ class LanguageBrowseView(LanguageMixin, PootleBrowseView):
 
     @property
     def language(self):
-        return {
-            'code': self.object.code,
-            'name': tr_lang(self.object.fullname)}
+        return {"code": self.object.code, "name": tr_lang(self.object.fullname)}
 
     def get(self, *args, **kwargs):
         response = super(LanguageBrowseView, self).get(*args, **kwargs)
-        response.set_cookie('pootle-language', self.object.code)
+        response.set_cookie("pootle-language", self.object.code)
         return response
 
     def get_item_type(self, path_obj):
@@ -100,49 +94,45 @@ class LanguageExportView(LanguageMixin, PootleExportView):
 
 
 @get_path_obj
-@permission_required('administrate')
+@permission_required("administrate")
 def language_admin(request, language):
     ctx = {
-        'page': 'admin-permissions',
-
-        'browse_url': reverse('pootle-language-browse', kwargs={
-            'language_code': language.code,
-        }),
-        'translate_url': reverse('pootle-language-translate', kwargs={
-            'language_code': language.code,
-        }),
-
-        'language': language,
-        'directory': language.directory,
+        "page": "admin-permissions",
+        "browse_url": reverse(
+            "pootle-language-browse", kwargs={"language_code": language.code}
+        ),
+        "translate_url": reverse(
+            "pootle-language-translate", kwargs={"language_code": language.code}
+        ),
+        "language": language,
+        "directory": language.directory,
     }
-    return admin_permissions(request, language.directory,
-                             'languages/admin/permissions.html', ctx)
+    return admin_permissions(
+        request, language.directory, "languages/admin/permissions.html", ctx
+    )
 
 
 @get_path_obj
-@permission_required('administrate')
+@permission_required("administrate")
 def language_characters_admin(request, language):
-    form = LanguageSpecialCharsForm(request.POST
-                                    if request.method == 'POST'
-                                    else None,
-                                    instance=language)
+    form = LanguageSpecialCharsForm(
+        request.POST if request.method == "POST" else None, instance=language
+    )
     if form.is_valid():
         form.save()
-        return redirect('pootle-language-browse', language.code)
+        return redirect("pootle-language-browse", language.code)
 
     ctx = {
-        'page': 'admin-characters',
-
-        'browse_url': reverse('pootle-language-browse', kwargs={
-            'language_code': language.code,
-        }),
-        'translate_url': reverse('pootle-language-translate', kwargs={
-            'language_code': language.code,
-        }),
-
-        'language': language,
-        'directory': language.directory,
-        'form': form,
+        "page": "admin-characters",
+        "browse_url": reverse(
+            "pootle-language-browse", kwargs={"language_code": language.code}
+        ),
+        "translate_url": reverse(
+            "pootle-language-translate", kwargs={"language_code": language.code}
+        ),
+        "language": language,
+        "directory": language.directory,
+        "form": form,
     }
 
-    return render(request, 'languages/admin/characters.html', ctx)
+    return render(request, "languages/admin/characters.html", ctx)

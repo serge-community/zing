@@ -38,9 +38,7 @@ class AltSrcUnitProxy(UnitProxy):
             language_direction=self.language_direction,
             nplurals=self.nplurals,
             has_plurals=self.hasplural(),
-            target=[target[1]
-                    for target
-                    in pluralize_target(self, self.nplurals)],
+            target=[target[1] for target in pluralize_target(self, self.nplurals)],
         )
 
 

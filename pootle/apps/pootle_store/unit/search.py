@@ -22,8 +22,9 @@ class DBSearchBackend(object):
 
     default_order = "store__pootle_path", "index"
     select_related = (
-        'store__translation_project__project',
-        'store__translation_project__language')
+        "store__translation_project__project",
+        "store__translation_project__language",
+    )
 
     def __init__(self, request_user, **kwargs):
         self.kwargs = kwargs
@@ -59,7 +60,7 @@ class DBSearchBackend(object):
 
     @property
     def uid(self):
-        return self.kwargs.get('uid')
+        return self.kwargs.get("uid")
 
     @property
     def uids(self):
@@ -68,16 +69,16 @@ class DBSearchBackend(object):
     @property
     def units_qs(self):
         qs_kwargs = {
-            'project_code': self.project_code,
-            'language_code': self.language_code,
-            'dir_path': self.dir_path,
-            'filename': self.filename,
-            'user': self.request_user,
+            "project_code": self.project_code,
+            "language_code": self.language_code,
+            "dir_path": self.dir_path,
+            "filename": self.filename,
+            "user": self.request_user,
         }
         return (
             Unit.objects.get_translatable(**qs_kwargs)
-                        .order_by(*self.default_order)
-                        .select_related(*self.select_related)
+            .order_by(*self.default_order)
+            .select_related(*self.select_related)
         )
 
     def sort_qs(self, qs):
@@ -85,42 +86,40 @@ class DBSearchBackend(object):
             sort_by = self.sort_by
             if self.sort_on not in SIMPLY_SORTED:
                 # Omit leading `-` sign
-                if self.sort_by[0] == '-':
+                if self.sort_by[0] == "-":
                     max_field = self.sort_by[1:]
-                    sort_by = '-sort_by_field'
+                    sort_by = "-sort_by_field"
                 else:
                     max_field = self.sort_by
-                    sort_by = 'sort_by_field'
+                    sort_by = "sort_by_field"
                 # It's necessary to use `Max()` here because we can't
                 # use `distinct()` and `order_by()` at the same time
                 qs = qs.annotate(sort_by_field=Max(max_field))
-            return qs.order_by(
-                sort_by, "store__pootle_path", "index")
+            return qs.order_by(sort_by, "store__pootle_path", "index")
         return qs
 
     def filter_qs(self, qs):
         kwargs = self.kwargs
-        category = kwargs['category']
-        checks = kwargs['checks']
-        exact = 'exact' in kwargs['soptions']
-        month = kwargs['month']
-        search = kwargs['search']
-        sfields = kwargs['sfields']
-        user = kwargs['user']
+        category = kwargs["category"]
+        checks = kwargs["checks"]
+        exact = "exact" in kwargs["soptions"]
+        month = kwargs["month"]
+        search = kwargs["search"]
+        sfields = kwargs["sfields"]
+        user = kwargs["user"]
 
         if self.unit_filter:
             qs = UnitSearchFilter().filter(
-                qs, self.unit_filter,
-                user=user, checks=checks, category=category)
+                qs, self.unit_filter, user=user, checks=checks, category=category
+            )
 
             if month is not None:
                 qs = qs.filter(
-                    submitted_on__gte=month[0],
-                    submitted_on__lte=month[1]).distinct()
+                    submitted_on__gte=month[0], submitted_on__lte=month[1]
+                ).distinct()
 
         if sfields and search:
-            qs = UnitTextSearch(qs).search(
-                search, sfields, exact=exact)
+            qs = UnitTextSearch(qs).search(search, sfields, exact=exact)
         return qs
 
     @cached_property
@@ -147,13 +146,15 @@ class DBSearchBackend(object):
         # requesting a specific unit in a specific store, adjust the
         # results window so that the requested unit is in the middle.
 
-        if (total > MAX_RESULTS and
-            self.language_code and
-            self.project_code and
-            self.filename and
-            self.uid):
+        if (
+            total > MAX_RESULTS
+            and self.language_code
+            and self.project_code
+            and self.filename
+            and self.uid
+        ):
             # find the uid in the Store
-            uid_results = list(self.results.values_list('pk', 'store_id'))
+            uid_results = list(self.results.values_list("pk", "store_id"))
             uid_list = [result[0] for result in uid_results]
             if self.uid in uid_list:
                 begin = max(uid_list.index(self.uid) - MAX_RESULTS / 2, 0)
@@ -161,12 +162,12 @@ class DBSearchBackend(object):
                 uids = uid_results[begin:end]
 
         if not uids:
-            uids = list(self.results[begin:end].values_list('pk', 'store_id'))
+            uids = list(self.results[begin:end].values_list("pk", "store_id"))
 
         return begin, end, total, uids
 
     def get_units(self):
         if not self.uids:
-            raise ValueError('No uids provided')
+            raise ValueError("No uids provided")
 
         return self.units_qs.filter(id__in=self.uids)

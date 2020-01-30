@@ -20,8 +20,10 @@ from tests.factories import LanguageDBFactory
 from pootle_language.models import Language
 from pootle_misc.util import import_func
 from pootle_project.models import Project
-from pootle_translationproject.models import (create_translation_project,
-                                              TranslationProject)
+from pootle_translationproject.models import (
+    create_translation_project,
+    TranslationProject,
+)
 
 
 @pytest.mark.django_db
@@ -65,7 +67,6 @@ def test_tp_checker(po_directory, tp_checker_tests, settings):
         checkerclasses = [import_func(settings.ZING_QUALITY_CHECKER)]
     else:
         checkerclasses = [
-            checks.projectcheckers.get(tp.project.checkstyle,
-                                       checks.StandardChecker)
+            checks.projectcheckers.get(tp.project.checkstyle, checks.StandardChecker)
         ]
     assert [x.__class__ for x in tp.checker.checkers] == checkerclasses

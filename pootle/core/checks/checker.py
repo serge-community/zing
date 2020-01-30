@@ -46,9 +46,9 @@ class CheckableUnit(UnitProxy):
 
 
 class UnitQualityCheck(object):
-
-    def __init__(self, unit, checker, original_checks,
-                 check_names, keep_false_positives=True):
+    def __init__(
+        self, unit, checker, original_checks, check_names, keep_false_positives=True
+    ):
         """Refreshes QualityChecks for a Unit
 
         As this class can work with either `Unit` or `CheckableUnit` it only
@@ -73,10 +73,8 @@ class UnitQualityCheck(object):
         """Current QualityCheck failure for the Unit
         """
         if self.check_names is None:
-            return self.checker.run_filters(
-                self.unit, categorised=True)
-        return run_given_filters(
-            self.checker, self.unit, self.check_names)
+            return self.checker.run_filters(self.unit, categorised=True)
+        return run_given_filters(self.checker, self.unit, self.check_names)
 
     @cached_property
     def checks_qs(self):
@@ -96,8 +94,7 @@ class UnitQualityCheck(object):
     def unmute_checks(self, checks):
         """Unmute checks that should no longer be muted
         """
-        to_unmute = self.checks_qs.filter(
-            name__in=checks, false_positive=True)
+        to_unmute = self.checks_qs.filter(name__in=checks, false_positive=True)
         if to_unmute.exists():
             to_unmute.update(false_positive=False)
             return True
@@ -110,14 +107,12 @@ class UnitQualityCheck(object):
         updated = self.update_checks()
 
         # delete any remaining checks that were only in the original list
-        deleted = (
-            self.original_checks and self.delete_checks(self.original_checks))
+        deleted = self.original_checks and self.delete_checks(self.original_checks)
 
         # unmute any checks that have been marked for unmuting
-        unmuted = (
-            self.unmute_list and self.unmute_checks(self.unmute_list))
+        unmuted = self.unmute_list and self.unmute_checks(self.unmute_list)
 
-        return (updated or deleted or unmuted)
+        return updated or deleted or unmuted
 
     def update_checks(self):
         """Compare self.original_checks to the Units calculated QualityCheck failures.
@@ -130,8 +125,9 @@ class UnitQualityCheck(object):
             if name in self.original_checks:
                 # keep false-positive checks if check is active
                 unmute = (
-                    self.original_checks[name]['false_positive']
-                    and not self.keep_false_positives)
+                    self.original_checks[name]["false_positive"]
+                    and not self.keep_false_positives
+                )
                 if unmute:
                     self.unmute_list.append(name)
                 # if the check is valid remove from the list and continue
@@ -143,8 +139,10 @@ class UnitQualityCheck(object):
                 self.checks_qs.model(
                     unit_id=self.unit.id,
                     name=name,
-                    message=self.check_failures[name]['message'],
-                    category=self.check_failures[name]['category']))
+                    message=self.check_failures[name]["message"],
+                    category=self.check_failures[name]["category"],
+                )
+            )
             updated = True
         if new_checks:
             self.checks_qs.bulk_create(new_checks)
@@ -152,9 +150,9 @@ class UnitQualityCheck(object):
 
 
 class QualityCheckUpdater(object):
-
-    def __init__(self, check_names=None, translation_project=None,
-                 keep_false_positives=True):
+    def __init__(
+        self, check_names=None, translation_project=None, keep_false_positives=True
+    ):
         """Refreshes QualityChecks for Units
 
         :param check_names: limit checks to given list of quality check names.
@@ -175,17 +173,14 @@ class QualityCheckUpdater(object):
         """Existing checks in the database for all units
         """
         checks = self.checks_qs
-        check_keys = (
-            'id', 'name', 'unit_id',
-            'category', 'false_positive')
+        check_keys = ("id", "name", "unit_id", "category", "false_positive")
 
         if self.check_names is not None:
             checks = checks.filter(name__in=self.check_names)
 
         all_units_checks = {}
         for check in checks.values(*check_keys):
-            all_units_checks.setdefault(
-                check['unit_id'], {})[check['name']] = check
+            all_units_checks.setdefault(check["unit_id"], {})[check["name"]] = check
         return all_units_checks
 
     @cached_property
@@ -196,8 +191,7 @@ class QualityCheckUpdater(object):
 
         if self.translation_project is not None:
             tp_pk = self.translation_project.pk
-            checks_qs = checks_qs.filter(
-                unit__store__translation_project__pk=tp_pk)
+            checks_qs = checks_qs.filter(unit__store__translation_project__pk=tp_pk)
         return checks_qs
 
     @cached_property
@@ -206,8 +200,7 @@ class QualityCheckUpdater(object):
         """
         units = Unit.simple_objects.all()
         if self.translation_project is not None:
-            units = units.filter(
-                store__translation_project=self.translation_project)
+            units = units.filter(store__translation_project=self.translation_project)
         return units
 
     def clear_checks(self):
@@ -252,23 +245,23 @@ class QualityCheckUpdater(object):
         start = time.time()
         logger.debug("Clearing unknown checks...")
         self.clear_checks()
-        logger.debug(
-            "Cleared unknown checks in %s seconds",
-            (time.time() - start))
+        logger.debug("Cleared unknown checks in %s seconds", (time.time() - start))
 
         start = time.time()
         logger.debug("Deleting checks for untranslated units...")
         untrans = self.update_untranslated()
         logger.debug(
             "Deleted %s checks for untranslated units in %s seconds",
-            untrans, (time.time() - start))
+            untrans,
+            (time.time() - start),
+        )
 
         start = time.time()
         logger.debug("Updating checks - this may take some time...")
         trans = self.update_translated()
         logger.debug(
-            "Updated checks for %s units in %s seconds",
-            trans, (time.time() - start))
+            "Updated checks for %s units in %s seconds", trans, (time.time() - start)
+        )
 
     def update_store_caches(self, stores):
         """After completing QualityCheck updates expire caches for affected Stores.
@@ -286,7 +279,8 @@ class QualityCheckUpdater(object):
             checker,
             self.checks.get(unit.id, {}),
             self.check_names,
-            self.keep_false_positives)
+            self.keep_false_positives,
+        )
         if checker.update():
             self.expire_store_cache(unit.store)
             self.units.filter(id=unit.id).update(mtime=timezone.now())
@@ -297,7 +291,11 @@ class QualityCheckUpdater(object):
         """Update checks for translated Units
         """
         unit_fields = [
-            "id", "source_f", "target_f", "locations", "store__id",
+            "id",
+            "source_f",
+            "target_f",
+            "locations",
+            "store__id",
             "store__translation_project__language__code",
         ]
 
@@ -310,9 +308,7 @@ class QualityCheckUpdater(object):
             # we only need to get the checker once if TP is set
             checker = self.get_checker(self.translation_project.id)
 
-        translated = (
-            self.units.filter(state__gte=OBSOLETE)
-                      .order_by("store", "index"))
+        translated = self.units.filter(state__gte=OBSOLETE).order_by("store", "index")
         updated_count = 0
         for unit in translated.values(*unit_fields).iterator():
             if self.translation_project is not None:
@@ -331,7 +327,8 @@ class QualityCheckUpdater(object):
         """
         checks_qs = self.checks_qs.exclude(unit__state__gte=OBSOLETE)
         self.update_store_caches(
-            set(checks_qs.values_list("unit__store__pk", flat=True).distinct()))
+            set(checks_qs.values_list("unit__store__pk", flat=True).distinct())
+        )
         deleted = checks_qs.count()
         checks_qs.delete()
         return deleted

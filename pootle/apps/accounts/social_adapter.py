@@ -22,7 +22,6 @@ from .views import SocialVerificationView
 
 
 class PootleSocialAccountAdapter(DefaultSocialAccountAdapter):
-
     def is_open_for_signup(self, request, sociallogin):
         """Controls whether signups are enabled on the site when using
         social authentication methods.
@@ -62,32 +61,32 @@ class PootleSocialAccountAdapter(DefaultSocialAccountAdapter):
         user = get_user_by_email(email_address)
         if user is not None:
             # Save `SocialLogin` instance for our custom view
-            request.session['sociallogin'] = sociallogin.serialize()
+            request.session["sociallogin"] = sociallogin.serialize()
 
             raise ImmediateHttpResponse(
                 response=SocialVerificationView.as_view()(request)
             )
 
-    def authentication_error(self, request, provider_id, error=None,
-                             exception=None, extra_context=None):
+    def authentication_error(
+        self, request, provider_id, error=None, exception=None, extra_context=None
+    ):
         provider = providers.registry.by_id(provider_id)
-        retry_url = provider.get_login_url(request,
-                                           **dict(iter(request.GET.items())))
+        retry_url = provider.get_login_url(request, **dict(iter(request.GET.items())))
 
         tb = traceback.format_exc()
         log_exception(request, exception, tb)
 
         ctx = {
-            'social_error': {
-                'error': error,
-                'exception': {
-                    'name': exception.__class__.__name__,
-                    'msg': str(exception),
+            "social_error": {
+                "error": error,
+                "exception": {
+                    "name": exception.__class__.__name__,
+                    "msg": str(exception),
                 },
-                'provider': provider.name,
-                'retry_url': retry_url,
+                "provider": provider.name,
+                "retry_url": retry_url,
             },
         }
         raise ImmediateHttpResponse(
-            response=render(request, 'account/social_error.html', ctx)
+            response=render(request, "account/social_error.html", ctx)
         )

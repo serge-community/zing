@@ -9,4 +9,7 @@
 from .duedate import AddDueDateForm, EditDueDateForm
 
 
-__all__ = ('AddDueDateForm', 'EditDueDateForm', )
+__all__ = (
+    "AddDueDateForm",
+    "EditDueDateForm",
+)

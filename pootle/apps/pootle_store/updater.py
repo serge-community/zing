@@ -34,7 +34,7 @@ class StoreUpdate(object):
         return self.source_store.findid(uid)
 
     def get_index(self, uid):
-        return self.indices[uid]['index']
+        return self.indices[uid]["index"]
 
     @property
     def uids(self):
@@ -90,8 +90,8 @@ class UnitUpdater(object):
     @property
     def translator_comment_updated(self):
         return (
-            (self.original.translator_comment or self.translator_comment)
-            and self.original.translator_comment != self.translator_comment)
+            self.original.translator_comment or self.translator_comment
+        ) and self.original.translator_comment != self.translator_comment
 
     @cached_property
     def at(self):
@@ -117,8 +117,10 @@ class UnitUpdater(object):
             self.newunit
             and self.update.store_revision is not None
             and self.update.store_revision < self.unit.revision
-            and (self.unit.target != self.newunit.target
-                 or self.unit.source != self.newunit.source)
+            and (
+                self.unit.target != self.newunit.target
+                or self.unit.source != self.newunit.source
+            )
         )
 
     @property
@@ -159,9 +161,7 @@ class UnitUpdater(object):
         return self.unit.target != self.original.target
 
     def create_suggestion(self):
-        return bool(
-            self.unit.add_suggestion(self.newunit.target, self.update.user)[1]
-        )
+        return bool(self.unit.add_suggestion(self.newunit.target, self.update.user)[1])
 
     def save_unit(self):
         """Saves the updated unit to the DB.
@@ -226,7 +226,6 @@ class UnitUpdater(object):
 
 
 class StoreUpdater(object):
-
     def __init__(self, target_store):
         self.target_store = target_store
 
@@ -235,7 +234,7 @@ class StoreUpdater(object):
             revision__gt=self.target_store.last_sync_revision,
             revision__lt=update_revision,
             state__gt=OBSOLETE,
-        ).values_list('id', flat=True)
+        ).values_list("id", flat=True)
 
     def incr_unit_revision(self, uid_list):
         """Increments the revision for units within `uid_list`.
@@ -256,8 +255,7 @@ class StoreUpdater(object):
             unit.store = self.target_store
             yield unit
 
-    def update(self, store, user=None, store_revision=None,
-               submission_type=None):
+    def update(self, store, user=None, store_revision=None, submission_type=None):
         logging.debug(u"Updating %s", self.target_store.pootle_path)
         old_state = self.target_store.state
 
@@ -273,10 +271,7 @@ class StoreUpdater(object):
             if diff is not None:
                 update_revision = Revision.incr()
                 changes, unsynced_uids = self.update_from_diff(
-                    store,
-                    store_revision,
-                    diff, update_revision,
-                    user, submission_type,
+                    store, store_revision, diff, update_revision, user, submission_type,
                 )
         finally:
             if old_state < PARSED:
@@ -286,16 +281,20 @@ class StoreUpdater(object):
             has_changed = any(x > 0 for x in changes.values())
             self.target_store.save(update_cache=has_changed)
             if has_changed:
-                log(u"[update] %s units in %s [revision: %d]"
-                    % (get_change_str(changes),
-                       self.target_store.pootle_path,
-                       self.target_store.get_max_unit_revision()))
+                log(
+                    u"[update] %s units in %s [revision: %d]"
+                    % (
+                        get_change_str(changes),
+                        self.target_store.pootle_path,
+                        self.target_store.get_max_unit_revision(),
+                    )
+                )
 
         return update_revision, changes, unsynced_uids
 
-    def update_from_diff(self, store, store_revision,
-                         to_change, update_revision, user,
-                         submission_type):
+    def update_from_diff(
+        self, store, store_revision, to_change, update_revision, user, submission_type
+    ):
         changes = {}
 
         # Update indexes
@@ -305,8 +304,7 @@ class StoreUpdater(object):
         # Add new units
         for unit, new_unit_index in to_change["add"]:
             self.target_store.addunit(
-                unit, new_unit_index, user=user,
-                update_revision=update_revision,
+                unit, new_unit_index, user=user, update_revision=update_revision,
             )
         changes["added"] = len(to_change["add"])
 
@@ -316,7 +314,7 @@ class StoreUpdater(object):
         )
 
         # Update units
-        update_dbids, uid_index_map = to_change['update']
+        update_dbids, uid_index_map = to_change["update"]
         update = StoreUpdate(
             store,
             user=user,
@@ -327,10 +325,7 @@ class StoreUpdater(object):
             update_revision=update_revision,
         )
         updated, suggested, unsynced_uids = self.update_units(update)
-        changes.update({
-            'updated': updated,
-            'suggested': suggested,
-        })
+        changes.update({"updated": updated, "suggested": suggested})
         return changes, unsynced_uids
 
     def update_from_disk(self, force=False, overwrite=False):
@@ -345,8 +340,10 @@ class StoreUpdater(object):
         if not self.target_store.file:
             return False
 
-        if (not force and
-            self.target_store.file_mtime == self.target_store.get_file_mtime()):
+        if (
+            not force
+            and self.target_store.file_mtime == self.target_store.get_file_mtime()
+        ):
             logging.info(
                 u"[update] File didn't change since last sync, skipping %s",
                 self.target_store.pootle_path,
@@ -360,8 +357,8 @@ class StoreUpdater(object):
 
         # update the units
         update_revision, changes, unsynced_uids = self.update(
-            self.target_store.file.store,
-            store_revision=store_revision)
+            self.target_store.file.store, store_revision=store_revision
+        )
 
         # update file_mtime
         self.target_store.file_mtime = self.target_store.get_file_mtime()
@@ -377,8 +374,9 @@ class StoreUpdater(object):
             unsynced_count = self.incr_unit_revision(unsynced_uids)
             if unsynced_count:
                 logging.info(
-                    u'[update] unsynced %d units in %s [revision: %d]',
-                    unsynced_count, self.target_store.pootle_path,
+                    u"[update] unsynced %d units in %s [revision: %d]",
+                    unsynced_count,
+                    self.target_store.pootle_path,
                     update_revision,
                 )
 
@@ -407,9 +405,7 @@ class StoreUpdater(object):
         unsynced_uids = []
 
         for unit in self.units(update.uids):
-            updated, suggested, unsynced = (
-                UnitUpdater(unit, update).update_unit()
-            )
+            updated, suggested, unsynced = UnitUpdater(unit, update).update_unit()
             if updated:
                 update_count += 1
             if suggested:

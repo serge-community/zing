@@ -18,11 +18,10 @@ PENDING_TASKS_LIMIT = 5
 class GetTaskForm(forms.Form):
 
     language = forms.ModelChoiceField(
-        queryset=Language.live.all(),
-        to_field_name='code',
+        queryset=Language.live.all(), to_field_name="code",
     )
     limit = forms.IntegerField(required=False)
 
     def clean_limit(self):
-        limit = self.cleaned_data.get('limit') or PENDING_TASKS_LIMIT
+        limit = self.cleaned_data.get("limit") or PENDING_TASKS_LIMIT
         return max(MIN_PENDING_TASKS, limit)

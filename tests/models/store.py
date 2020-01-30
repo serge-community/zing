@@ -13,8 +13,7 @@ import os
 
 import pytest
 
-from tests.factories import (LanguageDBFactory, StoreDBFactory,
-                             TranslationProjectFactory)
+from tests.factories import LanguageDBFactory, StoreDBFactory, TranslationProjectFactory
 
 from translate.storage.factory import getclass
 
@@ -35,9 +34,7 @@ def test_delete_mark_obsolete(project0_disk, store0, revision):
 
     Refs. #269.
     """
-    tp = TranslationProjectFactory(
-        project=project0_disk, language=LanguageDBFactory()
-    )
+    tp = TranslationProjectFactory(project=project0_disk, language=LanguageDBFactory())
     store = StoreDBFactory(translation_project=tp, parent=tp.directory)
 
     store.update(store.deserialize(store0.serialize()))
@@ -64,9 +61,7 @@ def test_sync(project0_disk, store0):
     """Tests that the new on-disk file is created after sync for existing
     in-DB Store if the corresponding on-disk file ceased to exist.
     """
-    tp = TranslationProjectFactory(
-        project=project0_disk, language=LanguageDBFactory()
-    )
+    tp = TranslationProjectFactory(project=project0_disk, language=LanguageDBFactory())
     store = StoreDBFactory(translation_project=tp, parent=tp.directory)
 
     store.update(store.deserialize(store0.serialize()))
@@ -83,8 +78,9 @@ def test_sync(project0_disk, store0):
 def test_update_with_non_ascii(store0, test_fs):
     store0.state = PARSED
     orig_units = store0.units.count()
-    with test_fs.open(['data', 'po', 'tutorial', 'en',
-                       'tutorial_non_ascii.po'], 'rb') as f:
+    with test_fs.open(
+        ["data", "po", "tutorial", "en", "tutorial_non_ascii.po"], "rb"
+    ) as f:
         store = getclass(f)(f.read())
     store0.update(store)
     assert store0.units[orig_units].target == "Hèḽḽě, ŵôrḽḓ"
@@ -99,23 +95,15 @@ def test_update_unit_order(project0_disk, ordered_po, ordered_update_ttk):
     ordered_po.sync()
     assert ordered_po.file.exists()
 
-    old_unit_list = ['1->2', '2->4', '3->3', '4->5']
-    updated_unit_list = list(
-        [unit.unitid for unit in ordered_po.units]
-    )
+    old_unit_list = ["1->2", "2->4", "3->3", "4->5"]
+    updated_unit_list = list([unit.unitid for unit in ordered_po.units])
     assert old_unit_list == updated_unit_list
     current_revision = ordered_po.get_max_unit_revision()
 
-    ordered_po.update(
-        ordered_update_ttk,
-        store_revision=current_revision)
+    ordered_po.update(ordered_update_ttk, store_revision=current_revision)
 
-    old_unit_list = [
-        'X->1', '1->2', '3->3', '2->4',
-        '4->5', 'X->6', 'X->7', 'X->8']
-    updated_unit_list = list(
-        [unit.unitid for unit in ordered_po.units]
-    )
+    old_unit_list = ["X->1", "1->2", "3->3", "2->4", "4->5", "X->6", "X->7", "X->8"]
+    updated_unit_list = list([unit.unitid for unit in ordered_po.units])
     assert old_unit_list == updated_unit_list
 
 
@@ -131,7 +119,7 @@ def test_update_save_changed_units(project0_disk, store0):
     store.update(store.file.store)
     unit_list = list(store.units)
 
-    store.file = 'tutorial/ru/update_save_changed_units_updated.po'
+    store.file = "tutorial/ru/update_save_changed_units_updated.po"
     store.update(store.file.store)
     updated_unit_list = list(store.units)
 
@@ -162,8 +150,8 @@ def test_update_set_last_sync_revision(project0_disk, tp0, store0, test_fs):
 
     orig = store0.serialize()
     update_file = test_fs.open(
-        "data/po/tutorial/ru/update_set_last_sync_revision_updated.po",
-        "rb")
+        "data/po/tutorial/ru/update_set_last_sync_revision_updated.po", "rb"
+    )
     with update_file as sourcef:
         with open(store0.file.path, "wb") as targetf:
             targetf.write(sourcef.read())
@@ -213,13 +201,13 @@ def test_update_restore_unsynced_and_obsoleted(project0_disk, tp0, store0):
     store0.sync()
 
     # Update a unit in this store, but don't sync it to disk
-    updated_translation = 'UPDATED TARGET'
+    updated_translation = "UPDATED TARGET"
     unit.target = updated_translation
     unit.save()
 
     # Move the disk file somewhere else
     orig_path = store0.file.path
-    backup_path = '%s.bkp' % orig_path
+    backup_path = "%s.bkp" % orig_path
     os.rename(orig_path, backup_path)
 
     obsolete_count = store0.unit_set.filter(state=OBSOLETE).count()
@@ -262,8 +250,9 @@ def _test_store_update_indexes(store):
     assert len(indexes) == len(set(indexes))
 
 
-def _test_store_update_units_before(store, units_in_file, store_revision,
-                                    units_before_update, member2):
+def _test_store_update_units_before(
+    store, units_in_file, store_revision, units_before_update, member2
+):
     # test what has happened to the units that were present before the update
     updates = {unit[0]: unit[1] for unit in units_in_file}
 
@@ -323,17 +312,20 @@ def _test_store_update_units_before(store, units_in_file, store_revision,
         assert suggestion.user == member2
 
 
-def _test_store_update_ordering(store, units_in_file, store_revision,
-                                units_before_update):
+def _test_store_update_ordering(
+    store, units_in_file, store_revision, units_before_update
+):
     # FIXME: repeating app code here makes no sense — use snapshots
     updates = {unit[0]: unit[1] for unit in units_in_file}
 
     # test ordering
     new_unit_list = []
     for unit in units_before_update:
-        add_unit = (not unit.isobsolete()
-                    and unit.source not in updates
-                    and unit.revision > store_revision)
+        add_unit = (
+            not unit.isobsolete()
+            and unit.source not in updates
+            and unit.revision > store_revision
+        )
         if add_unit:
             new_unit_list.append(unit.source)
 
@@ -343,66 +335,77 @@ def _test_store_update_ordering(store, units_in_file, store_revision,
     assert new_unit_list == [x.source for x in store.units]
 
 
-def _test_store_update_units_now(store, units_in_file, store_revision,
-                                 units_before_update):
+def _test_store_update_units_now(
+    store, units_in_file, store_revision, units_before_update
+):
     # FIXME: repeating app code here makes no sense — use snapshots
     # test that all the current units should be there
     updates = {unit[0]: unit[1] for unit in units_in_file}
     old_units = {unit.source: unit for unit in units_before_update}
     for unit in store.units:
-        assert (
-            unit.source in updates
-            or (old_units[unit.source].revision > store_revision
-                and not old_units[unit.source].isobsolete()))
+        assert unit.source in updates or (
+            old_units[unit.source].revision > store_revision
+            and not old_units[unit.source].isobsolete()
+        )
 
 
 @pytest.mark.django_db
 def test_store_update(param_update_store_test, member2):
-    store = param_update_store_test['store']
-    units_in_file = param_update_store_test['units_in_file']
-    store_revision = param_update_store_test['store_revision']
-    units_before_update = param_update_store_test['units_before_update']
+    store = param_update_store_test["store"]
+    units_in_file = param_update_store_test["units_in_file"]
+    store_revision = param_update_store_test["store_revision"]
+    units_before_update = param_update_store_test["units_before_update"]
 
     _test_store_update_indexes(store)
 
-    _test_store_update_units_before(store, units_in_file, store_revision,
-                                    units_before_update, member2)
+    _test_store_update_units_before(
+        store, units_in_file, store_revision, units_before_update, member2
+    )
 
-    _test_store_update_units_now(store, units_in_file, store_revision,
-                                 units_before_update)
+    _test_store_update_units_now(
+        store, units_in_file, store_revision, units_before_update
+    )
 
-    _test_store_update_ordering(store, units_in_file, store_revision,
-                                units_before_update)
+    _test_store_update_ordering(
+        store, units_in_file, store_revision, units_before_update
+    )
 
 
 @pytest.mark.django_db
 def test_store_file_diff(store_diff_tests):
-    diff = store_diff_tests['diff']
-    store = store_diff_tests['store']
-    units_in_file = store_diff_tests['units_in_file']
-    store_revision = store_diff_tests['store_revision']
+    diff = store_diff_tests["diff"]
+    store = store_diff_tests["store"]
+    units_in_file = store_diff_tests["units_in_file"]
+    store_revision = store_diff_tests["store_revision"]
 
     assert diff.target_store == store
     assert diff.source_revision == store_revision
     assert (
         units_in_file
         == [(x.source, x.target) for x in diff.source_store.units[1:]]
-        == [(v['source'], v['target']) for v in diff.source.units.values()])
+        == [(v["source"], v["target"]) for v in diff.source.units.values()]
+    )
     assert diff.target.active_uids == [x.source for x in store.units]
     assert diff.target_revision == store.get_max_unit_revision()
-    assert (
-        diff.target.units
-        == {unit["source_f"]: unit
-            for unit
-            in store.unit_set.values("source_f", "index", "target_f",
-                                     "state", "unitid", "id", "revision",
-                                     "developer_comment", "translator_comment",
-                                     "locations", "context")})
+    assert diff.target.units == {
+        unit["source_f"]: unit
+        for unit in store.unit_set.values(
+            "source_f",
+            "index",
+            "target_f",
+            "state",
+            "unitid",
+            "id",
+            "revision",
+            "developer_comment",
+            "translator_comment",
+            "locations",
+            "context",
+        )
+    }
     diff_diff = diff.diff()
     if diff_diff is not None:
-        assert (
-            sorted(diff_diff.keys())
-            == ["add", "index", "obsolete", "update"])
+        assert sorted(diff_diff.keys()) == ["add", "index", "obsolete", "update"]
 
     # FIXME: repeating app code here makes no sense — use snapshots instead
     # obsoleted units have no index - so just check they are all they match
@@ -412,10 +415,11 @@ def test_store_file_diff(store_diff_tests):
     # assert len(diff.obsoleted_target_units) == obsoleted.count()
     # assert all(x in diff.obsoleted_target_units for x in obsoleted)
 
-    assert (
-        diff.updated_target_units
-        == list(store.units.filter(revision__gt=store_revision)
-                           .values_list("source_f", flat=True)))
+    assert diff.updated_target_units == list(
+        store.units.filter(revision__gt=store_revision).values_list(
+            "source_f", flat=True
+        )
+    )
 
 
 @pytest.mark.django_db
@@ -454,19 +458,22 @@ def test_store_create_name_with_slashes_or_backslashes(tp0):
     """Test Stores are not created with (back)slashes on their name."""
 
     with pytest.raises(ValidationError):
-        Store.objects.create(name="slashed/name.po", parent=tp0.directory,
-                             translation_project=tp0)
+        Store.objects.create(
+            name="slashed/name.po", parent=tp0.directory, translation_project=tp0
+        )
 
     with pytest.raises(ValidationError):
-        Store.objects.create(name="backslashed\\name.po", parent=tp0.directory,
-                             translation_project=tp0)
+        Store.objects.create(
+            name="backslashed\\name.po", parent=tp0.directory, translation_project=tp0
+        )
 
 
 @pytest.mark.django_db
 def test_store_get_file_class():
     store = Store.objects.filter(
         translation_project__project__code="project0",
-        translation_project__language__code="language0").first()
+        translation_project__language__code="language0",
+    ).first()
 
     # this matches because po is recognised by ttk
     assert store.syncer.file_class == getclass(store)
@@ -476,9 +483,8 @@ def test_store_get_file_class():
 def test_store_diff(diffable_stores):
     target_store, source_store = diffable_stores
     differ = StoreDiff(
-        target_store,
-        source_store,
-        target_store.get_max_unit_revision() + 1)
+        target_store, source_store, target_store.get_max_unit_revision() + 1
+    )
     # no changes
     assert not differ.diff()
     assert differ.target_store == target_store
@@ -495,28 +501,22 @@ def test_store_diff_delete_target_unit(diffable_stores):
 
     # the unit will always be re-added (as its not obsolete)
     # with source_revision to the max
-    differ = StoreDiff(
-        target_store,
-        source_store,
-        target_store.get_max_unit_revision())
+    differ = StoreDiff(target_store, source_store, target_store.get_max_unit_revision())
     result = differ.diff()
     assert result["add"][0][0].source_f == remove_unit.source_f
     assert len(result["add"]) == 1
     assert len(result["index"]) == 0
     assert len(result["obsolete"]) == 0
-    assert result['update'] == (set(), {})
+    assert result["update"] == (set(), {})
 
     # and source_revision to 0
-    differ = StoreDiff(
-        target_store,
-        source_store,
-        0)
+    differ = StoreDiff(target_store, source_store, 0)
     result = differ.diff()
     assert result["add"][0][0].source_f == remove_unit.source_f
     assert len(result["add"]) == 1
     assert len(result["index"]) == 0
     assert len(result["obsolete"]) == 0
-    assert result['update'] == (set(), {})
+    assert result["update"] == (set(), {})
 
 
 @pytest.mark.django_db
@@ -528,10 +528,7 @@ def test_store_diff_delete_source_unit(diffable_stores):
     remove_unit.delete()
 
     # set the source_revision to max and the unit will be obsoleted
-    differ = StoreDiff(
-        target_store,
-        source_store,
-        target_store.get_max_unit_revision())
+    differ = StoreDiff(target_store, source_store, target_store.get_max_unit_revision())
     result = differ.diff()
     to_remove = target_store.units.get(unitid=remove_unit.unitid)
     assert result["obsolete"] == [to_remove.pk]
@@ -543,9 +540,8 @@ def test_store_diff_delete_source_unit(diffable_stores):
     # and the unit will be ignored, as its assumed to have been previously
     # deleted
     differ = StoreDiff(
-        target_store,
-        source_store,
-        target_store.get_max_unit_revision() - 1)
+        target_store, source_store, target_store.get_max_unit_revision() - 1
+    )
     assert not differ.diff()
 
 
@@ -561,9 +557,8 @@ def test_store_diff_delete_obsoleted_target_unit(diffable_stores):
     obsolete_unit.save()
     # as the unit is already obsolete - nothing
     differ = StoreDiff(
-        target_store,
-        source_store,
-        target_store.get_max_unit_revision() + 1)
+        target_store, source_store, target_store.get_max_unit_revision() + 1
+    )
     assert not differ.diff()
 
 
@@ -577,9 +572,7 @@ def test_store_diff_obsoleted_target_unit(diffable_stores):
 
     # no matter the revision, the unit will be resurrected
     differ = StoreDiff(
-        target_store,
-        source_store,
-        target_store.get_max_unit_revision(),
+        target_store, source_store, target_store.get_max_unit_revision(),
     )
     result = differ.diff()
     assert result["update"][0] == set([obsolete_unit.pk])
@@ -597,19 +590,15 @@ def test_store_diff_update_target_unit(diffable_stores):
 
     # the unit is always marked for update
     differ = StoreDiff(
-        target_store,
-        source_store,
-        target_store.get_max_unit_revision() + 1)
+        target_store, source_store, target_store.get_max_unit_revision() + 1
+    )
     result = differ.diff()
     assert result["update"][0] == set([update_unit.pk])
     assert result["update"][1] == {}
     assert len(result["add"]) == 0
     assert len(result["index"]) == 0
 
-    differ = StoreDiff(
-        target_store,
-        source_store,
-        0)
+    differ = StoreDiff(target_store, source_store, 0)
     result = differ.diff()
     assert result["update"][0] == set([update_unit.pk])
     assert result["update"][1] == {}
@@ -625,23 +614,18 @@ def test_store_diff_update_source_unit(diffable_stores):
     update_unit.target_f = "Some other string"
     update_unit.save()
 
-    target_unit = target_store.units.get(
-        unitid=update_unit.unitid)
+    target_unit = target_store.units.get(unitid=update_unit.unitid)
 
     # the unit is always marked for update
     differ = StoreDiff(
-        target_store,
-        source_store,
-        target_store.get_max_unit_revision() + 1)
+        target_store, source_store, target_store.get_max_unit_revision() + 1
+    )
     result = differ.diff()
     assert result["update"][0] == set([target_unit.pk])
     assert result["update"][1] == {}
     assert len(result["add"]) == 0
     assert len(result["index"]) == 0
-    differ = StoreDiff(
-        target_store,
-        source_store,
-        0)
+    differ = StoreDiff(target_store, source_store, 0)
     result = differ.diff()
     assert result["update"][0] == set([target_unit.pk])
     assert result["update"][1] == {}
@@ -661,9 +645,8 @@ def test_store_diff_delete_obsoleted_source_unit(diffable_stores):
     obsolete_unit.save()
     # as the unit is already obsolete - nothing
     differ = StoreDiff(
-        target_store,
-        source_store,
-        target_store.get_max_unit_revision() + 1)
+        target_store, source_store, target_store.get_max_unit_revision() + 1
+    )
     assert not differ.diff()
 
 
@@ -716,7 +699,8 @@ def test_store_syncer_sync_store(tp0, dummy_store_syncer):
     result = dummy_syncer.sync_store(
         expected["last_revision"],
         expected["update_structure"],
-        expected["conservative"])
+        expected["conservative"],
+    )
     assert result[0] is True
     assert result[1]["updated"] == expected["changes"]
     # conservative makes no diff here
@@ -725,7 +709,8 @@ def test_store_syncer_sync_store(tp0, dummy_store_syncer):
     result = dummy_syncer.sync_store(
         expected["last_revision"],
         expected["update_structure"],
-        expected["conservative"])
+        expected["conservative"],
+    )
     assert result[0] is True
     assert result[1]["updated"] == expected["changes"]
 
@@ -743,7 +728,8 @@ def test_store_syncer_sync_store_no_changes(tp0, dummy_store_syncer):
     result = dummy_syncer.sync_store(
         expected["last_revision"],
         expected["update_structure"],
-        expected["conservative"])
+        expected["conservative"],
+    )
     assert result[0] is False
     assert not result[1].get("updated")
 
@@ -753,7 +739,8 @@ def test_store_syncer_sync_store_no_changes(tp0, dummy_store_syncer):
     result = dummy_syncer.sync_store(
         expected["last_revision"],
         expected["update_structure"],
-        expected["conservative"])
+        expected["conservative"],
+    )
     assert result[0] is False
     assert not result[1].get("updated")
 
@@ -769,7 +756,8 @@ def test_store_syncer_sync_store_structure(tp0, dummy_store_syncer):
     result = dummy_syncer.sync_store(
         expected["last_revision"],
         expected["update_structure"],
-        expected["conservative"])
+        expected["conservative"],
+    )
     assert result[0] is True
     assert result[1]["updated"] == []
     assert result[1]["obsolete"] == 8
@@ -783,7 +771,8 @@ def test_store_syncer_sync_store_structure(tp0, dummy_store_syncer):
     result = dummy_syncer.sync_store(
         expected["last_revision"],
         expected["update_structure"],
-        expected["conservative"])
+        expected["conservative"],
+    )
     assert result[0] is False
 
 
@@ -795,23 +784,21 @@ def test_store_syncer_sync_update_structure(dummy_store_structure_syncer, tp0):
         unit_class="FOO",
         conservative=True,
         obsolete_delete=(True, True),
-        obsolete_units=["a", "b", "c"])
+        obsolete_units=["a", "b", "c"],
+    )
     expected["new_units"] = [
-        DummyUnit(unit, expected=expected)
-        for unit in ["5", "6", "7"]]
+        DummyUnit(unit, expected=expected) for unit in ["5", "6", "7"]
+    ]
     syncer = DummyStoreSyncer(store, expected=expected)
     result = syncer.update_structure(
-        expected["obsolete_units"],
-        expected["new_units"],
-        expected["conservative"])
+        expected["obsolete_units"], expected["new_units"], expected["conservative"]
+    )
     obsolete_units = (
-        len(expected["obsolete_units"])
-        if expected["obsolete_delete"][0]
-        else 0)
+        len(expected["obsolete_units"]) if expected["obsolete_delete"][0] else 0
+    )
     deleted_units = (
-        len(expected["obsolete_units"])
-        if expected["obsolete_delete"][1]
-        else 0)
+        len(expected["obsolete_units"]) if expected["obsolete_delete"][1] else 0
+    )
     new_units = len(expected["new_units"])
     assert result == (obsolete_units, deleted_units, new_units)
 
@@ -819,64 +806,53 @@ def test_store_syncer_sync_update_structure(dummy_store_structure_syncer, tp0):
 def _test_get_new(results, syncer, old_ids, new_ids):
     assert list(results) == list(
         syncer.store.findid_bulk(
-            [syncer.dbid_index.get(uid)
-             for uid
-             in new_ids - old_ids]))
+            [syncer.dbid_index.get(uid) for uid in new_ids - old_ids]
+        )
+    )
 
 
 def _test_get_obsolete(results, syncer, old_ids, new_ids):
     assert list(results) == list(
         syncer.disk_store.findid(uid)
-        for uid
-        in old_ids - new_ids
-        if (syncer.disk_store.findid(uid)
-            and not syncer.disk_store.findid(uid).isobsolete()))
+        for uid in old_ids - new_ids
+        if (
+            syncer.disk_store.findid(uid)
+            and not syncer.disk_store.findid(uid).isobsolete()
+        )
+    )
 
 
 @pytest.mark.django_db
 def test_store_syncer_obsolete_units(dummy_store_syncer_units, tp0):
     store = tp0.stores.live().first()
-    expected = dict(
-        old_ids=set(),
-        new_ids=set(),
-        disk_ids={})
+    expected = dict(old_ids=set(), new_ids=set(), disk_ids={})
     syncer = dummy_store_syncer_units(store, expected=expected)
-    results = syncer.get_units_to_obsolete(
-        expected["old_ids"], expected["new_ids"])
-    _test_get_obsolete(
-        results, syncer, expected["old_ids"], expected["new_ids"])
+    results = syncer.get_units_to_obsolete(expected["old_ids"], expected["new_ids"])
+    _test_get_obsolete(results, syncer, expected["old_ids"], expected["new_ids"])
     expected = dict(
         old_ids=set(["2", "3", "4"]),
         new_ids=set(["3", "4", "5"]),
-        disk_ids={"3": "foo", "4": "bar", "5": "baz"})
-    results = syncer.get_units_to_obsolete(
-        expected["old_ids"], expected["new_ids"])
-    _test_get_obsolete(
-        results, syncer, expected["old_ids"], expected["new_ids"])
+        disk_ids={"3": "foo", "4": "bar", "5": "baz"},
+    )
+    results = syncer.get_units_to_obsolete(expected["old_ids"], expected["new_ids"])
+    _test_get_obsolete(results, syncer, expected["old_ids"], expected["new_ids"])
 
 
 @pytest.mark.django_db
 def test_store_syncer_new_units(dummy_store_syncer_units, tp0):
     store = tp0.stores.live().first()
-    expected = dict(
-        old_ids=set(),
-        new_ids=set(),
-        disk_ids={},
-        db_ids={})
+    expected = dict(old_ids=set(), new_ids=set(), disk_ids={}, db_ids={})
     syncer = dummy_store_syncer_units(store, expected=expected)
-    results = syncer.get_new_units(
-        expected["old_ids"], expected["new_ids"])
-    _test_get_new(
-        results, syncer, expected["old_ids"], expected["new_ids"])
+    results = syncer.get_new_units(expected["old_ids"], expected["new_ids"])
+    _test_get_new(results, syncer, expected["old_ids"], expected["new_ids"])
     expected = dict(
         old_ids=set(["2", "3", "4"]),
         new_ids=set(["3", "4", "5"]),
-        db_ids={"3": "foo", "4": "bar", "5": "baz"})
+        db_ids={"3": "foo", "4": "bar", "5": "baz"},
+    )
     syncer = dummy_store_syncer_units(store, expected=expected)
-    results = syncer.get_new_units(
-        expected["old_ids"], expected["new_ids"])
-    _test_get_new(
-        results, syncer, expected["old_ids"], expected["new_ids"])
+    results = syncer.get_new_units(expected["old_ids"], expected["new_ids"])
+    _test_get_new(results, syncer, expected["old_ids"], expected["new_ids"])
 
 
 @pytest.mark.django_db

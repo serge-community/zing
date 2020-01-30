@@ -25,7 +25,6 @@ logger = logging.getLogger(__name__)
 
 
 class InitDB(object):
-
     def init_db(self, create_projects=True):
         """Populate the database with default initial data.
 
@@ -45,13 +44,13 @@ class InitDB(object):
     def _create_object(self, model_klass, **criteria):
         instance, created = model_klass.objects.get_or_create(**criteria)
         if created:
-            logger.debug(
-                "Created %s: '%s'",
-                instance.__class__.__name__, instance)
+            logger.debug("Created %s: '%s'", instance.__class__.__name__, instance)
         else:
             logger.debug(
                 "%s already exists - skipping: '%s'",
-                instance.__class__.__name__, instance)
+                instance.__class__.__name__,
+                instance,
+            )
         return instance, created
 
     def _create_pootle_user(self, **criteria):
@@ -62,8 +61,7 @@ class InitDB(object):
         return user
 
     def _create_pootle_permission_set(self, permissions, **criteria):
-        permission_set, created = self._create_object(PermissionSet,
-                                                      **criteria)
+        permission_set, created = self._create_object(PermissionSet, **criteria)
         if created:
             permission_set.positive_permissions.set(permissions)
             permission_set.save()
@@ -82,10 +80,10 @@ class InitDB(object):
         # example is in the permission system: we need a way to store rights
         # for anonymous users; thus we use the nobody user.
         criteria = {
-            'username': u"nobody",
-            'full_name': u"any anonymous user",
-            'email': 'nobody@example.com',
-            'is_active': True,
+            "username": u"nobody",
+            "full_name": u"any anonymous user",
+            "email": "nobody@example.com",
+            "is_active": True,
         }
         self._create_pootle_user(**criteria)
 
@@ -97,20 +95,20 @@ class InitDB(object):
         # In a future version of Pootle we should think about using Django's
         # groups to do better permissions handling.
         criteria = {
-            'username': u"default",
-            'full_name': u"any authenticated user",
-            'email': 'default@example.com',
-            'is_active': True,
+            "username": u"default",
+            "full_name": u"any authenticated user",
+            "email": "default@example.com",
+            "is_active": True,
         }
         self._create_pootle_user(**criteria)
 
         # The system user represents a system, and is used to
         # associate updates done by bulk commands as update_stores.
         criteria = {
-            'username': u"system",
-            'full_name': u"system user",
-            'email': 'system@example.com',
-            'is_active': True,
+            "username": u"system",
+            "full_name": u"system user",
+            "email": "system@example.com",
+            "is_active": True,
         }
         self._create_pootle_user(**criteria)
 
@@ -118,8 +116,8 @@ class InitDB(object):
         """Create Pootle's directory level permissions."""
 
         args = {
-            'app_label': "pootle_app",
-            'model': "directory",
+            "app_label": "pootle_app",
+            "model": "directory",
         }
 
         pootle_content_type = self._create_object(ContentType, **args)[0]
@@ -127,34 +125,22 @@ class InitDB(object):
 
         # Create the permissions.
         permissions = [
+            {"name": _("Can access a project"), "codename": "view"},
+            {"name": _("Cannot access a project"), "codename": "hide"},
             {
-                'name': _("Can access a project"),
-                'codename': "view",
+                "name": _("Can make a suggestion for a translation"),
+                "codename": "suggest",
             },
+            {"name": _("Can submit a translation"), "codename": "translate"},
+            {"name": _("Can review suggestions"), "codename": "review"},
             {
-                'name': _("Cannot access a project"),
-                'codename': "hide",
-            },
-            {
-                'name': _("Can make a suggestion for a translation"),
-                'codename': "suggest",
-            },
-            {
-                'name': _("Can submit a translation"),
-                'codename': "translate",
-            },
-            {
-                'name': _("Can review suggestions"),
-                'codename': "review",
-            },
-            {
-                'name': _("Can perform administrative tasks"),
-                'codename': "administrate",
+                "name": _("Can perform administrative tasks"),
+                "codename": "administrate",
             },
         ]
 
         criteria = {
-            'content_type': pootle_content_type,
+            "content_type": pootle_content_type,
         }
 
         for permission in permissions:
@@ -169,29 +155,29 @@ class InitDB(object):
         """
         User = get_user_model()
 
-        nobody = User.objects.get(username='nobody')
-        default = User.objects.get(username='default')
+        nobody = User.objects.get(username="nobody")
+        default = User.objects.get(username="default")
 
-        view = get_pootle_permission('view')
-        suggest = get_pootle_permission('suggest')
+        view = get_pootle_permission("view")
+        suggest = get_pootle_permission("suggest")
 
         # Default permissions for tree root.
         criteria = {
-            'user': nobody,
-            'directory': Directory.objects.root,
+            "user": nobody,
+            "directory": Directory.objects.root,
         }
         self._create_pootle_permission_set([view], **criteria)
 
-        criteria['user'] = default
+        criteria["user"] = default
         self._create_pootle_permission_set([view, suggest], **criteria)
 
     def require_english(self):
         """Create the English Language item."""
         criteria = {
-            'code': "en",
-            'fullname': u"English",
-            'nplurals': 2,
-            'pluralequation': "(n != 1)",
+            "code": "en",
+            "fullname": u"English",
+            "nplurals": 2,
+            "pluralequation": "(n != 1)",
         }
         en = self._create_object(Language, **criteria)[0]
         return en
@@ -208,10 +194,10 @@ class InitDB(object):
         while translating.
         """
         criteria = {
-            'code': "terminology",
-            'fullname': u"Terminology",
-            'source_language': self.require_english(),
-            'checkstyle': "terminology",
+            "code": "terminology",
+            "fullname": u"Terminology",
+            "source_language": self.require_english(),
+            "checkstyle": "terminology",
         }
         self._create_object(Project, **criteria)[0]
 
@@ -224,10 +210,10 @@ class InitDB(object):
         en = self.require_english()
 
         criteria = {
-            'code': u"tutorial",
-            'source_language': en,
-            'fullname': u"Tutorial",
-            'checkstyle': "standard",
+            "code": u"tutorial",
+            "source_language": en,
+            "fullname": u"Tutorial",
+            "checkstyle": "standard",
         }
         self._create_object(Project, **criteria)[0]
 
@@ -238,23 +224,20 @@ class InitDB(object):
         # import languages from toolkit
         languages = []
         directories = []
-        existing_lang_codes = Language.objects.values_list(
-            "code", flat=True)
+        existing_lang_codes = Language.objects.values_list("code", flat=True)
         for code in data.languages.keys():
             if code in existing_lang_codes:
                 continue
             directory = Directory(
-                parent=Directory.objects.root,
-                pootle_path="/%s/" % code,
-                name=code)
+                parent=Directory.objects.root, pootle_path="/%s/" % code, name=code
+            )
             directories.append(directory)
         if directories:
             Directory.objects.bulk_create(directories)
         directories = {
             directory.name: directory
-            for directory
-            in Directory.objects.filter(
-                parent=Directory.objects.root)}
+            for directory in Directory.objects.filter(parent=Directory.objects.root)
+        }
         for code in data.languages.keys():
             if code in existing_lang_codes:
                 continue
@@ -263,12 +246,13 @@ class InitDB(object):
             except AttributeError:
                 continue
             criteria = {
-                'code': code,
-                'fullname': tk_lang.fullname,
-                'nplurals': tk_lang.nplurals,
-                'pluralequation': tk_lang.pluralequation}
+                "code": code,
+                "fullname": tk_lang.fullname,
+                "nplurals": tk_lang.nplurals,
+                "pluralequation": tk_lang.pluralequation,
+            }
             try:
-                criteria['specialchars'] = tk_lang.specialchars
+                criteria["specialchars"] = tk_lang.specialchars
             except AttributeError:
                 pass
             criteria["directory"] = directories[code]

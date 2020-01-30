@@ -18,10 +18,10 @@ def _require_project(code, name, source_language, **kwargs):
     from pootle_project.models import Project
 
     criteria = {
-        'code': code,
-        'fullname': name,
-        'source_language': source_language,
-        'checkstyle': 'standard',
+        "code": code,
+        "fullname": name,
+        "source_language": source_language,
+        "checkstyle": "standard",
     }
     criteria.update(kwargs)
     new_project = Project.objects.get_or_create(**criteria)[0]
@@ -32,30 +32,29 @@ def _require_project(code, name, source_language, **kwargs):
 def tutorial(english, settings, data_dir):
     """Require `tutorial` test project."""
     shutil.copytree(
-        data_dir('po', 'tutorial'),
-        os.path.join(settings.ZING_TRANSLATION_DIRECTORY, "tutorial")
+        data_dir("po", "tutorial"),
+        os.path.join(settings.ZING_TRANSLATION_DIRECTORY, "tutorial"),
     )
 
-    return _require_project('tutorial', 'Tutorial', english)
+    return _require_project("tutorial", "Tutorial", english)
 
 
 @pytest.fixture
 def tutorial_disabled(english):
     """Require `tutorial-disabled` test project in a disabled state."""
-    return _require_project('tutorial-disabled', 'Tutorial', english,
-                            disabled=True)
+    return _require_project("tutorial-disabled", "Tutorial", english, disabled=True)
 
 
 @pytest.fixture
 def project_foo(english):
     """Require `foo` test project."""
-    return _require_project('foo', 'Foo Project', english)
+    return _require_project("foo", "Foo Project", english)
 
 
 @pytest.fixture
 def project_bar(english):
     """Require `bar` test project."""
-    return _require_project('bar', 'Bar Project', english)
+    return _require_project("bar", "Bar Project", english)
 
 
 @pytest.fixture
@@ -97,13 +96,11 @@ def project_dir_resources0(project0, subdir0):
     from pootle_project.models import ProjectResource
 
     resources = Directory.objects.live().filter(
-        name=subdir0.name,
-        parent__translationproject__project=project0)
+        name=subdir0.name, parent__translationproject__project=project0
+    )
     return ProjectResource(
-        resources,
-        ("/projects/%s/%s"
-         % (project0.code,
-            subdir0.name)))
+        resources, ("/projects/%s/%s" % (project0.code, subdir0.name))
+    )
 
 
 @pytest.fixture
@@ -117,14 +114,12 @@ def project_store_resources0(project0, subdir0):
     resources = Store.objects.live().filter(
         name=store.name,
         parent__name=subdir0.name,
-        translation_project__project=project0)
+        translation_project__project=project0,
+    )
 
     return ProjectResource(
-        resources,
-        ("/projects/%s/%s/%s"
-         % (project0.code,
-            subdir0.name,
-            store.name)))
+        resources, ("/projects/%s/%s/%s" % (project0.code, subdir0.name, store.name))
+    )
 
 
 @pytest.fixture

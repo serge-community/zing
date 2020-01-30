@@ -14,7 +14,7 @@ def paginate(request, queryset, items=30, page=None):
 
     if page is None:
         try:
-            page = int(request.GET.get('page', 1))
+            page = int(request.GET.get("page", 1))
         except ValueError:
             # It wasn't an int, so use 1.
             page = 1

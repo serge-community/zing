@@ -13,30 +13,30 @@ from pootle_app.forms import ProjectForm
 from pootle_project.models import PROJECT_CHECKERS, RESERVED_PROJECT_CODES
 
 
-@pytest.mark.parametrize('reserved_code', RESERVED_PROJECT_CODES)
+@pytest.mark.parametrize("reserved_code", RESERVED_PROJECT_CODES)
 @pytest.mark.django_db
 def test_clean_code_invalid(reserved_code):
     form_data = {
-        'code': reserved_code,
-        'checkstyle': list(PROJECT_CHECKERS.keys())[0],
-        'fullname': 'Foo',
-        'source_language': 1,
+        "code": reserved_code,
+        "checkstyle": list(PROJECT_CHECKERS.keys())[0],
+        "fullname": "Foo",
+        "source_language": 1,
     }
     form = ProjectForm(form_data)
     assert not form.is_valid()
-    assert 'code' in form.errors
+    assert "code" in form.errors
     assert len(list(form.errors.keys())) == 1
 
 
 @pytest.mark.django_db
 def test_clean_code_blank_invalid():
     form_data = {
-        'code': '  ',
-        'checkstyle': list(PROJECT_CHECKERS.keys())[0],
-        'fullname': 'Foo',
-        'source_language': 1,
+        "code": "  ",
+        "checkstyle": list(PROJECT_CHECKERS.keys())[0],
+        "fullname": "Foo",
+        "source_language": 1,
     }
     form = ProjectForm(form_data)
     assert not form.is_valid()
-    assert 'code' in form.errors
+    assert "code" in form.errors
     assert len(list(form.errors.keys())) == 1

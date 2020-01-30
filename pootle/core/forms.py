@@ -44,10 +44,14 @@ class MathCaptchaForm(forms.Form):
     A_RE = re.compile(r"^(\d+)$")
 
     captcha_answer = forms.CharField(
-        max_length=2, required=True,
-        widget=forms.TextInput(attrs={'size': '2'}), label='')
-    captcha_token = forms.CharField(max_length=200, required=True,
-                                    widget=forms.HiddenInput())
+        max_length=2,
+        required=True,
+        widget=forms.TextInput(attrs={"size": "2"}),
+        label="",
+    )
+    captcha_token = forms.CharField(
+        max_length=200, required=True, widget=forms.HiddenInput()
+    )
 
     def __init__(self, *args, **kwargs):
         """Initalise captcha_question and captcha_token for the form."""
@@ -62,40 +66,40 @@ class MathCaptchaForm(forms.Form):
         if any.
         """
         q, a = self._generate_captcha()
-        expires = time.time() + \
-            getattr(settings, 'CAPTCHA_EXPIRES_SECONDS', 60*60)
+        expires = time.time() + getattr(settings, "CAPTCHA_EXPIRES_SECONDS", 60 * 60)
         token = self._make_token(q, a, expires)
-        self.initial['captcha_token'] = token
+        self.initial["captcha_token"] = token
         self._plain_question = q
         # reset captcha fields for bound form
         if self.data:
+
             def _reset():
-                self.data['captcha_token'] = token
-                self.data['captcha_answer'] = ''
-            if hasattr(self.data, '_mutable') and not self.data._mutable:
+                self.data["captcha_token"] = token
+                self.data["captcha_answer"] = ""
+
+            if hasattr(self.data, "_mutable") and not self.data._mutable:
                 self.data._mutable = True
                 _reset()
                 self.data._mutable = False
             else:
                 _reset()
 
-        self.fields['captcha_answer'].label = mark_safe(self.knotty_question)
+        self.fields["captcha_answer"].label = mark_safe(self.knotty_question)
 
     def _generate_captcha(self):
         """Generate question and return it along with correct answer."""
         a, b = randint(1, 9), randint(1, 9)
-        return ("%s+%s" % (a, b), a+b)
+        return ("%s+%s" % (a, b), a + b)
 
     def _make_token(self, q, a, expires):
-        to_encode = jsonify({'q': q, 'expires': expires}).encode('utf-8')
+        to_encode = jsonify({"q": q, "expires": expires}).encode("utf-8")
         data = base64.urlsafe_b64encode(to_encode)
-        return self._sign(q, a, expires) + data.decode('utf-8')
+        return self._sign(q, a, expires) + data.decode("utf-8")
 
     def _sign(self, q, a, expires):
-        plain = [getattr(settings, 'SITE_URL', ''), settings.SECRET_KEY,
-                 q, a, expires]
+        plain = [getattr(settings, "SITE_URL", ""), settings.SECRET_KEY, q, a, expires]
         plain = "".join([str(p) for p in plain])
-        return sha1(plain.encode('utf-8')).hexdigest()
+        return sha1(plain.encode("utf-8")).hexdigest()
 
     @property
     def plain_question(self):
@@ -107,32 +111,34 @@ class MathCaptchaForm(forms.Form):
         nonexisted classes, that makes life of spambots a bit harder because
         form of question is vary from request to request.
         """
-        digits = self._plain_question.split('+')
-        return "+".join(['<span class="captcha-random-%s">%s</span>' %
-                         (randint(1, 9), d) for d in digits])
+        digits = self._plain_question.split("+")
+        return "+".join(
+            [
+                '<span class="captcha-random-%s">%s</span>' % (randint(1, 9), d)
+                for d in digits
+            ]
+        )
 
     def clean_captcha_token(self):
-        t = self._parse_token(self.cleaned_data['captcha_token'])
-        if time.time() > t['expires']:
+        t = self._parse_token(self.cleaned_data["captcha_token"])
+        if time.time() > t["expires"]:
             raise forms.ValidationError(_("Time to answer has expired"))
-        self._plain_question = t['q']
+        self._plain_question = t["q"]
         return t
 
     def _parse_token(self, t):
         try:
             sign, data = t[:40], t[40:]
-            str_data = base64.urlsafe_b64decode(str(data)).decode('utf-8')
+            str_data = base64.urlsafe_b64decode(str(data)).decode("utf-8")
             data = json.loads(str_data)
-            return {'q': data['q'],
-                    'expires': float(data['expires']),
-                    'sign': sign}
+            return {"q": data["q"], "expires": float(data["expires"]), "sign": sign}
         except Exception as e:
             logging.info("Captcha error: %r", e)
             # l10n for bots? Rather not
             raise forms.ValidationError("Invalid captcha!")
 
     def clean_captcha_answer(self):
-        a = self.A_RE.match(self.cleaned_data.get('captcha_answer'))
+        a = self.A_RE.match(self.cleaned_data.get("captcha_answer"))
         if not a:
             raise forms.ValidationError(_("Enter a number"))
         return int(a.group(0))
@@ -141,15 +147,14 @@ class MathCaptchaForm(forms.Form):
         """Check captcha answer."""
         cd = self.cleaned_data
         # don't check captcha if no answer
-        if 'captcha_answer' not in cd:
+        if "captcha_answer" not in cd:
             return cd
 
-        t = cd.get('captcha_token')
+        t = cd.get("captcha_token")
         if t:
-            form_sign = self._sign(t['q'], cd['captcha_answer'],
-                                   t['expires'])
-            if form_sign != t['sign']:
-                self._errors['captcha_answer'] = [_("Incorrect")]
+            form_sign = self._sign(t["q"], cd["captcha_answer"], t["expires"])
+            if form_sign != t["sign"]:
+                self._errors["captcha_answer"] = [_("Incorrect")]
         else:
             self.reset_captcha()
         return super(MathCaptchaForm, self).clean()
@@ -161,4 +166,4 @@ class PathForm(forms.Form):
     path = forms.CharField(max_length=2048, required=True)
 
     def clean_path(self):
-        return self.cleaned_data.get('path', '/')
+        return self.cleaned_data.get("path", "/")

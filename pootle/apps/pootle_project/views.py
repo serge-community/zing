@@ -16,8 +16,7 @@ from django.utils.functional import cached_property
 
 from pootle.core.browser import ItemTypes
 from pootle.core.decorators import get_path_obj, permission_required
-from pootle.core.views import (PootleBrowseView, PootleExportView,
-                               PootleTranslateView)
+from pootle.core.views import PootleBrowseView, PootleExportView, PootleTranslateView
 from pootle_app.models import Directory
 from pootle_app.views.admin.permissions import admin_permissions
 from pootle_store.models import Store
@@ -30,7 +29,7 @@ class ProjectMixin(object):
     browse_url_path = "pootle-project-browse"
     export_url_path = "pootle-project-export"
     translate_url_path = "pootle-project-translate"
-    template_extends = 'projects/base.html'
+    template_extends = "projects/base.html"
 
     @property
     def ctx_path(self):
@@ -44,7 +43,8 @@ class ProjectMixin(object):
     def project(self):
         project = get_object_or_404(
             Project.objects.select_related("directory"),
-            code=self.kwargs["project_code"])
+            code=self.kwargs["project_code"],
+        )
         if project.disabled and not self.request.user.is_superuser:
             raise Http404
         return project
@@ -54,42 +54,44 @@ class ProjectMixin(object):
         return {
             "project_code": self.project.code,
             "dir_path": self.kwargs["dir_path"],
-            "filename": self.kwargs["filename"]}
+            "filename": self.kwargs["filename"],
+        }
 
     @lru_cache()
     def get_object(self):
         if not (self.kwargs["dir_path"] or self.kwargs["filename"]):
             return self.project
 
-        project_path = (
-            "/%s/%s%s"
-            % (self.project.code,
-               self.kwargs['dir_path'],
-               self.kwargs['filename']))
+        project_path = "/%s/%s%s" % (
+            self.project.code,
+            self.kwargs["dir_path"],
+            self.kwargs["filename"],
+        )
         regex = r"^/[^/]*%s$" % project_path
         if not self.kwargs["filename"]:
             dirs = Directory.objects.live()
-            if self.kwargs['dir_path'].count("/"):
-                tp_prefix = "parent__" * self.kwargs['dir_path'].count("/")
+            if self.kwargs["dir_path"].count("/"):
+                tp_prefix = "parent__" * self.kwargs["dir_path"].count("/")
                 dirs = dirs.select_related(
                     "%stranslationproject" % tp_prefix,
-                    "%stranslationproject__language" % tp_prefix)
+                    "%stranslationproject__language" % tp_prefix,
+                )
             resources = dirs.filter(
-                pootle_path__endswith=project_path,
-                pootle_path__regex=regex,
+                pootle_path__endswith=project_path, pootle_path__regex=regex,
             )
         else:
             resources = (
                 Store.objects.live()
-                             .select_related("translation_project__language")
-                             .filter(translation_project__project=self.project)
-                             .filter(pootle_path__endswith=project_path)
-                             .filter(pootle_path__regex=regex))
+                .select_related("translation_project__language")
+                .filter(translation_project__project=self.project)
+                .filter(pootle_path__endswith=project_path)
+                .filter(pootle_path__regex=regex)
+            )
         if resources:
             return ProjectResource(
                 resources,
-                ("/projects/%(project_code)s/%(dir_path)s%(filename)s"
-                 % self.kwargs))
+                ("/projects/%(project_code)s/%(dir_path)s%(filename)s" % self.kwargs),
+            )
         raise Http404
 
     @property
@@ -98,7 +100,6 @@ class ProjectMixin(object):
 
 
 class ProjectBrowseView(ProjectMixin, PootleBrowseView):
-
     @property
     def stats(self):
         return self.object.get_stats_for_user(self.request.user)
@@ -123,7 +124,7 @@ class ProjectBrowseView(ProjectMixin, PootleBrowseView):
         return ItemTypes.LANGUAGE
 
     def get_item_title(self, path_obj):
-        if self.kwargs['dir_path'] or self.kwargs['filename']:
+        if self.kwargs["dir_path"] or self.kwargs["filename"]:
             return path_obj.translation_project.language.name
         return path_obj.language.name
 
@@ -137,46 +138,42 @@ class ProjectTranslateView(ProjectMixin, PootleTranslateView):
 
 
 class ProjectExportView(ProjectMixin, PootleExportView):
-    required_permission = 'view'
+    required_permission = "view"
     source_language = "en"
 
 
 @get_path_obj
-@permission_required('administrate')
+@permission_required("administrate")
 def project_admin_permissions(request, project):
     ctx = {
-        'page': 'admin-permissions',
-
-        'browse_url': reverse('pootle-project-browse', kwargs={
-            'project_code': project.code,
-            'dir_path': '',
-            'filename': '',
-        }),
-        'translate_url': reverse('pootle-project-translate', kwargs={
-            'project_code': project.code,
-            'dir_path': '',
-            'filename': '',
-        }),
-
-        'project': project,
-        'directory': project.directory,
+        "page": "admin-permissions",
+        "browse_url": reverse(
+            "pootle-project-browse",
+            kwargs={"project_code": project.code, "dir_path": "", "filename": ""},
+        ),
+        "translate_url": reverse(
+            "pootle-project-translate",
+            kwargs={"project_code": project.code, "dir_path": "", "filename": ""},
+        ),
+        "project": project,
+        "directory": project.directory,
     }
 
-    return admin_permissions(request, project.directory,
-                             'projects/admin/permissions.html', ctx)
+    return admin_permissions(
+        request, project.directory, "projects/admin/permissions.html", ctx
+    )
 
 
 class ProjectsMixin(object):
-    template_extends = 'projects/all/base.html'
+    template_extends = "projects/all/base.html"
     browse_url_path = "pootle-projects-browse"
     export_url_path = "pootle-projects-export"
     translate_url_path = "pootle-projects-translate"
 
     @lru_cache()
     def get_object(self):
-        user_projects = (
-            Project.objects.for_user(self.request.user)
-                           .select_related('directory')
+        user_projects = Project.objects.for_user(self.request.user).select_related(
+            "directory"
         )
         return ProjectSet(user_projects)
 
@@ -194,10 +191,9 @@ class ProjectsMixin(object):
 
 
 class ProjectsBrowseView(ProjectsMixin, PootleBrowseView):
-
     def get(self, *args, **kwargs):
         response = super(ProjectsBrowseView, self).get(*args, **kwargs)
-        response.set_cookie('pootle-language', "projects")
+        response.set_cookie("pootle-language", "projects")
         return response
 
     def get_item_type(self, path_obj):
@@ -212,5 +208,5 @@ class ProjectsTranslateView(ProjectsMixin, PootleTranslateView):
 
 
 class ProjectsExportView(ProjectsMixin, PootleExportView):
-    required_permission = 'administrate'
+    required_permission = "administrate"
     source_language = "en"

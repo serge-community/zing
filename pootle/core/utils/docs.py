@@ -10,7 +10,7 @@ from ..url_helpers import urljoin
 from .version import get_rtd_version
 
 
-DOCS_BASE = u'https://docs.translatehouse.org/projects/pootle/en/'
+DOCS_BASE = u"https://docs.translatehouse.org/projects/pootle/en/"
 
 
 def get_docs_url(path_name, version=None):

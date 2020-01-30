@@ -13,30 +13,32 @@ from django.urls import reverse
 from django.utils.functional import cached_property
 
 from pootle.core.mixins import CachedTreeItem
-from pootle.core.url_helpers import (get_editor_filter, split_pootle_path,
-                                     to_tp_relative_path)
+from pootle.core.url_helpers import (
+    get_editor_filter,
+    split_pootle_path,
+    to_tp_relative_path,
+)
 
 
 class DirectoryManager(models.Manager):
-
     def live(self):
         """Filters non-obsolete directories."""
         return self.filter(obsolete=False)
 
     @cached_property
     def root(self):
-        return self.get(pootle_path='/')
+        return self.get(pootle_path="/")
 
     @cached_property
     def projects(self):
-        return self.get(pootle_path='/projects/')
+        return self.get(pootle_path="/projects/")
 
 
 def validate_no_slashes(value):
-    if '/' in value:
+    if "/" in value:
         raise ValidationError('Directory name cannot contain "/" characters')
 
-    if '\\' in value:
+    if "\\" in value:
         raise ValidationError('Directory name cannot contain "\\" characters')
 
 
@@ -44,24 +46,31 @@ class Directory(models.Model, CachedTreeItem):
 
     # any changes to the `name` field may require updating the schema
     # see migration 0005_case_sensitive_schema.py
-    name = models.CharField(max_length=255, null=False, blank=True,
-                            validators=[validate_no_slashes])
-    parent = models.ForeignKey('Directory', related_name='child_dirs',
-                               null=True, blank=True, db_index=True,
-                               on_delete=models.CASCADE)
+    name = models.CharField(
+        max_length=255, null=False, blank=True, validators=[validate_no_slashes]
+    )
+    parent = models.ForeignKey(
+        "Directory",
+        related_name="child_dirs",
+        null=True,
+        blank=True,
+        db_index=True,
+        on_delete=models.CASCADE,
+    )
     # any changes to the `pootle_path` field may require updating the schema
     # see migration 0005_case_sensitive_schema.py
-    pootle_path = models.CharField(max_length=255, null=False, db_index=True,
-                                   unique=True, default='/')
+    pootle_path = models.CharField(
+        max_length=255, null=False, db_index=True, unique=True, default="/"
+    )
     obsolete = models.BooleanField(default=False)
 
     objects = DirectoryManager()
 
     class Meta(object):
-        ordering = ['name']
+        ordering = ["name"]
         default_permissions = ()
         app_label = "pootle_app"
-        base_manager_name = 'objects'
+        base_manager_name = "objects"
 
     # # # # # # # # # # # # # #  Properties # # # # # # # # # # # # # # # # # #
 
@@ -69,17 +78,17 @@ class Directory(models.Model, CachedTreeItem):
     def stores(self):
         """Queryset with all descending stores."""
         from pootle_store.models import Store
-        return Store.objects.live() \
-                            .filter(pootle_path__startswith=self.pootle_path)
+
+        return Store.objects.live().filter(pootle_path__startswith=self.pootle_path)
 
     @property
     def is_root(self):
         """Tell if this directory is the root directory."""
-        return self.pootle_path == '/'
+        return self.pootle_path == "/"
 
     @property
     def code(self):
-        return self.name.replace('.', '-')
+        return self.name.replace(".", "-")
 
     # # # # # # # # # # # # # #  Cached properties # # # # # # # # # # # # # #
 
@@ -113,14 +122,13 @@ class Directory(models.Model, CachedTreeItem):
 
     def clean(self):
         if self.parent is not None:
-            self.pootle_path = self.parent.pootle_path + self.name + '/'
+            self.pootle_path = self.parent.pootle_path + self.name + "/"
 
-        if self.name == '' and self.parent is not None:
-            raise ValidationError('Name can be empty only for root directory.')
+        if self.name == "" and self.parent is not None:
+            raise ValidationError("Name can be empty only for root directory.")
 
-        if self.parent is None and self.name != '':
-            raise ValidationError('Parent can be unset only for root '
-                                  'directory.')
+        if self.parent is None and self.name != "":
+            raise ValidationError("Parent can be unset only for root " "directory.")
 
     def save(self, *args, **kwargs):
         # Force validation of fields.
@@ -135,22 +143,21 @@ class Directory(models.Model, CachedTreeItem):
         lang_code, proj_code, dir_path = split_pootle_path(self.pootle_path)[:3]
 
         if lang_code and proj_code:
-            pattern_name = 'pootle-tp-translate'
+            pattern_name = "pootle-tp-translate"
             pattern_args = [lang_code, proj_code, dir_path]
         elif lang_code:
-            pattern_name = 'pootle-language-translate'
+            pattern_name = "pootle-language-translate"
             pattern_args = [lang_code]
         elif proj_code:
-            pattern_name = 'pootle-project-translate'
+            pattern_name = "pootle-project-translate"
             pattern_args = [proj_code]
         else:
-            pattern_name = 'pootle-projects-translate'
+            pattern_name = "pootle-projects-translate"
             pattern_args = []
 
-        return u''.join([
-            reverse(pattern_name, args=pattern_args),
-            get_editor_filter(**kwargs),
-        ])
+        return u"".join(
+            [reverse(pattern_name, args=pattern_args), get_editor_filter(**kwargs)]
+        )
 
     # # # TreeItem
     def can_be_updated(self):
@@ -160,12 +167,14 @@ class Directory(models.Model, CachedTreeItem):
         result = []
         if not self.is_projects_root():
             # FIXME: can we replace this with a quicker path query?
-            result.extend([item for item in
-                           self.child_stores.live().iterator()])
+            result.extend([item for item in self.child_stores.live().iterator()])
             result.extend([item for item in self.child_dirs.live().iterator()])
         else:
-            project_list = [item.project for item in self.child_dirs.iterator()
-                            if not item.project.disabled]
+            project_list = [
+                item.project
+                for item in self.child_dirs.iterator()
+                if not item.project.disabled
+            ]
             result.extend(project_list)
 
         return result
@@ -197,8 +206,8 @@ class Directory(models.Model, CachedTreeItem):
 
         from pootle_store.models import Store
 
-        if path not in (None, ''):
-            pootle_path = '%s%s' % (self.pootle_path, path)
+        if path not in (None, ""):
+            pootle_path = "%s%s" % (self.pootle_path, path)
             try:
                 return Directory.objects.live().get(pootle_path=pootle_path)
             except Directory.DoesNotExist as e:
@@ -210,45 +219,51 @@ class Directory(models.Model, CachedTreeItem):
             return self
 
     def get_or_make_subdir(self, child_name):
-        child_dir = Directory.objects.get_or_create(name=child_name,
-                                                    parent=self)[0]
+        child_dir = Directory.objects.get_or_create(name=child_name, parent=self)[0]
         return child_dir
 
     def trail(self):
         """Returns a list of ancestor directories excluding
         :cls:`~pootle_translationproject.models.TranslationProject` and above.
         """
-        path_parts = self.pootle_path.split('/')
+        path_parts = self.pootle_path.split("/")
         parents = []
         start = 1
 
         for i in range(start, len(path_parts)):
-            path = '/'.join(path_parts[:i]) + '/'
+            path = "/".join(path_parts[:i]) + "/"
             parents.append(path)
 
         if parents:
-            return Directory.objects.live().filter(pootle_path__in=parents) \
-                                           .order_by('pootle_path')
+            return (
+                Directory.objects.live()
+                .filter(pootle_path__in=parents)
+                .order_by("pootle_path")
+            )
 
         return Directory.objects.none()
 
     def is_language(self):
         """does this directory point at a language"""
-        return (self.pootle_path.count('/') == 2 and
-                not self.pootle_path.startswith('/projects/'))
+        return self.pootle_path.count("/") == 2 and not self.pootle_path.startswith(
+            "/projects/"
+        )
 
     def is_project(self):
-        return (self.pootle_path.startswith('/projects/') and
-                self.pootle_path.count('/') == 3)
+        return (
+            self.pootle_path.startswith("/projects/")
+            and self.pootle_path.count("/") == 3
+        )
 
     def is_translationproject(self):
         """does this directory point at a translation project"""
-        return (self.pootle_path.count('/') == 3 and not
-                self.pootle_path.startswith('/projects/'))
+        return self.pootle_path.count("/") == 3 and not self.pootle_path.startswith(
+            "/projects/"
+        )
 
     def is_projects_root(self):
         """is this directory a projects root directory"""
-        return self.pootle_path == '/projects/'
+        return self.pootle_path == "/projects/"
 
     def get_real_path(self):
         """physical filesystem path for directory"""
@@ -261,7 +276,7 @@ class Directory(models.Model, CachedTreeItem):
 
         if translation_project:
             tp_path = translation_project.pootle_path
-            path_prefix = self.pootle_path[len(tp_path)-1:-1]
+            path_prefix = self.pootle_path[len(tp_path) - 1 : -1]
             return translation_project.real_path + path_prefix
 
     def delete(self, *args, **kwargs):

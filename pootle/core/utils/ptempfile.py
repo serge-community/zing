@@ -18,7 +18,7 @@ def mkstemp(*args, **kwargs):
     file as specified in settings (see bug 1983).
     """
     fd, name = tempfile.mkstemp(*args, **kwargs)
-    if hasattr(os, 'fchmod'):
+    if hasattr(os, "fchmod"):
         os.fchmod(fd, settings.ZING_SYNC_FILE_MODE)
     else:
         os.chmod(name, settings.ZING_SYNC_FILE_MODE)

@@ -8,17 +8,12 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pootle_store', '0003_rename_file_mtime'),
+        ("pootle_store", "0003_rename_file_mtime"),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='store',
-            name='old_file_mtime',
-        ),
+        migrations.RemoveField(model_name="store", name="old_file_mtime",),
         migrations.AddField(
-            model_name='store',
-            name='file_mtime',
-            field=models.IntegerField(default=0),
+            model_name="store", name="file_mtime", field=models.IntegerField(default=0),
         ),
     ]

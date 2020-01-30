@@ -10,4 +10,4 @@ from .duedate import DueDate
 from .stats import Stats
 
 
-__all__ = ('DueDate', 'Stats')
+__all__ = ("DueDate", "Stats")

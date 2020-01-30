@@ -9,7 +9,7 @@
 import os
 
 # This must be run before importing Django.
-os.environ['DJANGO_SETTINGS_MODULE'] = 'pootle.settings'
+os.environ["DJANGO_SETTINGS_MODULE"] = "pootle.settings"
 
 from pootle.core.checks.checker import QualityCheckUpdater
 
@@ -23,23 +23,20 @@ class Command(PootleCommand):
     def add_arguments(self, parser):
         super(Command, self).add_arguments(parser)
         parser.add_argument(
-            '--check',
-            action='append',
-            dest='check_names',
+            "--check",
+            action="append",
+            dest="check_names",
             default=None,
-            help='Check to recalculate',
+            help="Check to recalculate",
         )
 
     def handle_all_stores(self, translation_project, **options):
-        self.stdout.write(u"Running %s for %s" %
-                          (self.name, translation_project))
-        QualityCheckUpdater(
-            options['check_names'],
-            translation_project).update()
+        self.stdout.write(u"Running %s for %s" % (self.name, translation_project))
+        QualityCheckUpdater(options["check_names"], translation_project).update()
 
     def handle_all(self, **options):
         if not self.projects and not self.languages:
             self.stdout.write(u"Running %s (noargs)" % self.name)
-            QualityCheckUpdater(options['check_names']).update()
+            QualityCheckUpdater(options["check_names"]).update()
         else:
             super(Command, self).handle_all(**options)

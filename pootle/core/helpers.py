@@ -21,35 +21,35 @@ def get_filter_name(GET):
     """
     filter = extra = None
 
-    if 'filter' in GET:
-        filter = GET['filter']
+    if "filter" in GET:
+        filter = GET["filter"]
 
-        if filter.startswith('user-'):
-            extra = [GET.get('user', _('User missing'))]
-        elif filter == 'checks' and 'checks' in GET:
+        if filter.startswith("user-"):
+            extra = [GET.get("user", _("User missing"))]
+        elif filter == "checks" and "checks" in GET:
             extra = [
-                check_names.get(check, check) for check in GET['checks'].split(',')
+                check_names.get(check, check) for check in GET["checks"].split(",")
             ]
-    elif 'search' in GET:
-        filter = 'search'
+    elif "search" in GET:
+        filter = "search"
 
-        extra = [GET['search']]
-        if 'sfields' in GET:
-            extra.extend(GET['sfields'].split(','))
+        extra = [GET["search"]]
+        if "sfields" in GET:
+            extra.extend(GET["sfields"].split(","))
 
     filter_name = {
-        'all': _('All'),
-        'translated': _('Translated'),
-        'untranslated': _('Untranslated'),
-        'fuzzy': _('Needs work'),
-        'incomplete': _('Incomplete'),
+        "all": _("All"),
+        "translated": _("Translated"),
+        "untranslated": _("Untranslated"),
+        "fuzzy": _("Needs work"),
+        "incomplete": _("Incomplete"),
         # Translators: This is the name of a filter
-        'search': _('Search'),
-        'checks': _('Checks'),
-        'my-submissions': _('My submissions'),
-        'user-submissions': _('Submissions'),
-        'my-submissions-overwritten': _('My overwritten submissions'),
-        'user-submissions-overwritten': _('Overwritten submissions'),
+        "search": _("Search"),
+        "checks": _("Checks"),
+        "my-submissions": _("My submissions"),
+        "user-submissions": _("Submissions"),
+        "my-submissions-overwritten": _("My overwritten submissions"),
+        "user-submissions-overwritten": _("Overwritten submissions"),
     }.get(filter)
 
     return (filter_name, extra)

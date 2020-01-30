@@ -8,9 +8,7 @@ def set_translated_wordcount(apps, schema_editor):
     from pootle_statistics.models import ScoreLog, TranslationActionCodes
 
     scorelog_qs = ScoreLog.objects.select_related(
-        'submission',
-        'submission__suggestion',
-        'submission__unit'
+        "submission", "submission__suggestion", "submission__unit"
     ).filter(
         action_code__in=[
             TranslationActionCodes.NEW,
@@ -21,15 +19,13 @@ def set_translated_wordcount(apps, schema_editor):
     )
     for scorelog in scorelog_qs.iterator():
         translated = scorelog.get_paid_wordcounts()[0]
-        ScoreLog.objects.filter(id=scorelog.id).update(
-            translated_wordcount=translated
-        )
+        ScoreLog.objects.filter(id=scorelog.id).update(translated_wordcount=translated)
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pootle_statistics', '0003_scorelog_translated_wordcount'),
+        ("pootle_statistics", "0003_scorelog_translated_wordcount"),
     ]
 
     operations = [

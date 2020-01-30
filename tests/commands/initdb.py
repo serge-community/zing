@@ -18,7 +18,7 @@ from pootle_project.models import Project
 def test_cmd_initdb_noprojects(capfd, no_permission_sets, no_permissions, no_users):
     """Initialise the database with initdb
     """
-    call_command('initdb', '--no-projects')
+    call_command("initdb", "--no-projects")
     out, err = capfd.readouterr()
     assert "Successfully populated the database." in out
     assert "createsuperuser" in out
@@ -34,16 +34,17 @@ def test_cmd_initdb_noprojects(capfd, no_permission_sets, no_permissions, no_use
 
 @pytest.mark.cmd
 @pytest.mark.django_db
-def test_cmd_initdb(capfd, po_directory, no_permission_sets, no_permissions,
-                    no_users, no_projects):
+def test_cmd_initdb(
+    capfd, po_directory, no_permission_sets, no_permissions, no_users, no_projects
+):
     """Initialise the database with initdb
     """
-    call_command('initdb')
+    call_command("initdb")
     out, err = capfd.readouterr()
     assert "Successfully populated the database." in out
     assert "createsuperuser" in out
-    assert (
-        sorted(Project.objects.values_list("code", flat=True))
-        == ["terminology", "tutorial"]
-    )
+    assert sorted(Project.objects.values_list("code", flat=True)) == [
+        "terminology",
+        "tutorial",
+    ]
     # TODO: add unit tests for initdb

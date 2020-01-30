@@ -28,11 +28,8 @@ def get_parent(path_obj):
         return None
 
     if parent_dir.is_language():
-        label = _('Back to language')
+        label = _("Back to language")
     else:
-        label = _('Back to parent folder')
+        label = _("Back to parent folder")
 
-    return {
-        'title': label,
-        'href': parent_dir.get_absolute_url()
-    }
+    return {"title": label, "href": parent_dir.get_absolute_url()}

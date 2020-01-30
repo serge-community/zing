@@ -15,38 +15,32 @@ from pootle.models import DueDate
 
 
 class TaskView(View):
-    http_method_names = ('get', )
+    http_method_names = ("get",)
     form_class = GetTaskForm
 
     @never_cache
     def get(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
-            return JsonResponseBadRequest({
-                'msg': 'Not enough privileges',
-            })
+            return JsonResponseBadRequest({"msg": "Not enough privileges"})
 
         form_data = self.request.GET.dict()
-        form_data.update({
-            'language': kwargs['language_code'],
-        })
+        form_data.update({"language": kwargs["language_code"]})
         form = self.form_class(form_data)
         if not form.is_valid():
             # FIXME: make raising a `ValidationError` return from parent
             # classes the appropriate response
-            return JsonResponseBadRequest({
-                'errors': form.errors,
-            })
+            return JsonResponseBadRequest({"errors": form.errors})
 
         context = self.get_context_data(form=form)
         return JsonResponse(context)
 
     def get_context_data(self, *args, **kwargs):
-        form = kwargs.pop('form')
-        lang_code = form.cleaned_data['language'].code
-        limit = form.cleaned_data['limit']
+        form = kwargs.pop("form")
+        lang_code = form.cleaned_data["language"].code
+        limit = form.cleaned_data["limit"]
 
         tasks = DueDate.tasks(lang_code, user=self.request.user)
         return {
-            'total': tasks.total,
-            'items': tasks[:limit],
+            "total": tasks.total,
+            "items": tasks[:limit],
         }

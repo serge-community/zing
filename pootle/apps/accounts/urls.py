@@ -12,7 +12,9 @@ from .views import SocialVerificationView
 
 
 urlpatterns = [
-    url(r'^social/verify/$',
+    url(
+        r"^social/verify/$",
         SocialVerificationView.as_view(),
-        name='pootle-social-verify'),
+        name="pootle-social-verify",
+    ),
 ]

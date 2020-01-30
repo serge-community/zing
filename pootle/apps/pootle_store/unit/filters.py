@@ -19,20 +19,17 @@ class FilterNotFound(Exception):
 
 
 class BaseUnitFilter(object):
-
     def __init__(self, qs, *args_, **kwargs_):
         self.qs = qs
 
     def filter(self, unit_filter):
         try:
-            return getattr(
-                self, "filter_%s" % unit_filter.replace("-", "_"))()
+            return getattr(self, "filter_%s" % unit_filter.replace("-", "_"))()
         except AttributeError:
             raise FilterNotFound()
 
 
 class UnitChecksFilter(BaseUnitFilter):
-
     def __init__(self, qs, *args, **kwargs):
         super(UnitChecksFilter, self).__init__(qs, *args, **kwargs)
         self.checks = kwargs.get("checks")
@@ -41,17 +38,15 @@ class UnitChecksFilter(BaseUnitFilter):
     def filter_checks(self):
         if self.checks:
             return self.qs.filter(
-                qualitycheck__false_positive=False,
-                qualitycheck__name__in=self.checks).distinct()
+                qualitycheck__false_positive=False, qualitycheck__name__in=self.checks
+            ).distinct()
 
         if self.category:
             return self.qs.filter(
-                qualitycheck__false_positive=False,
-                qualitycheck__category=self.category).distinct()
+                qualitycheck__false_positive=False, qualitycheck__category=self.category
+            ).distinct()
 
-        return self.qs.filter(
-            qualitycheck__false_positive=False,
-        ).distinct()
+        return self.qs.filter(qualitycheck__false_positive=False,).distinct()
 
 
 class UnitStateFilter(BaseUnitFilter):
@@ -70,8 +65,7 @@ class UnitStateFilter(BaseUnitFilter):
         return self.qs.filter(state=FUZZY)
 
     def filter_incomplete(self):
-        return self.qs.filter(
-            Q(state=UNTRANSLATED) | Q(state=FUZZY))
+        return self.qs.filter(Q(state=UNTRANSLATED) | Q(state=FUZZY))
 
 
 class UnitContributionFilter(BaseUnitFilter):
@@ -82,15 +76,14 @@ class UnitContributionFilter(BaseUnitFilter):
         self.user = kwargs.get("user")
 
     def filter_suggestions(self):
-        return self.qs.filter(
-            suggestion__state=SuggestionStates.PENDING).distinct()
+        return self.qs.filter(suggestion__state=SuggestionStates.PENDING).distinct()
 
     def filter_user_suggestions(self):
         if not self.user:
             return self.qs.none()
         return self.qs.filter(
-            suggestion__user=self.user,
-            suggestion__state=SuggestionStates.PENDING).distinct()
+            suggestion__user=self.user, suggestion__state=SuggestionStates.PENDING
+        ).distinct()
 
     def filter_my_suggestions(self):
         return self.filter_user_suggestions()
@@ -99,22 +92,22 @@ class UnitContributionFilter(BaseUnitFilter):
         if not self.user:
             return self.qs.none()
         return self.qs.filter(
-            suggestion__user=self.user,
-            suggestion__state=SuggestionStates.ACCEPTED).distinct()
+            suggestion__user=self.user, suggestion__state=SuggestionStates.ACCEPTED
+        ).distinct()
 
     def filter_user_suggestions_rejected(self):
         if not self.user:
             return self.qs.none()
         return self.qs.filter(
-            suggestion__user=self.user,
-            suggestion__state=SuggestionStates.REJECTED).distinct()
+            suggestion__user=self.user, suggestion__state=SuggestionStates.REJECTED
+        ).distinct()
 
     def filter_user_submissions(self):
         if not self.user:
             return self.qs.none()
         return self.qs.filter(
-            submitted_by=self.user,
-            submission__type__in=SubmissionTypes.EDIT_TYPES).distinct()
+            submitted_by=self.user, submission__type__in=SubmissionTypes.EDIT_TYPES
+        ).distinct()
 
     def filter_my_submissions(self):
         return self.filter_user_submissions()
@@ -123,8 +116,8 @@ class UnitContributionFilter(BaseUnitFilter):
         if not self.user:
             return self.qs.none()
         qs = self.qs.filter(
-            submitted_by=self.user,
-            submission__type__in=SubmissionTypes.EDIT_TYPES)
+            submitted_by=self.user, submission__type__in=SubmissionTypes.EDIT_TYPES
+        )
         return qs.exclude(submitted_by=self.user).distinct()
 
     def filter_my_submissions_overwritten(self):
@@ -152,12 +145,17 @@ class UnitTextSearch(object):
     """
 
     search_fields = (
-        "source_f", "target_f", "locations",
-        "translator_comment", "developer_comment")
+        "source_f",
+        "target_f",
+        "locations",
+        "translator_comment",
+        "developer_comment",
+    )
     search_mappings = {
         "notes": ["translator_comment", "developer_comment"],
         "source": ["source_f"],
-        "target": ["target_f"]}
+        "target": ["target_f"],
+    }
 
     def __init__(self, qs):
         self.qs = qs
@@ -187,6 +185,5 @@ class UnitTextSearch(object):
     def search_field(self, k, words):
         subresult = self.qs
         for word in words:
-            subresult = subresult.filter(
-                **{("%s__icontains" % k): word})
+            subresult = subresult.filter(**{("%s__icontains" % k): word})
         return subresult

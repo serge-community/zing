@@ -12,22 +12,25 @@ from pootle.forms import AddDueDateForm, EditDueDateForm
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize('pootle_path', [
-    '/ru/foo/',
-    '/ru/foo/bar/',
-    '/ru/foo/bar/baz.po',
-    '/projects/foo/',
-    '/projects/foo/bar/',
-    '/projects/foo/bar/baz.po',
-])
+@pytest.mark.parametrize(
+    "pootle_path",
+    [
+        "/ru/foo/",
+        "/ru/foo/bar/",
+        "/ru/foo/bar/baz.po",
+        "/projects/foo/",
+        "/projects/foo/bar/",
+        "/projects/foo/bar/baz.po",
+    ],
+)
 def test_duedate_create_update(pootle_path, request_users):
     """Tests form validation for a set of paths."""
-    user = request_users['user']
+    user = request_users["user"]
 
     form_data = {
-        'due_on': '2016-04-03',
-        'modified_by': user.id,
-        'pootle_path': pootle_path,
+        "due_on": "2016-04-03",
+        "modified_by": user.id,
+        "pootle_path": pootle_path,
     }
     form = AddDueDateForm(form_data)
     assert form.is_valid()
@@ -36,7 +39,7 @@ def test_duedate_create_update(pootle_path, request_users):
 
     old_due_on = due_date.due_on
     edit_form_data = {
-        'due_on': '2016-04-04',
+        "due_on": "2016-04-04",
     }
     edit_form = EditDueDateForm(data=edit_form_data, instance=due_date)
     assert edit_form.is_valid()

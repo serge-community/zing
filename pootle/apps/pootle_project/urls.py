@@ -9,44 +9,47 @@
 from django.conf.urls import url
 
 from .views import (
-    ProjectBrowseView, ProjectExportView, ProjectsBrowseView,
-    ProjectsExportView, ProjectsTranslateView, ProjectTranslateView,
+    ProjectBrowseView,
+    ProjectExportView,
+    ProjectsBrowseView,
+    ProjectsExportView,
+    ProjectsTranslateView,
+    ProjectTranslateView,
     project_admin_permissions,
 )
 
 
 urlpatterns = [
     # All projects
-    url(r'^$',
-        ProjectsBrowseView.as_view(),
-        name='pootle-projects-browse'),
-
-    url(r'^translate/$',
+    url(r"^$", ProjectsBrowseView.as_view(), name="pootle-projects-browse"),
+    url(
+        r"^translate/$",
         ProjectsTranslateView.as_view(),
-        name='pootle-projects-translate'),
-
-    url(r'^export-view/$',
-        ProjectsExportView.as_view(),
-        name='pootle-projects-export'),
-
+        name="pootle-projects-translate",
+    ),
+    url(r"^export-view/$", ProjectsExportView.as_view(), name="pootle-projects-export"),
     # Admin
-    url(r'^(?P<project_code>[^/]*)/admin/permissions/$',
+    url(
+        r"^(?P<project_code>[^/]*)/admin/permissions/$",
         project_admin_permissions,
-        name='pootle-project-admin-permissions'),
-
+        name="pootle-project-admin-permissions",
+    ),
     # Specific project
-    url(r'^(?P<project_code>[^/]*)/translate/'
-        r'(?P<dir_path>(.*/)*)(?P<filename>.*\.*)?$',
+    url(
+        r"^(?P<project_code>[^/]*)/translate/"
+        r"(?P<dir_path>(.*/)*)(?P<filename>.*\.*)?$",
         ProjectTranslateView.as_view(),
-        name='pootle-project-translate'),
-
-    url(r'^(?P<project_code>[^/]*)/export-view/'
-        r'(?P<dir_path>(.*/)*)(?P<filename>.*\.*)?$',
+        name="pootle-project-translate",
+    ),
+    url(
+        r"^(?P<project_code>[^/]*)/export-view/"
+        r"(?P<dir_path>(.*/)*)(?P<filename>.*\.*)?$",
         ProjectExportView.as_view(),
-        name='pootle-project-export'),
-
-    url(r'^(?P<project_code>[^/]*)/'
-        r'(?P<dir_path>(.*/)*)(?P<filename>.*\.*)?$',
+        name="pootle-project-export",
+    ),
+    url(
+        r"^(?P<project_code>[^/]*)/" r"(?P<dir_path>(.*/)*)(?P<filename>.*\.*)?$",
         ProjectBrowseView.as_view(),
-        name='pootle-project-browse')
+        name="pootle-project-browse",
+    ),
 ]

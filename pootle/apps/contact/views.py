@@ -19,21 +19,23 @@ from .forms import ContactForm, ReportForm
 
 
 class ContactFormTemplateView(TemplateView):
-    template_name = 'contact_form/contact_form.html'
+    template_name = "contact_form/contact_form.html"
 
 
 class ContactFormView(AjaxResponseMixin, OriginalContactFormView):
     form_class = ContactForm
-    template_name = 'contact_form/xhr_contact_form.html'
+    template_name = "contact_form/xhr_contact_form.html"
 
     def get_context_data(self, **kwargs):
         ctx = super(ContactFormView, self).get_context_data(**kwargs)
         # Provide the form action URL to use in the template that renders the
         # contact dialog.
-        ctx.update({
-            'contact_form_title': _('Contact Us'),
-            'contact_form_url': reverse('pootle-contact-xhr'),
-        })
+        ctx.update(
+            {
+                "contact_form_title": _("Contact Us"),
+                "contact_form_url": reverse("pootle-contact-xhr"),
+            }
+        )
         return ctx
 
     def get_initial(self):
@@ -41,17 +43,14 @@ class ContactFormView(AjaxResponseMixin, OriginalContactFormView):
 
         user = self.request.user
         if user.is_authenticated:
-            initial.update({
-                'name': user.full_name,
-                'email': user.email,
-            })
+            initial.update({"name": user.full_name, "email": user.email})
 
         return initial
 
     def get_success_url(self):
         # XXX: This is unused. We don't need a `/contact/sent/` URL, but the
         # parent :cls:`ContactView` enforces us to set some value here
-        return reverse('pootle-contact')
+        return reverse("pootle-contact")
 
 
 class ReportFormView(ContactFormView):
@@ -61,46 +60,52 @@ class ReportFormView(ContactFormView):
         ctx = super(ReportFormView, self).get_context_data(**kwargs)
         # Provide the form action URL to use in the template that renders the
         # contact dialog.
-        ctx.update({
-            'contact_form_title': _('Report problem with string'),
-            'contact_form_url': reverse('pootle-contact-report-error'),
-        })
+        ctx.update(
+            {
+                "contact_form_title": _("Report problem with string"),
+                "contact_form_url": reverse("pootle-contact-report-error"),
+            }
+        )
         return ctx
 
     def get_initial(self):
         initial = super(ReportFormView, self).get_initial()
 
-        report = self.request.GET.get('report', False)
+        report = self.request.GET.get("report", False)
         if not report:
             return initial
 
         try:
             from pootle_store.models import Unit
+
             uid = int(report)
             try:
                 unit = Unit.objects.select_related(
-                    'store__translation_project__project',
+                    "store__translation_project__project",
                 ).get(id=uid)
                 if unit.is_accessible_by(self.request.user):
                     unit_absolute_url = self.request.build_absolute_uri(
-                        unit.get_translate_url())
-                    initial.update({
-                        'summary': render_to_string(
-                            'contact_form/report_form_subject.txt',
-                            context={
-                                'unit': unit,
-                                'language':
-                                    unit.store.translation_project.language.code,
-                            }),
-                        'body': render_to_string(
-                            'contact_form/report_form_body.txt',
-                            context={
-                                'unit': unit,
-                                'unit_absolute_url': unit_absolute_url,
-                            }),
-                        'report_email':
-                            unit.store.translation_project.project.report_email,
-                    })
+                        unit.get_translate_url()
+                    )
+                    initial.update(
+                        {
+                            "summary": render_to_string(
+                                "contact_form/report_form_subject.txt",
+                                context={
+                                    "unit": unit,
+                                    "language": unit.store.translation_project.language.code,
+                                },
+                            ),
+                            "body": render_to_string(
+                                "contact_form/report_form_body.txt",
+                                context={
+                                    "unit": unit,
+                                    "unit_absolute_url": unit_absolute_url,
+                                },
+                            ),
+                            "report_email": unit.store.translation_project.project.report_email,
+                        }
+                    )
             except Unit.DoesNotExist:
                 pass
         except ValueError:

@@ -18,10 +18,7 @@ def submissions():
     """
     from pootle_statistics.models import Submission
 
-    select_related = (
-        "unit", "quality_check", "submitter", "suggestion")
+    select_related = ("unit", "quality_check", "submitter", "suggestion")
     return {
-        s.id: s
-        for s
-        in Submission.objects.select_related(
-            *select_related).iterator()}
+        s.id: s for s in Submission.objects.select_related(*select_related).iterator()
+    }

@@ -13,18 +13,19 @@ from django_redis import get_redis_connection
 @pytest.fixture
 def flush_redis():
     """Clears Redis persistent store."""
-    get_redis_connection('redis').flushdb()
+    get_redis_connection("redis").flushdb()
 
 
 @pytest.fixture
 def flush_stats():
     """Flushes stats cache."""
-    get_redis_connection('stats').flushdb()
+    get_redis_connection("stats").flushdb()
 
 
 @pytest.fixture
 def refresh_stats(flush_stats):
     """Ensures stats are calculated."""
     from pootle_store.models import Store
+
     for store in Store.objects.live().iterator():
         store.update_all_cache()

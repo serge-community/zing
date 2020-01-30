@@ -17,8 +17,7 @@ from pootle_store.views import get_alt_src_langs
 
 
 @pytest.mark.django_db
-def test_get_edit_unit(project0_disk, get_edit_unit, client,
-                       request_users, settings):
+def test_get_edit_unit(project0_disk, get_edit_unit, client, request_users, settings):
     user = request_users["user"]
     if user.username != "nobody":
         client.force_login(user)
@@ -30,8 +29,8 @@ def test_get_edit_unit(project0_disk, get_edit_unit, client,
     language = translation_project.language
 
     response = client.get(
-        "/xhr/units/%s/edit/" % unit.id,
-        HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        "/xhr/units/%s/edit/" % unit.id, HTTP_X_REQUESTED_WITH="XMLHttpRequest"
+    )
     request = response.wsgi_request
     result = json.loads(response.content)
 
@@ -39,7 +38,7 @@ def test_get_edit_unit(project0_disk, get_edit_unit, client,
     alt_src_langs = get_alt_src_langs(request, user, translation_project)
     altsrcs = find_altsrcs(unit, alt_src_langs, store=store, project=project)
     altsrcs = {x.id: x.data for x in altsrcs}
-    sources = {altsrcs[x]['language_code']: altsrcs[x]['target'] for x in altsrcs}
+    sources = {altsrcs[x]["language_code"]: altsrcs[x]["target"] for x in altsrcs}
     sources[src_lang.code] = unit.source
 
     assert result["is_obsolete"] is False
@@ -53,10 +52,14 @@ def test_get_edit_unit(project0_disk, get_edit_unit, client,
     assert response.context["altsrcs"] == altsrcs
 
     assert response.context["cantranslate"] == check_user_permission(
-        user, "translate", directory)
+        user, "translate", directory
+    )
     assert response.context["cansuggest"] == check_user_permission(
-        user, "suggest", directory)
+        user, "suggest", directory
+    )
     assert response.context["canreview"] == check_user_permission(
-        user, "review", directory)
+        user, "review", directory
+    )
     assert response.context["has_admin_access"] == check_user_permission(
-        user, "administrate", directory)
+        user, "administrate", directory
+    )

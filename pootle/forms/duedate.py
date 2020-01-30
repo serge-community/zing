@@ -17,13 +17,16 @@ DUE_ON_MINUTE = 0
 
 
 class AddDueDateForm(forms.ModelForm):
-
     class Meta:
         model = DueDate
-        fields = ('due_on', 'pootle_path', 'modified_by', )
+        fields = (
+            "due_on",
+            "pootle_path",
+            "modified_by",
+        )
 
     def clean_due_on(self):
-        data = self.cleaned_data['due_on']
+        data = self.cleaned_data["due_on"]
         data = data.replace(
             hour=DUE_ON_HOUR, minute=DUE_ON_MINUTE, second=0, microsecond=0,
         )
@@ -31,7 +34,6 @@ class AddDueDateForm(forms.ModelForm):
 
 
 class EditDueDateForm(AddDueDateForm):
-
     class Meta:
         model = DueDate
-        fields = ('due_on', )
+        fields = ("due_on",)

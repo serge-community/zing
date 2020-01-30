@@ -20,4 +20,4 @@ POOTLE_DIR = os.path.abspath(os.path.dirname(__file__))
 sys.path.insert(0, ROOT_DIR)  # Top level directory
 sys.path.insert(0, POOTLE_DIR)  # Pootle directory
 
-sys.path.insert(0, os.path.join(POOTLE_DIR, 'apps'))  # Applications
+sys.path.insert(0, os.path.join(POOTLE_DIR, "apps"))  # Applications

@@ -14,23 +14,20 @@ from django.utils.translation import gettext_lazy as _
 #: Keys are supported query strings, values are the field + order that
 #: will be used against the DB.
 ALLOWED_SORTS = {
-    'units': {
-        'oldest': 'submitted_on',
-        'newest': '-submitted_on',
+    "units": {"oldest": "submitted_on", "newest": "-submitted_on"},
+    "suggestions": {
+        "oldest": "suggestion__creation_time",
+        "newest": "-suggestion__creation_time",
     },
-    'suggestions': {
-        'oldest': 'suggestion__creation_time',
-        'newest': '-suggestion__creation_time',
-    },
-    'submissions': {
-        'oldest': 'submission__creation_time',
-        'newest': '-submission__creation_time',
+    "submissions": {
+        "oldest": "submission__creation_time",
+        "newest": "-submission__creation_time",
     },
 }
 
 #: List of fields from `ALLOWED_SORTS` that can be sorted by simply using
 #: `order_by(field)`
-SIMPLY_SORTED = ['units']
+SIMPLY_SORTED = ["units"]
 
 #
 # Store States
@@ -68,4 +65,5 @@ STATES_NAMES = {
     OBSOLETE: "obsolete",
     UNTRANSLATED: "untranslated",
     FUZZY: "fuzzy",
-    TRANSLATED: "translated"}
+    TRANSLATED: "translated",
+}

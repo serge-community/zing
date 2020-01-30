@@ -33,13 +33,14 @@ def test_disabled_project_in_lang_browse_view(client, request_users):
     if user.username != "nobody":
         client.force_login(user)
 
-    response = client.get(reverse("pootle-language-browse",
-                                  kwargs={"language_code": "language0"}))
-
-    disabled_project_exists = (
-        'browsing_data' in response.context and
-        '/language0/disabled_project0/' in
-        response.context['browsing_data']['children']
+    response = client.get(
+        reverse("pootle-language-browse", kwargs={"language_code": "language0"})
     )
 
-    assert (user.is_superuser is disabled_project_exists)
+    disabled_project_exists = (
+        "browsing_data" in response.context
+        and "/language0/disabled_project0/"
+        in response.context["browsing_data"]["children"]
+    )
+
+    assert user.is_superuser is disabled_project_exists

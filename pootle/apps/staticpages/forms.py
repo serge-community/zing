@@ -21,10 +21,10 @@ def agreement_form_factory(pages, user):
     :param user: User bound to the agreement form.
     :return: An `AgreementForm` class with `pages` as required checkboxes.
     """
-    class AgreementForm(forms.Form):
 
+    class AgreementForm(forms.Form):
         def __init__(self, *args, **kwargs):
-            kwargs.setdefault('label_suffix', '')
+            kwargs.setdefault("label_suffix", "")
             super(AgreementForm, self).__init__(*args, **kwargs)
 
             self._pages = pages
@@ -43,25 +43,25 @@ def agreement_form_factory(pages, user):
 
         def legal_fields(self):
             """Returns any fields added by legal pages."""
-            return [field for field in self
-                    if field.name.startswith('legal_')]
+            return [field for field in self if field.name.startswith("legal_")]
 
         def add_page_field(self, page):
             """Adds `page` as a required field to this form."""
             label_params = {
-                'url': reverse(
-                    'pootle-staticpages-display', args=[page.virtual_path],
-                ),
-                'classes': 'js-agreement-popup',
-                'title': page.title,
+                "url": reverse("pootle-staticpages-display", args=[page.virtual_path],),
+                "classes": "js-agreement-popup",
+                "title": page.title,
             }
-            label = mark_safe(_('I have read and accept: <a href="%(url)s" '
-                                'class="%(classes)s">%(title)s</a>',
-                                label_params))
+            label = mark_safe(
+                _(
+                    'I have read and accept: <a href="%(url)s" '
+                    'class="%(classes)s">%(title)s</a>',
+                    label_params,
+                )
+            )
 
-            field_name = 'legal_%d' % page.pk
-            self.fields[field_name] = forms.BooleanField(label=label,
-                                                         required=True)
-            self.fields[field_name].widget.attrs['class'] = 'js-legalfield'
+            field_name = "legal_%d" % page.pk
+            self.fields[field_name] = forms.BooleanField(label=label, required=True)
+            self.fields[field_name].widget.attrs["class"] = "js-legalfield"
 
     return AgreementForm

@@ -77,22 +77,25 @@ class TranslationActionTypes(object):
 
 
 class SubmissionQuerySet(models.QuerySet):
-
     def _earliest_or_latest(self, field_name=None, direction="-"):
         """
         Overrides QuerySet._earliest_or_latest to add pk for secondary ordering
         """
-        order_by = field_name or getattr(self.model._meta, 'get_latest_by')
-        assert bool(order_by), "earliest() and latest() require either a "\
+        order_by = field_name or getattr(self.model._meta, "get_latest_by")
+        assert bool(order_by), (
+            "earliest() and latest() require either a "
             "field_name parameter or 'get_latest_by' in the model"
-        assert self.query.can_filter(), \
-            "Cannot change a query once a slice has been taken."
+        )
+        assert (
+            self.query.can_filter()
+        ), "Cannot change a query once a slice has been taken."
         obj = self._clone()
         obj.query.set_limits(high=1)
         obj.query.clear_ordering(force_empty=True)
         # add pk as secondary ordering for Submissions
-        obj.query.add_ordering('%s%s' % (direction, order_by),
-                               '%s%s' % (direction, "pk"))
+        obj.query.add_ordering(
+            "%s%s" % (direction, order_by), "%s%s" % (direction, "pk")
+        )
         return obj.get()
 
     def earliest(self, field_name=None):
@@ -103,13 +106,11 @@ class SubmissionQuerySet(models.QuerySet):
 
 
 class BaseSubmissionManager(models.Manager):
-
     def get_queryset(self):
         return SubmissionQuerySet(self.model, using=self._db)
 
 
 class SubmissionManager(BaseSubmissionManager):
-
     def get_unit_comments(self):
         """Submissions that change a `Unit`'s comment.
 
@@ -130,7 +131,9 @@ class SubmissionManager(BaseSubmissionManager):
         :return: Queryset of `Submissions`s that change a `Unit`'s target.
         """
         return (
-            self.get_queryset().exclude(new_value__isnull=True).filter(
+            self.get_queryset()
+            .exclude(new_value__isnull=True)
+            .filter(
                 field__in=SubmissionFields.TRANSLATION_FIELDS,
                 type__in=SubmissionTypes.EDIT_TYPES,
             )
@@ -153,38 +156,60 @@ class SubmissionManager(BaseSubmissionManager):
         # reject_suggestion does not set field so we must exclude STATE reviews
         # and it seems there are submissions that use STATE and are in
         # REVIEW_TYPES
-        return (self.get_queryset().exclude(
-            field=SubmissionFields.STATE).filter(
-                type__in=SubmissionTypes.REVIEW_TYPES))
+        return (
+            self.get_queryset()
+            .exclude(field=SubmissionFields.STATE)
+            .filter(type__in=SubmissionTypes.REVIEW_TYPES)
+        )
 
 
 class Submission(models.Model):
     class Meta(object):
         ordering = ["creation_time", "pk"]
         get_latest_by = "creation_time"
-        db_table = 'pootle_app_submission'
-        base_manager_name = 'objects'
+        db_table = "pootle_app_submission"
+        base_manager_name = "objects"
 
     objects = SubmissionManager()
     simple_objects = BaseSubmissionManager()
 
     creation_time = models.DateTimeField(db_index=True)
     translation_project = models.ForeignKey(
-        'pootle_translationproject.TranslationProject', db_index=True,
-        on_delete=models.CASCADE
+        "pootle_translationproject.TranslationProject",
+        db_index=True,
+        on_delete=models.CASCADE,
     )
-    submitter = models.ForeignKey(settings.AUTH_USER_MODEL, null=True,
-                                  db_index=True, on_delete=models.CASCADE)
-    suggestion = models.ForeignKey('pootle_store.Suggestion', blank=True,
-                                   null=True, db_index=True,
-                                   on_delete=models.CASCADE)
-    unit = models.ForeignKey('pootle_store.Unit', blank=True, null=True,
-                             db_index=True, on_delete=models.CASCADE)
-    quality_check = models.ForeignKey('pootle_store.QualityCheck', blank=True,
-                                      null=True, db_index=True,
-                                      on_delete=models.CASCADE)
-    store = models.ForeignKey('pootle_store.Store', blank=True, null=True,
-                              db_index=True, on_delete=models.CASCADE)
+    submitter = models.ForeignKey(
+        settings.AUTH_USER_MODEL, null=True, db_index=True, on_delete=models.CASCADE
+    )
+    suggestion = models.ForeignKey(
+        "pootle_store.Suggestion",
+        blank=True,
+        null=True,
+        db_index=True,
+        on_delete=models.CASCADE,
+    )
+    unit = models.ForeignKey(
+        "pootle_store.Unit",
+        blank=True,
+        null=True,
+        db_index=True,
+        on_delete=models.CASCADE,
+    )
+    quality_check = models.ForeignKey(
+        "pootle_store.QualityCheck",
+        blank=True,
+        null=True,
+        db_index=True,
+        on_delete=models.CASCADE,
+    )
+    store = models.ForeignKey(
+        "pootle_store.Store",
+        blank=True,
+        null=True,
+        db_index=True,
+        on_delete=models.CASCADE,
+    )
 
     #: The field in the unit that changed
     field = models.IntegerField(null=True, blank=True, db_index=True)
@@ -203,8 +228,10 @@ class Submission(models.Model):
     mt_similarity = models.FloatField(blank=True, null=True)
 
     def __str__(self):
-        return "%s (%s)" % (self.creation_time.strftime("%Y-%m-%d %H:%M"),
-                            str(self.submitter))
+        return "%s (%s)" % (
+            self.creation_time.strftime("%Y-%m-%d %H:%M"),
+            str(self.submitter),
+        )
 
     @cached_property
     def max_similarity(self):
@@ -214,8 +241,7 @@ class Submission(models.Model):
     def needs_scorelog(self):
         """Returns ``True`` if the submission needs to log its score."""
         # Changing from untranslated state won't record a score change
-        if (self.field == SubmissionFields.STATE and
-            int(self.old_value) == UNTRANSLATED):
+        if self.field == SubmissionFields.STATE and int(self.old_value) == UNTRANSLATED:
             return False
 
         return True
@@ -230,22 +256,21 @@ class Submission(models.Model):
         result = {}
 
         if self.unit is not None:
-            result.update({
-                'source': truncatechars(self.unit, 50),
-                'uid': self.unit.id,
-            })
+            result.update({"source": truncatechars(self.unit, 50), "uid": self.unit.id})
 
             if self.quality_check is not None:
                 check_name = self.quality_check.name
-                result.update({
-                    'check': check_name,
-                    'check_displayname': check_names.get(check_name,
-                                                         check_name),
-                })
+                result.update(
+                    {
+                        "check": check_name,
+                        "check_displayname": check_names.get(check_name, check_name),
+                    }
+                )
 
-        if (self.suggestion and
-            self.type in (SubmissionTypes.SUGG_ACCEPT,
-                          SubmissionTypes.SUGG_REJECT)):
+        if self.suggestion and self.type in (
+            SubmissionTypes.SUGG_ACCEPT,
+            SubmissionTypes.SUGG_REJECT,
+        ):
             displayuser = self.suggestion.reviewer
         else:
             # Sadly we may not have submitter information in all the
@@ -257,13 +282,15 @@ class Submission(models.Model):
                 User = get_user_model()
                 displayuser = User.objects.get_nobody_user()
 
-        result.update({
-            "email": displayuser.email_hash,
-            "displayname": displayuser.display_name,
-            "username": displayuser.username,
-            "type": self.type,
-            "mtime": int(dateformat.format(self.creation_time, 'U')),
-        })
+        result.update(
+            {
+                "email": displayuser.email_hash,
+                "displayname": displayuser.display_name,
+                "username": displayuser.username,
+                "type": self.type,
+                "mtime": int(dateformat.format(self.creation_time, "U")),
+            }
+        )
 
         # TODO Fix bug 3011 and remove the following code related to
         # TranslationActionTypes.
@@ -272,28 +299,27 @@ class Submission(models.Model):
             translation_action_type = None
             try:
                 if self.field == SubmissionFields.TARGET:
-                    if self.new_value != '':
+                    if self.new_value != "":
                         # Note that we analyze current unit state:
                         # if this submission is not last unit state
                         # can be changed
                         if self.unit.state == TRANSLATED:
 
-                            if self.old_value == '':
-                                translation_action_type = \
+                            if self.old_value == "":
+                                translation_action_type = (
                                     TranslationActionTypes.TRANSLATED
+                                )
                             else:
-                                translation_action_type = \
-                                    TranslationActionTypes.EDITED
+                                translation_action_type = TranslationActionTypes.EDITED
                         elif self.unit.state == FUZZY:
-                            if self.old_value == '':
-                                translation_action_type = \
+                            if self.old_value == "":
+                                translation_action_type = (
                                     TranslationActionTypes.PRE_TRANSLATED
+                                )
                             else:
-                                translation_action_type = \
-                                    TranslationActionTypes.EDITED
+                                translation_action_type = TranslationActionTypes.EDITED
                     else:
-                        translation_action_type = \
-                            TranslationActionTypes.REMOVED
+                        translation_action_type = TranslationActionTypes.REMOVED
                 elif self.field == SubmissionFields.STATE:
                     # Note that a submission where field is STATE
                     # should be created before a submission where
@@ -301,13 +327,13 @@ class Submission(models.Model):
 
                     translation_action_type = {
                         TRANSLATED: TranslationActionTypes.REVIEWED,
-                        FUZZY: TranslationActionTypes.NEEDS_WORK
+                        FUZZY: TranslationActionTypes.NEEDS_WORK,
                     }.get(int(to_python(self.new_value)), None)
 
             except AttributeError:
                 return result
 
-            result['translation_action_type'] = translation_action_type
+            result["translation_action_type"] = translation_action_type
 
         return result
 
@@ -319,7 +345,7 @@ class Submission(models.Model):
 
         scorelogs_created = []
         for score in ScoreLog.get_scorelogs(submission=self):
-            if 'action_code' in score and score['user'] is not None:
+            if "action_code" in score and score["user"] is not None:
                 scorelogs_created.append(ScoreLog(**score))
         if scorelogs_created:
             self.scorelog_set.add(*scorelogs_created, bulk=False)
@@ -345,42 +371,38 @@ class TranslationActionCodes(object):
     SUGG_REVIEWED_REJECTED = 12
 
     NAMES_MAP = {
-        NEW: 'TA',
-        EDITED: 'TE',
-        EDITED_OWN: 'TX',
-        DELETED: 'TD',
-        REVIEWED: 'R',
-        EDIT_PENALTY: 'XE',
-        REVIEW_PENALTY: 'XR',
-        MARKED_FUZZY: 'TF',
-        SUGG_ADDED: 'S',
-        SUGG_ACCEPTED: 'SA',
-        SUGG_REJECTED: 'SR',
-        SUGG_REVIEWED_ACCEPTED: 'RA',
-        SUGG_REVIEWED_REJECTED: 'RR',
+        NEW: "TA",
+        EDITED: "TE",
+        EDITED_OWN: "TX",
+        DELETED: "TD",
+        REVIEWED: "R",
+        EDIT_PENALTY: "XE",
+        REVIEW_PENALTY: "XR",
+        MARKED_FUZZY: "TF",
+        SUGG_ADDED: "S",
+        SUGG_ACCEPTED: "SA",
+        SUGG_REJECTED: "SR",
+        SUGG_REVIEWED_ACCEPTED: "RA",
+        SUGG_REVIEWED_REJECTED: "RR",
     }
 
 
 class ScoreLogManager(models.Manager):
-
     def for_user_in_range(self, user, start, end):
         """Returns all logged scores for `user` in the [`start`, `end`] date
         range.
         """
         return ScoreLog.objects.select_related(
-            'submission__translation_project__project',
-            'submission__translation_project__language',
-        ).filter(
-            user=user,
-            creation_time__gte=start,
-            creation_time__lte=end,
-        )
+            "submission__translation_project__project",
+            "submission__translation_project__language",
+        ).filter(user=user, creation_time__gte=start, creation_time__lte=end,)
 
 
 class ScoreLog(models.Model):
     creation_time = models.DateTimeField(db_index=True, null=False)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=False,
-                             on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, null=False, on_delete=models.CASCADE
+    )
     # current user’s new translation rate
     rate = models.FloatField(null=False, default=0)
     # current user’s review rate
@@ -392,23 +414,22 @@ class ScoreLog(models.Model):
     # the final calculated score delta for the action
     score_delta = models.FloatField(null=False)
     action_code = models.IntegerField(null=False)
-    submission = models.ForeignKey(Submission, null=False,
-                                   on_delete=models.CASCADE)
+    submission = models.ForeignKey(Submission, null=False, on_delete=models.CASCADE)
     translated_wordcount = models.PositiveIntegerField(null=True)
 
     objects = ScoreLogManager()
 
     class Meta(object):
-        unique_together = ('submission', 'action_code')
+        unique_together = ("submission", "action_code")
 
     @classmethod
     def get_scorelogs(cls, submission):
         """Records a new log entry for ``submission``."""
         score_dict = {
-            'creation_time': submission.creation_time,
-            'wordcount': submission.unit.source_wordcount,
-            'similarity': submission.max_similarity,
-            'submission': submission,
+            "creation_time": submission.creation_time,
+            "wordcount": submission.unit.source_wordcount,
+            "similarity": submission.max_similarity,
+            "submission": submission,
         }
 
         translator_id = submission.unit.submitted_by_id
@@ -420,78 +441,92 @@ class ScoreLog(models.Model):
         previous_translator_score = score_dict.copy()
         previous_reviewer_score = score_dict.copy()
         submitter_score = score_dict.copy()
-        submitter_score['user'] = submission.submitter
+        submitter_score["user"] = submission.submitter
         suggester_score = score_dict.copy()
         if submission.suggestion is not None:
-            suggester_score['user'] = submission.suggestion.user
+            suggester_score["user"] = submission.suggestion.user
 
-        if (submission.field == SubmissionFields.TARGET and
-            submission.type in SubmissionTypes.EDIT_TYPES):
-            if submission.old_value == '' and submission.new_value != '':
-                submitter_score['action_code'] = TranslationActionCodes.NEW
+        if (
+            submission.field == SubmissionFields.TARGET
+            and submission.type in SubmissionTypes.EDIT_TYPES
+        ):
+            if submission.old_value == "" and submission.new_value != "":
+                submitter_score["action_code"] = TranslationActionCodes.NEW
             else:
-                if submission.new_value == '':
-                    submitter_score['action_code'] = \
-                        TranslationActionCodes.DELETED
+                if submission.new_value == "":
+                    submitter_score["action_code"] = TranslationActionCodes.DELETED
 
-                    previous_translator_score['action_code'] = \
-                        TranslationActionCodes.EDIT_PENALTY
+                    previous_translator_score[
+                        "action_code"
+                    ] = TranslationActionCodes.EDIT_PENALTY
 
-                    previous_reviewer_score['action_code'] = \
-                        TranslationActionCodes.REVIEW_PENALTY
+                    previous_reviewer_score[
+                        "action_code"
+                    ] = TranslationActionCodes.REVIEW_PENALTY
                 else:
-                    if (reviewer_id is not None and
-                        submission.submitter_id == reviewer_id):
-                        submitter_score['action_code'] = \
-                            TranslationActionCodes.EDITED_OWN
+                    if (
+                        reviewer_id is not None
+                        and submission.submitter_id == reviewer_id
+                    ):
+                        submitter_score[
+                            "action_code"
+                        ] = TranslationActionCodes.EDITED_OWN
                     else:
-                        submitter_score['action_code'] = \
-                            TranslationActionCodes.EDITED
+                        submitter_score["action_code"] = TranslationActionCodes.EDITED
 
-                        previous_reviewer_score['action_code'] = \
-                            TranslationActionCodes.REVIEW_PENALTY
+                        previous_reviewer_score[
+                            "action_code"
+                        ] = TranslationActionCodes.REVIEW_PENALTY
 
         elif submission.field == SubmissionFields.STATE:
-            if (int(submission.old_value) == FUZZY and
-                int(submission.new_value) == TRANSLATED and
-                not submission.unit._target_updated):
-                submitter_score['action_code'] = \
-                    TranslationActionCodes.REVIEWED
+            if (
+                int(submission.old_value) == FUZZY
+                and int(submission.new_value) == TRANSLATED
+                and not submission.unit._target_updated
+            ):
+                submitter_score["action_code"] = TranslationActionCodes.REVIEWED
 
-            elif (int(submission.old_value) == TRANSLATED and
-                  int(submission.new_value) == FUZZY):
-                submitter_score['action_code'] = \
-                    TranslationActionCodes.MARKED_FUZZY
-                previous_reviewer_score['action_code'] = \
-                    TranslationActionCodes.REVIEW_PENALTY
+            elif (
+                int(submission.old_value) == TRANSLATED
+                and int(submission.new_value) == FUZZY
+            ):
+                submitter_score["action_code"] = TranslationActionCodes.MARKED_FUZZY
+                previous_reviewer_score[
+                    "action_code"
+                ] = TranslationActionCodes.REVIEW_PENALTY
 
         elif submission.type == SubmissionTypes.SUGG_ADD:
-            submitter_score['action_code'] = TranslationActionCodes.SUGG_ADDED
+            submitter_score["action_code"] = TranslationActionCodes.SUGG_ADDED
 
         elif submission.type == SubmissionTypes.SUGG_ACCEPT:
-            submitter_score['action_code'] = \
-                TranslationActionCodes.SUGG_REVIEWED_ACCEPTED
-            suggester_score['action_code'] = \
-                TranslationActionCodes.SUGG_ACCEPTED
-            previous_reviewer_score['action_code'] = \
-                TranslationActionCodes.REVIEW_PENALTY
+            submitter_score[
+                "action_code"
+            ] = TranslationActionCodes.SUGG_REVIEWED_ACCEPTED
+            suggester_score["action_code"] = TranslationActionCodes.SUGG_ACCEPTED
+            previous_reviewer_score[
+                "action_code"
+            ] = TranslationActionCodes.REVIEW_PENALTY
 
         elif submission.type == SubmissionTypes.SUGG_REJECT:
-            submitter_score['action_code'] = \
-                TranslationActionCodes.SUGG_REVIEWED_REJECTED
-            suggester_score['action_code'] = \
-                TranslationActionCodes.SUGG_REJECTED
+            submitter_score[
+                "action_code"
+            ] = TranslationActionCodes.SUGG_REVIEWED_REJECTED
+            suggester_score["action_code"] = TranslationActionCodes.SUGG_REJECTED
 
-        if 'action_code' in previous_translator_score:
-            previous_translator_score['user'] = submission.unit.submitted_by
-        if 'action_code' in previous_reviewer_score:
+        if "action_code" in previous_translator_score:
+            previous_translator_score["user"] = submission.unit.submitted_by
+        if "action_code" in previous_reviewer_score:
             if submission.unit.reviewed_by_id:
-                previous_reviewer_score['user'] = submission.unit.reviewed_by
+                previous_reviewer_score["user"] = submission.unit.reviewed_by
             else:
-                previous_reviewer_score['user'] = submission.unit.submitted_by
+                previous_reviewer_score["user"] = submission.unit.submitted_by
 
-        return [submitter_score, previous_translator_score,
-                previous_reviewer_score, suggester_score]
+        return [
+            submitter_score,
+            previous_translator_score,
+            previous_reviewer_score,
+            suggester_score,
+        ]
 
     def save(self, *args, **kwargs):
         # copy current user rate
@@ -504,25 +539,22 @@ class ScoreLog(models.Model):
         super(ScoreLog, self).save(*args, **kwargs)
 
         User = get_user_model()
-        User.objects.filter(id=self.user.id).update(
-            score=F('score') + self.score_delta
-        )
+        User.objects.filter(id=self.user.id).update(score=F("score") + self.score_delta)
         self.log()
 
     def log(self):
         d = {
-            'user': self.user,
-            'action': SCORE_CHANGED,
-            'score_delta': self.score_delta,
-            'code': TranslationActionCodes.NAMES_MAP[self.action_code],
-            'unit': self.submission.unit.id,
-            'wordcount': self.wordcount,
-            'similarity': self.similarity,
-            'total': self.user.score,
+            "user": self.user,
+            "action": SCORE_CHANGED,
+            "score_delta": self.score_delta,
+            "code": TranslationActionCodes.NAMES_MAP[self.action_code],
+            "unit": self.submission.unit.id,
+            "wordcount": self.wordcount,
+            "similarity": self.similarity,
+            "total": self.user.score,
         }
 
-        params = ['%(user)s', '%(action)s', '%(score_delta)s',
-                  '%(code)s', '#%(unit)s']
+        params = ["%(user)s", "%(action)s", "%(score_delta)s", "%(code)s", "#%(unit)s"]
 
         zero_types = [
             TranslationActionCodes.MARKED_FUZZY,
@@ -536,21 +568,21 @@ class ScoreLog(models.Model):
         ]
 
         if self.action_code not in zero_types:
-            params.append('NS=%(wordcount)s')
+            params.append("NS=%(wordcount)s")
 
             if self.action_code not in no_similarity_types:
-                params.append('S=%(similarity)s')
+                params.append("S=%(similarity)s")
 
-        params.append('(total: %(total)s)')
+        params.append("(total: %(total)s)")
 
         log("\t".join(params) % d)
 
     def get_score_delta(self):
         """Returns the score change performed by the current action."""
-        EDIT_COEF = settings.ZING_SCORE_COEFFICIENTS['EDIT']
-        REVIEW_COEF = settings.ZING_SCORE_COEFFICIENTS['REVIEW']
-        SUGG_COEF = settings.ZING_SCORE_COEFFICIENTS['SUGGEST']
-        ANALYZE_COEF = settings.ZING_SCORE_COEFFICIENTS['ANALYZE']
+        EDIT_COEF = settings.ZING_SCORE_COEFFICIENTS["EDIT"]
+        REVIEW_COEF = settings.ZING_SCORE_COEFFICIENTS["REVIEW"]
+        SUGG_COEF = settings.ZING_SCORE_COEFFICIENTS["SUGGEST"]
+        ANALYZE_COEF = settings.ZING_SCORE_COEFFICIENTS["ANALYZE"]
 
         ns = self.wordcount
         s = self.similarity
@@ -563,9 +595,9 @@ class ScoreLog(models.Model):
             try:
                 # Get similarity from initial submission where
                 # the suggestion was added.
-                s = self.submission.suggestion.submission_set \
-                        .get(type=SubmissionTypes.SUGG_ADD) \
-                        .similarity
+                s = self.submission.suggestion.submission_set.get(
+                    type=SubmissionTypes.SUGG_ADD
+                ).similarity
                 if s is None:
                     s = 0
                 self.similarity = s
@@ -585,7 +617,7 @@ class ScoreLog(models.Model):
                     submitter_id=self.submission.unit.submitted_by_id,
                     creation_time=self.submission.unit.submitted_on,
                     field=SubmissionFields.TARGET,
-                    type=SubmissionTypes.NORMAL
+                    type=SubmissionTypes.NORMAL,
                 ).similarity
                 if s is None:
                     s = 0
@@ -600,9 +632,9 @@ class ScoreLog(models.Model):
             try:
                 # Get similarity from initial submission where overwritten
                 # translation was added.
-                s = self.submission.suggestion.submission_set \
-                        .get(type=SubmissionTypes.SUGG_ADD) \
-                        .similarity
+                s = self.submission.suggestion.submission_set.get(
+                    type=SubmissionTypes.SUGG_ADD
+                ).similarity
                 if s is None:
                     s = 0
                 self.similarity = s
@@ -613,18 +645,15 @@ class ScoreLog(models.Model):
             return rawTranslationCost * (1 - SUGG_COEF)
 
         return {
-            TranslationActionCodes.NEW:
-                lambda: rawTranslationCost + reviewCost,
-            TranslationActionCodes.EDITED:
-                lambda: rawTranslationCost + reviewCost,
+            TranslationActionCodes.NEW: lambda: rawTranslationCost + reviewCost,
+            TranslationActionCodes.EDITED: lambda: rawTranslationCost + reviewCost,
             TranslationActionCodes.EDITED_OWN: lambda: rawTranslationCost,
             TranslationActionCodes.REVIEWED: lambda: reviewCost,
             TranslationActionCodes.EDIT_PENALTY: get_edit_penalty,
             TranslationActionCodes.MARKED_FUZZY: lambda: 0,
             TranslationActionCodes.DELETED: lambda: 0,
             TranslationActionCodes.REVIEW_PENALTY: lambda: (-1) * reviewCost,
-            TranslationActionCodes.SUGG_ADDED:
-                lambda: rawTranslationCost * SUGG_COEF,
+            TranslationActionCodes.SUGG_ADDED: lambda: rawTranslationCost * SUGG_COEF,
             TranslationActionCodes.SUGG_ACCEPTED: get_sugg_accepted,
             TranslationActionCodes.SUGG_REVIEWED_ACCEPTED: lambda: reviewCost,
             TranslationActionCodes.SUGG_REJECTED: get_sugg_rejected,
@@ -632,9 +661,7 @@ class ScoreLog(models.Model):
         }.get(self.action_code, lambda: 0)()
 
     def get_similarity(self):
-        return self.similarity \
-            if self.similarity >= SIMILARITY_THRESHOLD \
-            else 0
+        return self.similarity if self.similarity >= SIMILARITY_THRESHOLD else 0
 
     def is_similarity_taken_from_mt(self):
         similarity = self.submission.similarity or -1
@@ -653,8 +680,8 @@ class ScoreLog(models.Model):
         action.
         """
 
-        EDIT_COEF = settings.ZING_SCORE_COEFFICIENTS['EDIT']
-        REVIEW_COEF = settings.ZING_SCORE_COEFFICIENTS['REVIEW']
+        EDIT_COEF = settings.ZING_SCORE_COEFFICIENTS["EDIT"]
+        REVIEW_COEF = settings.ZING_SCORE_COEFFICIENTS["REVIEW"]
 
         ns = self.wordcount
         s = self.get_similarity()
@@ -677,7 +704,7 @@ class ScoreLog(models.Model):
             suggester = self.submission.suggestion.user.pk
             reviewer = self.submission.submitter.pk
             if suggester == reviewer:
-                if self.submission.old_value == '':
+                if self.submission.old_value == "":
                     return translated_words, None
             else:
                 return None, reviewed_words
@@ -687,7 +714,7 @@ class ScoreLog(models.Model):
         def get_sugg_accepted():
             suggester = self.submission.suggestion.user.pk
             reviewer = self.submission.submitter.pk
-            if suggester != reviewer and self.submission.old_value == '':
+            if suggester != reviewer and self.submission.old_value == "":
                 return translated_words, None
 
             return None, None
@@ -703,6 +730,5 @@ class ScoreLog(models.Model):
             TranslationActionCodes.EDITED: get_edited,
             TranslationActionCodes.REVIEWED: lambda: (None, reviewed_words),
             TranslationActionCodes.SUGG_ACCEPTED: get_sugg_accepted,
-            TranslationActionCodes.SUGG_REVIEWED_ACCEPTED:
-                get_sugg_reviewed_accepted,
+            TranslationActionCodes.SUGG_REVIEWED_ACCEPTED: get_sugg_reviewed_accepted,
         }.get(self.action_code, lambda: (None, None))()

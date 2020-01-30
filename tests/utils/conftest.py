@@ -14,18 +14,18 @@ def pytest_collection_modifyitems(items):
     https://docs.djangoproject.com/en/1.11/topics/testing/tools/#django.test.modify_settings
     """
     # Note: this is tied to our Travis + Tox configuration
-    has_postgres = os.environ.get('DATABASE_BACKEND', '') == 'postgres'
+    has_postgres = os.environ.get("DATABASE_BACKEND", "") == "postgres"
     if not has_postgres:
         return
 
     for item in items:
-        if 'settings' not in item.fixturenames:
+        if "settings" not in item.fixturenames:
             continue
 
         code = item.function.__code__
-        if 'settings' not in code.co_varnames:
+        if "settings" not in code.co_varnames:
             # `settings` not being modified, skip
             continue
 
-        if 'USE_TZ' in code.co_names or 'TIME_ZONE' in code.co_names:
+        if "USE_TZ" in code.co_names or "TIME_ZONE" in code.co_names:
             item.add_marker(pytest.mark.django_db)

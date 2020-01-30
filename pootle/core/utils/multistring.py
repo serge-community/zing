@@ -28,7 +28,7 @@ def list_empty(strings):
 def parse_multistring(db_string):
     """Parses a `db_string` coming from the DB into a multistring object."""
     if not isinstance(db_string, str):
-        raise ValueError('Parsing into a multistring requires a string input.')
+        raise ValueError("Parsing into a multistring requires a string input.")
 
     strings = db_string.split(SEPARATOR)
     if strings[-1] == PLURAL_PLACEHOLDER:
@@ -50,13 +50,13 @@ def unparse_multistring(values):
 
     try:
         values_list = list(values.strings)
-        has_plural_placeholder = getattr(values, 'plural', False)
+        has_plural_placeholder = getattr(values, "plural", False)
     except AttributeError:
         values_list = values
         has_plural_placeholder = False
 
     if list_empty(values_list):
-        return ''
+        return ""
 
     if len(values_list) == 1 and has_plural_placeholder:
         values_list.append(PLURAL_PLACEHOLDER)

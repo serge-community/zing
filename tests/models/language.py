@@ -9,8 +9,11 @@
 
 import pytest
 
-from tests.factories import (LanguageDBFactory, ProjectDBFactory,
-                             TranslationProjectFactory)
+from tests.factories import (
+    LanguageDBFactory,
+    ProjectDBFactory,
+    TranslationProjectFactory,
+)
 
 from pootle_language.models import Language
 
@@ -18,9 +21,7 @@ from pootle_language.models import Language
 @pytest.mark.django_db
 def test_language_repr():
     language = Language.objects.first()
-    assert (
-        "<Language: %s>" % language.name
-        == repr(language))
+    assert "<Language: %s>" % language.name == repr(language)
 
 
 @pytest.mark.django_db
@@ -34,8 +35,7 @@ def test_language_liveness():
 
     # Create obsolete TP.
     obsolete_tp = TranslationProjectFactory(
-        language=language,
-        project=ProjectDBFactory(source_language=language)
+        language=language, project=ProjectDBFactory(source_language=language)
     )
     obsolete_tp.directory.makeobsolete()
 
@@ -49,8 +49,9 @@ def test_language_liveness():
     disabled_project = ProjectDBFactory(source_language=language)
     disabled_project.disabled = True
     disabled_project.save()
-    disabled_project_tp = TranslationProjectFactory(language=language,
-                                                    project=disabled_project)
+    disabled_project_tp = TranslationProjectFactory(
+        language=language, project=disabled_project
+    )
 
     # Test language used only in disabled project and obsolete TP is not live.
     assert disabled_project.disabled
@@ -61,8 +62,7 @@ def test_language_liveness():
 
     # Create regular TP.
     TranslationProjectFactory(
-        language=language,
-        project=ProjectDBFactory(source_language=language)
+        language=language, project=ProjectDBFactory(source_language=language)
     )
 
     # Test language used in regular and obsolete TPs and in TP on disabled
@@ -82,8 +82,9 @@ def test_language_liveness():
 
     # Create again TP for disabled project and delete obsolete TP.
     # Delete obsolete TP.
-    disabled_project_tp = TranslationProjectFactory(language=language,
-                                                    project=disabled_project)
+    disabled_project_tp = TranslationProjectFactory(
+        language=language, project=disabled_project
+    )
     obsolete_tp.delete()
 
     # Test language both in disabled project and regular TP is live.

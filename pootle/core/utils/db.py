@@ -27,7 +27,7 @@ def set_mysql_collation_for_column(apps, cursor, model, column, collation, schem
         return
 
     # Get the db_name
-    db_name = cursor.db.get_connection_params()['db']
+    db_name = cursor.db.get_connection_params()["db"]
 
     # Get table_name
     table_name = apps.get_model(model)._meta.db_table
@@ -38,8 +38,8 @@ def set_mysql_collation_for_column(apps, cursor, model, column, collation, schem
         " FROM `information_schema`.`columns`"
         " WHERE TABLE_SCHEMA = '%s'"
         "  AND TABLE_NAME = '%s'"
-        "  AND COLUMN_NAME = '%s';"
-        % (db_name, table_name, column))
+        "  AND COLUMN_NAME = '%s';" % (db_name, table_name, column)
+    )
     current_collation = cursor.fetchone()[0]
 
     if current_collation != collation:
@@ -50,6 +50,5 @@ def set_mysql_collation_for_column(apps, cursor, model, column, collation, schem
             "  %s"
             "  CHARACTER SET utf8"
             "  COLLATE %s"
-            "  NOT NULL;"
-            % (db_name, table_name,
-               column, schema, collation))
+            "  NOT NULL;" % (db_name, table_name, column, schema, collation)
+        )

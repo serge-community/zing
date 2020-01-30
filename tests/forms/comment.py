@@ -38,7 +38,8 @@ def test_comment_form_post(admin):
         comment="Foo!",
         user=admin,
         timestamp=form.initial.get("timestamp"),
-        security_hash=form.initial.get("security_hash"))
+        security_hash=form.initial.get("security_hash"),
+    )
     post_form = CommentForm(unit, kwargs)
     if post_form.is_valid():
         post_form.save()
@@ -54,9 +55,7 @@ def test_comment_form_post(admin):
 @pytest.mark.django_db
 def test_unsecured_comment_form_post(admin):
     unit = Unit.objects.first()
-    kwargs = dict(
-        comment="Foo!",
-        user=admin)
+    kwargs = dict(comment="Foo!", user=admin)
     post_form = UnsecuredCommentForm(unit, kwargs)
     if post_form.is_valid():
         post_form.save()
@@ -73,7 +72,7 @@ def test_unsecured_comment_form_post(admin):
 def test_unsecured_comment_form_should_save(admin):
     unit = Unit.objects.first()
     kwargs = dict(
-        comment="You can say linux though, or gnu/linux if you prefer",
-        user=admin)
+        comment="You can say linux though, or gnu/linux if you prefer", user=admin
+    )
     post_form = UnsecuredCommentForm(unit, kwargs)
     assert post_form.is_valid()

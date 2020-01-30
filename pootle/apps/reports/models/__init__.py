@@ -10,4 +10,9 @@ from .invoice import Invoice
 from .paidtask import PaidTask, PaidTaskTypes, ReportActionTypes
 
 
-__all__ = ('Invoice', 'PaidTask', 'PaidTaskTypes', 'ReportActionTypes',)
+__all__ = (
+    "Invoice",
+    "PaidTask",
+    "PaidTaskTypes",
+    "ReportActionTypes",
+)

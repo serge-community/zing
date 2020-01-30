@@ -19,7 +19,7 @@ from functools import lru_cache
 from pootle.constants import VERSION
 
 
-CANDIDATE_MARKERS = ('alpha', 'beta', 'rc', 'final')
+CANDIDATE_MARKERS = ("alpha", "beta", "rc", "final")
 
 
 def get_version(version=None):
@@ -49,18 +49,18 @@ def get_version(version=None):
     main = get_main_version(version)
     candidate_pos = _get_candidate_pos(version)
     candidate = version[candidate_pos]
-    candidate_extra = version[candidate_pos+1]
+    candidate_extra = version[candidate_pos + 1]
 
-    sub = ''
+    sub = ""
     if _is_development_candidate(version):
         git_changeset = get_git_changeset()
         if git_changeset:
-            sub = '.dev%s' % git_changeset
+            sub = ".dev%s" % git_changeset
         else:
-            sub = '.dev0'
+            sub = ".dev0"
 
-    elif candidate != 'final':
-        mapping = {'alpha': 'a', 'beta': 'b', 'rc': 'rc'}
+    elif candidate != "final":
+        mapping = {"alpha": "a", "beta": "b", "rc": "rc"}
         sub = mapping[candidate] + str(candidate_extra)
 
     return str(main + sub)
@@ -76,8 +76,8 @@ def _is_development_candidate(version):
     """
     candidate_pos = _get_candidate_pos(version)
     candidate = version[candidate_pos]
-    candidate_extra = version[candidate_pos+1]
-    return candidate == 'alpha' and candidate_extra == 0
+    candidate_extra = version[candidate_pos + 1]
+    return candidate == "alpha" and candidate_extra == 0
 
 
 def _get_candidate_pos(version):
@@ -86,8 +86,7 @@ def _get_candidate_pos(version):
     >>> _get_candidate_pos((1, 2, 0, 'alpha', 0))
     3
     """
-    return [i for i, part in enumerate(version)
-            if part in CANDIDATE_MARKERS][0]
+    return [i for i, part in enumerate(version) if part in CANDIDATE_MARKERS][0]
 
 
 def _get_candidate(version):
@@ -107,7 +106,7 @@ def _get_version_string(parts):
     >>> _get_version_string((1, 1, 0, 1))
     '1.1.0.1'
     """
-    return '.'.join(str(x) for x in parts)
+    return ".".join(str(x) for x in parts)
 
 
 def get_main_version(version=None):
@@ -156,18 +155,14 @@ def get_docs_version(version=None, positions=2):
     if positions > candidate_pos:
         positions = candidate_pos
     if _is_development_candidate(version):
-        return 'dev'
+        return "dev"
     return _get_version_string(version[:positions])
 
 
 def get_rtd_version(version=None):
     """Return the docs version string reported in the RTD site."""
     version_str = get_docs_version(version=version, positions=3)
-    return (
-        'latest'
-        if version_str == 'dev'
-        else 'stable-%s' % (version_str, )
-    )
+    return "latest" if version_str == "dev" else "stable-%s" % (version_str,)
 
 
 def _shell_command(command):
@@ -179,7 +174,7 @@ def _shell_command(command):
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         cwd=repo_dir,
-        universal_newlines=True
+        universal_newlines=True,
     )
 
     return command_subprocess.communicate()[0]
@@ -197,13 +192,13 @@ def get_git_changeset():
     '20150530132219'
     """
     timestamp = _shell_command(
-        ['/usr/bin/git', 'log', '--pretty=format:%ct', '--quiet', '-1', 'HEAD']
+        ["/usr/bin/git", "log", "--pretty=format:%ct", "--quiet", "-1", "HEAD"]
     )
     try:
         timestamp = datetime.datetime.utcfromtimestamp(int(timestamp))
     except ValueError:
         return None
-    return timestamp.strftime('%Y%m%d%H%M%S')
+    return timestamp.strftime("%Y%m%d%H%M%S")
 
 
 @lru_cache()
@@ -213,8 +208,7 @@ def get_git_branch():
     >>> get_git_branch()
     'feature/proper_version'
     """
-    branch = _shell_command(['/usr/bin/git', 'symbolic-ref', '-q',
-                             'HEAD']).strip()
+    branch = _shell_command(["/usr/bin/git", "symbolic-ref", "-q", "HEAD"]).strip()
     if not branch:
         return None
     return "/".join(branch.split("/")[2:])
@@ -228,12 +222,13 @@ def get_git_hash():
     'ad768e8'
     """
     return _shell_command(
-        ['/usr/bin/git', 'rev-parse', '--verify', '--short', 'HEAD']
+        ["/usr/bin/git", "rev-parse", "--verify", "--short", "HEAD"]
     ).strip()
 
 
 if __name__ == "__main__":
     from sys import argv
+
     if len(argv) == 2:
         if argv[1] == "main":
             print(get_main_version())

@@ -13,7 +13,7 @@ import pytest
 def pytest_generate_tests(metafunc):
     from pootle_project.models import PROJECT_CHECKERS
 
-    if 'checkers' in metafunc.fixturenames:
+    if "checkers" in metafunc.fixturenames:
         metafunc.parametrize("checkers", PROJECT_CHECKERS.keys())
 
 
@@ -54,9 +54,7 @@ def tp_checker_tests(request, english, checkers):
     from tests.factories import ProjectDBFactory
 
     checker_name = checkers
-    project = ProjectDBFactory(
-        checkstyle=checker_name,
-        source_language=english)
+    project = ProjectDBFactory(checkstyle=checker_name, source_language=english)
     return (checker_name, project)
 
 
@@ -65,6 +63,4 @@ def tp0(language0, project0):
     """Require English Project0."""
     from pootle_translationproject.models import TranslationProject
 
-    return TranslationProject.objects.get(
-        language=language0,
-        project=project0)
+    return TranslationProject.objects.get(language=language0, project=project0)

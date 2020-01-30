@@ -6,12 +6,16 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pootle_app', '0009_set_default_directory_pootle_path'),
+        ("pootle_app", "0009_set_default_directory_pootle_path"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='directory',
-            options={'base_manager_name': 'objects', 'default_permissions': (), 'ordering': ['name']},
+            name="directory",
+            options={
+                "base_manager_name": "objects",
+                "default_permissions": (),
+                "ordering": ["name"],
+            },
         ),
     ]

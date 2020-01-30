@@ -15,7 +15,7 @@ from django.utils.translation import gettext_lazy as _
 from allauth.account.adapter import DefaultAccountAdapter
 
 
-logger = logging.getLogger('action')
+logger = logging.getLogger("action")
 
 
 class PootleAccountAdapter(DefaultAccountAdapter):
@@ -28,8 +28,7 @@ class PootleAccountAdapter(DefaultAccountAdapter):
     """
 
     def ajax_response(
-        self, request, response, redirect_to=None, form=None, data=None,
-        **kwargs
+        self, request, response, redirect_to=None, form=None, data=None, **kwargs
     ):
         data = {}
         if redirect_to:
@@ -51,7 +50,7 @@ class PootleAccountAdapter(DefaultAccountAdapter):
         This can be changed by setting `ZING_SIGNUP_ENABLED = False` in
         the settings. Defaults to `True`.
         """
-        return getattr(settings, 'ZING_SIGNUP_ENABLED', True)
+        return getattr(settings, "ZING_SIGNUP_ENABLED", True)
 
     def add_message(self, request, level, message_template, *args, **kwargs):
         """Silence messages altogether."""
@@ -59,11 +58,15 @@ class PootleAccountAdapter(DefaultAccountAdapter):
 
     def send_confirmation_mail(self, *args, **kwargs):
         try:
-            super(PootleAccountAdapter, self).send_confirmation_mail(*args,
-                                                                     **kwargs)
+            super(PootleAccountAdapter, self).send_confirmation_mail(*args, **kwargs)
         except Exception:
-            logger.exception("ERROR: Sign up failed. Couldn't sent "
-                             "confirmation email.")
-            raise RuntimeError(_('Some problem happened when tried to send '
-                                 'the confirmation email. Please try again '
-                                 'later.'))
+            logger.exception(
+                "ERROR: Sign up failed. Couldn't sent " "confirmation email."
+            )
+            raise RuntimeError(
+                _(
+                    "Some problem happened when tried to send "
+                    "the confirmation email. Please try again "
+                    "later."
+                )
+            )

@@ -18,13 +18,9 @@ def log_timing(start, timed=None, debug_logger=None):
     debug_logger = debug_logger or logger
     timing = time.time() - start
     if timed:
-        msg = (
-            "Timing for %s: %s seconds"
-            % (timed, timing))
+        msg = "Timing for %s: %s seconds" % (timed, timing)
     else:
-        msg = (
-            "Timing: %s seconds"
-            % timing)
+        msg = "Timing: %s seconds" % timing
     debug_logger.debug(msg)
 
 
@@ -42,10 +38,7 @@ def log_new_queries(queries, debug_logger=None):
 def timings(timed=None, debug_logger=None):
     start = time.time()
     yield
-    log_timing(
-        start,
-        timed,
-        debug_logger or logger)
+    log_timing(start, timed, debug_logger or logger)
 
 
 @contextmanager
@@ -59,7 +52,5 @@ def debug_sql(debug_logger=None):
     try:
         yield
     finally:
-        log_new_queries(
-            queries,
-            debug_logger)
+        log_new_queries(queries, debug_logger)
         settings.DEBUG = debug

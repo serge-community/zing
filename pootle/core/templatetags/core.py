@@ -24,7 +24,7 @@ def to_js(value):
     consumption; breaks closing HTML tags into concatenated strings
     to avoid '</script> inside JS string' problem
     """
-    return mark_safe(jsonify(value).replace('</', '<\\/'))
+    return mark_safe(jsonify(value).replace("</", "<\\/"))
 
 
 @register.filter
@@ -37,7 +37,7 @@ def to_jquery_safe_js(value):
     This template tag needs to be removed once the editor is moved into a native
     React component
     """
-    return mark_safe(jsonify(value).replace('</', '<\\/').replace('<', '<"+"'))
+    return mark_safe(jsonify(value).replace("</", "<\\/").replace("<", '<"+"'))
 
 
 @register.filter

@@ -12,17 +12,17 @@ from tests.factories import StaticPageFactory
 
 
 def test_staticpage_repr():
-    staticpage = StaticPageFactory.build(virtual_path='/test/')
-    assert '<StaticPage: /test/>' == repr(staticpage)
+    staticpage = StaticPageFactory.build(virtual_path="/test/")
+    assert "<StaticPage: /test/>" == repr(staticpage)
 
 
 @pytest.mark.django_db
 def test_staticpage_save_with_changes():
     """Tests a static page's timestamp is updated upon saving changes (#316)."""
-    page = StaticPageFactory.build(virtual_path='/test/', title='foo')
+    page = StaticPageFactory.build(virtual_path="/test/", title="foo")
     page.save()
 
-    page.title = 'bar'
+    page.title = "bar"
     assert page.has_changes()
 
     old_mtime = page.modified_on

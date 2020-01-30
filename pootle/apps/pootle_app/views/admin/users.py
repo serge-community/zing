@@ -14,23 +14,22 @@ from pootle.core.views.mixins import SuperuserRequiredMixin
 from pootle_app.forms import UserForm
 
 
-__all__ = ('UserAdminView', 'UserAPIView')
+__all__ = ("UserAdminView", "UserAPIView")
 
 
 class UserAdminView(SuperuserRequiredMixin, TemplateView):
-    template_name = 'admin/users.html'
+    template_name = "admin/users.html"
 
     def get_context_data(self, **kwargs):
         return {
-            'page': 'admin-users',
+            "page": "admin-users",
         }
 
 
 class UserAPIView(SuperuserRequiredMixin, APIView):
     model = get_user_model()
-    base_queryset = get_user_model().objects.hide_permission_users() \
-                                            .order_by('-id')
+    base_queryset = get_user_model().objects.hide_permission_users().order_by("-id")
     add_form_class = UserForm
     edit_form_class = UserForm
     page_size = 10
-    search_fields = ('username', 'full_name', 'email')
+    search_fields = ("username", "full_name", "email")

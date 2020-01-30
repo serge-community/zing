@@ -32,19 +32,15 @@ class PootleDetailView(DetailView):
 
     @property
     def browse_url(self):
-        return reverse(
-            self.browse_url_path,
-            kwargs=self.url_kwargs)
+        return reverse(self.browse_url_path, kwargs=self.url_kwargs)
 
     @property
     def export_url(self):
-        return reverse(
-            self.export_url_path,
-            kwargs=self.url_kwargs)
+        return reverse(self.export_url_path, kwargs=self.url_kwargs)
 
     @cached_property
     def has_admin_access(self):
-        return check_permission('administrate', self.request)
+        return check_permission("administrate", self.request)
 
     @property
     def language(self):
@@ -70,9 +66,7 @@ class PootleDetailView(DetailView):
 
     @property
     def translate_url(self):
-        return reverse(
-            self.translate_url_path,
-            kwargs=self.url_kwargs)
+        return reverse(self.translate_url_path, kwargs=self.url_kwargs)
 
     @set_permissions
     @requires_permission("view")
@@ -82,21 +76,21 @@ class PootleDetailView(DetailView):
 
     def get_context_data(self, *args, **kwargs):
         return {
-            'object': self.object,
-            'pootle_path': self.pootle_path,
-            'project': self.project,
-            'language': self.language,
-            'translation_project': self.tp,
-            'has_admin_access': self.has_admin_access,
-            'resource_path': self.resource_path,
-            'resource_path_parts': get_path_parts(self.resource_path),
-            'translate_url': self.translate_url,
-            'export_url': self.export_url,
-            'browse_url': self.browse_url}
+            "object": self.object,
+            "pootle_path": self.pootle_path,
+            "project": self.project,
+            "language": self.language,
+            "translation_project": self.tp,
+            "has_admin_access": self.has_admin_access,
+            "resource_path": self.resource_path,
+            "resource_path_parts": get_path_parts(self.resource_path),
+            "translate_url": self.translate_url,
+            "export_url": self.export_url,
+            "browse_url": self.browse_url,
+        }
 
 
 class PootleJSON(PootleJSONMixin, PootleDetailView):
-
     @never_cache
     @method_decorator(ajax_required)
     @set_permissions
@@ -106,7 +100,6 @@ class PootleJSON(PootleJSONMixin, PootleDetailView):
 
 
 class PootleAdminView(DetailView):
-
     @set_permissions
     @requires_permission("administrate")
     def dispatch(self, request, *args, **kwargs):
@@ -135,15 +128,17 @@ class BasePathDispatcherView(View):
         if not form.is_valid():
             raise Http404(ValidationError(form.errors))
 
-        path = form.cleaned_data['path']
+        path = form.cleaned_data["path"]
         lang_code, proj_code, dir_path, filename = split_pootle_path(path)
 
-        kwargs.update({
-            'language_code': lang_code,
-            'project_code': proj_code,
-            'dir_path': dir_path,
-            'filename': filename,
-        })
+        kwargs.update(
+            {
+                "language_code": lang_code,
+                "project_code": proj_code,
+                "dir_path": dir_path,
+                "filename": filename,
+            }
+        )
         kwargs.update(**form.cleaned_data)
 
         view_class = self.get_view_class(lang_code, proj_code, dir_path, filename)

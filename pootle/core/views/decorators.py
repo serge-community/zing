@@ -21,7 +21,7 @@ def check_directory_permission(permission_codename, request, directory):
     if request.user.is_superuser:
         return True
 
-    if permission_codename == 'view':
+    if permission_codename == "view":
         context = None
 
         context = getattr(directory, "translation_project", None)
@@ -35,38 +35,41 @@ def check_directory_permission(permission_codename, request, directory):
 
     return (
         "administrate" in request.permissions
-        or permission_codename in request.permissions)
+        or permission_codename in request.permissions
+    )
 
 
 def set_permissions(f):
-
     @functools.wraps(f)
     def method_wrapper(self, request, *args, **kwargs):
-        request.permissions = get_matching_permissions(
-            request.user,
-            self.permission_context) or []
+        request.permissions = (
+            get_matching_permissions(request.user, self.permission_context) or []
+        )
         return f(self, request, *args, **kwargs)
+
     return method_wrapper
 
 
 def requires_permission(permission):
-
     def class_wrapper(f):
-
         @functools.wraps(f)
         def method_wrapper(self, request, *args, **kwargs):
             directory_permission = check_directory_permission(
-                permission, request, self.permission_context)
+                permission, request, self.permission_context
+            )
             check_class_permission = (
                 directory_permission
                 and hasattr(self, "required_permission")
-                and permission != self.required_permission)
+                and permission != self.required_permission
+            )
             if check_class_permission:
                 directory_permission = check_directory_permission(
-                    self.required_permission, request, self.permission_context)
+                    self.required_permission, request, self.permission_context
+                )
             if not directory_permission:
-                raise PermissionDenied(
-                    _("Insufficient rights to access this page."), )
+                raise PermissionDenied(_("Insufficient rights to access this page."),)
             return f(self, request, *args, **kwargs)
+
         return method_wrapper
+
     return class_wrapper

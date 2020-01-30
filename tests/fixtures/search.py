@@ -14,61 +14,75 @@ import pytest
 UNITS_TEXT_SEARCH_TESTS = OrderedDict()
 UNITS_TEXT_SEARCH_TESTS["exact:Translated (source)"] = {
     "text": "Translated",
-    "sfields": ["source"]}
+    "sfields": ["source"],
+}
 UNITS_TEXT_SEARCH_TESTS["exact:Translated (source/target)"] = {
     "text": "Translated",
-    "sfields": ["source", "target"]}
+    "sfields": ["source", "target"],
+}
 UNITS_TEXT_SEARCH_TESTS["Suggestion for Translated (target)"] = {
     "text": "suggestion for translated",
-    "sfields": ["target"]}
+    "sfields": ["target"],
+}
 UNITS_TEXT_SEARCH_TESTS["suggestion for TRANSLATED (target)"] = {
     "text": "suggestion for TRANSLATED",
-    "sfields": ["target"]}
+    "sfields": ["target"],
+}
 UNITS_TEXT_SEARCH_TESTS["suggestion for translated (source)"] = {
     "text": "suggestion for translated",
     "sfields": ["source"],
-    "empty": True}
+    "empty": True,
+}
 UNITS_TEXT_SEARCH_TESTS["exact:Translated (source_f/target_f)"] = {
     "text": "Translated",
-    "sfields": ["source_f", "target_f"]}
+    "sfields": ["source_f", "target_f"],
+}
 UNITS_TEXT_SEARCH_TESTS["Suggestion for Translated (target_f)"] = {
     "text": "suggestion for translated",
-    "sfields": ["target_f"]}
+    "sfields": ["target_f"],
+}
 UNITS_TEXT_SEARCH_TESTS["suggestion for TRANSLATED (target_f)"] = {
     "text": "suggestion for TRANSLATED",
-    "sfields": ["target_f"]}
+    "sfields": ["target_f"],
+}
 UNITS_TEXT_SEARCH_TESTS["suggestion for translated (source_f)"] = {
     "text": "suggestion for translated",
     "sfields": ["source_f"],
-    "empty": True}
+    "empty": True,
+}
 UNITS_TEXT_SEARCH_TESTS["suggestion for translated (source/target)"] = {
     "text": "suggestion for translated",
-    "sfields": ["target", "source"]}
+    "sfields": ["target", "source"],
+}
 UNITS_TEXT_SEARCH_TESTS["exact: suggestion for translated (target)"] = {
     "text": "suggestion for translated",
-    "sfields": ["target"]}
+    "sfields": ["target"],
+}
 UNITS_TEXT_SEARCH_TESTS["exact: suggestion for translated (source/target)"] = {
     "text": "suggestion for translated",
-    "sfields": ["target", "source"]}
+    "sfields": ["target", "source"],
+}
 UNITS_TEXT_SEARCH_TESTS["suggestion translated for (target)"] = {
     "text": "suggestion translated for",
-    "sfields": ["target"]}
+    "sfields": ["target"],
+}
 UNITS_TEXT_SEARCH_TESTS["exact: suggestion translated for (target)"] = {
     "text": "suggestion translated for",
     "sfields": ["target"],
-    "empty": True}
+    "empty": True,
+}
 UNITS_TEXT_SEARCH_TESTS["FOO (notes)"] = {
     "text": "FOO",
     "sfields": ["notes"],
-    "empty": True}
-UNITS_TEXT_SEARCH_TESTS["FOO BAR"] = {
-    "sfields": ["target", "source"],
-    "empty": True}
+    "empty": True,
+}
+UNITS_TEXT_SEARCH_TESTS["FOO BAR"] = {"sfields": ["target", "source"], "empty": True}
 # hmm - not 100% if this should pass or fail
 UNITS_TEXT_SEARCH_TESTS["suggestion for translated FOO (target)"] = {
     "text": "suggestion translated for FOO",
     "sfields": ["target"],
-    "empty": True}
+    "empty": True,
+}
 
 UNITS_CONTRIB_SEARCH_TESTS = [
     "suggestions",
@@ -80,7 +94,8 @@ UNITS_CONTRIB_SEARCH_TESTS = [
     "my_submissions",
     "user_submissions",
     "my_submissions_overwritten",
-    "user_submissions_overwritten"]
+    "user_submissions_overwritten",
+]
 
 UNITS_STATE_SEARCH_TESTS = [
     "all",
@@ -88,7 +103,8 @@ UNITS_STATE_SEARCH_TESTS = [
     "untranslated",
     "fuzzy",
     "incomplete",
-    "FOO"]
+    "FOO",
+]
 
 UNITS_CHECKS_SEARCH_TESTS = [
     "checks:foo",
@@ -96,7 +112,8 @@ UNITS_CHECKS_SEARCH_TESTS = [
     "category:critical",
     "checks:endpunc",
     "checks:endpunc,printf",
-    "checks:endpunc,foo"]
+    "checks:endpunc,foo",
+]
 
 
 @pytest.fixture(params=UNITS_STATE_SEARCH_TESTS)

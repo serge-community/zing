@@ -18,7 +18,6 @@ from django.core.management import call_command
 
 
 class PootleTestEnv(object):
-
     def __init__(self, data_file, *args, **kwargs):
         self.data_file = data_file
 
@@ -29,11 +28,11 @@ class PootleTestEnv(object):
         data_file = self.data_file
         if os.path.isfile(data_file):
             self.setup_case_sensitive_schema()
-            call_command('loaddata', data_file)
+            call_command("loaddata", data_file)
         else:
             self.setup_site_db(request)
-            with open(data_file, 'w') as file:
-                call_command('dumpdata', '--indent=3', stdout=file)
+            with open(data_file, "w") as file:
+                call_command("dumpdata", "--indent=3", stdout=file)
 
     def setup_site_db(self, request, **kwargs):
         self.setup_redis()
@@ -57,19 +56,18 @@ class PootleTestEnv(object):
         from pootle_translationproject.models import TranslationProject
 
         po_file = os.path.join(
-            os.path.dirname(tests.__file__),
-            *("data", "po", "complex.po"))
-        with open(po_file, 'rb') as f:
+            os.path.dirname(tests.__file__), *("data", "po", "complex.po")
+        )
+        with open(po_file, "rb") as f:
             ttk = getclass(f)(f.read())
 
         tp = TranslationProject.objects.get(
-            project__code="project0",
-            language__code="language0")
+            project__code="project0", language__code="language0"
+        )
 
         store = StoreDBFactory(
-            parent=tp.directory,
-            translation_project=tp,
-            name="complex.po")
+            parent=tp.directory, translation_project=tp, name="complex.po"
+        )
         store.update(ttk)
 
     def setup_case_sensitive_schema(self):
@@ -77,7 +75,7 @@ class PootleTestEnv(object):
         from django.apps import apps
         from pootle.core.utils.db import set_mysql_collation_for_column
 
-        if connection.vendor != 'mysql':
+        if connection.vendor != "mysql":
             return
 
         cursor = connection.cursor()
@@ -86,56 +84,41 @@ class PootleTestEnv(object):
         set_mysql_collation_for_column(
             apps,
             cursor,
-            'pootle_language.Language',
-            'code',
-            'utf8_general_ci',
-            'varchar(50)',
+            "pootle_language.Language",
+            "code",
+            "utf8_general_ci",
+            "varchar(50)",
         )
 
         # Project
         set_mysql_collation_for_column(
-            apps,
-            cursor,
-            'pootle_project.Project',
-            'code',
-            'utf8_bin',
-            'varchar(255)',
+            apps, cursor, "pootle_project.Project", "code", "utf8_bin", "varchar(255)",
         )
 
         # Directory
         set_mysql_collation_for_column(
             apps,
             cursor,
-            'pootle_app.Directory',
-            'pootle_path',
-            'utf8_bin',
-            'varchar(255)',
+            "pootle_app.Directory",
+            "pootle_path",
+            "utf8_bin",
+            "varchar(255)",
         )
         set_mysql_collation_for_column(
-            apps,
-            cursor,
-            'pootle_app.Directory',
-            'name',
-            'utf8_bin',
-            'varchar(255)',
+            apps, cursor, "pootle_app.Directory", "name", "utf8_bin", "varchar(255)",
         )
 
         # Store
         set_mysql_collation_for_column(
             apps,
             cursor,
-            'pootle_store.Store',
-            'pootle_path',
-            'utf8_bin',
-            'varchar(255)',
+            "pootle_store.Store",
+            "pootle_path",
+            "utf8_bin",
+            "varchar(255)",
         )
         set_mysql_collation_for_column(
-            apps,
-            cursor,
-            'pootle_store.Store',
-            'name',
-            'utf8_bin',
-            'varchar(255)',
+            apps, cursor, "pootle_store.Store", "name", "utf8_bin", "varchar(255)",
         )
 
     def setup_permissions(self):
@@ -143,42 +126,26 @@ class PootleTestEnv(object):
 
         from .fixtures.models.permission import _require_permission
 
-        args = {
-            'app_label': 'pootle_app',
-            'model': 'directory'}
+        args = {"app_label": "pootle_app", "model": "directory"}
         pootle_content_type = ContentType.objects.get(**args)
 
+        _require_permission("view", "Can access a project", pootle_content_type)
+        _require_permission("hide", "Cannot access a project", pootle_content_type)
+        _require_permission("suggest", "Can make a suggestion", pootle_content_type)
+        _require_permission("translate", "Can submit translations", pootle_content_type)
+        _require_permission("review", "Can review translations", pootle_content_type)
         _require_permission(
-            'view',
-            'Can access a project',
-            pootle_content_type)
-        _require_permission(
-            'hide',
-            'Cannot access a project',
-            pootle_content_type)
-        _require_permission(
-            'suggest',
-            'Can make a suggestion',
-            pootle_content_type)
-        _require_permission(
-            'translate',
-            'Can submit translations',
-            pootle_content_type)
-        _require_permission(
-            'review',
-            'Can review translations',
-            pootle_content_type)
-        _require_permission(
-            'administrate',
-            'Can administrate a TP',
-            pootle_content_type)
+            "administrate", "Can administrate a TP", pootle_content_type
+        )
 
     def setup_languages(self):
         from .fixtures.models.language import _require_language
-        _require_language('en', 'English')
+
+        _require_language("en", "English")
 
     def setup_redis(self):
         from pootle.core.models import Revision
+
         Revision.initialize(force=True)
 
     def setup_system_users(self, request):
@@ -204,15 +171,13 @@ class PootleTestEnv(object):
         suggest = Permission.objects.get(codename="suggest")
         translate = Permission.objects.get(codename="translate")
 
-        criteria = {
-            'user': nobody,
-            'directory': Directory.objects.root}
+        criteria = {"user": nobody, "directory": Directory.objects.root}
         permission_set, created = PermissionSet.objects.get_or_create(**criteria)
         if created:
             permission_set.positive_permissions.set([view, suggest])
             permission_set.save()
 
-        criteria['user'] = default
+        criteria["user"] = default
         permission_set, created = PermissionSet.objects.get_or_create(**criteria)
         if created:
             permission_set.positive_permissions.set([view, suggest, translate])
@@ -221,9 +186,7 @@ class PootleTestEnv(object):
     def setup_site_root(self):
         from tests.factories import DirectoryFactory
 
-        DirectoryFactory(
-            name="projects",
-            parent=DirectoryFactory(parent=None, name=""))
+        DirectoryFactory(name="projects", parent=DirectoryFactory(parent=None, name=""))
 
     def setup_site_matrix(self):
         from tests.factories import ProjectDBFactory, LanguageDBFactory
@@ -241,34 +204,43 @@ class PootleTestEnv(object):
 
     def setup_terminology(self):
         from tests.factories import (
-            ProjectDBFactory, StoreDBFactory, TranslationProjectFactory,
-            UnitDBFactory
+            ProjectDBFactory,
+            StoreDBFactory,
+            TranslationProjectFactory,
+            UnitDBFactory,
         )
         from pootle_language.models import Language
 
         source_language = Language.objects.get(code="en")
-        terminology = ProjectDBFactory(code="terminology",
-                                       checkstyle="terminology",
-                                       fullname="Terminology",
-                                       source_language=source_language)
-        for language in Language.objects.exclude(code='en'):
+        terminology = ProjectDBFactory(
+            code="terminology",
+            checkstyle="terminology",
+            fullname="Terminology",
+            source_language=source_language,
+        )
+        for language in Language.objects.exclude(code="en"):
             tp = TranslationProjectFactory(project=terminology, language=language)
 
-            store = StoreDBFactory(translation_project=tp, name='terminology.po')
+            store = StoreDBFactory(translation_project=tp, name="terminology.po")
             store.save()
             for i_ in range(0, 1):
                 UnitDBFactory(store=store)
 
     def setup_disabled_project(self):
-        from tests.factories import (DirectoryFactory, ProjectDBFactory,
-                                     TranslationProjectFactory)
+        from tests.factories import (
+            DirectoryFactory,
+            ProjectDBFactory,
+            TranslationProjectFactory,
+        )
 
         from pootle_language.models import Language
 
         source_language = Language.objects.get(code="en")
-        project = ProjectDBFactory(code="disabled_project0",
-                                   fullname="Disabled Project 0",
-                                   source_language=source_language)
+        project = ProjectDBFactory(
+            code="disabled_project0",
+            fullname="Disabled Project 0",
+            source_language=source_language,
+        )
         project.disabled = True
         project.save()
         language = Language.objects.get(code="language0")
@@ -293,10 +265,10 @@ class PootleTestEnv(object):
 
             # Create empty dir and imitate file scanning, which will make the
             # directory obsolete
-            empty_dir0 = DirectoryFactory(name='empty_dir0', parent=tp.directory)
+            empty_dir0 = DirectoryFactory(name="empty_dir0", parent=tp.directory)
             empty_dir0.makeobsolete()
             # The other "empty" directory contains an store with no units
-            empty_dir1 = DirectoryFactory(name='empty_dir1', parent=tp.directory)
+            empty_dir1 = DirectoryFactory(name="empty_dir1", parent=tp.directory)
             self._add_stores(tp, n=(1, 0), parent=empty_dir1)
 
     def setup_submissions(self):
@@ -307,8 +279,8 @@ class PootleTestEnv(object):
         Unit.objects.update(creation_time=year_ago)
 
         stores = Store.objects.select_related(
-            "translation_project__project",
-            "translation_project__language")
+            "translation_project__project", "translation_project__language"
+        )
 
         for store in stores.all():
             for unit in store.unit_set.all():
@@ -352,8 +324,7 @@ class PootleTestEnv(object):
     def _update_submission_times(self, unit, update_time, last_update=None):
         submissions = unit.submission_set.all()
         if last_update:
-            submissions = submissions.exclude(
-                creation_time__lte=last_update)
+            submissions = submissions.exclude(creation_time__lte=last_update)
         submissions.update(creation_time=update_time)
 
     def _add_submissions(self, unit, created):
@@ -376,33 +347,30 @@ class PootleTestEnv(object):
 
         # add suggestion at first_modified
         suggestion, created_ = unit.add_suggestion(
-            "Suggestion for %s" % (unit.target or unit.source),
-            user=member,
-            touch=False)
+            "Suggestion for %s" % (unit.target or unit.source), user=member, touch=False
+        )
         self._update_submission_times(unit, first_modified, created)
 
         # accept the suggestion 7 days later if not untranslated
         next_time = first_modified + timedelta(days=7)
         if original_state == UNTRANSLATED:
-            unit.reject_suggestion(
-                suggestion, unit.store.translation_project, admin)
+            unit.reject_suggestion(suggestion, unit.store.translation_project, admin)
         else:
-            unit.accept_suggestion(
-                suggestion, unit.store.translation_project, admin)
+            unit.accept_suggestion(suggestion, unit.store.translation_project, admin)
             Unit.objects.filter(pk=unit.pk).update(
-                submitted_on=next_time, mtime=next_time)
-        self._update_submission_times(
-            unit, next_time, first_modified)
+                submitted_on=next_time, mtime=next_time
+            )
+        self._update_submission_times(unit, next_time, first_modified)
 
         # add another suggestion as different user 7 days later
         suggestion2_, created_ = unit.add_suggestion(
             "Suggestion 2 for %s" % (unit.target or unit.source),
             user=member2,
-            touch=False)
+            touch=False,
+        )
         self._update_submission_times(
-            unit,
-            first_modified + timedelta(days=14),
-            next_time)
+            unit, first_modified + timedelta(days=14), next_time
+        )
 
         # mark FUZZY
         if original_state == FUZZY:
@@ -422,7 +390,12 @@ class PootleTestEnv(object):
             unit.target_f = "Updated %s" % old_target
             unit._target_updated = True
             unit.store.record_submissions(
-                unit, old_target, old_state,
-                current_time, member, SubmissionTypes.NORMAL)
+                unit,
+                old_target,
+                old_state,
+                current_time,
+                member,
+                SubmissionTypes.NORMAL,
+            )
 
         unit.save()

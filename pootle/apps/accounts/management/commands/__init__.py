@@ -18,9 +18,7 @@ class UserCommand(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            "user",
-            nargs='+',
-            help="Username of account",
+            "user", nargs="+", help="Username of account",
         )
 
     def handle(self, **options):

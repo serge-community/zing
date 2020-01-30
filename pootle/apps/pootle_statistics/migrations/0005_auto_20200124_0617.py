@@ -6,12 +6,16 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pootle_statistics', '0004_fill_translated_wordcount'),
+        ("pootle_statistics", "0004_fill_translated_wordcount"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='submission',
-            options={'base_manager_name': 'objects', 'get_latest_by': 'creation_time', 'ordering': ['creation_time', 'pk']},
+            name="submission",
+            options={
+                "base_manager_name": "objects",
+                "get_latest_by": "creation_time",
+                "ordering": ["creation_time", "pk"],
+            },
         ),
     ]

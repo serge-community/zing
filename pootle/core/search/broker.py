@@ -13,11 +13,10 @@ import logging
 from . import SearchBackend
 
 
-DEFAULT_ENGINE_MODULE = 'pootle.core.search.backends.ElasticSearchBackend'
+DEFAULT_ENGINE_MODULE = "pootle.core.search.backends.ElasticSearchBackend"
 
 
 class SearchBroker(SearchBackend):
-
     def __init__(self):
         super(SearchBroker, self).__init__()
         self._server = None
@@ -25,16 +24,16 @@ class SearchBroker(SearchBackend):
         if self._settings is None:
             return
 
-        if 'HOST' not in self._settings or 'PORT' not in self._settings:
+        if "HOST" not in self._settings or "PORT" not in self._settings:
             return
 
         try:
-            engine = self._settings['ENGINE']
+            engine = self._settings["ENGINE"]
         except KeyError:
             engine = DEFAULT_ENGINE_MODULE
 
-        _module = '.'.join(engine.split('.')[:-1])
-        _search_class = engine.split('.')[-1]
+        _module = ".".join(engine.split(".")[:-1])
+        _search_class = engine.split(".")[-1]
 
         try:
             module = importlib.import_module(_module)
@@ -52,20 +51,19 @@ class SearchBroker(SearchBackend):
         results = []
         counter = {}
         for result in self._server.search(unit):
-            translation_pair = result['source'] + result['target']
+            translation_pair = result["source"] + result["target"]
             if translation_pair not in counter:
-                counter[translation_pair] = result['count']
+                counter[translation_pair] = result["count"]
                 results.append(result)
             else:
-                counter[translation_pair] += result['count']
+                counter[translation_pair] += result["count"]
 
         for item in results:
-            item['count'] = counter[item['source']+item['target']]
+            item["count"] = counter[item["source"] + item["target"]]
 
         # Results are in the order of the TM servers, so they must be sorted by
         # score so the better matches are presented to the user.
-        results = sorted(results, reverse=True,
-                         key=lambda item: item['score'])
+        results = sorted(results, reverse=True, key=lambda item: item["score"])
 
         return results
 

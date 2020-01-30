@@ -22,8 +22,8 @@ def locale_dir():
     return trans_real.get_language_bidi() and "rtl" or "ltr"
 
 
-@register.filter(name='dateformat')
-def do_dateformat(value, use_format='c'):
+@register.filter(name="dateformat")
+def do_dateformat(value, use_format="c"):
     """Formats a `value` date using `format`.
 
     :param value: a datetime object.

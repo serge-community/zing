@@ -21,7 +21,7 @@ register = template.Library()
 @stringfilter
 def url_target_blank(text):
     """Sets the target="_blank" for hyperlinks."""
-    return mark_safe(text.replace('<a ', '<a target="_blank" '))
+    return mark_safe(text.replace("<a ", '<a target="_blank" '))
 
 
 TRIM_URL_LENGTH = 70
@@ -40,10 +40,10 @@ def trim_url(link):
     link_text = link
 
     if len(link_text) > TRIM_URL_LENGTH:
-        scheme_index = link.rfind('://') + 3
-        last_slash_index = link.rfind('/')
+        scheme_index = link.rfind("://") + 3
+        last_slash_index = link.rfind("/")
         text_to_replace = link[scheme_index:last_slash_index]
-        link_text = link_text.replace(text_to_replace, '...')
+        link_text = link_text.replace(text_to_replace, "...")
 
     return link_text
 
@@ -57,4 +57,4 @@ def url_trim(html):
         new_link_text = trim_url(el.text_content())
         el.text = new_link_text
 
-    return mark_safe(tostring(fragment, encoding='unicode'))
+    return mark_safe(tostring(fragment, encoding="unicode"))

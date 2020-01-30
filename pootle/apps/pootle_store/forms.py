@@ -17,8 +17,7 @@ from django.urls import Resolver404, resolve
 from django.utils import timezone
 from django.utils.translation import gettext as _
 
-from pootle.core.log import (TRANSLATION_ADDED, TRANSLATION_CHANGED,
-                             TRANSLATION_DELETED)
+from pootle.core.log import TRANSLATION_ADDED, TRANSLATION_CHANGED, TRANSLATION_DELETED
 from pootle.core.mixins import CachedMethods
 from pootle.core.url_helpers import split_pootle_path
 from pootle_app.models import Directory
@@ -26,13 +25,15 @@ from pootle_app.models.permissions import check_permission, check_user_permissio
 from pootle_misc.checks import CATEGORY_CODES, check_names
 from pootle_misc.util import get_date_interval
 from pootle_project.models import Project
-from pootle_statistics.models import (Submission, SubmissionFields,
-                                      SubmissionTypes)
+from pootle_statistics.models import Submission, SubmissionFields, SubmissionTypes
 
 from .constants import ALLOWED_SORTS, FUZZY, OBSOLETE, TRANSLATED, UNTRANSLATED
 from .fields import to_db
-from .form_fields import (CategoryChoiceField, MultipleArgsField,
-                          CommaSeparatedCheckboxSelectMultiple)
+from .form_fields import (
+    CategoryChoiceField,
+    MultipleArgsField,
+    CommaSeparatedCheckboxSelectMultiple,
+)
 from .models import Suggestion, Unit
 
 
@@ -53,11 +54,12 @@ UNIT_SEARCH_FILTER_CHOICES = (
     ("user-submissions", "user-submissions"),
     ("my-submissions-overwritten", "my-submissions-overwritten"),
     ("user-submissions-overwritten", "user-submissions-overwritten"),
-    ("checks", "checks"))
+    ("checks", "checks"),
+)
 
 UNIT_SEARCH_SORT_CHOICES = (
-    ('oldest', 'oldest'),
-    ('newest', 'newest'),
+    ("oldest", "oldest"),
+    ("newest", "newest"),
 )
 
 # # # # # # #  text cleanup and highlighting # # # # # # # # # # # # #
@@ -84,19 +86,16 @@ class MultiStringWidget(forms.MultiWidget):
 
 
 class MultiStringFormField(forms.MultiValueField):
-
     def __init__(self, nplurals=1, attrs=None, *args, **kwargs):
         self.widget = MultiStringWidget(nplurals=nplurals, attrs=attrs)
         fields = [forms.CharField(strip=False) for i_ in range(nplurals)]
-        super(MultiStringFormField, self).__init__(fields=fields,
-                                                   *args, **kwargs)
+        super(MultiStringFormField, self).__init__(fields=fields, *args, **kwargs)
 
     def compress(self, data_list):
         return data_list
 
 
 class UnitStateField(forms.BooleanField):
-
     def to_python(self, value):
         """Returns a Python boolean object.
 
@@ -109,8 +108,9 @@ class UnitStateField(forms.BooleanField):
             states and for the 'False' string.
         """
         truthy_values = (str(s) for s in (UNTRANSLATED, FUZZY, TRANSLATED))
-        if (isinstance(value, str) and
-            (value.lower() == 'false' or value not in truthy_values)):
+        if isinstance(value, str) and (
+            value.lower() == "false" or value not in truthy_values
+        ):
             value = False
         else:
             value = bool(value)
@@ -134,55 +134,56 @@ def unit_form_factory(language, snplurals=None, request=None):
             action_disabled = True
 
     target_attrs = {
-        'lang': language.code,
-        'dir': language.direction,
-        'class': 'translation expanding focusthis js-translation-area',
-        'rows': 2,
-        'tabindex': 10,
+        "lang": language.code,
+        "dir": language.direction,
+        "class": "translation expanding focusthis js-translation-area",
+        "rows": 2,
+        "tabindex": 10,
     }
 
     fuzzy_attrs = {
-        'accesskey': 'f',
-        'class': 'fuzzycheck',
-        'tabindex': 13,
+        "accesskey": "f",
+        "class": "fuzzycheck",
+        "tabindex": 13,
     }
 
     if action_disabled:
-        target_attrs['disabled'] = 'disabled'
-        fuzzy_attrs['disabled'] = 'disabled'
+        target_attrs["disabled"] = "disabled"
+        fuzzy_attrs["disabled"] = "disabled"
 
     class UnitForm(forms.ModelForm):
         class Meta(object):
             model = Unit
-            fields = ('target_f', 'state',)
+            fields = (
+                "target_f",
+                "state",
+            )
 
         target_f = MultiStringFormField(
-            nplurals=tnplurals,
-            required=False,
-            attrs=target_attrs,
+            nplurals=tnplurals, required=False, attrs=target_attrs,
         )
         state = UnitStateField(
             required=False,
-            label=_('Needs work'),
+            label=_("Needs work"),
             widget=forms.CheckboxInput(
-                attrs=fuzzy_attrs,
-                check_test=lambda x: x == FUZZY,
+                attrs=fuzzy_attrs, check_test=lambda x: x == FUZZY,
             ),
         )
         similarity = forms.FloatField(required=False)
         mt_similarity = forms.FloatField(required=False)
         suggestion = forms.ModelChoiceField(
-            queryset=Suggestion.objects.all(),
-            required=False)
+            queryset=Suggestion.objects.all(), required=False
+        )
         comment = forms.CharField(required=False)
 
         def __init__(self, *args, **kwargs):
-            self.request = kwargs.pop('request', None)
+            self.request = kwargs.pop("request", None)
             super(UnitForm, self).__init__(*args, **kwargs)
             self._updated_fields = []
 
-            self.fields['target_f'].widget.attrs['data-translation-aid'] = \
-                self['target_f'].value()
+            self.fields["target_f"].widget.attrs["data-translation-aid"] = self[
+                "target_f"
+            ].value()
 
         @property
         def updated_fields(self):
@@ -193,63 +194,64 @@ def unit_form_factory(language, snplurals=None, request=None):
             return sorted(self._updated_fields, key=lambda x: order_dict[x[0]])
 
         def clean_target_f(self):
-            value = self.cleaned_data['target_f']
+            value = self.cleaned_data["target_f"]
 
-            if self.instance.target != multistring(value or [u'']):
+            if self.instance.target != multistring(value or [u""]):
                 self.instance._target_updated = True
-                self._updated_fields.append((SubmissionFields.TARGET,
-                                            to_db(self.instance.target),
-                                            to_db(value)))
+                self._updated_fields.append(
+                    (SubmissionFields.TARGET, to_db(self.instance.target), to_db(value))
+                )
 
             return value
 
         def clean_similarity(self):
-            value = self.cleaned_data['similarity']
+            value = self.cleaned_data["similarity"]
 
             if value is None or 0 <= value <= 1:
                 return value
 
             raise forms.ValidationError(
-                _('Value of `similarity` should be in in the [0..1] range')
+                _("Value of `similarity` should be in in the [0..1] range")
             )
 
         def clean_mt_similarity(self):
-            value = self.cleaned_data['mt_similarity']
+            value = self.cleaned_data["mt_similarity"]
 
             if value is None or 0 <= value <= 1:
                 return value
 
             raise forms.ValidationError(
-                _('Value of `mt_similarity` should be in in the [0..1] range')
+                _("Value of `mt_similarity` should be in in the [0..1] range")
             )
 
         def clean(self):
             old_state = self.instance.state  # Integer
-            is_fuzzy = self.cleaned_data['state']  # Boolean
-            new_target = self.cleaned_data['target_f']
+            is_fuzzy = self.cleaned_data["state"]  # Boolean
+            new_target = self.cleaned_data["target_f"]
 
             # If suggestion is provided set `old_state` should be `TRANSLATED`.
-            if self.cleaned_data['suggestion']:
+            if self.cleaned_data["suggestion"]:
                 old_state = TRANSLATED
 
                 # Skip `TARGET` field submission if suggestion value is equal
                 # to submitted translation
-                if new_target == self.cleaned_data['suggestion'].target_f:
+                if new_target == self.cleaned_data["suggestion"].target_f:
                     self._updated_fields = []
 
-            if (self.request is not None and
-                not check_permission('administrate', self.request) and
-                is_fuzzy):
-                self.add_error('state',
-                               forms.ValidationError(
-                                   _('Needs work flag must be '
-                                     'cleared')))
+            if (
+                self.request is not None
+                and not check_permission("administrate", self.request)
+                and is_fuzzy
+            ):
+                self.add_error(
+                    "state",
+                    forms.ValidationError(_("Needs work flag must be " "cleared")),
+                )
 
             if new_target:
                 if old_state == UNTRANSLATED:
                     self.instance._save_action = TRANSLATION_ADDED
-                    self.instance.store.mark_dirty(
-                        CachedMethods.WORDCOUNT_STATS)
+                    self.instance.store.mark_dirty(CachedMethods.WORDCOUNT_STATS)
                 else:
                     self.instance._save_action = TRANSLATION_CHANGED
 
@@ -261,24 +263,25 @@ def unit_form_factory(language, snplurals=None, request=None):
                 new_state = UNTRANSLATED
                 if old_state > FUZZY:
                     self.instance._save_action = TRANSLATION_DELETED
-                    self.instance.store.mark_dirty(
-                        CachedMethods.WORDCOUNT_STATS)
+                    self.instance.store.mark_dirty(CachedMethods.WORDCOUNT_STATS)
 
             if is_fuzzy != (old_state == FUZZY):
                 # when Unit toggles its FUZZY state the number of translated
                 # words also changes
-                self.instance.store.mark_dirty(CachedMethods.WORDCOUNT_STATS,
-                                               CachedMethods.LAST_ACTION)
+                self.instance.store.mark_dirty(
+                    CachedMethods.WORDCOUNT_STATS, CachedMethods.LAST_ACTION
+                )
 
             if old_state not in [new_state, OBSOLETE]:
                 self.instance._state_updated = True
-                self._updated_fields.append((SubmissionFields.STATE,
-                                            old_state, new_state))
+                self._updated_fields.append(
+                    (SubmissionFields.STATE, old_state, new_state)
+                )
 
-                self.cleaned_data['state'] = new_state
+                self.cleaned_data["state"] = new_state
             else:
                 self.instance._state_updated = False
-                self.cleaned_data['state'] = old_state
+                self.cleaned_data["state"] = old_state
 
             return super(UnitForm, self).clean()
 
@@ -288,17 +291,16 @@ def unit_form_factory(language, snplurals=None, request=None):
 def unit_comment_form_factory(language):
 
     comment_attrs = {
-        'lang': language.code,
-        'dir': language.direction,
-        'class': 'comments expanding focusthis',
-        'rows': 1,
-        'tabindex': 15,
+        "lang": language.code,
+        "dir": language.direction,
+        "class": "comments expanding focusthis",
+        "rows": 1,
+        "tabindex": 15,
     }
 
     class UnitCommentForm(forms.ModelForm):
-
         class Meta(object):
-            fields = ('translator_comment',)
+            fields = ("translator_comment",)
             model = Unit
 
         translator_comment = forms.CharField(
@@ -308,21 +310,21 @@ def unit_comment_form_factory(language):
         )
 
         def __init__(self, *args, **kwargs):
-            self.request = kwargs.pop('request', None)
-            self.previous_value = ''
+            self.request = kwargs.pop("request", None)
+            self.previous_value = ""
 
             super(UnitCommentForm, self).__init__(*args, **kwargs)
 
-            if self.request.method == 'DELETE':
-                self.fields['translator_comment'].required = False
+            if self.request.method == "DELETE":
+                self.fields["translator_comment"].required = False
 
         def clean_translator_comment(self):
             # HACKISH: Setting empty string when `DELETE` is being used
-            if self.request.method == 'DELETE':
+            if self.request.method == "DELETE":
                 self.previous_value = self.instance.translator_comment
-                return ''
+                return ""
 
-            return self.cleaned_data['translator_comment']
+            return self.cleaned_data["translator_comment"]
 
         def save(self, **kwargs):
             """Register the submission and save the comment."""
@@ -340,7 +342,7 @@ def unit_comment_form_factory(language):
                     field=SubmissionFields.COMMENT,
                     type=SubmissionTypes.NORMAL,
                     old_value=self.previous_value,
-                    new_value=self.cleaned_data['translator_comment']
+                    new_value=self.cleaned_data["translator_comment"],
                 )
                 sub.save()
 
@@ -352,49 +354,43 @@ def unit_comment_form_factory(language):
 class UnitSearchForm(forms.Form):
 
     count = forms.IntegerField(required=False)
-    path = forms.CharField(
-        max_length=2048,
-        required=True)
+    path = forms.CharField(max_length=2048, required=True)
     uid = forms.IntegerField(required=False)
-    filter = forms.ChoiceField(
-        required=False,
-        choices=UNIT_SEARCH_FILTER_CHOICES)
+    filter = forms.ChoiceField(required=False, choices=UNIT_SEARCH_FILTER_CHOICES)
     checks = forms.MultipleChoiceField(
         required=False,
         widget=CommaSeparatedCheckboxSelectMultiple,
-        choices=list(check_names.items()))
-    category = CategoryChoiceField(
-        required=False,
-        choices=list(CATEGORY_CODES.items()))
-    month = forms.DateField(
-        required=False,
-        input_formats=['%Y-%m'])
-    sort = forms.ChoiceField(
-        required=False,
-        choices=UNIT_SEARCH_SORT_CHOICES)
+        choices=list(check_names.items()),
+    )
+    category = CategoryChoiceField(required=False, choices=list(CATEGORY_CODES.items()))
+    month = forms.DateField(required=False, input_formats=["%Y-%m"])
+    sort = forms.ChoiceField(required=False, choices=UNIT_SEARCH_SORT_CHOICES)
 
     user = forms.ModelChoiceField(
         queryset=get_user_model().objects.all(),
         required=False,
-        to_field_name="username")
+        to_field_name="username",
+    )
 
     search = forms.CharField(required=False)
 
     soptions = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
-        choices=(
-            ('exact', _('Exact Match')), ))
+        choices=(("exact", _("Exact Match")),),
+    )
 
     sfields = forms.MultipleChoiceField(
         required=False,
         widget=CommaSeparatedCheckboxSelectMultiple,
         choices=(
-            ('source', _('Source Text')),
-            ('target', _('Target Text')),
-            ('notes', _('Comments')),
-            ('locations', _('Locations'))),
-        initial=['source', 'target'])
+            ("source", _("Source Text")),
+            ("target", _("Target Text")),
+            ("notes", _("Comments")),
+            ("locations", _("Locations")),
+        ),
+        initial=["source", "target"],
+    )
 
     def __init__(self, *args, **kwargs):
         self.request_user = kwargs.pop("user")
@@ -410,23 +406,21 @@ class UnitSearchForm(forms.Form):
         if self.errors:
             return
         pootle_path = self.cleaned_data.get("path")
-        path_keys = [
-            "project_code", "language_code", "dir_path", "filename"]
+        path_keys = ["project_code", "language_code", "dir_path", "filename"]
         try:
             path_kwargs = {
-                k: v
-                for k, v in resolve(pootle_path).kwargs.items()
-                if k in path_keys}
+                k: v for k, v in resolve(pootle_path).kwargs.items() if k in path_keys
+            }
         except Resolver404:
-            raise forms.ValidationError('Unrecognised path')
+            raise forms.ValidationError("Unrecognised path")
         self.cleaned_data.update(path_kwargs)
         sort_on = "units"
         if "filter" in self.cleaned_data:
             unit_filter = self.cleaned_data["filter"]
-            if unit_filter in ('suggestions', 'user-suggestions'):
-                sort_on = 'suggestions'
-            elif unit_filter in ('user-submissions', ):
-                sort_on = 'submissions'
+            if unit_filter in ("suggestions", "user-suggestions"):
+                sort_on = "suggestions"
+            elif unit_filter in ("user-submissions",):
+                sort_on = "submissions"
         sort_by_param = self.cleaned_data["sort"]
         self.cleaned_data["sort_by"] = ALLOWED_SORTS[sort_on].get(sort_by_param)
         self.cleaned_data["sort_on"] = sort_on
@@ -439,14 +433,16 @@ class UnitSearchForm(forms.Form):
         return self.cleaned_data["user"] or self.request_user
 
     def clean_path(self):
-        lang_code, proj_code = split_pootle_path(
-            self.cleaned_data["path"])[:2]
+        lang_code, proj_code = split_pootle_path(self.cleaned_data["path"])[:2]
         if not (lang_code or proj_code):
             permission_context = Directory.objects.projects
         elif proj_code and not lang_code:
             try:
-                permission_context = Project.objects.select_related(
-                    "directory").get(code=proj_code).directory
+                permission_context = (
+                    Project.objects.select_related("directory")
+                    .get(code=proj_code)
+                    .directory
+                )
             except Project.DoesNotExist:
                 raise forms.ValidationError("Unrecognized path")
         else:
@@ -455,7 +451,8 @@ class UnitSearchForm(forms.Form):
         if self.request_user.is_superuser:
             return self.cleaned_data["path"]
         can_view_path = check_user_permission(
-            self.request_user, "administrate", permission_context)
+            self.request_user, "administrate", permission_context
+        )
         if can_view_path:
             return self.cleaned_data["path"]
         raise forms.ValidationError("Unrecognized path")
@@ -463,33 +460,25 @@ class UnitSearchForm(forms.Form):
 
 class UnitViewRowsForm(forms.Form):
 
-    uids = MultipleArgsField(
-        field=forms.IntegerField(),
-        required=True,
-    )
-    headers = MultipleArgsField(
-        field=forms.IntegerField(),
-        required=False,
-    )
+    uids = MultipleArgsField(field=forms.IntegerField(), required=True,)
+    headers = MultipleArgsField(field=forms.IntegerField(), required=False,)
     user = forms.ModelChoiceField(
         queryset=get_user_model().objects.all(),
         required=False,
-        to_field_name='username',
+        to_field_name="username",
     )
 
     def __init__(self, *args, **kwargs):
-        self.request_user = kwargs.pop('user')
+        self.request_user = kwargs.pop("user")
         super(UnitViewRowsForm, self).__init__(*args, **kwargs)
 
     def clean_user(self):
-        return self.cleaned_data.get('user', self.request_user)
+        return self.cleaned_data.get("user", self.request_user)
 
 
 class UnitExportForm(UnitSearchForm):
 
-    path = forms.CharField(
-        max_length=2048,
-        required=False)
+    path = forms.CharField(max_length=2048, required=False)
 
     def clean_path(self):
         return self.cleaned_data.get("path", "/") or "/"

@@ -28,8 +28,7 @@ class CommentForm(DjCommentForm):
             if data.get("user"):
                 data["user"] = str(data["user"].pk)
 
-        super(CommentForm, self).__init__(
-            target_object, data, *args, **kwargs)
+        super(CommentForm, self).__init__(target_object, data, *args, **kwargs)
 
         if data and data.get("user"):
             self.fields["name"].required = False
@@ -47,9 +46,7 @@ class CommentForm(DjCommentForm):
 
 
 class UnsecuredCommentForm(CommentForm):
-
     def __init__(self, target_object, data=None, *args, **kwargs):
-        super(UnsecuredCommentForm, self).__init__(
-            target_object, data, *args, **kwargs)
+        super(UnsecuredCommentForm, self).__init__(target_object, data, *args, **kwargs)
         if data:
             data.update(self.generate_security_data())

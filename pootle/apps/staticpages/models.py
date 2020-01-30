@@ -24,16 +24,10 @@ from .managers import PageManager
 class AbstractPage(models.Model):
 
     active = models.BooleanField(
-        _('Active'),
-        default=False,
-        help_text=_('Whether this page is active or not.'),
+        _("Active"), default=False, help_text=_("Whether this page is active or not."),
     )
     virtual_path = models.CharField(
-        _("Virtual Path"),
-        max_length=100,
-        default='',
-        unique=True,
-        help_text='/pages/',
+        _("Virtual Path"), max_length=100, default="", unique=True, help_text="/pages/",
     )
     # TODO: make title and body localizable fields
     title = models.CharField(_("Title"), max_length=100)
@@ -41,14 +35,11 @@ class AbstractPage(models.Model):
         # Translators: Content that will be used to display this static page
         _("Display Content"),
         blank=True,
-        help_text=_('Allowed markup: HTML'),
+        help_text=_("Allowed markup: HTML"),
     )
-    modified_on = models.DateTimeField(
-        default=now,
-        editable=False,
-    )
+    modified_on = models.DateTimeField(default=now, editable=False,)
 
-    _track_fields = ('title', 'body')
+    _track_fields = ("title", "body")
 
     objects = PageManager()
 
@@ -66,15 +57,17 @@ class AbstractPage(models.Model):
         super(AbstractPage, self).save(**kwargs)
 
     def get_absolute_url(self):
-        return reverse('pootle-staticpages-display', args=[self.virtual_path])
+        return reverse("pootle-staticpages-display", args=[self.virtual_path])
 
     @staticmethod
     def max_pk():
         """Returns the sum of all the highest PKs for each submodel."""
         return reduce(
             lambda x, y: x + y,
-            [int(list(p.objects.aggregate(Max('pk')).values())[0] or 0)
-             for p in AbstractPage.__subclasses__()],
+            [
+                int(list(p.objects.aggregate(Max("pk")).values())[0] or 0)
+                for p in AbstractPage.__subclasses__()
+            ],
         )
 
     def clean(self):
@@ -85,13 +78,16 @@ class AbstractPage(models.Model):
         """
         if not self.body:
             # Translators: 'content' refer to a form field.
-            raise ValidationError(_('Content must be provided.'))
+            raise ValidationError(_("Content must be provided."))
 
-        pages = [p.objects.filter(Q(virtual_path=self.virtual_path),
-                                  ~Q(pk=self.pk),).exists() for p in
-                 AbstractPage.__subclasses__()]
+        pages = [
+            p.objects.filter(
+                Q(virtual_path=self.virtual_path), ~Q(pk=self.pk),
+            ).exists()
+            for p in AbstractPage.__subclasses__()
+        ]
         if True in pages:
-            raise ValidationError(_(u'Virtual path already in use.'))
+            raise ValidationError(_(u"Virtual path already in use."))
 
     def has_changes(self):
         if self.pk is None:
@@ -106,18 +102,18 @@ class AbstractPage(models.Model):
 
 class LegalPage(AbstractPage):
 
-    display_name = _('Legal Page')
+    display_name = _("Legal Page")
 
     def get_edit_url(self):
-        return reverse('pootle-staticpages-edit', args=['legal', self.pk])
+        return reverse("pootle-staticpages-edit", args=["legal", self.pk])
 
 
 class StaticPage(AbstractPage):
 
-    display_name = _('Regular Page')
+    display_name = _("Regular Page")
 
     def get_edit_url(self):
-        return reverse('pootle-staticpages-edit', args=['static', self.pk])
+        return reverse("pootle-staticpages-edit", args=["static", self.pk])
 
 
 class Agreement(models.Model):
@@ -125,16 +121,16 @@ class Agreement(models.Model):
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     document = models.ForeignKey(LegalPage, on_delete=models.CASCADE)
-    agreed_on = models.DateTimeField(
-        default=now,
-        editable=False,
-    )
+    agreed_on = models.DateTimeField(default=now, editable=False,)
 
     class Meta(object):
-        unique_together = ('user', 'document',)
+        unique_together = (
+            "user",
+            "document",
+        )
 
     def __str__(self):
-        return '%s (%s@%s)' % (self.document, self.user, self.agreed_on)
+        return "%s (%s@%s)" % (self.document, self.user, self.agreed_on)
 
     def save(self, **kwargs):
         # When updating always explicitly renew agreement date

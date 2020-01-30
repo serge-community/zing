@@ -8,7 +8,8 @@
 
 
 import os
-os.environ['DJANGO_SETTINGS_MODULE'] = 'pootle.settings'
+
+os.environ["DJANGO_SETTINGS_MODULE"] = "pootle.settings"
 
 from django.core.management.base import BaseCommand
 
@@ -18,20 +19,21 @@ from . import SkipChecksMixin
 
 class Command(SkipChecksMixin, BaseCommand):
     help = "Print Pootle's current revision."
-    skip_system_check_tags = ('data', )
+    skip_system_check_tags = ("data",)
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--restore',
-            action='store_true',
+            "--restore",
+            action="store_true",
             default=False,
-            dest='restore',
-            help='Restore the current revision number from the DB.',
+            dest="restore",
+            help="Restore the current revision number from the DB.",
         )
 
     def handle(self, **options):
-        if options['restore']:
+        if options["restore"]:
             from pootle_store.models import Unit
+
             Revision.set(Unit.max_revision())
 
-        self.stdout.write('%s' % Revision.get())
+        self.stdout.write("%s" % Revision.get())

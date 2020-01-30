@@ -14,22 +14,22 @@ from pootle_app.forms import LanguageForm
 from pootle_language.models import Language
 
 
-__all__ = ('LanguageAdminView', 'LanguageAPIView')
+__all__ = ("LanguageAdminView", "LanguageAPIView")
 
 
 class LanguageAdminView(SuperuserRequiredMixin, TemplateView):
-    template_name = 'admin/languages.html'
+    template_name = "admin/languages.html"
 
     def get_context_data(self, **kwargs):
         return {
-            'page': 'admin-languages',
+            "page": "admin-languages",
         }
 
 
 class LanguageAPIView(SuperuserRequiredMixin, APIView):
     model = Language
-    base_queryset = Language.objects.order_by('-id')
+    base_queryset = Language.objects.order_by("-id")
     add_form_class = LanguageForm
     edit_form_class = LanguageForm
     page_size = 10
-    search_fields = ('code', 'fullname')
+    search_fields = ("code", "fullname")

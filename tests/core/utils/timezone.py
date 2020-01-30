@@ -43,7 +43,7 @@ def test_make_aware_explicit_tz(settings):
     """Tests datetimes are made aware of the given timezone."""
     settings.USE_TZ = True
 
-    given_timezone = pytz.timezone('Asia/Bangkok')
+    given_timezone = pytz.timezone("Asia/Bangkok")
     datetime_object = datetime(2016, 1, 2, 21, 52, 25)
     assert timezone.is_naive(datetime_object)
     datetime_aware = make_aware(datetime_object, tz=given_timezone)
@@ -76,8 +76,9 @@ def test_make_naive_default_tz(settings):
     """Tests datetimes are made naive of the configured timezone."""
     settings.USE_TZ = True
 
-    datetime_object = timezone.make_aware(datetime(2016, 1, 2, 21, 52, 25),
-                                          timezone=pytz.timezone('Europe/Helsinki'))
+    datetime_object = timezone.make_aware(
+        datetime(2016, 1, 2, 21, 52, 25), timezone=pytz.timezone("Europe/Helsinki")
+    )
     assert timezone.is_aware(datetime_object)
     naive_datetime = make_naive(datetime_object)
     assert timezone.is_naive(naive_datetime)
@@ -91,10 +92,11 @@ def test_make_naive_explicit_tz(settings):
     """Tests datetimes are made naive of the given timezone."""
     settings.USE_TZ = True
 
-    datetime_object = timezone.make_aware(datetime(2016, 1, 2, 21, 52, 25),
-                                          timezone=pytz.timezone('Europe/Helsinki'))
+    datetime_object = timezone.make_aware(
+        datetime(2016, 1, 2, 21, 52, 25), timezone=pytz.timezone("Europe/Helsinki")
+    )
     assert timezone.is_aware(datetime_object)
-    naive_datetime = make_naive(datetime_object, tz=pytz.timezone('Asia/Bangkok'))
+    naive_datetime = make_naive(datetime_object, tz=pytz.timezone("Asia/Bangkok"))
     assert timezone.is_naive(naive_datetime)
 
     # Conversion from a Helsinki aware datetime to a naive datetime in Bangkok

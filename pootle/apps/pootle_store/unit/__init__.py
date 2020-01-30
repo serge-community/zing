@@ -9,4 +9,4 @@
 from .proxy import UnitProxy
 
 
-__all__ = ("UnitProxy", )
+__all__ = ("UnitProxy",)

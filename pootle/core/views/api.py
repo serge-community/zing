@@ -19,8 +19,12 @@ from django.shortcuts import get_object_or_404
 from django.utils.functional import cached_property
 from django.views.generic import View
 
-from pootle.core.http import (JsonResponse, JsonResponseBadRequest,
-                              JsonResponseForbidden, JsonResponseNotFound)
+from pootle.core.http import (
+    JsonResponse,
+    JsonResponseBadRequest,
+    JsonResponseForbidden,
+    JsonResponseNotFound,
+)
 
 
 class JSONDecodeError(ValueError):
@@ -57,16 +61,16 @@ class APIView(View):
 
     # Tuple of sensitive field names that will be excluded from any serialized
     # responses
-    sensitive_field_names = ('password', 'pw')
+    sensitive_field_names = ("password", "pw")
 
     # Set to an integer to enable GET pagination
     page_size = None
 
     # HTTP GET parameter to use for accessing pages
-    page_param_name = 'p'
+    page_param_name = "p"
 
     # HTTP GET parameter to use for search queries
-    search_param_name = 'q'
+    search_param_name = "q"
 
     # Field names in which searching will be allowed
     search_fields = None
@@ -83,7 +87,7 @@ class APIView(View):
 
     def __init__(self, *args, **kwargs):
         if self.model is None:
-            raise ValueError('No model class specified.')
+            raise ValueError("No model class specified.")
 
         self.pk_field_name = self.model._meta.pk.name
 
@@ -103,17 +107,16 @@ class APIView(View):
             else:  # Assume all fields by default
                 self.fields = (f.name for f in self.model._meta.fields)
 
-        self.serialize_fields = (f for f in self.fields if
-                                 f not in self.sensitive_field_names)
+        self.serialize_fields = (
+            f for f in self.fields if f not in self.sensitive_field_names
+        )
 
     def _init_forms(self):
-        if 'post' in self.allowed_methods and self.add_form_class is None:
-            self.add_form_class = modelform_factory(self.model,
-                                                    fields=self.fields)
+        if "post" in self.allowed_methods and self.add_form_class is None:
+            self.add_form_class = modelform_factory(self.model, fields=self.fields)
 
-        if 'put' in self.allowed_methods and self.edit_form_class is None:
-            self.edit_form_class = modelform_factory(self.model,
-                                                     fields=self.fields)
+        if "put" in self.allowed_methods and self.edit_form_class is None:
+            self.edit_form_class = modelform_factory(self.model, fields=self.fields)
 
     @cached_property
     def request_data(self):
@@ -141,19 +144,13 @@ class APIView(View):
     def handle_exception(self, exc):
         """Handles response exceptions."""
         if isinstance(exc, Http404):
-            return JsonResponseNotFound({
-                'msg': 'Not found',
-            })
+            return JsonResponseNotFound({"msg": "Not found"})
 
         if isinstance(exc, PermissionDenied):
-            return JsonResponseForbidden({
-                'msg': 'Permission denied.',
-            })
+            return JsonResponseForbidden({"msg": "Permission denied."})
 
         if isinstance(exc, JSONDecodeError):
-            return JsonResponseBadRequest({
-                'msg': 'Invalid JSON data',
-            })
+            return JsonResponseBadRequest({"msg": "Invalid JSON data"})
 
         raise
 
@@ -162,8 +159,9 @@ class APIView(View):
             self.check_permissions(request)
 
             if request.method.lower() in self.allowed_methods:
-                handler = getattr(self, request.method.lower(),
-                                  self.http_method_not_allowed)
+                handler = getattr(
+                    self, request.method.lower(), self.http_method_not_allowed
+                )
             else:
                 handler = self.http_method_not_allowed
 
@@ -181,9 +179,7 @@ class APIView(View):
 
     def get_object(self):
         """Returns a single model instance."""
-        obj = get_object_or_404(
-            self.base_queryset, pk=self.kwargs[self.pk_field_name],
-        )
+        obj = get_object_or_404(self.base_queryset, pk=self.kwargs[self.pk_field_name],)
         self.check_object_permissions(self.request, obj)
         return obj
 
@@ -193,13 +189,13 @@ class APIView(View):
 
     def get_form_kwargs(self):
         kwargs = {
-            'data': self.request_data,
+            "data": self.request_data,
         }
-        if (self.pk_field_name in self.kwargs and
-            self.kwargs[self.pk_field_name] is not None):
-            kwargs.update({
-                'instance': self.get_object(),
-            })
+        if (
+            self.pk_field_name in self.kwargs
+            and self.kwargs[self.pk_field_name] is not None
+        ):
+            kwargs.update({"instance": self.get_object()})
 
         return kwargs
 
@@ -221,8 +217,7 @@ class APIView(View):
     def put(self, request, *args, **kwargs):
         """Update the current model."""
         if self.pk_field_name not in self.kwargs:
-            return self.status_msg('PUT is not supported for collections',
-                                   status=405)
+            return self.status_msg("PUT is not supported for collections", status=405)
 
         form = self.edit_form_class(**self.get_form_kwargs())
 
@@ -235,8 +230,9 @@ class APIView(View):
     def delete(self, request, *args, **kwargs):
         """Delete the model and return its JSON representation."""
         if self.pk_field_name not in kwargs:
-            return self.status_msg('DELETE is not supported for collections',
-                                   status=405)
+            return self.status_msg(
+                "DELETE is not supported for collections", status=405
+            )
 
         obj = self.get_object()
         try:
@@ -247,9 +243,7 @@ class APIView(View):
 
     def object_to_values(self, object):
         """Convert an object to values for serialization."""
-        return {
-            field: getattr(object, field) for field in self.serialize_fields
-        }
+        return {field: getattr(object, field) for field in self.serialize_fields}
 
     def qs_to_values(self, queryset):
         """Convert a queryset to values for further serialization.
@@ -273,30 +267,32 @@ class APIView(View):
             except ValueError:
                 offset = 0
 
-            values = values[offset:offset+self.page_size]
+            values = values[offset : offset + self.page_size]
 
         return_values = {
-            'models': list(values),
-            'count': queryset.count(),
+            "models": list(values),
+            "count": queryset.count(),
         }
 
         return return_values
 
     def get_search_filter(self, keyword):
-        search_fields = getattr(self, 'search_fields', None)
+        search_fields = getattr(self, "search_fields", None)
         if search_fields is None:
             search_fields = self.fields  # Assume all fields
 
         field_queries = list(
-            zip(map(lambda x: '%s__icontains' % x, search_fields),
-                (keyword,)*len(search_fields))
+            zip(
+                map(lambda x: "%s__icontains" % x, search_fields),
+                (keyword,) * len(search_fields),
+            )
         )
         lookups = [Q(x) for x in field_queries]
 
         return reduce(operator.or_, lookups)
 
     def status_msg(self, msg, status=400):
-        return JsonResponse({'msg': msg}, status=status)
+        return JsonResponse({"msg": msg}, status=status)
 
     def form_invalid(self, form):
-        return JsonResponse({'errors': form.errors}, status=400)
+        return JsonResponse({"errors": form.errors}, status=400)

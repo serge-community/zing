@@ -10,7 +10,7 @@
 import os
 
 # This must be run before importing Django.
-os.environ['DJANGO_SETTINGS_MODULE'] = 'pootle.settings'
+os.environ["DJANGO_SETTINGS_MODULE"] = "pootle.settings"
 
 from django.core.management.base import BaseCommand
 

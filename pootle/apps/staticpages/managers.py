@@ -10,7 +10,6 @@ from django.db.models import Manager
 
 
 class PageManager(Manager):
-
     def live(self, user=None, **kwargs):
         """Filters active (live) pages.
 
@@ -32,7 +31,8 @@ class PageManager(Manager):
         agreements.
         """
         # FIXME: This should be a method exclusive to a LegalPage manager
-        return self.raw('''
+        return self.raw(
+            """
             SELECT DISTINCT staticpages_legalpage.id
             FROM staticpages_legalpage
             WHERE (staticpages_legalpage.active = %s
@@ -43,4 +43,6 @@ class PageManager(Manager):
                                         ON LP.id = A.document_id
                              WHERE A.user_id = %s AND
                              A.agreed_on > LP.modified_on)))
-        ''', [True, user.id])
+        """,
+            [True, user.id],
+        )

@@ -15,37 +15,38 @@ from pootle_store.models import Unit
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize('url', [
-    '/projects/translate/',
-    '/projects/project0/translate/',
-    '/projects/project0/translate/store0.po',
-    '/projects/project0/translate/subdir0/',
-    '/projects/project0/translate/subdir0/store4.po',
-    '/projects/project0/translate/empty_dir0/',
-    '/projects/project0/translate/empty_dir1/store6.po',
-    '/language0/translate/',
-    '/language0/project0/translate/',
-    '/language0/project0/translate/store0.po',
-    '/language0/project0/translate/subdir0/',
-    '/language0/project0/translate/subdir0/store4.po',
-    '/language0/project0/translate/empty_dir0/',
-    '/language0/project0/translate/empty_dir1/store6.po',
-])
+@pytest.mark.parametrize(
+    "url",
+    [
+        "/projects/translate/",
+        "/projects/project0/translate/",
+        "/projects/project0/translate/store0.po",
+        "/projects/project0/translate/subdir0/",
+        "/projects/project0/translate/subdir0/store4.po",
+        "/projects/project0/translate/empty_dir0/",
+        "/projects/project0/translate/empty_dir1/store6.po",
+        "/language0/translate/",
+        "/language0/project0/translate/",
+        "/language0/project0/translate/store0.po",
+        "/language0/project0/translate/subdir0/",
+        "/language0/project0/translate/subdir0/store4.po",
+        "/language0/project0/translate/empty_dir0/",
+        "/language0/project0/translate/empty_dir1/store6.po",
+    ],
+)
 def test_translate(client, request_users, test_name, snapshot_stack, url):
     """Tests correctness of the translate view context."""
-    user = request_users['user']
+    user = request_users["user"]
 
-    with snapshot_stack.push([
-        as_dir(test_name), as_dir(user.username), url_name(url)
-    ]):
+    with snapshot_stack.push([as_dir(test_name), as_dir(user.username), url_name(url)]):
         if not user.is_anonymous:
             client.force_login(user)
         response = client.get(url)
 
-        with snapshot_stack.push('status_code') as snapshot:
+        with snapshot_stack.push("status_code") as snapshot:
             snapshot.assert_matches(response.status_code)
 
-        with snapshot_stack.push('context') as snapshot:
+        with snapshot_stack.push("context") as snapshot:
             snapshot.assert_matches(response.context)
 
 
@@ -54,15 +55,11 @@ def test_submit_invalid_form(client, member):
     client.force_login(member)
 
     unit = Unit.objects.first()
-    url = '/xhr/units/%d/' % unit.id
+    url = "/xhr/units/%d/" % unit.id
 
     response = client.post(
-        url,
-        {
-            'state': FUZZY,
-        },
-        HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        url, {"state": FUZZY}, HTTP_X_REQUESTED_WITH="XMLHttpRequest"
     )
 
     assert response.status_code == 400
-    assert response.json()['msg'] == 'Failed to process submission.'
+    assert response.json()["msg"] == "Failed to process submission."

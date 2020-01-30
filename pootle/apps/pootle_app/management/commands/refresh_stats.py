@@ -10,14 +10,14 @@ import logging
 import os
 
 # This must be run before importing Django.
-os.environ['DJANGO_SETTINGS_MODULE'] = 'pootle.settings'
+os.environ["DJANGO_SETTINGS_MODULE"] = "pootle.settings"
 
 from pootle_store.models import Store
 
 from . import PootleCommand
 
 
-logger = logging.getLogger('stats')
+logger = logging.getLogger("stats")
 
 
 class Command(PootleCommand):
@@ -25,9 +25,7 @@ class Command(PootleCommand):
     process_disabled_projects = True
 
     def handle_all_stores(self, translation_project, **options_):
-        stores = Store.objects.live().filter(
-            translation_project=translation_project
-        )
+        stores = Store.objects.live().filter(translation_project=translation_project)
         for store in stores.iterator():
-            logger.info('Add job to update stats for %s', store.pootle_path)
+            logger.info("Add job to update stats for %s", store.pootle_path)
             store.update_all_cache()

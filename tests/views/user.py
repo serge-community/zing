@@ -16,9 +16,7 @@ def test_user_stats_link(client, request_users):
     if user.username != "nobody":
         client.force_login(user)
     response = client.get("/user/member/")
-    assert (
-        (b"user-detailed-stats" in response.content) == (not user.is_anonymous)
-    )
+    assert (b"user-detailed-stats" in response.content) == (not user.is_anonymous)
 
 
 @pytest.mark.django_db
@@ -27,6 +25,4 @@ def test_user_stats_view(client, request_users):
     if user.username != "nobody":
         client.force_login(user)
     response = client.get("/user/member/stats/")
-    assert (
-        response.status_code == (user.is_anonymous and 302 or 200)
-    )
+    assert response.status_code == (user.is_anonymous and 302 or 200)

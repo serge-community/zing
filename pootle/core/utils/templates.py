@@ -22,7 +22,7 @@ def get_template_source(name, dirs=None):
     loaders = []
     for loader in Engine.get_default().template_loaders:
         # The cached loader includes the actual loaders underneath
-        if hasattr(loader, 'loaders'):
+        if hasattr(loader, "loaders"):
             loaders.extend(loader.loaders)
         else:
             loaders.append(loader)

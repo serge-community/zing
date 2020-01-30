@@ -29,15 +29,16 @@ def parse_requirements(file_name):
     Copied from cburgmer/pdfserver.
     """
     requirements = []
-    for line in open(file_name, 'r').read().split('\n'):
+    for line in open(file_name, "r").read().split("\n"):
         # Ignore comments, blank lines and included requirements files
-        if re.match(r'(\s*#)|(\s*$)|'
-                    '((-r|--allow-external|--allow-unverified) .*$)', line):
+        if re.match(
+            r"(\s*#)|(\s*$)|" "((-r|--allow-external|--allow-unverified) .*$)", line
+        ):
             continue
 
-        if re.match(r'\s*-e\s+', line):
-            requirements.append(re.sub(r'\s*-e\s+.*#egg=(.*)$', r'\1', line))
-        elif re.match(r'\s*-f\s+', line):
+        if re.match(r"\s*-e\s+", line):
+            requirements.append(re.sub(r"\s*-e\s+.*#egg=(.*)$", r"\1", line))
+        elif re.match(r"\s*-f\s+", line):
             pass
         else:
             requirements.append(line)
@@ -46,15 +47,15 @@ def parse_requirements(file_name):
 
 
 class PyTest(TestCommand):
-
     def finalize_options(self):
         TestCommand.finalize_options(self)
-        self.test_args = ['--tb=short', 'tests/']
+        self.test_args = ["--tb=short", "tests/"]
         self.test_suite = True
 
     def run_tests(self):
         # import here, cause outside the eggs aren't loaded
         import pytest
+
         errno = pytest.main(self.test_args)
         sys.exit(errno)
 
@@ -63,16 +64,13 @@ class PootleBuildMo(DistutilsBuild):
 
     description = "compile Gettext PO files into MO"
     user_options = [
-        ('all', None,
-         "compile all language (don't use LINGUAS file)"),
-        ('lang=', 'l',
-         "specify a language to compile"),
-        ('check', None,
-         "check for errors"),
+        ("all", None, "compile all language (don't use LINGUAS file)"),
+        ("lang=", "l", "specify a language to compile"),
+        ("check", None, "check for errors"),
     ]
-    boolean_options = ['all']
+    boolean_options = ["all"]
 
-    po_path_base = os.path.join('pootle', 'locale')
+    po_path_base = os.path.join("pootle", "locale")
     _langs = []
 
     def initialize_options(self):
@@ -82,18 +80,18 @@ class PootleBuildMo(DistutilsBuild):
 
     def finalize_options(self):
         if self.all and self.lang is not None:
-            raise DistutilsOptionError(
-                "Can't use --all and --lang together"
-            )
+            raise DistutilsOptionError("Can't use --all and --lang together")
         if self.lang is not None:
             self._langs = [self.lang]
         elif self.all:
             for lang in os.listdir(self.po_path_base):
-                if (os.path.isdir(os.path.join(self.po_path_base, lang)) and
-                    lang != "templates"):
+                if (
+                    os.path.isdir(os.path.join(self.po_path_base, lang))
+                    and lang != "templates"
+                ):
                     self._langs.append(lang)
         else:
-            for lang in open(os.path.join('pootle', 'locale', 'LINGUAS')):
+            for lang in open(os.path.join("pootle", "locale", "LINGUAS")):
                 self._langs.append(lang.rstrip())
 
     def build_mo(self):
@@ -107,14 +105,13 @@ class PootleBuildMo(DistutilsBuild):
         for lang in self._langs:
             lang = lang.rstrip()
 
-            po_path = os.path.join('pootle', 'locale', lang)
-            mo_path = os.path.join('pootle', 'locale', lang, 'LC_MESSAGES')
+            po_path = os.path.join("pootle", "locale", lang)
+            mo_path = os.path.join("pootle", "locale", lang, "LC_MESSAGES")
 
             if not os.path.exists(mo_path):
                 os.makedirs(mo_path)
 
-            for po, mo in (('pootle.po', 'django.mo'),
-                           ('pootle_js.po', 'djangojs.mo')):
+            for po, mo in (("pootle.po", "django.mo"), ("pootle_js.po", "djangojs.mo")):
                 po_filename = os.path.join(po_path, po)
                 mo_filename = os.path.join(mo_path, mo)
 
@@ -127,25 +124,28 @@ class PootleBuildMo(DistutilsBuild):
 
                 log.info("compiling %s", lang)
                 if self.check:
-                    command = ['msgfmt', '-c', '--strict',
-                               '-o', mo_filename, po_filename]
+                    command = [
+                        "msgfmt",
+                        "-c",
+                        "--strict",
+                        "-o",
+                        mo_filename,
+                        po_filename,
+                    ]
                 else:
-                    command = ['msgfmt', '--strict',
-                               '-o', mo_filename, po_filename]
+                    command = ["msgfmt", "--strict", "-o", mo_filename, po_filename]
                 try:
                     subprocess.check_call(command, stderr=subprocess.STDOUT)
                 except subprocess.CalledProcessError as e:
                     error_occured = True
                 except Exception as e:
-                    log.warn("%s: skipping, running msgfmt failed: %s",
-                             lang, e)
+                    log.warn("%s: skipping, running msgfmt failed: %s", lang, e)
 
                 try:
                     store = factory.getobject(po_filename)
                     gettext.c2py(store.getheaderplural()[1])
                 except Exception:
-                    log.warn("%s: invalid plural header in %s",
-                             lang, po_filename)
+                    log.warn("%s: invalid plural header in %s", lang, po_filename)
 
         if error_occured:
             sys.exit(1)
@@ -166,16 +166,21 @@ class BuildChecksTemplatesCommand(Command):
     def run(self):
         import django
         import codecs
-        from pootle.apps.pootle_misc.checks import (check_names,
-                                                    excluded_filters)
-        from translate.filters.checks import (TeeChecker, StandardChecker,
-                                              StandardUnitChecker)
+        from pootle.apps.pootle_misc.checks import check_names, excluded_filters
+        from translate.filters.checks import (
+            TeeChecker,
+            StandardChecker,
+            StandardUnitChecker,
+        )
+
         try:
             from docutils.core import publish_parts
         except ImportError:
             from distutils.errors import DistutilsModuleError
+
             raise DistutilsModuleError("Please install the docutils library.")
         from pootle import syspath_override  # noqa
+
         django.setup()
 
         def get_check_description(name, filterfunc):
@@ -186,13 +191,13 @@ class BuildChecksTemplatesCommand(Command):
             to get the HTML snippet.
             """
             # Provide a header with an anchor to refer to.
-            description = ('\n<h3 id="%s">%s</h3>\n\n' %
-                           (name, str(check_names[name])))
+            description = '\n<h3 id="%s">%s</h3>\n\n' % (name, str(check_names[name]))
 
             # Clean the leading whitespace on each docstring line so it gets
             # properly rendered.
-            docstring = "\n".join(line.strip()
-                                  for line in filterfunc.__doc__.split("\n"))
+            docstring = "\n".join(
+                line.strip() for line in filterfunc.__doc__.split("\n")
+            )
 
             # Render the reStructuredText in the docstring into HTML.
             description += publish_parts(docstring, writer_name="html")["body"]
@@ -206,9 +211,7 @@ class BuildChecksTemplatesCommand(Command):
             checkerclasses=[StandardChecker, StandardUnitChecker]
         ).getfilters(excludefilters=excluded_filters)
 
-        docs = sorted(
-            get_check_description(name, f) for name, f in fd.items()
-        )
+        docs = sorted(get_check_description(name, f) for name, f in fd.items())
 
         # Output the quality checks descriptions to the HTML file.
         templates_dir = os.path.join(
@@ -223,23 +226,17 @@ class BuildChecksTemplatesCommand(Command):
 
 
 setup(
-    name='Zing',
+    name="Zing",
     version=__version__,
-
-    description='An online interface to localizing.',
-    long_description=open(
-        os.path.join(os.path.dirname(__file__), 'README.md')
-    ).read(),
-
-    author='Evernote',
-    author_email='l10n-developers@evernote.com',
+    description="An online interface to localizing.",
+    long_description=open(os.path.join(os.path.dirname(__file__), "README.md")).read(),
+    author="Evernote",
+    author_email="l10n-developers@evernote.com",
     license="GNU General Public License 3 or later (GPLv3+)",
-    url='https://github.com/evernote/zing',
-    download_url='https://github.com/evernote/zing/releases/tag/' + __version__,
-
-    install_requires=parse_requirements('requirements/base.txt'),
-    tests_require=parse_requirements('requirements/tests.txt'),
-
+    url="https://github.com/evernote/zing",
+    download_url="https://github.com/evernote/zing/releases/tag/" + __version__,
+    install_requires=parse_requirements("requirements/base.txt"),
+    tests_require=parse_requirements("requirements/tests.txt"),
     platforms=["any"],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
@@ -248,28 +245,22 @@ setup(
         "Intended Audience :: Developers",
         "Intended Audience :: End Users/Desktop",
         "Intended Audience :: Information Technology",
-        "License :: OSI Approved :: "
-            "GNU General Public License v3 or later (GPLv3+)",
+        "License :: OSI Approved :: " "GNU General Public License v3 or later (GPLv3+)",
         "Operating System :: OS Independent",
         "Operating System :: Microsoft :: Windows",
         "Operating System :: Unix",
         "Programming Language :: JavaScript",
         "Programming Language :: Python :: 3 :: Only",
         "Topic :: Software Development :: Localization",
-        "Topic :: Text Processing :: Linguistic"
+        "Topic :: Text Processing :: Linguistic",
     ],
     zip_safe=False,
     packages=find_packages(),
     include_package_data=True,
-
-    entry_points={
-        'console_scripts': [
-            'zing = pootle.runner:main',
-        ],
-    },
+    entry_points={"console_scripts": ["zing = pootle.runner:main"]},
     cmdclass={
-        'build_checks_templates': BuildChecksTemplatesCommand,
-        'build_mo': PootleBuildMo,
-        'test': PyTest,
+        "build_checks_templates": BuildChecksTemplatesCommand,
+        "build_mo": PootleBuildMo,
+        "test": PyTest,
     },
 )

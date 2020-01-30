@@ -25,21 +25,24 @@ def find_languages(locale_path):
     dirs = os.listdir(locale_path)
     langs = []
     for lang in dirs:
-        if (data.langcode_re.match(lang) and
-            os.path.isdir(os.path.join(locale_path, lang))):
-            langs.append((trans_real.to_language(lang),
-                          data.languages.get(lang, (lang,))[0]))
+        if data.langcode_re.match(lang) and os.path.isdir(
+            os.path.join(locale_path, lang)
+        ):
+            langs.append(
+                (trans_real.to_language(lang), data.languages.get(lang, (lang,))[0])
+            )
     return langs
 
 
 def supported_langs():
     """Returns a list of supported locales."""
     from django.conf import settings
+
     return settings.LANGUAGES
 
 
 def get_lang_from_session(request, supported):
-    if hasattr(request, 'session'):
+    if hasattr(request, "session"):
         lang_code = request.session.get(LANGUAGE_SESSION_KEY, None)
         if lang_code and lang_code in supported:
             return lang_code
@@ -50,6 +53,7 @@ def get_lang_from_session(request, supported):
 def get_lang_from_cookie(request, supported):
     """See if the user's browser sent a cookie with a preferred language."""
     from django.conf import settings
+
     lang_code = request.COOKIES.get(settings.LANGUAGE_COOKIE_NAME)
 
     if lang_code and lang_code in supported:
@@ -66,13 +70,13 @@ def get_lang_from_http_header(request, supported):
 
     If nothing is found, return None.
     """
-    accept = request.META.get('HTTP_ACCEPT_LANGUAGE', '')
+    accept = request.META.get("HTTP_ACCEPT_LANGUAGE", "")
     for accept_lang, __ in trans_real.parse_accept_lang_header(accept):
-        if accept_lang == '*':
+        if accept_lang == "*":
             return None
 
         normalized = data.normalize_code(data.simplify_to_common(accept_lang))
-        if normalized in ['en-us', 'en']:
+        if normalized in ["en-us", "en"]:
             return None
         if normalized in supported:
             return normalized
@@ -91,13 +95,16 @@ def get_language_from_request(request, check_path=False):
     If all fails, try fall back to default language.
     """
     supported = dict(supported_langs())
-    for lang_getter in (get_lang_from_session,
-                        get_lang_from_cookie,
-                        get_lang_from_http_header):
+    for lang_getter in (
+        get_lang_from_session,
+        get_lang_from_cookie,
+        get_lang_from_http_header,
+    ):
         lang = lang_getter(request, supported)
         if lang is not None:
             return lang
     from django.conf import settings
+
     return settings.LANGUAGE_CODE
 
 
@@ -105,7 +112,7 @@ def get_language_bidi():
     """Override for Django's get_language_bidi that's aware of more RTL
     languages.
     """
-    return gettext.language_dir(translation.get_language()) == 'rtl'
+    return gettext.language_dir(translation.get_language()) == "rtl"
 
 
 def hijack_translation():

@@ -7,12 +7,15 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pootle_statistics', '0001_initial'),
+        ("pootle_statistics", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='submission',
-            options={'ordering': ['creation_time', 'pk'], 'get_latest_by': 'creation_time'},
+            name="submission",
+            options={
+                "ordering": ["creation_time", "pk"],
+                "get_latest_by": "creation_time",
+            },
         ),
     ]

@@ -25,21 +25,20 @@ class ReportActionTypes(object):
     SUGGESTION = 2
 
     NAMES_MAP = {
-        TRANSLATION: _('Translation'),
-        REVIEW: _('Review'),
-        SUGGESTION: _('Suggestion'),
+        TRANSLATION: _("Translation"),
+        REVIEW: _("Review"),
+        SUGGESTION: _("Suggestion"),
     }
 
 
 class PaidTaskManager(models.Manager):
-
     def for_user_in_range(self, user, start, end):
         """Returns all tasks for `user` in the [`start`, `end`] date range."""
-        return self.get_queryset().filter(
-            user=user,
-            datetime__gte=start,
-            datetime__lte=end,
-        ).order_by('pk')
+        return (
+            self.get_queryset()
+            .filter(user=user, datetime__gte=start, datetime__lte=end,)
+            .order_by("pk")
+        )
 
 
 class PaidTask(models.Model):
@@ -49,33 +48,40 @@ class PaidTask(models.Model):
     """
 
     type_choices = [
-        (PaidTaskTypes.TRANSLATION, _('Translation')),
-        (PaidTaskTypes.REVIEW, _('Review')),
-        (PaidTaskTypes.HOURLY_WORK, _('Hourly Work')),
-        (PaidTaskTypes.CORRECTION, _('Correction')),
+        (PaidTaskTypes.TRANSLATION, _("Translation")),
+        (PaidTaskTypes.REVIEW, _("Review")),
+        (PaidTaskTypes.HOURLY_WORK, _("Hourly Work")),
+        (PaidTaskTypes.CORRECTION, _("Correction")),
     ]
 
     task_type = models.PositiveSmallIntegerField(
-        _('Type'), choices=type_choices, null=False, db_index=True,
-        default=PaidTaskTypes.TRANSLATION)
-    amount = models.FloatField(_('Amount'), default=0, null=False)
+        _("Type"),
+        choices=type_choices,
+        null=False,
+        db_index=True,
+        default=PaidTaskTypes.TRANSLATION,
+    )
+    amount = models.FloatField(_("Amount"), default=0, null=False)
     rate = models.FloatField(null=False, default=0)
-    datetime = models.DateTimeField(_('Date'), null=False, db_index=True)
-    description = models.TextField(_('Description'), null=True)
+    datetime = models.DateTimeField(_("Date"), null=False, db_index=True)
+    description = models.TextField(_("Description"), null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     objects = PaidTaskManager()
 
     @classmethod
     def get_task_type_title(cls, task_type):
-        return dict(cls.type_choices).get(task_type, '')
+        return dict(cls.type_choices).get(task_type, "")
 
     def __str__(self):
-        return ('Task: [id=%s, user=%s, month=%s, '
-                'type=%s, amount=%s, comment=%s]' %
-                (self.id, self.user.username, self.datetime.strftime('%Y-%m'),
-                 PaidTask.get_task_type_title(self.task_type), self.amount,
-                 self.description))
+        return "Task: [id=%s, user=%s, month=%s, " "type=%s, amount=%s, comment=%s]" % (
+            self.id,
+            self.user.username,
+            self.datetime.strftime("%Y-%m"),
+            PaidTask.get_task_type_title(self.task_type),
+            self.amount,
+            self.description,
+        )
 
     def clean(self):
         now = timezone.now()

@@ -12,20 +12,24 @@ import pytest
 from django.core.management import call_command, get_commands
 
 CORE_APPS_WITH_COMMANDS = (
-    'accounts', 'pootle_app',
+    "accounts",
+    "pootle_app",
 )
 
 
 @pytest.mark.cmd
-@pytest.mark.parametrize("command,app", [
-    (command, app)
-    for command, app in iter(get_commands().items())
-    if app.startswith('pootle_') or app in CORE_APPS_WITH_COMMANDS
-])
+@pytest.mark.parametrize(
+    "command,app",
+    [
+        (command, app)
+        for command, app in iter(get_commands().items())
+        if app.startswith("pootle_") or app in CORE_APPS_WITH_COMMANDS
+    ],
+)
 def test_initdb_help(capfd, command, app):
     """Catch any simple command issues"""
     print("Command: %s, App: %s" % (command, app))
     with pytest.raises(SystemExit):
-        call_command(command, '--help')
+        call_command(command, "--help")
     out, err = capfd.readouterr()
-    assert '--help' in out
+    assert "--help" in out

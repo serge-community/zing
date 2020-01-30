@@ -19,7 +19,7 @@ def test_update_tmserver_nosetting(capfd, po_directory, tp0, settings):
     """We need configured TM for anything to work"""
     settings.ZING_TM_SERVER = None
     with pytest.raises(CommandError) as e:
-        call_command('update_tmserver')
+        call_command("update_tmserver")
     assert "ZING_TM_SERVER setting is missing." in str(e.value)
 
 
@@ -30,16 +30,13 @@ def __test_update_tmserver_noargs(capfd, tp0, settings):
 
     from pootle_store.models import Unit
 
-    units_qs = (
-        Unit.objects
-            .exclude(target_f__isnull=True)
-            .exclude(target_f__exact=''))
+    units_qs = Unit.objects.exclude(target_f__isnull=True).exclude(target_f__exact="")
 
     settings.ZING_TM_SERVER = {
-        'HOST': 'localhost',
-        'PORT': 9200,
+        "HOST": "localhost",
+        "PORT": 9200,
     }
-    call_command('update_tmserver')
+    call_command("update_tmserver")
     out, err = capfd.readouterr()
     assert "Last indexed revision = -1" in out
 

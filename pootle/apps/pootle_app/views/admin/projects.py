@@ -16,37 +16,35 @@ from pootle_language.models import Language
 from pootle_project.models import Project
 
 
-__all__ = ('ProjectAdminView', 'ProjectAPIView')
+__all__ = ("ProjectAdminView", "ProjectAPIView")
 
 
 class ProjectAdminView(SuperuserRequiredMixin, TemplateView):
-    template_name = 'admin/projects.html'
+    template_name = "admin/projects.html"
 
     def get_context_data(self, **kwargs):
         languages = Language.objects.all()
         language_choices = [(lang.id, str(lang)) for lang in languages]
         try:
-            english = Language.objects.get(code='en')
+            english = Language.objects.get(code="en")
             default_language = english.id
         except Language.DoesNotExist:
             default_language = languages[0].id
 
         return {
-            'page': 'admin-projects',
-            'form_choices': {
-                'checkstyle': Project.checker_choices,
-                'source_language': language_choices,
-                'defaults': {
-                    'source_language': default_language,
-                },
+            "page": "admin-projects",
+            "form_choices": {
+                "checkstyle": Project.checker_choices,
+                "source_language": language_choices,
+                "defaults": {"source_language": default_language},
             },
         }
 
 
 class ProjectAPIView(SuperuserRequiredMixin, APIView):
     model = Project
-    base_queryset = Project.objects.order_by('-id')
+    base_queryset = Project.objects.order_by("-id")
     add_form_class = ProjectForm
     edit_form_class = ProjectForm
     page_size = 10
-    search_fields = ('code', 'fullname', 'disabled')
+    search_fields = ("code", "fullname", "disabled")

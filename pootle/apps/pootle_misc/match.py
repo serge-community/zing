@@ -15,13 +15,17 @@ delimiters = re.compile(r"[\W]+")
 
 
 class Matcher(match.terminologymatcher):
-    def __init__(self, store, max_candidates=10, min_similarity=75,
-                 max_length=500, comparer=None):
+    def __init__(
+        self, store, max_candidates=10, min_similarity=75, max_length=500, comparer=None
+    ):
         comparer = TerminologyComparer(max_length)
-        super(Matcher, self).__init__(store, max_candidates,
-                                      min_similarity=10,
-                                      max_length=max_length,
-                                      comparer=comparer)
+        super(Matcher, self).__init__(
+            store,
+            max_candidates,
+            min_similarity=10,
+            max_length=max_length,
+            comparer=comparer,
+        )
 
     def inittm(self, store):
         match.matcher.inittm(self, store)
@@ -30,7 +34,6 @@ class Matcher(match.terminologymatcher):
 
 
 class TerminologyComparer(terminology.TerminologyComparer):
-
     def __init__(self, max_len=500):
         self.match_info = {}
         self.MAX_LEN = max_len
@@ -46,13 +49,14 @@ class TerminologyComparer(terminology.TerminologyComparer):
         matched_index = 0
 
         for term_word in term_list:
-            for j, text_word in enumerate(text_list[matched_index:],
-                                          start=matched_index):
+            for j, text_word in enumerate(
+                text_list[matched_index:], start=matched_index
+            ):
                 text_word_len = len(text_word)
-                text_word = text_word[:len(term_word)]
+                text_word = text_word[: len(term_word)]
                 if text_word == term_word:
                     if matched_count == 0:
-                        match_info = {'pos': pos}
+                        match_info = {"pos": pos}
                     matched_count += 1
                     matched_index = j + 1
                     break

@@ -11,4 +11,4 @@ from .base import SearchBackend
 from .broker import SearchBroker
 
 
-__all__ = ('SearchBackend', 'SearchBroker', 'ElasticSearchBackend')
+__all__ = ("SearchBackend", "SearchBroker", "ElasticSearchBackend")

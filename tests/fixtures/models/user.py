@@ -13,38 +13,24 @@ import pytest
 
 
 TEST_USERS = {
-    'nobody': dict(
-        fullname='Nobody',
-        password=''),
-    'system': dict(
-        fullname='System',
-        password=''),
-    'default': dict(
-        fullname='Default',
-        password=''),
-    'admin': dict(
-        fullname='Admin',
-        password='admin',
-        is_superuser=True,
-        email="admin@poot.le"),
-    'member': dict(
-        fullname='Member',
-        password='',
-        alt_src_lang_code='language0'),
-    'member2': dict(
-        fullname='Member2',
-        password='')}
+    "nobody": dict(fullname="Nobody", password=""),
+    "system": dict(fullname="System", password=""),
+    "default": dict(fullname="Default", password=""),
+    "admin": dict(
+        fullname="Admin", password="admin", is_superuser=True, email="admin@poot.le"
+    ),
+    "member": dict(fullname="Member", password="", alt_src_lang_code="language0"),
+    "member2": dict(fullname="Member2", password=""),
+}
 
 
 def _get_user(username):
     user_dict = copy.deepcopy(TEST_USERS[username])
-    user_dict.update({
-        'user': _require_user(username=username, **user_dict),
-    })
+    user_dict.update({"user": _require_user(username=username, **user_dict)})
     return user_dict
 
 
-@pytest.fixture(params=['nobody', 'admin', 'member'])
+@pytest.fixture(params=["nobody", "admin", "member"])
 def request_users(request):
     return _get_user(request.param)
 
@@ -54,26 +40,33 @@ def site_users(request):
     return _get_user(request.param)
 
 
-@pytest.fixture(params=['default', 'nobody', 'system'])
+@pytest.fixture(params=["default", "nobody", "system"])
 def meta_users(request):
     """Require meta users."""
     return _get_user(request.param)
 
 
-def _require_user(username, fullname, password=None,
-                  is_superuser=False, email=None, alt_src_lang_code=None,
-                  request=None):
+def _require_user(
+    username,
+    fullname,
+    password=None,
+    is_superuser=False,
+    email=None,
+    alt_src_lang_code=None,
+    request=None,
+):
     """Helper to get/create a new user."""
     from django.contrib.auth import get_user_model
+
     User = get_user_model()
 
-    email = email if email is not None else '%s@example.com' % username
+    email = email if email is not None else "%s@example.com" % username
     criteria = {
-        'username': username,
-        'full_name': fullname,
-        'email': email,
-        'is_active': True,
-        'is_superuser': is_superuser,
+        "username": username,
+        "full_name": fullname,
+        "email": email,
+        "is_active": True,
+        "is_superuser": is_superuser,
     }
     user, created = User.objects.get_or_create(**criteria)
 
@@ -134,13 +127,13 @@ def member():
 @pytest.fixture
 def unverified_member():
     """Require a user with an unverified email."""
-    return _require_user('unverified_member', 'Unverified member')
+    return _require_user("unverified_member", "Unverified member")
 
 
 @pytest.fixture
 def trans_member():
     """Require a member user."""
-    return _require_user('trans_member', 'Transactional member')
+    return _require_user("trans_member", "Transactional member")
 
 
 @pytest.fixture
@@ -154,16 +147,16 @@ def member2():
 @pytest.fixture
 def unverified_member2():
     """Require another user with an unverified email."""
-    return _require_user('unverified_member2', 'Unverified member2')
+    return _require_user("unverified_member2", "Unverified member2")
 
 
 @pytest.fixture
 def evil_member():
     """Require a evil_member user."""
-    return _require_user('evil_member', 'Evil member')
+    return _require_user("evil_member", "Evil member")
 
 
 @pytest.fixture
 def no_perms_user():
     """Require a user with no permissions."""
-    return _require_user('no_perms_member', 'User with no permissions')
+    return _require_user("no_perms_member", "User with no permissions")

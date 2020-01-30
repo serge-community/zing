@@ -9,4 +9,4 @@
 from .elasticsearch import ElasticSearchBackend
 
 
-__all__ = ('ElasticSearchBackend', )
+__all__ = ("ElasticSearchBackend",)

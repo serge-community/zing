@@ -19,7 +19,7 @@ def days_left(from_datetime, to_datetime):
 
 
 class TranslationTask(object):
-    type = 'translation'
+    type = "translation"
     weight = 1
 
     def __init__(self, due_date, now, words_left, **kwargs):
@@ -28,8 +28,9 @@ class TranslationTask(object):
         self.words_left = words_left
 
     def __repr__(self):
-        return '<%s: %s (%s)>' % (
-            self.__class__.__name__, self.due_date.pootle_path,
+        return "<%s: %s (%s)>" % (
+            self.__class__.__name__,
+            self.due_date.pootle_path,
             self.due_date.due_on,
         )
 
@@ -48,25 +49,24 @@ class TranslationTask(object):
     @property
     def data(self):
         return {
-            'type': self.type,
-            'words_left': self.words_left,
-            'importance_factor': self.importance_factor,
-            'due_date_id': self.due_date.id,
-            'path': self.due_date.pootle_path,
-            'due_on': self.due_date.due_on,
-            'project_name': self.due_date.project_name,
+            "type": self.type,
+            "words_left": self.words_left,
+            "importance_factor": self.importance_factor,
+            "due_date_id": self.due_date.id,
+            "path": self.due_date.pootle_path,
+            "due_on": self.due_date.due_on,
+            "project_name": self.due_date.project_name,
         }
 
 
 class CriticalTask(TranslationTask):
-    type = 'critical'
+    type = "critical"
     # For critical tasks, fixing one problematic unit is as important
     # as translating 1000 words
     weight = 1000
 
 
 class TaskResultSet(object):
-
     def __init__(self, tasks, *args, **kwargs):
         self.tasks = tasks
         self.total = len(tasks)
@@ -87,7 +87,6 @@ class TaskResultSet(object):
     def order_by_importance(self):
         self.tasks = sorted(
             self.tasks,
-            key=lambda x: (-x.importance_factor, x.days_left,
-                           x.due_date.pootle_path),
+            key=lambda x: (-x.importance_factor, x.days_left, x.due_date.pootle_path),
         )
         return self

@@ -18,11 +18,10 @@ from staticpages.models import LegalPage
 @pytest.mark.django_db
 def test_pending_agreements():
     """Tests proper user pending agreements are returned."""
-    foo_user = UserFactory.create(username='foo')
+    foo_user = UserFactory.create(username="foo")
 
     privacy_policy = LegalPageFactory.create(
-        active=True,
-        modified_on=aware_datetime(2014, 1, 1),
+        active=True, modified_on=aware_datetime(2014, 1, 1),
     )
 
     # `foo_user` hasn't agreed the privacy policy yet
@@ -32,19 +31,14 @@ def test_pending_agreements():
 
     # `foo_user` agreed the privacy policy
     AgreementFactory.create(
-        user=foo_user,
-        document=privacy_policy,
-        agreed_on=aware_datetime(2014, 2, 2),
+        user=foo_user, document=privacy_policy, agreed_on=aware_datetime(2014, 2, 2),
     )
 
     pending = list(LegalPage.objects.pending_user_agreement(foo_user))
     assert len(pending) == 0
 
     # Let's add a new ToS
-    tos = LegalPageFactory.create(
-        active=True,
-        modified_on=aware_datetime(2015, 1, 1),
-    )
+    tos = LegalPageFactory.create(active=True, modified_on=aware_datetime(2015, 1, 1),)
 
     pending = list(LegalPage.objects.pending_user_agreement(foo_user))
     assert len(pending) == 1
@@ -52,9 +46,7 @@ def test_pending_agreements():
 
     # `foo_user` also accepted the ToS
     AgreementFactory.create(
-        user=foo_user,
-        document=tos,
-        agreed_on=aware_datetime(2015, 2, 2),
+        user=foo_user, document=tos, agreed_on=aware_datetime(2015, 2, 2),
     )
 
     pending = list(LegalPage.objects.pending_user_agreement(foo_user))

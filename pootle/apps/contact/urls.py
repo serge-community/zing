@@ -12,13 +12,7 @@ from .views import ContactFormTemplateView, ContactFormView, ReportFormView
 
 
 urlpatterns = [
-    url(r'^$',
-        ContactFormTemplateView.as_view(),
-        name='pootle-contact'),
-    url(r'^xhr/$',
-        ContactFormView.as_view(),
-        name='pootle-contact-xhr'),
-    url(r'report/$',
-        ReportFormView.as_view(),
-        name='pootle-contact-report-error'),
+    url(r"^$", ContactFormTemplateView.as_view(), name="pootle-contact"),
+    url(r"^xhr/$", ContactFormView.as_view(), name="pootle-contact-xhr"),
+    url(r"report/$", ReportFormView.as_view(), name="pootle-contact-report-error"),
 ]

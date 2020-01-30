@@ -20,7 +20,7 @@ def working_path(filename):
     return os.path.join(WORKING_DIR, filename)
 
 
-conf_files_path = os.path.join(WORKING_DIR, 'settings', '*.conf')
+conf_files_path = os.path.join(WORKING_DIR, "settings", "*.conf")
 conf_files = glob.glob(conf_files_path)
 conf_files.sort()
 

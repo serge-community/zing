@@ -14,8 +14,7 @@ from pootle_statistics.models import Submission
 @pytest.mark.django_db
 def test_submission_repr():
     submission = Submission.objects.first()
-    assert (
-        "<Submission: %s (%s)>"
-        % (submission.creation_time.strftime("%Y-%m-%d %H:%M"),
-           str(submission.submitter))
-        == repr(submission))
+    assert "<Submission: %s (%s)>" % (
+        submission.creation_time.strftime("%Y-%m-%d %H:%M"),
+        str(submission.submitter),
+    ) == repr(submission)

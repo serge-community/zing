@@ -34,9 +34,7 @@ class CanAdminPath(object):
 
         if proj_code and not lang_code:
             try:
-                return Project.objects.select_related(
-                    'directory'
-                ).get(code=proj_code)
+                return Project.objects.select_related("directory").get(code=proj_code)
             except Project.DoesNotExist:
                 return None
 
@@ -47,15 +45,13 @@ class CanAdminPath(object):
                         user=user,
                         language_code=lang_code,
                         project_code=proj_code,
-                        select_related=['directory'],
+                        select_related=["directory"],
                     )
                 except TranslationProject.DoesNotExist:
                     return None
 
             try:
-                return Language.objects.select_related(
-                    'directory'
-                ).get(code=lang_code)
+                return Language.objects.select_related("directory").get(code=lang_code)
             except Language.DoesNotExist:
                 return None
 
@@ -66,15 +62,14 @@ class CanAdminPath(object):
         if ctx_obj is None:
             raise Http404
 
-        can_admin_path = check_user_permission(user, 'administrate',
-                                               ctx_obj.directory)
+        can_admin_path = check_user_permission(user, "administrate", ctx_obj.directory)
         if not can_admin_path:
             return False
 
         return True
 
     def has_permission(self, request, view):
-        if request.method != 'POST':
+        if request.method != "POST":
             return True
 
         path = view.request_data[view.path_field]
@@ -87,16 +82,23 @@ class CanAdminPath(object):
 
 class DueDateView(APIView):
     model = DueDate
-    restrict_to_methods = ('POST', 'PUT', 'DELETE', )
-    fields = ('id', 'due_on', 'modified_by', 'pootle_path', )
+    restrict_to_methods = (
+        "POST",
+        "PUT",
+        "DELETE",
+    )
+    fields = (
+        "id",
+        "due_on",
+        "modified_by",
+        "pootle_path",
+    )
     add_form_class = AddDueDateForm
     edit_form_class = EditDueDateForm
     permission_classes = [CanAdminPath]
-    path_field = 'pootle_path'
+    path_field = "pootle_path"
 
     def get_form_kwargs(self):
         kwargs = super(DueDateView, self).get_form_kwargs()
-        kwargs['data'].update({
-            'modified_by': self.request.user.id,
-        })
+        kwargs["data"].update({"modified_by": self.request.user.id})
         return kwargs

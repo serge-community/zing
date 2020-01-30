@@ -13,10 +13,12 @@ from .task import TaskView
 
 
 urlpatterns = [
-    url(r'^duedates/((?P<id>[0-9]+)/)?$',
+    url(
+        r"^duedates/((?P<id>[0-9]+)/)?$",
         DueDateView.as_view(),
-        name='zing-xhr-duedates'),
-    url(r'^tasks/(?P<language_code>[^/]*)/$',
-        TaskView.as_view(),
-        name='zing-xhr-tasks'),
+        name="zing-xhr-duedates",
+    ),
+    url(
+        r"^tasks/(?P<language_code>[^/]*)/$", TaskView.as_view(), name="zing-xhr-tasks"
+    ),
 ]

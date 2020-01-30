@@ -7,13 +7,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0003_remove_pootleprofile_id'),
+        ("accounts", "0003_remove_pootleprofile_id"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='user',
-            name='last_login',
-            field=models.DateTimeField(null=True, verbose_name='last login', blank=True),
+            model_name="user",
+            name="last_login",
+            field=models.DateTimeField(
+                null=True, verbose_name="last login", blank=True
+            ),
         ),
     ]

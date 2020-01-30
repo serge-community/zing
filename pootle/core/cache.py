@@ -14,7 +14,7 @@ from django.core.cache.backends.dummy import DummyCache as DjangoDummyCache
 from django.core.exceptions import ImproperlyConfigured
 
 
-PERSISTENT_STORES = ('redis', 'stats')
+PERSISTENT_STORES = ("redis", "stats")
 
 
 def make_method_key(model, method, key):
@@ -24,24 +24,22 @@ def make_method_key(model, method, key):
     :param method: Method name to cache
     :param key: a unique key to identify the object to be cached
     """
-    prefix = 'method-cache'
+    prefix = "method-cache"
 
     if isinstance(model, str):
         name = model
     else:
-        name = (model.__name__
-                if hasattr(model, '__name__')
-                else model.__class__.__name__)
+        name = (
+            model.__name__ if hasattr(model, "__name__") else model.__class__.__name__
+        )
 
     key = make_key(**key) if isinstance(key, dict) else key
-    return u':'.join([prefix, name, method, key])
+    return u":".join([prefix, name, method, key])
 
 
 def make_key(*args, **kwargs):
     """Creates a cache key with key-value pairs from a dict."""
-    return ':'.join([
-        '%s=%s' % (k, v) for k, v in sorted(iter(kwargs.items()))
-    ])
+    return ":".join(["%s=%s" % (k, v) for k, v in sorted(iter(kwargs.items()))])
 
 
 def get_cache(cache=None):
@@ -53,13 +51,18 @@ def get_cache(cache=None):
     try:
         # Check for proper Redis persistent backends
         # FIXME: this logic needs to be a system sanity check
-        if (not settings.DEBUG and cache in PERSISTENT_STORES and
-                (cache not in settings.CACHES or 'RedisCache' not in
-                 settings.CACHES[cache]['BACKEND'] or
-                 settings.CACHES[cache].get('TIMEOUT', '') is not None)):
+        if (
+            not settings.DEBUG
+            and cache in PERSISTENT_STORES
+            and (
+                cache not in settings.CACHES
+                or "RedisCache" not in settings.CACHES[cache]["BACKEND"]
+                or settings.CACHES[cache].get("TIMEOUT", "") is not None
+            )
+        ):
             raise ImproperlyConfigured(
-                'Pootle requires a Redis-backed caching backend for %r '
-                'with `TIMEOUT: None`. Please review your settings.' % cache
+                "Pootle requires a Redis-backed caching backend for %r "
+                "with `TIMEOUT: None`. Please review your settings." % cache
             )
 
         return caches[cache]

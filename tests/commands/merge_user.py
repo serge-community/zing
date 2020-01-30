@@ -16,7 +16,7 @@ from django.core.management.base import CommandError
 @pytest.mark.django_db
 def test_merge_user_nousers():
     with pytest.raises(CommandError) as e:
-        call_command('merge_user')
+        call_command("merge_user")
     assert "the following arguments are required: user, other_user" in str(e.value)
 
 
@@ -24,7 +24,7 @@ def test_merge_user_nousers():
 @pytest.mark.django_db
 def test_merge_user_only_one_user(member):
     with pytest.raises(CommandError) as e:
-        call_command('merge_user', 'member')
+        call_command("merge_user", "member")
     assert "the following arguments are required: other_user" in str(e.value)
 
 
@@ -32,7 +32,7 @@ def test_merge_user_only_one_user(member):
 @pytest.mark.django_db
 def test_merge_user_nofrom(member2):
     with pytest.raises(CommandError) as e:
-        call_command('merge_user', 'not_a_user', 'member2')
+        call_command("merge_user", "not_a_user", "member2")
     assert "User not_a_user does not exist" in str(e.value)
 
 
@@ -40,23 +40,23 @@ def test_merge_user_nofrom(member2):
 @pytest.mark.django_db
 def test_merge_user_noto(member):
     with pytest.raises(CommandError) as e:
-        call_command('merge_user', 'member', 'not_a_user2')
+        call_command("merge_user", "member", "not_a_user2")
     assert "User not_a_user2 does not exist" in str(e.value)
 
 
 @pytest.mark.cmd
 @pytest.mark.django_db
 def test_merge_user_withdelete(capfd, member, member2):
-    call_command('merge_user', 'member', 'member2')
+    call_command("merge_user", "member", "member2")
     out, err = capfd.readouterr()
-    assert 'User merged: member --> member2' in out
-    assert 'Deleting user: member...' in out
+    assert "User merged: member --> member2" in out
+    assert "Deleting user: member..." in out
 
 
 @pytest.mark.cmd
 @pytest.mark.django_db
 def test_merge_user_nodelete(capfd, member, member2):
-    call_command('merge_user', '--no-delete', 'member', 'member2')
+    call_command("merge_user", "--no-delete", "member", "member2")
     out, err = capfd.readouterr()
-    assert 'User merged: member --> member2' in out
-    assert 'Deleting user: member...' not in out
+    assert "User merged: member --> member2" in out
+    assert "Deleting user: member..." not in out

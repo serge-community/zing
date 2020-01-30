@@ -9,7 +9,7 @@
 from ..cache import get_cache
 
 
-cache = get_cache('redis')
+cache = get_cache("redis")
 
 
 class NoRevision(Exception):
@@ -19,7 +19,7 @@ class NoRevision(Exception):
 class Revision(object):
     """Wrapper around the revision counter stored in Redis."""
 
-    CACHE_KEY = 'pootle:revision'
+    CACHE_KEY = "pootle:revision"
     INITIAL = 0
 
     @classmethod

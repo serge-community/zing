@@ -15,7 +15,7 @@ from django.core.management import call_command
 @pytest.mark.django_db
 def test_revision(capfd):
     """Get current revision."""
-    call_command('revision')
+    call_command("revision")
     out, err = capfd.readouterr()
     assert out.rstrip().isnumeric()
 
@@ -24,6 +24,6 @@ def test_revision(capfd):
 @pytest.mark.django_db
 def test_revision_restore(capfd):
     """Restore redis revision from DB."""
-    call_command('revision', '--restore')
+    call_command("revision", "--restore")
     out, err = capfd.readouterr()
     assert out.rstrip().isnumeric()

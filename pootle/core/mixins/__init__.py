@@ -10,4 +10,4 @@
 from .treeitem import CachedMethods, CachedTreeItem, TreeItem
 
 
-__all__ = ('TreeItem', 'CachedTreeItem', 'CachedMethods')
+__all__ = ("TreeItem", "CachedTreeItem", "CachedMethods")

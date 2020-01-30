@@ -21,12 +21,12 @@ from pootle.core.forms import MathCaptchaForm
 URL_RE = re.compile("https?://", re.I)
 
 CAPTCHA_EXEMPT_URLPATTERNS = (
-    'account_login',
-    'account_signup',
-    'account_reset_password',
-    'account_reset_password_from_key',
-    'pootle-social-verify',
-    'pootle-contact',
+    "account_login",
+    "account_signup",
+    "account_reset_password",
+    "account_reset_password_from_key",
+    "pootle-social-verify",
+    "pootle-contact",
 )
 
 
@@ -36,8 +36,11 @@ class CaptchaMiddleware(MiddlewareMixin):
     """
 
     def process_request(self, request):
-        if (not settings.ZING_CAPTCHA_ENABLED or not request.POST or
-            request.session.get('ishuman', False)):
+        if (
+            not settings.ZING_CAPTCHA_ENABLED
+            or not request.POST
+            or request.session.get("ishuman", False)
+        ):
             return
 
         try:
@@ -49,36 +52,36 @@ class CaptchaMiddleware(MiddlewareMixin):
             pass
 
         if request.user.is_authenticated:
-            if ('target_f_0' not in request.POST or
-                'translator_comment' not in request.POST):
+            if (
+                "target_f_0" not in request.POST
+                or "translator_comment" not in request.POST
+            ):
                 return
 
             # We are in translate page. Users introducing new URLs in the
             # target or comment field are suspect even if authenticated
             try:
-                target_urls = len(URL_RE.findall(request.POST['target_f_0']))
+                target_urls = len(URL_RE.findall(request.POST["target_f_0"]))
             except KeyError:
                 target_urls = 0
 
             try:
-                comment_urls = len(URL_RE.findall(
-                    request.POST['translator_comment']))
+                comment_urls = len(URL_RE.findall(request.POST["translator_comment"]))
             except KeyError:
                 comment_urls = 0
 
             try:
-                source_urls = len(URL_RE.findall(request.POST['source_f_0']))
+                source_urls = len(URL_RE.findall(request.POST["source_f_0"]))
             except KeyError:
                 source_urls = 0
 
-            if (comment_urls == 0 and
-                (target_urls == 0 or target_urls == source_urls)):
+            if comment_urls == 0 and (target_urls == 0 or target_urls == source_urls):
                 return
 
-        if 'captcha_answer' in request.POST:
+        if "captcha_answer" in request.POST:
             form = MathCaptchaForm(request.POST)
             if form.is_valid():
-                request.session['ishuman'] = True
+                request.session["ishuman"] = True
                 return
             else:
                 # new question
@@ -87,16 +90,15 @@ class CaptchaMiddleware(MiddlewareMixin):
         else:
             form = MathCaptchaForm()
 
-        template_name = 'core/captcha.html'
+        template_name = "core/captcha.html"
         ctx = {
-            'form': form,
-            'url': request.path,
-            'post_data': request.POST,
+            "form": form,
+            "url": request.path,
+            "post_data": request.POST,
         }
 
-        if (request.is_ajax() and ('sfn' in request.POST and
-                                   'efn' in request.POST)):
-            template_name = 'core/xhr_captcha.html'
+        if request.is_ajax() and ("sfn" in request.POST and "efn" in request.POST):
+            template_name = "core/xhr_captcha.html"
 
         response = render(request, template_name, ctx)
         response.status_code = 402  # (Ab)using 402 for captcha purposes.

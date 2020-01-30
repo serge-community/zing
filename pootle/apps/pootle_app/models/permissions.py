@@ -18,8 +18,9 @@ from pootle.core.constants import CACHE_TIMEOUT
 
 
 def get_permission_contenttype():
-    content_type = ContentType.objects.filter(app_label='pootle_app',
-                                              model="directory")[0]
+    content_type = ContentType.objects.filter(
+        app_label="pootle_app", model="directory"
+    )[0]
     return content_type
 
 
@@ -32,32 +33,36 @@ def get_pootle_permission(codename):
 
 def get_permissions_by_username(username, directory):
     pootle_path = directory.pootle_path
-    path_parts = [_f for _f in pootle_path.split('/') if _f]
-    key = iri_to_uri('Permissions:%s' % username)
+    path_parts = [_f for _f in pootle_path.split("/") if _f]
+    key = iri_to_uri("Permissions:%s" % username)
     permissions_cache = cache.get(key, {})
 
     if pootle_path not in permissions_cache:
         try:
             permissionset = PermissionSet.objects.filter(
-                directory__in=directory.trail(),
-                user__username=username).order_by('-directory__pootle_path')[0]
+                directory__in=directory.trail(), user__username=username
+            ).order_by("-directory__pootle_path")[0]
         except IndexError:
             permissionset = None
 
-        if (len(path_parts) > 1 and path_parts[0] != 'projects' and
-                (permissionset is None or
-                    len([
-                        _f
-                        for _f in permissionset.directory.pootle_path.split('/')
-                        if _f
-                    ]) < 2)):
+        if (
+            len(path_parts) > 1
+            and path_parts[0] != "projects"
+            and (
+                permissionset is None
+                or len(
+                    [_f for _f in permissionset.directory.pootle_path.split("/") if _f]
+                )
+                < 2
+            )
+        ):
             # Active permission at language level or higher, check project
             # level permission
             try:
-                project_path = '/projects/%s/' % path_parts[1]
+                project_path = "/projects/%s/" % path_parts[1]
                 permissionset = PermissionSet.objects.get(
-                    directory__pootle_path=project_path,
-                    user__username=username)
+                    directory__pootle_path=project_path, user__username=username
+                )
             except PermissionSet.DoesNotExist:
                 pass
 
@@ -73,16 +78,15 @@ def get_permissions_by_username(username, directory):
 
 def get_matching_permissions(user, directory):
     if user.is_authenticated:
-        permissions = get_permissions_by_username(user.username,
-                                                  directory)
+        permissions = get_permissions_by_username(user.username, directory)
         if permissions is not None:
             return permissions
 
-        permissions = get_permissions_by_username('default', directory)
+        permissions = get_permissions_by_username("default", directory)
         if permissions is not None:
             return permissions
 
-    permissions = get_permissions_by_username('nobody', directory)
+    permissions = get_permissions_by_username("nobody", directory)
 
     return permissions
 
@@ -96,8 +100,7 @@ def check_user_permission(user, permission_codename, directory):
 
     permissions = get_matching_permissions(user, directory)
 
-    return ("administrate" in permissions or
-            permission_codename in permissions)
+    return "administrate" in permissions or permission_codename in permissions
 
 
 def check_permission(permission_codename, request):
@@ -109,11 +112,11 @@ def check_permission(permission_codename, request):
 
     # `view` permissions are project-centric, and we must treat them
     # differently
-    if permission_codename == 'view':
+    if permission_codename == "view":
         path_obj = None
-        if hasattr(request, 'translation_project'):
+        if hasattr(request, "translation_project"):
             path_obj = request.translation_project
-        elif hasattr(request, 'project'):
+        elif hasattr(request, "project"):
             path_obj = request.project
 
         if path_obj is None:
@@ -121,29 +124,35 @@ def check_permission(permission_codename, request):
 
         return path_obj.is_accessible_by(request.user)
 
-    return ("administrate" in request.permissions or
-            permission_codename in request.permissions)
+    return (
+        "administrate" in request.permissions
+        or permission_codename in request.permissions
+    )
 
 
 class PermissionSet(models.Model):
-
     class Meta(object):
-        unique_together = ('user', 'directory')
+        unique_together = ("user", "directory")
         app_label = "pootle_app"
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, db_index=True,
-                             on_delete=models.CASCADE)
-    directory = models.ForeignKey('pootle_app.Directory', db_index=True,
-                                  related_name='permission_sets',
-                                  on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, db_index=True, on_delete=models.CASCADE
+    )
+    directory = models.ForeignKey(
+        "pootle_app.Directory",
+        db_index=True,
+        related_name="permission_sets",
+        on_delete=models.CASCADE,
+    )
     positive_permissions = models.ManyToManyField(
-        Permission, db_index=True, related_name='permission_sets_positive')
+        Permission, db_index=True, related_name="permission_sets_positive"
+    )
     negative_permissions = models.ManyToManyField(
-        Permission, db_index=True, related_name='permission_sets_negative')
+        Permission, db_index=True, related_name="permission_sets_negative"
+    )
 
     def __str__(self):
-        return "%s : %s" % (self.user.username,
-                            self.directory.pootle_path)
+        return "%s : %s" % (self.user.username, self.directory.pootle_path)
 
     def to_dict(self):
         permissions_iterator = self.positive_permissions.iterator()
@@ -153,12 +162,12 @@ class PermissionSet(models.Model):
         super(PermissionSet, self).save(*args, **kwargs)
         # FIXME: can we use `post_save` signals or invalidate caches in model
         # managers, please?
-        key = iri_to_uri('Permissions:%s' % self.user.username)
+        key = iri_to_uri("Permissions:%s" % self.user.username)
         cache.delete(key)
 
     def delete(self, *args, **kwargs):
         super(PermissionSet, self).delete(*args, **kwargs)
         # FIXME: can we use `post_delete` signals or invalidate caches in model
         # managers, please?
-        key = iri_to_uri('Permissions:%s' % self.user.username)
+        key = iri_to_uri("Permissions:%s" % self.user.username)
         cache.delete(key)

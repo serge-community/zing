@@ -18,8 +18,7 @@ from django.db import models
 from django.db.models.fields.files import FieldFile, FileField
 
 from pootle.core.constants import PARSE_POOL_CULL_FREQUENCY, PARSE_POOL_SIZE
-from pootle.core.utils.multistring import (parse_multistring,
-                                           unparse_multistring)
+from pootle.core.utils.multistring import parse_multistring, unparse_multistring
 
 
 # # # # # # # # # String # # # # # # # # # # # # # # #
@@ -44,8 +43,7 @@ def to_python(value):
     elif isinstance(value, str):
         return parse_multistring(value)
     elif isinstance(value, dict):
-        return multistring([val for __, val in sorted(value.items())],
-                           encoding="UTF-8")
+        return multistring([val for __, val in sorted(value.items())], encoding="UTF-8")
     else:
         return multistring(value, encoding="UTF-8")
 
@@ -72,8 +70,7 @@ class CastOnAssignDescriptor(object):
 
 
 class MultiStringField(models.Field):
-    description = \
-        "a field imitating translate.misc.multistring used for plurals"
+    description = "a field imitating translate.misc.multistring used for plurals"
 
     def __init__(self, *args, **kwargs):
         super(MultiStringField, self).__init__(*args, **kwargs)
@@ -91,11 +88,9 @@ class MultiStringField(models.Field):
         return to_db(value)
 
     def get_prep_lookup(self, lookup_type, value):
-        if (lookup_type in ('exact', 'iexact') or
-            not isinstance(value, str)):
+        if lookup_type in ("exact", "iexact") or not isinstance(value, str):
             value = self.get_prep_value(value)
-        return super(MultiStringField, self).get_prep_lookup(lookup_type,
-                                                             value)
+        return super(MultiStringField, self).get_prep_lookup(lookup_type, value)
 
     def contribute_to_class(self, cls, name):
         super(MultiStringField, self).contribute_to_class(cls, name)
@@ -142,7 +137,7 @@ class TranslationStoreFieldFile(FieldFile):
             if self:
                 self._realpath = os.path.realpath(self.path)
             else:
-                self._realpath = ''
+                self._realpath = ""
         return self._realpath
 
     @property
@@ -169,8 +164,7 @@ class TranslationStoreFieldFile(FieldFile):
             mod_info = self.getpomtime()
         else:
             mod_info = 0
-        if (not hasattr(self, "_store_tuple") or
-            self._store_tuple.mod_info != mod_info):
+        if not hasattr(self, "_store_tuple") or self._store_tuple.mod_info != mod_info:
             try:
                 self._store_tuple = self._store_cache[self.path]
                 if self._store_tuple.mod_info != mod_info:
@@ -179,16 +173,16 @@ class TranslationStoreFieldFile(FieldFile):
             except KeyError:
                 logging.debug(u"Cache miss for %s", self.path)
                 from translate.storage import factory
+
                 syncer = self.instance.syncer
 
                 classes = {
                     syncer.extension: syncer.file_class,
                 }
-                store_obj = factory.getobject(self.path,
-                                              ignore=self.field.ignore,
-                                              classes=classes)
-                self._store_tuple = StoreTuple(store_obj, mod_info,
-                                               self.realpath)
+                store_obj = factory.getobject(
+                    self.path, ignore=self.field.ignore, classes=classes
+                )
+                self._store_tuple = StoreTuple(store_obj, mod_info, self.realpath)
                 self._store_cache[self.path] = self._store_tuple
 
     def _touch_store_cache(self):
@@ -222,6 +216,7 @@ class TranslationStoreFieldFile(FieldFile):
         """
         import shutil
         from pootle.core.utils import ptempfile as tempfile
+
         tmpfile, tmpfilename = tempfile.mkstemp(suffix=self.filename)
         os.close(tmpfile)
         self.store.savefile(tmpfilename)
@@ -255,8 +250,7 @@ class TranslationStoreField(FileField):
         super(TranslationStoreField, self).__init__(**kwargs)
 
     def deconstruct(self):
-        name, path, args, kwargs = super(TranslationStoreField,
-                                         self).deconstruct()
+        name, path, args, kwargs = super(TranslationStoreField, self).deconstruct()
         if self.ignore is not None:
-            kwargs['ignore'] = self.ignore
+            kwargs["ignore"] = self.ignore
         return name, path, args, kwargs

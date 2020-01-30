@@ -24,7 +24,7 @@ UNITS_LIMIT = 500
 
 
 class PootleExportView(PootleDetailView):
-    template_name = 'editor/export_view.html'
+    template_name = "editor/export_view.html"
 
     @property
     def path(self):
@@ -40,32 +40,31 @@ class PootleExportView(PootleDetailView):
         search_form = UnitExportForm(form_data, user=self.request.user)
 
         if not search_form.is_valid():
-            raise Http404(
-                ValidationError(search_form.errors).messages)
+            raise Http404(ValidationError(search_form.errors).messages)
 
         total, start_, end_, units_qs = DBSearchBackend(
             self.request.user, **search_form.cleaned_data
         ).search()
 
-        units_qs = units_qs.select_related('store')
+        units_qs = units_qs.select_related("store")
 
         if total > UNITS_LIMIT:
             units_qs = units_qs[:UNITS_LIMIT]
-            ctx.update({
-                'unit_total_count': total,
-                'displayed_unit_count': UNITS_LIMIT,
-            })
+            ctx.update({"unit_total_count": total, "displayed_unit_count": UNITS_LIMIT})
 
         unit_groups = [
             (path, list(units))
-            for path, units
-            in groupby(units_qs, lambda x: x.store.pootle_path)]
+            for path, units in groupby(units_qs, lambda x: x.store.pootle_path)
+        ]
 
         ctx.update(
-            {'unit_groups': unit_groups,
-             'filter_name': filter_name,
-             'filter_extra': filter_extra,
-             'source_language': self.source_language,
-             'language': self.language,
-             'project': self.project})
+            {
+                "unit_groups": unit_groups,
+                "filter_name": filter_name,
+                "filter_extra": filter_extra,
+                "source_language": self.source_language,
+                "language": self.language,
+                "project": self.project,
+            }
+        )
         return ctx

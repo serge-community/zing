@@ -9,4 +9,4 @@
 from .duedate import DueDateView
 
 
-__all__ = ('DueDateView',)
+__all__ = ("DueDateView",)

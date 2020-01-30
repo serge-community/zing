@@ -15,14 +15,14 @@ from django.core.management.base import CommandError
 @pytest.mark.cmd
 def test_purge_user_nouser():
     with pytest.raises(CommandError) as e:
-        call_command('purge_user')
+        call_command("purge_user")
     assert "the following arguments are required: user" in str(e.value)
 
 
 @pytest.mark.cmd
 @pytest.mark.django_db
 def test_purge_user_single_user(capfd, evil_member):
-    call_command('purge_user', 'evil_member')
+    call_command("purge_user", "evil_member")
     out, err = capfd.readouterr()
     assert "User purged: evil_member" in out
 
@@ -30,7 +30,7 @@ def test_purge_user_single_user(capfd, evil_member):
 @pytest.mark.cmd
 @pytest.mark.django_db
 def test_purge_user_multiple_users(capfd, member, member2):
-    call_command('purge_user', 'member', 'member2')
+    call_command("purge_user", "member", "member2")
     out, err = capfd.readouterr()
     assert "User purged: member " in out
     assert "User purged: member2 " in out
@@ -40,5 +40,5 @@ def test_purge_user_multiple_users(capfd, member, member2):
 @pytest.mark.django_db
 def test_purge_user_unkownuser():
     with pytest.raises(CommandError) as e:
-        call_command('purge_user', 'not_a_user')
+        call_command("purge_user", "not_a_user")
     assert "User not_a_user does not exist" in str(e.value)

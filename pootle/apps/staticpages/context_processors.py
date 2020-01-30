@@ -10,26 +10,29 @@ from .models import LegalPage
 
 
 NOCHECK_PREFIXES = (
-    '/about',
-    '/accounts',
-    '/admin',
-    '/contact',
-    '/jsi18n',
-    '/pages',
-    '/xhr',
+    "/about",
+    "/accounts",
+    "/admin",
+    "/contact",
+    "/jsi18n",
+    "/pages",
+    "/xhr",
 )
 
 
 def agreement(request):
     """Returns whether the agreement box should be displayed or not."""
-    request_path = request.META['PATH_INFO']
+    request_path = request.META["PATH_INFO"]
     nocheck = [x for x in NOCHECK_PREFIXES if request_path.startswith(x)]
 
     display_agreement = False
-    if (request.user.is_authenticated and not nocheck and
-        LegalPage.objects.has_pending_agreement(request.user)):
+    if (
+        request.user.is_authenticated
+        and not nocheck
+        and LegalPage.objects.has_pending_agreement(request.user)
+    ):
         display_agreement = True
 
     return {
-        'display_agreement': display_agreement,
+        "display_agreement": display_agreement,
     }

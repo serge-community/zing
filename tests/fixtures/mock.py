@@ -17,17 +17,20 @@ mp = MonkeyPatch()
 
 
 class FakeJob(object):
-    id = 'FAKE_JOB_ID'
+    id = "FAKE_JOB_ID"
 
 
-mp.setattr('rq.get_current_job', lambda: FakeJob())
+mp.setattr("rq.get_current_job", lambda: FakeJob())
 
 
 @pytest.fixture
 def patch_timezone_now(monkeypatch):
     """Provides a function to monkey patch django.utils.timezone.now."""
+
     def _patch_fn(now_value):
         def patched_now():
             return now_value
-        monkeypatch.setattr('django.utils.timezone.now', patched_now)
+
+        monkeypatch.setattr("django.utils.timezone.now", patched_now)
+
     return _patch_fn

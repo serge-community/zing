@@ -55,8 +55,7 @@ def no_extra_users():
     from django.contrib.auth import get_user_model
 
     User = get_user_model()
-    User.objects.exclude(
-        username__in=["system", "default", "nobody"]).delete()
+    User.objects.exclude(username__in=["system", "default", "nobody"]).delete()
 
 
 @pytest.fixture(autouse=True, scope="session")
@@ -75,8 +74,8 @@ def translations_directory(request):
 @pytest.fixture(scope="session")
 def test_fs(tests_dir):
     """A convenience fixture for retrieving data from test files"""
-    class TestFs(object):
 
+    class TestFs(object):
         def path(self, path):
             return tests_dir(path)
 

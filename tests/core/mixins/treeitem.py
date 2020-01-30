@@ -18,6 +18,7 @@ from pootle_translationproject.models import TranslationProject
 @pytest.mark.django_db
 def test_get_children(project0, language0):
     """Ensure that retrieved child objects have a correct type."""
+
     def _all_children_are_directories_or_stores(item):
         for child in item.children:
             if isinstance(child, Directory):

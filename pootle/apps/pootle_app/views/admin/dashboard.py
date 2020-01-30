@@ -30,18 +30,20 @@ def rq_stats():
     is_running = len(queue.connection.smembers(Worker.redis_workers_keys)) > 0
     if is_running:
         # Translators: this refers to the status of the background job worker
-        status_msg = ungettext('Running (%d worker)', 'Running (%d workers)',
-                               num_workers) % num_workers
+        status_msg = (
+            ungettext("Running (%d worker)", "Running (%d workers)", num_workers)
+            % num_workers
+        )
     else:
         # Translators: this refers to the status of the background job worker
-        status_msg = _('Stopped')
+        status_msg = _("Stopped")
 
     failed_job_registry = FailedJobRegistry(queue.name, queue.connection)
     result = {
-        'job_count': queue.count,
-        'failed_job_count': len(failed_job_registry),
-        'is_running': is_running,
-        'status_msg': status_msg,
+        "job_count": queue.count,
+        "failed_job_count": len(failed_job_registry),
+        "is_running": is_running,
+        "status_msg": status_msg,
     }
 
     return result
@@ -56,8 +58,8 @@ def checks():
 @admin_required
 def view(request):
     ctx = {
-        'page': 'admin-dashboard',
-        'rq_stats': rq_stats(),
-        'checks': checks(),
+        "page": "admin-dashboard",
+        "rq_stats": rq_stats(),
+        "checks": checks(),
     }
     return render(request, "admin/dashboard.html", ctx)

@@ -12,4 +12,4 @@ from .snapshot import Snapshot
 from .virtualresource import VirtualResource
 
 
-__all__ = ('Revision', 'Snapshot', 'VirtualResource')
+__all__ = ("Revision", "Snapshot", "VirtualResource")

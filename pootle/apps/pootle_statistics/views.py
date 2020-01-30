@@ -9,8 +9,7 @@
 from django.contrib.auth import get_user_model
 
 from pootle.core.url_helpers import split_pootle_path
-from pootle.core.utils.stats import (TOP_CONTRIBUTORS_CHUNK_SIZE,
-                                     get_top_scorers_data)
+from pootle.core.utils.stats import TOP_CONTRIBUTORS_CHUNK_SIZE, get_top_scorers_data
 from pootle.core.views import BasePathDispatcherView
 from pootle.core.views.mixins import PootleJSONMixin
 from pootle_language.views import LanguageBrowseView
@@ -38,10 +37,7 @@ class ContributorsJSONMixin(PootleJSONMixin):
             offset=offset,
         )
 
-        return get_top_scorers_data(
-            top_scorers,
-            TOP_CONTRIBUTORS_CHUNK_SIZE
-        )
+        return get_top_scorers_data(top_scorers, TOP_CONTRIBUTORS_CHUNK_SIZE)
 
 
 class TPContributorsJSON(ContributorsJSONMixin, TPBrowseView):

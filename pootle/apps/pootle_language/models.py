@@ -34,20 +34,30 @@ class LiveLanguageManager(models.Manager):
 
     def get_queryset(self):
         """Returns a queryset for all live languages for enabled projects."""
-        return super(LiveLanguageManager, self).get_queryset().filter(
-            translationproject__isnull=False,
-            translationproject__directory__obsolete=False,
-            translationproject__project__disabled=False,
-        ).distinct()
+        return (
+            super(LiveLanguageManager, self)
+            .get_queryset()
+            .filter(
+                translationproject__isnull=False,
+                translationproject__directory__obsolete=False,
+                translationproject__project__disabled=False,
+            )
+            .distinct()
+        )
 
     def get_all_queryset(self):
         """Returns a queryset for all live languages for all projects."""
-        return super(LiveLanguageManager, self).get_queryset().filter(
-            translationproject__isnull=False,
-            translationproject__directory__obsolete=False,
-        ).distinct()
+        return (
+            super(LiveLanguageManager, self)
+            .get_queryset()
+            .filter(
+                translationproject__isnull=False,
+                translationproject__directory__obsolete=False,
+            )
+            .distinct()
+        )
 
-    def cached_dict(self, locale_code='en-us', show_all=False):
+    def cached_dict(self, locale_code="en-us", show_all=False):
         """Retrieves a sorted list of live language codes and names.
 
         By default only returns live languages for enabled projects, but it can
@@ -60,16 +70,18 @@ class LiveLanguageManager(models.Manager):
             projects.
         :return: an `OrderedDict`
         """
-        key_prefix = 'all_cached_dict' if show_all else 'cached_dict'
+        key_prefix = "all_cached_dict" if show_all else "cached_dict"
         key = make_method_key(self, key_prefix, locale_code)
         languages = cache.get(key, None)
         if languages is None:
             qs = self.get_all_queryset() if show_all else self.get_queryset()
             languages = OrderedDict(
                 sorted(
-                    [(locale.strxfrm(lang[0]), tr_lang(lang[1]))
-                     for lang in qs.values_list('code', 'fullname')],
-                    key=itemgetter(0)
+                    [
+                        (locale.strxfrm(lang[0]), tr_lang(lang[1]))
+                        for lang in qs.values_list("code", "fullname")
+                    ],
+                    key=itemgetter(0),
                 )
             )
             cache.set(key, languages, CACHE_TIMEOUT)
@@ -82,53 +94,74 @@ class Language(models.Model, TreeItem):
     # any changes to the `code` field may require updating the schema
     # see migration 0002_case_insensitive_schema.py
     code = models.CharField(
-        max_length=50, null=False, unique=True, db_index=True,
+        max_length=50,
+        null=False,
+        unique=True,
+        db_index=True,
         verbose_name=_("Code"),
-        help_text=_('ISO 639 language code for the language, possibly '
-                    'followed by an underscore (_) and an ISO 3166 country '
-                    'code. <a href="http://www.w3.org/International/'
-                    'articles/language-tags/">More information</a>')
+        help_text=_(
+            "ISO 639 language code for the language, possibly "
+            "followed by an underscore (_) and an ISO 3166 country "
+            'code. <a href="http://www.w3.org/International/'
+            'articles/language-tags/">More information</a>'
+        ),
     )
-    fullname = models.CharField(max_length=255, null=False,
-                                verbose_name=_("Full Name"))
+    fullname = models.CharField(max_length=255, null=False, verbose_name=_("Full Name"))
 
     specialchars = models.CharField(
-        max_length=255, blank=True, verbose_name=_("Special Characters"),
-        help_text=_('Enter any special characters that users might find '
-                    'difficult to type')
+        max_length=255,
+        blank=True,
+        verbose_name=_("Special Characters"),
+        help_text=_(
+            "Enter any special characters that users might find " "difficult to type"
+        ),
     )
 
-    plurals_help_text = _('For more information, visit '
-                          '<a href="http://docs.translatehouse.org/projects/'
-                          'localization-guide/en/latest/l10n/'
-                          'pluralforms.html">'
-                          'our page</a> on plural forms.')
+    plurals_help_text = _(
+        "For more information, visit "
+        '<a href="http://docs.translatehouse.org/projects/'
+        "localization-guide/en/latest/l10n/"
+        'pluralforms.html">'
+        "our page</a> on plural forms."
+    )
     nplural_choices = (
-        (0, _('Unknown')), (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6)
+        (0, _("Unknown")),
+        (1, 1),
+        (2, 2),
+        (3, 3),
+        (4, 4),
+        (5, 5),
+        (6, 6),
     )
     nplurals = models.SmallIntegerField(
-        default=0, choices=nplural_choices,
-        verbose_name=_("Number of Plurals"), help_text=plurals_help_text
+        default=0,
+        choices=nplural_choices,
+        verbose_name=_("Number of Plurals"),
+        help_text=plurals_help_text,
     )
     pluralequation = models.CharField(
-        max_length=255, blank=True, verbose_name=_("Plural Equation"),
-        help_text=plurals_help_text)
+        max_length=255,
+        blank=True,
+        verbose_name=_("Plural Equation"),
+        help_text=plurals_help_text,
+    )
 
-    directory = models.OneToOneField('pootle_app.Directory', db_index=True,
-                                     editable=False, on_delete=models.CASCADE)
+    directory = models.OneToOneField(
+        "pootle_app.Directory", db_index=True, editable=False, on_delete=models.CASCADE
+    )
 
     objects = models.Manager()
     live = LiveLanguageManager()
 
     class Meta(object):
-        ordering = ['code']
-        db_table = 'pootle_app_language'
+        ordering = ["code"]
+        db_table = "pootle_app_language"
 
     # # # # # # # # # # # # # #  Properties # # # # # # # # # # # # # # # # # #
 
     @property
     def pootle_path(self):
-        return '/%s/' % self.code
+        return "/%s/" % self.code
 
     @property
     def name(self):
@@ -170,11 +203,12 @@ class Language(models.Model, TreeItem):
         super(Language, self).__init__(*args, **kwargs)
 
     def __repr__(self):
-        return u'<%s: %s>' % (self.__class__.__name__, self.fullname)
+        return u"<%s: %s>" % (self.__class__.__name__, self.fullname)
 
     def save(self, *args, **kwargs):
         # create corresponding directory object
         from pootle_app.models.directory import Directory
+
         self.directory = Directory.objects.root.get_or_make_subdir(self.code)
 
         super(Language, self).save(*args, **kwargs)
@@ -185,13 +219,15 @@ class Language(models.Model, TreeItem):
         directory.delete()
 
     def get_absolute_url(self):
-        return reverse('pootle-language-browse', args=[self.code])
+        return reverse("pootle-language-browse", args=[self.code])
 
     def get_translate_url(self, **kwargs):
-        return u''.join([
-            reverse('pootle-language-translate', args=[self.code]),
-            get_editor_filter(**kwargs),
-        ])
+        return u"".join(
+            [
+                reverse("pootle-language-translate", args=[self.code]),
+                get_editor_filter(**kwargs),
+            ]
+        )
 
     def clean(self):
         super(Language, self).clean()
@@ -213,13 +249,11 @@ class Language(models.Model, TreeItem):
     def get_children_for_user(self, user, select_related=None):
         return self.translationproject_set.for_user(
             user, select_related=select_related
-        ).select_related(
-            "project"
-        )
+        ).select_related("project")
 
 
 def clear_language_list_cache():
-    key = make_method_key('LiveLanguageManager', 'cached_dict', '*')
+    key = make_method_key("LiveLanguageManager", "cached_dict", "*")
     cache.delete_pattern(key)
 
 
@@ -227,7 +261,7 @@ def clear_language_list_cache():
 def invalidate_language_list_cache(**kwargs):
     instance = kwargs["instance"]
     # XXX: maybe use custom signals or simple function calls?
-    if instance.__class__.__name__ not in ['Language', 'TranslationProject']:
+    if instance.__class__.__name__ not in ["Language", "TranslationProject"]:
         return
 
     clear_language_list_cache()

@@ -13,38 +13,45 @@ from django.utils import timezone
 
 from tests.factories import ScoreLogFactory, SubmissionFactory
 
-from pootle_statistics.models import (ScoreLog, SubmissionTypes, SubmissionFields,
-                                      SIMILARITY_THRESHOLD)
+from pootle_statistics.models import (
+    ScoreLog,
+    SubmissionTypes,
+    SubmissionFields,
+    SIMILARITY_THRESHOLD,
+)
 
 
-TEST_EDIT_TYPES = (SubmissionTypes.NORMAL, SubmissionTypes.SYSTEM,
-                   SubmissionTypes.UPLOAD)
+TEST_EDIT_TYPES = (
+    SubmissionTypes.NORMAL,
+    SubmissionTypes.SYSTEM,
+    SubmissionTypes.UPLOAD,
+)
 
 
-@pytest.mark.parametrize('submission_type', TEST_EDIT_TYPES)
+@pytest.mark.parametrize("submission_type", TEST_EDIT_TYPES)
 @pytest.mark.django_db
 def test_record_submission(member, submission_type, store0):
     unit = store0.units.first()
 
     submission_params = {
-        'store': store0,
-        'unit': unit,
-        'field': SubmissionFields.TARGET,
-        'type': submission_type,
-        'old_value': unit.target,
-        'new_value': 'New target',
-        'similarity': 0,
-        'mt_similarity': 0,
-        'submitter': member,
-        'translation_project': store0.translation_project,
-        'creation_time': timezone.now(),
+        "store": store0,
+        "unit": unit,
+        "field": SubmissionFields.TARGET,
+        "type": submission_type,
+        "old_value": unit.target,
+        "new_value": "New target",
+        "similarity": 0,
+        "mt_similarity": 0,
+        "submitter": member,
+        "translation_project": store0.translation_project,
+        "creation_time": timezone.now(),
     }
 
     sub = SubmissionFactory(**submission_params)
     assert ScoreLog.objects.filter(submission=sub).count() == 1
 
 
-@pytest.mark.parametrize('similarity', (0, 0.1, 0.49, 0.5, 0.51, 0.6, 1))
+@pytest.mark.parametrize("similarity", (0, 0.1, 0.49, 0.5, 0.51, 0.6, 1))
 def test_get_similarity(similarity):
     score_log = ScoreLogFactory.build(similarity=similarity)
     if similarity >= SIMILARITY_THRESHOLD:
@@ -53,10 +60,11 @@ def test_get_similarity(similarity):
         assert score_log.get_similarity() == 0
 
 
-@pytest.mark.parametrize('similarity, mt_similarity', [(0, 1), (0.5, 0.5), (1, 0)])
+@pytest.mark.parametrize("similarity, mt_similarity", [(0, 1), (0.5, 0.5), (1, 0)])
 def test_is_similarity_taken_from_mt(similarity, mt_similarity):
-    submission = SubmissionFactory.build(similarity=similarity,
-                                         mt_similarity=mt_similarity)
+    submission = SubmissionFactory.build(
+        similarity=similarity, mt_similarity=mt_similarity
+    )
     score_log = ScoreLogFactory.build(submission=submission)
     if submission.similarity < submission.mt_similarity:
         assert score_log.is_similarity_taken_from_mt()

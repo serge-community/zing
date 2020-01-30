@@ -18,34 +18,40 @@ def render_pager(pager):
 
     result = '<ul class="pager">'
     if pager.has_previous():
-        result += '<li><a href="?page=1" class="nth-link">%s</a></li>' % \
-                  _('First')
-        result += ('<li><a href="?page=%d" class="prevnext-link">%s</a>'
-                   '</li>' % (pager.previous_page_number(), _('Previous')))
+        result += '<li><a href="?page=1" class="nth-link">%s</a></li>' % _("First")
+        result += '<li><a href="?page=%d" class="prevnext-link">%s</a>' "</li>" % (
+            pager.previous_page_number(),
+            _("Previous"),
+        )
 
     start = max(1, pager.number - 4)
     end = min(pager.paginator.num_pages, pager.number + 4)
     if start > 1:
-        result += '<li>...</li>'
-    for i in range(start, end+1):
+        result += "<li>...</li>"
+    for i in range(start, end + 1):
         if i == pager.number:
             result += '<li><span class="current-link">%s</span></li>' % i
         else:
-            result += ('<li><a href="?page=%d" class="number-link">%d</a>'
-                       '</li>' % (i, i))
+            result += '<li><a href="?page=%d" class="number-link">%d</a>' "</li>" % (
+                i,
+                i,
+            )
     if end < pager.paginator.num_pages:
-        result += '<li>...</li>'
+        result += "<li>...</li>"
 
     if pager.has_next():
-        result += ('<li><a href="?page=%d" class="prevnext-link">%s</a>'
-                   '</li>' % (pager.next_page_number(), _('Next')))
-        result += '<li><a href="?page=%d" class="nth-link">%s</a></li>' % \
-                  (pager.paginator.num_pages, _('Last (%d)',
-                                                pager.paginator.num_pages))
+        result += '<li><a href="?page=%d" class="prevnext-link">%s</a>' "</li>" % (
+            pager.next_page_number(),
+            _("Next"),
+        )
+        result += '<li><a href="?page=%d" class="nth-link">%s</a></li>' % (
+            pager.paginator.num_pages,
+            _("Last (%d)", pager.paginator.num_pages),
+        )
 
-    result += '</ul>'
+    result += "</ul>"
     return mark_safe(result)
 
 
 register = template.Library()
-register.filter('render_pager', render_pager)
+register.filter("render_pager", render_pager)

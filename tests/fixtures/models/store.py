@@ -18,35 +18,32 @@ from tests.utils import create_store, update_store
 
 
 DEFAULT_STORE_UNITS_1 = [
-    ('Unit 1', 'Unit 1'),
-    ('Unit 2', 'Unit 2'),
+    ("Unit 1", "Unit 1"),
+    ("Unit 2", "Unit 2"),
 ]
 
 DEFAULT_STORE_UNITS_2 = [
-    ('Unit 3', 'Unit 3'),
-    ('Unit 4', 'Unit 4'),
-    ('Unit 5', 'Unit 5'),
+    ("Unit 3", "Unit 3"),
+    ("Unit 4", "Unit 4"),
+    ("Unit 5", "Unit 5"),
 ]
 
 DEFAULT_STORE_UNITS_3 = [
-    ('Unit 6', 'Unit 6'),
-    ('Unit 7', 'Unit 7'),
-    ('Unit 8', 'Unit 8'),
+    ("Unit 6", "Unit 6"),
+    ("Unit 7", "Unit 7"),
+    ("Unit 8", "Unit 8"),
 ]
 
 UPDATED_STORE_UNITS_1 = [
-    (src, 'UPDATED %s' % target)
-    for src, target in DEFAULT_STORE_UNITS_1
+    (src, "UPDATED %s" % target) for src, target in DEFAULT_STORE_UNITS_1
 ]
 
 UPDATED_STORE_UNITS_2 = [
-    (src, 'UPDATED %s' % target)
-    for src, target in DEFAULT_STORE_UNITS_2
+    (src, "UPDATED %s" % target) for src, target in DEFAULT_STORE_UNITS_2
 ]
 
 UPDATED_STORE_UNITS_3 = [
-    (src, 'UPDATED %s' % target)
-    for src, target in DEFAULT_STORE_UNITS_3
+    (src, "UPDATED %s" % target) for src, target in DEFAULT_STORE_UNITS_3
 ]
 
 DEFAULT_STORE_TEST_SETUP = [
@@ -79,106 +76,98 @@ DEFAULT_STORE_TEST_SETUP = [
 #       assertions.
 
 UPDATE_STORE_TESTS = OrderedDict()
-UPDATE_STORE_TESTS['min_empty'] = {
-    'store_revision': -1,
-    'units_in_file': [],
+UPDATE_STORE_TESTS["min_empty"] = {
+    "store_revision": -1,
+    "units_in_file": [],
 }
-UPDATE_STORE_TESTS['min_new_units'] = {
-    'store_revision': -1,
-    'units_in_file': DEFAULT_STORE_UNITS_3,
-}
-
-UPDATE_STORE_TESTS['old_empty'] = {
-    'store_revision': 'MID',
-    'units_in_file': [],
-}
-UPDATE_STORE_TESTS['old_subset_1'] = {
-    'store_revision': 'MID',
-    'units_in_file': UPDATED_STORE_UNITS_1,
-}
-UPDATE_STORE_TESTS['old_subset_2'] = {
-    'store_revision': 'MID',
-    'units_in_file': UPDATED_STORE_UNITS_2,
-}
-UPDATE_STORE_TESTS['old_same_updated'] = {
-    'store_revision': 'MID',
-    'units_in_file': UPDATED_STORE_UNITS_1 + UPDATED_STORE_UNITS_2,
+UPDATE_STORE_TESTS["min_new_units"] = {
+    "store_revision": -1,
+    "units_in_file": DEFAULT_STORE_UNITS_3,
 }
 
-UPDATE_STORE_TESTS['old_unobsolete'] = {
-    'setup': [
-        DEFAULT_STORE_UNITS_1,
-        DEFAULT_STORE_UNITS_2,
-        [],
-    ],
-    'store_revision': 'MID',
-    'units_in_file': UPDATED_STORE_UNITS_1 + UPDATED_STORE_UNITS_2,
+UPDATE_STORE_TESTS["old_empty"] = {
+    "store_revision": "MID",
+    "units_in_file": [],
+}
+UPDATE_STORE_TESTS["old_subset_1"] = {
+    "store_revision": "MID",
+    "units_in_file": UPDATED_STORE_UNITS_1,
+}
+UPDATE_STORE_TESTS["old_subset_2"] = {
+    "store_revision": "MID",
+    "units_in_file": UPDATED_STORE_UNITS_2,
+}
+UPDATE_STORE_TESTS["old_same_updated"] = {
+    "store_revision": "MID",
+    "units_in_file": UPDATED_STORE_UNITS_1 + UPDATED_STORE_UNITS_2,
 }
 
-UPDATE_STORE_TESTS['old_merge'] = {
-    'store_revision': 'MID',
-    'units_in_file': UPDATED_STORE_UNITS_1 + UPDATED_STORE_UNITS_2,
+UPDATE_STORE_TESTS["old_unobsolete"] = {
+    "setup": [DEFAULT_STORE_UNITS_1, DEFAULT_STORE_UNITS_2, []],
+    "store_revision": "MID",
+    "units_in_file": UPDATED_STORE_UNITS_1 + UPDATED_STORE_UNITS_2,
 }
 
-UPDATE_STORE_TESTS['max_empty'] = {
-    'store_revision': 'MAX',
-    'units_in_file': [],
+UPDATE_STORE_TESTS["old_merge"] = {
+    "store_revision": "MID",
+    "units_in_file": UPDATED_STORE_UNITS_1 + UPDATED_STORE_UNITS_2,
 }
-UPDATE_STORE_TESTS['max_subset'] = {
-    'store_revision': 'MAX',
-    'units_in_file': DEFAULT_STORE_UNITS_1,
+
+UPDATE_STORE_TESTS["max_empty"] = {
+    "store_revision": "MAX",
+    "units_in_file": [],
 }
-UPDATE_STORE_TESTS['max_same'] = {
-    'store_revision': 'MAX',
-    'units_in_file': DEFAULT_STORE_UNITS_1 + DEFAULT_STORE_UNITS_2,
+UPDATE_STORE_TESTS["max_subset"] = {
+    "store_revision": "MAX",
+    "units_in_file": DEFAULT_STORE_UNITS_1,
 }
-UPDATE_STORE_TESTS['max_new_units'] = {
-    'store_revision': 'MAX',
-    'units_in_file': (
+UPDATE_STORE_TESTS["max_same"] = {
+    "store_revision": "MAX",
+    "units_in_file": DEFAULT_STORE_UNITS_1 + DEFAULT_STORE_UNITS_2,
+}
+UPDATE_STORE_TESTS["max_new_units"] = {
+    "store_revision": "MAX",
+    "units_in_file": (
         DEFAULT_STORE_UNITS_1 + DEFAULT_STORE_UNITS_2 + DEFAULT_STORE_UNITS_3
     ),
 }
-UPDATE_STORE_TESTS['max_change_order'] = {
-    'store_revision': 'MAX',
-    'units_in_file': DEFAULT_STORE_UNITS_2 + DEFAULT_STORE_UNITS_1,
+UPDATE_STORE_TESTS["max_change_order"] = {
+    "store_revision": "MAX",
+    "units_in_file": DEFAULT_STORE_UNITS_2 + DEFAULT_STORE_UNITS_1,
 }
-UPDATE_STORE_TESTS['max_unobsolete'] = {
-    'setup': [
-        DEFAULT_STORE_UNITS_1 + DEFAULT_STORE_UNITS_2,
-        DEFAULT_STORE_UNITS_1,
-    ],
-    'store_revision': 'MAX',
-    'units_in_file': DEFAULT_STORE_UNITS_1 + DEFAULT_STORE_UNITS_2,
+UPDATE_STORE_TESTS["max_unobsolete"] = {
+    "setup": [DEFAULT_STORE_UNITS_1 + DEFAULT_STORE_UNITS_2, DEFAULT_STORE_UNITS_1],
+    "store_revision": "MAX",
+    "units_in_file": DEFAULT_STORE_UNITS_1 + DEFAULT_STORE_UNITS_2,
 }
 
 
-UPDATE_STORE_TESTS['max_obsolete'] = {
-    'setup': [
+UPDATE_STORE_TESTS["max_obsolete"] = {
+    "setup": [
         DEFAULT_STORE_UNITS_1,
         DEFAULT_STORE_UNITS_1 + DEFAULT_STORE_UNITS_2 + DEFAULT_STORE_UNITS_3,
     ],
-    'store_revision': 'MAX',
-    'units_in_file': DEFAULT_STORE_UNITS_1 + DEFAULT_STORE_UNITS_3,
+    "store_revision": "MAX",
+    "units_in_file": DEFAULT_STORE_UNITS_1 + DEFAULT_STORE_UNITS_3,
 }
 
 
 def _setup_store_test(store, member, test):
-    setup = test.get('setup', DEFAULT_STORE_TEST_SETUP)
+    setup = test.get("setup", DEFAULT_STORE_TEST_SETUP)
 
     for units in setup:
         store_revision = store.get_max_unit_revision()
         print("setup store: %s %s" % (store_revision, units))
-        update_store(store, store_revision=store_revision, units=units,
-                     user=member)
+        update_store(store, store_revision=store_revision, units=units, user=member)
         for unit in store.units:
-            comment = ("Set up unit(%s) with store_revision: %s"
-                       % (unit.source_f, store_revision))
+            comment = "Set up unit(%s) with store_revision: %s" % (
+                unit.source_f,
+                store_revision,
+            )
             _create_comment_on_unit(unit, member, comment)
 
-    store_revision = test['store_revision']
-    units_before_update = [
-        unit for unit in store.unit_set.all().order_by('index')
-    ]
+    store_revision = test["store_revision"]
+    units_before_update = [unit for unit in store.unit_set.all().order_by("index")]
 
     if store_revision == "MAX":
         store_revision = store.get_max_unit_revision()
@@ -188,10 +177,10 @@ def _setup_store_test(store, member, test):
         store_revision = sum(revisions) / len(revisions)
 
     return {
-        'store': store,
-        'units_in_file': test['units_in_file'],
-        'store_revision': store_revision,
-        'units_before_update': units_before_update,
+        "store": store,
+        "units_in_file": test["units_in_file"],
+        "store_revision": store_revision,
+        "units_before_update": units_before_update,
     }
 
 
@@ -200,18 +189,16 @@ def store_diff_tests(request, tp0, member):
     from tests.factories import StoreDBFactory
     from pootle_store.diff import StoreDiff
 
-    store = StoreDBFactory(
-        translation_project=tp0,
-        parent=tp0.directory)
+    store = StoreDBFactory(translation_project=tp0, parent=tp0.directory)
 
     test = _setup_store_test(store, member, UPDATE_STORE_TESTS[request.param])
-    test_store = create_store(units=test['units_in_file'])
+    test_store = create_store(units=test["units_in_file"])
 
     return {
-        'diff': StoreDiff(test['store'], test_store, test['store_revision']),
-        'store': test['store'],
-        'units_in_file': test['units_in_file'],
-        'store_revision': test['store_revision'],
+        "diff": StoreDiff(test["store"], test_store, test["store_revision"]),
+        "store": test["store"],
+        "units_in_file": test["units_in_file"],
+        "store_revision": test["store_revision"],
     }
 
 
@@ -222,9 +209,9 @@ def param_update_store_test(request, tp0, member, member2):
     store = StoreDBFactory(translation_project=tp0, parent=tp0.directory)
     test = _setup_store_test(store, member, UPDATE_STORE_TESTS[request.param])
     update_store(
-        test['store'],
-        units=test['units_in_file'],
-        store_revision=test['store_revision'],
+        test["store"],
+        units=test["units_in_file"],
+        store_revision=test["store_revision"],
         user=member2,
     )
     return test
@@ -238,21 +225,13 @@ def _require_store(tp, po_dir, name):
     parent_dir = tp.directory
     pootle_path = tp.pootle_path + name
 
-    file_path = (
-        tp.real_path
-        and os.path.join(po_dir, tp.real_path, name))
+    file_path = tp.real_path and os.path.join(po_dir, tp.real_path, name)
 
     try:
-        store = Store.objects.get(
-            pootle_path=pootle_path,
-            translation_project=tp,
-        )
+        store = Store.objects.get(pootle_path=pootle_path, translation_project=tp)
     except Store.DoesNotExist:
         store = Store.objects.create(
-            file=file_path,
-            parent=parent_dir,
-            name=name,
-            translation_project=tp,
+            file=file_path, parent=parent_dir, name=name, translation_project=tp,
         )
     if store.file.exists():
         if store.state < PARSED:
@@ -261,20 +240,14 @@ def _require_store(tp, po_dir, name):
     return store
 
 
-def _create_submission_and_suggestion(store, user,
-                                      units=None,
-                                      suggestion="SUGGESTION"):
+def _create_submission_and_suggestion(store, user, units=None, suggestion="SUGGESTION"):
 
     from pootle.core.models import Revision
 
     # Update store as user
     if units is None:
         units = [("Hello, world", "Hello, world UPDATED")]
-    update_store(
-        store,
-        units,
-        user=user,
-        store_revision=Revision.get() + 1)
+    update_store(store, units, user=user, store_revision=Revision.get() + 1)
 
     # Add a suggestion
     unit = store.units[0]
@@ -283,8 +256,7 @@ def _create_submission_and_suggestion(store, user,
 
 
 def _create_comment_on_unit(unit, user, comment):
-    from pootle_statistics.models import (Submission, SubmissionFields,
-                                          SubmissionTypes)
+    from pootle_statistics.models import Submission, SubmissionFields, SubmissionTypes
 
     unit.translator_comment = comment
     unit.commented_on = timezone.now()
@@ -306,8 +278,8 @@ def _create_comment_on_unit(unit, user, comment):
 
 def _mark_unit_fuzzy(unit, user):
     from pootle_store.constants import FUZZY
-    from pootle_statistics.models import (Submission, SubmissionFields,
-                                          SubmissionTypes)
+    from pootle_statistics.models import Submission, SubmissionFields, SubmissionTypes
+
     sub = Submission(
         creation_time=unit.commented_on,
         translation_project=unit.store.translation_project,
@@ -335,23 +307,25 @@ def _make_member_updates(store, member):
 @pytest.fixture
 def af_tutorial_po(po_directory, settings, afrikaans_tutorial):
     """Require the /af/tutorial/tutorial.po store."""
-    return _require_store(afrikaans_tutorial,
-                          settings.ZING_TRANSLATION_DIRECTORY, 'tutorial.po')
+    return _require_store(
+        afrikaans_tutorial, settings.ZING_TRANSLATION_DIRECTORY, "tutorial.po"
+    )
 
 
 @pytest.fixture
 def en_tutorial_po(po_directory, settings, english_tutorial):
     """Require the /en/tutorial/tutorial.po store."""
-    return _require_store(english_tutorial,
-                          settings.ZING_TRANSLATION_DIRECTORY, 'tutorial.po')
+    return _require_store(
+        english_tutorial, settings.ZING_TRANSLATION_DIRECTORY, "tutorial.po"
+    )
 
 
 @pytest.fixture
 def en_tutorial_po_member_updated(po_directory, settings, english_tutorial, member):
     """Require the /en/tutorial/tutorial.po store."""
-    store = _require_store(english_tutorial,
-                           settings.ZING_TRANSLATION_DIRECTORY,
-                           'tutorial.po')
+    store = _require_store(
+        english_tutorial, settings.ZING_TRANSLATION_DIRECTORY, "tutorial.po"
+    )
     _make_member_updates(store, member)
     return store
 
@@ -359,16 +333,17 @@ def en_tutorial_po_member_updated(po_directory, settings, english_tutorial, memb
 @pytest.fixture
 def it_tutorial_po(po_directory, settings, italian_tutorial):
     """Require the /it/tutorial/tutorial.po store."""
-    return _require_store(italian_tutorial,
-                          settings.ZING_TRANSLATION_DIRECTORY, 'tutorial.po')
+    return _require_store(
+        italian_tutorial, settings.ZING_TRANSLATION_DIRECTORY, "tutorial.po"
+    )
 
 
 @pytest.fixture
 def issue_2401_po(po_directory, settings, afrikaans_tutorial):
     """Require the /af/tutorial/issue_2401.po store."""
-    return _require_store(afrikaans_tutorial,
-                          settings.ZING_TRANSLATION_DIRECTORY,
-                          'issue_2401.po')
+    return _require_store(
+        afrikaans_tutorial, settings.ZING_TRANSLATION_DIRECTORY, "issue_2401.po"
+    )
 
 
 @pytest.fixture
@@ -379,13 +354,12 @@ def store_po(tp0):
     from tests.factories import StoreDBFactory
 
     tp = TranslationProject.objects.get(
-        project__code="project0",
-        language__code="language0")
+        project__code="project0", language__code="language0"
+    )
 
     store = StoreDBFactory(
-        parent=tp.directory,
-        translation_project=tp,
-        name="test_store.po")
+        parent=tp.directory, translation_project=tp, name="test_store.po"
+    )
     return store
 
 
@@ -402,13 +376,14 @@ def diffable_stores(complex_po, request):
     from pootle_translationproject.models import TranslationProject
 
     tp = TranslationProject.objects.get(
-        language=complex_po.translation_project.language,
-        project__code="project1")
+        language=complex_po.translation_project.language, project__code="project1"
+    )
     other_po = Store.objects.create(
         name="complex.po",
         translation_project=tp,
         parent=tp.directory,
-        pootle_path=complex_po.pootle_path.replace("project0", "project1"))
+        pootle_path=complex_po.pootle_path.replace("project0", "project1"),
+    )
     other_po.update(other_po.deserialize(complex_po.serialize()))
 
     return complex_po, other_po
@@ -420,7 +395,6 @@ def dummy_store_structure_syncer():
     from django.utils.functional import cached_property
 
     class DummyUnit(object):
-
         def __init__(self, unit, expected):
             self.unit = unit
             self.expected = expected
@@ -430,7 +404,6 @@ def dummy_store_structure_syncer():
             return self.unit, unit_class
 
     class DummyDiskStore(object):
-
         def __init__(self, expected):
             self.expected = expected
             self.UnitClass = expected["unit_class"]
@@ -446,7 +419,6 @@ def dummy_store_structure_syncer():
             assert unit_class == self.UnitClass
 
     class DummyStoreSyncer(StoreSyncer):
-
         def __init__(self, *args, **kwargs):
             self.expected = kwargs.pop("expected")
             super(DummyStoreSyncer, self).__init__(*args, **kwargs)
@@ -474,7 +446,6 @@ def dummy_store_syncer_units():
     from django.utils.functional import cached_property
 
     class DummyStore(object):
-
         def __init__(self, expected):
             self.expected = expected
 
@@ -482,15 +453,13 @@ def dummy_store_syncer_units():
             return uids
 
     class DummyDiskStore(object):
-
         def __init__(self, expected):
             self.expected = expected
 
         def findid(self, uid):
-            return self.expected['disk_ids'].get(uid)
+            return self.expected["disk_ids"].get(uid)
 
     class DummyStoreSyncer(StoreSyncer):
-
         def __init__(self, *args, **kwargs):
             self.expected = kwargs.pop("expected")
             super(DummyStoreSyncer, self).__init__(*args, **kwargs)
@@ -513,7 +482,6 @@ def dummy_store_syncer():
     from django.utils.functional import cached_property
 
     class DummyDiskStore(object):
-
         def __init__(self, expected):
             self.expected = expected
 
@@ -521,7 +489,6 @@ def dummy_store_syncer():
             return self.expected["disk_ids"]
 
     class DummyStoreSyncer(StoreSyncer):
-
         def __init__(self, *args, **kwargs):
             self.expected = kwargs.pop("expected")
             super(DummyStoreSyncer, self).__init__(*args, **kwargs)
@@ -567,7 +534,8 @@ def dummy_store_syncer():
         obsolete_units=["obsolete", "units"],
         new_units=["new", "units"],
         common_units=["common", "units"],
-        changes=["some", "changes"])
+        changes=["some", "changes"],
+    )
     return DummyStoreSyncer, expected
 
 
@@ -582,9 +550,8 @@ def ordered_po(test_fs, tp0):
     from tests.factories import StoreDBFactory
 
     store = StoreDBFactory(
-        name="ordered.po",
-        translation_project=tp0,
-        parent=tp0.directory)
+        name="ordered.po", translation_project=tp0, parent=tp0.directory
+    )
     with test_fs.open("data/po/ordered.po", "rb") as src:
         store.update(store.deserialize(src.read()))
     return store
@@ -594,17 +561,15 @@ def ordered_po(test_fs, tp0):
 def numbered_po(test_fs, project0_disk):
     """Create a store with numbered units."""
     from tests.factories import (
-        LanguageDBFactory, StoreDBFactory, TranslationProjectFactory,
+        LanguageDBFactory,
+        StoreDBFactory,
+        TranslationProjectFactory,
     )
 
-    tp = TranslationProjectFactory(
-        project=project0_disk,
-        language=LanguageDBFactory()
-    )
+    tp = TranslationProjectFactory(project=project0_disk, language=LanguageDBFactory())
     store = StoreDBFactory(
-        name="numbered.po",
-        translation_project=tp,
-        parent=tp.directory)
+        name="numbered.po", translation_project=tp, parent=tp.directory
+    )
     with test_fs.open("data/po/1234.po", "rb") as src:
         store.update(store.deserialize(src.read()))
     return store

@@ -11,14 +11,15 @@ from subprocess import call
 import pytest
 
 
-pytestmark = pytest.mark.skipif(call(['which', 'pootle']) != 0,
-                                reason='not installed via setup.py')
+pytestmark = pytest.mark.skipif(
+    call(["which", "pootle"]) != 0, reason="not installed via setup.py"
+)
 
 
 @pytest.mark.cmd
 def test_pootle_noargs(capfd):
     """Pootle no args should give help"""
-    call(['pootle'])
+    call(["pootle"])
     out, err = capfd.readouterr()
     assert "Type 'pootle help <subcommand>'" in out
 
@@ -26,17 +27,17 @@ def test_pootle_noargs(capfd):
 @pytest.mark.cmd
 def test_pootle_version(capfd):
     """Display Pootle version info"""
-    call(['pootle', '--version'])
+    call(["pootle", "--version"])
     out, err = capfd.readouterr()
-    assert 'Pootle' in err
-    assert 'Django' in err
-    assert 'Translate Toolkit' in err
+    assert "Pootle" in err
+    assert "Django" in err
+    assert "Translate Toolkit" in err
 
 
 @pytest.mark.cmd
 def test_pootle_init(capfd):
     """pootle init --help"""
-    call(['pootle', 'init', '--help'])
+    call(["pootle", "init", "--help"])
     out, err = capfd.readouterr()
     assert "--db" in out
 
@@ -45,6 +46,6 @@ def test_pootle_init(capfd):
 def test_pootle_init_db_sqlite(capfd, tmpdir):
     """pootle init --help"""
     test_conf_file = tmpdir.join("pootle.conf")
-    call(['pootle', 'init', '--db=sqlite', '--config=%s' % test_conf_file])
+    call(["pootle", "init", "--db=sqlite", "--config=%s" % test_conf_file])
     out, err = capfd.readouterr()
     assert "Configuration file created" in out

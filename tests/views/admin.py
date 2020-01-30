@@ -15,7 +15,7 @@ from pootle_language.models import Language
 from pootle_project.models import Project
 
 
-ADMIN_URL = reverse_lazy('pootle-admin')
+ADMIN_URL = reverse_lazy("pootle-admin")
 
 
 @pytest.mark.django_db
@@ -28,7 +28,7 @@ def test_admin_not_logged_in(client):
 @pytest.mark.django_db
 def test_admin_regular_user(client, default):
     """Checks regular users cannot access the admin site."""
-    client.login(username=default.username, password='')
+    client.login(username=default.username, password="")
     response = client.get(ADMIN_URL)
     assert response.status_code == 403
 
@@ -47,9 +47,7 @@ def test_admin_view_projects(client, request_users, english):
 
     client.force_login(user)
 
-    response = client.get(
-        reverse(
-            "pootle-admin-projects"))
+    response = client.get(reverse("pootle-admin-projects"))
 
     if not user.is_superuser:
         assert response.status_code == 403
@@ -57,11 +55,12 @@ def test_admin_view_projects(client, request_users, english):
     languages = Language.objects.all()
     language_choices = [(lang.id, str(lang)) for lang in languages]
     expected = {
-        'page': 'admin-projects',
-        'form_choices': {
-            'checkstyle': Project.checker_choices,
-            'source_language': language_choices,
-            'defaults': {
-                'source_language': english.id}}}
+        "page": "admin-projects",
+        "form_choices": {
+            "checkstyle": Project.checker_choices,
+            "source_language": language_choices,
+            "defaults": {"source_language": english.id},
+        },
+    }
     for k, v in expected.items():
         assert response.context_data[k] == v

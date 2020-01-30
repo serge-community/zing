@@ -45,9 +45,7 @@ def get_user_by_email(email):
 
 
 def write_stdout(start_msg, end_msg="DONE\n", fail_msg="FAILED\n"):
-
     def class_wrapper(f):
-
         @functools.wraps(f)
         def method_wrapper(self, *args, **kwargs):
             sys.stdout.write(start_msg % self.__dict__)
@@ -58,12 +56,13 @@ def write_stdout(start_msg, end_msg="DONE\n", fail_msg="FAILED\n"):
                 logger.exception(e)
                 raise e
             sys.stdout.write(end_msg % self.__dict__)
+
         return method_wrapper
+
     return class_wrapper
 
 
 class UserMerger(object):
-
     def __init__(self, src_user, target_user):
         """Purges src_user from site reverting any changes that they have made.
 
@@ -73,9 +72,10 @@ class UserMerger(object):
         self.src_user = src_user
         self.target_user = target_user
 
-    @write_stdout("Merging user: "
-                  "%(src_user)s --> %(target_user)s...\n",
-                  "User merged: %(src_user)s --> %(target_user)s \n")
+    @write_stdout(
+        "Merging user: " "%(src_user)s --> %(target_user)s...\n",
+        "User merged: %(src_user)s --> %(target_user)s \n",
+    )
     def merge(self):
         """Merges one user to another.
 
@@ -91,29 +91,29 @@ class UserMerger(object):
         self.merge_suggestions()
         self.merge_reviews()
 
-    @write_stdout(" * Merging units comments: "
-                  "%(src_user)s --> %(target_user)s... ")
+    @write_stdout(" * Merging units comments: " "%(src_user)s --> %(target_user)s... ")
     def merge_commented(self):
         """Merge commented_by attribute on units
         """
         self.src_user.commented.update(commented_by=self.target_user)
 
-    @write_stdout(" * Merging units reviewed: "
-                  "%(src_user)s --> %(target_user)s... ")
+    @write_stdout(" * Merging units reviewed: " "%(src_user)s --> %(target_user)s... ")
     def merge_reviewed(self):
         """Merge reviewed_by attribute on units
         """
         self.src_user.reviewed.update(reviewed_by=self.target_user)
 
-    @write_stdout(" * Merging suggestion reviews: "
-                  "%(src_user)s --> %(target_user)s... ")
+    @write_stdout(
+        " * Merging suggestion reviews: " "%(src_user)s --> %(target_user)s... "
+    )
     def merge_reviews(self):
         """Merge reviewer attribute on suggestions
         """
         self.src_user.reviews.update(reviewer=self.target_user)
 
-    @write_stdout(" * Merging remaining submissions: "
-                  "%(src_user)s --> %(target_user)s... ")
+    @write_stdout(
+        " * Merging remaining submissions: " "%(src_user)s --> %(target_user)s... "
+    )
     def merge_submissions(self):
         """Merge submitter attribute on submissions
         """
@@ -127,15 +127,15 @@ class UserMerger(object):
         # Update submitter on submissions
         self.src_user.submission_set.update(submitter=self.target_user)
 
-    @write_stdout(" * Merging units submitted_by: "
-                  "%(src_user)s --> %(target_user)s... ")
+    @write_stdout(
+        " * Merging units submitted_by: " "%(src_user)s --> %(target_user)s... "
+    )
     def merge_submitted(self):
         """Merge submitted_by attribute on units
         """
         self.src_user.submitted.update(submitted_by=self.target_user)
 
-    @write_stdout(" * Merging suggestions: "
-                  "%(src_user)s --> %(target_user)s... ")
+    @write_stdout(" * Merging suggestions: " "%(src_user)s --> %(target_user)s... ")
     def merge_suggestions(self):
         """Merge user attribute on suggestions
         """
@@ -144,7 +144,6 @@ class UserMerger(object):
 
 
 class UserPurger(object):
-
     def __init__(self, user):
         """Purges user from site reverting any changes that they have made.
 
@@ -210,7 +209,7 @@ class UserPurger(object):
             if comments.exists():
                 # If there are previous comments by others update the
                 # translator_comment, commented_by, and commented_on
-                last_comment = comments.latest('pk')
+                last_comment = comments.latest("pk")
                 unit.translator_comment = last_comment.new_value
                 unit.commented_by_id = last_comment.submitter_id
                 unit.commented_on = last_comment.creation_time
@@ -281,10 +280,9 @@ class UserPurger(object):
             review.delete()
 
         for unit in self.user.reviewed.iterator():
-            reviews = unit.get_suggestion_reviews().exclude(
-                submitter=self.user)
+            reviews = unit.get_suggestion_reviews().exclude(submitter=self.user)
             if reviews.exists():
-                previous_review = reviews.latest('pk')
+                previous_review = reviews.latest("pk")
                 unit.reviewed_by_id = previous_review.submitter_id
                 unit.reviewed_on = previous_review.creation_time
                 logger.debug("Unit reviewed_by reverted: %s", repr(unit))
@@ -310,16 +308,15 @@ class UserPurger(object):
 
             # We have to get latest by pk as on mysql precision is not to
             # microseconds - so creation_time can be ambiguous
-            if submission != unit.get_state_changes().latest('pk'):
+            if submission != unit.get_state_changes().latest("pk"):
                 # If the unit has been changed more recently we don't need to
                 # revert the unit state.
                 submission.delete()
                 return
             submission.delete()
-            other_submissions = (unit.get_state_changes()
-                                     .exclude(submitter=self.user))
+            other_submissions = unit.get_state_changes().exclude(submitter=self.user)
             if other_submissions.exists():
-                new_state = other_submissions.latest('pk').new_value
+                new_state = other_submissions.latest("pk").new_value
             else:
                 new_state = UNTRANSLATED
             if new_state != unit.state:
@@ -367,9 +364,11 @@ def verify_user(user):
             raise ValueError("User '%s' is already verified" % user.username)
 
     sync_user_email_addresses(user)
-    email_address = (EmailAddress.objects
-                     .filter(user=user, email__iexact=user.email)
-                     .order_by("primary")).first()
+    email_address = (
+        EmailAddress.objects.filter(user=user, email__iexact=user.email).order_by(
+            "primary"
+        )
+    ).first()
     email_address.verified = True
     email_address.primary = True
     email_address.save()

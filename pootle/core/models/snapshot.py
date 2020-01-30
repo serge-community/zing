@@ -19,37 +19,48 @@ from pootle.core.utils.list import flatten
 # List of keys to filter out from a response context
 BLACKLISTED_KEYS = [
     # Django template language-specific context
-    'block', 'forloop', 'False', 'True', 'None',
+    "block",
+    "forloop",
+    "False",
+    "True",
+    "None",
     # More Django stuff
-    'request', 'perms', 'csrf_token',
+    "request",
+    "perms",
+    "csrf_token",
     # i18n context
-    'LANGUAGES', 'LANGUAGE_BIDI', 'LANGUAGE_CODE',
+    "LANGUAGES",
+    "LANGUAGE_BIDI",
+    "LANGUAGE_CODE",
     # Static and settings context
-    'MEDIA_URL', 'STATIC_URL',
+    "MEDIA_URL",
+    "STATIC_URL",
     # Zing context processors
-    'settings', 'custom', 'display_agreement',
-    'ALL_LANGUAGES', 'ALL_PROJECTS', 'SOCIAL_AUTH_PROVIDERS',
-
+    "settings",
+    "custom",
+    "display_agreement",
+    "ALL_LANGUAGES",
+    "ALL_PROJECTS",
+    "SOCIAL_AUTH_PROVIDERS",
     # These context data keys are conflicting because they are auto-added by
     # Django after saving a model (`auto_now_add=True`), and hence they will
     # always differ across test runs. Until we find a better solution, we
     # need to filter them out here.
-    'lastupdated',
+    "lastupdated",
     # Taken out due to its dynamic nature (#177)
-    'top_scorers',
+    "top_scorers",
     # Taken out until we are able to `reset_sequences` (pytest-django/#308)
-    'id',
-    'due_date_id',
+    "id",
+    "due_date_id",
     # Taken out because the order of render attributes is not deterministic
-    'search_form',
+    "search_form",
 ]
 
 
 class Snapshot(object):
-
     def __init__(self, ctx_name, data_dir=None, generate=False, **kwargs):
-        self.filename = '%s.json' % ctx_name
-        self.data_dir = data_dir or ''
+        self.filename = "%s.json" % ctx_name
+        self.data_dir = data_dir or ""
         self.generate = generate
 
     @cached_property
@@ -80,7 +91,8 @@ class Snapshot(object):
         # have a `ContextList`?
         elif isinstance(data, dict) or isinstance(data, ContextList):
             return {
-                key: self.clean(data[key]) for key in data.keys()
+                key: self.clean(data[key])
+                for key in data.keys()
                 if key not in BLACKLISTED_KEYS
             }
         elif isinstance(data, list):
@@ -99,8 +111,8 @@ class Snapshot(object):
             pass
 
         # use binary mode not to convert \n to OS-specific newlines;
-        with open(self.filepath, 'wb') as outfile:
-            outfile.write(ctx_data.encode('utf-8'))
+        with open(self.filepath, "wb") as outfile:
+            outfile.write(ctx_data.encode("utf-8"))
 
     def assert_matches(self, ctx_data):
         """Asserts whether `ctx_data` matches the reference snapshot.
@@ -121,9 +133,7 @@ class Snapshot(object):
             return
 
         if self.reference is None:
-            raise AssertionError(
-                'Snapshot file "%s" does not exist.' % self.filepath
-            )
+            raise AssertionError('Snapshot file "%s" does not exist.' % self.filepath)
 
         assert self.reference == ctx_data
 
@@ -157,17 +167,26 @@ class SnapshotStack(object):
     @property
     def ctx_name(self):
         # Disallow leading forward slashes
-        stack_items = [_f for _f in [
-            item.replace('/', '', 1) if item.startswith('/') else item
-            for item in flatten(self.stack)
-        ] if _f]
-        return ''.join([
-            '%s%s' % (
-                '' if i == 0 or i != 0 and stack_items[i-1].endswith('/') else '.',
-                item
-            )
-            for i, item in enumerate(stack_items)
-        ])
+        stack_items = [
+            _f
+            for _f in [
+                item.replace("/", "", 1) if item.startswith("/") else item
+                for item in flatten(self.stack)
+            ]
+            if _f
+        ]
+        return "".join(
+            [
+                "%s%s"
+                % (
+                    ""
+                    if i == 0 or i != 0 and stack_items[i - 1].endswith("/")
+                    else ".",
+                    item,
+                )
+                for i, item in enumerate(stack_items)
+            ]
+        )
 
     def push(self, value):
         self.stack.append(value)

@@ -12,8 +12,7 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext as _
 
-from pootle_app.models.permissions import (check_permission,
-                                           get_matching_permissions)
+from pootle_app.models.permissions import check_permission, get_matching_permissions
 
 from .models import Unit
 
@@ -25,32 +24,31 @@ def get_permission_message(permission_code):
     default_message = _("Insufficient rights to access this directory.")
 
     return {
-        'suggest': _('Insufficient rights to access suggestion mode.'),
-        'translate': _('Insufficient rights to access translation mode.'),
-        'review': _('Insufficient rights to access review mode.'),
+        "suggest": _("Insufficient rights to access suggestion mode."),
+        "translate": _("Insufficient rights to access translation mode."),
+        "review": _("Insufficient rights to access review mode."),
     }.get(permission_code, default_message)
 
 
 def get_unit_context(permission_code=None):
-
     def wrap_f(f):
-
         @wraps(f)
         def decorated_f(request, uid, *args, **kwargs):
             unit = get_object_or_404(
-                Unit.objects.select_related("store__translation_project",
-                                            "store__parent"),
+                Unit.objects.select_related(
+                    "store__translation_project", "store__parent"
+                ),
                 id=uid,
             )
 
             tp = unit.store.translation_project
             request.translation_project = tp
 
-            request.permissions = get_matching_permissions(request.user,
-                                                           tp.directory)
+            request.permissions = get_matching_permissions(request.user, tp.directory)
 
-            if (permission_code is not None and
-                not check_permission(permission_code, request)):
+            if permission_code is not None and not check_permission(
+                permission_code, request
+            ):
                 raise PermissionDenied(get_permission_message(permission_code))
 
             request.unit = unit

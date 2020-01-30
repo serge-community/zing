@@ -22,14 +22,23 @@ from accounts.models import User
 
 class UserAPIView(APIView):
     model = User
-    restrict_to_methods = ('get', 'delete',)
+    restrict_to_methods = (
+        "get",
+        "delete",
+    )
     page_size = 10
-    fields = ('username', 'full_name',)
+    fields = (
+        "username",
+        "full_name",
+    )
 
 
 class WriteableUserAPIView(APIView):
     model = User
-    fields = ('username', 'email',)
+    fields = (
+        "username",
+        "email",
+    )
 
 
 class UserSettingsForm(forms.ModelForm):
@@ -38,13 +47,13 @@ class UserSettingsForm(forms.ModelForm):
 
     class Meta(object):
         model = User
-        fields = ('username', 'password', 'full_name')
+        fields = ("username", "password", "full_name")
         widgets = {
-            'password': forms.PasswordInput(),
+            "password": forms.PasswordInput(),
         }
 
     def clean_password(self):
-        return self.cleaned_data['password'].upper()
+        return self.cleaned_data["password"].upper()
 
 
 class WriteableUserSettingsAPIView(APIView):
@@ -57,14 +66,14 @@ def test_apiview_invalid_method(rf):
     view = UserAPIView.as_view()
 
     # Forbidden method
-    request = create_api_request(rf, 'post')
+    request = create_api_request(rf, "post")
     response = view(request)
 
     # "Method not allowed" if the method is not within the restricted list
     assert response.status_code == 405
 
     # Non-existent method
-    request = create_api_request(rf, 'patch')
+    request = create_api_request(rf, "patch")
     response = view(request)
     assert response.status_code == 405
 
@@ -73,7 +82,7 @@ def test_apiview_invalid_method(rf):
 def test_apiview_get_single(rf):
     """Tests retrieving a single object using the API."""
     view = UserAPIView.as_view()
-    user = UserFactory.create(username='foo')
+    user = UserFactory.create(username="foo")
 
     request = create_api_request(rf)
     response = view(request, id=user.id)
@@ -84,11 +93,11 @@ def test_apiview_get_single(rf):
     # ...and JSON-encoded, so should properly parse it
     response_data = json.loads(response.content)
     assert isinstance(response_data, dict)
-    assert response_data['username'] == 'foo'
-    assert 'email' not in response_data
+    assert response_data["username"] == "foo"
+    assert "email" not in response_data
 
     # Non-existent IDs should return 404
-    response = view(request, id='777')
+    response = view(request, id="777")
     assert response.status_code == 404
 
 
@@ -96,7 +105,7 @@ def test_apiview_get_single(rf):
 def test_apiview_get_multiple(rf, no_extra_users):
     """Tests retrieving multiple objects using the API."""
     view = UserAPIView.as_view()
-    UserFactory.create(username='foo')
+    UserFactory.create(username="foo")
 
     request = create_api_request(rf)
 
@@ -106,9 +115,9 @@ def test_apiview_get_multiple(rf, no_extra_users):
     # Response should contain a 1-item list
     assert response.status_code == 200
     assert isinstance(response_data, dict)
-    assert 'count' in response_data
-    assert 'models' in response_data
-    assert len(response_data['models']) == User.objects.count()
+    assert "count" in response_data
+    assert "models" in response_data
+    assert len(response_data["models"]) == User.objects.count()
 
     # Let's add more users
     UserFactory.create_batch(5)
@@ -118,9 +127,9 @@ def test_apiview_get_multiple(rf, no_extra_users):
 
     assert response.status_code == 200
     assert isinstance(response_data, dict)
-    assert 'count' in response_data
-    assert 'models' in response_data
-    assert len(response_data['models']) == User.objects.count()
+    assert "count" in response_data
+    assert "models" in response_data
+    assert len(response_data["models"]) == User.objects.count()
 
     # Let's add even more users to test pagination
     UserFactory.create_batch(5)
@@ -131,20 +140,20 @@ def test_apiview_get_multiple(rf, no_extra_users):
     # First page is full
     assert response.status_code == 200
     assert isinstance(response_data, dict)
-    assert 'count' in response_data
-    assert 'models' in response_data
-    assert len(response_data['models']) == 10
+    assert "count" in response_data
+    assert "models" in response_data
+    assert len(response_data["models"]) == 10
 
-    request = create_api_request(rf, url='/?p=2')
+    request = create_api_request(rf, url="/?p=2")
     response = view(request)
     response_data = json.loads(response.content)
 
     # Second page constains a single user
     assert response.status_code == 200
     assert isinstance(response_data, dict)
-    assert 'count' in response_data
-    assert 'models' in response_data
-    assert len(response_data['models']) == User.objects.count() - 10
+    assert "count" in response_data
+    assert "models" in response_data
+    assert len(response_data["models"]) == User.objects.count() - 10
 
 
 @pytest.mark.django_db
@@ -153,71 +162,71 @@ def test_apiview_post(rf):
     view = WriteableUserAPIView.as_view()
 
     # Malformed request, only JSON-encoded data is understood
-    request = create_api_request(rf, 'post')
+    request = create_api_request(rf, "post")
     response = view(request)
     response_data = json.loads(response.content)
 
     assert response.status_code == 400
-    assert 'msg' in response_data
-    assert response_data['msg'] == 'Invalid JSON data'
+    assert "msg" in response_data
+    assert response_data["msg"] == "Invalid JSON data"
 
     # Not sending all required data fails validation
     missing_data = {
-        'not_a_field': 'not a value',
+        "not_a_field": "not a value",
     }
-    request = create_api_request(rf, 'post', data=missing_data)
+    request = create_api_request(rf, "post", data=missing_data)
     response = view(request)
     response_data = json.loads(response.content)
 
     assert response.status_code == 400
-    assert 'errors' in response_data
+    assert "errors" in response_data
 
     # Sending all required data should create a new user
     data = {
-        'username': 'foo',
-        'email': 'foo@bar.tld',
+        "username": "foo",
+        "email": "foo@bar.tld",
     }
-    request = create_api_request(rf, 'post', data=data)
+    request = create_api_request(rf, "post", data=data)
     response = view(request)
     response_data = json.loads(response.content)
 
     assert response.status_code == 200
-    assert response_data['username'] == 'foo'
+    assert response_data["username"] == "foo"
 
-    user = User.objects.latest('id')
-    assert user.username == 'foo'
+    user = User.objects.latest("id")
+    assert user.username == "foo"
 
     # Trying to add the same user again should fail validation
     response = view(request)
     response_data = json.loads(response.content)
 
     assert response.status_code == 400
-    assert 'errors' in response_data
+    assert "errors" in response_data
 
 
 @pytest.mark.django_db
 def test_apiview_put(rf):
     """Tests updating an object using the API."""
     view = WriteableUserAPIView.as_view()
-    user = UserFactory.create(username='foo')
+    user = UserFactory.create(username="foo")
 
     # Malformed request, only JSON-encoded data is understood
-    request = create_api_request(rf, 'put')
+    request = create_api_request(rf, "put")
     response = view(request, id=user.id)
     response_data = json.loads(response.content)
 
     assert response.status_code == 400
-    assert response_data['msg'] == 'Invalid JSON data'
+    assert response_data["msg"] == "Invalid JSON data"
 
     # Update a field's data
-    new_username = 'foo_new'
+    new_username = "foo_new"
     update_data = {
-        'username': new_username,
+        "username": new_username,
     }
-    request = create_api_request(rf, 'put', data=update_data)
+    request = create_api_request(rf, "put", data=update_data)
 
     # Requesting unknown resources is a 404
-    response = view(request, id='11')
+    response = view(request, id="11")
     assert response.status_code == 404
 
     # All fields must be submitted
@@ -225,34 +234,30 @@ def test_apiview_put(rf):
     response_data = json.loads(response.content)
 
     assert response.status_code == 400
-    assert 'errors' in response_data
+    assert "errors" in response_data
 
     # Specify missing fields
-    update_data.update({
-        'email': user.email,
-    })
-    request = create_api_request(rf, 'put', data=update_data)
+    update_data.update({"email": user.email})
+    request = create_api_request(rf, "put", data=update_data)
 
     response = view(request, id=user.id)
     response_data = json.loads(response.content)
 
     # Now all is ok
     assert response.status_code == 200
-    assert response_data['username'] == new_username
+    assert response_data["username"] == new_username
     # Email shouldn't have changed
-    assert response_data['email'] == user.email
+    assert response_data["email"] == user.email
 
     # View with a custom form
-    update_data.update({
-        'password': 'd34db33f',
-    })
+    update_data.update({"password": "d34db33f"})
     view = WriteableUserSettingsAPIView.as_view()
-    request = create_api_request(rf, 'put', data=update_data)
+    request = create_api_request(rf, "put", data=update_data)
 
     response = view(request, id=user.id)
     response_data = json.loads(response.content)
     assert response.status_code == 200
-    assert 'password' not in response_data
+    assert "password" not in response_data
 
 
 @pytest.mark.django_db
@@ -260,12 +265,12 @@ def test_apiview_put_multiple(rf):
     """Tests updating an object using the API."""
     view = WriteableUserAPIView.as_view()
 
-    request = create_api_request(rf, 'put')
+    request = create_api_request(rf, "put")
     response = view(request)
     response_data = json.loads(response.content)
 
     assert response.status_code == 405
-    assert response_data['msg'] == 'PUT is not supported for collections'
+    assert response_data["msg"] == "PUT is not supported for collections"
 
 
 @pytest.mark.django_db
@@ -273,10 +278,10 @@ def test_apiview_delete(rf):
     """Tests deleting an object using the API."""
     view = UserAPIView.as_view()
 
-    user = UserFactory.create(username='foo')
+    user = UserFactory.create(username="foo")
 
     # Delete is not supported for collections
-    request = create_api_request(rf, 'delete')
+    request = create_api_request(rf, "delete")
     response = view(request)
 
     assert response.status_code == 405
@@ -301,38 +306,39 @@ def test_apiview_search(rf):
     view = UserAPIView.as_view()
 
     # Let's create some users to search for
-    UserFactory.create(username='foo', full_name='Foo Bar')
-    UserFactory.create(username='foobar', full_name='Foo Bar')
-    UserFactory.create(username='foobarbaz', full_name='Foo Bar')
+    UserFactory.create(username="foo", full_name="Foo Bar")
+    UserFactory.create(username="foobar", full_name="Foo Bar")
+    UserFactory.create(username="foobarbaz", full_name="Foo Bar")
 
     # `q=bar` should match 3 users (full names match)
-    request = create_api_request(rf, url='/?q=bar')
+    request = create_api_request(rf, url="/?q=bar")
     response = view(request)
     response_data = json.loads(response.content)
 
     assert response.status_code == 200
-    assert len(response_data['models']) == 3
+    assert len(response_data["models"]) == 3
 
     # `q=baz` should match 1 user
-    request = create_api_request(rf, url='/?q=baz')
+    request = create_api_request(rf, url="/?q=baz")
     response = view(request)
     response_data = json.loads(response.content)
 
     assert response.status_code == 200
-    assert len(response_data['models']) == 1
+    assert len(response_data["models"]) == 1
 
     # Searches are case insensitive; `q=BaZ` should match 1 user
-    request = create_api_request(rf, url='/?q=BaZ')
+    request = create_api_request(rf, url="/?q=BaZ")
     response = view(request)
     response_data = json.loads(response.content)
 
     assert response.status_code == 200
-    assert len(response_data['models']) == 1
+    assert len(response_data["models"]) == 1
 
 
 @pytest.mark.django_db
 def test_apiview_check_permissions(rf):
     """Tests permission handlers which trigger a 403."""
+
     class DisallowPermissionClass(object):
         def has_permission(self, request, view):
             return False
@@ -350,16 +356,16 @@ def test_apiview_check_permissions(rf):
     UserAPIView.permission_classes = [DisallowPermissionClass]
     view = UserAPIView.as_view()
 
-    request = create_api_request(rf, url='/')
+    request = create_api_request(rf, url="/")
     response = view(request)
     response_data = json.loads(response.content)
     assert response.status_code == 403
-    assert 'msg' in response_data
-    assert response_data['msg'] == 'Permission denied.'
+    assert "msg" in response_data
+    assert response_data["msg"] == "Permission denied."
 
     UserAPIView.permission_classes = [AllowPermissionClass]
     view = UserAPIView.as_view()
-    request = create_api_request(rf, url='/')
+    request = create_api_request(rf, url="/")
     response = view(request)
     response_data = json.loads(response.content)
     assert response.status_code == 200
@@ -368,6 +374,7 @@ def test_apiview_check_permissions(rf):
 @pytest.mark.django_db
 def test_apiview_check_object_permissions(rf):
     """Tests permission handlers which trigger a 403."""
+
     class DisallowObjectPermissionClass(object):
         def has_permission(self, request, view):
             return True
@@ -382,21 +389,21 @@ def test_apiview_check_object_permissions(rf):
         def has_object_permission(self, request, view, obj):
             return True
 
-    user = UserFactory.create(username='foo')
+    user = UserFactory.create(username="foo")
 
     WriteableUserAPIView.permission_classes = [DisallowObjectPermissionClass]
     view = WriteableUserAPIView.as_view()
 
-    request = create_api_request(rf, method='delete')
+    request = create_api_request(rf, method="delete")
     response = view(request, id=user.id)
     response_data = json.loads(response.content)
     assert response.status_code == 403
-    assert 'msg' in response_data
-    assert response_data['msg'] == 'Permission denied.'
+    assert "msg" in response_data
+    assert response_data["msg"] == "Permission denied."
 
     WriteableUserAPIView.permission_classes = [AllowObjectPermissionClass]
     view = WriteableUserAPIView.as_view()
-    request = create_api_request(rf, method='delete')
+    request = create_api_request(rf, method="delete")
     response = view(request, id=user.id)
     response_data = json.loads(response.content)
     assert response.status_code == 200
@@ -405,13 +412,14 @@ def test_apiview_check_object_permissions(rf):
 @pytest.mark.django_db
 def test_apiview_unhandled_exception(rf):
     """Tests exceptions can go unhandled."""
+
     class UnhandledExceptionAPIView(UserAPIView):
         def get(self, request, *args, **kwargs):
             raise ValueError
 
     view = UnhandledExceptionAPIView.as_view()
 
-    request = create_api_request(rf, url='/')
+    request = create_api_request(rf, url="/")
     with pytest.raises(ValueError):
         view(request)
 
@@ -419,11 +427,11 @@ def test_apiview_unhandled_exception(rf):
 @pytest.mark.django_db
 def test_apiview_delete_meta_user(rf, meta_users):
     """Tests meta users cannot be removed."""
-    user = meta_users['user']
+    user = meta_users["user"]
 
-    request = create_api_request(rf, 'delete')
+    request = create_api_request(rf, "delete")
     view = UserAPIView.as_view()
 
     response = view(request, id=user.id)
     assert response.status_code == 405
-    assert b'Cannot remove meta user instances' in response.content
+    assert b"Cannot remove meta user instances" in response.content

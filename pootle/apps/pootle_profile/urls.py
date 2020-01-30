@@ -12,26 +12,28 @@ from .views import UserAPIView, UserDetailView, UserSettingsView
 
 
 user_patterns = [
-    url(r'^(?P<username>[^/]+)/$',
+    url(
+        r"^(?P<username>[^/]+)/$", UserDetailView.as_view(), name="pootle-user-profile"
+    ),
+    url(
+        r"^(?P<username>[^/]+)/edit/?$",
         UserDetailView.as_view(),
-        name='pootle-user-profile'),
-    url(r'^(?P<username>[^/]+)/edit/?$',
-        UserDetailView.as_view(),
-        name='pootle-user-profile-edit'),
-    url(r'^(?P<username>[^/]+)/settings/$',
+        name="pootle-user-profile-edit",
+    ),
+    url(
+        r"^(?P<username>[^/]+)/settings/$",
         UserSettingsView.as_view(),
-        name='pootle-user-settings'),
+        name="pootle-user-settings",
+    ),
 ]
 
 
 api_patterns = [
-    url(r'^users/(?P<id>[0-9]+)/?$',
-        UserAPIView.as_view(),
-        name='pootle-xhr-user'),
+    url(r"^users/(?P<id>[0-9]+)/?$", UserAPIView.as_view(), name="pootle-xhr-user"),
 ]
 
 
 urlpatterns = [
-    url(r'^user/', include(user_patterns)),
-    url(r'^xhr/', include(api_patterns)),
+    url(r"^user/", include(user_patterns)),
+    url(r"^xhr/", include(api_patterns)),
 ]

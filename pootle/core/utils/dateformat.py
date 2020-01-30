@@ -12,11 +12,10 @@ from django.utils.dateformat import DateFormat as DjangoDateFormat
 
 
 class DateFormat(DjangoDateFormat):
-
     def c(self):
-        return self.data.isoformat(' ')
+        return self.data.isoformat(" ")
 
 
-def format(value, format_string='c'):
+def format(value, format_string="c"):
     df = DateFormat(timezone.localtime(value))
     return df.format(format_string)

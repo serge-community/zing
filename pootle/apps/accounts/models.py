@@ -30,19 +30,22 @@ from allauth.account.utils import sync_user_email_addresses
 
 from pootle.core.cache import make_method_key
 from pootle_language.models import Language
-from pootle_statistics.models import (ScoreLog, Submission,
-                                      TranslationActionCodes)
+from pootle_statistics.models import ScoreLog, Submission, TranslationActionCodes
 from pootle_store.models import Unit
 
 from .managers import UserManager
 from .utils import UserMerger, UserPurger
 
 
-__all__ = ('User', )
+__all__ = ("User",)
 
 
 CURRENCIES = (
-    ('USD', 'USD'), ('EUR', 'EUR'), ('CNY', 'CNY'), ('JPY', 'JPY'), ('GBP', 'GBP'),
+    ("USD", "USD"),
+    ("EUR", "EUR"),
+    ("CNY", "CNY"),
+    ("JPY", "JPY"),
+    ("GBP", "GBP"),
 )
 
 
@@ -62,59 +65,72 @@ class User(AbstractBaseUser):
     """
 
     username = models.CharField(
-        _('Username'), max_length=30, unique=True,
-        help_text=_('Required. 30 characters or fewer. Letters, numbers and '
-                    '@/./+/-/_ characters'),
+        _("Username"),
+        max_length=30,
+        unique=True,
+        help_text=_(
+            "Required. 30 characters or fewer. Letters, numbers and "
+            "@/./+/-/_ characters"
+        ),
         validators=[
-            RegexValidator(re.compile(r'^[\w.@+-]+$'),
-                           _('Enter a valid username.'),
-                           'invalid')
+            RegexValidator(
+                re.compile(r"^[\w.@+-]+$"), _("Enter a valid username."), "invalid"
+            )
         ],
     )
-    email = models.EmailField(_('Email Address'), max_length=255, unique=True)
-    full_name = models.CharField(_('Full Name'), max_length=255, blank=True)
+    email = models.EmailField(_("Email Address"), max_length=255, unique=True)
+    full_name = models.CharField(_("Full Name"), max_length=255, blank=True)
 
     is_active = models.BooleanField(
-        _('Active'), default=True,
-        help_text=_('Designates whether this user should be treated as '
-                    'active. Unselect this instead of deleting accounts.'))
+        _("Active"),
+        default=True,
+        help_text=_(
+            "Designates whether this user should be treated as "
+            "active. Unselect this instead of deleting accounts."
+        ),
+    )
     is_superuser = models.BooleanField(
-        _('Superuser Status'), default=False,
-        help_text=_('Designates that this user has all permissions without '
-                    'explicitly assigning them.'))
+        _("Superuser Status"),
+        default=False,
+        help_text=_(
+            "Designates that this user has all permissions without "
+            "explicitly assigning them."
+        ),
+    )
 
-    date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
+    date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
 
     # Translation setting fields
     alt_src_langs = models.ManyToManyField(
-        'pootle_language.Language', blank=True, db_index=True,
-        verbose_name=_("Alternative Source Languages"))
+        "pootle_language.Language",
+        blank=True,
+        db_index=True,
+        verbose_name=_("Alternative Source Languages"),
+    )
 
     # Score-related fields
-    rate = models.FloatField(_('Rate'), null=False, default=0)
-    review_rate = models.FloatField(_('Review Rate'), null=False, default=0)
-    hourly_rate = models.FloatField(_('Hourly Rate'), null=False, default=0)
-    score = models.FloatField(_('Score'), null=False, default=0)
-    currency = models.CharField(_('Currency'), max_length=3, null=True,
-                                blank=True, choices=CURRENCIES)
-    is_employee = models.BooleanField(_('Is employee?'), default=False)
-    twitter = models.CharField(_('Twitter'), max_length=15, null=True,
-                               blank=True)
-    website = models.URLField(_('Website'), null=True, blank=True)
-    linkedin = models.URLField(_('LinkedIn'), null=True, blank=True)
-    bio = models.TextField(_('Short Bio'), null=True, blank=True)
+    rate = models.FloatField(_("Rate"), null=False, default=0)
+    review_rate = models.FloatField(_("Review Rate"), null=False, default=0)
+    hourly_rate = models.FloatField(_("Hourly Rate"), null=False, default=0)
+    score = models.FloatField(_("Score"), null=False, default=0)
+    currency = models.CharField(
+        _("Currency"), max_length=3, null=True, blank=True, choices=CURRENCIES
+    )
+    is_employee = models.BooleanField(_("Is employee?"), default=False)
+    twitter = models.CharField(_("Twitter"), max_length=15, null=True, blank=True)
+    website = models.URLField(_("Website"), null=True, blank=True)
+    linkedin = models.URLField(_("LinkedIn"), null=True, blank=True)
+    bio = models.TextField(_("Short Bio"), null=True, blank=True)
 
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = ["email"]
 
     objects = UserManager()
 
     @property
     def display_name(self):
         """Human-readable display name."""
-        return (self.get_full_name()
-                if self.get_full_name()
-                else self.get_short_name())
+        return self.get_full_name() if self.get_full_name() else self.get_short_name()
 
     @property
     def formatted_name(self):
@@ -135,7 +151,7 @@ class User(AbstractBaseUser):
 
     @property
     def twitter_url(self):
-        return 'https://twitter.com/{0}'.format(self.twitter)
+        return "https://twitter.com/{0}".format(self.twitter)
 
     @cached_property
     def is_meta(self):
@@ -145,13 +161,12 @@ class User(AbstractBaseUser):
     @cached_property
     def email_hash(self):
         try:
-            return md5(self.email.encode('utf-8')).hexdigest()
+            return md5(self.email.encode("utf-8")).hexdigest()
         except UnicodeEncodeError:
             return None
 
     @classmethod
-    def top_scorers(cls, days=30, language=None, project=None, limit=5,
-                    offset=0):
+    def top_scorers(cls, days=30, language=None, project=None, limit=5, offset=0):
         """Returns users with the top scores.
 
         :param days: period of days to account for scores.
@@ -161,13 +176,13 @@ class User(AbstractBaseUser):
             than positive numbers will return the entire result set.
         """
         cache_kwargs = {
-            'days': days,
-            'language': language,
-            'project': project,
-            'limit': limit,
-            'offset': offset,
+            "days": days,
+            "language": language,
+            "project": project,
+            "limit": limit,
+            "offset": offset,
         }
-        cache_key = make_method_key(cls, 'top_scorers', cache_kwargs)
+        cache_key = make_method_key(cls, "top_scorers", cache_kwargs)
 
         top_scorers = cache.get(cache_key, None)
         if top_scorers is not None:
@@ -177,79 +192,77 @@ class User(AbstractBaseUser):
         past = now + datetime.timedelta(-days)
 
         lookup_kwargs = {
-            'creation_time__range': [past, now],
+            "creation_time__range": [past, now],
         }
 
         if language is not None:
-            lookup_kwargs.update({
-                'submission__translation_project__language__code':
-                    language,
-            })
+            lookup_kwargs.update(
+                {"submission__translation_project__language__code": language}
+            )
 
         if project is not None:
-            lookup_kwargs.update({
-                'submission__translation_project__project__code':
-                    project,
-            })
+            lookup_kwargs.update(
+                {"submission__translation_project__project__code": project}
+            )
 
-        meta_user_ids = cls.objects.meta_users().values_list('id', flat=True)
-        top_scores = ScoreLog.objects.values("user").filter(
-            **lookup_kwargs
-        ).exclude(
-            user__pk__in=meta_user_ids,
-        ).annotate(
-            total_score=Sum('score_delta'),
-            suggested=Sum(
-                Case(
-                    When(
-                        action_code=TranslationActionCodes.SUGG_ADDED,
-                        then='wordcount'
-                    ),
-                    default=0,
-                    output_field=models.IntegerField()
-                )
-            ),
-            translated=Sum(
-                Case(
-                    When(
-                        translated_wordcount__isnull=False,
-                        then='translated_wordcount'
-                    ),
-                    default=0,
-                    output_field=models.IntegerField()
-                )
-            ),
-            reviewed=Sum(
-                Case(
-                    When(
-                        action_code__in=[
-                            TranslationActionCodes.SUGG_REVIEWED_ACCEPTED,
-                            TranslationActionCodes.REVIEWED,
-                            TranslationActionCodes.EDITED,
-                        ],
-                        translated_wordcount__isnull=True,
-                        then='wordcount',
-                    ),
-                    default=0,
-                    output_field=models.IntegerField()
-                )
-            ),
-        ).order_by('-total_score')[offset:]
+        meta_user_ids = cls.objects.meta_users().values_list("id", flat=True)
+        top_scores = (
+            ScoreLog.objects.values("user")
+            .filter(**lookup_kwargs)
+            .exclude(user__pk__in=meta_user_ids,)
+            .annotate(
+                total_score=Sum("score_delta"),
+                suggested=Sum(
+                    Case(
+                        When(
+                            action_code=TranslationActionCodes.SUGG_ADDED,
+                            then="wordcount",
+                        ),
+                        default=0,
+                        output_field=models.IntegerField(),
+                    )
+                ),
+                translated=Sum(
+                    Case(
+                        When(
+                            translated_wordcount__isnull=False,
+                            then="translated_wordcount",
+                        ),
+                        default=0,
+                        output_field=models.IntegerField(),
+                    )
+                ),
+                reviewed=Sum(
+                    Case(
+                        When(
+                            action_code__in=[
+                                TranslationActionCodes.SUGG_REVIEWED_ACCEPTED,
+                                TranslationActionCodes.REVIEWED,
+                                TranslationActionCodes.EDITED,
+                            ],
+                            translated_wordcount__isnull=True,
+                            then="wordcount",
+                        ),
+                        default=0,
+                        output_field=models.IntegerField(),
+                    )
+                ),
+            )
+            .order_by("-total_score")[offset:]
+        )
 
         if isinstance(limit, int) and limit > 0:
             top_scores = top_scores[:limit]
 
         users = dict(
             (user.id, user)
-            for user in cls.objects.filter(
-                pk__in=[item['user'] for item in top_scores]
-            )
+            for user in cls.objects.filter(pk__in=[item["user"] for item in top_scores])
         )
 
         top_scorers = []
         for item in top_scores:
-            item['user'] = users[item['user']]
-            item['public_total_score'] = _humanize_score(item['total_score'])
+            item["user"] = users[item["user"]]
+            item["public_total_score"] = _humanize_score(item["total_score"])
             top_scorers.append(item)
 
         cache.set(cache_key, top_scorers, 60)
@@ -259,9 +272,7 @@ class User(AbstractBaseUser):
         return self.username
 
     def save(self, *args, **kwargs):
-        old_email = (None
-                     if self.pk is None
-                     else User.objects.get(pk=self.pk).email)
+        old_email = None if self.pk is None else User.objects.get(pk=self.pk).email
 
         super(User, self).save(*args, **kwargs)
 
@@ -273,7 +284,7 @@ class User(AbstractBaseUser):
         Trying to delete a meta user raises the `ProtectedError` exception.
         """
         if self.is_meta:
-            raise ProtectedError('Cannot remove meta user instances', None)
+            raise ProtectedError("Cannot remove meta user instances", None)
 
         purge = kwargs.pop("purge", False)
 
@@ -285,25 +296,25 @@ class User(AbstractBaseUser):
         super(User, self).delete(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('pootle-user-profile', args=[self.username])
+        return reverse("pootle-user-profile", args=[self.username])
 
     def field_values(self):
         """Returns the user's field-values (can be encoded as e.g. JSON)."""
-        return model_to_dict(self, exclude=['password'])
+        return model_to_dict(self, exclude=["password"])
 
     @property
     def is_anonymous(self):
         """Returns `True` if this is an anonymous user."""
-        return self.username == 'nobody'
+        return self.username == "nobody"
 
     @property
     def is_authenticated(self):
         """Returns `True` if this is an authenticated user."""
-        return self.username != 'nobody'
+        return self.username != "nobody"
 
     def is_system(self):
         """Returns `True` if this is the special `system` user."""
-        return self.username == 'system'
+        return self.username == "system"
 
     def has_manager_permissions(self):
         """Tells if the user is a manager for any language, project or TP."""
@@ -312,8 +323,8 @@ class User(AbstractBaseUser):
         if self.is_superuser:
             return True
         criteria = {
-            'positive_permissions__codename': 'administrate',
-            'directory__pootle_path__regex': r'^/[^/]*/([^/]*/)?$',
+            "positive_permissions__codename": "administrate",
+            "directory__pootle_path__regex": r"^/[^/]*/([^/]*/)?$",
         }
         return self.permissionset_set.filter(**criteria).exists()
 
@@ -351,9 +362,7 @@ class User(AbstractBaseUser):
         except EmailAddress.DoesNotExist:
             pass
         else:
-            raise ValidationError({
-                'email': [_('This email address already exists.')]
-            })
+            raise ValidationError({"email": [_("This email address already exists.")]})
 
     def sync_email(self, old_email):
         """Syncs up `self.email` with allauth's own `EmailAddress` model.
@@ -361,19 +370,20 @@ class User(AbstractBaseUser):
         :param old_email: Address this user previously had
         """
         if old_email != self.email:  # Update
-            EmailAddress.objects.filter(
-                user=self,
-                email__iexact=old_email,
-            ).update(email=self.email)
+            EmailAddress.objects.filter(user=self, email__iexact=old_email,).update(
+                email=self.email
+            )
         else:
             sync_user_email_addresses(self)
 
     def gravatar_url(self, size=80):
         if not self.email_hash:
-            return ''
+            return ""
 
-        return 'https://secure.gravatar.com/avatar/%s?s=%d&d=mm' % \
-            (self.email_hash, size)
+        return "https://secure.gravatar.com/avatar/%s?s=%d&d=mm" % (
+            self.email_hash,
+            size,
+        )
 
     def get_suggestion_reviews(self):
         return self.submission_set.get_unit_suggestion_reviews()
@@ -386,8 +396,9 @@ class User(AbstractBaseUser):
 
         :return: Queryset of `Unit`s that were created by this user.
         """
-        created_unit_pks = self.submission_set.get_unit_creates() \
-                                              .values_list("unit", flat=True)
+        created_unit_pks = self.submission_set.get_unit_creates().values_list(
+            "unit", flat=True
+        )
         return Unit.objects.filter(pk__in=created_unit_pks)
 
     def top_language(self, days=30):
@@ -407,25 +418,30 @@ class User(AbstractBaseUser):
         now = timezone.now()
         past = now + datetime.timedelta(-days)
 
-        sum_field = 'translationproject__submission__scorelog__score_delta'
+        sum_field = "translationproject__submission__scorelog__score_delta"
         lookup_kwargs = {
-            'translationproject__submission__scorelog__user': self,
-            'translationproject__submission__scorelog__creation_time__range':
-                [past, now]
+            "translationproject__submission__scorelog__user": self,
+            "translationproject__submission__scorelog__creation_time__range": [
+                past,
+                now,
+            ],
         }
 
         try:
-            language = Language.objects.filter(**lookup_kwargs) \
-                                       .annotate(score=Sum(sum_field)) \
-                                       .order_by('-score')[0]
+            language = (
+                Language.objects.filter(**lookup_kwargs)
+                .annotate(score=Sum(sum_field))
+                .order_by("-score")[0]
+            )
         except IndexError:
             language = None
 
         if language is not None:
-            language_scorers = self.top_scorers(language=language.code,
-                                                days=days, limit=None)
+            language_scorers = self.top_scorers(
+                language=language.code, days=days, limit=None
+            )
             for index, user_score in enumerate(language_scorers, start=1):
-                if user_score['user'] == self:
+                if user_score["user"] == self:
                     position = index
                     break
 

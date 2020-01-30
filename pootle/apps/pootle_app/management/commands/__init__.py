@@ -18,18 +18,25 @@ from pootle_translationproject.models import TranslationProject
 
 
 class SkipChecksMixin(object):
-    def check(self, app_configs=None, tags=None, display_num_errors=False,
-              include_deployment_checks=False):
-        skip_tags = getattr(self, 'skip_system_check_tags', None)
+    def check(
+        self,
+        app_configs=None,
+        tags=None,
+        display_num_errors=False,
+        include_deployment_checks=False,
+    ):
+        skip_tags = getattr(self, "skip_system_check_tags", None)
         if skip_tags is not None:
             from django.core.checks.registry import registry
+
             tags = registry.tags_available() - set(skip_tags)
 
         super(SkipChecksMixin, self).check(
             app_configs=app_configs,
             tags=tags,
             display_num_errors=display_num_errors,
-            include_deployment_checks=include_deployment_checks)
+            include_deployment_checks=include_deployment_checks,
+        )
 
 
 class PootleCommand(BaseCommand):
@@ -39,16 +46,10 @@ class PootleCommand(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--project',
-            action='append',
-            dest='projects',
-            help='Project to refresh',
+            "--project", action="append", dest="projects", help="Project to refresh",
         )
         parser.add_argument(
-            '--language',
-            action='append',
-            dest='languages',
-            help='Language to refresh',
+            "--language", action="append", dest="languages", help="Language to refresh",
         )
         parser.add_argument(
             "--noinput",
@@ -60,8 +61,7 @@ class PootleCommand(BaseCommand):
             "--no-rq",
             action="store_true",
             default=False,
-            help=(u"Run all jobs in a single process, without "
-                  "using rq workers"),
+            help=(u"Run all jobs in a single process, without " "using rq workers"),
         )
 
     def __init__(self, *args, **kwargs):
@@ -88,8 +88,7 @@ class PootleCommand(BaseCommand):
             try:
                 self.handle_all_stores(tp, **options)
             except Exception:
-                logging.exception(u"Failed to run %s over %s's files",
-                                  self.name, tp)
+                logging.exception(u"Failed to run %s over %s's files", self.name, tp)
                 return
 
     def handle(self, **options):
@@ -98,36 +97,37 @@ class PootleCommand(BaseCommand):
             0: logging.ERROR,
             1: logging.WARNING,
             2: logging.INFO,
-            3: logging.DEBUG
+            3: logging.DEBUG,
         }
         logging.getLogger().setLevel(
-            debug_levels.get(options['verbosity'], logging.DEBUG)
+            debug_levels.get(options["verbosity"], logging.DEBUG)
         )
 
         # reduce size of parse pool early on
-        self.name = self.__class__.__module__.split('.')[-1]
+        self.name = self.__class__.__module__.split(".")[-1]
         from pootle_store.fields import TranslationStoreFieldFile
+
         TranslationStoreFieldFile._store_cache.maxsize = 2
         TranslationStoreFieldFile._store_cache.cullsize = 2
         TranslationProject._non_db_state_cache.maxsize = 2
         TranslationProject._non_db_state_cache.cullsize = 2
 
-        self.projects = options.pop('projects', [])
-        self.languages = options.pop('languages', [])
+        self.projects = options.pop("projects", [])
+        self.languages = options.pop("languages", [])
 
         # info start
         start = datetime.datetime.now()
-        logging.info('Start running of %s', self.name)
+        logging.info("Start running of %s", self.name)
 
         self.handle_all(**options)
 
         # info finish
         end = datetime.datetime.now()
-        logging.info('All done for %s in %s', self.name, end - start)
+        logging.info("All done for %s in %s", self.name, end - start)
 
     def handle_all(self, **options):
         if options["no_rq"]:
-            set_sync_mode(options['noinput'])
+            set_sync_mode(options["noinput"])
 
         if self.process_disabled_projects:
             project_query = Project.objects.all()
@@ -138,8 +138,7 @@ class PootleCommand(BaseCommand):
             project_query = project_query.filter(code__in=self.projects)
 
         for project in project_query.iterator():
-            tp_query = project.translationproject_set.live() \
-                              .order_by('language__code')
+            tp_query = project.translationproject_set.live().order_by("language__code")
 
             if self.languages:
                 tp_query = tp_query.filter(language__code__in=self.languages)

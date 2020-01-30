@@ -16,11 +16,9 @@ from pootle_store.unit.proxy import UnitProxy
 
 
 class UnitResult(UnitProxy):
-
     @property
     def nplurals(self):
-        return self.unit[
-            "store__translation_project__language__nplurals"] or 0
+        return self.unit["store__translation_project__language__nplurals"] or 0
 
     @property
     def pootle_path(self):
@@ -32,9 +30,7 @@ class UnitResult(UnitProxy):
 
     @property
     def language_name(self):
-        return tr_lang(
-            self.unit['store__translation_project__language__fullname']
-        )
+        return tr_lang(self.unit["store__translation_project__language__fullname"])
 
     @property
     def project_code(self):
@@ -42,12 +38,11 @@ class UnitResult(UnitProxy):
 
     @property
     def project_name(self):
-        return self.unit['store__translation_project__project__fullname']
+        return self.unit["store__translation_project__project__fullname"]
 
     @property
     def project_style(self):
-        return self.unit[
-            "store__translation_project__project__checkstyle"]
+        return self.unit["store__translation_project__project__checkstyle"]
 
     @property
     def source_dir(self):
@@ -55,8 +50,7 @@ class UnitResult(UnitProxy):
 
     @property
     def source_lang(self):
-        return self.unit[
-            "store__translation_project__project__source_language__code"]
+        return self.unit["store__translation_project__project__source_language__code"]
 
     @property
     def target_dir(self):
@@ -64,16 +58,16 @@ class UnitResult(UnitProxy):
 
     @property
     def target_lang(self):
-        return self.unit[
-            "store__translation_project__language__code"]
+        return self.unit["store__translation_project__language__code"]
 
     @property
     def translate_url(self):
-        return (
-            u'%s%s'
-            % (reverse("pootle-tp-store-translate",
-                       args=split_pootle_path(self.pootle_path)),
-               '#unit=%s' % str(self.id)))
+        return u"%s%s" % (
+            reverse(
+                "pootle-tp-store-translate", args=split_pootle_path(self.pootle_path)
+            ),
+            "#unit=%s" % str(self.id),
+        )
 
     @property
     def isfuzzy(self):
@@ -83,15 +77,15 @@ class UnitResult(UnitProxy):
 class ViewRowResults(object):
 
     select_fields = [
-        'id',
-        'source_f',
-        'target_f',
-        'state',
-        'store__translation_project__project__source_language__code',
-        'store__translation_project__language__code',
-        'store__translation_project__language__fullname',
-        'store__translation_project__project__fullname',
-        'store__pootle_path',
+        "id",
+        "source_f",
+        "target_f",
+        "state",
+        "store__translation_project__project__source_language__code",
+        "store__translation_project__language__code",
+        "store__translation_project__language__fullname",
+        "store__translation_project__project__fullname",
+        "store__pootle_path",
     ]
 
     def __init__(self, units_qs, header_uids=None):
@@ -100,10 +94,7 @@ class ViewRowResults(object):
 
     @property
     def data(self):
-        return {
-            unit.id: self.get_unit_shape(unit)
-            for unit in self.get_units()
-        }
+        return {unit.id: self.get_unit_shape(unit) for unit in self.get_units()}
 
     def get_units(self):
         for values in self.units_qs.values(*self.select_fields):
@@ -111,35 +102,34 @@ class ViewRowResults(object):
 
     def get_unit_shape(self, unit):
         shape = {
-            'source': unit.source.strings,
-            'source_lang': unit.source_lang,
-            'target': unit.target.strings,
-            'target_lang': unit.target_lang,
+            "source": unit.source.strings,
+            "source_lang": unit.source_lang,
+            "target": unit.target.strings,
+            "target_lang": unit.target_lang,
         }
 
         if unit.id in self.header_uids:
-            shape.update({
-                'language': unit.language_name,
-                'project': unit.project_name,
-                'file': unit.filename,
-            })
+            shape.update(
+                {
+                    "language": unit.language_name,
+                    "project": unit.project_name,
+                    "file": unit.filename,
+                }
+            )
 
         # We don't need to send default values, so setting members
         # conditionally
         if unit.isfuzzy:
-            shape['isfuzzy'] = True
+            shape["isfuzzy"] = True
         return shape
 
 
 class CtxRowResults(ViewRowResults):
-
     @property
     def data(self):
         return [self.get_unit_shape(unit) for unit in self.get_units()]
 
     def get_unit_shape(self, unit):
         shape = super(CtxRowResults, self).get_unit_shape(unit)
-        shape.update({
-            'id': unit.id,
-        })
+        shape.update({"id": unit.id})
         return shape

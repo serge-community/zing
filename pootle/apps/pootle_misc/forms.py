@@ -19,7 +19,7 @@ class GroupedModelChoiceIterator(ModelChoiceIterator):
 
     def __iter__(self):
         if self.field.empty_label is not None:
-            yield (u'', self.field.empty_label)
+            yield (u"", self.field.empty_label)
 
         for title, queryset in self.choice_groups:
             if title is not None:
@@ -41,18 +41,19 @@ class GroupedModelChoiceField(forms.ModelChoiceField):
         super(GroupedModelChoiceField, self).__init__(*args, **kwargs)
 
     def _get_choices(self):
-        if hasattr(self, '_choices'):
+        if hasattr(self, "_choices"):
             return self._choices
         return GroupedModelChoiceIterator(self)
+
     choices = property(_get_choices, forms.ModelChoiceField._set_choices)
 
 
 def make_search_form(*args, **kwargs):
     """Factory that instantiates one of the search forms below."""
-    request = kwargs.pop('request', None)
+    request = kwargs.pop("request", None)
 
     if request is not None:
-        sparams_cookie = request.COOKIES.get('pootle-search')
+        sparams_cookie = request.COOKIES.get("pootle-search")
 
         if sparams_cookie:
             import json
@@ -63,11 +64,8 @@ def make_search_form(*args, **kwargs):
             except ValueError:
                 pass
             else:
-                if (isinstance(initial_sparams, dict) and
-                    'sfields' in initial_sparams):
-                    kwargs.update({
-                        'initial': initial_sparams,
-                    })
+                if isinstance(initial_sparams, dict) and "sfields" in initial_sparams:
+                    kwargs.update({"initial": initial_sparams})
 
     return SearchForm(*args, **kwargs)
 
@@ -76,28 +74,29 @@ class SearchForm(forms.Form):
     """Normal search form for translation projects."""
 
     search = forms.CharField(
-        widget=forms.TextInput(attrs={
-            'size': '15',
-            'placeholder': _('Search'),
-            'title': _("Search (Ctrl+Shift+S)<br/>Type and press Enter to "
-                       "search"),
-        }),
+        widget=forms.TextInput(
+            attrs={
+                "size": "15",
+                "placeholder": _("Search"),
+                "title": _(
+                    "Search (Ctrl+Shift+S)<br/>Type and press Enter to " "search"
+                ),
+            }
+        ),
     )
     soptions = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
-        choices=(
-            ('exact', _('Exact Match')),
-        ),
+        choices=(("exact", _("Exact Match")),),
     )
     sfields = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
         choices=(
-            ('source', _('Source Text')),
-            ('target', _('Target Text')),
-            ('notes', _('Comments')),
-            ('locations', _('Locations'))
+            ("source", _("Source Text")),
+            ("target", _("Target Text")),
+            ("notes", _("Comments")),
+            ("locations", _("Locations")),
         ),
-        initial=['source', 'target'],
+        initial=["source", "target"],
     )

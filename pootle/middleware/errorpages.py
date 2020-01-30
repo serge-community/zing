@@ -25,8 +25,12 @@ except ImportError:
     sentry_sdk = None
 
 from pootle.core.exceptions import Http400
-from pootle.core.http import (JsonResponseBadRequest, JsonResponseForbidden,
-                              JsonResponseNotFound, JsonResponseServerError)
+from pootle.core.http import (
+    JsonResponseBadRequest,
+    JsonResponseForbidden,
+    JsonResponseNotFound,
+    JsonResponseServerError,
+)
 
 
 def log_exception(request, exception, tb):
@@ -34,13 +38,16 @@ def log_exception(request, exception, tb):
         return
 
     # Send email to admins with details about exception
-    ip_type = (request.META.get('REMOTE_ADDR') in settings.INTERNAL_IPS and
-               'internal' or 'EXTERNAL')
+    ip_type = (
+        request.META.get("REMOTE_ADDR") in settings.INTERNAL_IPS
+        and "internal"
+        or "EXTERNAL"
+    )
     msg_args = {
-        'ip_type': ip_type,
-        'path': request.path,
+        "ip_type": ip_type,
+        "path": request.path,
     }
-    subject = 'Error (%(ip_type)s IP): %(path)s' % msg_args
+    subject = "Error (%(ip_type)s IP): %(path)s" % msg_args
 
     try:
         request_repr = repr(request)
@@ -66,19 +73,21 @@ def handle_exception(request, exception, template_name):
         msg = force_str(exception)
 
         if request.is_ajax():
-            return JsonResponseServerError({'msg': msg})
+            return JsonResponseServerError({"msg": msg})
 
         ctx = {
-            'exception': msg,
+            "exception": msg,
         }
-        if hasattr(exception, 'filename'):
+        if hasattr(exception, "filename"):
             msg_args = {
-                'filename': exception.filename,
-                'errormsg': exception.strerror,
+                "filename": exception.filename,
+                "errormsg": exception.strerror,
             }
-            msg = _('Error accessing %(filename)s, Filesystem '
-                    'sent error: %(errormsg)s' % msg_args)
-            ctx['fserror'] = msg
+            msg = _(
+                "Error accessing %(filename)s, Filesystem "
+                "sent error: %(errormsg)s" % msg_args
+            )
+            ctx["fserror"] = msg
 
         return HttpResponseServerError(
             render_to_string(template_name, context=ctx, request=request)
@@ -95,38 +104,40 @@ class ErrorPagesMiddleware(MiddlewareMixin):
         msg = force_str(exception)
         if isinstance(exception, Http404):
             if request.is_ajax():
-                return JsonResponseNotFound({'msg': msg})
+                return JsonResponseNotFound({"msg": msg})
         elif isinstance(exception, Http400):
             if request.is_ajax():
-                return JsonResponseBadRequest({'msg': msg})
+                return JsonResponseBadRequest({"msg": msg})
         elif isinstance(exception, PermissionDenied):
             if request.is_ajax():
-                return JsonResponseForbidden({'msg': msg})
+                return JsonResponseForbidden({"msg": msg})
 
             ctx = {
-                'permission_error': msg,
+                "permission_error": msg,
             }
 
             if not request.user.is_authenticated:
                 msg_args = {
-                    'login_link': reverse('account_login'),
+                    "login_link": reverse("account_login"),
                 }
                 login_msg = _(
                     'You need to <a class="js-login" '
-                    'href="%(login_link)s">login</a> to access this page.' %
-                    msg_args
+                    'href="%(login_link)s">login</a> to access this page.' % msg_args
                 )
                 ctx["login_message"] = login_msg
 
             return HttpResponseForbidden(
-                render_to_string('errors/403.html', context=ctx,
-                                 request=request))
-        elif (exception.__class__.__name__ in
-                ('OperationalError', 'ProgrammingError', 'DatabaseError')):
+                render_to_string("errors/403.html", context=ctx, request=request)
+            )
+        elif exception.__class__.__name__ in (
+            "OperationalError",
+            "ProgrammingError",
+            "DatabaseError",
+        ):
             # HACKISH: Since exceptions thrown by different databases do not
             # share the same class heirarchy (DBAPI2 sucks) we have to check
             # the class name instead. Since python uses duck typing I will call
             # this poking-the-duck-until-it-quacks-like-a-duck-test
-            return handle_exception(request, exception, 'errors/db.html')
+            return handle_exception(request, exception, "errors/db.html")
         else:
-            return handle_exception(request, exception, 'errors/500.html')
+            return handle_exception(request, exception, "errors/500.html")

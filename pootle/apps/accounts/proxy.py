@@ -13,7 +13,6 @@ from django.utils.html import format_html
 
 
 class DisplayUser(object):
-
     def __init__(self, username, full_name, email=None):
         self.username = username
         self.full_name = full_name
@@ -22,27 +21,22 @@ class DisplayUser(object):
     @property
     def author_link(self):
         return format_html(
-            u'<a href="{}">{}</a>',
-            self.get_absolute_url(),
-            self.display_name)
+            u'<a href="{}">{}</a>', self.get_absolute_url(), self.display_name
+        )
 
     @property
     def display_name(self):
-        return (
-            self.full_name.strip()
-            if self.full_name.strip()
-            else self.username)
+        return self.full_name.strip() if self.full_name.strip() else self.username
 
     @property
     def email_hash(self):
-        return md5(self.email.encode('utf-8')).hexdigest()
+        return md5(self.email.encode("utf-8")).hexdigest()
 
     def get_absolute_url(self):
-        return reverse(
-            'pootle-user-profile',
-            args=[self.username])
+        return reverse("pootle-user-profile", args=[self.username])
 
     def gravatar_url(self, size=80):
-        return (
-            'https://secure.gravatar.com/avatar/%s?s=%d&d=mm'
-            % (self.email_hash, size))
+        return "https://secure.gravatar.com/avatar/%s?s=%d&d=mm" % (
+            self.email_hash,
+            size,
+        )

@@ -16,7 +16,6 @@ register = template.Library()
 
 
 class LegalPageNode(template.Node):
-
     def __init__(self, context_name):
         self.context_name = context_name
 
@@ -24,7 +23,7 @@ class LegalPageNode(template.Node):
         lps = LegalPage.objects.live().all()
 
         context[self.context_name] = lps
-        return ''
+        return ""
 
 
 @register.tag
@@ -40,13 +39,14 @@ def get_legalpages(parser, token):
     """
 
     bits = token.split_contents()
-    syntax_message = ("%(tag_name)s expects a syntax of %(tag_name)s "
-                      "as context_name" %
-                      dict(tag_name=bits[0]))
+    syntax_message = (
+        "%(tag_name)s expects a syntax of %(tag_name)s "
+        "as context_name" % dict(tag_name=bits[0])
+    )
 
     if len(bits) == 3:
 
-        if bits[1] != 'as':
+        if bits[1] != "as":
             raise template.TemplateSyntaxError(syntax_message)
         context_name = bits[2]
 
@@ -64,16 +64,16 @@ def staticpage_url(parser, token):
         {% staticpage_url 'virtual/path' %}
     """
     bits = token.split_contents()
-    syntax_message = ("%(tag_name)s expects a syntax of %(tag_name)s "
-                      "'virtual/path'" %
-                      dict(tag_name=bits[0]))
+    syntax_message = (
+        "%(tag_name)s expects a syntax of %(tag_name)s "
+        "'virtual/path'" % dict(tag_name=bits[0])
+    )
     quote_message = "%s tag's argument should be in quotes" % bits[0]
 
     if len(bits) == 2:
         virtual_path = bits[1]
 
-        if (not (virtual_path[0] == virtual_path[-1] and
-                 virtual_path[0] in ('"', "'"))):
+        if not (virtual_path[0] == virtual_path[-1] and virtual_path[0] in ('"', "'")):
             raise template.TemplateSyntaxError(quote_message)
 
         return StaticPageURLNode(virtual_path[1:-1])
@@ -82,9 +82,8 @@ def staticpage_url(parser, token):
 
 
 class StaticPageURLNode(template.Node):
-
     def __init__(self, virtual_path):
         self.virtual_path = virtual_path
 
     def render(self, context):
-        return reverse('pootle-staticpages-display', args=[self.virtual_path])
+        return reverse("pootle-staticpages-display", args=[self.virtual_path])

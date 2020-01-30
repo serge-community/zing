@@ -12,10 +12,7 @@ from .views.admin import urls as admin_urls
 
 
 urlpatterns = [
-    url(r'^admin/',
-        include(admin_urls)),
-    url(r'^xhr/admin/',
-        include(admin_urls.api_patterns)),
-    url(r'',
-        include('pootle_app.views.index.urls')),
+    url(r"^admin/", include(admin_urls)),
+    url(r"^xhr/admin/", include(admin_urls.api_patterns)),
+    url(r"", include("pootle_app.views.index.urls")),
 ]

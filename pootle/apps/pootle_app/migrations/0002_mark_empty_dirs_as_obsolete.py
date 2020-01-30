@@ -19,9 +19,10 @@ def make_dir_obsolete(directory):
 def make_empty_directories_obsolete(apps, schema_editor):
     Directory = apps.get_model("pootle_app", "Directory")
     from pootle.core.url_helpers import split_pootle_path
-    for d in Directory.objects.filter(child_stores__isnull=True,
-                                      child_dirs__isnull=True,
-                                      obsolete=False):
+
+    for d in Directory.objects.filter(
+        child_stores__isnull=True, child_dirs__isnull=True, obsolete=False
+    ):
         lang_code, prj_code, dir_path = split_pootle_path(d.pootle_path)[:3]
 
         # makeobsolete translation project directories and lower
@@ -33,8 +34,8 @@ def make_empty_directories_obsolete(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pootle_app', '0001_initial'),
-        ('pootle_store', '0001_initial'),
+        ("pootle_app", "0001_initial"),
+        ("pootle_store", "0001_initial"),
     ]
 
     operations = [

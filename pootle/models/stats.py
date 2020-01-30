@@ -16,8 +16,8 @@ from pootle.core.cache import get_cache
 from pootle.core.mixins.treeitem import CachedMethods
 
 
-logger = logging.getLogger('stats')
-cache = get_cache('stats')
+logger = logging.getLogger("stats")
+cache = get_cache("stats")
 
 
 class Stats(object):
@@ -34,15 +34,15 @@ class Stats(object):
 
     @property
     def total(self):
-        return self.get_wordcount()['total']
+        return self.get_wordcount()["total"]
 
     @property
     def translated(self):
-        return self.get_wordcount()['translated']
+        return self.get_wordcount()["translated"]
 
     @property
     def fuzzy(self):
-        return self.get_wordcount()['fuzzy']
+        return self.get_wordcount()["fuzzy"]
 
     @property
     def incomplete(self):
@@ -54,7 +54,7 @@ class Stats(object):
     @property
     def critical(self):
         check_stats = self.get_value(CachedMethods.CHECKS, {})
-        return check_stats.get('unit_critical_error_count', None)
+        return check_stats.get("unit_critical_error_count", None)
 
     @property
     def suggestions(self):
@@ -69,21 +69,20 @@ class Stats(object):
         return self.get_value(CachedMethods.LAST_UPDATED)
 
     def make_cache_key(self, name):
-        return iri_to_uri('%s:%s' % (self.path, name))
+        return iri_to_uri("%s:%s" % (self.path, name))
 
     def get_value(self, name, default=None):
         """get stat value from cache"""
         key = self.make_cache_key(name)
         result = cache.get(key)
         if result is None:
-            logger.debug(u'Cache miss %s for %s', name, key)
+            logger.debug(u"Cache miss %s for %s", name, key)
             return default
 
         return result
 
     def get_wordcount(self):
-        return self.get_value(CachedMethods.WORDCOUNT_STATS, {
-            'total': None,
-            'translated': None,
-            'fuzzy': None,
-        })
+        return self.get_value(
+            CachedMethods.WORDCOUNT_STATS,
+            {"total": None, "translated": None, "fuzzy": None},
+        )

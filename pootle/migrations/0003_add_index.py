@@ -8,12 +8,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pootle', '0002_duedate_path_unique'),
+        ("pootle", "0002_duedate_path_unique"),
     ]
 
     operations = [
         migrations.AddIndex(
-            model_name='duedate',
-            index=models.Index(fields=['due_on', 'pootle_path', 'modified_by'], name='pootle_dued_due_on_ee8c5e_idx'),
+            model_name="duedate",
+            index=models.Index(
+                fields=["due_on", "pootle_path", "modified_by"],
+                name="pootle_dued_due_on_ee8c5e_idx",
+            ),
         ),
     ]

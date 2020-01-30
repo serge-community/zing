@@ -21,8 +21,7 @@ from pootle_statistics.models import ScoreLog
 from ..generators import HTMLGenerator, PDFGenerator
 from ..utils import get_grouped_word_stats
 from .paidtask import PaidTask, PaidTaskTypes
-from .payment_email import (AccountingPaymentEmail, UserNoPaymentEmail,
-                            UserPaymentEmail)
+from .payment_email import AccountingPaymentEmail, UserNoPaymentEmail, UserPaymentEmail
 
 
 logger = logging.getLogger(__name__)
@@ -31,26 +30,26 @@ logger = logging.getLogger(__name__)
 GENERATOR_MODULES = (HTMLGenerator, PDFGenerator)
 
 
-MONTH_FORMAT = '%Y-%m'
+MONTH_FORMAT = "%Y-%m"
 
 
 def get_previous_month():
     """Returns the previous month as a datetime object."""
-    return (
-        timezone.now().replace(day=1, hour=0, minute=0, second=0, microsecond=0) -
-        timedelta(days=1)
-    )
+    return timezone.now().replace(
+        day=1, hour=0, minute=0, second=0, microsecond=0
+    ) - timedelta(days=1)
 
 
 class Invoice(object):
 
     required_config_fields = (
-        ('name', 'paid_by', 'wire_info'),  # Core fields
-        ('email', 'accounting_email'),  # Email-related fields
+        ("name", "paid_by", "wire_info"),  # Core fields
+        ("email", "accounting_email"),  # Email-related fields
     )
 
-    def __init__(self, user, config, month=None, subcontractors=None,
-                 add_correction=False):
+    def __init__(
+        self, user, config, month=None, subcontractors=None, add_correction=False
+    ):
         self.user = user
         self.conf = config
         self.subcontractors = [] if subcontractors is None else subcontractors
@@ -67,12 +66,10 @@ class Invoice(object):
 
         # Holds a list of tuples with generated file paths and their media types
         self.files = []
-        self.generators = (
-            Mod() for Mod in GENERATOR_MODULES if Mod.is_configured()
-        )
+        self.generators = (Mod() for Mod in GENERATOR_MODULES if Mod.is_configured())
 
     def __repr__(self):
-        return u'<Invoice %s:%s>' % (self.user.username, self.month_string)
+        return u"<Invoice %s:%s>" % (self.user.username, self.month_string)
 
     @classmethod
     def check_config_for(cls, config_dict, username, require_email_fields=False):
@@ -83,26 +80,26 @@ class Invoice(object):
         :param validate_email: Whether to also require email-related fields.
         """
         required_fields = (
-            list(sum(cls.required_config_fields, ())) if require_email_fields else
-            cls.required_config_fields[0]
+            list(sum(cls.required_config_fields, ()))
+            if require_email_fields
+            else cls.required_config_fields[0]
         )
         missing_required_fields = [
-            field for field in required_fields
-            if field not in config_dict
+            field for field in required_fields if field not in config_dict
         ]
         if len(missing_required_fields) > 0:
             raise ImproperlyConfigured(
-                'The configuration for user %s is missing the following required '
-                'fields: %s.\n'
-                'Please double-check your configuration.'
-                % (username, u', '.join(missing_required_fields))
+                "The configuration for user %s is missing the following required "
+                "fields: %s.\n"
+                "Please double-check your configuration."
+                % (username, u", ".join(missing_required_fields))
             )
 
         return config_dict
 
     @property
     def id(self):
-        return self.conf.get('invoice_prefix', '') + self.month_string
+        return self.conf.get("invoice_prefix", "") + self.month_string
 
     @property
     def month_string(self):
@@ -110,9 +107,7 @@ class Invoice(object):
 
     @property
     def amounts(self):
-        assert self._amounts is not None, (
-            'Amounts missing. Did you run `generate()`?'
-        )
+        assert self._amounts is not None, "Amounts missing. Did you run `generate()`?"
         return self._amounts
 
     @lru_cache()
@@ -126,36 +121,47 @@ class Invoice(object):
             ``hourly_rate`` is the rate for hourly work that can be added as
             PaidTask.
         """
-        scores = ScoreLog.objects.for_user_in_range(self.user, self.month_start,
-                                                    self.month_end)
-        rates = scores.values('rate', 'review_rate').distinct()
+        scores = ScoreLog.objects.for_user_in_range(
+            self.user, self.month_start, self.month_end
+        )
+        rates = scores.values("rate", "review_rate").distinct()
         if len(rates) > 1:
-            raise ValueError('Multiple rate values recorded for user %s.' %
-                             (self.user.username))
+            raise ValueError(
+                "Multiple rate values recorded for user %s." % (self.user.username)
+            )
 
-        rate = rates[0]['rate'] if len(rates) == 1 else 0
-        review_rate = rates[0]['review_rate'] if len(rates) == 1 else 0
+        rate = rates[0]["rate"] if len(rates) == 1 else 0
+        review_rate = rates[0]["review_rate"] if len(rates) == 1 else 0
         hourly_rate = 0
 
-        tasks = PaidTask.objects.for_user_in_range(self.user, self.month_start,
-                                                   self.month_end)
-        task_rates = tasks.values('task_type', 'rate').distinct()
+        tasks = PaidTask.objects.for_user_in_range(
+            self.user, self.month_start, self.month_end
+        )
+        task_rates = tasks.values("task_type", "rate").distinct()
         for task_rate in task_rates:
-            if (task_rate['task_type'] == PaidTaskTypes.TRANSLATION and
-                rate > 0 and
-                task_rate['rate'] != rate):
-                raise ValueError('Multiple TRANSLATION rate values for user %s.'
-                                 % self.user.username)
-            if (task_rate['task_type'] == PaidTaskTypes.REVIEW and
-                review_rate > 0 and
-                task_rate['rate'] != review_rate):
-                raise ValueError('Multiple REVIEW rate values for user %s.' %
-                                 self.user.username)
-            if task_rate['task_type'] == PaidTaskTypes.HOURLY_WORK:
-                if hourly_rate > 0 and task_rate['rate'] != hourly_rate:
-                    raise ValueError('Multiple HOURLY_WORK rate values for user %s.'
-                                     % self.user.username)
-                hourly_rate = task_rate['rate']
+            if (
+                task_rate["task_type"] == PaidTaskTypes.TRANSLATION
+                and rate > 0
+                and task_rate["rate"] != rate
+            ):
+                raise ValueError(
+                    "Multiple TRANSLATION rate values for user %s." % self.user.username
+                )
+            if (
+                task_rate["task_type"] == PaidTaskTypes.REVIEW
+                and review_rate > 0
+                and task_rate["rate"] != review_rate
+            ):
+                raise ValueError(
+                    "Multiple REVIEW rate values for user %s." % self.user.username
+                )
+            if task_rate["task_type"] == PaidTaskTypes.HOURLY_WORK:
+                if hourly_rate > 0 and task_rate["rate"] != hourly_rate:
+                    raise ValueError(
+                        "Multiple HOURLY_WORK rate values for user %s."
+                        % self.user.username
+                    )
+                hourly_rate = task_rate["rate"]
 
         rate = rate if rate > 0 else self.user.rate
         review_rate = review_rate if review_rate > 0 else self.user.review_rate
@@ -167,8 +173,12 @@ class Invoice(object):
         """Calculates and returns the total amounts for the invoice's user and
         month. Only to be used via `generate()`.
         """
-        (translated_words, reviewed_words,
-         hours, correction) = self._get_full_user_amounts(self.user)
+        (
+            translated_words,
+            reviewed_words,
+            hours,
+            correction,
+        ) = self._get_full_user_amounts(self.user)
 
         translated_words = int(round(translated_words))
         reviewed_words = int(round(reviewed_words))
@@ -188,28 +198,27 @@ class Invoice(object):
             balance = subtotal - self.carry_over
             total = 0
         else:
-            extra_amount = (self.conf['extra_add']
-                            if 'extra_add' in self.conf and subtotal > 0
-                            else 0)
+            extra_amount = (
+                self.conf["extra_add"]
+                if "extra_add" in self.conf and subtotal > 0
+                else 0
+            )
             balance = None
             total = subtotal + extra_amount
 
         return {
-            'subtotal': subtotal,
-            'extra_amount': extra_amount,
-            'total': total,
-            'balance': balance,
-
-            'work_done': work_done,
-
-            'translated_words': translated_words,
-            'reviewed_words': reviewed_words,
-            'hours_count': hours,
-            'correction': correction,
-
-            'translation_amount': translation_amount,
-            'review_amount': review_amount,
-            'hours_amount': hours_amount,
+            "subtotal": subtotal,
+            "extra_amount": extra_amount,
+            "total": total,
+            "balance": balance,
+            "work_done": work_done,
+            "translated_words": translated_words,
+            "reviewed_words": reviewed_words,
+            "hours_count": hours,
+            "correction": correction,
+            "translation_amount": translation_amount,
+            "review_amount": review_amount,
+            "hours_amount": hours_amount,
         }
 
     def _get_full_user_amounts(self, user):
@@ -217,11 +226,16 @@ class Invoice(object):
         well as the hours and the applicable correction for `user` in the
         invoice's month. This includes subcontractors' amounts too.
         """
-        (translated_words, reviewed_words,
-         hours, correction) = self._get_user_amounts(self.user)
+        (translated_words, reviewed_words, hours, correction) = self._get_user_amounts(
+            self.user
+        )
         for subcontractor in self.subcontractors:
-            (subc_translated_words, subc_reviewed_words,
-             subc_hours, subc_correction) = self._get_user_amounts(subcontractor)
+            (
+                subc_translated_words,
+                subc_reviewed_words,
+                subc_hours,
+                subc_correction,
+            ) = self._get_user_amounts(subcontractor)
             translated_words += subc_translated_words
             reviewed_words += subc_reviewed_words
             hours += subc_hours
@@ -236,15 +250,17 @@ class Invoice(object):
         """
         translated_words = reviewed_words = hours = correction = 0
 
-        scores = ScoreLog.objects.for_user_in_range(user, self.month_start,
-                                                    self.month_end)
-        scores = scores.order_by('submission__translation_project')
+        scores = ScoreLog.objects.for_user_in_range(
+            user, self.month_start, self.month_end
+        )
+        scores = scores.order_by("submission__translation_project")
         for row in get_grouped_word_stats(scores):
-            translated_words += row['translated']
-            reviewed_words += row['reviewed']
+            translated_words += row["translated"]
+            reviewed_words += row["reviewed"]
 
-        tasks = PaidTask.objects.for_user_in_range(user, self.month_start,
-                                                   self.month_end)
+        tasks = PaidTask.objects.for_user_in_range(
+            user, self.month_start, self.month_end
+        )
         for task in tasks:
             if task.task_type == PaidTaskTypes.TRANSLATION:
                 translated_words += task.amount
@@ -263,15 +279,16 @@ class Invoice(object):
         """
         server_tz = timezone.get_default_timezone()
         local_now = timezone.localtime(self.now, server_tz)
-        initial_moment = local_now.replace(day=1, hour=0, minute=0, second=0,
-                                           microsecond=0)
+        initial_moment = local_now.replace(
+            day=1, hour=0, minute=0, second=0, microsecond=0
+        )
 
         PaidTask.objects.get_or_create(
             task_type=PaidTaskTypes.CORRECTION,
             amount=(-1) * total_amount,
             rate=1,
             datetime=self.month_end,
-            description='Carryover to the next month',
+            description="Carryover to the next month",
             user=self.user,
         )
         PaidTask.objects.get_or_create(
@@ -279,7 +296,7 @@ class Invoice(object):
             amount=total_amount,
             rate=1,
             datetime=initial_moment,
-            description='Carryover from the previous month',
+            description="Carryover from the previous month",
             user=self.user,
         )
 
@@ -290,7 +307,7 @@ class Invoice(object):
                 task_type=PaidTaskTypes.CORRECTION,
                 rate=1,
                 datetime=self.month_end,
-                description='Carryover to the next month',
+                description="Carryover to the next month",
                 user=self.user,
             ).amount
         except PaidTask.DoesNotExist:
@@ -302,28 +319,25 @@ class Invoice(object):
 
     def needs_carry_over(self, subtotal):
         return (
-            self.add_correction and
-            not self.is_carried_over and
-            subtotal < self.conf.get('minimal_payment', 0)
+            self.add_correction
+            and not self.is_carried_over
+            and subtotal < self.conf.get("minimal_payment", 0)
         )
 
     def get_context_data(self):
         translation_rate, review_rate, hourly_rate = self.get_rates()
 
         ctx = {
-            'id': self.id,
-            'user': self.user,
-            'date': self.month_end if self.now > self.month_end else self.now,
-            'month': self.month_start,
-
-            'rate': translation_rate,
-            'review_rate': review_rate,
-            'hourly_rate': hourly_rate,
-
-            'is_carried_over': self.is_carried_over,
-
-            'wire_info': self.conf['wire_info'].lstrip(),
-            'paid_by': self.conf['paid_by'].lstrip(),
+            "id": self.id,
+            "user": self.user,
+            "date": self.month_end if self.now > self.month_end else self.now,
+            "month": self.month_start,
+            "rate": translation_rate,
+            "review_rate": review_rate,
+            "hourly_rate": hourly_rate,
+            "is_carried_over": self.is_carried_over,
+            "wire_info": self.conf["wire_info"].lstrip(),
+            "paid_by": self.conf["paid_by"].lstrip(),
         }
 
         ctx.update(self.amounts)
@@ -333,18 +347,17 @@ class Invoice(object):
 
     def get_filename(self):
         # FIXME: make this configurable
-        return u'Invoice - %s - %s' % (self.conf['name'], self.id)
+        return u"Invoice - %s - %s" % (self.conf["name"], self.id)
 
     def get_filepath(self, extension):
         """Returns the absolute file path for the invoice, using `extension` as
         a file extension.
         """
-        month_dir = os.path.join(settings.ZING_INVOICES_DIRECTORY,
-                                 self.month_string)
+        month_dir = os.path.join(settings.ZING_INVOICES_DIRECTORY, self.month_string)
         if not os.path.exists(month_dir):
             os.makedirs(month_dir)
 
-        return os.path.join(month_dir, u'.'.join([self.get_filename(), extension]))
+        return os.path.join(month_dir, u".".join([self.get_filename(), extension]))
 
     def _write_to_disk(self):
         """Write the invoice to disk using all available generators.
@@ -372,17 +385,19 @@ class Invoice(object):
         * Side-effect: populates the object's `files` member.
         """
         amounts = self._calculate_amounts()
-        subtotal = amounts['subtotal']
+        subtotal = amounts["subtotal"]
 
         if self.needs_carry_over(subtotal):
             self._add_carry_over(subtotal)
 
-            amounts.update({
-                'correction': subtotal * -1,
-                'extra_amount': 0,
-                'balance': subtotal,
-                'total': 0,
-            })
+            amounts.update(
+                {
+                    "correction": subtotal * -1,
+                    "extra_amount": 0,
+                    "balance": subtotal,
+                    "total": 0,
+                }
+            )
 
         self._amounts = amounts
         self.files = self._write_to_disk()
@@ -397,22 +412,35 @@ class Invoice(object):
         """
         ctx = self.get_context_data()
 
-        if self.amounts['total'] <= 0:
-            return UserNoPaymentEmail(self.id, self.conf, ctx,
-                                      override_to=override_to,
-                                      override_bcc=override_bcc).send()
+        if self.amounts["total"] <= 0:
+            return UserNoPaymentEmail(
+                self.id,
+                self.conf,
+                ctx,
+                override_to=override_to,
+                override_bcc=override_bcc,
+            ).send()
 
         attachments = [
             (file[0], file[1])  # file path, mime type
-            for file in self.files if 'html' not in file[1]
+            for file in self.files
+            if "html" not in file[1]
         ]
         count = 0
-        count += UserPaymentEmail(self.id, self.conf, ctx,
-                                  override_to=override_to,
-                                  override_bcc=override_bcc,
-                                  attachments=attachments).send()
-        count += AccountingPaymentEmail(self.id, self.conf, ctx,
-                                        override_to=override_to,
-                                        override_bcc=override_bcc,
-                                        attachments=attachments).send()
+        count += UserPaymentEmail(
+            self.id,
+            self.conf,
+            ctx,
+            override_to=override_to,
+            override_bcc=override_bcc,
+            attachments=attachments,
+        ).send()
+        count += AccountingPaymentEmail(
+            self.id,
+            self.conf,
+            ctx,
+            override_to=override_to,
+            override_bcc=override_bcc,
+            attachments=attachments,
+        ).send()
         return count

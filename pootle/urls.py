@@ -13,33 +13,32 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     # Allauth
-    url(r'^accounts/', include('accounts.urls')),
-    url(r'^accounts/', include('allauth.urls')),
-
+    url(r"^accounts/", include("accounts.urls")),
+    url(r"^accounts/", include("allauth.urls")),
     # Reports
-    url(r'^admin/reports/', include('reports.urls')),
-    url(r'', include('reports.profile_urls')),
-
+    url(r"^admin/reports/", include("reports.urls")),
+    url(r"", include("reports.profile_urls")),
     # External apps
-    url(r'^contact/', include('contact.urls')),
-    url(r'', include('pootle_profile.urls')),
-
+    url(r"^contact/", include("contact.urls")),
+    url(r"", include("pootle_profile.urls")),
     # Pootle URLs
-    url(r'', include('pootle.views.urls')),
-    url(r'', include('staticpages.urls')),
-    url(r'^help/quality-checks/',
+    url(r"", include("pootle.views.urls")),
+    url(r"", include("staticpages.urls")),
+    url(
+        r"^help/quality-checks/",
         TemplateView.as_view(template_name="help/quality_checks.html"),
-        name='pootle-checks-descriptions'),
-    url(r'', include('pootle_app.urls')),
-    url(r'^projects/', include('pootle_project.urls')),
-    url(r'', include('pootle_statistics.urls')),
-    url(r'', include('pootle_store.urls')),
-    url(r'', include('pootle_language.urls')),
-    url(r'', include('pootle_translationproject.urls')),
+        name="pootle-checks-descriptions",
+    ),
+    url(r"", include("pootle_app.urls")),
+    url(r"^projects/", include("pootle_project.urls")),
+    url(r"", include("pootle_statistics.urls")),
+    url(r"", include("pootle_store.urls")),
+    url(r"", include("pootle_language.urls")),
+    url(r"", include("pootle_translationproject.urls")),
 ]
 
 
 # TODO: handler400
-handler403 = 'pootle.core.views.permission_denied'
-handler404 = 'pootle.core.views.page_not_found'
-handler500 = 'pootle.core.views.server_error'
+handler403 = "pootle.core.views.permission_denied"
+handler404 = "pootle.core.views.page_not_found"
+handler500 = "pootle.core.views.server_error"

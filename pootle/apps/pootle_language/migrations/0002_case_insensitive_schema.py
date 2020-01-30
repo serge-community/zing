@@ -14,13 +14,14 @@ def make_lang_codes_ci(apps, schema_editor):
         "pootle_language.Language",
         "code",
         "utf8_general_ci",
-        "varchar(50)")
+        "varchar(50)",
+    )
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pootle_language', '0001_initial'),
+        ("pootle_language", "0001_initial"),
     ]
 
     operations = [

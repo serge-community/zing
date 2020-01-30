@@ -28,7 +28,6 @@ from .util import get_change_str
 
 
 class UnitSyncer(object):
-
     def __init__(self, unit):
         self.unit = unit
 
@@ -73,8 +72,7 @@ class UnitSyncer(object):
         return self.unit.store.syncer.unit_class
 
     def convert(self, unitclass=None):
-        newunit = self.create_unit(
-            unitclass or self.unit_class)
+        newunit = self.create_unit(unitclass or self.unit_class)
         self.set_target(newunit)
         self.set_fuzzy(newunit)
         self.set_locations(newunit)
@@ -150,7 +148,8 @@ class StoreSyncer(object):
     def store_file_path(self):
         return os.path.join(
             self.translation_project.abs_real_path,
-            *split_pootle_path(self.store.pootle_path)[2:])
+            *split_pootle_path(self.store.pootle_path)[2:]
+        )
 
     @property
     def relative_file_path(self):
@@ -169,16 +168,12 @@ class StoreSyncer(object):
     def convert(self, fileclass=None):
         """export to fileclass"""
         fileclass = fileclass or self.file_class
-        logging.debug(
-            u"Converting %s to %s",
-            self.store.pootle_path,
-            fileclass)
+        logging.debug(u"Converting %s to %s", self.store.pootle_path, fileclass)
         output = fileclass()
         output.settargetlanguage(self.language.code)
         # FIXME: we should add some headers
         for unit in self.store.units.iterator():
-            output.addunit(
-                self.unit_sync_class(unit).convert(output.UnitClass))
+            output.addunit(self.unit_sync_class(unit).convert(output.UnitClass))
         return output
 
     def _getclass(self, obj):
@@ -186,14 +181,13 @@ class StoreSyncer(object):
             return getclass(obj)
         except ValueError:
             raise ValueError(
-                "Unable to find conversion class for Store '%s'"
-                % self.store.name)
+                "Unable to find conversion class for Store '%s'" % self.store.name
+            )
 
     def get_new_units(self, old_ids, new_ids):
         return self.store.findid_bulk(
-            [self.dbid_index.get(uid)
-             for uid
-             in new_ids - old_ids])
+            [self.dbid_index.get(uid) for uid in new_ids - old_ids]
+        )
 
     def get_units_to_obsolete(self, old_ids, new_ids):
         for uid in old_ids - new_ids:
@@ -203,9 +197,7 @@ class StoreSyncer(object):
 
     def obsolete_unit(self, unit, conservative):
         deleted = not unit.istranslated()
-        obsoleted = (
-            not deleted
-            and not conservative)
+        obsoleted = not deleted and not conservative
         if obsoleted:
             unit.makeobsolete()
             deleted = not unit.isobsolete()
@@ -236,8 +228,10 @@ class StoreSyncer(object):
             os.makedirs(os.path.dirname(self.store_file_path))
         self.store.file = self.relative_file_path
         store.savefile(self.store_file_path)
-        log(u"Created file for %s [revision: %d]" %
-            (self.store.pootle_path, last_revision))
+        log(
+            u"Created file for %s [revision: %d]"
+            % (self.store.pootle_path, last_revision)
+        )
         self.update_store_header(user=user)
         self.store.file.savestore()
         self.store.file_mtime = self.store.get_file_mtime()
@@ -246,26 +240,25 @@ class StoreSyncer(object):
 
     def update_newer(self, last_revision):
         last_sync_revision = self.store.last_sync_revision or -1
-        return (
-            not self.store.file.exists()
-            or last_revision > last_sync_revision
-        )
+        return not self.store.file.exists() or last_revision > last_sync_revision
 
     @cached_property
     def dbid_index(self):
         """build a quick mapping index between unit ids and database ids"""
-        return dict(
-            self.store.unit_set.live().values_list('unitid', 'id'))
+        return dict(self.store.unit_set.live().values_list("unitid", "id"))
 
-    def sync(self, update_structure=False, conservative=True,
-             user=None, only_newer=True):
+    def sync(
+        self, update_structure=False, conservative=True, user=None, only_newer=True
+    ):
         last_revision = self.store.get_max_unit_revision()
 
         # TODO only_newer -> not force
         if only_newer and not self.update_newer(last_revision):
             logging.info(
                 u"[sync] No updates for %s after [revision: %d]",
-                self.store.pootle_path, self.store.last_sync_revision or -1)
+                self.store.pootle_path,
+                self.store.last_sync_revision or -1,
+            )
             return
 
         if not self.store.file.exists():
@@ -273,14 +266,11 @@ class StoreSyncer(object):
             return
 
         file_changed, changes = self.sync_store(
-            last_revision,
-            update_structure,
-            conservative)
+            last_revision, update_structure, conservative
+        )
         self.save_store(
-            last_revision,
-            user,
-            changes,
-            (file_changed or not conservative))
+            last_revision, user, changes, (file_changed or not conservative)
+        )
 
     def sync_store(self, last_revision, update_structure, conservative):
         logging.info(u"Syncing %s", self.store.pootle_path)
@@ -293,19 +283,20 @@ class StoreSyncer(object):
             new_units = self.get_new_units(old_ids, new_ids)
             if obsolete_units or new_units:
                 file_changed = True
-                (changes['obsolete'],
-                 changes['deleted'],
-                 changes['added']) = self.update_structure(
-                    obsolete_units,
-                    new_units,
-                    conservative=conservative)
+                (
+                    changes["obsolete"],
+                    changes["deleted"],
+                    changes["added"],
+                ) = self.update_structure(
+                    obsolete_units, new_units, conservative=conservative
+                )
         changes["updated"] = self.sync_units(
             self.get_common_units(
-                set(self.dbid_index.get(uid)
-                    for uid
-                    in old_ids & new_ids),
+                set(self.dbid_index.get(uid) for uid in old_ids & new_ids),
                 last_revision,
-                conservative))
+                conservative,
+            )
+        )
         return bool(file_changed or any(changes.values())), changes
 
     def save_store(self, last_revision, user, changes, updated):
@@ -314,34 +305,35 @@ class StoreSyncer(object):
             self.update_store_header(user=user)
             self.store.file.savestore()
             self.store.file_mtime = self.store.get_file_mtime()
-            log(u"[sync] File saved; %s units in %s [revision: %d]" %
-                (get_change_str(changes),
-                 self.store.pootle_path,
-                 last_revision))
+            log(
+                u"[sync] File saved; %s units in %s [revision: %d]"
+                % (get_change_str(changes), self.store.pootle_path, last_revision)
+            )
         else:
             logging.info(
                 u"[sync] nothing changed in %s [revision: %d]",
                 self.store.pootle_path,
-                last_revision)
+                last_revision,
+            )
         self.store.last_sync_revision = last_revision
         self.store.save()
 
     def get_revision_filters(self, last_revision):
         # Get units modified after last sync and before this sync started
-        filter_by = {
-            'revision__lte': last_revision,
-            'store': self.store}
+        filter_by = {"revision__lte": last_revision, "store": self.store}
         # Sync all units if first sync
         if self.store.last_sync_revision is not None:
-            filter_by.update({'revision__gt': self.store.last_sync_revision})
+            filter_by.update({"revision__gt": self.store.last_sync_revision})
         return filter_by
 
     def get_modified_units(self, last_revision):
         from .models import Unit
+
         last_sync_revision = self.store.last_sync_revision or -1
         return set(
             Unit.objects.filter(**self.get_revision_filters(last_revision))
-                        .values_list('id', flat=True).distinct()
+            .values_list("id", flat=True)
+            .distinct()
             if last_revision > last_sync_revision
             else []
         )
@@ -369,7 +361,7 @@ class StoreSyncer(object):
 
 class PoStoreSyncer(StoreSyncer):
 
-    extension = 'po'
+    extension = "po"
 
     def get_latest_submission(self, mtime):
         user_displayname = None
@@ -384,15 +376,13 @@ class PoStoreSyncer(StoreSyncer):
         )
         try:
             username, fullname, user_email = (
-                submissions.filter(creation_time=mtime)
-                           .values_list(*fields).latest()
+                submissions.filter(creation_time=mtime).values_list(*fields).latest()
             )
         except Submission.DoesNotExist:
             try:
-                _mtime, username, fullname, user_email = (
-                    submissions.values_list("creation_time", *fields)
-                               .latest()
-                )
+                _mtime, username, fullname, user_email = submissions.values_list(
+                    "creation_time", *fields
+                ).latest()
                 mtime = min(_mtime, mtime)
             except ObjectDoesNotExist:
                 pass
@@ -401,29 +391,28 @@ class PoStoreSyncer(StoreSyncer):
         return mtime, user_displayname, user_email
 
     def get_po_revision_date(self, mtime):
-        return '%s%s' % (mtime.strftime('%Y-%m-%d %H:%M'), poheader.tzstring())
+        return "%s%s" % (mtime.strftime("%Y-%m-%d %H:%M"), poheader.tzstring())
 
     def get_po_headers(self, mtime, user_displayname, user_email):
         headerupdates = {
-            'PO_Revision_Date': self.get_po_revision_date(mtime),
-            'X_Generator': "Zing %s" % get_major_minor_version(),
+            "PO_Revision_Date": self.get_po_revision_date(mtime),
+            "X_Generator": "Zing %s" % get_major_minor_version(),
         }
-        headerupdates['Last_Translator'] = (
-            user_displayname and user_email
-            and ('%s <%s>' % (user_displayname, user_email))
-            or 'Anonymous Zing User'
+        headerupdates["Last_Translator"] = (
+            user_displayname
+            and user_email
+            and ("%s <%s>" % (user_displayname, user_email))
+            or "Anonymous Zing User"
         )
         return headerupdates
 
     def update_po_headers(self, mtime, user_displayname, user_email):
         self.disk_store.updateheader(
-            add=True,
-            **self.get_po_headers(mtime, user_displayname, user_email)
+            add=True, **self.get_po_headers(mtime, user_displayname, user_email)
         )
         if self.language.nplurals and self.language.pluralequation:
             self.disk_store.updateheaderplural(
-                self.language.nplurals,
-                self.language.pluralequation
+                self.language.nplurals, self.language.pluralequation
             )
 
     def update_store_header(self, **kwargs):
@@ -435,9 +424,7 @@ class PoStoreSyncer(StoreSyncer):
         user_displayname = None
         user_email = None
         if user is None:
-            (mtime,
-             user_displayname,
-             user_email) = self.get_latest_submission(mtime)
+            (mtime, user_displayname, user_email) = self.get_latest_submission(mtime)
         elif user.is_authenticated:
             user_displayname = user.display_name
             user_email = user.email

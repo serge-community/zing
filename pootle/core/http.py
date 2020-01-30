@@ -18,7 +18,7 @@ class JsonResponse(HttpResponse):
     """
 
     def __init__(self, data, **kwargs):
-        kwargs.setdefault('content_type', 'application/json')
+        kwargs.setdefault("content_type", "application/json")
         data = jsonify(data)
         super(JsonResponse, self).__init__(content=data, **kwargs)
 

@@ -26,7 +26,7 @@ def make_aware(value, tz=None):
         needs to be converted to. By default, site's own default timezone will
         be used.
     """
-    if getattr(settings, 'USE_TZ', False) and timezone.is_naive(value):
+    if getattr(settings, "USE_TZ", False) and timezone.is_naive(value):
         use_tz = tz if tz is not None else timezone.get_default_timezone()
         value = timezone.make_aware(value, timezone=use_tz)
 
@@ -41,7 +41,7 @@ def make_naive(value, tz=None):
         needs to be converted to. By default, site's own default timezone will
         be used.
     """
-    if getattr(settings, 'USE_TZ', False) and timezone.is_aware(value):
+    if getattr(settings, "USE_TZ", False) and timezone.is_aware(value):
         use_tz = tz if tz is not None else timezone.get_default_timezone()
         value = timezone.make_naive(value, timezone=use_tz)
 
@@ -56,5 +56,5 @@ def aware_datetime(*args, **kwargs):
         this bypasses passing `tzinfo` to the `datetime` constructor, as it is
         known not to play well with DST (unless only UTC is used).
     """
-    tz = kwargs.pop('tz', None)
+    tz = kwargs.pop("tz", None)
     return make_aware(datetime.datetime(*args, **kwargs), tz=tz)

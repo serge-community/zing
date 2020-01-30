@@ -15,8 +15,10 @@ import pytest
 from allauth.account.models import EmailAddress
 
 from tests.fixtures.models.permission_set import _require_permission_set
-from tests.fixtures.models.store import (_create_submission_and_suggestion,
-                                         _create_comment_on_unit)
+from tests.fixtures.models.store import (
+    _create_submission_and_suggestion,
+    _create_comment_on_unit,
+)
 
 import accounts
 
@@ -39,19 +41,19 @@ def _make_evil_member_updates(store, evil_member):
     member_suggestion = store.units[0].get_suggestions().first()
     evil_units = [
         ("Hello, world", "Hello, world EVIL"),
-        ("Goodbye, world", "Goodbye, world EVIL")]
+        ("Goodbye, world", "Goodbye, world EVIL"),
+    ]
     unit = store.units[0]
-    unit.reject_suggestion(member_suggestion,
-                           store.units[0].store.translation_project,
-                           evil_member)
-    _create_submission_and_suggestion(store,
-                                      evil_member,
-                                      units=evil_units,
-                                      suggestion="EVIL SUGGESTION")
+    unit.reject_suggestion(
+        member_suggestion, store.units[0].store.translation_project, evil_member
+    )
+    _create_submission_and_suggestion(
+        store, evil_member, units=evil_units, suggestion="EVIL SUGGESTION"
+    )
     evil_suggestion = store.units[0].get_suggestions().first()
-    store.units[0].accept_suggestion(evil_suggestion,
-                                     store.units[0].store.translation_project,
-                                     evil_member)
+    store.units[0].accept_suggestion(
+        evil_suggestion, store.units[0].store.translation_project, evil_member
+    )
     _create_comment_on_unit(store.units[0], evil_member, "EVIL COMMENT")
 
 
@@ -62,9 +64,7 @@ def _test_user_merged(unit, src_user, target_user):
         assert src_user.suggestions.count() == 0
 
     assert unit in list(target_user.submitted.all())
-    assert (
-        unit.get_suggestions().first()
-        in list(target_user.suggestions.all()))
+    assert unit.get_suggestions().first() in list(target_user.suggestions.all())
 
 
 def _test_before_evil_user_updated(store, member, teststate=False):
@@ -184,21 +184,25 @@ def test_delete_user(en_tutorial_po):
 
 
 @pytest.mark.django_db
-def test_purge_user(en_tutorial_po_member_updated,
-                    member, evil_member):
+def test_purge_user(en_tutorial_po_member_updated, member, evil_member):
     """Test purging user using `purge_user` function"""
-    _test_user_purging(en_tutorial_po_member_updated,
-                       member, evil_member,
-                       lambda m: accounts.utils.UserPurger(m).purge())
+    _test_user_purging(
+        en_tutorial_po_member_updated,
+        member,
+        evil_member,
+        lambda m: accounts.utils.UserPurger(m).purge(),
+    )
 
 
 @pytest.mark.django_db
-def test_delete_purge_user(en_tutorial_po_member_updated,
-                           member, evil_member):
+def test_delete_purge_user(en_tutorial_po_member_updated, member, evil_member):
     """Test purging user using `User.delete(purge=True)`"""
-    _test_user_purging(en_tutorial_po_member_updated,
-                       member, evil_member,
-                       lambda m: m.delete(purge=True))
+    _test_user_purging(
+        en_tutorial_po_member_updated,
+        member,
+        evil_member,
+        lambda m: m.delete(purge=True),
+    )
 
 
 @pytest.mark.django_db
@@ -214,8 +218,7 @@ def test_verify_user_duplicate_email(trans_member, member):
 
     # Email not verified
     with pytest.raises(EmailAddress.DoesNotExist):
-        EmailAddress.objects.get(user=trans_member,
-                                 primary=True, verified=True)
+        EmailAddress.objects.get(user=trans_member, primary=True, verified=True)
 
 
 @pytest.mark.django_db
@@ -229,19 +232,22 @@ def test_verify_user_with_primary_and_non_primary_email_object(trans_member):
     member.email = "member@this.test"
 
     # Create the unverified non-primary email object
-    EmailAddress.objects.create(user=member, email=member.email,
-                                primary=False, verified=False)
+    EmailAddress.objects.create(
+        user=member, email=member.email, primary=False, verified=False
+    )
 
     # Create unverified primary email object
-    EmailAddress.objects.create(user=member, email="otheremail@this.test",
-                                primary=True, verified=False)
+    EmailAddress.objects.create(
+        user=member, email="otheremail@this.test", primary=True, verified=False
+    )
 
     # Verify user
     accounts.utils.verify_user(member)
 
     # Get the verified email object - the primary address is used
-    EmailAddress.objects.get(user=member, email="otheremail@this.test",
-                             primary=True, verified=True)
+    EmailAddress.objects.get(
+        user=member, email="otheremail@this.test", primary=True, verified=True
+    )
 
 
 @pytest.mark.django_db
@@ -257,9 +263,12 @@ def test_verify_user_already_verified(unverified_member):
         accounts.utils.verify_user(unverified_member)
 
     # Get the verified email object
-    EmailAddress.objects.get(user=unverified_member,
-                             email=unverified_member.email,
-                             primary=True, verified=True)
+    EmailAddress.objects.get(
+        user=unverified_member,
+        email=unverified_member.email,
+        primary=True,
+        verified=True,
+    )
 
 
 @pytest.mark.django_db
@@ -274,8 +283,8 @@ def test_user_has_manager_permissions(no_perms_user, administrate, tp0):
     # Assign 'administrate' right for 'Language0 (Project0)' TP and check user
     # is manager.
     criteria = {
-        'user': no_perms_user,
-        'directory': tp0.directory,
+        "user": no_perms_user,
+        "directory": tp0.directory,
     }
     ps = PermissionSet.objects.get_or_create(**criteria)[0]
     ps.positive_permissions.set([administrate])
@@ -285,7 +294,7 @@ def test_user_has_manager_permissions(no_perms_user, administrate, tp0):
     assert not no_perms_user.has_manager_permissions()
 
     # Assign 'administrate' right for 'Language0' and check user is manager.
-    criteria['directory'] = language0.directory
+    criteria["directory"] = language0.directory
     ps = PermissionSet.objects.get_or_create(**criteria)[0]
     ps.positive_permissions.set([administrate])
     ps.save()
@@ -294,7 +303,7 @@ def test_user_has_manager_permissions(no_perms_user, administrate, tp0):
     assert not no_perms_user.has_manager_permissions()
 
     # Assign 'administrate' right for 'Project0' and check user is manager.
-    criteria['directory'] = project0.directory
+    criteria["directory"] = project0.directory
     ps = PermissionSet.objects.get_or_create(**criteria)[0]
     ps.positive_permissions.set([administrate])
     ps.save()
@@ -305,22 +314,20 @@ def test_user_has_manager_permissions(no_perms_user, administrate, tp0):
 
 @pytest.mark.django_db
 def test_get_users_with_permission(default, member, translate):
-    language = Language.objects.get(code='language0')
-    project = Project.objects.get(code='project0')
+    language = Language.objects.get(code="language0")
+    project = Project.objects.get(code="project0")
     User = get_user_model()
 
     directory = TranslationProject.objects.get(
-        project=project,
-        language=language
+        project=project, language=language
     ).directory
 
     _require_permission_set(member, directory, [translate])
 
     # remove "Can submit translation" permission for default user
-    ps = PermissionSet.objects.filter(user=default,
-                                      directory=Directory.objects.root)[0]
+    ps = PermissionSet.objects.filter(user=default, directory=Directory.objects.root)[0]
     ps.positive_permissions.set(ps.positive_permissions.exclude(id=translate.id))
     ps.save()
-    users = User.objects.get_users_with_permission('translate', project, language)
+    users = User.objects.get_users_with_permission("translate", project, language)
     for user in users:
-        assert check_user_permission(user, 'translate', directory)
+        assert check_user_permission(user, "translate", directory)

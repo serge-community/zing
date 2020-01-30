@@ -19,12 +19,13 @@ from pootle_store.models import Store
 from pootle_store.util import relative_real_path
 
 
-FILE_EXTENSIONS = ['po']
+FILE_EXTENSIONS = ["po"]
 
 
 def get_matching_language_dirs(project_dir, language):
-    return [lang_dir for lang_dir in os.listdir(project_dir)
-            if language.code == lang_dir]
+    return [
+        lang_dir for lang_dir in os.listdir(project_dir) if language.code == lang_dir
+    ]
 
 
 def get_or_make_language_dir(project_dir, language, make_dirs):
@@ -33,8 +34,10 @@ def get_or_make_language_dir(project_dir, language, make_dirs):
         return os.path.join(project_dir, matching_language_dirs[0])
 
     if not make_dirs:
-        raise IndexError('Directory not found for language %s, project %s' %
-                         (language.code, project_dir))
+        raise IndexError(
+            "Directory not found for language %s, project %s"
+            % (language.code, project_dir)
+        )
 
     # If no matching directories can be found, create them
     language_dir = os.path.join(project_dir, language.code)
@@ -60,7 +63,7 @@ def get_translation_project_dir(language, project_dir, make_dirs=False):
 
 
 def is_hidden_file(path):
-    return path[0] == '.'
+    return path[0] == "."
 
 
 def split_files_and_dirs(real_dir):
@@ -115,7 +118,7 @@ def add_items(fs_items_set, db_items, create_or_resurrect_db_item, parent):
         try:
             item.save()
         except Exception:
-            logging.exception('Error while adding %s', item)
+            logging.exception("Error while adding %s", item)
 
     return items, new_items
 
@@ -129,12 +132,16 @@ def create_or_resurrect_store(f, parent, name, translation_project):
         if store.last_sync_revision is None:
             store.last_sync_revision = store.get_max_unit_revision()
 
-        store_log(user='system', action=STORE_RESURRECTED,
-                  path=store.pootle_path, store=store.id)
+        store_log(
+            user="system",
+            action=STORE_RESURRECTED,
+            path=store.pootle_path,
+            store=store.id,
+        )
     except Store.DoesNotExist:
         store = Store.objects.create(
-            file=f, parent=parent,
-            name=name, translation_project=translation_project)
+            file=f, parent=parent, name=name, translation_project=translation_project
+        )
     store.mark_all_dirty()
     return store
 
@@ -158,11 +165,11 @@ def add_files(translation_project, relative_dir, db_dir):
     file_set = set(files)
     dir_set = set(dirs)
 
-    existing_stores = dict((store.name, store) for store in
-                           db_dir.child_stores.live().exclude(file='')
-                                                     .iterator())
-    existing_dirs = dict((dir.name, dir) for dir in
-                         db_dir.child_dirs.live().iterator())
+    existing_stores = dict(
+        (store.name, store)
+        for store in db_dir.child_stores.live().exclude(file="").iterator()
+    )
+    existing_dirs = dict((dir.name, dir) for dir in db_dir.child_dirs.live().iterator())
 
     files, new_files = add_items(
         file_set,
@@ -187,9 +194,7 @@ def add_files(translation_project, relative_dir, db_dir):
     for db_subdir in db_subdirs:
         fs_subdir = os.path.join(relative_dir, db_subdir.name)
         _files, _new_files, _is_empty = add_files(
-            translation_project,
-            fs_subdir,
-            db_subdir,
+            translation_project, fs_subdir, db_subdir,
         )
         files += _files
         new_files += _new_files

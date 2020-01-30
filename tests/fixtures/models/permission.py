@@ -15,8 +15,8 @@ def pootle_content_type():
     from django.contrib.contenttypes.models import ContentType
 
     args = {
-        'app_label': 'pootle_app',
-        'model': 'directory',
+        "app_label": "pootle_app",
+        "model": "directory",
     }
     return ContentType.objects.get(**args)
 
@@ -26,9 +26,9 @@ def _require_permission(code, name, content_type):
     from django.contrib.auth.models import Permission
 
     criteria = {
-        'codename': code,
-        'name': name,
-        'content_type': content_type,
+        "codename": code,
+        "name": name,
+        "content_type": content_type,
     }
     permission = Permission.objects.get_or_create(**criteria)[0]
 
@@ -38,22 +38,21 @@ def _require_permission(code, name, content_type):
 @pytest.fixture
 def view(pootle_content_type):
     """Require the `view` permission."""
-    return _require_permission('view', 'Can access a project',
-                               pootle_content_type)
+    return _require_permission("view", "Can access a project", pootle_content_type)
 
 
 @pytest.fixture
 def hide(pootle_content_type):
     """Require the `hide` permission."""
-    return _require_permission('hide', 'Cannot access a project',
-                               pootle_content_type)
+    return _require_permission("hide", "Cannot access a project", pootle_content_type)
 
 
 @pytest.fixture
 def administrate(pootle_content_type):
     """Require the `suggest` permission."""
-    return _require_permission('administrate', 'Can administrate a TP',
-                               pootle_content_type)
+    return _require_permission(
+        "administrate", "Can administrate a TP", pootle_content_type
+    )
 
 
 @pytest.fixture

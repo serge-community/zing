@@ -26,11 +26,10 @@ from .task import CriticalTask, TaskResultSet, TranslationTask
 def validate_pootle_path(value):
     project_code = split_pootle_path(value)[1]
     if project_code is None:
-        raise ValidationError('Cannot set due date for this path.')
+        raise ValidationError("Cannot set due date for this path.")
 
 
 class DueDateQuerySet(models.QuerySet):
-
     def for_project_path(self, pootle_path):
         """Retrieves a queryset of due dates available for the `pootle_path`
         resource across all languages.
@@ -38,21 +37,17 @@ class DueDateQuerySet(models.QuerySet):
         :param pootle_path: internal path pointing to a project-specific
             resource.
         """
-        if not pootle_path.startswith('/projects/'):
+        if not pootle_path.startswith("/projects/"):
             return self.none()
 
-        xlang_regex = r'^%s$' % re.sub(r'^/projects/', '/[^/]*/', pootle_path)
-        return self.filter(
-            pootle_path__regex=xlang_regex,
-        ).exclude(
-            pootle_path__startswith='/projects/',
+        xlang_regex = r"^%s$" % re.sub(r"^/projects/", "/[^/]*/", pootle_path)
+        return self.filter(pootle_path__regex=xlang_regex,).exclude(
+            pootle_path__startswith="/projects/",
         )
 
     def for_language(self, language_code):
         """Retrieves a queryset of due dates affecting `language_code`."""
-        return self.filter(
-            pootle_path__startswith='/%s/' % language_code,
-        )
+        return self.filter(pootle_path__startswith="/%s/" % language_code,)
 
     def accessible_by(self, user):
         """Retrieves a queryset of due dates accessible by `user`."""
@@ -60,10 +55,8 @@ class DueDateQuerySet(models.QuerySet):
             return self
 
         project_codes = Project.objects.cached_dict(user).keys()
-        project_codes_regex = '(%s)' % '|'.join(project_codes)
-        return self.filter(
-            pootle_path__regex=r'^/[^/]*/%s/' % project_codes_regex,
-        )
+        project_codes_regex = "(%s)" % "|".join(project_codes)
+        return self.filter(pootle_path__regex=r"^/[^/]*/%s/" % project_codes_regex,)
 
 
 class FakeUser(object):
@@ -73,18 +66,16 @@ class FakeUser(object):
 class DueDate(models.Model):
 
     due_on = models.DateTimeField()
-    pootle_path = models.CharField(max_length=255, db_index=True, unique=True,
-                                   validators=[validate_pootle_path])
-    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                    on_delete=models.CASCADE)
+    pootle_path = models.CharField(
+        max_length=255, db_index=True, unique=True, validators=[validate_pootle_path]
+    )
+    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     modified_on = models.DateTimeField(auto_now_add=True)
 
     objects = DueDateQuerySet.as_manager()
 
     class Meta:
-        indexes = (
-            models.Index(fields=['due_on', 'pootle_path', 'modified_by']),
-        )
+        indexes = (models.Index(fields=["due_on", "pootle_path", "modified_by"]),)
 
     @cached_property
     def stats(self):
@@ -106,9 +97,9 @@ class DueDate(models.Model):
     def project_name(self):
         # FIXME: can we do something which doesn't require the fake user?
         try:
-            return Project.objects.cached_dict(
-                FakeUser()
-            )[self.project_code]['fullname']
+            return Project.objects.cached_dict(FakeUser())[self.project_code][
+                "fullname"
+            ]
         except KeyError:
             return self.project_code
 
@@ -128,14 +119,14 @@ class DueDate(models.Model):
             return TaskResultSet([])
 
         now = now or timezone.now()
-        due_tasks = list(flatten([
-            due_date.get_pending_tasks(now) for due_date in due_dates
-        ]))
+        due_tasks = list(
+            flatten([due_date.get_pending_tasks(now) for due_date in due_dates])
+        )
 
         return TaskResultSet(due_tasks).order_by_importance()
 
     def __str__(self):
-        return '<DueDate: %s>' % (self.due_on)
+        return "<DueDate: %s>" % (self.due_on)
 
     def save(self, *args, **kwargs):
         self.full_clean()
@@ -161,7 +152,7 @@ class DueDate(models.Model):
 
         project_languages = TranslationProject.objects.filter(
             project__code=self.project_code,
-        ).values_list('language__code', flat=True)
+        ).values_list("language__code", flat=True)
 
         DueDate.objects.bulk_create(
             DueDate(
@@ -183,7 +174,7 @@ class DueDate(models.Model):
         DueDate.objects.for_project_path(self.pootle_path).delete()
 
     def get_language_path(self, language_code):
-        return re.sub(r'^/projects/', '/%s/' % language_code, self.pootle_path)
+        return re.sub(r"^/projects/", "/%s/" % language_code, self.pootle_path)
 
     def get_pending_tasks(self, now):
         """Gets tasks pending in the language referenced by this due date.
@@ -196,8 +187,8 @@ class DueDate(models.Model):
 
         pending = []
         task_kwargs = {
-            'due_date': self,
-            'now': now,
+            "due_date": self,
+            "now": now,
         }
 
         critical_count = self.stats.critical

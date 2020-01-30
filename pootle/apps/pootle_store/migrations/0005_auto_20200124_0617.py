@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pootle_store', '0004_add_file_mtime_integer'),
+        ("pootle_store", "0004_add_file_mtime_integer"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='store',
-            options={'base_manager_name': 'objects', 'ordering': ['pootle_path']},
+            name="store",
+            options={"base_manager_name": "objects", "ordering": ["pootle_path"]},
         ),
     ]

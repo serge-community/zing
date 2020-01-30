@@ -21,10 +21,18 @@ class BasePaymentEmail(object):
         `(path_to_attachment, type)` shape.
     """
 
-    template_name = 'invoices/invoice_message.html'
+    template_name = "invoices/invoice_message.html"
 
-    def __init__(self, id, config, invoice_context, override_to=None,
-                 override_bcc=None, attachments=None, **kwargs):
+    def __init__(
+        self,
+        id,
+        config,
+        invoice_context,
+        override_to=None,
+        override_bcc=None,
+        attachments=None,
+        **kwargs
+    ):
         self.id = id
         self.conf = config
         self.invoice_ctx = invoice_context
@@ -42,17 +50,16 @@ class BasePaymentEmail(object):
         return self.override_bcc or []
 
     def get_subject(self):
-        raise NotImplementedError('Children must implement `get_subject()`')
+        raise NotImplementedError("Children must implement `get_subject()`")
 
     def get_context_data(self):
         ctx = {
-            'debug_emails': bool(self.override_to),
-            'to_email_list': self.get_recipient_list(),
-            'cc_email_list': self.get_cc_list(),
-            'bcc_email_list': self.get_bcc_list(),
-
-            'COMPANY': getattr(settings, 'ZING_INVOICES_COMPANY', ''),
-            'DEPARTMENT': getattr(settings, 'ZING_INVOICES_DEPARTMENT', ''),
+            "debug_emails": bool(self.override_to),
+            "to_email_list": self.get_recipient_list(),
+            "cc_email_list": self.get_cc_list(),
+            "bcc_email_list": self.get_bcc_list(),
+            "COMPANY": getattr(settings, "ZING_INVOICES_COMPANY", ""),
+            "DEPARTMENT": getattr(settings, "ZING_INVOICES_DEPARTMENT", ""),
         }
         ctx.update(self.invoice_ctx)
         return ctx
@@ -67,12 +74,14 @@ class BasePaymentEmail(object):
 
         # Set non-empty body according to
         # http://stackoverflow.com/questions/14580176/confusion-with-sending-email-in-django
-        mail = EmailMultiAlternatives(subject=self.get_subject(),
-                                      body=strip_tags(body),
-                                      to=self.get_recipient_list(),
-                                      cc=self.get_cc_list(),
-                                      bcc=self.get_bcc_list())
-        mail.attach_alternative(body, 'text/html')
+        mail = EmailMultiAlternatives(
+            subject=self.get_subject(),
+            body=strip_tags(body),
+            to=self.get_recipient_list(),
+            cc=self.get_cc_list(),
+            bcc=self.get_bcc_list(),
+        )
+        mail.attach_alternative(body, "text/html")
 
         for attachment in self.attachments:
             mail.attach_file(attachment[0], attachment[1])
@@ -81,66 +90,58 @@ class BasePaymentEmail(object):
 
 
 class AccountingPaymentEmail(BasePaymentEmail):
-
     def get_recipient_list(self):
-        return self.override_to or self.conf['accounting_email'].split()
+        return self.override_to or self.conf["accounting_email"].split()
 
     def get_cc_list(self):
         if self.override_to is not None:
             return []
-        if 'accounting_email_cc' in self.conf:
-            return self.conf['accounting_email_cc'].split()
+        if "accounting_email_cc" in self.conf:
+            return self.conf["accounting_email_cc"].split()
         return []
 
     def get_subject(self):
         """Returns the subject of the email sent to accounting."""
         # FIXME: make this customizable
         ctx = self.get_context_data()
-        return u'For payment: Invoice %s, %s' % (self.id, ctx['name'])
+        return u"For payment: Invoice %s, %s" % (self.id, ctx["name"])
 
     def get_context_data(self):
         ctx = super(AccountingPaymentEmail, self).get_context_data()
-        ctx.update({
-            'accounting': True,
-        })
+        ctx.update({"accounting": True})
         return ctx
 
 
 class UserPaymentEmail(BasePaymentEmail):
-
     def get_recipient_list(self):
-        return self.override_to or self.conf['email'].split()
+        return self.override_to or self.conf["email"].split()
 
     def get_subject(self):
         """Returns the subject of the email sent to the user."""
         # FIXME: make subjects customizable
         ctx = self.get_context_data()
-        return u'Sent for payment: Invoice %s, %s' % (self.id, ctx['name'])
+        return u"Sent for payment: Invoice %s, %s" % (self.id, ctx["name"])
 
     def get_context_data(self):
         ctx = super(UserPaymentEmail, self).get_context_data()
-        ctx.update({
-            'accounting': False,
-        })
+        ctx.update({"accounting": False})
         return ctx
 
 
 class UserNoPaymentEmail(BasePaymentEmail):
-    template_name = 'invoices/no_invoice_message.html'
+    template_name = "invoices/no_invoice_message.html"
 
     def get_recipient_list(self):
-        return self.override_to or self.conf['email'].split()
+        return self.override_to or self.conf["email"].split()
 
     def get_subject(self):
         """Returns the subject of the email sent to the user."""
         # FIXME: make subjects customizable
         ctx = self.get_context_data()
-        if ctx['is_carried_over']:
+        if ctx["is_carried_over"]:
             return (
-                u'Notice: No payment will be sent this month to %s'
-                u'; unpaid balance carried over to next month' % ctx['name']
+                u"Notice: No payment will be sent this month to %s"
+                u"; unpaid balance carried over to next month" % ctx["name"]
             )
 
-        return (
-            u'Notice: No payment will be sent this month to %s' % ctx['name']
-        )
+        return u"Notice: No payment will be sent this month to %s" % ctx["name"]

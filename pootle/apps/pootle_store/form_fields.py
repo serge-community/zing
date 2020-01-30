@@ -14,18 +14,16 @@ from pootle_misc.checks import CATEGORY_IDS
 
 
 class CommaSeparatedCheckboxSelectMultiple(forms.CheckboxSelectMultiple):
-
     def value_from_datadict(self, data, files, name):
         # Accept `sfields` to be a comma-separated string of fields (#46)
         if "," in data.get(name, ""):
-            return data.get(name).split(u',')
+            return data.get(name).split(u",")
         if isinstance(data, MultiValueDict):
             return data.getlist(name)
         return data.get(name, None)
 
 
 class MultipleValueWidget(forms.TextInput):
-
     def value_from_datadict(self, data, files, name):
         if hasattr(data, "getlist"):
             return data.getlist(name)
@@ -47,7 +45,6 @@ class MultipleArgsField(forms.Field):
 
 
 class CategoryChoiceField(forms.ChoiceField):
-
     def to_python(self, value):
         if value is not None:
             return CATEGORY_IDS.get(value)

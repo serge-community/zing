@@ -16,9 +16,9 @@ from .unit.altsrc import AltSrcUnits
 
 
 class SuggestionStates(object):
-    PENDING = 'pending'
-    ACCEPTED = 'accepted'
-    REJECTED = 'rejected'
+    PENDING = "pending"
+    ACCEPTED = "accepted"
+    REJECTED = "rejected"
 
 
 def add_trailing_slash(path):
@@ -32,7 +32,7 @@ def add_trailing_slash(path):
 
 def relative_real_path(p):
     if p.startswith(settings.ZING_TRANSLATION_DIRECTORY):
-        return p[len(add_trailing_slash(settings.ZING_TRANSLATION_DIRECTORY)):]
+        return p[len(add_trailing_slash(settings.ZING_TRANSLATION_DIRECTORY)) :]
     else:
         return p
 
@@ -53,7 +53,7 @@ def find_altsrcs(unit, alt_src_langs, store=None, project=None):
     store = store or unit.store
     project = project or store.translation_project.project
 
-    language_regex = '(%s)' % '|'.join([x.code for x in alt_src_langs])
+    language_regex = "(%s)" % "|".join([x.code for x in alt_src_langs])
     pootle_path = "/%s/%s/%s$" % (language_regex, project.code, store.path)
 
     altsrcs_qs = Unit.objects.filter(
@@ -73,8 +73,7 @@ def get_change_str(changes):
 
     If all elements are zero, `nothing changed` is returned.
     """
-    res = [u'%s %d' % (key, changes[key])
-           for key in changes if changes[key] > 0]
+    res = [u"%s %d" % (key, changes[key]) for key in changes if changes[key] > 0]
 
     if res:
         return ", ".join(res)

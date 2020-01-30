@@ -17,8 +17,7 @@ from django.urls import reverse
 from django.utils.translation import gettext as _
 
 from pootle_app.models.directory import Directory
-from pootle_app.models.permissions import (check_permission,
-                                           get_matching_permissions)
+from pootle_app.models.permissions import check_permission, get_matching_permissions
 from pootle_language.models import Language
 from pootle_project.models import Project, ProjectResource, ProjectSet
 from pootle_store.models import Store
@@ -29,9 +28,9 @@ from .url_helpers import split_pootle_path
 
 
 CLS2ATTR = {
-    'TranslationProject': 'translation_project',
-    'Project': 'project',
-    'Language': 'language',
+    "TranslationProject": "translation_project",
+    "Project": "project",
+    "Language": "language",
 }
 
 
@@ -39,24 +38,25 @@ def get_path_obj(func):
     @wraps(func)
     def wrapped(request, *args, **kwargs):
         if request.is_ajax():
-            pootle_path = request.GET.get('path', None)
+            pootle_path = request.GET.get("path", None)
             if pootle_path is None:
-                raise Http400(_('Arguments missing.'))
+                raise Http400(_("Arguments missing."))
 
-            language_code, project_code, dir_path, filename = \
-                split_pootle_path(pootle_path)
-            kwargs['dir_path'] = dir_path
-            kwargs['filename'] = filename
+            language_code, project_code, dir_path, filename = split_pootle_path(
+                pootle_path
+            )
+            kwargs["dir_path"] = dir_path
+            kwargs["filename"] = filename
 
             # Remove potentially present but unwanted args
             try:
-                del kwargs['language_code']
-                del kwargs['project_code']
+                del kwargs["language_code"]
+                del kwargs["project_code"]
             except KeyError:
                 pass
         else:
-            language_code = kwargs.pop('language_code', None)
-            project_code = kwargs.pop('project_code', None)
+            language_code = kwargs.pop("language_code", None)
+            project_code = kwargs.pop("project_code", None)
 
         if language_code and project_code:
             try:
@@ -72,16 +72,18 @@ def get_path_obj(func):
                 if not request.is_ajax():
                     # Explicit selection via the UI: redirect either to
                     # ``/language_code/`` or ``/projects/project_code/``
-                    user_choice = request.COOKIES.get('user-choice', None)
-                    if user_choice and user_choice in ('language', 'project',):
+                    user_choice = request.COOKIES.get("user-choice", None)
+                    if user_choice and user_choice in ("language", "project",):
                         url = {
-                            'language': reverse('pootle-language-browse',
-                                                args=[language_code]),
-                            'project': reverse('pootle-project-browse',
-                                               args=[project_code, '', '']),
+                            "language": reverse(
+                                "pootle-language-browse", args=[language_code]
+                            ),
+                            "project": reverse(
+                                "pootle-project-browse", args=[project_code, "", ""]
+                            ),
                         }
                         response = redirect(url[user_choice])
-                        response.delete_cookie('user-choice')
+                        response.delete_cookie("user-choice")
 
                         return response
 
@@ -89,14 +91,12 @@ def get_path_obj(func):
         elif language_code:
             user_projects = Project.accessible_by_user(request.user)
             language = get_object_or_404(Language, code=language_code)
-            children = language.children \
-                               .filter(project__code__in=user_projects)
+            children = language.children.filter(project__code__in=user_projects)
             language.set_children(children)
             path_obj = language
         elif project_code:
             try:
-                path_obj = Project.objects.get_for_user(project_code,
-                                                        request.user)
+                path_obj = Project.objects.get_for_user(project_code, request.user)
             except Project.DoesNotExist:
                 raise Http404
         else:  # No arguments: all user-accessible projects
@@ -122,7 +122,7 @@ def set_resource(request, path_obj, dir_path, filename):
     :param dir_path: Path relative to the root of `path_obj`.
     :param filename: Optional filename.
     """
-    obj_directory = getattr(path_obj, 'directory', path_obj)
+    obj_directory = getattr(path_obj, "directory", path_obj)
     ctx_path = obj_directory.pootle_path
     resource_path = dir_path
     pootle_path = ctx_path + dir_path
@@ -137,10 +137,11 @@ def set_resource(request, path_obj, dir_path, filename):
         resource_path = resource_path + filename
 
         try:
-            store = Store.objects.live().select_related(
-                'translation_project',
-                'parent',
-            ).get(pootle_path=pootle_path)
+            store = (
+                Store.objects.live()
+                .select_related("translation_project", "parent",)
+                .get(pootle_path=pootle_path)
+            )
             directory = store.parent
         except Store.DoesNotExist:
             is_404 = True
@@ -148,9 +149,7 @@ def set_resource(request, path_obj, dir_path, filename):
     if directory is None and not is_404:
         if dir_path:
             try:
-                directory = Directory.objects.live().get(
-                    pootle_path=pootle_path,
-                )
+                directory = Directory.objects.live().get(pootle_path=pootle_path,)
             except Directory.DoesNotExist:
                 is_404 = True
         else:
@@ -159,10 +158,9 @@ def set_resource(request, path_obj, dir_path, filename):
     if is_404:  # Try parent directory
         language_code, project_code = split_pootle_path(pootle_path)[:2]
         if not filename:
-            dir_path = dir_path[:dir_path[:-1].rfind('/') + 1]
+            dir_path = dir_path[: dir_path[:-1].rfind("/") + 1]
 
-        url = reverse('pootle-tp-browse',
-                      args=[language_code, project_code, dir_path])
+        url = reverse("pootle-tp-browse", args=[language_code, project_code, dir_path])
         request.redirect_url = url
 
         raise Http404
@@ -189,42 +187,52 @@ def set_project_resource(request, path_obj, dir_path, filename):
     :param dir_path: Path relative to the root of `path_obj`.
     :param filename: Optional filename.
     """
-    query_ctx_path = ''.join(['/%/', path_obj.code, '/'])
+    query_ctx_path = "".join(["/%/", path_obj.code, "/"])
     query_pootle_path = query_ctx_path + dir_path
 
-    obj_directory = getattr(path_obj, 'directory', path_obj)
+    obj_directory = getattr(path_obj, "directory", path_obj)
     ctx_path = obj_directory.pootle_path
     resource_path = dir_path
     pootle_path = ctx_path + dir_path
 
     # List of TP paths available for user
     user_tps = TranslationProject.objects.for_user(request.user)
-    user_tps = user_tps.filter(
-        project__code=path_obj.code,
-    ).values_list('pootle_path', flat=True)
-    user_tps_regex = '^%s' % u'|'.join(list(user_tps))
-    sql_regex = 'REGEXP'
-    if connection.vendor == 'postgresql':
-        sql_regex = '~'
+    user_tps = user_tps.filter(project__code=path_obj.code,).values_list(
+        "pootle_path", flat=True
+    )
+    user_tps_regex = "^%s" % u"|".join(list(user_tps))
+    sql_regex = "REGEXP"
+    if connection.vendor == "postgresql":
+        sql_regex = "~"
 
     if filename:
         query_pootle_path = query_pootle_path + filename
         pootle_path = pootle_path + filename
         resource_path = resource_path + filename
 
-        resources = Store.objects.live().extra(
-            where=[
-                'pootle_store_store.pootle_path LIKE %s',
-                'pootle_store_store.pootle_path ' + sql_regex + ' %s',
-            ], params=[query_pootle_path, user_tps_regex]
-        ).select_related('translation_project__language')
+        resources = (
+            Store.objects.live()
+            .extra(
+                where=[
+                    "pootle_store_store.pootle_path LIKE %s",
+                    "pootle_store_store.pootle_path " + sql_regex + " %s",
+                ],
+                params=[query_pootle_path, user_tps_regex],
+            )
+            .select_related("translation_project__language")
+        )
     else:
-        resources = Directory.objects.live().extra(
-            where=[
-                'pootle_app_directory.pootle_path LIKE %s',
-                'pootle_app_directory.pootle_path ' + sql_regex + ' %s',
-            ], params=[query_pootle_path, user_tps_regex]
-        ).select_related('parent')
+        resources = (
+            Directory.objects.live()
+            .extra(
+                where=[
+                    "pootle_app_directory.pootle_path LIKE %s",
+                    "pootle_app_directory.pootle_path " + sql_regex + " %s",
+                ],
+                params=[query_pootle_path, user_tps_regex],
+            )
+            .select_related("parent")
+        )
 
     if not resources.exists():
         raise Http404
@@ -243,7 +251,7 @@ def get_resource(func):
     @wraps(func)
     def wrapped(request, path_obj, dir_path, filename):
         """Gets resources associated to the current context."""
-        directory = getattr(path_obj, 'directory', path_obj)
+        directory = getattr(path_obj, "directory", path_obj)
         if directory.is_project() and (dir_path or filename):
             set_project_resource(request, path_obj, dir_path, filename)
         else:
@@ -260,32 +268,31 @@ def permission_required(permission_code):
     To retrieve the proper context, the `get_path_obj` decorator must be
     used along with this decorator.
     """
+
     def wrapped(func):
         @wraps(func)
         def _wrapped(request, *args, **kwargs):
             path_obj = args[0]
-            directory = getattr(path_obj, 'directory', path_obj)
+            directory = getattr(path_obj, "directory", path_obj)
 
             # HACKISH: some old code relies on
             # `request.translation_project`, `request.language` etc.
             # being set, so we need to set that too.
-            attr_name = CLS2ATTR.get(path_obj.__class__.__name__,
-                                     'path_obj')
+            attr_name = CLS2ATTR.get(path_obj.__class__.__name__, "path_obj")
             setattr(request, attr_name, path_obj)
 
-            request.permissions = get_matching_permissions(request.user,
-                                                           directory)
+            request.permissions = get_matching_permissions(request.user, directory)
 
             if not permission_code:
                 return func(request, *args, **kwargs)
 
             if not check_permission(permission_code, request):
-                raise PermissionDenied(
-                    _("Insufficient rights to access this page."),
-                )
+                raise PermissionDenied(_("Insufficient rights to access this page."),)
 
             return func(request, *args, **kwargs)
+
         return _wrapped
+
     return wrapped
 
 
@@ -293,9 +300,7 @@ def admin_required(func):
     @wraps(func)
     def wrapped(request, *args, **kwargs):
         if not request.user.is_superuser:
-            raise PermissionDenied(
-                _("You do not have rights to administer Pootle.")
-            )
+            raise PermissionDenied(_("You do not have rights to administer Pootle."))
         return func(request, *args, **kwargs)
 
     return wrapped

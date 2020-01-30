@@ -15,8 +15,7 @@ from tests.factories import SubmissionFactory
 from tests.utils import create_store
 
 from pootle_app.models.permissions import check_permission
-from pootle_statistics.models import (Submission, SubmissionFields,
-                                      SubmissionTypes)
+from pootle_statistics.models import Submission, SubmissionFields, SubmissionTypes
 from pootle_store.constants import TRANSLATED, UNTRANSLATED
 from pootle_store.models import Suggestion, Unit
 
@@ -50,50 +49,34 @@ def test_submission_ordering(en_tutorial_po, member, no_submissions):
 
     # Object manager test
     assert Submission.objects.count() == 3
-    assert (Submission.objects.first().creation_time
-            == Submission.objects.last().creation_time)
-    assert (Submission.objects.latest().pk
-            > Submission.objects.earliest().pk)
+    assert (
+        Submission.objects.first().creation_time
+        == Submission.objects.last().creation_time
+    )
+    assert Submission.objects.latest().pk > Submission.objects.earliest().pk
 
     # Related manager test
-    assert (unit.submission_set.latest().pk
-            > unit.submission_set.earliest().pk)
+    assert unit.submission_set.latest().pk > unit.submission_set.earliest().pk
 
     # Passing field_name test
-    assert (unit.submission_set.earliest("new_value").new_value
-            == "Comment 1")
-    assert (unit.submission_set.latest("new_value").new_value
-            == "Comment 3")
-    assert (unit.submission_set.earliest("pk").new_value
-            == "Comment 3")
-    assert (unit.submission_set.latest("pk").new_value
-            == "Comment 1")
+    assert unit.submission_set.earliest("new_value").new_value == "Comment 1"
+    assert unit.submission_set.latest("new_value").new_value == "Comment 3"
+    assert unit.submission_set.earliest("pk").new_value == "Comment 3"
+    assert unit.submission_set.latest("pk").new_value == "Comment 1"
 
 
 def test_max_similarity():
     """Tests that the maximum similarity is properly returned."""
-    submission = SubmissionFactory.build(
-        similarity=0,
-        mt_similarity=0,
-    )
+    submission = SubmissionFactory.build(similarity=0, mt_similarity=0,)
     assert submission.max_similarity == 0
 
-    submission = SubmissionFactory.build(
-        similarity=0.5,
-        mt_similarity=0.6,
-    )
+    submission = SubmissionFactory.build(similarity=0.5, mt_similarity=0.6,)
     assert submission.max_similarity == 0.6
 
-    submission = SubmissionFactory.build(
-        similarity=0.5,
-        mt_similarity=None,
-    )
+    submission = SubmissionFactory.build(similarity=0.5, mt_similarity=None,)
     assert submission.max_similarity == 0.5
 
-    submission = SubmissionFactory.build(
-        similarity=None,
-        mt_similarity=None,
-    )
+    submission = SubmissionFactory.build(similarity=None, mt_similarity=None,)
     assert submission.max_similarity == 0
 
 
@@ -121,8 +104,8 @@ def test_needs_scorelog():
     submission = SubmissionFactory.build(
         field=SubmissionFields.TARGET,
         type=SubmissionTypes.SUGG_ADD,
-        old_value=u'',
-        new_value=u'',
+        old_value=u"",
+        new_value=u"",
     )
     assert submission.needs_scorelog()
 
@@ -134,9 +117,7 @@ def test_update_submission_ordering():
     unit.target = "Fuzzy Translation for " + unit.source_f
     unit.save()
 
-    store = create_store(
-        [(unit.source_f, "Translation for " + unit.source_f)]
-    )
+    store = create_store([(unit.source_f, "Translation for " + unit.source_f)])
     unit.store.update(store)
     submission_field = Submission.objects.filter(unit=unit).latest().field
     assert submission_field == SubmissionFields.TARGET
@@ -149,18 +130,15 @@ def test_new_translation_submission_ordering(client, request_users):
     if user.username != "nobody":
         client.force_login(user)
 
-    url = '/xhr/units/%d/' % unit.id
+    url = "/xhr/units/%d/" % unit.id
 
     response = client.post(
         url,
-        {
-            'state': False,
-            'target_f_0': "Translation for " + unit.source_f,
-        },
-        HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+        {"state": False, "target_f_0": "Translation for " + unit.source_f},
+        HTTP_X_REQUESTED_WITH="XMLHttpRequest",
     )
 
-    if check_permission('translate', response.wsgi_request):
+    if check_permission("translate", response.wsgi_request):
         assert response.status_code == 200
         submission_field = Submission.objects.filter(unit=unit).latest().field
         assert submission_field == SubmissionFields.TARGET
@@ -171,23 +149,19 @@ def test_new_translation_submission_ordering(client, request_users):
 @pytest.mark.django_db
 def test_accept_sugg_submission_ordering(client, request_users):
     """Tests suggestion can be accepted with a comment."""
-    unit = Unit.objects.filter(suggestion__state='pending',
-                               state=UNTRANSLATED)[0]
+    unit = Unit.objects.filter(suggestion__state="pending", state=UNTRANSLATED)[0]
     unit.markfuzzy()
     unit.target = "Fuzzy Translation for " + unit.source_f
     unit.save()
-    sugg = Suggestion.objects.filter(unit=unit, state='pending')[0]
+    sugg = Suggestion.objects.filter(unit=unit, state="pending")[0]
     user = request_users["user"]
     if user.username != "nobody":
         client.force_login(user)
 
-    url = '/xhr/units/%d/suggestions/%d/' % (unit.id, sugg.id)
-    response = client.post(
-        url,
-        HTTP_X_REQUESTED_WITH='XMLHttpRequest'
-    )
+    url = "/xhr/units/%d/suggestions/%d/" % (unit.id, sugg.id)
+    response = client.post(url, HTTP_X_REQUESTED_WITH="XMLHttpRequest")
 
-    if check_permission('review', response.wsgi_request):
+    if check_permission("review", response.wsgi_request):
         assert response.status_code == 200
         submission_field = Submission.objects.filter(unit=unit).latest().field
         assert submission_field == SubmissionFields.TARGET

@@ -30,8 +30,7 @@ def test_max_revision(revision, project0_disk, store0):
     # Let's make 10 translation updates, this must also update their revision
     # numbers
     for i in range(10):
-        _update_translation(store0, 0, {'target': str(i)},
-                            sync=False)
+        _update_translation(store0, 0, {"target": str(i)}, sync=False)
 
     end_max_revision = Unit.max_revision()
     end_revision = Revision.get()
@@ -46,8 +45,7 @@ def test_max_revision(revision, project0_disk, store0):
 def test_revision_incr(store0):
     """Tests revision is incremented when units change."""
     previous_revision = Revision.get()
-    db_unit = _update_translation(store0, 0, {'target': [u'Fleisch']},
-                                  sync=False)
+    db_unit = _update_translation(store0, 0, {"target": [u"Fleisch"]}, sync=False)
 
     assert db_unit.revision != previous_revision
     assert Revision.get() != previous_revision
@@ -55,8 +53,7 @@ def test_revision_incr(store0):
 
     previous_revision = Revision.get()
 
-    db_unit = _update_translation(store0, 0, {'target': u'Lachs'},
-                                  sync=False)
+    db_unit = _update_translation(store0, 0, {"target": u"Lachs"}, sync=False)
 
     assert db_unit.revision != previous_revision
     assert Revision.get() != previous_revision

@@ -19,10 +19,10 @@ logger = logging.getLogger(__name__)
 
 
 class HTMLGenerator(object):
-    extension = 'html'
-    media_type = 'text/html'
-    name = 'HTML'
-    template_name = 'invoices/invoice.html'
+    extension = "html"
+    media_type = "text/html"
+    name = "HTML"
+    template_name = "invoices/invoice.html"
 
     @staticmethod
     def is_configured():
@@ -35,23 +35,23 @@ class HTMLGenerator(object):
         :param context: dictionary with rendering context data.
         """
         html = render_to_string(self.template_name, context)
-        codecs.open(filepath, 'w', 'utf-8').write(html)
+        codecs.open(filepath, "w", "utf-8").write(html)
         return True
 
 
 class PDFGenerator(object):
-    extension = 'pdf'
-    media_type = 'application/pdf'
-    name = 'PDF'
+    extension = "pdf"
+    media_type = "application/pdf"
+    name = "PDF"
 
     @staticmethod
     def is_configured():
-        phantomjs_bin = getattr(settings, 'ZING_INVOICES_PHANTOMJS_BIN', None)
+        phantomjs_bin = getattr(settings, "ZING_INVOICES_PHANTOMJS_BIN", None)
         if phantomjs_bin is None or not os.path.exists(phantomjs_bin):
             logger.warning(
-                'NOTICE: settings.ZING_INVOICES_PHANTOMJS_BIN '
-                'not defined or nothing found in the specified path. '
-                'PDFs will not be generated.'
+                "NOTICE: settings.ZING_INVOICES_PHANTOMJS_BIN "
+                "not defined or nothing found in the specified path. "
+                "PDFs will not be generated."
             )
             return False
         return True
@@ -62,18 +62,22 @@ class PDFGenerator(object):
         :param filepath: absolute path where the invoice will be generated.
         :param context: dictionary with rendering context data.
         """
-        html_filepath = filepath.replace('.pdf', '.html')
+        html_filepath = filepath.replace(".pdf", ".html")
         if not os.path.exists(html_filepath):
-            logger.info('HTML file does not exist: %s.\n'
-                        'PDF will not be generated.', html_filepath)
+            logger.info(
+                "HTML file does not exist: %s.\n" "PDF will not be generated.",
+                html_filepath,
+            )
             return False
 
-        html2pdf_js = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                                   'html2pdf.js')
-        exit_code = call([settings.ZING_INVOICES_PHANTOMJS_BIN,
-                          html2pdf_js, html_filepath, filepath])
+        html2pdf_js = os.path.join(
+            os.path.abspath(os.path.dirname(__file__)), "html2pdf.js"
+        )
+        exit_code = call(
+            [settings.ZING_INVOICES_PHANTOMJS_BIN, html2pdf_js, html_filepath, filepath]
+        )
         if exit_code:
-            logger.debug('Script exited with code: %s', exit_code)
+            logger.debug("Script exited with code: %s", exit_code)
             return False
 
         return True

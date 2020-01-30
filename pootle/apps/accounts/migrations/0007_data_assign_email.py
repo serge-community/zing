@@ -6,13 +6,13 @@ from django.db import migrations
 
 
 def assign_email_to_default_users(apps, schema_editor):
-    User = apps.get_model('accounts', 'User')
+    User = apps.get_model("accounts", "User")
 
-    users = ['nobody', 'default', 'system']
+    users = ["nobody", "default", "system"]
     for username in users:
         try:
             u = User.objects.get(username=username)
-            u.email = '%s@example.com' % (username,)
+            u.email = "%s@example.com" % (username,)
             u.save()
         except User.DoesNotExist:
             pass
@@ -21,7 +21,7 @@ def assign_email_to_default_users(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0006_auto_add_gbp'),
+        ("accounts", "0006_auto_add_gbp"),
     ]
 
     operations = [

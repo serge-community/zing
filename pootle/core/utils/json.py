@@ -26,10 +26,12 @@ class PootleJSONEncoder(DjangoJSONEncoder):
     """
 
     def default(self, obj):
-        if (isinstance(obj, datetime.datetime) or
-            isinstance(obj, datetime.date) or
-            isinstance(obj, datetime.time)):
-            return int(dateformat.format(obj, 'U'))
+        if (
+            isinstance(obj, datetime.datetime)
+            or isinstance(obj, datetime.date)
+            or isinstance(obj, datetime.time)
+        ):
+            return int(dateformat.format(obj, "U"))
 
         try:
             return super(PootleJSONEncoder, self).default(obj)
@@ -43,8 +45,11 @@ def jsonify(obj, indent=None):
         indent = 4
 
     return json.dumps(
-        obj, indent=indent, cls=PootleJSONEncoder, sort_keys=True,
-        separators=(',', ': ')
+        obj,
+        indent=indent,
+        cls=PootleJSONEncoder,
+        sort_keys=True,
+        separators=(",", ": "),
     )
 
 

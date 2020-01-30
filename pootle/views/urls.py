@@ -9,6 +9,4 @@
 from django.conf.urls import include, url
 
 
-urlpatterns = [
-    url('^xhr/', include('pootle.views.api.urls'))
-]
+urlpatterns = [url("^xhr/", include("pootle.views.api.urls"))]

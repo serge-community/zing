@@ -21,23 +21,25 @@ class Command(UserCommand):
     def add_arguments(self, parser):
         parser.add_argument(
             "user",
-            nargs='*',  # Allow 0 in case --all is used
+            nargs="*",  # Allow 0 in case --all is used
             help="Username of account",
         )
         parser.add_argument(
-            '--all',
-            dest='all',
+            "--all",
+            dest="all",
             action="store_true",
             default=False,
-            help='Verify all users',
+            help="Verify all users",
         )
 
     def handle(self, **options):
-        if bool(options['user']) == options['all']:
-            raise CommandError("Either provide a 'user' to verify or "
-                               "use '--all' to verify all users")
+        if bool(options["user"]) == options["all"]:
+            raise CommandError(
+                "Either provide a 'user' to verify or "
+                "use '--all' to verify all users"
+            )
 
-        if options['all']:
+        if options["all"]:
             for user in get_user_model().objects.hide_meta():
                 try:
                     utils.verify_user(user)
@@ -45,8 +47,8 @@ class Command(UserCommand):
                 except (ValueError, ValidationError) as e:
                     self.stderr.write(e.message)
 
-        if options['user']:
-            for user in options['user']:
+        if options["user"]:
+            for user in options["user"]:
                 try:
                     utils.verify_user(self.get_user(user))
                     self.stdout.write("User '%s' has been verified" % user)

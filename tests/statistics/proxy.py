@@ -28,9 +28,8 @@ def _test_submission_proxy(proxy, sub, fields):
     assert proxy.type == sub.type
     is_suggestion = bool(
         proxy.suggestion
-        and proxy.type in (
-            SubmissionTypes.SUGG_ACCEPT,
-            SubmissionTypes.SUGG_REJECT))
+        and proxy.type in (SubmissionTypes.SUGG_ACCEPT, SubmissionTypes.SUGG_REJECT)
+    )
     assert proxy.is_suggestion == is_suggestion
     if sub.quality_check:
         assert proxy.qc_name == sub.quality_check.name
@@ -43,39 +42,33 @@ def _test_submission_proxy(proxy, sub, fields):
 @pytest.mark.django_db
 @pytest.mark.xfail(reason="this test needs to be replaced with snapshot-based one")
 def test_submission_proxy_info(submissions):
-    values = Submission.objects.values(
-        *(("id", ) + SubmissionProxy.info_fields))
+    values = Submission.objects.values(*(("id",) + SubmissionProxy.info_fields))
     for v in values.iterator():
         proxy = SubmissionProxy(v)
         submission = submissions[v["id"]]
-        _test_submission_proxy(
-            proxy,
-            submission,
-            SubmissionProxy.info_fields)
-        assert (
-            sorted(proxy.get_submission_info().items())
-            == sorted(submission.get_submission_info().items()))
+        _test_submission_proxy(proxy, submission, SubmissionProxy.info_fields)
+        assert sorted(proxy.get_submission_info().items()) == sorted(
+            submission.get_submission_info().items()
+        )
 
 
 @pytest.mark.django_db
 def test_submission_proxy_timeline(submissions):
-    values = Submission.objects.values(
-        *(("id", ) + SubmissionProxy.timeline_fields))
+    values = Submission.objects.values(*(("id",) + SubmissionProxy.timeline_fields))
     for v in values.iterator():
         _test_submission_proxy(
-            SubmissionProxy(v),
-            submissions[v["id"]],
-            SubmissionProxy.timeline_fields)
+            SubmissionProxy(v), submissions[v["id"]], SubmissionProxy.timeline_fields
+        )
 
 
 @pytest.mark.django_db
 def test_submission_proxy_qc_timeline(quality_check_submission):
     subs = Submission.objects.filter(pk=quality_check_submission.pk)
     _test_submission_proxy(
-        SubmissionProxy(
-            subs.values(*SubmissionProxy.timeline_fields).first()),
+        SubmissionProxy(subs.values(*SubmissionProxy.timeline_fields).first()),
         quality_check_submission,
-        SubmissionProxy.timeline_fields)
+        SubmissionProxy.timeline_fields,
+    )
 
 
 @pytest.mark.django_db
@@ -83,13 +76,10 @@ def test_submission_proxy_qc_timeline(quality_check_submission):
 def test_submission_proxy_qc_info(quality_check_submission):
     subs = Submission.objects.filter(pk=quality_check_submission.pk)
     proxy = SubmissionProxy(subs.values(*SubmissionProxy.info_fields).first())
-    _test_submission_proxy(
-        proxy,
-        quality_check_submission,
-        SubmissionProxy.info_fields)
-    assert (
-        sorted(proxy.get_submission_info().items())
-        == sorted(quality_check_submission.get_submission_info().items()))
+    _test_submission_proxy(proxy, quality_check_submission, SubmissionProxy.info_fields)
+    assert sorted(proxy.get_submission_info().items()) == sorted(
+        quality_check_submission.get_submission_info().items()
+    )
 
 
 @pytest.mark.django_db
@@ -106,8 +96,13 @@ def test_submission_proxy_timeline_info(quality_check_submission):
     assert proxy.unit_pootle_path is None
     assert proxy.unit_state is None
     non_unit_fields = [
-        'username', 'display_datetime', 'displayname',
-        'mtime', 'type', 'email', 'profile_url'
+        "username",
+        "display_datetime",
+        "displayname",
+        "mtime",
+        "type",
+        "email",
+        "profile_url",
     ]
     proxy_info = proxy.get_submission_info()
     sub_info = quality_check_submission.get_submission_info()

@@ -27,8 +27,12 @@ from pootle.core.cache import make_method_key
 from pootle.core.constants import CACHE_TIMEOUT
 from pootle.core.mixins import CachedTreeItem
 from pootle.core.models import VirtualResource
-from pootle.core.url_helpers import (get_editor_filter, get_path_sortkey,
-                                     split_pootle_path, to_tp_relative_path)
+from pootle.core.url_helpers import (
+    get_editor_filter,
+    get_path_sortkey,
+    split_pootle_path,
+    to_tp_relative_path,
+)
 from pootle.core.utils.decorators import disable_for_loaddata
 from pootle_app.models.directory import Directory
 from pootle_app.models.permissions import PermissionSet
@@ -36,7 +40,7 @@ from pootle_store.models import Store
 from pootle_store.util import absolute_real_path
 
 
-RESERVED_PROJECT_CODES = ('admin', 'translate', 'settings')
+RESERVED_PROJECT_CODES = ("admin", "translate", "settings")
 PROJECT_CHECKERS = {
     "standard": checks.StandardChecker,
     "openoffice": checks.OpenOfficeChecker,
@@ -52,7 +56,6 @@ PROJECT_CHECKERS = {
 
 
 class ProjectManager(models.Manager):
-
     def cached_dict(self, user):
         """Return a cached ordered dictionary of projects tuples for `user`.
 
@@ -64,19 +67,21 @@ class ProjectManager(models.Manager):
           (`fullname`, `disabled`) and `code` is a key in the dictionary.
         """
         if not user.is_superuser:
-            cache_params = {'username': user.username}
+            cache_params = {"username": user.username}
         else:
-            cache_params = {'is_admin': user.is_superuser}
-        cache_key = make_method_key('Project', 'cached_dict', cache_params)
+            cache_params = {"is_admin": user.is_superuser}
+        cache_key = make_method_key("Project", "cached_dict", cache_params)
         projects = cache.get(cache_key)
         if not projects:
-            logging.debug('Cache miss for %s', cache_key)
-            projects_dict = self.for_user(user).order_by('fullname') \
-                                               .values('code', 'fullname',
-                                                       'disabled')
+            logging.debug("Cache miss for %s", cache_key)
+            projects_dict = (
+                self.for_user(user)
+                .order_by("fullname")
+                .values("code", "fullname", "disabled")
+            )
 
             projects = OrderedDict(
-                (project.pop('code'), project) for project in projects_dict
+                (project.pop("code"), project) for project in projects_dict
             )
             cache.set(cache_key, projects, CACHE_TIMEOUT)
 
@@ -125,10 +130,10 @@ class ProjectURLMixin(object):
         proj_code = split_pootle_path(self.pootle_path)[1]
 
         if proj_code is not None:
-            pattern_name = 'pootle-project-browse'
-            pattern_args = [proj_code, '']
+            pattern_name = "pootle-project-browse"
+            pattern_args = [proj_code, ""]
         else:
-            pattern_name = 'pootle-projects-browse'
+            pattern_name = "pootle-projects-browse"
             pattern_args = []
 
         return reverse(pattern_name, args=pattern_args)
@@ -137,77 +142,93 @@ class ProjectURLMixin(object):
         proj_code, dir_path, filename = split_pootle_path(self.pootle_path)[1:]
 
         if proj_code is not None:
-            pattern_name = 'pootle-project-translate'
+            pattern_name = "pootle-project-translate"
             pattern_args = [proj_code, dir_path, filename]
         else:
-            pattern_name = 'pootle-projects-translate'
+            pattern_name = "pootle-projects-translate"
             pattern_args = []
 
-        return u''.join([
-            reverse(pattern_name, args=pattern_args),
-            get_editor_filter(**kwargs),
-        ])
+        return u"".join(
+            [reverse(pattern_name, args=pattern_args), get_editor_filter(**kwargs)]
+        )
 
 
 def validate_not_reserved(value):
     if value in RESERVED_PROJECT_CODES:
         raise ValidationError(
-            _('"%(code)s" cannot be used as a project code'),
-            params={'code': value},
+            _('"%(code)s" cannot be used as a project code'), params={"code": value},
         )
 
 
 class Project(models.Model, CachedTreeItem, ProjectURLMixin):
 
-    code_help_text = _('A short code for the project. This should only '
-                       'contain ASCII characters, numbers, and the underscore '
-                       '(_) character.')
+    code_help_text = _(
+        "A short code for the project. This should only "
+        "contain ASCII characters, numbers, and the underscore "
+        "(_) character."
+    )
     # any changes to the `code` field may require updating the schema
     # see migration 0003_case_sensitive_schema.py
-    code = models.CharField(max_length=255, null=False, unique=True,
-                            db_index=True, verbose_name=_('Code'), blank=False,
-                            validators=[validate_not_reserved],
-                            help_text=code_help_text)
+    code = models.CharField(
+        max_length=255,
+        null=False,
+        unique=True,
+        db_index=True,
+        verbose_name=_("Code"),
+        blank=False,
+        validators=[validate_not_reserved],
+        help_text=code_help_text,
+    )
 
-    fullname = models.CharField(max_length=255, null=False, blank=False,
-                                verbose_name=_("Full Name"))
+    fullname = models.CharField(
+        max_length=255, null=False, blank=False, verbose_name=_("Full Name")
+    )
 
     checker_choices = [
-        (checker, checker)
-        for checker
-        in sorted(PROJECT_CHECKERS.keys())]
+        (checker, checker) for checker in sorted(PROJECT_CHECKERS.keys())
+    ]
     checkstyle = models.CharField(
         max_length=50,
-        default='standard',
+        default="standard",
         null=False,
         choices=checker_choices,
-        verbose_name=_('Quality Checks'))
+        verbose_name=_("Quality Checks"),
+    )
 
     source_language = models.ForeignKey(
-        'pootle_language.Language', db_index=True,
-        verbose_name=_('Source Language'),
-        on_delete=models.CASCADE)
+        "pootle_language.Language",
+        db_index=True,
+        verbose_name=_("Source Language"),
+        on_delete=models.CASCADE,
+    )
 
-    directory = models.OneToOneField('pootle_app.Directory', db_index=True,
-                                     editable=False, on_delete=models.CASCADE)
+    directory = models.OneToOneField(
+        "pootle_app.Directory", db_index=True, editable=False, on_delete=models.CASCADE
+    )
     report_email = models.EmailField(
-        max_length=254, blank=True, verbose_name=_("Errors Report Email"),
-        help_text=_('An email address where issues with the source text '
-                    'can be reported.'))
+        max_length=254,
+        blank=True,
+        verbose_name=_("Errors Report Email"),
+        help_text=_(
+            "An email address where issues with the source text " "can be reported."
+        ),
+    )
 
     screenshot_search_prefix = models.URLField(
-        blank=True, null=True, verbose_name=_('Screenshot Search Prefix'))
+        blank=True, null=True, verbose_name=_("Screenshot Search Prefix")
+    )
 
-    creation_time = models.DateTimeField(auto_now_add=True, db_index=True,
-                                         editable=False, null=True)
+    creation_time = models.DateTimeField(
+        auto_now_add=True, db_index=True, editable=False, null=True
+    )
 
-    disabled = models.BooleanField(verbose_name=_('Disabled'), default=False)
+    disabled = models.BooleanField(verbose_name=_("Disabled"), default=False)
 
     objects = ProjectManager()
 
     class Meta(object):
-        ordering = ['code']
-        db_table = 'pootle_app_project'
+        ordering = ["code"]
+        db_table = "pootle_app_project"
 
     @classmethod
     def accessible_by_user(cls, user):
@@ -224,19 +245,19 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
         :param user: The ``User`` instance to get accessible projects for.
         """
         if user.is_superuser:
-            key = iri_to_uri('projects:all')
+            key = iri_to_uri("projects:all")
         else:
             username = user.username
-            key = iri_to_uri('projects:accessible:%s' % username)
+            key = iri_to_uri("projects:accessible:%s" % username)
         user_projects = cache.get(key, None)
 
         if user_projects is not None:
             return user_projects
 
-        logging.debug(u'Cache miss for %s', key)
+        logging.debug(u"Cache miss for %s", key)
 
         # FIXME: use `cls.objects.cached_dict().keys()`
-        ALL_PROJECTS = cls.objects.values_list('code', flat=True)
+        ALL_PROJECTS = cls.objects.values_list("code", flat=True)
 
         if user.is_superuser:
             user_projects = ALL_PROJECTS
@@ -245,17 +266,17 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
 
             if user.is_anonymous:
                 allow_usernames = [username]
-                forbid_usernames = [username, 'default']
+                forbid_usernames = [username, "default"]
             else:
-                allow_usernames = list(set([username, 'default', 'nobody']))
-                forbid_usernames = list(set([username, 'default']))
+                allow_usernames = list(set([username, "default", "nobody"]))
+                forbid_usernames = list(set([username, "default"]))
 
             # Check root for `view` permissions
 
             root_permissions = PermissionSet.objects.filter(
-                directory__pootle_path='/',
+                directory__pootle_path="/",
                 user__username__in=allow_usernames,
-                positive_permissions__codename='view',
+                positive_permissions__codename="view",
             )
             if root_permissions.count():
                 user_projects = ALL_PROJECTS
@@ -265,19 +286,20 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
             # Check specific permissions at the project level
 
             accessible_projects = cls.objects.filter(
-                directory__permission_sets__positive_permissions__codename='view',
+                directory__permission_sets__positive_permissions__codename="view",
                 directory__permission_sets__user__username__in=allow_usernames,
-            ).values_list('code', flat=True)
+            ).values_list("code", flat=True)
 
             forbidden_projects = cls.objects.filter(
-                directory__permission_sets__negative_permissions__codename='hide',
+                directory__permission_sets__negative_permissions__codename="hide",
                 directory__permission_sets__user__username__in=forbid_usernames,
-            ).values_list('code', flat=True)
+            ).values_list("code", flat=True)
 
             allow_projects = set(accessible_projects)
             forbid_projects = set(forbidden_projects) - allow_projects
-            user_projects = (user_projects.union(
-                allow_projects)).difference(forbid_projects)
+            user_projects = (user_projects.union(allow_projects)).difference(
+                forbid_projects
+            )
 
         user_projects = list(user_projects)
         cache.set(key, user_projects, CACHE_TIMEOUT)
@@ -297,7 +319,7 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
     @property
     def is_terminology(self):
         """Returns ``True`` if this project is a terminology project."""
-        return self.checkstyle == 'terminology'
+        return self.checkstyle == "terminology"
 
     @cached_property
     def languages(self):
@@ -305,6 +327,7 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
         objects for this :cls:`~pootle_project.models.Project`.
         """
         from pootle_language.models import Language
+
         # FIXME: we should better have a way to automatically cache models with
         # built-in invalidation -- did I hear django-cache-machine?
         return Language.objects.filter(translationproject__project=self)
@@ -315,21 +338,31 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
         :cls:`~pootle_store.models.Store` resource paths available for
         this :cls:`~pootle_project.models.Project` across all languages.
         """
-        cache_key = make_method_key(self, 'resources', self.code)
+        cache_key = make_method_key(self, "resources", self.code)
         resources = cache.get(cache_key, None)
         if resources is not None:
             return resources
 
-        stores = Store.objects.live().order_by().filter(
-            translation_project__project__pk=self.pk)
-        dirs = Directory.objects.live().order_by().filter(
-            pootle_path__regex=r"^/[^/]*/%s/" % self.code)
+        stores = (
+            Store.objects.live()
+            .order_by()
+            .filter(translation_project__project__pk=self.pk)
+        )
+        dirs = (
+            Directory.objects.live()
+            .order_by()
+            .filter(pootle_path__regex=r"^/[^/]*/%s/" % self.code)
+        )
         resources = sorted(
-            {to_tp_relative_path(pootle_path)
-             for pootle_path
-             in (set(stores.values_list("pootle_path", flat=True))
-                 | set(dirs.values_list("pootle_path", flat=True)))},
-            key=get_path_sortkey)
+            {
+                to_tp_relative_path(pootle_path)
+                for pootle_path in (
+                    set(stores.values_list("pootle_path", flat=True))
+                    | set(dirs.values_list("pootle_path", flat=True))
+                )
+            },
+            key=get_path_sortkey,
+        )
         cache.set(cache_key, resources, CACHE_TIMEOUT)
         return resources
 
@@ -346,14 +379,12 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
         self.full_clean()
 
         requires_translation_directory = (
-            not self.disabled
-            and not self.directory_exists_on_disk()
+            not self.disabled and not self.directory_exists_on_disk()
         )
         if requires_translation_directory:
             os.makedirs(self.get_real_path())
 
-        self.directory = Directory.objects.projects \
-                                          .get_or_make_subdir(self.code)
+        self.directory = Directory.objects.projects.get_or_make_subdir(self.code)
 
         super(Project, self).save(*args, **kwargs)
 
@@ -367,6 +398,7 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
         # at a time and force garbage collection, things stay much more
         # managable.
         import gc
+
         gc.collect()
         for tp in self.translationproject_set.iterator():
             tp.delete()
@@ -394,9 +426,9 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
 
     def get_children_for_user(self, user, select_related=None):
         """Returns children translation projects for a specific `user`."""
-        return (
-            self.translationproject_set.for_user(user, select_related)
-                                       .select_related("language"))
+        return self.translationproject_set.for_user(
+            user, select_related
+        ).select_related("language")
 
     def get_real_path(self):
         return absolute_real_path(self.code)
@@ -412,11 +444,10 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
 
 
 class ProjectResource(VirtualResource, ProjectURLMixin):
-
     def __eq__(self, other):
-        return (
-            self.pootle_path == other.pootle_path
-            and list(self.get_children()) == list(other.get_children()))
+        return self.pootle_path == other.pootle_path and list(
+            self.get_children()
+        ) == list(other.get_children())
 
     def get_children_for_user(self, user, select_related=None):
         if select_related:
@@ -428,11 +459,10 @@ class ProjectResource(VirtualResource, ProjectURLMixin):
 
 
 class ProjectSet(VirtualResource, ProjectURLMixin):
-
     def __eq__(self, other):
-        return (
-            self.pootle_path == other.pootle_path
-            and list(self.get_children()) == list(other.get_children()))
+        return self.pootle_path == other.pootle_path and list(
+            self.get_children()
+        ) == list(other.get_children())
 
     def __init__(self, resources, *args, **kwargs):
         self.directory = Directory.objects.projects
@@ -443,32 +473,33 @@ class ProjectSet(VirtualResource, ProjectURLMixin):
 @disable_for_loaddata
 def invalidate_resources_cache(**kwargs):
     instance = kwargs["instance"]
-    if instance.__class__.__name__ not in ['Directory', 'Store']:
+    if instance.__class__.__name__ not in ["Directory", "Store"]:
         return
 
     # Don't invalidate if the save didn't create new objects
-    no_new_objects = (
-        ('created' in kwargs
-         and 'raw' in kwargs)
-        and (not kwargs['created']
-             or kwargs['raw']))
+    no_new_objects = ("created" in kwargs and "raw" in kwargs) and (
+        not kwargs["created"] or kwargs["raw"]
+    )
 
     if no_new_objects and instance.parent.get_children():
         return
 
     proj_code = split_pootle_path(instance.pootle_path)[1]
     if proj_code is not None:
-        cache.delete(make_method_key(Project, 'resources', proj_code))
+        cache.delete(make_method_key(Project, "resources", proj_code))
 
 
 @receiver([post_delete, post_save])
 def invalidate_accessible_projects_cache(**kwargs):
     instance = kwargs["instance"]
     # XXX: maybe use custom signals or simple function calls?
-    if (instance.__class__.__name__ not in
-        ['Project', 'TranslationProject', 'PermissionSet']):
+    if instance.__class__.__name__ not in [
+        "Project",
+        "TranslationProject",
+        "PermissionSet",
+    ]:
         return
 
-    cache.delete_pattern(make_method_key('Project', 'cached_dict', '*'))
-    cache.delete('projects:all')
-    cache.delete_pattern('projects:accessible:*')
+    cache.delete_pattern(make_method_key("Project", "cached_dict", "*"))
+    cache.delete("projects:all")
+    cache.delete_pattern("projects:accessible:*")

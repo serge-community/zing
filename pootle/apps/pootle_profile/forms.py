@@ -15,4 +15,4 @@ from pootle_app.forms import BaseUserForm
 class EditUserForm(BaseUserForm):
     class Meta(object):
         model = get_user_model()
-        fields = ('full_name', 'twitter', 'linkedin', 'website', 'bio')
+        fields = ("full_name", "twitter", "linkedin", "website", "bio")

@@ -19,8 +19,8 @@ def test_sync_stores_noargs(capfd, project0, project1):
     project0.delete()
     project1.delete()
     capfd.readouterr()
-    call_command('sync_stores')
+    call_command("sync_stores")
     out, err = capfd.readouterr()
     # FIXME we should work out how to get something here
-    assert out == ''
-    assert err == ''
+    assert out == ""
+    assert err == ""

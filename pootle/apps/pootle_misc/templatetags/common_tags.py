@@ -33,44 +33,51 @@ def label_tag(field, suffix=None):
     Optionally allows overriding the default `label_suffix` for the form
     this field belongs to.
     """
-    if not hasattr(field, 'label_tag'):
-        return ''
+    if not hasattr(field, "label_tag"):
+        return ""
 
     return field.label_tag(label_suffix=suffix)
 
 
-@register.inclusion_tag('core/_top_scorers.html')
+@register.inclusion_tag("core/_top_scorers.html")
 def top_scorers(*args, **kwargs):
     User = get_user_model()
-    allowed_kwargs = ('days', 'language', 'project', 'limit')
+    allowed_kwargs = ("days", "language", "project", "limit")
     lookup_kwargs = dict(
         (k, v) for (k, v) in iter(kwargs.items()) if k in allowed_kwargs and v
     )
 
     return {
-        'top_scorers': User.top_scorers(**lookup_kwargs),
+        "top_scorers": User.top_scorers(**lookup_kwargs),
     }
 
 
 @register.simple_tag
-def format_date_range(date_from, date_to, separator=" - ",
-                      format_str="{dt:%B} {dt.day}, {dt:%Y}",
-                      year_f=", {dt:%Y}", month_f="{dt:%B}"):
+def format_date_range(
+    date_from,
+    date_to,
+    separator=" - ",
+    format_str="{dt:%B} {dt.day}, {dt:%Y}",
+    year_f=", {dt:%Y}",
+    month_f="{dt:%B}",
+):
     """Takes a start date, end date, separator and formatting strings and
     returns a pretty date range string
     """
-    if (isinstance(date_to, datetime.datetime) and
-        isinstance(date_from, datetime.datetime)):
+    if isinstance(date_to, datetime.datetime) and isinstance(
+        date_from, datetime.datetime
+    ):
         date_to = date_to.date()
         date_from = date_from.date()
 
     if date_to and date_to != date_from:
         from_format = to_format = format_str
         if date_from.year == date_to.year:
-            from_format = from_format.replace(year_f, '')
+            from_format = from_format.replace(year_f, "")
             if date_from.month == date_to.month:
-                to_format = to_format.replace(month_f, '')
-        return separator.join((from_format.format(dt=date_from),
-                               to_format.format(dt=date_to)))
+                to_format = to_format.replace(month_f, "")
+        return separator.join(
+            (from_format.format(dt=date_from), to_format.format(dt=date_to))
+        )
 
     return format_str.format(dt=date_from)

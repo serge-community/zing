@@ -12,8 +12,11 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, UpdateView
 
 from pootle.core.views import APIView
-from pootle.core.views.mixins import (NoDefaultUserMixin, TestUserFieldMixin,
-                                      UserObjectMixin)
+from pootle.core.views.mixins import (
+    NoDefaultUserMixin,
+    TestUserFieldMixin,
+    UserObjectMixin,
+)
 
 from .forms import EditUserForm
 
@@ -23,50 +26,52 @@ User = auth.get_user_model()
 
 class UserAPIView(TestUserFieldMixin, APIView):
     model = User
-    restrict_to_methods = ('GET', 'PUT')
-    test_user_field = 'id'
+    restrict_to_methods = ("GET", "PUT")
+    test_user_field = "id"
     edit_form_class = EditUserForm
 
 
 class UserDetailView(NoDefaultUserMixin, UserObjectMixin, DetailView):
-    template_name = 'user/profile.html'
+    template_name = "user/profile.html"
 
     def get_context_data(self, **kwargs):
         ctx = super(UserDetailView, self).get_context_data(**kwargs)
-        ctx['user_is_manager'] = self.request.user.has_manager_permissions()
+        ctx["user_is_manager"] = self.request.user.has_manager_permissions()
 
         if self.object == self.request.user:
             user = self.object
-            ctx['user_profile_data'] = {
-                'id': user.id,
-                'full_name': user.full_name,
-                'twitter': user.twitter,
-                'linkedin': user.linkedin,
-                'website': user.website,
-                'bio': user.bio,
-                'email': user.email,
-                'email_md5': user.email_hash,
+            ctx["user_profile_data"] = {
+                "id": user.id,
+                "full_name": user.full_name,
+                "twitter": user.twitter,
+                "linkedin": user.linkedin,
+                "website": user.website,
+                "bio": user.bio,
+                "email": user.email,
+                "email_md5": user.email_hash,
             }
 
         return ctx
 
 
 class UserSettingsView(TestUserFieldMixin, UserObjectMixin, UpdateView):
-    fields = ('alt_src_langs', )
-    template_name = 'user/settings.html'
+    fields = ("alt_src_langs",)
+    template_name = "user/settings.html"
 
     def get_form_kwargs(self):
         kwargs = super(UserSettingsView, self).get_form_kwargs()
-        kwargs.update({'label_suffix': ''})
+        kwargs.update({"label_suffix": ""})
         return kwargs
 
     def get_form(self, *args, **kwargs):
         form = super(UserSettingsView, self).get_form(*args, **kwargs)
 
-        form.fields['alt_src_langs'].help_text = None
-        form.fields['alt_src_langs'].widget.attrs['class'] = \
-            'js-select2 select2-multiple'
-        form.fields['alt_src_langs'].widget.attrs['data-placeholder'] = \
-            _('Select one or more languages')
+        form.fields["alt_src_langs"].help_text = None
+        form.fields["alt_src_langs"].widget.attrs[
+            "class"
+        ] = "js-select2 select2-multiple"
+        form.fields["alt_src_langs"].widget.attrs["data-placeholder"] = _(
+            "Select one or more languages"
+        )
 
         return form

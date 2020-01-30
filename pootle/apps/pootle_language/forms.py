@@ -12,7 +12,6 @@ from .models import Language
 
 
 class LanguageSpecialCharsForm(forms.ModelForm):
-
     class Meta(object):
         model = Language
-        fields = ('specialchars',)
+        fields = ("specialchars",)

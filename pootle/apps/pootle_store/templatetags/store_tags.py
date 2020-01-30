@@ -27,27 +27,28 @@ def image_urls(text):
     return [x[0] for x in IMAGE_URL_RE.findall(text)]
 
 
-@register.filter('pluralize_source')
+@register.filter("pluralize_source")
 def pluralize_source(unit):
     if not unit.hasplural():
         return [(0, unit.source, None)]
 
     count = len(unit.source.strings)
     if count == 1:
-        return [(0, unit.source.strings[0], "%s+%s" % (_('Singular'),
-                                                       _('Plural')))]
+        return [(0, unit.source.strings[0], "%s+%s" % (_("Singular"), _("Plural")))]
 
     if count == 2:
-        return [(0, unit.source.strings[0], _('Singular')),
-                (1, unit.source.strings[1], _('Plural'))]
+        return [
+            (0, unit.source.strings[0], _("Singular")),
+            (1, unit.source.strings[1], _("Plural")),
+        ]
 
     forms = []
     for i, source in enumerate(unit.source.strings):
-        forms.append((i, source, _('Plural Form %d' % i)))
+        forms.append((i, source, _("Plural Form %d" % i)))
     return forms
 
 
-@register.filter('pluralize_target')
+@register.filter("pluralize_target")
 def pluralize_target(unit, nplurals=None):
     if not unit.hasplural():
         return [(0, unit.target, None)]
@@ -60,14 +61,14 @@ def pluralize_target(unit, nplurals=None):
     forms = []
     if nplurals is None:
         for i, target in enumerate(unit.target.strings):
-            forms.append((i, target, _('Plural Form %d' % i)))
+            forms.append((i, target, _("Plural Form %d" % i)))
     else:
         for i in range(nplurals):
             try:
                 target = unit.target.strings[i]
             except IndexError:
-                target = ''
-            forms.append((i, target, _('Plural Form %d' % i)))
+                target = ""
+            forms.append((i, target, _("Plural Form %d" % i)))
 
     return forms
 
@@ -80,7 +81,7 @@ def pluralize_sugg(sugg):
 
     forms = []
     for i, target in enumerate(sugg.target.strings):
-        forms.append((i, target, _('Plural Form %d' % i)))
+        forms.append((i, target, _("Plural Form %d" % i)))
 
     return forms
 
@@ -100,8 +101,7 @@ def do_include_raw(parser, token):
         )
 
     template_name = bits[1]
-    if (template_name[0] in ('"', "'") and
-            template_name[-1] == template_name[0]):
+    if template_name[0] in ('"', "'") and template_name[-1] == template_name[0]:
         template_name = template_name[1:-1]
 
     source = get_template_source(template_name)

@@ -1,5 +1,6 @@
 # Linting tools
 
+black==19.10b0
 flake8==3.4.1
 isort==4.3.21
 pycodestyle==2.3.1

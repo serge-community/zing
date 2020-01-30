@@ -120,7 +120,9 @@ def admin_permissions(request, current_directory, template, ctx):
             if language is not None:
                 del self.fields["negative_permissions"]
 
-    link = lambda instance: str(instance.user)
+    def link(instance):
+        return str(instance.user)
+
     directory_permissions = current_directory.permission_sets.order_by("user").all()
 
     return util.edit(

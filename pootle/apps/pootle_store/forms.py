@@ -31,8 +31,8 @@ from .constants import ALLOWED_SORTS, FUZZY, OBSOLETE, TRANSLATED, UNTRANSLATED
 from .fields import to_db
 from .form_fields import (
     CategoryChoiceField,
-    MultipleArgsField,
     CommaSeparatedCheckboxSelectMultiple,
+    MultipleArgsField,
 )
 from .models import Suggestion, Unit
 

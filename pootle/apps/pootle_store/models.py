@@ -10,10 +10,9 @@
 import io
 import logging
 import operator
+from collections import OrderedDict
 from hashlib import md5
 from urllib.parse import quote
-
-from collections import OrderedDict
 
 from translate.filters.decorators import Category
 from translate.storage import base
@@ -30,6 +29,10 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
 from pootle.core.log import (
+    MUTE_QUALITYCHECK,
+    STORE_ADDED,
+    STORE_DELETED,
+    STORE_OBSOLETE,
     TRANSLATION_ADDED,
     TRANSLATION_CHANGED,
     TRANSLATION_DELETED,
@@ -37,10 +40,6 @@ from pootle.core.log import (
     UNIT_DELETED,
     UNIT_OBSOLETE,
     UNIT_RESURRECTED,
-    STORE_ADDED,
-    STORE_DELETED,
-    STORE_OBSOLETE,
-    MUTE_QUALITYCHECK,
     UNMUTE_QUALITYCHECK,
     action_log,
     store_log,
@@ -65,9 +64,9 @@ from pootle_statistics.models import Submission, SubmissionFields, SubmissionTyp
 from .constants import FUZZY, NEW, OBSOLETE, PARSED, TRANSLATED, UNTRANSLATED
 from .fields import MultiStringField, TranslationStoreField
 from .managers import StoreManager, SuggestionManager, UnitManager
-from .util import SuggestionStates
 from .syncer import PoStoreSyncer
 from .updater import StoreUpdater
+from .util import SuggestionStates
 
 
 TM_BROKER = None

@@ -16,7 +16,7 @@ from django.utils.functional import cached_property
 
 from pootle.core.browser import ItemTypes
 from pootle.core.decorators import get_path_obj, permission_required
-from pootle.core.views import PootleBrowseView, PootleTranslateView, PootleExportView
+from pootle.core.views import PootleBrowseView, PootleExportView, PootleTranslateView
 from pootle.i18n.gettext import tr_lang
 from pootle_app.views.admin.permissions import admin_permissions
 

@@ -117,7 +117,7 @@ def check_settings(app_configs=None, **kwargs):
         errors.append(
             checks.Warning(
                 _("DEBUG mode is on. Do not do this in production!"),
-                hint=_("Set DEBUG = False in Pootle settings"),
+                hint=_("Set DEBUG = False in Zing settings"),
                 id="pootle.W005",
             )
         )
@@ -164,7 +164,7 @@ def check_settings(app_configs=None, **kwargs):
             checks.Warning(
                 _("DEFAULT_FROM_EMAIL is not set."),
                 hint=_(
-                    "DEFAULT_FROM_EMAIL is used in all outgoing Pootle email.\n"
+                    "DEFAULT_FROM_EMAIL is used in all outgoing Zing email.\n"
                     "Don't forget to review your mail server settings."
                 ),
                 id="pootle.W009",
@@ -179,7 +179,7 @@ def check_settings(app_configs=None, **kwargs):
                     "setting %r." % settings.DEFAULT_FROM_EMAIL
                 ),
                 hint=_(
-                    "DEFAULT_FROM_EMAIL is used in all outgoing Pootle email.\n"
+                    "DEFAULT_FROM_EMAIL is used in all outgoing Zing email.\n"
                     "Don't forget to review your mail server settings."
                 ),
                 id="pootle.W010",

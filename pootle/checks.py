@@ -12,31 +12,6 @@ from django.db import OperationalError, ProgrammingError
 from django.utils.translation import gettext as _
 
 
-# Minimum Translate Toolkit version required for Pootle to run.
-TTK_MINIMUM_REQUIRED_VERSION = (2, 2, 5)
-
-# Minimum Django version required for Pootle to run.
-DJANGO_MINIMUM_REQUIRED_VERSION = (1, 11, 26)
-
-# Minimum lxml version required for Pootle to run.
-LXML_MINIMUM_REQUIRED_VERSION = (3, 0, 0, 0)
-
-# Minimum Redis server version required.
-# Initially set to some minimums based on:
-# 1. Ubuntu 14.04LTS (Trusty) version 2.8.4
-#    Ubuntu 12.04LTS (Precise) version 2.2.12
-#    Ubuntu 10.04LTS was too old for RQ
-#    See http://packages.ubuntu.com/search?keywords=redis-server
-# 2. RQ requires Redis >= 2.7.0, and
-#    See https://github.com/nvie/rq/blob/master/README.md
-# 3. Aligining with current Redis stable as best we can
-#    At time of writing, actual Redis stable is 3.0 series with 2.8 cosidered
-#    old stable.
-# 4. Wanting to insist on at least the latest stable that devs are using
-#    The 2.8.* versions of Redis
-REDIS_MINIMUM_REQUIRED_VERSION = (2, 8, 4)
-
-
 # XXX List of manage.py commands not to run the rqworker check on.
 # Maybe tagging can improve this?
 RQWORKER_WHITELIST = [
@@ -51,53 +26,6 @@ RQWORKER_WHITELIST = [
     "check",
     "runserver",
 ]
-
-
-def _version_to_string(version, significance=None):
-    if significance is not None:
-        version = version[significance:]
-    return ".".join(str(n) for n in version)
-
-
-@checks.register()
-def check_library_versions(app_configs=None, **kwargs):
-    from django import VERSION as DJANGO_VERSION
-    from lxml.etree import LXML_VERSION
-    from translate.__version__ import ver as ttk_version
-
-    errors = []
-
-    if DJANGO_VERSION < DJANGO_MINIMUM_REQUIRED_VERSION:
-        errors.append(
-            checks.Critical(
-                _("Your version of Django is too old."),
-                hint=_(
-                    "Try pip install --upgrade 'Django==%s'",
-                    _version_to_string(DJANGO_MINIMUM_REQUIRED_VERSION),
-                ),
-                id="pootle.C002",
-            )
-        )
-
-    if LXML_VERSION < LXML_MINIMUM_REQUIRED_VERSION:
-        errors.append(
-            checks.Warning(
-                _("Your version of lxml is too old."),
-                hint=_("Try pip install --upgrade lxml"),
-                id="pootle.W003",
-            )
-        )
-
-    if ttk_version < TTK_MINIMUM_REQUIRED_VERSION:
-        errors.append(
-            checks.Critical(
-                _("Your version of Translate Toolkit is too old."),
-                hint=_("Try pip install --upgrade translate-toolkit"),
-                id="pootle.C003",
-            )
-        )
-
-    return errors
 
 
 @checks.register()
@@ -121,22 +49,6 @@ def check_redis(app_configs=None, **kwargs):
             )
         )
     else:
-        redis_version = tuple(
-            int(x) for x in (queue.connection.info()["redis_version"].split("."))
-        )
-        if redis_version < REDIS_MINIMUM_REQUIRED_VERSION:
-            errors.append(
-                checks.Critical(
-                    _("Your version of Redis is too old."),
-                    hint=_(
-                        "Update your system's Redis server package to at least "
-                        "version %s",
-                        str(REDIS_MINIMUM_REQUIRED_VERSION),
-                    ),
-                    id="pootle.C007",
-                )
-            )
-
         if len(queue.connection.smembers(Worker.redis_workers_keys)) == 0:
             # We need to check we're not running manage.py rqworker right now..
             import sys

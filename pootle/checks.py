@@ -42,9 +42,10 @@ def check_redis(app_configs=None, **kwargs):
         conn_settings = queue.connection.connection_pool.connection_kwargs
         errors.append(
             checks.Critical(
-                _("Could not connect to Redis (%s)", e),
-                hint=_("Make sure Redis is running on " "%(host)s:%(port)s")
-                % conn_settings,
+                _("Could not connect to Redis (%s)" % e),
+                hint=_(
+                    "Make sure Redis is running on %(host)s:%(port)s" % conn_settings
+                ),
                 id="pootle.C001",
             )
         )

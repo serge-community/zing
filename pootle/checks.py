@@ -126,7 +126,7 @@ def check_settings(app_configs=None, **kwargs):
         errors.append(
             checks.Warning(
                 _("The sqlite database backend is unsupported"),
-                hint=_("Set your default database engine to postgresql " "or mysql"),
+                hint=_("Set your default database engine to postgresql or mysql"),
                 id="pootle.W006",
             )
         )
@@ -241,7 +241,7 @@ def check_settings(app_configs=None, **kwargs):
                             coefficient_name,
                         ),
                         hint=_(
-                            "Set a valid value for %s " "in ZING_SCORE_COEFFICIENTS.",
+                            "Set a valid value for %s in ZING_SCORE_COEFFICIENTS.",
                             coefficient_name,
                         ),
                         id="pootle.C015",
@@ -266,10 +266,7 @@ def check_users(app_configs=None, **kwargs):
         if admin_user.check_password("admin"):
             errors.append(
                 checks.Warning(
-                    _(
-                        "The default 'admin' user still has a password set to "
-                        "'admin'."
-                    ),
+                    _("The default 'admin' user still has a password set to 'admin'."),
                     hint=_("Remove the 'admin' user or change its password."),
                     id="pootle.W016",
                 )

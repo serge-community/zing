@@ -78,9 +78,8 @@ def check_settings(app_configs=None, **kwargs):
                 hint=_(
                     "Set default cache backend to "
                     "django_redis.cache.RedisCache\n"
-                    "Current settings: %r"
-                )
-                % (settings.CACHES.get("default")),
+                    "Current settings: %r" % (settings.CACHES.get("default"))
+                ),
                 id="pootle.C005",
             )
         )
@@ -139,9 +138,8 @@ def check_settings(app_configs=None, **kwargs):
                 hint=_(
                     "Set SESSION_ENGINE to "
                     "django.contrib.sessions.backend.cached_db\n"
-                    "Current settings: %r"
-                )
-                % (settings.SESSION_ENGINE),
+                    "Current settings: %r" % (settings.SESSION_ENGINE)
+                ),
                 id="pootle.W007",
             )
         )
@@ -228,8 +226,8 @@ def check_settings(app_configs=None, **kwargs):
         if coefficient_name not in settings.ZING_SCORE_COEFFICIENTS:
             errors.append(
                 checks.Critical(
-                    _("ZING_SCORE_COEFFICIENTS has no %s.", coefficient_name),
-                    hint=_("Set %s in ZING_SCORE_COEFFICIENTS.", coefficient_name),
+                    _("ZING_SCORE_COEFFICIENTS has no %s." % coefficient_name),
+                    hint=_("Set %s in ZING_SCORE_COEFFICIENTS." % coefficient_name),
                     id="pootle.C014",
                 )
             )

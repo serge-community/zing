@@ -256,6 +256,9 @@ def clear_language_list_cache():
     key = make_method_key("LiveLanguageManager", "cached_dict", "*")
     cache.delete_pattern(key)
 
+    key_all = make_method_key("LiveLanguageManager", "all_cached_dict", "*")
+    cache.delete_pattern(key_all)
+
 
 @receiver([post_delete, post_save])
 def invalidate_language_list_cache(**kwargs):

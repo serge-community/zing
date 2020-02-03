@@ -5,6 +5,7 @@ v.next (unreleased)
 -------------------
 
 * Tasks: removed limit of displaying 10 tasks.
+* Fixed bug where language list wouldn't be properly recalculated.
 
 
 v0.8.9 (2018-11-07)

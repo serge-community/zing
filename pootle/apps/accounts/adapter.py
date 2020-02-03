@@ -65,7 +65,7 @@ class PootleAccountAdapter(DefaultAccountAdapter):
             )
             raise RuntimeError(
                 _(
-                    "Some problem happened when tried to send "
+                    "Some problem happened when trying to send "
                     "the confirmation email. Please try again "
                     "later."
                 )

@@ -180,6 +180,7 @@ class Command(BaseCommand):
             result = self.es.search(
                 index=ALL_TM_INDICES,
                 body={"aggs": {"max_revision": {"max": {"field": "revision"}}}},
+                size=0,
             )
             self.last_indexed_revision = (
                 result["aggregations"]["max_revision"]["value"] or -1

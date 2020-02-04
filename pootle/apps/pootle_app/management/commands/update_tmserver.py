@@ -83,7 +83,7 @@ class DBParser(object):
         return {
             "_index": index_name,
             "_id": unit["id"],
-            "revision": int(unit["revision"]),
+            "revision": unit["revision"],
             "project": unit["store__translation_project__project__fullname"],
             "path": unit["store__pootle_path"],
             "username": unit["submitted_by__username"],

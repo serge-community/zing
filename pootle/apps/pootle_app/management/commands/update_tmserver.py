@@ -112,7 +112,7 @@ class Command(BaseCommand):
             action="store_true",
             dest="rebuild",
             default=False,
-            help="Drop the entire TM on start and update everything " "from scratch",
+            help="Drop the entire TM on start and update everything from scratch",
         )
         parser.add_argument(
             "--dry-run",

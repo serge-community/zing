@@ -55,8 +55,7 @@ def agreement_form_factory(pages, user):
             label = mark_safe(
                 _(
                     'I have read and accept: <a href="%(url)s" '
-                    'class="%(classes)s">%(title)s</a>',
-                    label_params,
+                    'class="%(classes)s">%(title)s</a>' % label_params,
                 )
             )
 

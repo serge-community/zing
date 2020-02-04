@@ -27,6 +27,7 @@ logger = logging.getLogger(__name__)
 
 
 DEFAULT_MIN_SIMILARITY = 0.7
+INDEX_PREFIX = "zing_tm_"
 
 
 def filter_hits_by_distance(hits, source_text, min_similarity=DEFAULT_MIN_SIMILARITY):
@@ -101,9 +102,10 @@ class ElasticSearchBackend(SearchBackend):
         counter = {}
         res = []
         language = unit.store.translation_project.language.code
+        index_name = INDEX_PREFIX + language.lower()
         es_res = self._es_call(
             "search",
-            index=language,
+            index=index_name,
             body={
                 "query": {
                     "match": {"source": {"query": unit.source, "fuzziness": "AUTO"}}
@@ -159,6 +161,6 @@ class ElasticSearchBackend(SearchBackend):
         return res
 
     def update(self, language, obj):
-        index_name = language.lower()
+        index_name = INDEX_PREFIX + language.lower()
         self._create_index_if_missing(index_name)
         self._es_call("index", index=index_name, body=obj, id=obj["id"])

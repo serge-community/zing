@@ -182,9 +182,10 @@ class Command(BaseCommand):
                 body={"aggs": {"max_revision": {"max": {"field": "revision"}}}},
                 size=0,
             )
-            self.last_indexed_revision = (
-                result["aggregations"]["max_revision"]["value"] or -1
-            )
+            if "aggregations" in result:
+                self.last_indexed_revision = (
+                    int(result["aggregations"]["max_revision"]["value"]) or -1
+                )
 
         self.parser.last_indexed_revision = self.last_indexed_revision
 

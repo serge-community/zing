@@ -19,17 +19,18 @@ from elasticsearch import Elasticsearch, helpers
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 
+from pootle.core.search.backends.elasticsearch import INDEX_PREFIX
 from pootle.core.utils import dateformat
 from pootle_store.models import Unit
 
 
+ALL_TM_INDICES = INDEX_PREFIX + "*"
 BULK_CHUNK_SIZE = 5000
 
 
 class DBParser(object):
     def __init__(self, *args, **kwargs):
         self.stdout = kwargs.pop("stdout")
-        self.INDEX_NAME = kwargs.pop("index", None)
         self.exclude_disabled_projects = not kwargs.pop("disabled_projects")
 
     def get_units(self):
@@ -79,7 +80,9 @@ class DBParser(object):
         if unit["submitted_on"]:
             mtime = int(dateformat.format(unit["submitted_on"], "U"))
 
-        index_name = unit["store__translation_project__language__code"].lower()
+        index_name = (
+            INDEX_PREFIX + unit["store__translation_project__language__code"].lower()
+        )
         return {
             "_index": index_name,
             "_id": unit["id"],
@@ -161,30 +164,21 @@ class Command(BaseCommand):
 
         tm_settings = settings.ZING_TM_SERVER
 
-        self.INDEX_NAME = tm_settings["INDEX_NAME"]
-
         self.es = Elasticsearch(
             [{"host": tm_settings["HOST"], "port": tm_settings["PORT"]}],
             retry_on_timeout=True,
         )
 
         self.parser = DBParser(
-            stdout=self.stdout,
-            index=self.INDEX_NAME,
-            disabled_projects=options["disabled_projects"],
+            stdout=self.stdout, disabled_projects=options["disabled_projects"],
         )
 
     def _set_latest_indexed_revision(self, **options):
         self.last_indexed_revision = -1
 
-        if (
-            not options["rebuild"]
-            and not options["refresh"]
-            and self.es.indices.exists(self.INDEX_NAME)
-        ):
-
+        if not options["rebuild"] and not options["refresh"]:
             result = self.es.search(
-                index=self.INDEX_NAME,
+                index=ALL_TM_INDICES,
                 body={"aggs": {"max_revision": {"max": {"field": "revision"}}}},
             )
             self.last_indexed_revision = (
@@ -198,17 +192,8 @@ class Command(BaseCommand):
     def handle(self, **options):
         self._initialize(**options)
 
-        if (
-            options["rebuild"]
-            and not options["dry_run"]
-            and self.es.indices.exists(self.INDEX_NAME)
-        ):
-
-            self.es.indices.delete(index=self.INDEX_NAME)
-
-        if not options["dry_run"] and not self.es.indices.exists(self.INDEX_NAME):
-
-            self.es.indices.create(index=self.INDEX_NAME)
+        if options["rebuild"] and not options["dry_run"]:
+            self.es.indices.delete(index=ALL_TM_INDICES)
 
         self._set_latest_indexed_revision(**options)
 

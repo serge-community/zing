@@ -139,7 +139,8 @@ def test_get_contributors_projects(client, request_users):
 
 
 @pytest.mark.parametrize(
-    "path, offset", [("/TOO_LONG_PATH" * 200, 0), ("/language0/", "WRONG_OFFSET"), ("/language0/", -1)],
+    "path, offset",
+    [("/TOO_LONG_PATH" * 200, 0), ("/language0/", "WRONG_OFFSET"), ("/language0/", -1)],
 )
 @pytest.mark.django_db
 def test_get_contributors_wrong_params(client, request_users, path, offset):

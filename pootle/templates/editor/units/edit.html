@@ -64,7 +64,7 @@
         <div lang="{{ source_language.code }}" dir="{{ source_language.direction }}">
           <span class="sidetitle" lang="{{ LANGUAGE_CODE }}">{% trans "Comments:" %}</span>
           <div class="js-developer-comments developer-comments">
-            {{ unit.developer_comment|urlize|url_target_blank|url_trim|linebreaks }}
+            {{ unit.developer_comment|urlize|url_target_preview|url_trim|linebreaks }}
           </div>
         </div>
         {% with image_urls=unit.developer_comment|image_urls %}
@@ -85,7 +85,7 @@
       {% if project.screenshot_search_prefix %}
       <!-- Screenshot links -->
       <div class="screenshot-link sidebar">
-        <a href="{{ unit.get_screenshot_url }}" target="_blank">
+        <a href="{{ unit.get_screenshot_url }}" target="_preview">
           {% trans 'Screenshots...' %}
         </a>
       </div>

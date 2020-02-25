@@ -19,9 +19,9 @@ register = template.Library()
 
 @register.filter
 @stringfilter
-def url_target_blank(text):
-    """Sets the target="_blank" for hyperlinks."""
-    return mark_safe(text.replace("<a ", '<a target="_blank" '))
+def url_target_preview(text):
+    """Sets the target="_preview" for hyperlinks."""
+    return mark_safe(text.replace("<a ", '<a target="_preview" '))
 
 
 TRIM_URL_LENGTH = 70

@@ -20,7 +20,7 @@ from .base import PootleDetailView
 
 
 # Limit export view results to this amount of units
-UNITS_LIMIT = 500
+UNITS_LIMIT = 1000
 
 
 class PootleExportView(PootleDetailView):

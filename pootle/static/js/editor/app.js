@@ -110,6 +110,7 @@ PTL.editor = {
     }
 
     /* Cached elements */
+    this.$editor = $('#editor');
     this.$editorActivity = $('#js-editor-act');
     this.$viewRowsBefore = $('.js-view-rows-before');
     this.$contextRowsBefore = $('.js-context-rows-before');
@@ -166,7 +167,7 @@ PTL.editor = {
     this.$filterSortBy.select2(sortSelectOpts);
 
     /* Screenshot images */
-    $('#editor').on('click', '.js-dev-img', function displayScreenshot(e) {
+    this.$editor.on('click', '.js-dev-img', function displayScreenshot(e) {
       e.preventDefault();
 
       $(this).magnificPopup({
@@ -192,84 +193,84 @@ PTL.editor = {
     $('#actions').on('change', '#js-filter-checks', () => this.filterChecks());
 
     /* State changes */
-    $('#editor').on('change', 'input.fuzzycheck',
-                   () => this.onStateChange());
-    $('#editor').on('click', 'input.fuzzycheck',
-                   () => this.onStateClick());
-    $('#editor').on('input', '#id_translator_comment',
-                   () => this.handleTranslationChange());
+    this.$editor.on('change', 'input.fuzzycheck',
+      () => this.onStateChange());
+    this.$editor.on('click', 'input.fuzzycheck',
+      () => this.onStateClick());
+    this.$editor.on('input', '#id_translator_comment',
+      () => this.handleTranslationChange());
 
     /* Context row preview */
-    $('#editor').on('mouseover', '.js-show-context-rows',
-                    (e) => this.handleContextPreviewMouseover(e));
-    $('#editor').on('mouseout', '.js-show-context-rows',
-                    (e) => this.handleContextPreviewMouseout(e));
+    this.$editor.on('mouseover', '.js-show-context-rows',
+      (e) => this.handleContextPreviewMouseover(e));
+    this.$editor.on('mouseout', '.js-show-context-rows',
+      (e) => this.handleContextPreviewMouseout(e));
 
     /* Suggest / submit */
-    $('#editor').on('click', '.switch-suggest-mode a',
-                   (e) => this.toggleSuggestMode(e));
+    this.$editor.on('click', '.switch-suggest-mode a',
+      (e) => this.toggleSuggestMode(e));
 
     /* Update focus when appropriate */
-    $('#editor').on('focus', '.focusthis', (e) => {
+    this.$editor.on('focus', '.focusthis', (e) => {
       PTL.editor.focused = e.target;
     });
-    $('#editor').on('focus', '.js-translation-area', (e) => {
+    this.$editor.on('focus', '.js-translation-area', (e) => {
       $(e.target).closest('.js-editor-area-wrapper').addClass('is-focused');
     });
-    $('#editor').on('blur', '.js-translation-area', (e) => {
+    this.$editor.on('blur', '.js-translation-area', (e) => {
       $(e.target).closest('.js-editor-area-wrapper').removeClass('is-focused');
     });
 
     /* Write TM results, special chars... into the currently focused element */
-    $('#editor').on('click', '.js-editor-copytext', (e) => this.copyText(e));
-    $('#editor').on('click', '.js-editor-copy-tm-text', (e) => this.copyTMText(e));
+    this.$editor.on('click', '.js-editor-copytext', (e) => this.copyText(e));
+    this.$editor.on('click', '.js-editor-copy-tm-text', (e) => this.copyTMText(e));
 
     /* Copy translator comment */
-    $('#editor').on('click', '.js-editor-copy-comment', (e) => {
+    this.$editor.on('click', '.js-editor-copy-comment', (e) => {
       const text = e.currentTarget.dataset.string;
       this.copyComment(text);
     });
 
     /* Copy original translation */
-    $('#editor').on('click', '.js-copyoriginal', (e) => {
+    this.$editor.on('click', '.js-copyoriginal', (e) => {
       this.copyOriginal(e.currentTarget.dataset.languageCode);
     });
 
     /* Editor navigation/submission */
-    $('#editor').on('mouseup', 'tr.view-row', this.gotoUnit);
-    $('#editor').on('click', 'input.submit', (e) => {
+    this.$editor.on('mouseup', 'tr.view-row', this.gotoUnit);
+    this.$editor.on('click', 'input.submit', (e) => {
       e.preventDefault();
       this.handleSubmit();
     });
-    $('#editor').on('click', 'input.suggest', (e) => {
+    this.$editor.on('click', 'input.suggest', (e) => {
       e.preventDefault();
       this.handleSuggest();
     });
-    $('#editor').on('click', '.js-suggestion-reject', (e) => {
+    this.$editor.on('click', '.js-suggestion-reject', (e) => {
       e.stopPropagation();
       this.rejectSuggestion(e.currentTarget.dataset.suggId);
     });
-    $('#editor').on('click', '.js-suggestion-accept', (e) => {
+    this.$editor.on('click', '.js-suggestion-accept', (e) => {
       e.stopPropagation();
       this.acceptSuggestion(e.currentTarget.dataset.suggId);
     });
-    $('#editor').on('click', '.js-suggestion-toggle',
+    this.$editor.on('click', '.js-suggestion-toggle',
       (e) => this.toggleSuggestion(e, { canHide: true }));
 
     if (this.settings.canReview) {
-      $('#editor').on('click', '.js-user-suggestion',
+      this.$editor.on('click', '.js-user-suggestion',
         (e) => this.toggleSuggestion(e, { canHide: false }));
     }
 
-    $('#editor').on('click', '.js-translate-lightbox', () => this.closeSuggestion());
+    this.$editor.on('click', '.js-translate-lightbox', () => this.closeSuggestion());
 
-    $('#editor').on('click', '#js-toggle-timeline', (e) => this.toggleTimeline(e));
-    $('#editor').on('click', '.js-toggle-check', (e) => {
+    this.$editor.on('click', '#js-toggle-timeline', (e) => this.toggleTimeline(e));
+    this.$editor.on('click', '.js-toggle-check', (e) => {
       this.toggleCheck(e.currentTarget.dataset.checkId);
     });
 
     /* Commenting */
-    $('#editor').on('click', '.js-editor-comment', (e) => {
+    this.$editor.on('click', '.js-editor-comment', (e) => {
       e.preventDefault();
       const $elem = $('.js-editor-comment-form');
       const $comment = $('.js-editor-comment');
@@ -282,11 +283,11 @@ PTL.editor = {
       }
       this.adjustEditorGeometry();
     });
-    $('#editor').on('submit', '#js-comment-form', (e) => this.addComment(e));
-    $('#editor').on('click', '.js-comment-remove', (e) => this.removeComment(e));
+    this.$editor.on('submit', '#js-comment-form', (e) => this.addComment(e));
+    this.$editor.on('click', '.js-comment-remove', (e) => this.removeComment(e));
 
     /* Misc */
-    $('#editor').on('click', '.js-toggle-raw', (e) => {
+    this.$editor.on('click', '.js-toggle-raw', (e) => {
       e.preventDefault();
       $('.js-translate-translation').toggleClass('raw');
       const toggle = document.querySelector('.js-toggle-raw');

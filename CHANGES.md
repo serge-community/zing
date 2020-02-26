@@ -4,6 +4,7 @@ Zing Changelog
 v.next (unreleased)
 -------------------
 
+* Checks: implemented line break checks (#410).
 * Tasks: sort by due dates (#413).
 * Tasks: removed limit of displaying 10 tasks.
 * Fixed bug where language list wouldn't be properly recalculated.

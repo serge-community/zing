@@ -434,6 +434,130 @@ def test_plurr_placeholders(source_string, target_string, should_skip):
     assert_check(check, source_string, target_string, should_skip)
 
 
+@pytest.mark.parametrize(
+    "source_string, target_string, should_skip",
+    [
+        ("\n", "\n", True),
+        ("\n", "\n\n", False),
+        ("Foo\nbar", "La\nla", True),
+        ("Foo\nbar", "La\n\nla", False),
+        (
+            "The only thing I will leave after my\ndeath is a memory about me\n",
+            "Hilko banaiz,\nbalkoia zabalik utzi\n",
+            True,
+        ),
+        (
+            "The only thing I will leave after my\ndeath is a memory about me\n",
+            "Hilko banaiz, balkoia zabalik utzi\n",
+            False,
+        ),
+        (
+            "The only thing I will leave after my\ndeath is a memory about me\n",
+            "Hilko banaiz,\nbalkoia zabalik utzi",
+            False,
+        ),
+        (
+            "The only thing I will leave after my\ndeath is a memory about me\n",
+            "Hilko banaiz,\n\n\n\n\nbalkoia zabalik utzi",
+            False,
+        ),
+        (
+            "The only thing I will leave after my\ndeath is a memory about me\n",
+            "\nHilko banaiz,\n\n\n\n\nbalkoia zabalik utzi\n\n\n",
+            False,
+        ),
+    ],
+)
+def test_linebreaks_single(source_string, target_string, should_skip):
+    check = checker.linebreaks_single
+    assert_check(check, source_string, target_string, should_skip)
+
+
+@pytest.mark.parametrize(
+    "source_string, target_string, should_skip",
+    [
+        ("\n\n", "\n\n", True),
+        ("\n\n", "\n", False),
+        ("\n\n", "\n\n\n", False),
+        ("Foo\n\nbar", "La\n\nla", True),
+        ("Foo\n\nbar", "La\nla", False),
+        ("Foo\n\nbar", "La\n\n\nla", False),
+        (
+            "The only thing I will leave after my\n\ndeath is a memory about me\n",
+            "Hilko banaiz,\n\nbalkoia zabalik utzi\n",
+            True,
+        ),
+        (
+            "The only thing I will leave after my\n\ndeath is a memory about me\n",
+            "Hilko banaiz,\nbalkoia zabalik utzi\n",
+            False,
+        ),
+        (
+            "The only thing I will leave after my\n\ndeath is a memory about me\n",
+            "Hilko banaiz,\nbalkoia zabalik utzi",
+            False,
+        ),
+        (
+            "The only thing I will leave after my\n\ndeath is a memory about me\n",
+            "Hilko banaiz,\n\n\n\n\nbalkoia zabalik utzi",
+            False,
+        ),
+        (
+            "The only thing I will leave after my\n\ndeath is a memory about me\n",
+            "\nHilko banaiz,\n\n\n\n\nbalkoia zabalik utzi\n\n\n",
+            False,
+        ),
+    ],
+)
+def test_linebreaks_double(source_string, target_string, should_skip):
+    check = checker.linebreaks_double
+    assert_check(check, source_string, target_string, should_skip)
+
+
+@pytest.mark.parametrize(
+    "source_string, target_string, should_skip",
+    [
+        ("\n\n\n", "\n\n\n", True),
+        ("\n\n\n\n", "\n\n\n\n", True),
+        ("\n\n\n", "\n", False),
+        ("\n\n\n", "\n\n", False),
+        ("\n\n\n\n", "\n\n\n", False),
+        ("\n\n\n\n", "\n\n\n\n\n", False),
+        ("Foo\n\n\nbar", "La\n\n\nla", True),
+        ("Foo\n\n\nbar", "La\n\nla", False),
+        ("Foo\n\n\nbar", "La\n\n\n\nla", False),
+        (
+            "The only thing I will leave after my\n\n\ndeath is a memory about me\n\n\n\n",
+            "Hilko banaiz,\n\n\nbalkoia zabalik utzi\n\n\n\n",
+            True,
+        ),
+        (
+            "The only thing I will leave after my\n\n\ndeath is a memory about me\n\n",
+            "Hilko banaiz,\n\n\nbalkoia zabalik utzi",
+            True,
+        ),
+        (
+            "The only thing I will leave after my\n\n\n\ndeath is a memory about me\n\n",
+            "Hilko banaiz,\n\n\n\nbalkoia zabalik utzi",
+            True,
+        ),
+        (
+            "The only thing I will leave after my\n\n\ndeath is a memory about me\n\n\n\n",
+            "Hilko banaiz,\n\n\n\nbalkoia zabalik utzi\n\n\n",
+            False,
+        ),
+        (
+            "The only thing I will leave after my\n\n\ndeath is a memory about me\n\n\n",
+            "Hilko banaiz,\n\n\nbalkoia zabalik utzi",
+            False,
+        ),
+    ],
+)
+def test_linebreaks_multiple(source_string, target_string, should_skip):
+    check = checker.linebreaks_multiple
+    assert_check(check, source_string, target_string, should_skip)
+
+
 def test_get_qualitycheck_schema():
     d = {}
     checks = get_qualitychecks()

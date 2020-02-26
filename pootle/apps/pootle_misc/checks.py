@@ -265,6 +265,10 @@ plurr_format_regex = re.compile(u"{[^{}]*:.*?}")
 plurr_placeholders_regex = re.compile(u"{([^ {}:]*)", re.M)
 plurr_plural_suffix_regex = re.compile(u"_PLURAL$")
 
+linebreaks_single_regex = re.compile(r"(?<!\n)\n(?!\n)")
+linebreaks_double_regex = re.compile(r"(?<!\n)\n\n(?!\n)")
+linebreaks_multiple_regex = re.compile(r"(?<!\n)\n{3,}(?!\n)")
+
 
 def clean_plurr_placeholder(string):
     return plurr_plural_suffix_regex.sub("", string)
@@ -1063,6 +1067,39 @@ class ENChecker(checks.UnitChecker):
                 u"Placeholders missing in translation: %s"
                 % u", ".join(missing_in_translation)
             )
+
+        return True
+
+    @critical
+    def linebreaks_single(self, str1, str2, **kwargs):
+        source_parts_count = len(linebreaks_single_regex.split(str1))
+        target_parts_count = len(linebreaks_single_regex.split(str2))
+        if source_parts_count != target_parts_count:
+            raise checks.FilterFailure("Single line breaks mismatch")
+
+        return True
+
+    @critical
+    def linebreaks_double(self, str1, str2, **kwargs):
+        source_parts_count = len(linebreaks_double_regex.split(str1))
+        target_parts_count = len(linebreaks_double_regex.split(str2))
+        if source_parts_count != target_parts_count:
+            raise checks.FilterFailure("Double line breaks mismatch")
+
+        return True
+
+    @critical
+    def linebreaks_multiple(self, str1, str2, **kwargs):
+        source_counts = [
+            match.group().count("\n")
+            for match in linebreaks_multiple_regex.finditer(str1)
+        ]
+        target_counts = [
+            match.group().count("\n")
+            for match in linebreaks_multiple_regex.finditer(str2)
+        ]
+        if source_counts != target_counts:
+            raise checks.FilterFailure("Multiple line breaks mismatch")
 
         return True
 

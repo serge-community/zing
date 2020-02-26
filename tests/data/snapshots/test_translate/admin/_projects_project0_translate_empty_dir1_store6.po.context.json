@@ -61,6 +61,18 @@
           "title": "Java-encoded unicode"
         },
         {
+          "code": "linebreaks_double",
+          "title": "linebreaks_double"
+        },
+        {
+          "code": "linebreaks_multiple",
+          "title": "linebreaks_multiple"
+        },
+        {
+          "code": "linebreaks_single",
+          "title": "linebreaks_single"
+        },
+        {
           "code": "mustache_like_placeholder_pairs",
           "title": "Mustache like placeholder pairs"
         },

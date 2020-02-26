@@ -123,7 +123,7 @@ class DueDate(models.Model):
             flatten([due_date.get_pending_tasks(now) for due_date in due_dates])
         )
 
-        return TaskResultSet(due_tasks).order_by_importance()
+        return TaskResultSet(due_tasks).order_by_deadline()
 
     def __str__(self):
         return "<DueDate: %s>" % (self.due_on)

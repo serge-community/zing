@@ -9,12 +9,12 @@
       "words_left": 2
     },
     {
-      "due_on": 1488960000,
-      "importance_factor": 1,
-      "path": "/language0/project0/",
+      "due_on": 1488441600,
+      "importance_factor": 0.083,
+      "path": "/language0/project0/store0.po",
       "project_name": "Project 0",
-      "type": "critical",
-      "words_left": 9
+      "type": "translation",
+      "words_left": 166
     },
     {
       "due_on": 1488614400,
@@ -25,20 +25,20 @@
       "words_left": 2
     },
     {
-      "due_on": 1488960000,
-      "importance_factor": 0.10475,
-      "path": "/language0/project0/",
-      "project_name": "Project 0",
-      "type": "translation",
-      "words_left": 838
-    },
-    {
-      "due_on": 1488441600,
-      "importance_factor": 0.083,
-      "path": "/language0/project0/store0.po",
-      "project_name": "Project 0",
+      "due_on": 1488614400,
+      "importance_factor": 0.0415,
+      "path": "/language0/project1/store0.po",
+      "project_name": "Project 1",
       "type": "translation",
       "words_left": 166
+    },
+    {
+      "due_on": 1488960000,
+      "importance_factor": 1,
+      "path": "/language0/project0/",
+      "project_name": "Project 0",
+      "type": "critical",
+      "words_left": 9
     }
   ],
   "total": 6

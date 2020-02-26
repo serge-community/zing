@@ -90,3 +90,9 @@ class TaskResultSet(object):
             key=lambda x: (-x.importance_factor, x.days_left, x.due_date.pootle_path),
         )
         return self
+
+    def order_by_deadline(self):
+        self.tasks = sorted(
+            self.tasks, key=lambda x: (x.days_left, x.due_date.pootle_path),
+        )
+        return self

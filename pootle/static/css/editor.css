@@ -671,6 +671,13 @@ html[dir="rtl"] table td.translate-translation
     padding: 5px;
 }
 
+/* Preview URLs */
+.comments a[target="_preview"].highlighted
+{
+    background-color: #0b8696;
+    color: #f1f7f8;
+}
+
 
 /* TRANSLATION */
 

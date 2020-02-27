@@ -7,6 +7,7 @@ v.next (unreleased)
 * BREAKING: Python 3 support, dropped Python 2 support (#377).
 * Upgraded most Python dependencies, including Django, Redis, and Elasticsearch
   (#378, #399, #400).
+* Editor: preview links are auto-followed (#411).
 * Checks: implemented line break checks (#410).
 * Tasks: sort by due dates (#413).
 * Tasks: removed limit of displaying 10 tasks.

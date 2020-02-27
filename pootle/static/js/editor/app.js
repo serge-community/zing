@@ -146,6 +146,10 @@ PTL.editor = {
       onFetchError: (xhr, status) => this.error(xhr, status),
     });
 
+    // Preview window
+    this.previewWindow = null;
+    this.currentPreviewLink = null;
+
     this.isLoading = true;
     this.showActivity();
 
@@ -304,6 +308,21 @@ PTL.editor = {
           'You have unsaved changes in this string. Navigating away will discard those changes.'
         );
       }
+    });
+
+    /* Preview windows */
+    window.addEventListener('message', (e) => {
+      if (!e.data) {
+        return;
+      }
+
+      if (e.data.navigationHandled) {
+        clearTimeout(this.openLinkTimeout);
+      }
+    });
+    this.$editor.on('click', 'a[target="_preview"]', (e) => {
+      e.preventDefault();
+      this.openPreviewLink(e.target);
     });
 
     /* Bind hotkeys */
@@ -555,6 +574,13 @@ PTL.editor = {
 
     const $devComments = $('.js-developer-comments');
     $devComments.html(linkHashtags($devComments.html()));
+
+    if (this.previewWindow && !this.previewWindow.closed) {
+      const previewLinks = qAll('a[target="_preview"]');
+      if (previewLinks.length) {
+        this.openPreviewLink(previewLinks[0]);
+      }
+    }
 
     if (this.filter === 'search') {
       this.hlSearch({ rowType: 'edit' });
@@ -2193,5 +2219,44 @@ PTL.editor = {
     this.handleWindowResizeTimer = setTimeout(() => {
       this.adjustEditorGeometry();
     }, ADJUST_GEOMETRY_DELAY);
+  },
+
+  /* Previews */
+  openPreviewLink(clickedPreviewLink) {
+    if (!this.previewWindow || this.previewWindow.closed) {
+      this.previewWindow = window.open(clickedPreviewLink.href, '_preview');
+    } else {
+      // an extra click on a currently highlighted preview link will just bring
+      // the preview window to top and do nothing
+      if (this.currentPreviewLink === clickedPreviewLink) {
+        this.previewWindow.focus();
+        return;
+      }
+    }
+
+    // if the preview link is the same, do nothing
+    if (this.currentPreviewLink &&
+        this.currentPreviewLink.href === clickedPreviewLink) {
+      return;
+    }
+
+    // move the highlighting from the old to a new link
+    if (this.currentPreviewLink) {
+      this.currentPreviewLink.classList.remove('highlighted');
+    }
+    this.currentPreviewLink = clickedPreviewLink;
+    this.currentPreviewLink.classList.add('highlighted');
+
+    // ask the preview server to handle the URL for us (this allows servers that
+    // handle this message to navigate gracefully without reloading the page)
+    this.previewWindow.postMessage({
+      navigate: true,
+      url: clickedPreviewLink.href,
+    }, '*');
+
+    // set a timeout to force set the new URL
+    this.openLinkTimeout = setTimeout(() => {
+      this.previewWindow.location.href = clickedPreviewLink;
+    }, 200);
   },
 };

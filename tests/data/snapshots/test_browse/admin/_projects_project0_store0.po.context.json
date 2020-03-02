@@ -111,6 +111,7 @@
     "store0.po"
   ],
   "search_action": "/projects/project0/translate/store0.po",
+  "stats_pending_jobs": 0,
   "stats_refresh_attempts_count": 2,
   "translate_url": "/projects/project0/translate/store0.po",
   "translation_project": null,

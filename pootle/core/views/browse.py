@@ -158,9 +158,17 @@ class PootleBrowseView(BrowseDataViewMixin, PootleDetailView):
                 "items": tasks[:PENDING_TASKS_LIMIT],
             }
 
+        pending_jobs = 0
+        if self.request.user.is_superuser:
+            from django_rq.queues import get_queue
+
+            queue = get_queue()
+            pending_jobs = queue.count
+
         ctx.update(
             {
                 "page": "browse",
+                "stats_pending_jobs": pending_jobs,
                 "stats_refresh_attempts_count": STATS_REFRESH_ATTEMPTS_COUNT,
                 "browsing_data": self.get_browsing_data(),
                 "can_translate": can_translate,

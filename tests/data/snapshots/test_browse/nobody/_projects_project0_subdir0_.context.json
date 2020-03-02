@@ -108,6 +108,7 @@
     "subdir0/"
   ],
   "search_action": "/projects/project0/translate/subdir0/",
+  "stats_pending_jobs": 0,
   "stats_refresh_attempts_count": 2,
   "translate_url": "/projects/project0/translate/subdir0/",
   "translation_project": null,

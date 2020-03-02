@@ -105,6 +105,7 @@
   "resource_path": "",
   "resource_path_parts": [],
   "search_action": "/projects/project0/translate/",
+  "stats_pending_jobs": 0,
   "stats_refresh_attempts_count": 2,
   "translate_url": "/projects/project0/translate/",
   "translation_project": null,

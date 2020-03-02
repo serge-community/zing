@@ -19,11 +19,17 @@
   <div id="autorefresh-notice">
   <span>
     {% if user.is_superuser %}
-      {% blocktrans trimmed with docs_url="server/rq.html"|docs_url %}
-        Stats are out of date.
-        See <a href="{{ docs_url }}">documentation</a>
-        for dealing with stats issues.
-      {% endblocktrans %}
+      {% if stats_pending_jobs > 0 %}
+        {% blocktrans trimmed with docs_url="server/rq.html"|docs_url %}
+          Stats are currently being updated. Pending jobs: {{ stats_pending_jobs }}.
+        {% endblocktrans %}
+      {% else %}
+        {% blocktrans trimmed with docs_url="server/rq.html"|docs_url %}
+          Stats are out of date.
+          See <a href="{{ docs_url }}">documentation</a>
+          for dealing with stats issues.
+        {% endblocktrans %}
+      {% endif %}
     {% else %}
       {% trans "The stats on this page may be out of date." %}
     {% endif %}

@@ -61,7 +61,7 @@ class PootleCommand(BaseCommand):
             "--no-rq",
             action="store_true",
             default=False,
-            help=(u"Run all jobs in a single process, without " "using rq workers"),
+            help=("Run all jobs in a single process, without using rq workers"),
         )
 
     def __init__(self, *args, **kwargs):

@@ -221,8 +221,8 @@ are a couple more options to control how email will be sent:
 
 ### `refresh_stats`
 
-Recalculates all file statistics ensuring that they are up-to-date. Files in
-disabled projects are processed too.
+Recalculates all file statistics for active projects, ensuring they are
+up-to-date.
 
 A background process will create a task for every file to make sure calculated
 statistics data is up to date. When the task for a file completes then further
@@ -231,6 +231,11 @@ tasks will be created for the files' parents.
 > When users open a page that needs to
 display stats but they haven't been calculated yet, a banner will be displayed
 indicating that stats are out-of-date and in the process of being calculated.
+
+#### `--include-disabled-projects`
+
+By default, statistics for disabled projects are not calculated, and this can be
+changed by specifying `--include-disabled-projects`.
 
 
 ### `retry_failed_jobs`

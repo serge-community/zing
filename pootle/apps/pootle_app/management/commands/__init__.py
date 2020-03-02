@@ -129,13 +129,13 @@ class PootleCommand(BaseCommand):
         if options["no_rq"]:
             set_sync_mode(options["noinput"])
 
-        if self.process_disabled_projects:
-            project_query = Project.objects.all()
-        else:
-            project_query = Project.objects.enabled()
-
         if self.projects:
-            project_query = project_query.filter(code__in=self.projects)
+            project_query = Project.objects.filter(code__in=self.projects)
+        else:
+            if self.process_disabled_projects:
+                project_query = Project.objects.all()
+            else:
+                project_query = Project.objects.enabled()
 
         for project in project_query.iterator():
             tp_query = project.translationproject_set.live().order_by("language__code")

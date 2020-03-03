@@ -117,6 +117,9 @@ check_names = {
     "percent_brace_placeholders": _(u"Percent brace placeholders"),
     "plurr_format": _(u"Plurr format"),
     "plurr_placeholders": _(u"Plurr placeholders"),
+    "linebreaks_single": _("Linebreaks"),
+    "linebreaks_double": _("Linebreaks (double)"),
+    "linebreaks_multiple": _("Linebreaks (multiple)"),
 }
 
 excluded_filters = [

@@ -62,15 +62,15 @@
         },
         {
           "code": "linebreaks_double",
-          "title": "linebreaks_double"
+          "title": "Linebreaks (double)"
         },
         {
           "code": "linebreaks_multiple",
-          "title": "linebreaks_multiple"
+          "title": "Linebreaks (multiple)"
         },
         {
           "code": "linebreaks_single",
-          "title": "linebreaks_single"
+          "title": "Linebreaks"
         },
         {
           "code": "mustache_like_placeholder_pairs",

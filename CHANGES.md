@@ -8,7 +8,7 @@ v.next (unreleased)
 * Upgraded most Python dependencies, including Django, Redis, and Elasticsearch
   (#378, #399, #400).
 * Editor: preview links are auto-followed (#411).
-* Checks: implemented line break checks (#410).
+* Checks: implemented line breaks and ellipsis checks (#368, #410).
 * Tasks: sort by due dates (#413).
 * Tasks: removed limit of displaying 10 tasks.
 * Fixed bug where language list wouldn't be properly recalculated.

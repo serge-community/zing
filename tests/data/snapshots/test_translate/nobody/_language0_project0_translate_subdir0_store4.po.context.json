@@ -49,6 +49,10 @@
           "title": "Double quotes in tags"
         },
         {
+          "code": "ellipsis",
+          "title": "Ellipsis"
+        },
+        {
           "code": "incorrectly_escaped_ampersands",
           "title": "Incorrectly escaped ampersands"
         },

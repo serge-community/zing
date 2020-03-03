@@ -120,6 +120,7 @@ check_names = {
     "linebreaks_single": _("Linebreaks"),
     "linebreaks_double": _("Linebreaks (double)"),
     "linebreaks_multiple": _("Linebreaks (multiple)"),
+    "ellipsis": _("Ellipsis"),
 }
 
 excluded_filters = [
@@ -1103,6 +1104,13 @@ class ENChecker(checks.UnitChecker):
         ]
         if source_counts != target_counts:
             raise checks.FilterFailure("Multiple line breaks mismatch")
+
+        return True
+
+    @critical
+    def ellipsis(self, str1, str2, **kwargs):
+        if "…" in str1 and "..." in str2:
+            raise checks.FilterFailure("Ellipsis mismatch")
 
         return True
 

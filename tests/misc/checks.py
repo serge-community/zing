@@ -558,6 +558,24 @@ def test_linebreaks_multiple(source_string, target_string, should_skip):
     assert_check(check, source_string, target_string, should_skip)
 
 
+@pytest.mark.parametrize(
+    "source_string, target_string, should_skip",
+    [
+        ("…", "", True),
+        ("…", "…", True),
+        ("…", "..", True),
+        ("…", "...", False),
+        ("…", "....", False),
+        ("Foo…", "Bar....", False),
+        ("Foo…", "....bar", False),
+        ("Foo…", "....bar...", False),
+    ],
+)
+def test_ellipsis(source_string, target_string, should_skip):
+    check = checker.ellipsis
+    assert_check(check, source_string, target_string, should_skip)
+
+
 def test_get_qualitycheck_schema():
     d = {}
     checks = get_qualitychecks()

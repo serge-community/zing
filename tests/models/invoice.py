@@ -621,6 +621,18 @@ def test_invoice_generate_negative_balance(member, invoice_directory):
 
 
 @pytest.mark.django_db
+def test_invoice_generate_no_activity_no_carryover(member, invoice_directory):
+    """Tests that generated invoices that resulted in a zero balance due to
+    no activity are not carried over to the next month.
+    """
+    config = dict({"minimal_payment": 10}, **FAKE_CONFIG)
+    invoice = Invoice(member, config, month=None, add_correction=True)
+
+    # There's no work done, so we don't record any score logs or paid tasks
+    assert not invoice.needs_carry_over(0)
+
+
+@pytest.mark.django_db
 def test_invoice_generate_balance_with_carry_over(member, invoice_directory):
     """Tests that balance is properly reported even if a carry-over already
     existed.

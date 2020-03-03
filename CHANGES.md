@@ -13,6 +13,7 @@ v.next (unreleased)
 * Tasks: removed limit of displaying 10 tasks.
 * Fixed bug where language list wouldn't be properly recalculated.
 * `refresh_stats` won't process disabled projects by default (#421).
+* Fixed bug with zero carry-overs (#426).
 
 
 v0.8.9 (2018-11-07)

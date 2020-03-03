@@ -320,6 +320,7 @@ class Invoice(object):
     def needs_carry_over(self, subtotal):
         return (
             self.add_correction
+            and subtotal != 0
             and not self.is_carried_over
             and subtotal < self.conf.get("minimal_payment", 0)
         )

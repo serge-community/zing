@@ -459,28 +459,27 @@ class CachedTreeItem(TreeItem):
         """Update dirty cached stats of current TreeItem and add RQ job for
         updating dirty cached stats of parent
         """
-        if self.can_be_updated():
-            # children should be recalculated to avoid using of obsolete
-            # directories or stores which could be saved in `children` property
-            self.initialized = False
-            self.initialize_children()
-            keys_for_parent = set(keys)
-            for key in keys:
-                try:
-                    self.update_cached(key)
-                except NoCachedStats:
-                    keys_for_parent.remove(key)
-
-            if keys_for_parent:
-                parent = self.get_parent()
-                if parent is not None:
-                    create_update_cache_job_wrapper(parent, keys_for_parent, decrement)
-                self.unregister_dirty(decrement)
-            else:
-                self.unregister_all_dirty(decrement)
-
-        else:
+        if not self.can_be_updated():
             logger.warning("Cache for %s object cannot be updated.", self)
+            self.unregister_all_dirty(decrement)
+
+        # children should be recalculated to avoid using of obsolete
+        # directories or stores which could be saved in `children` property
+        self.initialized = False
+        self.initialize_children()
+        keys_for_parent = set(keys)
+        for key in keys:
+            try:
+                self.update_cached(key)
+            except NoCachedStats:
+                keys_for_parent.remove(key)
+
+        if keys_for_parent:
+            parent = self.get_parent()
+            if parent is not None:
+                create_update_cache_job_wrapper(parent, keys_for_parent, decrement)
+            self.unregister_dirty(decrement)
+        else:
             self.unregister_all_dirty(decrement)
 
 

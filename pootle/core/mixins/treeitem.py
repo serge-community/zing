@@ -30,7 +30,6 @@ __all__ = ("TreeItem", "CachedTreeItem", "CachedMethods")
 
 
 KEY_DIRTY_TREEITEMS = "pootle:dirty:treeitems"
-KEY_REFRESH_STATS = "pootle:refresh:stats"
 KEY_STATS_LAST_JOB_PREFIX = "pootle:stats:lastjob:"
 KEY_STATS_JOB_PARAMS_PREFIX = "pootle:stats:job.params:"
 
@@ -364,7 +363,7 @@ class CachedTreeItem(TreeItem):
 
     def is_dirty(self):
         """Checks if current TreeItem is registered as dirty"""
-        return self.get_dirty_score() > 0 or self.is_being_refreshed()
+        return self.get_dirty_score() > 0
 
     def mark_dirty(self, *args):
         """Mark cached method names for this TreeItem as dirty"""
@@ -394,22 +393,6 @@ class CachedTreeItem(TreeItem):
         of current TreeItem
         """
         return get_all_pootle_paths(self.cache_key)
-
-    def is_being_refreshed(self):
-        """Checks if current TreeItem is being refreshed"""
-        r_con = get_connection()
-        path = r_con.get(KEY_REFRESH_STATS)
-
-        if path is None:
-            return False
-
-        if path == "/":
-            return True
-
-        proj_code = split_pootle_path(path)[1]
-        key = self.cache_key
-
-        return key in path or path in key or key in "/projects/%s/" % proj_code
 
     def register_all_dirty(self):
         """Register current TreeItem and all parent paths as dirty

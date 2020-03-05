@@ -14,6 +14,7 @@ v.next (unreleased)
 * Fixed bug where language list wouldn't be properly recalculated.
 * `refresh_stats` won't process disabled projects by default (#421).
 * Fixed bug with zero carry-overs (#426).
+* Contact form: fixed bug when pre-populating subject lines.
 
 
 v0.8.9 (2018-11-07)

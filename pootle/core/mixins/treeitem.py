@@ -21,7 +21,7 @@ from django.utils.encoding import iri_to_uri
 from django_rq.queues import get_connection, get_queue
 
 from pootle.core.cache import get_cache
-from pootle.core.url_helpers import get_all_pootle_paths, split_pootle_path
+from pootle.core.url_helpers import get_all_pootle_paths
 from pootle.core.utils.timezone import datetime_min
 from pootle_misc.util import dictsum
 

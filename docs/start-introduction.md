@@ -13,7 +13,7 @@ localization workflow. It integrates nicely with [Serge](https://serge.io/).
 At its core, Zing is a server built using Python and the Django framework. It
 runs on UNIX-like Operating Systems and requires:
 
-* Python 2.7
+* Python 3.7
 * Redis
 * MySQL _(PostgreSQL should also work, but hasn't been widely tested)_
 * Elasticsearch _(when using the Translation Memory support)_

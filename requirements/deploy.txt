@@ -8,4 +8,4 @@ mysqlclient>=1.4.6
 # psycopg2>=2.8.4
 
 # Logging
-sentry-sdk==0.14.0
+sentry-sdk==0.14.2

@@ -1,7 +1,7 @@
 Zing Changelog
 ==============
 
-v.next (unreleased)
+v0.9.0 (2020-03-09)
 -------------------
 
 * BREAKING: Python 3 support, dropped Python 2 support (#377).

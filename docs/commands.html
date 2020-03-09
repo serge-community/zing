@@ -182,8 +182,8 @@ extra output in email messages when using the default templates.</li>
 </ul>
 <h2><a class="anchor" aria-hidden="true" id="server-management"></a><a href="#server-management" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Server Management</h2>
 <h3><a class="anchor" aria-hidden="true" id="refresh-stats"></a><a href="#refresh-stats" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>refresh_stats</code></h3>
-<p>Recalculates all file statistics ensuring that they are up-to-date. Files in
-disabled projects are processed too.</p>
+<p>Recalculates all file statistics for active projects, ensuring they are
+up-to-date.</p>
 <p>A background process will create a task for every file to make sure calculated
 statistics data is up to date. When the task for a file completes then further
 tasks will be created for the files' parents.</p>
@@ -192,6 +192,9 @@ tasks will be created for the files' parents.</p>
 display stats but they haven't been calculated yet, a banner will be displayed
 indicating that stats are out-of-date and in the process of being calculated.</p>
 </blockquote>
+<h4><a class="anchor" aria-hidden="true" id="include-disabled-projects-1"></a><a href="#include-disabled-projects-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>--include-disabled-projects</code></h4>
+<p>By default, statistics for disabled projects are not calculated, and this can be
+changed by specifying <code>--include-disabled-projects</code>.</p>
 <h3><a class="anchor" aria-hidden="true" id="retry-failed-jobs"></a><a href="#retry-failed-jobs" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>retry_failed_jobs</code></h3>
 <p>Requeue failed RQ jobs.</p>
 <p>Background RQ jobs can fail for various reasons. To push them back into the
@@ -301,4 +304,4 @@ projects will be empty until <code>update_stores</code> is run.</p>
 <p><code>initdb</code> accepts the following option:</p>
 <h4><a class="anchor" aria-hidden="true" id="no-projects"></a><a href="#no-projects" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>--no-projects</code></h4>
 <p>Don't create the default <code>terminology</code> and <code>tutorial</code> projects.</p>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="settings">← Settings</a></div></div></div></div><footer class="nav-footer" id="footer"><section class="copyright">Copyright © 2018 Zing Contributors.</section></footer></div></body></html>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="settings">← Settings</a></div></div></div></div><footer class="nav-footer" id="footer"><section class="copyright">Copyright © 2020 Zing Contributors.</section></footer></div></body></html>

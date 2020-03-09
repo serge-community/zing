@@ -1,4 +1,4 @@
-Django==3.0.3
+Django==3.0.4
 
 # Django apps
 django-allauth==0.41.0

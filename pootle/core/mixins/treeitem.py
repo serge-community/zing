@@ -463,17 +463,6 @@ class CachedTreeItem(TreeItem):
             logger.warning("Cache for %s object cannot be updated.", self)
             self.unregister_all_dirty(decrement)
 
-        n_jobs = self.get_dirty_score()
-        if n_jobs > 1:
-            # Skip work if other jobs are scheduled to update this item later
-            self.unregister_all_dirty(decrement)
-            logger.debug("--> SKIP ITEM %s (pending jobs=%d)", self.cache_key, n_jobs)
-            return
-
-        logger.debug(
-            "--> UPDATE ITEM %s (pending jobs=%d)", self.cache_key, n_jobs,
-        )
-
         # children should be recalculated to avoid using of obsolete
         # directories or stores which could be saved in `children` property
         self.initialized = False

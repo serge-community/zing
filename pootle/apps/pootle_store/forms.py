@@ -37,8 +37,6 @@ from .form_fields import (
 from .models import Suggestion, Unit
 
 
-EXPORT_VIEW_QUERY_LIMIT = 10000
-
 UNIT_SEARCH_FILTER_CHOICES = (
     ("all", "all"),
     ("translated", "translated"),

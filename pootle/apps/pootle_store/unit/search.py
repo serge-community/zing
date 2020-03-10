@@ -126,11 +126,12 @@ class DBSearchBackend(object):
     def results(self):
         return self.sort_qs(self.filter_qs(self.units_qs))
 
-    def search(self):
+    def search(self, limit=None):
         total = self.results.count()
 
         start = 0
-        end = min(MAX_RESULTS, total)
+        max_limit = limit is not None and limit or MAX_RESULTS
+        end = min(max_limit, total)
 
         return total, start, end, self.results[start:end]
 

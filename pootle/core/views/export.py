@@ -44,12 +44,11 @@ class PootleExportView(PootleDetailView):
 
         total, start_, end_, units_qs = DBSearchBackend(
             self.request.user, **search_form.cleaned_data
-        ).search()
+        ).search(limit=UNITS_LIMIT)
 
         units_qs = units_qs.select_related("store")
 
         if total > UNITS_LIMIT:
-            units_qs = units_qs[:UNITS_LIMIT]
             ctx.update({"unit_total_count": total, "displayed_unit_count": UNITS_LIMIT})
 
         unit_groups = [

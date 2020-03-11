@@ -35,6 +35,7 @@ from pootle.core.http import (
 
 def log_exception(request, exception, tb):
     if sentry_sdk is not None:
+        sentry_sdk.capture_exception(exception)
         return
 
     # Send email to admins with details about exception

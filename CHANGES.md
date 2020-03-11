@@ -1,7 +1,7 @@
 Zing Changelog
 ==============
 
-v.next (unreleased)
+v0.9.1 (2020-03-11)
 -------------------
 
 * Export view: allowed up to 1000 result rows (#230).

@@ -5,6 +5,7 @@ v.next (unreleased)
 -------------------
 
 * Export view: allowed up to 1000 result rows (#230).
+* Editor: fixed bug where some individual units couldn't be accessed.
 * Ensured Sentry exceptions are captured for XHR views.
 
 

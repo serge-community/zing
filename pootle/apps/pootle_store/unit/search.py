@@ -158,7 +158,7 @@ class DBSearchBackend(object):
             uid_results = list(self.results.values_list("pk", "store_id"))
             uid_list = [result[0] for result in uid_results]
             if self.uid in uid_list:
-                begin = max(uid_list.index(self.uid) - MAX_RESULTS / 2, 0)
+                begin = max(uid_list.index(self.uid) - MAX_RESULTS // 2, 0)
                 end = min(begin + MAX_RESULTS, total)
                 uids = uid_results[begin:end]
 

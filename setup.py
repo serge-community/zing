@@ -13,7 +13,6 @@ import re
 import sys
 from distutils import log
 from distutils.command.build import build as DistutilsBuild
-from distutils.core import Command
 from distutils.errors import DistutilsOptionError
 
 from setuptools import find_packages, setup
@@ -154,77 +153,6 @@ class PootleBuildMo(DistutilsBuild):
         self.build_mo()
 
 
-class BuildChecksTemplatesCommand(Command):
-    user_options = []
-
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
-
-    def run(self):
-        import django
-        import codecs
-        from pootle.apps.pootle_misc.checks import check_names, excluded_filters
-        from translate.filters.checks import (
-            TeeChecker,
-            StandardChecker,
-            StandardUnitChecker,
-        )
-
-        try:
-            from docutils.core import publish_parts
-        except ImportError:
-            from distutils.errors import DistutilsModuleError
-
-            raise DistutilsModuleError("Please install the docutils library.")
-        from pootle import syspath_override  # noqa
-
-        django.setup()
-
-        def get_check_description(name, filterfunc):
-            """Get a HTML snippet for a specific quality check description.
-
-            The quality check description is extracted from the check function
-            docstring (which uses reStructuredText) and rendered using docutils
-            to get the HTML snippet.
-            """
-            # Provide a header with an anchor to refer to.
-            description = '\n<h3 id="%s">%s</h3>\n\n' % (name, str(check_names[name]))
-
-            # Clean the leading whitespace on each docstring line so it gets
-            # properly rendered.
-            docstring = "\n".join(
-                line.strip() for line in filterfunc.__doc__.split("\n")
-            )
-
-            # Render the reStructuredText in the docstring into HTML.
-            description += publish_parts(docstring, writer_name="html")["body"]
-            return description
-
-        print("Regenerating Translate Toolkit quality checks descriptions")
-
-        # Get a checker with the Translate Toolkit checks. Note that filters
-        # that are not used in Pootle are excluded.
-        fd = TeeChecker(
-            checkerclasses=[StandardChecker, StandardUnitChecker]
-        ).getfilters(excludefilters=excluded_filters)
-
-        docs = sorted(get_check_description(name, f) for name, f in fd.items())
-
-        # Output the quality checks descriptions to the HTML file.
-        templates_dir = os.path.join(
-            os.path.abspath(os.path.dirname(__file__)), "pootle", "templates"
-        )
-        filename = os.path.join(templates_dir, "help/_ttk_quality_checks.html")
-
-        with codecs.open(filename, "w", "utf-8") as f:
-            f.write(u"\n".join(docs))
-
-        print("Checks templates written to %r" % (filename))
-
-
 setup(
     name="Zing",
     version=__version__,
@@ -258,9 +186,5 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     entry_points={"console_scripts": ["zing = pootle.runner:main"]},
-    cmdclass={
-        "build_checks_templates": BuildChecksTemplatesCommand,
-        "build_mo": PootleBuildMo,
-        "test": PyTest,
-    },
+    cmdclass={"build_mo": PootleBuildMo, "test": PyTest},
 )

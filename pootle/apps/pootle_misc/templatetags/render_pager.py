@@ -46,7 +46,7 @@ def render_pager(pager):
         )
         result += '<li><a href="?page=%d" class="nth-link">%s</a></li>' % (
             pager.paginator.num_pages,
-            _("Last (%d)", pager.paginator.num_pages),
+            _("Last (%d)" % pager.paginator.num_pages),
         )
 
     result += "</ul>"

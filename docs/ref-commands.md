@@ -152,7 +152,7 @@ your cache you will need to restore the counter to ensure correct operation.
 ## Translation Memory
 
 These commands allow you to setup and manage [Translation
-Memory](feature-tm.md).
+Memory](feat-editor.md#translation-memory).
 
 
 ### `update_tmserver`

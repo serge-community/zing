@@ -272,20 +272,26 @@ class CachedTreeItem(TreeItem):
         """calculate stat value and update cached value"""
         start = datetime.now()
 
-        calc_fn = {
-            CachedMethods.WORDCOUNT_STATS: self._calc_wordcount_stats,
-            CachedMethods.SUGGESTIONS: self._calc_suggestion_count,
-            CachedMethods.LAST_ACTION: self._calc_last_action,
-            CachedMethods.LAST_UPDATED: self._calc_last_updated,
-            CachedMethods.CHECKS: self._calc_checks,
-            CachedMethods.MTIME: self._calc_mtime,
-        }.get(name, lambda: None)
+        value = None
 
-        self.set_cached_value(name, calc_fn())
+        if name == str(CachedMethods.WORDCOUNT_STATS):
+            value = self._calc_wordcount_stats()
+        elif name == str(CachedMethods.SUGGESTIONS):
+            value = self._calc_suggestion_count()
+        elif name == str(CachedMethods.LAST_ACTION):
+            value = self._calc_last_action()
+        elif name == str(CachedMethods.LAST_UPDATED):
+            value = self._calc_last_updated()
+        elif name == str(CachedMethods.CHECKS):
+            value = self._calc_checks()
+        elif name == str(CachedMethods.MTIME):
+            value = self._calc_mtime()
+
+        self.set_cached_value(name, value)
 
         end = datetime.now()
         ctx = {
-            "function": calc_fn.__name__,
+            "function": name.replace("get_", "_calc_"),
             "time": end - start,
             "key": self.cache_key,
         }

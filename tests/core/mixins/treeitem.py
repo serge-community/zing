@@ -9,7 +9,7 @@
 
 import pytest
 
-from pootle.core.mixins.treeitem import CachedMethods
+from pootle.core.mixins.treeitem import CachedMethods, CachedTreeItem
 from pootle_app.models import Directory
 from pootle_project.models import Project
 from pootle_store.models import Store
@@ -27,6 +27,18 @@ def test_cachedmethods_get_all():
         "get_wordcount_stats",
     ]
     assert CachedMethods.get_all() == ALL_CACHED_METHODS
+
+
+def test_cachedtreeitem_get_set_cached_value():
+    """Setting/getting cached values via method names."""
+    cti = CachedTreeItem()
+    cti.pootle_path = "/test/path/"  # dummy value required for `cache_key`
+
+    method = CachedMethods.WORDCOUNT_STATS
+    expected_value = "test_value"
+
+    cti.set_cached_value(method, expected_value)
+    assert cti.get_cached_value(method) == expected_value
 
 
 @pytest.mark.django_db

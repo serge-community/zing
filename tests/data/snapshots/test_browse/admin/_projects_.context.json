@@ -4,23 +4,8 @@
   "browsing_data": {
     "children": {
       "/projects/disabled_project0/": {
-        "critical": 5,
-        "fuzzy": 265,
         "is_disabled": true,
-        "lastaction": {
-          "displayname": "Member",
-          "email": "a4fae232e2bfebd9f4dc8d7cb6caecb2",
-          "mtime": 1578661826,
-          "source": "Translated Source /language0/disabled_project0/su\u2026",
-          "translation_action_type": 1,
-          "type": 1,
-          "uid": 162,
-          "username": "member"
-        },
-        "suggestions": 15,
         "title": "Disabled Project 0",
-        "total": 855,
-        "translated": 290,
         "treeitem_type": 2
       },
       "/projects/project0/": {
@@ -67,8 +52,8 @@
         "treeitem_type": 2
       }
     },
-    "critical": 41,
-    "fuzzy": 1745,
+    "critical": 36,
+    "fuzzy": 1480,
     "lastaction": {
       "displayname": "Member",
       "email": "a4fae232e2bfebd9f4dc8d7cb6caecb2",
@@ -79,9 +64,9 @@
       "uid": 142,
       "username": "member"
     },
-    "suggestions": 123,
-    "total": 5957,
-    "translated": 2017
+    "suggestions": 108,
+    "total": 5102,
+    "translated": 1727
   },
   "can_admin_due_dates": false,
   "can_translate": true,

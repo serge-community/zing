@@ -1,6 +1,12 @@
 Zing Changelog
 ==============
 
+v.next (unreleased)
+-------------------
+
+* Fixed bug where no overview stats were shown for language pages (#425).
+
+
 v0.9.1 (2020-03-11)
 -------------------
 

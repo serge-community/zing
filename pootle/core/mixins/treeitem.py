@@ -9,6 +9,7 @@
 
 import logging
 from datetime import datetime
+from enum import Enum
 
 from redis import WatchError
 from rq import get_current_job
@@ -42,24 +43,23 @@ class NoCachedStats(Exception):
     pass
 
 
-class CachedMethods(object):
+class CachedMethods(Enum):
     """Cached method names."""
 
     CHECKS = "get_checks"
-    WORDCOUNT_STATS = "get_wordcount_stats"
     LAST_ACTION = "get_last_action"
-    SUGGESTIONS = "get_suggestion_count"
-    MTIME = "get_mtime"
     LAST_UPDATED = "get_last_updated"
+    MTIME = "get_mtime"
+    SUGGESTIONS = "get_suggestion_count"
+    WORDCOUNT_STATS = "get_wordcount_stats"
 
-    # Check refresh_stats command when add a new CachedMethod
+    def __str__(self):
+        return str(self.value)
 
     @classmethod
     def get_all(cls):
-        return [
-            getattr(cls, x)
-            for x in [x for x in dir(cls) if x[:2] != "__" and x != "get_all"]
-        ]
+        """Retrieves all cached method names as a list."""
+        return [str(e) for e in cls]
 
 
 class TreeItem(object):

@@ -29,6 +29,11 @@ def test_cachedmethods_get_all():
     assert CachedMethods.get_all() == ALL_CACHED_METHODS
 
 
+def test_cachedmethods_str():
+    """Make sure coercion to str() prints enum's value."""
+    assert str(CachedMethods.WORDCOUNT_STATS) == "get_wordcount_stats"
+
+
 def test_cachedtreeitem_get_set_cached_value():
     """Setting/getting cached values via method names."""
     cti = CachedTreeItem()

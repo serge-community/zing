@@ -9,10 +9,24 @@
 
 import pytest
 
+from pootle.core.mixins.treeitem import CachedMethods
 from pootle_app.models import Directory
 from pootle_project.models import Project
 from pootle_store.models import Store
 from pootle_translationproject.models import TranslationProject
+
+
+def test_cachedmethods_get_all():
+    """Retrieval of all cached methods as a list."""
+    ALL_CACHED_METHODS = [
+        "get_checks",
+        "get_last_action",
+        "get_last_updated",
+        "get_mtime",
+        "get_suggestion_count",
+        "get_wordcount_stats",
+    ]
+    assert CachedMethods.get_all() == ALL_CACHED_METHODS
 
 
 @pytest.mark.django_db

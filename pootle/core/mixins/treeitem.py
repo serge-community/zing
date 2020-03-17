@@ -374,7 +374,7 @@ class CachedTreeItem(TreeItem):
     def mark_dirty(self, *args):
         """Mark cached method names for this TreeItem as dirty"""
         for key in args:
-            self._dirty_cache.add(key)
+            self._dirty_cache.add(str(key))
 
     def mark_all_dirty(self):
         """Mark all cached method names for this TreeItem as dirty"""

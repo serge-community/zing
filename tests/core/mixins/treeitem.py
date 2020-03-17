@@ -15,23 +15,57 @@ from pootle_project.models import Project
 from pootle_store.models import Store
 from pootle_translationproject.models import TranslationProject
 
+ALL_CACHED_METHODS = [
+    "get_checks",
+    "get_last_action",
+    "get_last_updated",
+    "get_mtime",
+    "get_suggestion_count",
+    "get_wordcount_stats",
+]
+
 
 def test_cachedmethods_get_all():
     """Retrieval of all cached methods as a list."""
-    ALL_CACHED_METHODS = [
-        "get_checks",
-        "get_last_action",
-        "get_last_updated",
-        "get_mtime",
-        "get_suggestion_count",
-        "get_wordcount_stats",
-    ]
     assert CachedMethods.get_all() == ALL_CACHED_METHODS
 
 
 def test_cachedmethods_str():
     """Make sure coercion to str() prints enum's value."""
     assert str(CachedMethods.WORDCOUNT_STATS) == "get_wordcount_stats"
+
+
+def test_cachedtreeitem_mark_dirty_single():
+    """Mark dirty a single method."""
+    cti = CachedTreeItem()
+
+    method = CachedMethods.WORDCOUNT_STATS
+    expected_value = [str(CachedMethods.WORDCOUNT_STATS)]
+
+    cti.mark_dirty(method)
+    assert cti._dirty_cache == set(expected_value)
+
+
+def test_cachedtreeitem_mark_dirty_list():
+    """Mark dirty multiple methods."""
+    cti = CachedTreeItem()
+
+    methods = [CachedMethods.WORDCOUNT_STATS, CachedMethods.LAST_ACTION]
+    expected_value = [
+        str(CachedMethods.WORDCOUNT_STATS),
+        str(CachedMethods.LAST_ACTION),
+    ]
+
+    cti.mark_dirty(*methods)
+    assert cti._dirty_cache == set(expected_value)
+
+
+def test_cachedtreeitem_mark_all_dirty():
+    """Mark dirty all methods."""
+    cti = CachedTreeItem()
+
+    cti.mark_all_dirty()
+    assert cti._dirty_cache == set(ALL_CACHED_METHODS)
 
 
 def test_cachedtreeitem_get_set_cached_value():

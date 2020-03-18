@@ -54,7 +54,7 @@ class LanguageMixin(object):
         self.object = self.get_object()
         if self.object.code != kwargs["language_code"]:
             return redirect(self.url_pattern_name, self.object.code, permanent=True)
-        return super(LanguageMixin, self).get(*args, **kwargs)
+        return super().get(*args, **kwargs)
 
 
 class LanguageBrowseView(LanguageMixin, PootleBrowseView):
@@ -73,7 +73,7 @@ class LanguageBrowseView(LanguageMixin, PootleBrowseView):
         return {"code": self.object.code, "name": tr_lang(self.object.fullname)}
 
     def get(self, *args, **kwargs):
-        response = super(LanguageBrowseView, self).get(*args, **kwargs)
+        response = super().get(*args, **kwargs)
         response.set_cookie("pootle-language", self.object.code)
         return response
 

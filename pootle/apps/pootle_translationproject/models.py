@@ -252,7 +252,7 @@ class TranslationProject(models.Model, CachedTreeItem):
         return self.pootle_path
 
     def __init__(self, *args, **kwargs):
-        super(TranslationProject, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def save(self, *args, **kwargs):
         self.directory = self.language.directory.get_or_make_subdir(self.project.code)
@@ -263,12 +263,12 @@ class TranslationProject(models.Model, CachedTreeItem):
             self.project.get_real_path(),
             make_dirs=not self.directory.obsolete,
         )
-        super(TranslationProject, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
         directory = self.directory
 
-        super(TranslationProject, self).delete(*args, **kwargs)
+        super().delete(*args, **kwargs)
         directory.delete()
 
     def get_absolute_url(self):

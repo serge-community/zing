@@ -416,7 +416,7 @@ class PoStoreSyncer(StoreSyncer):
             )
 
     def update_store_header(self, **kwargs):
-        super(PoStoreSyncer, self).update_store_header(**kwargs)
+        super().update_store_header(**kwargs)
         user = kwargs.get("user")
         mtime = self.store.get_cached_value(CachedMethods.MTIME)
         if mtime is None or mtime == datetime_min:

@@ -21,7 +21,7 @@ class Command(PootleCommand):
     process_disabled_projects = True
 
     def add_arguments(self, parser):
-        super(Command, self).add_arguments(parser)
+        super().add_arguments(parser)
         parser.add_argument(
             "--check",
             action="append",
@@ -39,4 +39,4 @@ class Command(PootleCommand):
             self.stdout.write(u"Running %s (noargs)" % self.name)
             QualityCheckUpdater(options["check_names"]).update()
         else:
-            super(Command, self).handle_all(**options)
+            super().handle_all(**options)

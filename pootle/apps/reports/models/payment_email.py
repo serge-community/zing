@@ -107,7 +107,7 @@ class AccountingPaymentEmail(BasePaymentEmail):
         return u"For payment: Invoice %s, %s" % (self.id, ctx["name"])
 
     def get_context_data(self):
-        ctx = super(AccountingPaymentEmail, self).get_context_data()
+        ctx = super().get_context_data()
         ctx.update({"accounting": True})
         return ctx
 
@@ -123,7 +123,7 @@ class UserPaymentEmail(BasePaymentEmail):
         return u"Sent for payment: Invoice %s, %s" % (self.id, ctx["name"])
 
     def get_context_data(self):
-        ctx = super(UserPaymentEmail, self).get_context_data()
+        ctx = super().get_context_data()
         ctx.update({"accounting": False})
         return ctx
 

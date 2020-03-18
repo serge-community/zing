@@ -274,7 +274,7 @@ class User(AbstractBaseUser):
     def save(self, *args, **kwargs):
         old_email = None if self.pk is None else User.objects.get(pk=self.pk).email
 
-        super(User, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
         self.sync_email(old_email)
 
@@ -293,7 +293,7 @@ class User(AbstractBaseUser):
         else:
             UserMerger(self, User.objects.get_nobody_user()).merge()
 
-        super(User, self).delete(*args, **kwargs)
+        super().delete(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse("pootle-user-profile", args=[self.username])
@@ -341,7 +341,7 @@ class User(AbstractBaseUser):
         send_mail(subject, message, from_email, [self.email])
 
     def clean_fields(self, exclude=None):
-        super(User, self).clean_fields(exclude=exclude)
+        super().clean_fields(exclude=exclude)
 
         self.validate_email()
 

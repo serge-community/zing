@@ -192,7 +192,7 @@ class ProjectsMixin(object):
 
 class ProjectsBrowseView(ProjectsMixin, PootleBrowseView):
     def get(self, *args, **kwargs):
-        response = super(ProjectsBrowseView, self).get(*args, **kwargs)
+        response = super().get(*args, **kwargs)
         response.set_cookie("pootle-language", "projects")
         return response
 

@@ -73,7 +73,7 @@ class ProjectForm(forms.ModelForm):
         )
 
     def __init__(self, *args, **kwargs):
-        super(ProjectForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.fields["source_language"].queryset = Language.objects.all()
 
@@ -124,7 +124,7 @@ class UserForm(BaseUserForm):
         )
 
     def __init__(self, *args, **kwargs):
-        super(UserForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         # Require setting the password for new users
         if self.instance.pk is None:
@@ -134,12 +134,12 @@ class UserForm(BaseUserForm):
         password = self.cleaned_data["password"]
 
         if password != "":
-            user = super(UserForm, self).save(commit=False)
+            user = super().save(commit=False)
             user.set_password(password)
 
             if commit:
                 user.save()
         else:
-            user = super(UserForm, self).save(commit=commit)
+            user = super().save(commit=commit)
 
         return user

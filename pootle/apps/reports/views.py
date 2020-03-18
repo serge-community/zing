@@ -55,10 +55,10 @@ class UserStatsView(NoDefaultUserMixin, UserObjectMixin, DetailView):
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
-        return super(UserStatsView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        ctx = super(UserStatsView, self).get_context_data(**kwargs)
+        ctx = super().get_context_data(**kwargs)
         now = make_aware(datetime.now())
         ctx.update({"now": now.strftime("%Y-%m-%d %H:%M:%S")})
         if self.object.rate > 0:
@@ -77,7 +77,7 @@ class UserActivityView(NoDefaultUserMixin, UserObjectMixin, DetailView):
     @method_decorator(ajax_required)
     def dispatch(self, request, *args, **kwargs):
         self.month = request.GET.get("month", None)
-        return super(UserActivityView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     def get(self, *args_, **kwargs_):
         data = get_activity_data(self.request, self.get_object(), self.month)
@@ -91,10 +91,10 @@ class UserDetailedStatsView(NoDefaultUserMixin, UserObjectMixin, DetailView):
     def dispatch(self, request, *args, **kwargs):
         self.month = request.GET.get("month", None)
         self.user = request.user
-        return super(UserDetailedStatsView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        ctx = super(UserDetailedStatsView, self).get_context_data(**kwargs)
+        ctx = super().get_context_data(**kwargs)
         ob = self.get_object()
         ctx.update(get_detailed_report_context(user=ob, month=self.month))
         ctx.update({"own_report": ob.username == self.user.username})
@@ -113,14 +113,14 @@ class AddUserPaidTaskView(
 
     @method_decorator(ajax_required)
     def dispatch(self, request, *args, **kwargs):
-        return super(AddUserPaidTaskView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
         # XXX: This is unused but enforced by `CreateView`
         return reverse("pootle-user-stats", kwargs=self.kwargs)
 
     def form_valid(self, form):
-        super(AddUserPaidTaskView, self).form_valid(form)
+        super().form_valid(form)
         # ignore redirect response
         log("%s\t%s\t%s" % (self.object.user.username, PAID_TASK_ADDED, self.object))
         return JsonResponse({"result": self.object.id})

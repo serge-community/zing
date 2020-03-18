@@ -34,7 +34,7 @@ class PootleJSONEncoder(DjangoJSONEncoder):
             return int(dateformat.format(obj, "U"))
 
         try:
-            return super(PootleJSONEncoder, self).default(obj)
+            return super().default(obj)
         except TypeError:
             return force_str(obj)
 

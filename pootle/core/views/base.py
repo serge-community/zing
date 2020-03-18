@@ -72,7 +72,7 @@ class PootleDetailView(DetailView):
     @requires_permission("view")
     def dispatch(self, request, *args, **kwargs):
         # get funky with the request 8/
-        return super(PootleDetailView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
         return {
@@ -96,14 +96,14 @@ class PootleJSON(PootleJSONMixin, PootleDetailView):
     @set_permissions
     @requires_permission("view")
     def dispatch(self, request, *args, **kwargs):
-        return super(PootleJSON, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
 
 class PootleAdminView(DetailView):
     @set_permissions
     @requires_permission("administrate")
     def dispatch(self, request, *args, **kwargs):
-        return super(PootleAdminView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     @property
     def permission_context(self):

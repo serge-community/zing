@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 class SignInForm(LoginForm):
     def login(self, request, redirect_url=None):
         try:
-            return super(SignInForm, self).login(request, redirect_url)
+            return super().login(request, redirect_url)
         except Exception as e:
             logger.exception("%s %s", e.__class__.__name__, e)
             raise RuntimeError(
@@ -38,7 +38,7 @@ class SignInForm(LoginForm):
 class SocialVerificationForm(LoginForm):
     def __init__(self, *args, **kwargs):
         self.sociallogin = kwargs.pop("sociallogin")
-        super(SocialVerificationForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.fields["login"].required = False
 

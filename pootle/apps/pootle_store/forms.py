@@ -68,7 +68,7 @@ class MultiStringWidget(forms.MultiWidget):
 
     def __init__(self, attrs=None, nplurals=1):
         widgets = [forms.Textarea(attrs=attrs) for i_ in range(nplurals)]
-        super(MultiStringWidget, self).__init__(widgets, attrs)
+        super().__init__(widgets, attrs)
 
     def decompress(self, value):
         if value is None:
@@ -87,7 +87,7 @@ class MultiStringFormField(forms.MultiValueField):
     def __init__(self, nplurals=1, attrs=None, *args, **kwargs):
         self.widget = MultiStringWidget(nplurals=nplurals, attrs=attrs)
         fields = [forms.CharField(strip=False) for i_ in range(nplurals)]
-        super(MultiStringFormField, self).__init__(fields=fields, *args, **kwargs)
+        super().__init__(fields=fields, *args, **kwargs)
 
     def compress(self, data_list):
         return data_list
@@ -113,7 +113,7 @@ class UnitStateField(forms.BooleanField):
         else:
             value = bool(value)
 
-        return super(UnitStateField, self).to_python(value)
+        return super().to_python(value)
 
 
 def unit_form_factory(language, snplurals=None, request=None):
@@ -176,7 +176,7 @@ def unit_form_factory(language, snplurals=None, request=None):
 
         def __init__(self, *args, **kwargs):
             self.request = kwargs.pop("request", None)
-            super(UnitForm, self).__init__(*args, **kwargs)
+            super().__init__(*args, **kwargs)
             self._updated_fields = []
 
             self.fields["target_f"].widget.attrs["data-translation-aid"] = self[
@@ -281,7 +281,7 @@ def unit_form_factory(language, snplurals=None, request=None):
                 self.instance._state_updated = False
                 self.cleaned_data["state"] = old_state
 
-            return super(UnitForm, self).clean()
+            return super().clean()
 
     return UnitForm
 
@@ -311,7 +311,7 @@ def unit_comment_form_factory(language):
             self.request = kwargs.pop("request", None)
             self.previous_value = ""
 
-            super(UnitCommentForm, self).__init__(*args, **kwargs)
+            super().__init__(*args, **kwargs)
 
             if self.request.method == "DELETE":
                 self.fields["translator_comment"].required = False
@@ -344,7 +344,7 @@ def unit_comment_form_factory(language):
                 )
                 sub.save()
 
-            super(UnitCommentForm, self).save(**kwargs)
+            super().save(**kwargs)
 
     return UnitCommentForm
 
@@ -392,7 +392,7 @@ class UnitSearchForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         self.request_user = kwargs.pop("user")
-        super(UnitSearchForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def clean(self):
         if "checks" in self.errors:
@@ -468,7 +468,7 @@ class UnitViewRowsForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         self.request_user = kwargs.pop("user")
-        super(UnitViewRowsForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def clean_user(self):
         return self.cleaned_data.get("user", self.request_user)

@@ -113,7 +113,7 @@ def admin_permissions(request, current_directory, template, ctx):
         )
 
         def __init__(self, *args, **kwargs):
-            super(PermissionSetForm, self).__init__(*args, **kwargs)
+            super().__init__(*args, **kwargs)
 
             # Don't display extra negative permissions field where they
             # are not applicable

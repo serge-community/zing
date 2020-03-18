@@ -130,6 +130,6 @@ class CtxRowResults(ViewRowResults):
         return [self.get_unit_shape(unit) for unit in self.get_units()]
 
     def get_unit_shape(self, unit):
-        shape = super(CtxRowResults, self).get_unit_shape(unit)
+        shape = super().get_unit_shape(unit)
         shape.update({"id": unit.id})
         return shape

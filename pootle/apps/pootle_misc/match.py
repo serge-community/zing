@@ -19,7 +19,7 @@ class Matcher(match.terminologymatcher):
         self, store, max_candidates=10, min_similarity=75, max_length=500, comparer=None
     ):
         comparer = TerminologyComparer(max_length)
-        super(Matcher, self).__init__(
+        super().__init__(
             store,
             max_candidates,
             min_similarity=10,

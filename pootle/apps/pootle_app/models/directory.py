@@ -118,7 +118,7 @@ class Directory(models.Model, CachedTreeItem):
         return self.pootle_path
 
     def __init__(self, *args, **kwargs):
-        super(Directory, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def clean(self):
         if self.parent is not None:
@@ -134,7 +134,7 @@ class Directory(models.Model, CachedTreeItem):
         # Force validation of fields.
         self.full_clean()
 
-        super(Directory, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return self.pootle_path
@@ -286,7 +286,7 @@ class Directory(models.Model, CachedTreeItem):
         for item in self.children:
             item.delete()
 
-        super(Directory, self).delete(*args, **kwargs)
+        super().delete(*args, **kwargs)
 
     def makeobsolete(self, *args, **kwargs):
         """Make this directory and all its children obsolete"""

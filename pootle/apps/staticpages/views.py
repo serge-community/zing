@@ -35,22 +35,22 @@ class PageModelMixin(object):
         if self.model is None:
             raise Http404
 
-        return super(PageModelMixin, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        ctx = super(PageModelMixin, self).get_context_data(**kwargs)
+        ctx = super().get_context_data(**kwargs)
         ctx.update({"page_display_name": self.model.display_name})
         return ctx
 
     def get_form_kwargs(self):
-        kwargs = super(PageModelMixin, self).get_form_kwargs()
+        kwargs = super().get_form_kwargs()
         kwargs.update({"label_suffix": ""})
         return kwargs
 
 
 class AdminCtxMixin(object):
     def get_context_data(self, **kwargs):
-        ctx = super(AdminCtxMixin, self).get_context_data(**kwargs)
+        ctx = super().get_context_data(**kwargs)
         ctx.update({"page": "admin-pages"})
         return ctx
 
@@ -60,7 +60,7 @@ class AdminTemplateView(SuperuserRequiredMixin, AdminCtxMixin, TemplateView):
     template_name = "admin/staticpages/page_list.html"
 
     def get_context_data(self, **kwargs):
-        ctx = super(AdminTemplateView, self).get_context_data(**kwargs)
+        ctx = super().get_context_data(**kwargs)
         ctx.update(
             {
                 "legalpages": LegalPage.objects.all(),
@@ -77,7 +77,7 @@ class PageCreateView(SuperuserRequiredMixin, AdminCtxMixin, PageModelMixin, Crea
     template_name = "admin/staticpages/page_create.html"
 
     def get_initial(self):
-        initial = super(PageModelMixin, self).get_initial()
+        initial = super().get_initial()
 
         next_page_number = AbstractPage.max_pk() + 1
         initial_args = {
@@ -97,7 +97,7 @@ class PageUpdateView(SuperuserRequiredMixin, AdminCtxMixin, PageModelMixin, Upda
     template_name = "admin/staticpages/page_update.html"
 
     def get_context_data(self, **kwargs):
-        ctx = super(PageUpdateView, self).get_context_data(**kwargs)
+        ctx = super().get_context_data(**kwargs)
         ctx.update({"show_delete": True, "page_type": self.page_type})
         return ctx
 

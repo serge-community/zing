@@ -55,7 +55,7 @@ class MathCaptchaForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         """Initalise captcha_question and captcha_token for the form."""
-        super(MathCaptchaForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         # reset captcha for unbound forms
         if not self.data:
@@ -157,7 +157,7 @@ class MathCaptchaForm(forms.Form):
                 self._errors["captcha_answer"] = [_("Incorrect")]
         else:
             self.reset_captcha()
-        return super(MathCaptchaForm, self).clean()
+        return super().clean()
 
 
 class PathForm(forms.Form):

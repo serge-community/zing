@@ -58,7 +58,7 @@ class PootleAccountAdapter(DefaultAccountAdapter):
 
     def send_confirmation_mail(self, *args, **kwargs):
         try:
-            super(PootleAccountAdapter, self).send_confirmation_mail(*args, **kwargs)
+            super().send_confirmation_mail(*args, **kwargs)
         except Exception:
             logger.exception(
                 "ERROR: Sign up failed. Couldn't sent " "confirmation email."

@@ -28,7 +28,7 @@ class VirtualResource(TreeItem):
         self.resources = resources  #: Collection of underlying resources
         self.pootle_path = pootle_path
 
-        super(VirtualResource, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def __str__(self):
         return self.pootle_path

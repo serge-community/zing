@@ -31,7 +31,7 @@ class SkipChecksMixin(object):
 
             tags = registry.tags_available() - set(skip_tags)
 
-        super(SkipChecksMixin, self).check(
+        super().check(
             app_configs=app_configs,
             tags=tags,
             display_num_errors=display_num_errors,
@@ -67,7 +67,7 @@ class PootleCommand(BaseCommand):
     def __init__(self, *args, **kwargs):
         self.languages = []
         self.projects = []
-        super(PootleCommand, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def do_translation_project(self, tp, **options):
         process_stores = True

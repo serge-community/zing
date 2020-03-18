@@ -97,7 +97,7 @@ class APIView(View):
         self._init_fields()
         self._init_forms()
 
-        return super(APIView, self).__init__(*args, **kwargs)
+        return super().__init__(*args, **kwargs)
 
     def _init_fields(self):
         if len(self.fields) < 1:

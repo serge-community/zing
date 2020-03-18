@@ -18,7 +18,7 @@ DEFAULT_ENGINE_MODULE = "pootle.core.search.backends.ElasticSearchBackend"
 
 class SearchBroker(SearchBackend):
     def __init__(self):
-        super(SearchBroker, self).__init__()
+        super().__init__()
         self._server = None
 
         if self._settings is None:

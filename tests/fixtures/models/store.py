@@ -421,7 +421,7 @@ def dummy_store_structure_syncer():
     class DummyStoreSyncer(StoreSyncer):
         def __init__(self, *args, **kwargs):
             self.expected = kwargs.pop("expected")
-            super(DummyStoreSyncer, self).__init__(*args, **kwargs)
+            super().__init__(*args, **kwargs)
 
         @cached_property
         def disk_store(self):
@@ -462,7 +462,7 @@ def dummy_store_syncer_units():
     class DummyStoreSyncer(StoreSyncer):
         def __init__(self, *args, **kwargs):
             self.expected = kwargs.pop("expected")
-            super(DummyStoreSyncer, self).__init__(*args, **kwargs)
+            super().__init__(*args, **kwargs)
             self.store = DummyStore(self.expected)
 
         @property
@@ -491,7 +491,7 @@ def dummy_store_syncer():
     class DummyStoreSyncer(StoreSyncer):
         def __init__(self, *args, **kwargs):
             self.expected = kwargs.pop("expected")
-            super(DummyStoreSyncer, self).__init__(*args, **kwargs)
+            super().__init__(*args, **kwargs)
 
         @cached_property
         def disk_store(self):

@@ -38,7 +38,7 @@ class GroupedModelChoiceField(forms.ModelChoiceField):
 
     def __init__(self, choice_groups, *args, **kwargs):
         self.choice_groups = choice_groups
-        super(GroupedModelChoiceField, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def _get_choices(self):
         if hasattr(self, "_choices"):

@@ -122,7 +122,7 @@ class PootleBrowseView(BrowseDataViewMixin, PootleDetailView):
             url_action_review = None
             url_action_view_all = None
 
-        ctx = super(PootleBrowseView, self).get_context_data(*args, **kwargs)
+        ctx = super().get_context_data(*args, **kwargs)
 
         lang_code, proj_code = split_pootle_path(self.pootle_path)[:2]
         top_scorers = User.top_scorers(

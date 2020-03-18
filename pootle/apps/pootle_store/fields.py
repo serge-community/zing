@@ -73,7 +73,7 @@ class MultiStringField(models.Field):
     description = "a field imitating translate.misc.multistring used for plurals"
 
     def __init__(self, *args, **kwargs):
-        super(MultiStringField, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def get_internal_type(self):
         return "TextField"
@@ -90,10 +90,10 @@ class MultiStringField(models.Field):
     def get_prep_lookup(self, lookup_type, value):
         if lookup_type in ("exact", "iexact") or not isinstance(value, str):
             value = self.get_prep_value(value)
-        return super(MultiStringField, self).get_prep_lookup(lookup_type, value)
+        return super().get_prep_lookup(lookup_type, value)
 
     def contribute_to_class(self, cls, name):
-        super(MultiStringField, self).contribute_to_class(cls, name)
+        super().contribute_to_class(cls, name)
         setattr(cls, name, CastOnAssignDescriptor(self))
 
 
@@ -226,13 +226,13 @@ class TranslationStoreFieldFile(FieldFile):
     def save(self, name, content, save=True):
         # FIXME: implement save to tmp file then move instead of directly
         # saving
-        super(TranslationStoreFieldFile, self).save(name, content, save)
+        super().save(name, content, save)
         self._delete_store_cache()
 
     def delete(self, save=True):
         self._delete_store_cache()
         if save:
-            super(TranslationStoreFieldFile, self).delete(save)
+            super().delete(save)
 
 
 class TranslationStoreField(FileField):
@@ -247,10 +247,10 @@ class TranslationStoreField(FileField):
         determine file format for parsing, useful for .pending files
         """
         self.ignore = ignore
-        super(TranslationStoreField, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def deconstruct(self):
-        name, path, args, kwargs = super(TranslationStoreField, self).deconstruct()
+        name, path, args, kwargs = super().deconstruct()
         if self.ignore is not None:
             kwargs["ignore"] = self.ignore
         return name, path, args, kwargs

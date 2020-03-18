@@ -159,14 +159,14 @@ class PermissionSet(models.Model):
         return dict((perm.codename, perm) for perm in permissions_iterator)
 
     def save(self, *args, **kwargs):
-        super(PermissionSet, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
         # FIXME: can we use `post_save` signals or invalidate caches in model
         # managers, please?
         key = iri_to_uri("Permissions:%s" % self.user.username)
         cache.delete(key)
 
     def delete(self, *args, **kwargs):
-        super(PermissionSet, self).delete(*args, **kwargs)
+        super().delete(*args, **kwargs)
         # FIXME: can we use `post_delete` signals or invalidate caches in model
         # managers, please?
         key = iri_to_uri("Permissions:%s" % self.user.username)

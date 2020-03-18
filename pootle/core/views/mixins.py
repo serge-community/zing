@@ -24,7 +24,7 @@ class SuperuserRequiredMixin(object):
             msg = _("You do not have rights to administer Pootle.")
             raise PermissionDenied(msg)
 
-        return super(SuperuserRequiredMixin, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
 
 class UserObjectMixin(object):
@@ -58,7 +58,7 @@ class TestUserFieldMixin(object):
         if not can_access:
             raise PermissionDenied(_("You cannot access this page."))
 
-        return super(TestUserFieldMixin, self).dispatch(*args, **kwargs)
+        return super().dispatch(*args, **kwargs)
 
 
 class NoDefaultUserMixin(object):
@@ -69,7 +69,7 @@ class NoDefaultUserMixin(object):
         if username is not None and username == "default":
             raise Http404
 
-        return super(NoDefaultUserMixin, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
 
 class AjaxResponseMixin(object):
@@ -79,11 +79,11 @@ class AjaxResponseMixin(object):
     """
 
     def form_invalid(self, form):
-        super(AjaxResponseMixin, self).form_invalid(form)
+        super().form_invalid(form)
         return JsonResponseBadRequest({"errors": form.errors})
 
     def form_valid(self, form):
-        super(AjaxResponseMixin, self).form_valid(form)
+        super().form_valid(form)
         return JsonResponse({})
 
 

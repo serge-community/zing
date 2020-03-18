@@ -99,6 +99,6 @@ class DueDateView(APIView):
     path_field = "pootle_path"
 
     def get_form_kwargs(self):
-        kwargs = super(DueDateView, self).get_form_kwargs()
+        kwargs = super().get_form_kwargs()
         kwargs["data"].update({"modified_by": self.request.user.id})
         return kwargs

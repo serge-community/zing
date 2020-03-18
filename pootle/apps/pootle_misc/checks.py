@@ -314,7 +314,7 @@ class ENChecker(checks.UnitChecker):
         else:
             self.language_code = unit.store.translation_project.language.code
 
-        return super(ENChecker, self).run_filters(unit, categorised)
+        return super().run_filters(unit, categorised)
 
     @critical
     def java_format(self, str1, str2, **kwargs):

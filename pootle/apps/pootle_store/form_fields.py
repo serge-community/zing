@@ -35,10 +35,10 @@ class MultipleArgsField(forms.Field):
 
     def __init__(self, *args, **kwargs):
         self.field = kwargs.pop("field")
-        super(MultipleArgsField, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def clean(self, value):
-        super(MultipleArgsField, self).clean(value)
+        super().clean(value)
         if len(value) == 1 and "," in value[0]:
             value = value[0].split(",")
         return [self.field.clean(x) for x in value]

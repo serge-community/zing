@@ -54,7 +54,7 @@ class AbstractPage(models.Model):
         if self.has_changes():
             self.modified_on = now()
 
-        super(AbstractPage, self).save(**kwargs)
+        super().save(**kwargs)
 
     def get_absolute_url(self):
         return reverse("pootle-staticpages-display", args=[self.virtual_path])
@@ -137,4 +137,4 @@ class Agreement(models.Model):
         if self.pk:
             self.agreed_on = now()
 
-        super(Agreement, self).save(**kwargs)
+        super().save(**kwargs)

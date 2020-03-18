@@ -35,7 +35,7 @@ class LiveLanguageManager(models.Manager):
     def get_queryset(self):
         """Returns a queryset for all live languages for enabled projects."""
         return (
-            super(LiveLanguageManager, self)
+            super()
             .get_queryset()
             .filter(
                 translationproject__isnull=False,
@@ -48,7 +48,7 @@ class LiveLanguageManager(models.Manager):
     def get_all_queryset(self):
         """Returns a queryset for all live languages for all projects."""
         return (
-            super(LiveLanguageManager, self)
+            super()
             .get_queryset()
             .filter(
                 translationproject__isnull=False,
@@ -200,7 +200,7 @@ class Language(models.Model, TreeItem):
         return "%s - %s" % (self.name, self.code)
 
     def __init__(self, *args, **kwargs):
-        super(Language, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def __repr__(self):
         return u"<%s: %s>" % (self.__class__.__name__, self.fullname)
@@ -211,11 +211,11 @@ class Language(models.Model, TreeItem):
 
         self.directory = Directory.objects.root.get_or_make_subdir(self.code)
 
-        super(Language, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
         directory = self.directory
-        super(Language, self).delete(*args, **kwargs)
+        super().delete(*args, **kwargs)
         directory.delete()
 
     def get_absolute_url(self):
@@ -230,7 +230,7 @@ class Language(models.Model, TreeItem):
         )
 
     def clean(self):
-        super(Language, self).clean()
+        super().clean()
 
         if self.fullname:
             self.fullname = self.fullname.strip()

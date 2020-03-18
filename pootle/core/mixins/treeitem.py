@@ -66,7 +66,7 @@ class TreeItem(object):
     def __init__(self, *args, **kwargs):
         self._children = None
         self.initialized = False
-        super(TreeItem, self).__init__()
+        super().__init__()
 
     @property
     def cache_key(self):
@@ -269,7 +269,7 @@ class TreeItem(object):
 class CachedTreeItem(TreeItem):
     def __init__(self, *args, **kwargs):
         self._dirty_cache = set()
-        super(CachedTreeItem, self).__init__()
+        super().__init__()
 
     def make_cache_key(self, name):
         return iri_to_uri("%s:%s" % (self.cache_key, name))

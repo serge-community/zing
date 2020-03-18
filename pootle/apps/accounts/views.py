@@ -29,7 +29,7 @@ class SocialVerificationView(LoginView):
         if self.sociallogin is None:
             return redirect(reverse("account_login"))
 
-        return super(SocialVerificationView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         return {
@@ -44,7 +44,7 @@ class SocialVerificationView(LoginView):
         return self.form_class
 
     def get_form_kwargs(self):
-        kwargs = super(SocialVerificationView, self).get_form_kwargs()
+        kwargs = super().get_form_kwargs()
         kwargs.update({"sociallogin": self.sociallogin})
         return kwargs
 

@@ -35,7 +35,7 @@ class UserDetailView(NoDefaultUserMixin, UserObjectMixin, DetailView):
     template_name = "user/profile.html"
 
     def get_context_data(self, **kwargs):
-        ctx = super(UserDetailView, self).get_context_data(**kwargs)
+        ctx = super().get_context_data(**kwargs)
         ctx["user_is_manager"] = self.request.user.has_manager_permissions()
 
         if self.object == self.request.user:
@@ -59,12 +59,12 @@ class UserSettingsView(TestUserFieldMixin, UserObjectMixin, UpdateView):
     template_name = "user/settings.html"
 
     def get_form_kwargs(self):
-        kwargs = super(UserSettingsView, self).get_form_kwargs()
+        kwargs = super().get_form_kwargs()
         kwargs.update({"label_suffix": ""})
         return kwargs
 
     def get_form(self, *args, **kwargs):
-        form = super(UserSettingsView, self).get_form(*args, **kwargs)
+        form = super().get_form(*args, **kwargs)
 
         form.fields["alt_src_langs"].help_text = None
         form.fields["alt_src_langs"].widget.attrs[

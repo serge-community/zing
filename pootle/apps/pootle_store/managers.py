@@ -100,4 +100,4 @@ class StoreManager(models.Manager):
 
     def create(self, *args, **kwargs):
         kwargs["pootle_path"] = "%s%s" % (kwargs["parent"].pootle_path, kwargs["name"])
-        return super(StoreManager, self).create(*args, **kwargs)
+        return super().create(*args, **kwargs)

@@ -22,4 +22,4 @@ class PootleFileSystemStorage(FileSystemStorage):
 
     def __init__(self, **kwargs):
         kwargs.update({"location": settings.ZING_TRANSLATION_DIRECTORY})
-        super(PootleFileSystemStorage, self).__init__(**kwargs)
+        super().__init__(**kwargs)

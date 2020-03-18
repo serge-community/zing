@@ -31,7 +31,7 @@ class BaseUnitFilter(object):
 
 class UnitChecksFilter(BaseUnitFilter):
     def __init__(self, qs, *args, **kwargs):
-        super(UnitChecksFilter, self).__init__(qs, *args, **kwargs)
+        super().__init__(qs, *args, **kwargs)
         self.checks = kwargs.get("checks")
         self.category = kwargs.get("category")
 
@@ -72,7 +72,7 @@ class UnitContributionFilter(BaseUnitFilter):
     """Filter a Unit qs based on user contributions"""
 
     def __init__(self, qs, *args, **kwargs):
-        super(UnitContributionFilter, self).__init__(qs, *args, **kwargs)
+        super().__init__(qs, *args, **kwargs)
         self.user = kwargs.get("user")
 
     def filter_suggestions(self):

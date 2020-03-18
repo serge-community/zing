@@ -58,7 +58,7 @@ class PaidTaskForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop("user", None)
-        super(PaidTaskForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         if user is not None and user.hourly_rate == 0:
             choices = [

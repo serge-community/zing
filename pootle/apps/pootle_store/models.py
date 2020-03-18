@@ -323,7 +323,7 @@ class Unit(models.Model, base.TranslationUnit):
         return str(self.source)
 
     def __init__(self, *args, **kwargs):
-        super(Unit, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self._rich_source = None
         self._source_updated = False
         self._rich_target = None
@@ -366,7 +366,7 @@ class Unit(models.Model, base.TranslationUnit):
 
         self.flag_store_before_going_away()
 
-        super(Unit, self).delete(*args, **kwargs)
+        super().delete(*args, **kwargs)
 
     def save(self, *args, **kwargs):
         created = self.id is None
@@ -453,7 +453,7 @@ class Unit(models.Model, base.TranslationUnit):
             self.submitted_by = None
             self.submitted_on = None
 
-        super(Unit, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
         if hasattr(self, "_save_action") and self._save_action == UNIT_ADDED:
             # just added FUZZY unit
@@ -1241,7 +1241,7 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
         return to_tp_relative_path(self.pootle_path)
 
     def __init__(self, *args, **kwargs):
-        super(Store, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def __str__(self):
         return str(self.pootle_path)
@@ -1255,7 +1255,7 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
         # Force validation of fields.
         self.full_clean()
 
-        super(Store, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
         if created:
             store_log(
                 user="system", action=STORE_ADDED, path=self.pootle_path, store=self.id
@@ -1281,7 +1281,7 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
                 path=self.pootle_path,
             )
 
-        super(Store, self).delete(*args, **kwargs)
+        super().delete(*args, **kwargs)
 
         self.clear_cache()
         if parent is not None:
@@ -1492,7 +1492,7 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
 
     def findunits(self, source, obsolete=False):
         if not obsolete and hasattr(self, "sourceindex"):
-            return super(Store, self).findunits(source)
+            return super().findunits(source)
 
         # find using hash instead of index
         source_hash = md5(source.encode("utf-8")).hexdigest()
@@ -1629,7 +1629,7 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
         """Get cache_key for all parents (to the Language and Project)
         of current TreeItem
         """
-        return super(Store, self).all_pootle_paths()
+        return super().all_pootle_paths()
 
     # # # /TreeItem
 

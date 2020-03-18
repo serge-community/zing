@@ -37,7 +37,7 @@ class ContactForm(MathCaptchaForm, OriginalContactForm):
     )
 
     def __init__(self, *args, **kwargs):
-        super(ContactForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.fields["name"].label = _(u"Name")
         name_placeholder = _("Please enter your name")

@@ -25,7 +25,7 @@ class PootleTranslateView(PootleDetailView):
         return self.pootle_path
 
     def get_context_data(self, *args, **kwargs):
-        ctx = super(PootleTranslateView, self).get_context_data(*args, **kwargs)
+        ctx = super().get_context_data(*args, **kwargs)
         ctx.update(
             {
                 "page": "translate",

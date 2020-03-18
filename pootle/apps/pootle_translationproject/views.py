@@ -124,7 +124,7 @@ class TPMixin(object):
 
     @redirect_to_tp_on_404
     def dispatch(self, request, *args, **kwargs):
-        return super(TPMixin, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     @property
     def ctx_path(self):
@@ -227,7 +227,7 @@ class TPBrowseBaseView(PootleBrowseView):
     template_extends = "translation_projects/base.html"
 
     def get_context_data(self, *args, **kwargs):
-        ctx = super(TPBrowseBaseView, self).get_context_data(*args, **kwargs)
+        ctx = super().get_context_data(*args, **kwargs)
         ctx.update({"parent": get_parent(self.object)})
         return ctx
 
@@ -237,7 +237,7 @@ class TPBrowseBaseView(PootleBrowseView):
 
 class TPBrowseStoreView(TPStoreMixin, TPBrowseBaseView):
     def get_context_data(self, *args, **kwargs):
-        ctx = super(TPBrowseStoreView, self).get_context_data(*args, **kwargs)
+        ctx = super().get_context_data(*args, **kwargs)
         ctx.update({"is_store": True})
         return ctx
 

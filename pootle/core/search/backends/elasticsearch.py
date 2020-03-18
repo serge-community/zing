@@ -65,7 +65,7 @@ def filter_hits_by_distance(hits, source_text, min_similarity=DEFAULT_MIN_SIMILA
 
 class ElasticSearchBackend(SearchBackend):
     def __init__(self):
-        super(ElasticSearchBackend, self).__init__()
+        super().__init__()
         self._es = self._get_es_server()
 
     def _get_es_server(self):

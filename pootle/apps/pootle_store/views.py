@@ -310,7 +310,7 @@ class PootleUnitJSON(PootleJSON):
 
     @lru_cache()
     def get_object(self):
-        return super(PootleUnitJSON, self).get_object()
+        return super().get_object()
 
 
 class UnitTimelineJSON(PootleUnitJSON):

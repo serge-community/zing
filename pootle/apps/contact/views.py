@@ -27,7 +27,7 @@ class ContactFormView(AjaxResponseMixin, OriginalContactFormView):
     template_name = "contact_form/xhr_contact_form.html"
 
     def get_context_data(self, **kwargs):
-        ctx = super(ContactFormView, self).get_context_data(**kwargs)
+        ctx = super().get_context_data(**kwargs)
         # Provide the form action URL to use in the template that renders the
         # contact dialog.
         ctx.update(
@@ -39,7 +39,7 @@ class ContactFormView(AjaxResponseMixin, OriginalContactFormView):
         return ctx
 
     def get_initial(self):
-        initial = super(ContactFormView, self).get_initial()
+        initial = super().get_initial()
 
         user = self.request.user
         if user.is_authenticated:
@@ -57,7 +57,7 @@ class ReportFormView(ContactFormView):
     form_class = ReportForm
 
     def get_context_data(self, **kwargs):
-        ctx = super(ReportFormView, self).get_context_data(**kwargs)
+        ctx = super().get_context_data(**kwargs)
         # Provide the form action URL to use in the template that renders the
         # contact dialog.
         ctx.update(
@@ -69,7 +69,7 @@ class ReportFormView(ContactFormView):
         return ctx
 
     def get_initial(self):
-        initial = super(ReportFormView, self).get_initial()
+        initial = super().get_initial()
 
         report = self.request.GET.get("report", False)
         if not report:

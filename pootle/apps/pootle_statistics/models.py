@@ -338,7 +338,7 @@ class Submission(models.Model):
         return result
 
     def save(self, *args, **kwargs):
-        super(Submission, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
         if not self.needs_scorelog():
             return
@@ -536,7 +536,7 @@ class ScoreLog(models.Model):
         translated = self.get_paid_wordcounts()[0]
         self.translated_wordcount = translated
 
-        super(ScoreLog, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
         User = get_user_model()
         User.objects.filter(id=self.user.id).update(score=F("score") + self.score_delta)

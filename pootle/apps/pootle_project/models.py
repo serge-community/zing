@@ -386,7 +386,7 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
 
         self.directory = Directory.objects.projects.get_or_make_subdir(self.code)
 
-        super(Project, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
         directory = self.directory
@@ -404,7 +404,7 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
             tp.delete()
             gc.collect()
 
-        super(Project, self).delete(*args, **kwargs)
+        super().delete(*args, **kwargs)
 
         directory.delete()
 
@@ -466,7 +466,7 @@ class ProjectSet(VirtualResource, ProjectURLMixin):
 
     def __init__(self, resources, *args, **kwargs):
         self.directory = Directory.objects.projects
-        super(ProjectSet, self).__init__(resources, self.directory.pootle_path)
+        super().__init__(resources, self.directory.pootle_path)
 
 
 @receiver([post_delete, post_save])

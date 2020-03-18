@@ -131,7 +131,7 @@ class DueDate(models.Model):
     def save(self, *args, **kwargs):
         self.full_clean()
 
-        super(DueDate, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
         if self.language_code is not None:
             return
@@ -166,7 +166,7 @@ class DueDate(models.Model):
         )
 
     def delete(self, *args, **kwargs):
-        super(DueDate, self).delete(*args, **kwargs)
+        super().delete(*args, **kwargs)
 
         if self.language_code is not None:
             return

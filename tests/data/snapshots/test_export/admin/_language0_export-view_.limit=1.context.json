@@ -7,12 +7,12 @@
   "source_language": "en",
   "unit_groups": [
     [
-      "/language0/disabled_project0/store0.po",
+      "/language0/project0/complex.po",
       [
-        "Untranslated Source /language0/disabled_project0/store0.po 0%s."
+        "Please sign in again: \\n%s"
       ]
     ]
   ],
-  "unit_total_count": 95,
+  "unit_total_count": 80,
   "user": "admin"
 }

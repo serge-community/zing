@@ -32,8 +32,16 @@ from tests.utils import as_dir, url_name
     ],
 )
 @pytest.mark.parametrize("limit", [None, 1])
+@pytest.mark.parametrize("include_disabled", [False, True])
 def test_export(
-    client, request_users, test_name, monkeypatch, snapshot_stack, url, limit
+    client,
+    request_users,
+    test_name,
+    monkeypatch,
+    snapshot_stack,
+    url,
+    limit,
+    include_disabled,
 ):
     """Tests correctness of the export view context."""
     user = request_users["user"]
@@ -42,6 +50,10 @@ def test_export(
     if limit is not None:
         stack.append("limit=%s" % limit)
         monkeypatch.setattr("pootle.core.views.export.UNITS_LIMIT", limit)
+
+    if include_disabled:
+        stack.append("include_disabled")
+        url += "?all"
 
     with snapshot_stack.push(stack):
         if not user.is_anonymous:

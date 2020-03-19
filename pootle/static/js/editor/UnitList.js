@@ -27,10 +27,20 @@ class UnitsList {
     this.visibleRowsAfter = 31;
     this.prefetchRows = 5; // extra rows around visible ones
 
+    this.includeDisabled = false;
+
     this.props = props;
   }
 
+  setIncludeDisabled(flag) {
+    this.includeDisabled = flag;
+  }
+
   fetchUids(reqData) {
+    if (this.includeDisabled) {
+      // eslint-disable-next-line no-param-reassign
+      reqData.all = '';
+    }
     return UnitAPI.fetchUids(reqData).then(
       (data) => {
         this.begin = data.begin || 0;
@@ -71,7 +81,7 @@ class UnitsList {
   }
 
   fetchFullUnitData(uid) {
-    return UnitAPI.fetchFullUnitData(uid).then(data => data);
+    return UnitAPI.fetchFullUnitData(uid, this.includeDisabled).then(data => data);
   }
 
   handleUnitChange(uid) {
@@ -247,7 +257,11 @@ class UnitsList {
 
     const headersToFetch = unitsToFetch.filter(uid => uid in this.headers);
 
-    UnitAPI.fetchUnits({ uids: unitsToFetch, headers: headersToFetch }).then(
+    const fetchParams = { uids: unitsToFetch, headers: headersToFetch };
+    if (this.includeDisabled) {
+      fetchParams.all = true;
+    }
+    UnitAPI.fetchUnits(fetchParams).then(
       (units) => {
         if (!units) {
           return;

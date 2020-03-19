@@ -9,6 +9,7 @@
 import pytest
 
 from django.forms import Form
+from django.http import QueryDict
 
 from translate.misc import multistring
 
@@ -16,7 +17,9 @@ from pootle_app.models.permissions import get_matching_permissions
 from pootle_store.forms import (
     MultiStringFormField,
     MultiStringWidget,
+    UnitSearchForm,
     UnitStateField,
+    UnitViewRowsForm,
     unit_form_factory,
 )
 from pootle_store.constants import FUZZY, TRANSLATED, UNTRANSLATED
@@ -243,3 +246,39 @@ def test_form_multistringformfield(value):
     form = form_class(data=data)
     assert form.is_valid()
     assert form.cleaned_data == {"value": value}
+
+
+@pytest.mark.django_db
+def test_unit_search_form_include_disabled(request_users):
+    """Ensure non-admins won't be able to set the `include_disabled` flag."""
+    user = request_users["user"]
+    params = {
+        "path": "/foo/bar/",
+        "include_disabled": True,
+    }
+    form = UnitSearchForm(params, user=user)
+    assert form.is_valid()
+
+    if user.is_superuser:
+        assert form.cleaned_data["include_disabled"]
+    else:
+        assert not form.cleaned_data["include_disabled"]
+
+
+@pytest.mark.django_db
+def test_unit_view_rows_form_include_disabled(request_users):
+    """Ensure non-admins won't be able to set the `include_disabled` flag."""
+    user = request_users["user"]
+    data = {
+        "uids": "1",
+        "include_disabled": True,
+    }
+    params = QueryDict("", mutable=True)
+    params.update(data)
+    form = UnitViewRowsForm(params, user=user)
+    assert form.is_valid()
+
+    if user.is_superuser:
+        assert form.cleaned_data["include_disabled"]
+    else:
+        assert not form.cleaned_data["include_disabled"]

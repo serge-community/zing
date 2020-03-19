@@ -127,7 +127,9 @@ def get_uids(request):
     :return: A JSON-encoded string containing the sorted list of unit IDs
         (uids)
     """
-    search_form = UnitSearchForm(request.GET, user=request.user)
+    request_params = request.GET.copy()
+    request_params["include_disabled"] = "all" in request.GET
+    search_form = UnitSearchForm(request_params, user=request.user)
 
     if not search_form.is_valid():
         errors = search_form.errors.as_data()
@@ -169,7 +171,9 @@ def get_units(request):
 
     :return: A JSON-encoded string containing the dictionary
     """
-    form = UnitViewRowsForm(request.GET, user=request.user)
+    request_params = request.GET.copy()
+    request_params["include_disabled"] = "all" in request.GET
+    form = UnitViewRowsForm(request_params, user=request.user)
 
     if not form.is_valid():
         errors = form.errors.as_data()
@@ -410,7 +414,10 @@ class UnitEditJSON(PootleUnitJSON):
         )
 
     def get_queryset(self):
-        return Unit.objects.get_translatable(self.request.user).select_related(
+        include_disabled = "all" in self.request.GET
+        return Unit.objects.get_translatable(
+            self.request.user, include_disabled=include_disabled
+        ).select_related(
             "store",
             "store__parent",
             "store__translation_project",

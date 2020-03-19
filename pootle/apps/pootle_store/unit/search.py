@@ -67,6 +67,10 @@ class DBSearchBackend(object):
         return self.kwargs.get("uids", [])
 
     @property
+    def include_disabled(self):
+        return self.kwargs.get("include_disabled", False)
+
+    @property
     def units_qs(self):
         qs_kwargs = {
             "project_code": self.project_code,
@@ -74,6 +78,7 @@ class DBSearchBackend(object):
             "dir_path": self.dir_path,
             "filename": self.filename,
             "user": self.request_user,
+            "include_disabled": self.include_disabled,
         }
         return (
             Unit.objects.get_translatable(**qs_kwargs)

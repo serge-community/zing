@@ -6,46 +6,6 @@
   "source_language": "en",
   "unit_groups": [
     [
-      "/language0/disabled_project0/store0.po",
-      [
-        "Untranslated Source /language0/disabled_project0/store0.po 0%s.",
-        "Translated Source /language0/disabled_project0/store0.po 1%s.",
-        "Fuzzy Source /language0/disabled_project0/store0.po 2%s."
-      ]
-    ],
-    [
-      "/language0/disabled_project0/subdir0/store1.po",
-      [
-        "Untranslated Source /language0/disabled_project0/subdir0/store1.po 0%s.",
-        "Translated Source /language0/disabled_project0/subdir0/store1.po 1%s.",
-        "Fuzzy Source /language0/disabled_project0/subdir0/store1.po 2%s."
-      ]
-    ],
-    [
-      "/language0/disabled_project0/subdir0/store2.po",
-      [
-        "Untranslated Source /language0/disabled_project0/subdir0/store2.po 0%s.",
-        "Translated Source /language0/disabled_project0/subdir0/store2.po 1%s.",
-        "Fuzzy Source /language0/disabled_project0/subdir0/store2.po 2%s."
-      ]
-    ],
-    [
-      "/language0/disabled_project0/subdir0/store3.po",
-      [
-        "Untranslated Source /language0/disabled_project0/subdir0/store3.po 0%s.",
-        "Translated Source /language0/disabled_project0/subdir0/store3.po 1%s.",
-        "Fuzzy Source /language0/disabled_project0/subdir0/store3.po 2%s."
-      ]
-    ],
-    [
-      "/language0/disabled_project0/subdir0/subdir1/store4.po",
-      [
-        "Untranslated Source /language0/disabled_project0/subdir0/subdir1/store4.po 0%s.",
-        "Translated Source /language0/disabled_project0/subdir0/subdir1/store4.po 1%s.",
-        "Fuzzy Source /language0/disabled_project0/subdir0/subdir1/store4.po 2%s."
-      ]
-    ],
-    [
       "/language0/project0/complex.po",
       [
         "Please sign in again: \\n%s",

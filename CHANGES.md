@@ -4,6 +4,7 @@ Zing Changelog
 v.next (unreleased)
 -------------------
 
+* Editor: allowed to filter units from enabled/disabled projects (#425).
 * Fixed bug where no overview stats were shown for language pages (#425).
 
 

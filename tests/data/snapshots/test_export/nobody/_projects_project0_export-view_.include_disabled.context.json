@@ -1,0 +1,154 @@
+{
+  "filter_extra": null,
+  "filter_name": null,
+  "language": null,
+  "project": "Project 0",
+  "source_language": "en",
+  "unit_groups": [
+    [
+      "/language0/project0/complex.po",
+      [
+        "Please sign in again: \\n%s",
+        "\\u0025d MB out of \\u0025.2\\u0066 GB available.",
+        "Sync preferences for \"%s\":",
+        "Remove \"%s\"? \\n You'll no longer be able to access this notebook in your list.",
+        "Foo \n bar",
+        "Foo \\n bar",
+        "Oh\nno",
+        "Oh\no",
+        "\\no",
+        "\no",
+        "Foo\nBar",
+        "Hello \\ World",
+        "\tblah",
+        "\\tbleh",
+        "\nstart, \nmiddle \nand end line\n",
+        "end line\n",
+        "end tab escaped\\t",
+        "end tab\t",
+        "Catastrophe \\\u00b4o",
+        "Save video as\u2026",
+        "<p><a href=\"#foo\">Save video</a></p> as\u2026\n<ul>\n<li>File</li>\n<li>Audio</li>\n</ul>",
+        "  aLots of   whitespace      ",
+        "aLong text long text long text long text long non-breaking space follows\u00a0text\u00a0\u00a0\u00a0\u00a0\u00a0long text long text long text long text long text",
+        "About Pootle",
+        "More whitespace      "
+      ]
+    ],
+    [
+      "/language0/project0/store0.po",
+      [
+        "Untranslated Source /language0/project0/store0.po 0%s.",
+        "Untranslated Source /language0/project0/store0.po 1%s.",
+        "Translated Source /language0/project0/store0.po 2%s.",
+        "Translated Source /language0/project0/store0.po 3%s.",
+        "Fuzzy Source /language0/project0/store0.po 4%s.",
+        "Fuzzy Source /language0/project0/store0.po 5%s."
+      ]
+    ],
+    [
+      "/language0/project0/store1.po",
+      [
+        "Untranslated Source /language0/project0/store1.po 0%s.",
+        "Untranslated Source /language0/project0/store1.po 1%s.",
+        "Translated Source /language0/project0/store1.po 2%s.",
+        "Translated Source /language0/project0/store1.po 3%s.",
+        "Fuzzy Source /language0/project0/store1.po 4%s.",
+        "Fuzzy Source /language0/project0/store1.po 5%s."
+      ]
+    ],
+    [
+      "/language0/project0/store2.po",
+      [
+        "Untranslated Source /language0/project0/store2.po 0%s.",
+        "Untranslated Source /language0/project0/store2.po 1%s.",
+        "Translated Source /language0/project0/store2.po 2%s.",
+        "Translated Source /language0/project0/store2.po 3%s.",
+        "Fuzzy Source /language0/project0/store2.po 4%s.",
+        "Fuzzy Source /language0/project0/store2.po 5%s."
+      ]
+    ],
+    [
+      "/language0/project0/subdir0/store3.po",
+      [
+        "Untranslated Source /language0/project0/subdir0/store3.po 0%s.",
+        "Translated Source /language0/project0/subdir0/store3.po 1%s.",
+        "Fuzzy Source /language0/project0/subdir0/store3.po 2%s."
+      ]
+    ],
+    [
+      "/language0/project0/subdir0/store4.po",
+      [
+        "Untranslated Source /language0/project0/subdir0/store4.po 0%s.",
+        "Translated Source /language0/project0/subdir0/store4.po 1%s.",
+        "Fuzzy Source /language0/project0/subdir0/store4.po 2%s."
+      ]
+    ],
+    [
+      "/language0/project0/subdir0/subdir1/store5.po",
+      [
+        "Untranslated Source /language0/project0/subdir0/subdir1/store5.po 0%s.",
+        "Translated Source /language0/project0/subdir0/subdir1/store5.po 1%s.",
+        "Fuzzy Source /language0/project0/subdir0/subdir1/store5.po 2%s."
+      ]
+    ],
+    [
+      "/language1/project0/store0.po",
+      [
+        "Untranslated Source /language1/project0/store0.po 0%s.",
+        "Untranslated Source /language1/project0/store0.po 1%s.",
+        "Translated Source /language1/project0/store0.po 2%s.",
+        "Translated Source /language1/project0/store0.po 3%s.",
+        "Fuzzy Source /language1/project0/store0.po 4%s.",
+        "Fuzzy Source /language1/project0/store0.po 5%s."
+      ]
+    ],
+    [
+      "/language1/project0/store1.po",
+      [
+        "Untranslated Source /language1/project0/store1.po 0%s.",
+        "Untranslated Source /language1/project0/store1.po 1%s.",
+        "Translated Source /language1/project0/store1.po 2%s.",
+        "Translated Source /language1/project0/store1.po 3%s.",
+        "Fuzzy Source /language1/project0/store1.po 4%s.",
+        "Fuzzy Source /language1/project0/store1.po 5%s."
+      ]
+    ],
+    [
+      "/language1/project0/store2.po",
+      [
+        "Untranslated Source /language1/project0/store2.po 0%s.",
+        "Untranslated Source /language1/project0/store2.po 1%s.",
+        "Translated Source /language1/project0/store2.po 2%s.",
+        "Translated Source /language1/project0/store2.po 3%s.",
+        "Fuzzy Source /language1/project0/store2.po 4%s.",
+        "Fuzzy Source /language1/project0/store2.po 5%s."
+      ]
+    ],
+    [
+      "/language1/project0/subdir0/store3.po",
+      [
+        "Untranslated Source /language1/project0/subdir0/store3.po 0%s.",
+        "Translated Source /language1/project0/subdir0/store3.po 1%s.",
+        "Fuzzy Source /language1/project0/subdir0/store3.po 2%s."
+      ]
+    ],
+    [
+      "/language1/project0/subdir0/store4.po",
+      [
+        "Untranslated Source /language1/project0/subdir0/store4.po 0%s.",
+        "Translated Source /language1/project0/subdir0/store4.po 1%s.",
+        "Fuzzy Source /language1/project0/subdir0/store4.po 2%s."
+      ]
+    ],
+    [
+      "/language1/project0/subdir0/subdir1/store5.po",
+      [
+        "Untranslated Source /language1/project0/subdir0/subdir1/store5.po 0%s.",
+        "Translated Source /language1/project0/subdir0/subdir1/store5.po 1%s.",
+        "Fuzzy Source /language1/project0/subdir0/subdir1/store5.po 2%s."
+      ]
+    ]
+  ],
+  "user": "nobody"
+}

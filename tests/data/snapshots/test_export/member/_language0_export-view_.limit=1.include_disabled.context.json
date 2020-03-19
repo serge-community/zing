@@ -1,0 +1,18 @@
+{
+  "displayed_unit_count": 1,
+  "filter_extra": null,
+  "filter_name": null,
+  "language": "Language 0 - language0",
+  "project": null,
+  "source_language": "en",
+  "unit_groups": [
+    [
+      "/language0/project0/complex.po",
+      [
+        "Please sign in again: \\n%s"
+      ]
+    ]
+  ],
+  "unit_total_count": 80,
+  "user": "member"
+}

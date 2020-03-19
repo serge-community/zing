@@ -28,8 +28,13 @@ const UnitAPI = {
     });
   },
 
-  fetchFullUnitData(uId) {
+  fetchFullUnitData(uId, includeDisabled = false) {
+    const body = {};
+    if (includeDisabled) {
+      body.all = '';
+    }
     return fetch({
+      body,
       queue: 'unitWidget',
       url: `${this.apiRoot}${uId}/edit/`,
     });

@@ -36,6 +36,7 @@ class PootleExportView(PootleDetailView):
 
         form_data = self.request.GET.copy()
         form_data["path"] = self.path
+        form_data["include_disabled"] = "all" in self.request.GET
 
         search_form = UnitExportForm(form_data, user=self.request.user)
 

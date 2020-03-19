@@ -497,6 +497,8 @@ PTL.editor = {
         this.$filterStatus.append(newOpts.join(''));
       }
 
+      this.units.setIncludeDisabled('all' in params);
+
       if ('search' in params) {
         // Note that currently the search, if provided along with the other
         // filters, would override them

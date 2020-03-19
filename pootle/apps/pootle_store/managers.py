@@ -23,20 +23,27 @@ class UnitManager(models.Manager):
         """Filters non-obsolete units."""
         return self.filter(state__gt=OBSOLETE)
 
-    def get_for_user(self, user):
+    def get_for_user(self, user, include_disabled=False):
         """Filters units for a specific user.
 
-        - Admins always get all non-obsolete units
+        - Admins always get all non-obsolete units, optionally filtered to
+            include units from disabled projects too.
         - Regular users only get units from enabled projects accessible
             to them.
 
         :param user: The user for whom units need to be retrieved for.
+        :param include_disabled: whether to include units from disabled
+            projects or not. This only affects superusers.
         :return: A filtered queryset with `Unit`s for `user`.
         """
         from pootle_project.models import Project
 
         if user.is_superuser:
-            return self.live()
+            if include_disabled:
+                return self.live()
+            return self.live().filter(
+                store__translation_project__project__disabled=False
+            )
 
         user_projects = Project.accessible_by_user(user)
         filter_by = {
@@ -46,7 +53,13 @@ class UnitManager(models.Manager):
         return self.live().filter(**filter_by)
 
     def get_translatable(
-        self, user, project_code=None, language_code=None, dir_path=None, filename=None
+        self,
+        user,
+        project_code=None,
+        language_code=None,
+        dir_path=None,
+        filename=None,
+        include_disabled=False,
     ):
         """Returns translatable units for a `user`, optionally filtered by their
         location within Pootle.
@@ -57,9 +70,11 @@ class UnitManager(models.Manager):
         :param dir_path: A string for matching the dir_path and descendants
            from the TP.
         :param filename: A string for matching the filename of Stores.
+        :param include_disabled: whether to include units from disabled
+            projects or not. This affects admin users only.
         """
 
-        units_qs = self.get_for_user(user)
+        units_qs = self.get_for_user(user, include_disabled=include_disabled)
 
         if language_code:
             units_qs = units_qs.filter(

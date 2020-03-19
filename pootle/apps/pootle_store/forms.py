@@ -390,6 +390,8 @@ class UnitSearchForm(forms.Form):
         initial=["source", "target"],
     )
 
+    include_disabled = forms.BooleanField(required=False, initial=False)
+
     def __init__(self, *args, **kwargs):
         self.request_user = kwargs.pop("user")
         super().__init__(*args, **kwargs)
@@ -455,6 +457,11 @@ class UnitSearchForm(forms.Form):
             return self.cleaned_data["path"]
         raise forms.ValidationError("Unrecognized path")
 
+    def clean_include_disabled(self):
+        if not self.request_user.is_superuser:
+            return False
+        return self.cleaned_data["include_disabled"]
+
 
 class UnitViewRowsForm(forms.Form):
 
@@ -466,12 +473,19 @@ class UnitViewRowsForm(forms.Form):
         to_field_name="username",
     )
 
+    include_disabled = forms.BooleanField(required=False, initial=False)
+
     def __init__(self, *args, **kwargs):
         self.request_user = kwargs.pop("user")
         super().__init__(*args, **kwargs)
 
     def clean_user(self):
         return self.cleaned_data.get("user", self.request_user)
+
+    def clean_include_disabled(self):
+        if not self.request_user.is_superuser:
+            return False
+        return self.cleaned_data["include_disabled"]
 
 
 class UnitExportForm(UnitSearchForm):

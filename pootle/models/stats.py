@@ -10,8 +10,6 @@ import logging
 
 from django.utils.encoding import iri_to_uri
 
-from django_rq.queues import get_connection
-
 from pootle.core.cache import get_cache
 from pootle.core.mixins.treeitem import CachedMethods
 
@@ -30,7 +28,6 @@ class Stats(object):
 
     def __init__(self, path, *args, **kwargs):
         self.path = path
-        self.r_con = get_connection()
 
     @property
     def total(self):

@@ -83,6 +83,10 @@ def test_split_pootle_path():
             dict(search="Foo: bar.po\nID: 1", sfields="locations"),
             "#search=Foo%3A+bar.po%0AID%3A+1&sfields=locations",
         ),
+        (dict(include_disabled=False), ""),
+        (dict(include_disabled=True), "#all"),
+        (dict(state="translated", include_disabled=False), "#filter=translated"),
+        (dict(state="translated", include_disabled=True), "#filter=translated&all"),
     ],
 )
 def test_get_editor_filter(kwargs, expected):

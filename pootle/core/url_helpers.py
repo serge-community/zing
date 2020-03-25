@@ -124,6 +124,7 @@ def get_editor_filter(
     search=None,
     sfields=None,
     check_category=None,
+    include_disabled=None,
 ):
     """Return a filter string to be appended to a translation URL."""
     filter_string = ""
@@ -150,6 +151,9 @@ def get_editor_filter(
             filter_string += "&sort=%s" % sort
         else:
             filter_string = "#sort=%s" % sort
+
+    if include_disabled:
+        filter_string += filter_string and "&all" or "#all"
 
     return filter_string
 

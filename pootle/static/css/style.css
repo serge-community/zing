@@ -996,9 +996,9 @@ html[dir="rtl"] table.stats td.last-updated
 }
 
 
-td.stats-number.need-translation .stats-data,
-td.stats-number.suggestions .stats-data,
-td.stats-number.critical .stats-data
+td.stats-number.need-translation .counter,
+td.stats-number.suggestions .counter,
+td.stats-number.critical .counter
 {
     text-decoration: none;
     display: inline-block;
@@ -1009,32 +1009,32 @@ td.stats-number.critical .stats-data
     border-radius: 1em;
 }
 
-td.stats-number.need-translation .stats-data
+td.stats-number.need-translation .counter
 {
     background: #85a9b5;
 }
 
-td.stats-number.need-translation a.stats-data
+td.stats-number.need-translation a.counter
 {
     background: #0489b7;
 }
 
-td.stats-number.suggestions .stats-data
+td.stats-number.suggestions .counter
 {
     background: #aba786;
 }
 
-td.stats-number.suggestions a.stats-data
+td.stats-number.suggestions a.counter
 {
     background: #ba6;
 }
 
-td.stats-number.critical .stats-data
+td.stats-number.critical .counter
 {
     background: #a08d88;
 }
 
-td.stats-number.critical a.stats-data
+td.stats-number.critical a.counter
 {
     background: #c30;
 }

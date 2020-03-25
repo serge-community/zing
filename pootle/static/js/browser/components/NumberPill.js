@@ -24,7 +24,7 @@ const NumberPill = React.createClass({
 
     return (
       <a
-        className="stats-data"
+        className="counter"
         href={this.props.url}
       >
         {toLocaleString(this.props.n)}

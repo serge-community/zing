@@ -6,6 +6,8 @@
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
+import pytest
+
 from pootle.core.url_helpers import (
     get_all_pootle_paths,
     get_editor_filter,
@@ -65,27 +67,24 @@ def test_split_pootle_path():
     )
 
 
-def test_get_editor_filter():
+@pytest.mark.parametrize(
+    "kwargs, expected",
+    [
+        (dict(state="untranslated"), "#filter=untranslated"),
+        (dict(state="untranslated", sort="newest"), "#filter=untranslated&sort=newest"),
+        (dict(sort="newest"), "#sort=newest"),
+        (dict(state="all", search="Foo", sfields="locations"), "#filter=all"),
+        (dict(search="Foo", sfields="locations"), "#search=Foo&sfields=locations"),
+        (
+            dict(search="Foo", sfields=["locations", "notes"]),
+            "#search=Foo&sfields=locations,notes",
+        ),
+        (
+            dict(search="Foo: bar.po\nID: 1", sfields="locations"),
+            "#search=Foo%3A+bar.po%0AID%3A+1&sfields=locations",
+        ),
+    ],
+)
+def test_get_editor_filter(kwargs, expected):
     """Tests editor filters are correctly constructed."""
-    assert get_editor_filter(state="untranslated") == "#filter=untranslated"
-    assert (
-        get_editor_filter(state="untranslated", sort="newest")
-        == "#filter=untranslated&sort=newest"
-    )
-    assert get_editor_filter(sort="newest") == "#sort=newest"
-    assert (
-        get_editor_filter(state="all", search="Foo", sfields="locations")
-        == "#filter=all"
-    )
-    assert (
-        get_editor_filter(search="Foo", sfields="locations")
-        == "#search=Foo&sfields=locations"
-    )
-    assert (
-        get_editor_filter(search="Foo", sfields=["locations", "notes"])
-        == "#search=Foo&sfields=locations,notes"
-    )
-    assert (
-        get_editor_filter(search="Foo: bar.po\nID: 1", sfields="locations")
-        == "#search=Foo%3A+bar.po%0AID%3A+1&sfields=locations"
-    )
+    assert get_editor_filter(**kwargs) == expected

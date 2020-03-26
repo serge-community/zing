@@ -72,12 +72,20 @@ export function getResourcePath(path) {
  * @param {string} path - internal path
  */
 export function getTranslateUrl(path, { check, filter } = {}) {
-  const pathItems = path.split('/'); // path starts with the slash
-  pathItems.shift(); // remove the first empty item
-  const lang = pathItems.shift();
-  const project = pathItems.shift();
+  const [languageCode, projectCode, dirPath, filename] = splitPootlePath(path);
 
-  const url = `/${lang}/${project}/translate/${pathItems.join('/')}`;
+  let url;
+  if (languageCode && projectCode) {
+    url = `/${languageCode}/${projectCode}`;
+  } else if (languageCode) {
+    url = `/${languageCode}`;
+  } else if (projectCode) {
+    url = `/projects/${projectCode}`;
+  } else {
+    url = '/projects';
+  }
+
+  url += `/translate/${dirPath + filename}`;
 
   if (filter) {
     return `${url}#filter=${filter}`;

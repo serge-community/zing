@@ -9,7 +9,7 @@
 import expect from 'expect';
 import { describe, it } from 'mocha';
 
-import { split, splitPootlePath } from './url';
+import { split, splitPootlePath, getTranslateUrl } from './url';
 
 
 describe('url', () => {
@@ -132,6 +132,38 @@ describe('url', () => {
       tests.forEach(test => {
         expect(splitPootlePath(test.path)).toEqual(test.expected);
       });
+    });
+  });
+
+  it('constructs translate URLs from internal paths', () => {
+    const tests = [
+      {
+        path: '/',
+        expected: '/projects/translate/',
+      },
+      {
+        path: '/ru/',
+        expected: '/ru/translate/',
+      },
+      {
+        path: '/ru/foo/bar/baz.po',
+        expected: '/ru/foo/translate/bar/baz.po',
+      },
+      {
+        path: '/projects/foo/',
+        expected: '/projects/foo/translate/',
+      },
+      {
+        path: '/projects/foo/bar/baz',
+        expected: '/projects/foo/translate/bar/baz',
+      },
+      {
+        path: '/projects/foo/bar/baz/blah.po',
+        expected: '/projects/foo/translate/bar/baz/blah.po',
+      },
+    ];
+    tests.forEach(test => {
+      expect(getTranslateUrl(test.path)).toEqual(test.expected);
     });
   });
 });

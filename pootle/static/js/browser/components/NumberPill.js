@@ -14,12 +14,16 @@ import { toLocaleString } from 'utils/i18n';
 const NumberPill = React.createClass({
   propTypes: {
     n: React.PropTypes.number,
-    url: React.PropTypes.string.isRequired,
+    url: React.PropTypes.string,
   },
 
   render() {
     if (!this.props.n) {
       return <span className="zero">0</span>;
+    }
+
+    if (!this.props.url) {
+      return <span className="counter">{toLocaleString(this.props.n)}</span>;
     }
 
     return (

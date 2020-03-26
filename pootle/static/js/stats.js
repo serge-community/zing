@@ -15,16 +15,12 @@ import 'jquery-utils';
 
 import StatsAPI from 'api/StatsAPI';
 import { q } from 'utils/dom';
-import { toLocaleString } from 'utils/i18n';
 
 import BrowserTable from './browser/components/BrowserTable';
 import StatsSummary from './browser/components/StatsSummary';
 import PendingTaskContainer from './browser/components/PendingTaskContainer';
+import ActionBar from './browser/components/ActionBar';
 
-
-function formattedValue(n) {
-  return n ? toLocaleString(n) : 0;
-}
 
 function provideStatsDefaults(stats) {
   if (!stats.hasOwnProperty('children')) {
@@ -126,11 +122,6 @@ const stats = {
     this.updateDirty();
   },
 
-  updateAction($action, count) {
-    $action.toggleClass('non-zero', count > 0);
-    $action.find('.counter').text(formattedValue(count));
-  },
-
   updateStatsUI() {
     const { data } = this.state;
 
@@ -148,11 +139,6 @@ const stats = {
         $('.js-stats-refresh').show();
       }
     }
-
-    this.updateAction($('#js-action-view-all'), data.total);
-    this.updateAction($('#js-action-continue'), data.total - data.translated);
-    this.updateAction($('#js-action-fix-critical'), data.critical);
-    this.updateAction($('#js-action-review'), data.suggestions);
   },
 
   updateDirty({ showSpin = true } = {}) {
@@ -178,22 +164,6 @@ const stats = {
       .always(() => $('body').spin(false));
   },
 
-  updateDueDatesAdminUI() {
-    if (!this.canAdminDueDates) {
-      return;
-    }
-
-    require.ensure([], () => {
-      const DueDateContainer = (
-        require('./admin/duedates/components/DueDateContainer').default
-      );
-      ReactDOM.render(
-        <DueDateContainer initialDueDate={this.initialDueDate} />,
-        q('.js-mnt-duedate-manage')
-      );
-    }, 'admin/duedates');
-  },
-
   updateTableUI() {
     ReactDOM.render(
       <BrowserTable
@@ -205,6 +175,25 @@ const stats = {
 
   updateUI() {
     this.updateStatsUI();
+
+    const { data } = this.state;
+    const totalStats = {
+      total: data.total,
+      translated: data.translated,
+      suggestions: data.suggestions,
+      critical: data.critical,
+    };
+    const areTranslateActionsEnabled = this.hasAdminAccess || this.languageCode;
+    ReactDOM.render(
+      <ActionBar
+        canAdminDueDates={this.canAdminDueDates}
+        initialDueDate={this.initialDueDate}
+        areTranslateActionsEnabled={areTranslateActionsEnabled}
+        pootlePath={this.pootlePath}
+        totalStats={totalStats}
+      />,
+      q('.js-mnt-action-bar')
+    );
 
     ReactDOM.render(
       <StatsSummary
@@ -218,7 +207,6 @@ const stats = {
       q('.js-mnt-stats-summary')
     );
 
-    this.updateDueDatesAdminUI();
     this.updateTableUI();
   },
 

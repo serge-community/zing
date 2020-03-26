@@ -25,7 +25,7 @@ const ActionBar = ({
         totalStats={totalStats}
       />
       {canAdminDueDates &&
-        <ul id="js-mnt-duedate-manage">
+        <ul>
           <li>
             <DueDateContainer initialDueDate={initialDueDate} />
           </li>

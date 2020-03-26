@@ -114,10 +114,6 @@
   "stats_refresh_attempts_count": 2,
   "translate_url": "/projects/translate/",
   "translation_project": null,
-  "url_action_continue": null,
-  "url_action_fixcritical": null,
-  "url_action_review": null,
-  "url_action_view_all": null,
   "user": "nobody",
   "widget": {
     "attrs": {

@@ -112,10 +112,6 @@
   "stats_refresh_attempts_count": 2,
   "translate_url": "/projects/project0/translate/",
   "translation_project": null,
-  "url_action_continue": "/projects/project0/translate/#filter=incomplete",
-  "url_action_fixcritical": "/projects/project0/translate/#filter=checks&category=critical",
-  "url_action_review": "/projects/project0/translate/#filter=suggestions",
-  "url_action_view_all": "/projects/project0/translate/#filter=all",
   "user": "admin",
   "widget": {
     "attrs": {

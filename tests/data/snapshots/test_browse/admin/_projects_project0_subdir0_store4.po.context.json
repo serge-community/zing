@@ -116,10 +116,6 @@
   "stats_refresh_attempts_count": 2,
   "translate_url": "/projects/project0/translate/subdir0/store4.po",
   "translation_project": null,
-  "url_action_continue": "/projects/project0/translate/subdir0/store4.po#filter=incomplete",
-  "url_action_fixcritical": "/projects/project0/translate/subdir0/store4.po#filter=checks&category=critical",
-  "url_action_review": "/projects/project0/translate/subdir0/store4.po#filter=suggestions",
-  "url_action_view_all": "/projects/project0/translate/subdir0/store4.po#filter=all",
   "user": "admin",
   "widget": {
     "attrs": {

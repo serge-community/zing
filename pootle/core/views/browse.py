@@ -96,7 +96,6 @@ class PootleBrowseView(BrowseDataViewMixin, PootleDetailView):
         return self.request.path
 
     def get_context_data(self, *args, **kwargs):
-        filters = {}
         can_translate = False
         can_translate_stats = False
         User = get_user_model()
@@ -104,23 +103,8 @@ class PootleBrowseView(BrowseDataViewMixin, PootleDetailView):
         if self.request.user.is_superuser or self.language:
             can_translate = True
             can_translate_stats = True
-            url_action_continue = self.object.get_translate_url(
-                state="incomplete", **filters
-            )
-            url_action_fixcritical = self.object.get_translate_url(
-                check_category="critical", **filters
-            )
-            url_action_review = self.object.get_translate_url(
-                state="suggestions", **filters
-            )
-            url_action_view_all = self.object.get_translate_url(state="all")
-        else:
-            if self.project:
-                can_translate = True
-            url_action_continue = None
-            url_action_fixcritical = None
-            url_action_review = None
-            url_action_view_all = None
+        elif self.project:
+            can_translate = True
 
         ctx = super().get_context_data(*args, **kwargs)
 
@@ -173,10 +157,6 @@ class PootleBrowseView(BrowseDataViewMixin, PootleDetailView):
                 "browsing_data": self.get_browsing_data(),
                 "can_translate": can_translate,
                 "can_translate_stats": can_translate_stats,
-                "url_action_continue": url_action_continue,
-                "url_action_fixcritical": url_action_fixcritical,
-                "url_action_review": url_action_review,
-                "url_action_view_all": url_action_view_all,
                 "top_scorers": remove_empty_from_dict(top_scorers),
                 "browser_extends": self.template_extends,
                 "can_admin_due_dates": can_admin_due_dates,

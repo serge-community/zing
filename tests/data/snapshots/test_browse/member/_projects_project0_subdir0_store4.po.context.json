@@ -113,10 +113,6 @@
   "stats_refresh_attempts_count": 2,
   "translate_url": "/projects/project0/translate/subdir0/store4.po",
   "translation_project": null,
-  "url_action_continue": null,
-  "url_action_fixcritical": null,
-  "url_action_review": null,
-  "url_action_view_all": null,
   "user": "member",
   "widget": {
     "attrs": {

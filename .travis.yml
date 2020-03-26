@@ -8,9 +8,6 @@ env:
   # Meta
   - TOXENV=project
 cache:
-  directories:
-    - pootle/static/js/node_modules
-    - pootle/assets
 install: pip install tox===3.0.0
 before_script:
   - curl -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.5.1-amd64.deb
@@ -29,9 +26,6 @@ notifications:
   email:
     on_failure: always
     on_success: change
-before_cache:
-  # Force rebuilds by removing cache for 'master' builds
-  - if [[ "$TRAVIS_BRANCH" == "master" && "$TRAVIS_PULL_REQUEST" == "false" ]]; then rm -rf pootle/static/js/node_modules/* pootle/assets/* pootle/assets/.webassets-cache;  fi
 services:
   - redis-server
   - mysql

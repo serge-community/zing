@@ -224,6 +224,7 @@ let userTimeZone = (new Intl.DateTimeFormat()).resolvedOptions().timeZone;
 // timezone to avoid breakage.
 if (userTimeZone.indexOf('/') === -1 &&
     ['UTC', 'GMT'].indexOf(userTimeZone) === -1) {
+  // eslint-disable-next-line no-console
   console.log(
     'Intl.timeZone: got a timezone not compliant with the IANA DB: ',
     userTimeZone

@@ -14,6 +14,10 @@
     "stylelint": "stylelint --config=stylelint.json ../css/**/*.css **/*.css",
     "test": "mocha --compilers js:babel-register --require setup.test.js \"./{,!(node_modules)/**/}*.test.js\""
   },
+  "prettier": {
+    "printWidth": 84,
+    "singleQuote": true
+  },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.0",
@@ -28,6 +32,7 @@
     "expect": "^1.14.0",
     "lolex": "^1.5.1",
     "mocha": "^3.0.2",
+    "prettier": "2.0.2",
     "style-loader": "^0.19.0",
     "stylelint": "^7.1.0",
     "stylelint-config-standard": "^12.0.0",

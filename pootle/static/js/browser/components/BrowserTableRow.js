@@ -70,10 +70,18 @@ const BrowserTableRow = React.createClass({
     });
 
     let itemTypeName;
-    if (itemType === ITEM_FILE) itemTypeName = 'file';
-    if (itemType === ITEM_FOLDER) itemTypeName = 'folder';
-    if (itemType === ITEM_PROJECT) itemTypeName = 'project';
-    if (itemType === ITEM_LANGUAGE) itemTypeName = 'language';
+    if (itemType === ITEM_FILE) {
+      itemTypeName = 'file';
+    }
+    if (itemType === ITEM_FOLDER) {
+      itemTypeName = 'folder';
+    }
+    if (itemType === ITEM_PROJECT) {
+      itemTypeName = 'project';
+    }
+    if (itemType === ITEM_LANGUAGE) {
+      itemTypeName = 'language';
+    }
 
     const progressBar = total === 0 ? null :
       <ProgressBar

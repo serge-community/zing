@@ -17,7 +17,7 @@
 export function escapeUnsafeRegexSymbols(s) {
   // Replace doesn't modify original variable and it recreates a
   // new string with special characters escaped.
-  return s.replace(/[!$&(-+\-.:<-?\[-^{-}]/g, '\\$&');
+  return s.replace(/[!$&(-+\-.:<-?[-^{-}]/g, '\\$&');
 }
 
 

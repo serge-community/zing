@@ -6,10 +6,10 @@
  * AUTHORS file for copyright and authorship information.
  */
 
-const HTML_PAT = /<[\/]?\w+.*?>/g;
+const HTML_PAT = /<[/]?\w+.*?>/g;
 // The printf regex based on http://phpjs.org/functions/sprintf:522
 // eslint-disable-next-line max-len
-const C_PRINTF_PAT = /%%|%(\d+\$)?([-+\'#0 ]*)(\*\d+\$|\*|\d+)?(\.(\*\d+\$|\*|\d+))?([scboxXuidfegEG])/g;
+const C_PRINTF_PAT = /%%|%(\d+\$)?([-+'#0 ]*)(\*\d+\$|\*|\d+)?(\.(\*\d+\$|\*|\d+))?([scboxXuidfegEG])/g;
 const C_SHARP_STR_PAT = /{\d+(,\d+)?(:[a-zA-Z ]+)?}/g;
 const PERCENT_NUMBER_PAT = /%\d+/g;
 
@@ -66,9 +66,9 @@ class PlaceholderCleaner {
 
     // Replace temporary [N] placeholders back to their real values
     for (let i = 0; i < argSubs.length; i++) {
-      const value = argSubs[i].replace(/\&/g, '&amp;')
-                              .replace(/\</g, '&lt;')
-                              .replace(/\>/g, '&gt;');
+      const value = argSubs[i].replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
       recoveredTranslation = recoveredTranslation.replace(`[${i}]`, value);
     }
 

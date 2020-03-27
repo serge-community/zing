@@ -7,7 +7,7 @@
  */
 
 
-const hashtagRE = /(^|\s+|>)(#[0-9a-z_\-]+)/gi;
+const hashtagRE = /(^|\s+|>)(#[0-9a-z_-]+)/gi;
 
 
 function linkToHashtag(tag) {

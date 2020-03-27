@@ -102,7 +102,7 @@ function formatComponent(str, ctx) {
     if (match !== null) {
       result.push(match[0]);
     } else {
-      match = /^\x25\(([^\)]+)\)s/.exec(_fmt);
+      match = /^\x25\(([^)]+)\)s/.exec(_fmt);
       if (match === null) {
         throw new Error('Wrong format');
       }

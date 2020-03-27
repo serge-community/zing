@@ -12,9 +12,7 @@ import PlurrHelp from './PlurrHelp';
 import PlurrParamsForm from './PlurrParamsForm';
 import PlurrPreviewOutput from './PlurrPreviewOutput';
 
-
 const PlurrPreview = React.createClass({
-
   propTypes: {
     errorMsg: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func.isRequired,
@@ -47,8 +45,6 @@ const PlurrPreview = React.createClass({
       </div>
     );
   },
-
 });
-
 
 export default PlurrPreview;

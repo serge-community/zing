@@ -40,14 +40,16 @@ function calcHue(title) {
 
 const AutoIcon = ({
   title,
-  saturation = 100, lightness = 30,
-  abbreviationLength = 2, mode = 'solid', size = 20,
+  saturation = 100,
+  lightness = 30,
+  abbreviationLength = 2,
+  mode = 'solid',
+  size = 20,
 }) => {
   const abbreviation = calcAbbreviation(title, abbreviationLength);
   const hue = calcHue(title);
 
-  const color =
-    `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+  const color = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
 
   const sizePx = `${size}px`;
   const fontSizePx = `${Math.round(size / 2)}px`;
@@ -68,10 +70,9 @@ const AutoIcon = ({
   }
 
   return (
-    <span
-      className="auto-icon"
-      style={style}
-    >{abbreviation}</span>
+    <span className="auto-icon" style={style}>
+      {abbreviation}
+    </span>
   );
 };
 
@@ -83,6 +84,5 @@ AutoIcon.propTypes = {
   mode: React.PropTypes.string,
   size: React.PropTypes.number,
 };
-
 
 export default AutoIcon;

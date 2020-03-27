@@ -6,20 +6,22 @@
  * AUTHORS file for copyright and authorship information.
  */
 
-
 export function outerHeight(el) {
   const style = window.getComputedStyle(el);
 
-  return (el.offsetHeight +
-          parseInt(style.marginTop, 10) +
-          parseInt(style.marginBottom, 10));
+  return (
+    el.offsetHeight +
+    parseInt(style.marginTop, 10) +
+    parseInt(style.marginBottom, 10)
+  );
 }
-
 
 export function outerWidth(el) {
   const style = window.getComputedStyle(el);
 
-  return (el.offsetWidth +
-          parseInt(style.marginLeft, 10) +
-          parseInt(style.marginRight, 10));
+  return (
+    el.offsetWidth +
+    parseInt(style.marginLeft, 10) +
+    parseInt(style.marginRight, 10)
+  );
 }

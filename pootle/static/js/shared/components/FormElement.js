@@ -12,9 +12,7 @@ import FormCheckedInput from './FormCheckedInput';
 import FormValueInput from './FormValueInput';
 import FormSelectInput from './FormSelectInput';
 
-
 const FormElement = React.createClass({
-
   propTypes: {
     type: React.PropTypes.string,
     label: React.PropTypes.string.isRequired,
@@ -40,7 +38,6 @@ const FormElement = React.createClass({
     };
   },
 
-
   /* Layout */
 
   render() {
@@ -64,17 +61,17 @@ const FormElement = React.createClass({
       <div className="field-wrapper">
         <label htmlFor={fieldId}>{this.props.label}</label>
         <InputComponent id={fieldId} {...this.props} />
-      {errors &&
-        <ul className="errorlist">{errors.map((msg, i) => (
-          <li key={i}>{msg}</li>
-        ))}</ul>}
-      {hint &&
-        <span className="helptext">{hint}</span>}
+        {errors && (
+          <ul className="errorlist">
+            {errors.map((msg, i) => (
+              <li key={i}>{msg}</li>
+            ))}
+          </ul>
+        )}
+        {hint && <span className="helptext">{hint}</span>}
       </div>
     );
   },
-
 });
-
 
 export default FormElement;

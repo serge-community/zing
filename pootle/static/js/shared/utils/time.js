@@ -8,14 +8,13 @@
 
 import { nt, t } from './i18n';
 
-
 /* Mapping of units and seconds per unit */
 const TIMEDELTA_UNITS = {
   year: 365 * 24 * 3600,
   month: 30 * 24 * 3600,
   week: 7 * 24 * 3600,
   day: 24 * 3600,
-  hour: 3600, /* 60 * 60 */
+  hour: 3600 /* 60 * 60 */,
   minute: 60,
   second: 1,
 };
@@ -25,11 +24,10 @@ const TIMEDELTA_THRESHOLDS = {
   month: 0.83, // 25d+
   week: 0.86, // 6d+
   day: 0.937, // ~22.5h+
-  hour: 0.76,  // 45m+
+  hour: 0.76, // 45m+
   minute: 0.76, // 45s+
   second: 1,
 };
-
 
 export function formatTimeMessage(unit, count) {
   if (unit === 'year') {
@@ -77,7 +75,6 @@ export function formatTimeMessage(unit, count) {
   return t('a few seconds');
 }
 
-
 /**
  * Formats the time difference from `msEpoch` to the current date as
  * provided by the client.
@@ -94,7 +91,6 @@ function formatUnit({ count, unit, addDirection, isFuture }) {
   return t('%(time)s ago', { time: timeMsg });
 }
 
-
 /**
  * Formats the time difference from `msEpoch` to the current date as
  * provided by the client.
@@ -108,15 +104,15 @@ function formatUnit({ count, unit, addDirection, isFuture }) {
  * @return {String} - A formatted string of the time difference since `msEpoch`.
  */
 export function formatTimeDelta(
-  msEpoch, { addDirection = false, formatFunction = null } = {}
+  msEpoch,
+  { addDirection = false, formatFunction = null } = {}
 ) {
   const now = Date.now();
   const delta = msEpoch - now;
   const seconds = Math.abs(delta / 1000);
 
-  const formatter = (
-    typeof formatFunction === 'function' ? formatFunction : formatUnit
-  );
+  const formatter =
+    typeof formatFunction === 'function' ? formatFunction : formatUnit;
   let formatted = '';
 
   const units = Object.keys(TIMEDELTA_UNITS);
@@ -136,7 +132,6 @@ export function formatTimeDelta(
   return formatted;
 }
 
-
 /**
  * Converts a `Date` object `localDate` into the server's timezone.
  *
@@ -145,16 +140,15 @@ export function formatTimeDelta(
  *   in seconds.
  * @return Date `localDate` localized to server's timezone.
  */
-export function toServerDate(localDate, {
-    serverUtcOffset = PTL.settings.TZ_OFFSET,
-  } = {}
+export function toServerDate(
+  localDate,
+  { serverUtcOffset = PTL.settings.TZ_OFFSET } = {}
 ) {
   const localUtcOffsetMs = localDate.getTimezoneOffset() * 60 * 1000;
   const utcMs = localDate.getTime() - localUtcOffsetMs;
   const serverUtcOffsetMs = serverUtcOffset * 1000;
   return new Date(utcMs + serverUtcOffsetMs);
 }
-
 
 /**
  * Sets a `Date` object's hours according to the server's timezone.
@@ -164,13 +158,15 @@ export function toServerDate(localDate, {
  *   in seconds.
  * @return Date a given date's copy adjusted to `hours` in server's timezone.
  */
-export function setServerHours(serverDate, hours, minutes = null, {
-    serverUtcOffset = PTL.settings.TZ_OFFSET,
-  } = {}
+export function setServerHours(
+  serverDate,
+  hours,
+  minutes = null,
+  { serverUtcOffset = PTL.settings.TZ_OFFSET } = {}
 ) {
   const newDate = new Date(serverDate.getTime());
   const hoursOffset = serverUtcOffset / (60 * 60);
-  const newUTCHours = (hours - hoursOffset);
+  const newUTCHours = hours - hoursOffset;
   newDate.setUTCHours(newUTCHours);
 
   if (minutes !== null) {

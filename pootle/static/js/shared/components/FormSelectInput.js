@@ -9,9 +9,7 @@
 import React from 'react';
 import Select from 'react-select';
 
-
 const FormSelectInput = React.createClass({
-
   propTypes: {
     handleChange: React.PropTypes.func.isRequired,
     multiple: React.PropTypes.bool,
@@ -48,8 +46,6 @@ const FormSelectInput = React.createClass({
       />
     );
   },
-
 });
-
 
 export default FormSelectInput;

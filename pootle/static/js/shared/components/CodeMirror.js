@@ -15,9 +15,7 @@ import 'codemirror/lib/codemirror.css';
 
 import './CodeMirror.css';
 
-
 const CodeMirror = React.createClass({
-
   propTypes: {
     mode: React.PropTypes.string.isRequired,
     // Temporarily needed to support submitting forms not controlled by JS
@@ -60,8 +58,6 @@ const CodeMirror = React.createClass({
       />
     );
   },
-
 });
-
 
 export default CodeMirror;

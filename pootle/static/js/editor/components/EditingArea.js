@@ -9,17 +9,12 @@
 import cx from 'classnames';
 import React from 'react';
 
-
 const EditingArea = ({ isDisabled, children }) => {
   const editorWrapperClasses = cx('editor-area-wrapper js-editor-area-wrapper', {
     'is-disabled': isDisabled,
   });
 
-  return (
-    <div className={editorWrapperClasses}>
-      {children}
-    </div>
-  );
+  return <div className={editorWrapperClasses}>{children}</div>;
 };
 
 EditingArea.propTypes = {
@@ -29,6 +24,5 @@ EditingArea.propTypes = {
   ]),
   isDisabled: React.PropTypes.bool.isRequired,
 };
-
 
 export default EditingArea;

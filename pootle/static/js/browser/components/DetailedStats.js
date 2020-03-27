@@ -17,10 +17,13 @@ import TranslationState from './TranslationState';
 
 import { t } from 'utils/i18n';
 
-
 const DetailedStats = ({
-  canTranslate, failingChecksData, statsData, pootlePath,
-  hasMoreContributors, topContributorsData,
+  canTranslate,
+  failingChecksData,
+  statsData,
+  pootlePath,
+  hasMoreContributors,
+  topContributorsData,
 }) => {
   const lastUpdated = statsData.lastupdated;
   const lastAction = statsData.lastaction;
@@ -35,13 +38,13 @@ const DetailedStats = ({
           canTranslate={canTranslate}
           pootlePath={pootlePath}
         />
-      {failingChecksData && failingChecksData.length > 0 &&
-        <FailingChecks
-          canTranslate={canTranslate}
-          items={failingChecksData}
-          pootlePath={pootlePath}
-        />
-      }
+        {failingChecksData && failingChecksData.length > 0 && (
+          <FailingChecks
+            canTranslate={canTranslate}
+            items={failingChecksData}
+            pootlePath={pootlePath}
+          />
+        )}
       </div>
 
       <div className="summary-2-col">
@@ -52,38 +55,36 @@ const DetailedStats = ({
         />
       </div>
 
-    {(lastAction || lastUpdated) &&
-      <div className="summary-3-col">
-      {lastUpdated &&
-        <div>
-          <h3 className="top">{t('Updates')}</h3>
-          <div className="bd">
-            <div className="action-wrapper">
-              <label>{t('Last action:')}</label>
-              {' '}
-              <div className="last-updated">
-                <TimeSince timestamp={lastUpdated} />
+      {(lastAction || lastUpdated) && (
+        <div className="summary-3-col">
+          {lastUpdated && (
+            <div>
+              <h3 className="top">{t('Updates')}</h3>
+              <div className="bd">
+                <div className="action-wrapper">
+                  <label>{t('Last action:')}</label>{' '}
+                  <div className="last-updated">
+                    <TimeSince timestamp={lastUpdated} />
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      }
-      {lastAction && lastAction.mtime !== 0 &&
-        <div>
-          <h3 className="top">{t('Translations')}</h3>
-          <div className="bd">
-            <div className="action-wrapper">
-              <label>{t('Last action:')}</label>
-              {' '}
-              <div className="last-action">
-                <LastActivity {...lastAction} />
+          )}
+          {lastAction && lastAction.mtime !== 0 && (
+            <div>
+              <h3 className="top">{t('Translations')}</h3>
+              <div className="bd">
+                <div className="action-wrapper">
+                  <label>{t('Last action:')}</label>{' '}
+                  <div className="last-action">
+                    <LastActivity {...lastAction} />
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
-      }
-      </div>
-    }
+      )}
 
       <div className="clear"></div>
     </div>

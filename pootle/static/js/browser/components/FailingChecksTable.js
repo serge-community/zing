@@ -11,32 +11,31 @@ import React from 'react';
 
 import { getTranslateUrl } from 'utils/url';
 
-
 const CheckItem = ({ canTranslate, item, url }) => {
   if (canTranslate) {
     return (
-      <a className="check-data" href={url}>{item}</a>
+      <a className="check-data" href={url}>
+        {item}
+      </a>
     );
   }
 
-  return (
-    <span className="check-data">{item}</span>
-  );
+  return <span className="check-data">{item}</span>;
 };
 CheckItem.propTypes = {
   canTranslate: React.PropTypes.bool.isRequired,
-  item: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.number,
-  ]).isRequired,
+  item: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number])
+    .isRequired,
   url: React.PropTypes.string.isRequired,
 };
 
-
 const CheckRow = ({ check, canTranslate, pootlePath }) => {
-  const classNames = cx({
-    'category-critical': check.is_critical,
-  }, 'check');
+  const classNames = cx(
+    {
+      'category-critical': check.is_critical,
+    },
+    'check'
+  );
 
   let url = '';
   if (canTranslate) {
@@ -62,19 +61,14 @@ CheckRow.propTypes = {
   pootlePath: React.PropTypes.string.isRequired,
 };
 
-
 const FailingChecksTable = ({ items, canTranslate, pootlePath }) => {
   const props = { canTranslate, pootlePath };
   return (
     <table>
       <tbody>
-      {items.map((item) => (
-        <CheckRow
-          key={item.code}
-          check={item}
-          {...props}
-        />
-      ))}
+        {items.map((item) => (
+          <CheckRow key={item.code} check={item} {...props} />
+        ))}
       </tbody>
     </table>
   );

@@ -8,15 +8,15 @@
 
 import fetch from 'utils/fetch';
 
-
-const jsonFetch = (opts) => fetch(Object.assign({}, opts, {
-  contentType: 'application/json',
-  body: JSON.stringify(opts.body),
-}));
-
+const jsonFetch = (opts) =>
+  fetch(
+    Object.assign({}, opts, {
+      contentType: 'application/json',
+      body: JSON.stringify(opts.body),
+    })
+  );
 
 const DueDateAPI = {
-
   apiRoot: '/xhr/duedates/',
 
   add(path, isoDate) {
@@ -48,8 +48,6 @@ const DueDateAPI = {
       url: `${this.apiRoot}${id}/`,
     });
   },
-
 };
-
 
 export default DueDateAPI;

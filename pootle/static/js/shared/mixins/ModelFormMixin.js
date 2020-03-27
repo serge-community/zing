@@ -12,7 +12,6 @@ import _ from 'underscore';
 import BackboneMixin from './backbone';
 import FormMixin from './FormMixin';
 
-
 /*
  * Backbone model form mixin.
  * Like `FormMixin` but specialized for BB models.
@@ -23,7 +22,6 @@ export const ModelFormMixin = {
   propTypes: {
     model: React.PropTypes.object.isRequired,
   },
-
 
   /* Lifecycle */
 
@@ -50,18 +48,16 @@ export const ModelFormMixin = {
     return this.props.model;
   },
 
-
   /* Handlers */
 
   handleFormSubmit(e) {
     e.preventDefault();
 
-    this.getResource().save(this.state.formData, { wait: true })
-                      .done(this.handleFormSuccess)
-                      .error(this.handleFormError);
+    this.getResource()
+      .save(this.state.formData, { wait: true })
+      .done(this.handleFormSuccess)
+      .error(this.handleFormError);
   },
-
 };
-
 
 export default ModelFormMixin;

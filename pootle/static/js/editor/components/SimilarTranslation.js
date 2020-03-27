@@ -14,7 +14,6 @@ import { dir, t, tct } from 'utils/i18n';
 
 import { highlightRO } from '../../utils';
 
-
 const Result = ({ originalSource, source, sourceLang, target, targetLang }) => (
   <div className="suggestion-wrapper">
     <div
@@ -39,7 +38,6 @@ Result.propTypes = {
   target: React.PropTypes.string.isRequired,
   targetLang: React.PropTypes.string.isRequired,
 };
-
 
 const Context = ({ fullname, mtime, path, project, username }) => {
   let name = fullname;
@@ -71,11 +69,8 @@ Context.propTypes = {
   project: React.PropTypes.string.isRequired,
 };
 
-
 // FIXME: implement `js-editor-copy-tm-text` functionality here
-const SimilarTranslation = ({
-  originalSource, result, sourceLang, targetLang,
-}) => (
+const SimilarTranslation = ({ originalSource, result, sourceLang, targetLang }) => (
   <div
     className="extra-item-block js-editor-copy-tm-text"
     data-action="overwrite"
@@ -108,6 +103,5 @@ SimilarTranslation.propTypes = {
   sourceLang: React.PropTypes.string.isRequired,
   targetLang: React.PropTypes.string.isRequired,
 };
-
 
 export default SimilarTranslation;

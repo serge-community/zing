@@ -8,7 +8,6 @@
 
 import React from 'react';
 
-
 const propTypes = {
   children: React.PropTypes.node.isRequired,
 };
@@ -18,7 +17,6 @@ const contextTypes = {
   onMenuMouseDown: React.PropTypes.func.isRequired,
   onMenuMouseUp: React.PropTypes.func.isRequired,
 };
-
 
 const DropdownMenu = ({ children }, context) => {
   if (!context.isOpen) {
@@ -42,6 +40,5 @@ const DropdownMenu = ({ children }, context) => {
 
 DropdownMenu.propTypes = propTypes;
 DropdownMenu.contextTypes = contextTypes;
-
 
 export default DropdownMenu;

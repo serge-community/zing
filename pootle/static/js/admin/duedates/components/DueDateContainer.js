@@ -12,9 +12,7 @@ import DueDateAPI from 'api/DueDateAPI';
 
 import DueDateWidget from './DueDateWidget';
 
-
 class DueDateContainer extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -28,13 +26,16 @@ class DueDateContainer extends React.Component {
   }
 
   handleRemove(id) {
-    DueDateAPI
-      .remove(id)
-      .then(() => this.setState({
-        id: null,
-        dueOn: 0,
-        isOpen: false,
-      }, this.handlePostUpdate));
+    DueDateAPI.remove(id).then(() =>
+      this.setState(
+        {
+          id: null,
+          dueOn: 0,
+          isOpen: false,
+        },
+        this.handlePostUpdate
+      )
+    );
   }
 
   handleUpdate(isoDate) {
@@ -46,11 +47,14 @@ class DueDateContainer extends React.Component {
       promise = DueDateAPI.add(this.state.pootlePath, isoDate);
     }
     promise.then((dueDate) => {
-      this.setState(() => ({
-        id: dueDate.id,
-        dueOn: dueDate.due_on,
-        isOpen: false,
-      }), this.handlePostUpdate);
+      this.setState(
+        () => ({
+          id: dueDate.id,
+          dueOn: dueDate.due_on,
+          isOpen: false,
+        }),
+        this.handlePostUpdate
+      );
     });
   }
 
@@ -77,7 +81,6 @@ class DueDateContainer extends React.Component {
       />
     );
   }
-
 }
 
 DueDateContainer.propTypes = {
@@ -90,6 +93,5 @@ DueDateContainer.propTypes = {
 DueDateContainer.defaultProps = {
   initialDueDate: {},
 };
-
 
 export default DueDateContainer;

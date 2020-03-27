@@ -10,9 +10,7 @@ import React from 'react';
 
 import LanguageForm from './LanguageForm';
 
-
 const LanguageAdd = React.createClass({
-
   propTypes: {
     collection: React.PropTypes.object.isRequired,
     model: React.PropTypes.func.isRequired,
@@ -26,10 +24,7 @@ const LanguageAdd = React.createClass({
       <div className="item-add">
         <div className="hd">
           <h2>{gettext('Add Language')}</h2>
-          <button
-            onClick={this.props.onCancel}
-            className="btn btn-primary"
-          >
+          <button onClick={this.props.onCancel} className="btn btn-primary">
             {gettext('Cancel')}
           </button>
         </div>
@@ -43,8 +38,6 @@ const LanguageAdd = React.createClass({
       </div>
     );
   },
-
 });
-
 
 export default LanguageAdd;

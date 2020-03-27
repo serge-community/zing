@@ -17,9 +17,7 @@ import UnitSource from './components/UnitSource';
 import { hasCRLF, normalize, denormalize } from './utils/normalizer';
 import { insertAtCaret, setValue } from './utils/RawFontAware';
 
-
 const ReactEditor = {
-
   init(props) {
     this.node = q('.js-mount-editor');
     this.sourceNode = q('.js-mount-editor-original-src');
@@ -116,13 +114,14 @@ const ReactEditor = {
    */
   setValueFor(indexOrElement, value) {
     const textareas = this.editorInstance.getAreas();
-    const index = (
-      typeof indexOrElement === 'object' ?
-        textareas.indexOf(indexOrElement) :
-        indexOrElement
-    );
-    setValue(textareas[index], value,
-             { isRawMode: this.props.isRawMode, triggerChange: true });
+    const index =
+      typeof indexOrElement === 'object'
+        ? textareas.indexOf(indexOrElement)
+        : indexOrElement;
+    setValue(textareas[index], value, {
+      isRawMode: this.props.isRawMode,
+      triggerChange: true,
+    });
     textareas[index].focus();
   },
 
@@ -131,17 +130,16 @@ const ReactEditor = {
    */
   insertAtCaretFor(indexOrElement, value) {
     const textareas = this.editorInstance.getAreas();
-    const index = (
-      typeof indexOrElement === 'object' ?
-        textareas.indexOf(indexOrElement) :
-        indexOrElement
-    );
-    insertAtCaret(textareas[index], value, { isRawMode: this.props.isRawMode,
-                  triggerChange: true });
+    const index =
+      typeof indexOrElement === 'object'
+        ? textareas.indexOf(indexOrElement)
+        : indexOrElement;
+    insertAtCaret(textareas[index], value, {
+      isRawMode: this.props.isRawMode,
+      triggerChange: true,
+    });
     textareas[index].focus();
   },
-
 };
-
 
 export default ReactEditor;

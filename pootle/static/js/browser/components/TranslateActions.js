@@ -11,17 +11,19 @@ import React from 'react';
 import { t } from 'utils/i18n';
 import { getTranslateUrl } from 'utils/url';
 
-
 import NumberPill from './NumberPill';
 
 const Action = ({ caption, count, name, url }) => {
-  const WrapperTag = url ?
-    ({ children }) => <a className={name} href={url}>{children}</a> :
-    ({ children }) => <span className={name}>{children}</span>;
+  const WrapperTag = url
+    ? ({ children }) => (
+        <a className={name} href={url}>
+          {children}
+        </a>
+      )
+    : ({ children }) => <span className={name}>{children}</span>;
   return (
     <WrapperTag>
-      <span className="caption">{caption}</span>{' '}
-      <NumberPill n={count} />
+      <span className="caption">{caption}</span> <NumberPill n={count} />
     </WrapperTag>
   );
 };
@@ -38,17 +40,19 @@ const TranslateActions = ({ areActionsEnabled, pootlePath, totalStats }) => {
   const translateUrl = areActionsEnabled ? getTranslateUrl(pootlePath) : '';
   return (
     <ul>
-      {critical > 0 &&
+      {critical > 0 && (
         <li>
           <Action
             name="fix-errors"
-            caption={areActionsEnabled ? t('Fix critical errors') : t('Critical errors')}
+            caption={
+              areActionsEnabled ? t('Fix critical errors') : t('Critical errors')
+            }
             count={critical}
             url={translateUrl}
           />
         </li>
-      }
-      {suggestions > 0 &&
+      )}
+      {suggestions > 0 && (
         <li>
           <Action
             name="review-suggestions"
@@ -57,18 +61,20 @@ const TranslateActions = ({ areActionsEnabled, pootlePath, totalStats }) => {
             url={translateUrl}
           />
         </li>
-      }
-      {(total - translated) > 0 &&
+      )}
+      {total - translated > 0 && (
         <li>
           <Action
             name="continue-translation"
-            caption={areActionsEnabled ? t('Continue translation') : t('Incomplete')}
+            caption={
+              areActionsEnabled ? t('Continue translation') : t('Incomplete')
+            }
             count={total - translated}
             url={translateUrl}
           />
         </li>
-      }
-      {total > 0 &&
+      )}
+      {total > 0 && (
         <li>
           <Action
             name="translation-complete"
@@ -77,7 +83,7 @@ const TranslateActions = ({ areActionsEnabled, pootlePath, totalStats }) => {
             url={translateUrl}
           />
         </li>
-      }
+      )}
     </ul>
   );
 };

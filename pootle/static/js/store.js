@@ -11,15 +11,10 @@ import thunkMiddleware from 'redux-thunk';
 
 import createReducer from './reducers';
 
-
-const createStoreWithMiddleware = applyMiddleware(
-  thunkMiddleware
-)(createStore);
-
+const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore);
 
 function configureStore() {
   return createStoreWithMiddleware(createReducer());
 }
-
 
 export default configureStore;

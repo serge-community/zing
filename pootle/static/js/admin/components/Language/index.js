@@ -9,7 +9,6 @@
 import { Language, LanguageSet } from 'models/language';
 import LanguageController from './LanguageController';
 
-
 export default {
   Controller: LanguageController,
   Model: Language,

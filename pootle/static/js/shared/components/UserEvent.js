@@ -13,16 +13,16 @@ import Avatar from 'components/Avatar';
 import TimeSince from 'components/TimeSince';
 import { tct } from 'utils/i18n';
 
-const Check = ({ name, displayName }) => (
-  <a href={`#${name}`}>{displayName}</a>
-);
+const Check = ({ name, displayName }) => <a href={`#${name}`}>{displayName}</a>;
 Check.propTypes = {
   name: PropTypes.string.isRequired,
   displayName: PropTypes.string.isRequired,
 };
 
 const SourceString = ({ sourceText, url }) => (
-  <i><a href={url}>{sourceText}</a></i>
+  <i>
+    <a href={url}>{sourceText}</a>
+  </i>
 );
 SourceString.propTypes = {
   sourceText: PropTypes.string.isRequired,
@@ -30,7 +30,6 @@ SourceString.propTypes = {
 };
 
 const UserEvent = React.createClass({
-
   propTypes: {
     displayName: PropTypes.string,
     email: PropTypes.string.isRequired,
@@ -53,33 +52,23 @@ const UserEvent = React.createClass({
     const { unitSource } = this.props;
     const { unitUrl } = this.props;
 
-    const sourceString = (
-      <SourceString
-        url={unitUrl}
-        sourceText={unitSource}
-      />
-    );
+    const sourceString = <SourceString url={unitUrl} sourceText={unitSource} />;
 
     let check;
     if (checkName !== undefined && checkDisplayName !== undefined) {
-      check = (
-        <Check
-          name={checkName}
-          displayName={checkDisplayName}
-        />
-      );
+      check = <Check name={checkName} displayName={checkDisplayName} />;
     }
 
-    const NORMAL = 1;       // Regular edit via web UI
-    const REVERT = 2;       // Revert action via web UI
-    const SUGG_ACCEPT = 3;  // Accept a suggestion
-    const UPLOAD = 4;       // Upload an offline file
-    const SYSTEM = 5;       // Batch actions performed offline
-    const MUTE_CHECK = 6;   // Mute quality check
+    const NORMAL = 1; // Regular edit via web UI
+    const REVERT = 2; // Revert action via web UI
+    const SUGG_ACCEPT = 3; // Accept a suggestion
+    const UPLOAD = 4; // Upload an offline file
+    const SYSTEM = 5; // Batch actions performed offline
+    const MUTE_CHECK = 6; // Mute quality check
     const UNMUTE_CHECK = 7; // Unmute quality check
-    const SUGG_ADD = 8;     // Add new suggestion
-    const SUGG_REJECT = 9;  // Reject suggestion
-    const UNIT_CREATE = 10;  // Unit created (with translation)
+    const SUGG_ADD = 8; // Add new suggestion
+    const SUGG_REJECT = 9; // Reject suggestion
+    const UNIT_CREATE = 10; // Unit created (with translation)
 
     // Translation action types:
     const TRANSLATED = 0;
@@ -90,38 +79,67 @@ const UserEvent = React.createClass({
     const NEEDS_WORK = 5;
 
     if (type === REVERT) {
-      return tct('%(user)s removed translation for %(sourceString)s', { user, sourceString });
+      return tct('%(user)s removed translation for %(sourceString)s', {
+        user,
+        sourceString,
+      });
     } else if (type === SUGG_ACCEPT) {
-      return tct('%(user)s accepted suggestion for %(sourceString)s', { user, sourceString });
+      return tct('%(user)s accepted suggestion for %(sourceString)s', {
+        user,
+        sourceString,
+      });
     } else if (type === UPLOAD) {
       return tct('%(user)s uploaded file', { user });
     } else if (type === MUTE_CHECK) {
-      return tct('%(user)s muted %(check)s for %(sourceString)s', { user, check, sourceString });
+      return tct('%(user)s muted %(check)s for %(sourceString)s', {
+        user,
+        check,
+        sourceString,
+      });
     } else if (type === UNMUTE_CHECK) {
-      return tct('%(user)s unmuted %(check)s for %(sourceString)s', { user, check, sourceString });
+      return tct('%(user)s unmuted %(check)s for %(sourceString)s', {
+        user,
+        check,
+        sourceString,
+      });
     } else if (type === SUGG_ADD) {
-      return tct('%(user)s added suggestion for %(sourceString)s', { user, sourceString });
+      return tct('%(user)s added suggestion for %(sourceString)s', {
+        user,
+        sourceString,
+      });
     } else if (type === SUGG_REJECT) {
-      return tct('%(user)s rejected suggestion for %(sourceString)s', { user, sourceString });
+      return tct('%(user)s rejected suggestion for %(sourceString)s', {
+        user,
+        sourceString,
+      });
     } else if (type === NORMAL || type === SYSTEM) {
       if (translationActionType === TRANSLATED) {
         return tct('%(user)s translated %(sourceString)s', { user, sourceString });
       } else if (translationActionType === EDITED) {
         return tct('%(user)s edited %(sourceString)s', { user, sourceString });
       } else if (translationActionType === PRE_TRANSLATED) {
-        return tct('%(user)s pre-translated %(sourceString)s', { user, sourceString });
+        return tct('%(user)s pre-translated %(sourceString)s', {
+          user,
+          sourceString,
+        });
       } else if (translationActionType === REMOVED) {
-        return tct('%(user)s removed translation for %(sourceString)s', { user, sourceString });
+        return tct('%(user)s removed translation for %(sourceString)s', {
+          user,
+          sourceString,
+        });
       } else if (translationActionType === REVIEWED) {
         return tct('%(user)s reviewed %(sourceString)s', { user, sourceString });
       } else if (translationActionType === NEEDS_WORK) {
-        return tct('%(user)s marked as needs work %(sourceString)s', { user, sourceString });
+        return tct('%(user)s marked as needs work %(sourceString)s', {
+          user,
+          sourceString,
+        });
       }
     } else if (type === UNIT_CREATE) {
-      return tct(
-        '%(user)s created string %(sourceString)s with translation',
-        { user, sourceString }
-      );
+      return tct('%(user)s created string %(sourceString)s with translation', {
+        user,
+        sourceString,
+      });
     }
 
     return [user];
@@ -139,21 +157,12 @@ const UserEvent = React.createClass({
 
     return (
       <div className="last-action">
-        <span className="short-action-text">
-          {avatar}
-        </span>
-        <span className="action-text">
-          {this.getActionText(avatar)}
-        </span>
-        {' '}
-        <TimeSince
-          timestamp={this.props.timestamp}
-        />
+        <span className="short-action-text">{avatar}</span>
+        <span className="action-text">{this.getActionText(avatar)}</span>{' '}
+        <TimeSince timestamp={this.props.timestamp} />
       </div>
     );
   },
-
 });
-
 
 export default UserEvent;

@@ -6,7 +6,6 @@
  * AUTHORS file for copyright and authorship information.
  */
 
-
 /**
  * The purpose of this module is solely to provide some helper utilities to
  * handle line ending normalization in the `Editor`. This is required because
@@ -15,11 +14,9 @@
  * deal with a single line ending value, `\n`.
  */
 
-
 export function hasCRLF(value) {
   return typeof value === 'string' && value.indexOf('\r\n') !== -1;
 }
-
 
 export function normalize(values) {
   if (!Array.isArray(values)) {
@@ -27,7 +24,6 @@ export function normalize(values) {
   }
   return values.map((value) => value.replace(/\r\n/g, '\n'));
 }
-
 
 export function denormalize(values) {
   if (!Array.isArray(values)) {

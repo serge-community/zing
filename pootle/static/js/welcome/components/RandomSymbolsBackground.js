@@ -28,9 +28,7 @@ const minOpacity = 0.2; // 0..1
 const blurVariation = 5; // 0, 1, 2, ...
 const minBlur = 2; // 0, 1, 2, ...
 
-
 class RandomSymbolsBackground extends React.Component {
-
   static propTypes() {
     return {
       items: React.PropTypes.array.isRequired,
@@ -45,14 +43,14 @@ class RandomSymbolsBackground extends React.Component {
     const items = [];
 
     const maxSymIdx = symbols.length - 1;
-    for (let i = 0; i < numChars; i ++) {
+    for (let i = 0; i < numChars; i++) {
       const char = symbols.charAt(Math.round(Math.random() * maxSymIdx));
       const left = Math.random() * 100;
       const top = Math.random() * 100;
       const depth = Math.random();
-      const fontSize = (depth * fontSizeVariation + minFontSize);
+      const fontSize = depth * fontSizeVariation + minFontSize;
       const color = Math.round(Math.random() * (numColors - 1));
-      const opacity = (depth * opacityVariation + minOpacity);
+      const opacity = depth * opacityVariation + minOpacity;
       const blur = Math.round((1 - depth) * blurVariation) + minBlur;
 
       const style = {
@@ -63,17 +61,15 @@ class RandomSymbolsBackground extends React.Component {
         WebkitFilter: `blur(${blur}px)`,
       };
 
-      items.push(<i key={i} className={`c${color}`} style={style}>{char}</i>);
+      items.push(
+        <i key={i} className={`c${color}`} style={style}>
+          {char}
+        </i>
+      );
     }
 
-    return (
-      <div className="random-symbols-background-component">
-        {items}
-      </div>
-    );
+    return <div className="random-symbols-background-component">{items}</div>;
   }
-
 }
-
 
 export default RandomSymbolsBackground;

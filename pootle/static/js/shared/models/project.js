@@ -12,9 +12,7 @@ import _ from 'underscore';
 
 import AdminAPIMixin from 'mixins/admin_api';
 
-
 export const Project = Backbone.Model.extend({
-
   defaults: {
     code: '',
     fullname: '',
@@ -52,16 +50,12 @@ export const Project = Backbone.Model.extend({
     attrs.disabled = attrs.disabled ? gettext('disabled') : '';
     return attrs;
   },
-
 });
-
 
 export const ProjectSet = Backbone.Collection.extend(
   _.extend({}, AdminAPIMixin, {
-
     model: Project,
 
     url: '/xhr/admin/projects/',
-
   })
 );

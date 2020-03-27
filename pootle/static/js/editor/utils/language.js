@@ -6,7 +6,6 @@
  * AUTHORS file for copyright and authorship information.
  */
 
-
 /* Normalizes language codes in order to use them in MT services */
 export function normalizeCode(locale) {
   if (!locale) {

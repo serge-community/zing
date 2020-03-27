@@ -10,7 +10,6 @@
 import { BASE_MAP_REVERSE_HL, RE_BASE_REVERSE } from './font';
 import { escapeRegexReplacementSymbols } from './search';
 
-
 /* eslint-disable no-irregular-whitespace */
 const PUNCTUATION_RE = /[™©®]|[℃℉°]|[±πθ×÷−√∞∆Σ′″]|[‘’ʼ‚‛“”„‟]|[«»]|[£¥€]|…|—|–|[ ]/g;
 /* eslint-enable no-irregular-whitespace */
@@ -25,7 +24,6 @@ export function highlightPunctuation(text, className = '') {
 
   return text.replace(PUNCTUATION_RE, replace);
 }
-
 
 const ESCAPE_RE = /\\r|\\n|\\t/gm;
 
@@ -44,13 +42,11 @@ export function highlightEscapes(text, className = '') {
   return text.replace(ESCAPE_RE, replace);
 }
 
-
 const NL_RE = /\r\n|[\r\n]/gm;
 
 export function nl2br(text) {
   return text.replace(NL_RE, '$&<br/>');
 }
-
 
 const HTML_RE = /<[^>]+>|[&<>]/gm;
 
@@ -79,15 +75,12 @@ export function highlightHtml(text, className = '') {
   return text.replace(HTML_RE, replace);
 }
 
-
 export function highlightSymbols(text, className = '') {
   function replace(match) {
     const charCode = BASE_MAP_REVERSE_HL[match].charCodeAt().toString(16);
     const zeros = '0'.repeat(4 - charCode.length);
     const codePoint = `\\u${zeros}${charCode.toUpperCase()}`;
-    return (
-      `<span class="${className}" data-codepoint="${codePoint}">${match}</span>`
-    );
+    return `<span class="${className}" data-codepoint="${codePoint}">${match}</span>`;
   }
 
   return text.replace(RE_BASE_REVERSE, replace);

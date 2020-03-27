@@ -10,13 +10,9 @@ import expect from 'expect';
 import { describe, it } from 'mocha';
 
 import AutoIconModule from './AutoIcon';
-const calcAbbreviation = AutoIconModule.__GetDependency__(
-  'calcAbbreviation'
-);
+const calcAbbreviation = AutoIconModule.__GetDependency__('calcAbbreviation');
 
-const calcHue = AutoIconModule.__GetDependency__(
-  'calcHue'
-);
+const calcHue = AutoIconModule.__GetDependency__('calcHue');
 
 describe('AutoIcon', () => {
   it('returns proper abbreviations', () => {

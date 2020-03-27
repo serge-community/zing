@@ -8,15 +8,12 @@
 
 import React from 'react';
 
-
 const ItemDelete = React.createClass({
-
   propTypes: {
     item: React.PropTypes.object.isRequired,
     helpText: React.PropTypes.string,
     onDelete: React.PropTypes.func.isRequired,
   },
-
 
   /* Lifecycle */
 
@@ -25,7 +22,6 @@ const ItemDelete = React.createClass({
       buttonDisabled: true,
     };
   },
-
 
   /* Handlers */
 
@@ -50,14 +46,15 @@ const ItemDelete = React.createClass({
           className="btn btn-danger"
           disabled={this.state.buttonDisabled}
           onClick={this.handleClick}
-        >{gettext('Delete')}</button>
-      {this.props.helpText &&
-        <span className="helptext">{this.props.helpText}</span>}
+        >
+          {gettext('Delete')}
+        </button>
+        {this.props.helpText && (
+          <span className="helptext">{this.props.helpText}</span>
+        )}
       </div>
     );
   },
-
 });
-
 
 export default ItemDelete;

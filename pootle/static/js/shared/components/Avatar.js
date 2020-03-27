@@ -12,7 +12,6 @@ import AutoIcon from './AutoIcon';
 import _ from 'underscore';
 
 const Avatar = React.createClass({
-
   // FIXME: be smarter with props validation, e.g. `email` should be required if
   // `src` is missing etc.
   propTypes: {
@@ -45,14 +44,7 @@ const Avatar = React.createClass({
     if (email) {
       const urlPrefix = 'https://secure.gravatar.com/avatar/';
       const src = `${urlPrefix}${email}?s=${size * pixelRatio}&d=blank`;
-      icon = (
-        <img
-          src={src}
-          title={_.escape(title)}
-          width={size}
-          height={size}
-        />
-      );
+      icon = <img src={src} title={_.escape(title)} width={size} height={size} />;
     }
 
     const style = {
@@ -62,9 +54,12 @@ const Avatar = React.createClass({
 
     const TagName = this.props.tagName;
 
-    const attrs = TagName === 'a' ? {
-      href: `/user/${username}/`,
-    } : {};
+    const attrs =
+      TagName === 'a'
+        ? {
+            href: `/user/${username}/`,
+          }
+        : {};
 
     if (username !== undefined) {
       return (
@@ -79,7 +74,9 @@ const Avatar = React.createClass({
             />
             {icon}
           </span>
-          <span className="user-name" title={username}>{title}</span>
+          <span className="user-name" title={username}>
+            {title}
+          </span>
         </TagName>
       );
     }
@@ -92,8 +89,6 @@ const Avatar = React.createClass({
       </TagName>
     );
   },
-
 });
-
 
 export default Avatar;

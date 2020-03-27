@@ -20,7 +20,6 @@ export function escapeUnsafeRegexSymbols(s) {
   return s.replace(/[!$&(-+\-.:<-?[-^{-}]/g, '\\$&');
 }
 
-
 /**
  * Escape unsafe regular expression replacement symbols: $
  *
@@ -30,7 +29,6 @@ export function escapeUnsafeRegexSymbols(s) {
 export function escapeRegexReplacementSymbols(s) {
   return s.replace(/\$/g, '$$$$');
 }
-
 
 /*
  * Make regular expression using every word in input string.
@@ -44,7 +42,7 @@ export function escapeRegexReplacementSymbols(s) {
  *  4) add brackets.
  */
 export function makeRegexForMultipleWords(s) {
-  return [
-    '(', escapeUnsafeRegexSymbols(s).trim().replace(/ +/g, '|'), ')',
-  ].join('');
+  return ['(', escapeUnsafeRegexSymbols(s).trim().replace(/ +/g, '|'), ')'].join(
+    ''
+  );
 }

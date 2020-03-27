@@ -13,9 +13,7 @@ import { gotoScreen, signIn } from '../actions';
 import FormElement from 'components/FormElement';
 import FormMixin from 'mixins/FormMixin';
 
-
 const SignInForm = React.createClass({
-
   propTypes: {
     canRegister: React.PropTypes.bool.isRequired,
     dispatch: React.PropTypes.func.isRequired,
@@ -44,7 +42,6 @@ const SignInForm = React.createClass({
     }
   },
 
-
   /* Handlers */
 
   handleRequestPasswordReset(e) {
@@ -63,7 +60,6 @@ const SignInForm = React.createClass({
     this.props.dispatch(signIn(this.state.formData, nextURL));
   },
 
-
   /* Others */
 
   hasData() {
@@ -71,24 +67,22 @@ const SignInForm = React.createClass({
     return formData.login !== '' && formData.password !== '';
   },
 
-
   /* Layout */
 
   render() {
     const { errors } = this.state;
     const { formData } = this.state;
 
-    const signUp = this.props.canRegister ?
+    const signUp = this.props.canRegister ? (
       <a href="#" onClick={this.handleSignUp}>
         {gettext('Sign up as a new user')}
-      </a> :
-      <p>{gettext('Creating new user accounts is prohibited.')}</p>;
+      </a>
+    ) : (
+      <p>{gettext('Creating new user accounts is prohibited.')}</p>
+    );
 
     return (
-      <form
-        method="post"
-        onSubmit={this.handleFormSubmit}
-      >
+      <form method="post" onSubmit={this.handleFormSubmit}>
         <div className="fields">
           <FormElement
             autoFocus
@@ -124,15 +118,11 @@ const SignInForm = React.createClass({
               value={gettext('Sign In')}
             />
           </div>
-          <div>
-            {signUp}
-          </div>
+          <div>{signUp}</div>
         </div>
       </form>
     );
   },
-
 });
-
 
 export default SignInForm;

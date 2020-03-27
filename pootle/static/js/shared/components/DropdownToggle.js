@@ -8,13 +8,9 @@
 
 import React from 'react';
 
-
 const propTypes = {
   children: React.PropTypes.node.isRequired,
-  tag: React.PropTypes.oneOfType([
-    React.PropTypes.func,
-    React.PropTypes.string,
-  ]),
+  tag: React.PropTypes.oneOfType([React.PropTypes.func, React.PropTypes.string]),
   title: React.PropTypes.string,
 };
 
@@ -27,19 +23,13 @@ const contextTypes = {
   onToggle: React.PropTypes.func.isRequired,
 };
 
-
 // XXX: make icon-desc optional via prop?
 const DropdownToggle = ({ children, title, tag: Tag }, context) => {
   const extraProps = title ? { title } : {};
 
   return (
-    <Tag
-      onClick={(e) => context.onToggle(e)}
-      {...extraProps}
-    >
-      <span className="dropdown-label">
-        {children}
-      </span>
+    <Tag onClick={(e) => context.onToggle(e)} {...extraProps}>
+      <span className="dropdown-label">{children}</span>
       <span className="icon-desc" />
     </Tag>
   );
@@ -48,6 +38,5 @@ const DropdownToggle = ({ children, title, tag: Tag }, context) => {
 DropdownToggle.propTypes = propTypes;
 DropdownToggle.defaultProps = defaultProps;
 DropdownToggle.contextTypes = contextTypes;
-
 
 export default DropdownToggle;

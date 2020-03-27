@@ -11,9 +11,7 @@ import React from 'react';
 
 import AuthContent from './AuthContent';
 
-
 const AuthProgress = React.createClass({
-
   propTypes: {
     msg: React.PropTypes.string.isRequired,
   },
@@ -28,8 +26,6 @@ const AuthProgress = React.createClass({
       </AuthContent>
     );
   },
-
 });
-
 
 export default AuthProgress;

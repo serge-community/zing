@@ -6,7 +6,6 @@
  * AUTHORS file for copyright and authorship information.
  */
 
-
 function getCookie(name) {
   let value = null;
   if (document.cookie && document.cookie !== '') {
@@ -23,19 +22,17 @@ function getCookie(name) {
   return value;
 }
 
-
 function setCookie(name, value, options = {}) {
   const newValue = value === null ? '' : value;
   const expiryDate = value === null ? -1 : options.expires;
 
   let maxAge = '';
 
-  if (expiryDate &&
-      (typeof expiryDate === 'number' || expiryDate.toUTCString)) {
+  if (expiryDate && (typeof expiryDate === 'number' || expiryDate.toUTCString)) {
     let date;
     if (typeof expiryDate === 'number') {
       date = new Date();
-      date.setTime(date.getTime() + (expiryDate * 24 * 60 * 60 * 1000));
+      date.setTime(date.getTime() + expiryDate * 24 * 60 * 60 * 1000);
     } else {
       date = options.expiryDate;
     }
@@ -48,10 +45,10 @@ function setCookie(name, value, options = {}) {
   const path = options.path ? `; path=${options.path}` : '';
   const domain = options.domain ? `; domain=${options.domain}` : '';
   const secure = options.secure ? '; secure' : '';
-  document.cookie = `${name}=${encodeURIComponent(newValue)}` +
-                    `${maxAge}${path}${domain}${secure}`;
+  document.cookie =
+    `${name}=${encodeURIComponent(newValue)}` +
+    `${maxAge}${path}${domain}${secure}`;
 }
-
 
 export default function cookie(name, value, options) {
   if (value === undefined) {

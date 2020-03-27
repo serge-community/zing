@@ -11,7 +11,6 @@ import { describe, it } from 'mocha';
 
 import { hasCRLF, normalize, denormalize } from './normalizer';
 
-
 describe('hasCRLF', () => {
   const tests = [
     {
@@ -53,7 +52,6 @@ describe('hasCRLF', () => {
   });
 });
 
-
 describe('normalize', () => {
   const tests = [
     {
@@ -84,7 +82,6 @@ describe('normalize', () => {
     });
   });
 });
-
 
 describe('denormalize', () => {
   const tests = [

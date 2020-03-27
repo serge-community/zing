@@ -14,18 +14,18 @@ import { greetings } from '../greetings';
 import RandomMessage from './RandomMessage';
 import RandomSymbolsBackground from './RandomSymbolsBackground';
 
-
 const Hero = () => (
   <div>
     <div className="hero-background">
       <RandomSymbolsBackground />
     </div>
     <div className="hero-background-overlay">
-      <h1><RandomMessage items={greetings} /></h1>
+      <h1>
+        <RandomMessage items={greetings} />
+      </h1>
       <h2>{t('Join our translation community')}</h2>
     </div>
   </div>
 );
-
 
 export default Hero;

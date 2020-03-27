@@ -13,9 +13,7 @@ import fetch from 'utils/fetch';
 import { normalizeCode } from '../utils';
 import PlaceholderCleaner from './PlaceholderCleaner';
 
-
 class MTProvider {
-
   constructor(opts) {
     this.method = 'GET';
     Object.assign(this, opts);
@@ -25,11 +23,11 @@ class MTProvider {
 
     $(document).on('click', `.js-${opts.name}`, (e) => {
       const sourceLang = e.currentTarget.dataset.sourceLang;
-      this.translate(this.unit.sources[sourceLang][0], sourceLang,
-                     this.unit.targetLang)
-          .then(
-            (result) => PTL.editor.setTranslation(result)
-          );
+      this.translate(
+        this.unit.sources[sourceLang][0],
+        sourceLang,
+        this.unit.targetLang
+      ).then((result) => PTL.editor.setTranslation(result));
     });
   }
 
@@ -74,18 +72,16 @@ class MTProvider {
       method: this.method,
       url: this.url,
       body: this.getRequestBody(bodyOpts),
-    }).then(
-      (response) => this.handleSuccess(response)
-    ).then(
-      (result) => {
+    })
+      .then((response) => this.handleSuccess(response))
+      .then((result) => {
         if (!('translation' in result)) {
           return result;
         }
         const newResult = Object.assign({}, result);
         newResult.translation = placeholderCleaner.recover(result.translation);
         return newResult;
-      }
-    );
+      });
   }
 
   handleSuccess() {
@@ -105,25 +101,22 @@ class MTProvider {
         const sourceLang = normalizeCode(sourceLanguage);
 
         if (this.isSupportedSource(sourceLang)) {
-          $(`.js-mt-${sourceLang}`).append(
-            this.renderIcon(sourceLang, targetLang)
-          );
+          $(`.js-mt-${sourceLang}`).append(this.renderIcon(sourceLang, targetLang));
         }
       });
     }
   }
 
   renderIcon(sourceLang, targetLang) {
-    const hint = `${this.displayName} (${sourceLang.toUpperCase()} &rarr; ` +
-                 `${targetLang.toUpperCase()})`;
+    const hint =
+      `${this.displayName} (${sourceLang.toUpperCase()} &rarr; ` +
+      `${targetLang.toUpperCase()})`;
     return (
       `<a class="translate-mt js-${this.name}" data-source-lang="${sourceLang}">` +
-        `<i class="icon-${this.name}" title="${hint}">` +
+      `<i class="icon-${this.name}" title="${hint}">` +
       '</a>'
     );
   }
-
 }
-
 
 export default MTProvider;

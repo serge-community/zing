@@ -10,9 +10,7 @@
 import cx from 'classnames';
 import React from 'react';
 
-
 const Tab = React.createClass({
-
   propTypes: {
     onClick: React.PropTypes.func, // Required but added dynamically
     tabIndex: React.PropTypes.number, // Required but added dynamically
@@ -38,14 +36,8 @@ const Tab = React.createClass({
       props.onClick = this.props.onClick.bind(null, this.props.tabIndex);
     }
 
-    return (
-      <li {...props}>
-        {this.props.title}
-      </li>
-    );
+    return <li {...props}>{this.props.title}</li>;
   },
-
 });
-
 
 export default Tab;

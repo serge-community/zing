@@ -11,9 +11,7 @@ import React from 'react';
 
 import AuthContent from './AuthContent';
 
-
 const EmailConfirmation = React.createClass({
-
   propTypes: {
     onClose: React.PropTypes.func.isRequired,
   },
@@ -25,18 +23,13 @@ const EmailConfirmation = React.createClass({
       <AuthContent>
         <p>{gettext('This email confirmation link expired or is invalid.')}</p>
         <div className="actions">
-          <button
-            className="btn btn-primary"
-            onClick={this.props.onClose}
-          >
+          <button className="btn btn-primary" onClick={this.props.onClose}>
             {gettext('Close')}
           </button>
         </div>
       </AuthContent>
     );
   },
-
 });
-
 
 export default EmailConfirmation;

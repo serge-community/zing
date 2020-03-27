@@ -11,22 +11,14 @@ import { combineReducers } from 'redux';
 
 import auth from './auth/reducers';
 
-
 let asyncReducers = {};
-
 
 export function registerReducers(newReducers) {
   asyncReducers = Object.assign({}, asyncReducers, newReducers);
 }
 
-
 function createReducer() {
-  return combineReducers(Object.assign(
-    {},
-    { auth },
-    asyncReducers
-  ));
+  return combineReducers(Object.assign({}, { auth }, asyncReducers));
 }
-
 
 export default createReducer;

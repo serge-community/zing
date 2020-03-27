@@ -13,9 +13,7 @@ import ModelFormMixin from 'mixins/ModelFormMixin';
 
 import ItemDelete from '../ItemDelete';
 
-
 const LanguageForm = React.createClass({
-
   propTypes: {
     collection: React.PropTypes.object.isRequired,
     onDelete: React.PropTypes.func,
@@ -26,13 +24,11 @@ const LanguageForm = React.createClass({
 
   fields: ['code', 'fullname', 'specialchars', 'nplurals', 'pluralequation'],
 
-
   /* Handlers */
 
   handleSuccess(model) {
     this.props.onSuccess(model);
   },
-
 
   /* Layout */
 
@@ -42,11 +38,7 @@ const LanguageForm = React.createClass({
     const { formData } = this.state;
 
     return (
-      <form
-        method="post"
-        id="item-form"
-        onSubmit={this.handleFormSubmit}
-      >
+      <form method="post" id="item-form" onSubmit={this.handleFormSubmit}>
         <div className="fields">
           <FormElement
             autoFocus
@@ -96,24 +88,28 @@ const LanguageForm = React.createClass({
             disabled={!this.state.isDirty}
             value={gettext('Save')}
           />
-        {model.id &&
-          <ul className="action-links">
-            <li><a href={model.getAbsoluteUrl()}>{gettext('Overview')}</a></li>
-            <li><a href={model.getPermissionsUrl()}>{gettext('Permissions')}</a></li>
-          </ul>}
+          {model.id && (
+            <ul className="action-links">
+              <li>
+                <a href={model.getAbsoluteUrl()}>{gettext('Overview')}</a>
+              </li>
+              <li>
+                <a href={model.getPermissionsUrl()}>{gettext('Permissions')}</a>
+              </li>
+            </ul>
+          )}
         </div>
-      {this.props.onDelete &&
-        <div>
-          <p className="divider" />
-          <div className="buttons">
-            <ItemDelete item={model} onDelete={this.props.onDelete} />
+        {this.props.onDelete && (
+          <div>
+            <p className="divider" />
+            <div className="buttons">
+              <ItemDelete item={model} onDelete={this.props.onDelete} />
+            </div>
           </div>
-        </div>}
+        )}
       </form>
     );
   },
-
 });
-
 
 export default LanguageForm;

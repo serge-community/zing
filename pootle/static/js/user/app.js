@@ -15,12 +15,9 @@ import { q, qAll } from 'utils/dom';
 
 import UserProfileEdit from './components/UserProfileEdit';
 
-
 window.PTL = window.PTL || {};
 
-
 PTL.user = {
-
   init(opts) {
     if (opts.userData !== undefined) {
       const editButton = q('.js-user-profile-edit');
@@ -40,10 +37,13 @@ PTL.user = {
 
           const width = 500;
           const height = 260;
-          const left = (screen.width / 2) - (width / 2);
-          const top = (screen.height / 2) - (height / 2);
-          window.open(e.currentTarget.href, '_blank',
-                      `width=${width},height=${height},left=${left},top=${top}`);
+          const left = screen.width / 2 - width / 2;
+          const top = screen.height / 2 - height / 2;
+          window.open(
+            e.currentTarget.href,
+            '_blank',
+            `width=${width},height=${height},left=${left},top=${top}`
+          );
         });
         return true;
       });
@@ -51,5 +51,4 @@ PTL.user = {
 
     ReactDOM.render(<LastActivity {...opts.lastEvent} />, q('.js-last-action'));
   },
-
 };

@@ -8,9 +8,7 @@
 
 import React from 'react';
 
-
 const ContentPreview = React.createClass({
-
   propTypes: {
     value: React.PropTypes.string.isRequired,
 
@@ -19,24 +17,20 @@ const ContentPreview = React.createClass({
 
   render() {
     return (
-      <div
-        className="content-preview"
-        style={this.props.style}
-      >
-        {this.props.value ?
+      <div className="content-preview" style={this.props.style}>
+        {this.props.value ? (
           <div
             className="staticpage"
             dangerouslySetInnerHTML={{ __html: this.props.value }}
-          /> :
+          />
+        ) : (
           <div className="placeholder">
             {gettext('Preview will be displayed here.')}
           </div>
-        }
+        )}
       </div>
     );
   },
-
 });
-
 
 export default ContentPreview;

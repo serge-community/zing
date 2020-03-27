@@ -11,7 +11,6 @@ import { describe, it } from 'mocha';
 
 import { CHARACTERS, SYMBOLS, raw2sym, sym2raw } from './font';
 
-
 describe('raw2sym (regular mode)', () => {
   const tests = [
     {
@@ -27,16 +26,28 @@ describe('raw2sym (regular mode)', () => {
 
     {
       description: 'special characters with symbols',
-      input: ([
-        CHARACTERS.NULL, CHARACTERS.BELL, CHARACTERS.BS, CHARACTERS.BS,
-        CHARACTERS.TAB, CHARACTERS.VT, CHARACTERS.FF, CHARACTERS.ESC,
+      input: [
+        CHARACTERS.NULL,
+        CHARACTERS.BELL,
+        CHARACTERS.BS,
+        CHARACTERS.BS,
+        CHARACTERS.TAB,
+        CHARACTERS.VT,
+        CHARACTERS.FF,
+        CHARACTERS.ESC,
         CHARACTERS.NBSP,
-      ].join('')),
-      expected: ([
-        SYMBOLS.NULL, SYMBOLS.BELL, SYMBOLS.BS, SYMBOLS.BS,
-        SYMBOLS.TAB, SYMBOLS.VT, SYMBOLS.FF, SYMBOLS.ESC,
+      ].join(''),
+      expected: [
+        SYMBOLS.NULL,
+        SYMBOLS.BELL,
+        SYMBOLS.BS,
+        SYMBOLS.BS,
+        SYMBOLS.TAB,
+        SYMBOLS.VT,
+        SYMBOLS.FF,
+        SYMBOLS.ESC,
         SYMBOLS.NBSP,
-      ].join('')),
+      ].join(''),
     },
 
     {
@@ -57,11 +68,10 @@ describe('raw2sym (regular mode)', () => {
     {
       description: 'extra spaces everywhere',
       input: '  Foo   bar    ',
-      expected: (
+      expected:
         `${SYMBOLS.SPACE}${SYMBOLS.SPACE}Foo` +
         `${SYMBOLS.SPACE}${SYMBOLS.SPACE}${SYMBOLS.SPACE}bar` +
-        `${SYMBOLS.SPACE}${SYMBOLS.SPACE}${SYMBOLS.SPACE}${SYMBOLS.SPACE}`
-      ),
+        `${SYMBOLS.SPACE}${SYMBOLS.SPACE}${SYMBOLS.SPACE}${SYMBOLS.SPACE}`,
     },
     {
       description: 'whitespace around [NBSP]',
@@ -123,7 +133,6 @@ describe('raw2sym (regular mode)', () => {
   });
 });
 
-
 describe('raw2sym (raw mode)', () => {
   const tests = [
     {
@@ -139,28 +148,25 @@ describe('raw2sym (raw mode)', () => {
 
     {
       description: 'special characters with symbols',
-      input: (
-        Object.keys(CHARACTERS)
-          .filter(key => key !== 'LF' && key !== 'CR')
-          .map(key => CHARACTERS[key]).join('')
-      ),
-      expected: (
-        Object.keys(SYMBOLS)
-          .filter(key => key !== 'LF' && key !== 'CR')
-          .map(key => SYMBOLS[key]).join('')
-      ),
+      input: Object.keys(CHARACTERS)
+        .filter((key) => key !== 'LF' && key !== 'CR')
+        .map((key) => CHARACTERS[key])
+        .join(''),
+      expected: Object.keys(SYMBOLS)
+        .filter((key) => key !== 'LF' && key !== 'CR')
+        .map((key) => SYMBOLS[key])
+        .join(''),
     },
 
     {
       description: 'spaces anywhere',
       input: ' Foo bar baz  blah   ',
-      expected: (
+      expected:
         `${SYMBOLS.SPACE}Foo` +
         `${SYMBOLS.SPACE}bar` +
         `${SYMBOLS.SPACE}baz` +
         `${SYMBOLS.SPACE}${SYMBOLS.SPACE}blah` +
-        `${SYMBOLS.SPACE}${SYMBOLS.SPACE}${SYMBOLS.SPACE}`
-      ),
+        `${SYMBOLS.SPACE}${SYMBOLS.SPACE}${SYMBOLS.SPACE}`,
     },
   ];
 
@@ -175,8 +181,9 @@ describe('raw2sym (raw mode)', () => {
   describe('round-tripping', () => {
     tests.forEach((test) => {
       it(`roundtrips ${test.description}`, () => {
-        expect(sym2raw(raw2sym(test.input, { isRawMode: true })))
-          .toEqual(test.input);
+        expect(sym2raw(raw2sym(test.input, { isRawMode: true }))).toEqual(
+          test.input
+        );
       });
     });
   });

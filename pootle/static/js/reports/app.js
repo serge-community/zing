@@ -23,7 +23,6 @@ import { q } from 'utils/dom';
 import msg from '../msg';
 import utils from '../utils';
 
-
 const paidTaskTypes = {
   translation: 0,
   review: 1,
@@ -31,17 +30,16 @@ const paidTaskTypes = {
   correction: 3,
 };
 
-
 window.PTL = window.PTL || {};
 
 PTL.reports = {
-
   init(opts) {
     _.defaults(this, opts);
 
     /* Compile templates */
-    const showSummary = (!PTL.reports.freeUserReport &&
-                         (PTL.reports.ownReport || PTL.reports.adminReport));
+    const showSummary =
+      !PTL.reports.freeUserReport &&
+      (PTL.reports.ownReport || PTL.reports.adminReport);
     this.tmpl = {
       results: _.template($('#language_user_activity').html()),
       summary: showSummary ? _.template($('#summary').html()) : '',
@@ -49,9 +47,11 @@ PTL.reports = {
     };
 
     $(window).resize(() => {
-      if (PTL.reports.data !== undefined &&
-          PTL.reports.data.daily !== undefined &&
-          PTL.reports.data.daily.nonempty) {
+      if (
+        PTL.reports.data !== undefined &&
+        PTL.reports.data.daily !== undefined &&
+        PTL.reports.data.daily.nonempty
+      ) {
         PTL.reports.drawChart();
       }
     });
@@ -62,43 +62,57 @@ PTL.reports = {
         PTL.reports.update();
       });
       $(document).on('click', '#user-rates-form input.submit', this.updateRates);
-      $(document).on('click', '#reports-paid-tasks .js-remove-task', this.removePaidTask);
+      $(document).on(
+        'click',
+        '#reports-paid-tasks .js-remove-task',
+        this.removePaidTask
+      );
       $('#reports-user').select2({ data: PTL.reports.users });
     }
 
     $(document).on('click', '#paid-task-form input.submit', this.addPaidTask);
     $(document).on('change', '#id_currency', this.refreshCurrency);
     $(document).on('change', '#id_task_type', this.onPaidTaskTypeChange);
-    $(document).on('keyup paste change blur', '#id_description', this.addPaidTaskValidate);
+    $(document).on(
+      'keyup paste change blur',
+      '#id_description',
+      this.addPaidTaskValidate
+    );
     $(document).on('keyup paste change', '#id_amount', this.addPaidTaskValidate);
     $(document).on('blur', '#id_amount', this.roundAmount);
 
     const taskType = parseInt($('#id_task_type').val(), 10);
     this.refreshAmountMeasureUnits(taskType);
 
-    $.history.init((hash) => {
-      const params = PTL.reports.params = utils.getParsedHash(hash);
+    $.history.init(
+      (hash) => {
+        const params = (PTL.reports.params = utils.getParsedHash(hash));
 
-      // Walk through known report criterias and apply them to the
-      // reports object
-      if ('month' in params) {
-        PTL.reports.month = moment(params.month, 'YYYY-MM');
-      } else {
-        PTL.reports.month = moment(PTL.reports.serverTime, 'YYYY-MM-DD HH:mm:ss');
-      }
-      if ('username' in params) {
-        PTL.reports.userName = params.username;
-      }
-      PTL.reports.updateMonthSelector();
-      $('#reports-user').select2('val', PTL.reports.userName);
+        // Walk through known report criterias and apply them to the
+        // reports object
+        if ('month' in params) {
+          PTL.reports.month = moment(params.month, 'YYYY-MM');
+        } else {
+          PTL.reports.month = moment(PTL.reports.serverTime, 'YYYY-MM-DD HH:mm:ss');
+        }
+        if ('username' in params) {
+          PTL.reports.userName = params.username;
+        }
+        PTL.reports.updateMonthSelector();
+        $('#reports-user').select2('val', PTL.reports.userName);
 
-      if (!PTL.reports.compareParams(params)) {
-        PTL.reports.buildResults();
-      }
+        if (!PTL.reports.compareParams(params)) {
+          PTL.reports.buildResults();
+        }
 
-      PTL.reports.loadedHashParams = params;
-      $('#detailed a').attr('href', `${PTL.reports.detailedUrl}?${utils.getHash()}`);
-    }, { unescape: true });
+        PTL.reports.loadedHashParams = params;
+        $('#detailed a').attr(
+          'href',
+          `${PTL.reports.detailedUrl}?${utils.getHash()}`
+        );
+      },
+      { unescape: true }
+    );
   },
 
   updateRates() {
@@ -181,9 +195,11 @@ PTL.reports = {
     const amount = $this.val();
     const taskType = parseInt($('#id_task_type').val(), 10);
 
-    if (taskType === paidTaskTypes.translation ||
-        taskType === paidTaskTypes.review ||
-        taskType === paidTaskTypes.hourlyWork) {
+    if (
+      taskType === paidTaskTypes.translation ||
+      taskType === paidTaskTypes.review ||
+      taskType === paidTaskTypes.hourlyWork
+    ) {
       $this.val(amount > 0 ? amount : 0);
       if (taskType !== paidTaskTypes.hourlyWork) {
         // round if amount is in words (i.e. taskType is translation or review)
@@ -199,8 +215,10 @@ PTL.reports = {
       const description = $('#id_description').val();
       const taskType = parseInt($('#id_task_type').val(), 10);
 
-      if (description === '' || amount <= 0 &&
-          taskType !== paidTaskTypes.correction) {
+      if (
+        description === '' ||
+        (amount <= 0 && taskType !== paidTaskTypes.correction)
+      ) {
         $('#paid-task-form .submit').prop('disabled', true);
       } else {
         $('#paid-task-form .submit').prop('disabled', false);
@@ -266,55 +284,52 @@ PTL.reports = {
   },
 
   drawChart() {
-    $.plot($('#daily-chart'),
-      PTL.reports.dailyData.data,
-      {
-        series: {
-          stack: true,
-          lines: { show: false, steps: false },
-          bars: {
-            show: true,
-            barWidth: 1000 * 60 * 60 * 24,
-            align: 'center',
-          },
+    $.plot($('#daily-chart'), PTL.reports.dailyData.data, {
+      series: {
+        stack: true,
+        lines: { show: false, steps: false },
+        bars: {
+          show: true,
+          barWidth: 1000 * 60 * 60 * 24,
+          align: 'center',
         },
-        xaxis: {
-          min: parseInt(PTL.reports.dailyData.min_ts, 10) - 1000 * 60 * 60 * 12,
-          max: parseInt(PTL.reports.dailyData.max_ts, 10) - 1000 * 60 * 60 * 12,
-          minTickSize: [1, 'day'],
-          mode: 'time',
-          // Translators: renders as 'Jul 1, Fri'. Reorder if necessary.
-          timeformat: gettext('%b %d, %a'),
-          monthNames: [
-            gettext('Jan'),
-            gettext('Feb'),
-            gettext('Mar'),
-            gettext('Apr'),
-            gettext('May'),
-            gettext('Jun'),
-            gettext('Jul'),
-            gettext('Aug'),
-            gettext('Sep'),
-            gettext('Oct'),
-            gettext('Nov'),
-            gettext('Dec'),
-          ],
-          dayNames: [
-            gettext('Sun'),
-            gettext('Mon'),
-            gettext('Tue'),
-            gettext('Wed'),
-            gettext('Thu'),
-            gettext('Fri'),
-            gettext('Sat'),
-          ],
-        },
-        yaxis: {
-          max: PTL.reports.dailyData.max_day_score,
-        },
-        colors: ['#66bb66', '#99ccff', '#ffcc33'],
-      }
-    );
+      },
+      xaxis: {
+        min: parseInt(PTL.reports.dailyData.min_ts, 10) - 1000 * 60 * 60 * 12,
+        max: parseInt(PTL.reports.dailyData.max_ts, 10) - 1000 * 60 * 60 * 12,
+        minTickSize: [1, 'day'],
+        mode: 'time',
+        // Translators: renders as 'Jul 1, Fri'. Reorder if necessary.
+        timeformat: gettext('%b %d, %a'),
+        monthNames: [
+          gettext('Jan'),
+          gettext('Feb'),
+          gettext('Mar'),
+          gettext('Apr'),
+          gettext('May'),
+          gettext('Jun'),
+          gettext('Jul'),
+          gettext('Aug'),
+          gettext('Sep'),
+          gettext('Oct'),
+          gettext('Nov'),
+          gettext('Dec'),
+        ],
+        dayNames: [
+          gettext('Sun'),
+          gettext('Mon'),
+          gettext('Tue'),
+          gettext('Wed'),
+          gettext('Thu'),
+          gettext('Fri'),
+          gettext('Sat'),
+        ],
+      },
+      yaxis: {
+        max: PTL.reports.dailyData.max_day_score,
+      },
+      colors: ['#66bb66', '#99ccff', '#ffcc33'],
+    });
   },
 
   getPaidTaskSummaryItem(type, rate, summary) {
@@ -347,10 +362,15 @@ PTL.reports = {
       }
 
       const task = data.paid_tasks[index];
-      const item = PTL.reports.getPaidTaskSummaryItem(task.type, task.rate,
-                                                      origData.paid_task_summary);
+      const item = PTL.reports.getPaidTaskSummaryItem(
+        task.type,
+        task.rate,
+        origData.paid_task_summary
+      );
 
-      task.datetime = moment(task.datetime, 'YYYY-MM-DD hh:mm:ss').format('MMMM D, HH:mm');
+      task.datetime = moment(task.datetime, 'YYYY-MM-DD hh:mm:ss').format(
+        'MMMM D, HH:mm'
+      );
       if (item !== null) {
         item.amount += task.amount;
       } else {
@@ -453,11 +473,14 @@ PTL.reports = {
           task: '',
         };
         processedData.meta.admin_permalink = [
-          data.meta.admin_permalink, $.param(permalinkArgs),
+          data.meta.admin_permalink,
+          $.param(permalinkArgs),
         ].join('#');
 
-        if (PTL.reports.adminReport || !PTL.reports.freeUserReport &&
-            PTL.reports.ownReport) {
+        if (
+          PTL.reports.adminReport ||
+          (!PTL.reports.freeUserReport && PTL.reports.ownReport)
+        ) {
           const ctx = {
             paidTaskTypes,
             data: processedData,
@@ -562,11 +585,9 @@ PTL.reports = {
       ].join('');
     }
 
-    return [
-      m1.format('MMMM D, YYYY'),
-      ' &mdash; ',
-      m2.format('MMMM D, YYYY'),
-    ].join('');
+    return [m1.format('MMMM D, YYYY'), ' &mdash; ', m2.format('MMMM D, YYYY')].join(
+      ''
+    );
   },
 
   formatDate(d) {
@@ -577,13 +598,21 @@ PTL.reports = {
   updateMonthSelector() {
     $('.js-month').each(function setLink() {
       const $el = $(this);
-      let link = PTL.reports.adminReport ? `#username=${PTL.reports.userName}&` : '#';
+      let link = PTL.reports.adminReport
+        ? `#username=${PTL.reports.userName}&`
+        : '#';
 
       if ($el.hasClass('js-previous')) {
-        link += `month=${PTL.reports.month.clone().subtract({ M: 1 }).format('YYYY-MM')}`;
+        link += `month=${PTL.reports.month
+          .clone()
+          .subtract({ M: 1 })
+          .format('YYYY-MM')}`;
       }
       if ($el.hasClass('js-next')) {
-        link += `month=${PTL.reports.month.clone().add({ M: 1 }).format('YYYY-MM')}`;
+        link += `month=${PTL.reports.month
+          .clone()
+          .add({ M: 1 })
+          .format('YYYY-MM')}`;
       }
       $el.attr('href', link);
     });
@@ -603,5 +632,4 @@ PTL.reports = {
     $('#paid-task-form .month').html(datetime.format('MMMM D, YYYY'));
     $('#paid-task-form #id_datetime').val(datetime.format('YYYY-MM-DD HH:mm:ss'));
   },
-
 };

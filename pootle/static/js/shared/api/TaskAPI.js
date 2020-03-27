@@ -8,9 +8,7 @@
 
 import fetch from 'utils/fetch';
 
-
 const TaskAPI = {
-
   apiRoot: '/xhr/tasks/',
 
   get(languageCode, { limit = 0 } = {}) {
@@ -21,17 +19,15 @@ const TaskAPI = {
       params.limit = limit;
     }
 
-    const qs = Object.keys(params).map(
-      key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
-    ).join('&');
+    const qs = Object.keys(params)
+      .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+      .join('&');
     if (qs) {
       url = `${url}?${qs}`;
     }
 
     return fetch({ url });
   },
-
 };
-
 
 export default TaskAPI;

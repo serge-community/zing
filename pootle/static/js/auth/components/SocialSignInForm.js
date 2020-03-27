@@ -9,9 +9,7 @@
 
 import React from 'react';
 
-
 const SocialSignInForm = React.createClass({
-
   propTypes: {
     socialAuthProviders: React.PropTypes.array.isRequired,
   },
@@ -22,7 +20,6 @@ const SocialSignInForm = React.createClass({
     const nextURL = window.location.pathname + window.location.hash;
     window.location = `${url}?next=${encodeURIComponent(nextURL)}`;
   },
-
 
   /* Layout */
 
@@ -41,7 +38,7 @@ const SocialSignInForm = React.createClass({
   render() {
     const signInWarningMsg = gettext(
       'Signing in with an external service for the first time will ' +
-      'automatically create an account for you.'
+        'automatically create an account for you.'
     );
 
     return (
@@ -51,8 +48,6 @@ const SocialSignInForm = React.createClass({
       </div>
     );
   },
-
 });
-
 
 export default SocialSignInForm;

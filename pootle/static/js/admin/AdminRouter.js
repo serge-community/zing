@@ -8,16 +8,12 @@
 
 import Backbone from 'backbone';
 
-
 const AdminRouter = Backbone.Router.extend({
-
   routes: {
     '?q=:searchQuery': 'main',
     '': 'main',
     ':id(/)': 'edit',
   },
-
 });
-
 
 export default AdminRouter;

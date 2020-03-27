@@ -10,20 +10,14 @@ import React from 'react';
 
 import Odometer from './Odometer';
 
-
 const Score = React.createClass({
-
   propTypes: {
     value: React.PropTypes.number.isRequired,
   },
 
   render() {
-    return (
-      <Odometer value={this.props.value} />
-    );
+    return <Odometer value={this.props.value} />;
   },
-
 });
-
 
 export default Score;

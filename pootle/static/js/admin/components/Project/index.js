@@ -9,7 +9,6 @@
 import { Project, ProjectSet } from 'models/project';
 import ProjectController from './ProjectController';
 
-
 export default {
   Controller: ProjectController,
   Model: Project,

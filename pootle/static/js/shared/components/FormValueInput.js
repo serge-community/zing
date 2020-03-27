@@ -10,9 +10,7 @@ import React from 'react';
 
 import AutosizeTextarea from './AutosizeTextarea';
 
-
 const FormValueInput = React.createClass({
-
   propTypes: {
     handleChange: React.PropTypes.func.isRequired,
     autosize: React.PropTypes.bool,
@@ -30,30 +28,17 @@ const FormValueInput = React.createClass({
     this.props.handleChange(e.target.name, e.target.value);
   },
 
-
   render() {
     if (this.props.type === 'textarea') {
       if (this.props.autosize) {
-        return (
-          <AutosizeTextarea
-            onChange={this.handleChange}
-            {...this.props}
-          />
-        );
+        return <AutosizeTextarea onChange={this.handleChange} {...this.props} />;
       }
 
-      return (
-        <textarea
-          onChange={this.handleChange}
-          {...this.props}
-        />
-      );
+      return <textarea onChange={this.handleChange} {...this.props} />;
     }
 
     return <input onChange={this.handleChange} {...this.props} />;
   },
-
 });
-
 
 export default FormValueInput;

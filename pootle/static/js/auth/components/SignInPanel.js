@@ -17,12 +17,9 @@ import AuthProgress from './AuthProgress';
 import SignInForm from './SignInForm';
 import SocialSignInForm from './SocialSignInForm';
 
-
 const SIGNIN_TAB_COOKIE_NAME = 'pootle-auth-signin-tab';
 
-
 const SignInPanel = React.createClass({
-
   propTypes: {
     canRegister: React.PropTypes.bool.isRequired,
     formErrors: React.PropTypes.object.isRequired,
@@ -37,7 +34,6 @@ const SignInPanel = React.createClass({
     cookie(SIGNIN_TAB_COOKIE_NAME, index, { path: '/' });
   },
 
-
   /* Layout */
 
   render() {
@@ -46,9 +42,7 @@ const SignInPanel = React.createClass({
     }
 
     if (!this.props.socialAuthProviders.length) {
-      return (
-        <SignInForm {...this.props} />
-      );
+      return <SignInForm {...this.props} />;
     }
 
     const initialTabIndex = parseInt(cookie(SIGNIN_TAB_COOKIE_NAME), 10) || 0;
@@ -64,8 +58,6 @@ const SignInPanel = React.createClass({
       </Tabs>
     );
   },
-
 });
-
 
 export default SignInPanel;

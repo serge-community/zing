@@ -11,9 +11,7 @@ import $ from 'jquery';
 
 import { formatTimeDelta } from 'utils/time';
 
-
 const helpers = {
-
   /* Updates relative dates */
   updateRelativeDates() {
     $('.js-relative-date').each((i, e) => {
@@ -22,8 +20,6 @@ const helpers = {
       );
     });
   },
-
 };
-
 
 export default helpers;

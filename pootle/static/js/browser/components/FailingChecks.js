@@ -12,9 +12,7 @@ import { t } from 'utils/i18n';
 
 import FailingChecksTable from './FailingChecksTable';
 
-
 const DISPLAY_ITEMS_STEP = 5;
-
 
 class FailingChecks extends React.Component {
   constructor(props) {
@@ -47,12 +45,13 @@ class FailingChecks extends React.Component {
             items={displayItems}
             pootlePath={pootlePath}
           />
-        {displayItemsCount < this.props.items.length &&
-          <div className="toggle-more-checks">
-            <a href="#" onClick={(e) => this.handleClick(e)}>{t('More...')}</a>
-          </div>
-
-        }
+          {displayItemsCount < this.props.items.length && (
+            <div className="toggle-more-checks">
+              <a href="#" onClick={(e) => this.handleClick(e)}>
+                {t('More...')}
+              </a>
+            </div>
+          )}
         </div>
       </div>
     );

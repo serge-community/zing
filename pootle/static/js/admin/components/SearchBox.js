@@ -9,9 +9,7 @@
 import React from 'react';
 import _ from 'underscore';
 
-
 const SearchBox = React.createClass({
-
   propTypes: {
     onSearch: React.PropTypes.func.isRequired,
     placeholder: React.PropTypes.string,
@@ -43,7 +41,6 @@ const SearchBox = React.createClass({
     }
   },
 
-
   /* Handlers */
 
   handleKeyUp(e) {
@@ -57,7 +54,6 @@ const SearchBox = React.createClass({
     this.setState({ searchQuery: this.refs.input.value });
     this.handleSearchDebounced();
   },
-
 
   /* Layout */
 
@@ -73,8 +69,6 @@ const SearchBox = React.createClass({
       />
     );
   },
-
 });
-
 
 export default SearchBox;

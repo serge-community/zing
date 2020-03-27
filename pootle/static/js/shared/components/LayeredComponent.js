@@ -11,9 +11,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-
 const LayeredComponent = React.createClass({
-
   propTypes: {
     children: React.PropTypes.node.isRequired,
   },
@@ -40,8 +38,6 @@ const LayeredComponent = React.createClass({
   render() {
     return null;
   },
-
 });
-
 
 export default LayeredComponent;

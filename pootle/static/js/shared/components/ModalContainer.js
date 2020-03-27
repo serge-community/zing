@@ -13,7 +13,6 @@ import tabInScope from 'utils/tabInScope';
 
 import './lightbox.css';
 
-
 const classNames = {
   lock: 'lightbox-lock',
 };
@@ -23,9 +22,7 @@ const keys = {
   TAB: 9,
 };
 
-
 const ModalContainer = React.createClass({
-
   propTypes: {
     children: React.PropTypes.node.isRequired,
     onClose: React.PropTypes.func.isRequired,
@@ -58,7 +55,6 @@ const ModalContainer = React.createClass({
   _previousFocus: null,
   _ownsLock: false,
 
-
   /* Handlers */
 
   handleKeyDown(e) {
@@ -69,7 +65,6 @@ const ModalContainer = React.createClass({
       this.props.onClose();
     }
   },
-
 
   /* Layout */
 
@@ -89,8 +84,6 @@ const ModalContainer = React.createClass({
       </div>
     );
   },
-
 });
-
 
 export default ModalContainer;

@@ -13,12 +13,9 @@ import { nt } from 'utils/i18n';
 
 import TaskList from './TaskList';
 
-
 const REFRESH_MINUTES = 10;
 
-
 class PendingTaskContainer extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -30,13 +27,16 @@ class PendingTaskContainer extends React.Component {
 
   componentDidMount() {
     this.intervalId = setInterval(
-      () => this.handleRefresh(), REFRESH_MINUTES * 60 * 1000
+      () => this.handleRefresh(),
+      REFRESH_MINUTES * 60 * 1000
     );
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.hasOwnProperty('initialTasks') &&
-        nextProps.hasOwnProperty('initialTotal')) {
+    if (
+      nextProps.hasOwnProperty('initialTasks') &&
+      nextProps.hasOwnProperty('initialTotal')
+    ) {
       this.setState({
         tasks: nextProps.initialTasks,
         total: nextProps.initialTotal,
@@ -50,10 +50,9 @@ class PendingTaskContainer extends React.Component {
 
   handleRefresh(opts = { extra: 0 }) {
     const limit = this.state.tasks.length + opts.extra;
-    return TaskAPI.get(this.props.languageCode, { limit })
-      .done((data) => {
-        this.setState({ tasks: data.items, total: data.total });
-      });
+    return TaskAPI.get(this.props.languageCode, { limit }).done((data) => {
+      this.setState({ tasks: data.items, total: data.total });
+    });
   }
 
   handleLoadMore(e) {
@@ -67,13 +66,12 @@ class PendingTaskContainer extends React.Component {
       return null;
     }
 
-    const loadMoreMsg = nt('%(n)s more task', '%(n)s more tasks',
-                           remaining, { n: remaining });
+    const loadMoreMsg = nt('%(n)s more task', '%(n)s more tasks', remaining, {
+      n: remaining,
+    });
     return (
       <div className="task-action-expand" onClick={(e) => this.handleLoadMore(e)}>
-        <span>{loadMoreMsg}</span>
-        {' '}
-        <i className="icon-expand-tasks" />
+        <span>{loadMoreMsg}</span> <i className="icon-expand-tasks" />
       </div>
     );
   }
@@ -81,10 +79,7 @@ class PendingTaskContainer extends React.Component {
   render() {
     return (
       <div style={{ position: 'relative' }}>
-        <TaskList
-          canAdmin={this.props.canAdmin}
-          tasks={this.state.tasks}
-        />
+        <TaskList canAdmin={this.props.canAdmin} tasks={this.state.tasks} />
         {this.renderLoadMore()}
       </div>
     );
@@ -97,6 +92,5 @@ PendingTaskContainer.propTypes = {
   initialTasks: React.PropTypes.array.isRequired,
   initialTotal: React.PropTypes.number.isRequired,
 };
-
 
 export default PendingTaskContainer;

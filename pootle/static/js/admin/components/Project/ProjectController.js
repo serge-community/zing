@@ -13,9 +13,7 @@ import Search from '../Search';
 import ProjectAdd from './ProjectAdd';
 import ProjectEdit from './ProjectEdit';
 
-
 const ProjectController = React.createClass({
-
   propTypes: {
     items: React.PropTypes.object.isRequired,
     model: React.PropTypes.func.isRequired,
@@ -56,8 +54,11 @@ const ProjectController = React.createClass({
 
     let msg;
     if (this.props.searchQuery) {
-      msg = ngettext('%(count)s project matches your query.',
-                     '%(count)s projects match your query.', args.count);
+      msg = ngettext(
+        '%(count)s project matches your query.',
+        '%(count)s projects match your query.',
+        args.count
+      );
     } else {
       msg = ngettext(
         'There is %(count)s project.',
@@ -83,14 +84,10 @@ const ProjectController = React.createClass({
           />
         </div>
 
-        <div className="module admin-content">
-          {viewsMap[this.props.view]}
-        </div>
+        <div className="module admin-content">{viewsMap[this.props.view]}</div>
       </div>
     );
   },
-
 });
-
 
 export default ProjectController;

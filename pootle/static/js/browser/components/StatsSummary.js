@@ -16,7 +16,6 @@ import DetailedStats from './DetailedStats';
 import ProgressBar from './ProgressBar';
 import TopContributorsList from './TopContributorsList';
 
-
 class StatsSummary extends React.Component {
   constructor(props) {
     super(props);
@@ -51,12 +50,15 @@ class StatsSummary extends React.Component {
 
   handleClick(e) {
     e.preventDefault();
-    this.setState((prevState) => ({
-      isExpanded: !prevState.isExpanded,
-    }), () => {
-      this.navigate();
-      this.loadChecks();
-    });
+    this.setState(
+      (prevState) => ({
+        isExpanded: !prevState.isExpanded,
+      }),
+      () => {
+        this.navigate();
+        this.loadChecks();
+      }
+    );
   }
 
   loadChecks() {
@@ -66,8 +68,7 @@ class StatsSummary extends React.Component {
 
     // FIXME: display spinners declaratively
     $('body').spin();
-    StatsAPI
-      .getChecks(this.props.pootlePath)
+    StatsAPI.getChecks(this.props.pootlePath)
       .done((data) => this.setState({ failingChecksData: data }))
       .always(() => $('body').spin(false));
   }
@@ -102,10 +103,7 @@ class StatsSummary extends React.Component {
     // FIXME: import `<DetailedStats />` component on demand
     return (
       <div id="top-stats" className="header">
-        <a
-          href="#"
-          onClick={(e) => this.handleClick(e)}
-        >
+        <a href="#" onClick={(e) => this.handleClick(e)}>
           <div id="progressbar">
             <ProgressBar
               total={statsData.total}
@@ -115,29 +113,23 @@ class StatsSummary extends React.Component {
           </div>
         </a>
         <div className="path-summary-more">
-          <a
-            className="expand-stats"
-            href="#"
-            onClick={(e) => this.handleClick(e)}
-          >
+          <a className="expand-stats" href="#" onClick={(e) => this.handleClick(e)}>
             <i className={iconClasses}></i>
           </a>
 
           <div className={wrapperClasses}>
-          {isExpanded ?
-            <DetailedStats
-              canTranslate={canTranslate}
-              failingChecksData={failingChecksData}
-              hasMoreContributors={hasMoreContributors}
-              pootlePath={pootlePath}
-              statsData={statsData}
-              topContributorsData={topContributorsData}
-            />
-            :
-            <TopContributorsList
-              topContributors={topContributorsData}
-            />
-          }
+            {isExpanded ? (
+              <DetailedStats
+                canTranslate={canTranslate}
+                failingChecksData={failingChecksData}
+                hasMoreContributors={hasMoreContributors}
+                pootlePath={pootlePath}
+                statsData={statsData}
+                topContributorsData={topContributorsData}
+              />
+            ) : (
+              <TopContributorsList topContributors={topContributorsData} />
+            )}
           </div>
         </div>
       </div>

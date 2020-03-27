@@ -8,9 +8,7 @@
 
 import React from 'react';
 
-
 const FormCheckedInput = React.createClass({
-
   propTypes: {
     handleChange: React.PropTypes.func.isRequired,
     value: React.PropTypes.bool.isRequired,
@@ -19,7 +17,6 @@ const FormCheckedInput = React.createClass({
   handleChange(e) {
     this.props.handleChange(e.target.name, e.target.checked);
   },
-
 
   render() {
     return (
@@ -30,8 +27,6 @@ const FormCheckedInput = React.createClass({
       />
     );
   },
-
 });
-
 
 export default FormCheckedInput;

@@ -10,9 +10,7 @@ import React from 'react';
 
 import UserForm from './UserForm';
 
-
 const UserAdd = React.createClass({
-
   propTypes: {
     collection: React.PropTypes.object.isRequired,
     model: React.PropTypes.func.isRequired,
@@ -26,10 +24,7 @@ const UserAdd = React.createClass({
       <div className="item-add">
         <div className="hd">
           <h2>{gettext('Add User')}</h2>
-          <button
-            onClick={this.props.onCancel}
-            className="btn btn-primary"
-          >
+          <button onClick={this.props.onCancel} className="btn btn-primary">
             {gettext('Cancel')}
           </button>
         </div>
@@ -43,8 +38,6 @@ const UserAdd = React.createClass({
       </div>
     );
   },
-
 });
-
 
 export default UserAdd;

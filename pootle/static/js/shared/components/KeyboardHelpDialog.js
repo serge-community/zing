@@ -21,21 +21,26 @@ export function showKeyboardHelpDialog() {
 
   keyboardHelpOpen = true;
   showModal({
-    title:
+    title: (
       <span>
-        {tct('Keyboard Help (press %(kbdF1)s or %(kbdQuestion)s to open it again)', {
-          kbdF1: <kbd>F1</kbd>,
-          kbdQuestion: <kbd>?</kbd>,
-        })}
-      </span>,
+        {tct(
+          'Keyboard Help (press %(kbdF1)s or %(kbdQuestion)s to open it again)',
+          {
+            kbdF1: <kbd>F1</kbd>,
+            kbdQuestion: <kbd>?</kbd>,
+          }
+        )}
+      </span>
+    ),
     children: <HelpDialogContent />,
     className: 'keyboard-help-dialog-component',
-    onClose: () => { keyboardHelpOpen = false; },
+    onClose: () => {
+      keyboardHelpOpen = false;
+    },
   });
 }
 
 const HelpDialogContent = React.createClass({
-
   render() {
     const macOS = navigator.platform.indexOf('Mac') === 0;
 
@@ -50,53 +55,68 @@ const HelpDialogContent = React.createClass({
     return (
       <div>
         <div className="column">
-
           <div className="section">{t('Editor')}</div>
 
           <table>
             <tbody>
-            <tr>
-              <td>{t('Previous unit')}</td>
-              <td>
-                {modKey}<kbd>&uarr;</kbd>
-                {or}
-                {ctrlKey}<kbd>,</kbd>
-              </td>
-            </tr>
-            <tr>
-              <td>{t('Next unit')}</td>
-              <td>
-                {modKey}<kbd>&darr;</kbd>
-                {or}
-                {ctrlKey}<kbd>.</kbd>
-              </td>
-            </tr>
-            <tr>
-              <td>{t('Submit/suggest + go to next unit')}</td>
-              <td>{modKey}{enterKey}</td>
-            </tr>
-            <tr>
-              <td>{t('Toggle submit/suggest mode')}</td>
-              <td>{modKey}{shiftKey}{spaceKey}</td>
-            </tr>
-            <tr>
-              <td>{t('Toggle "Needs work"')}</td>
-              <td>
-                {modKey}<kbd>/</kbd>
-                {or}
-                {ctrlKey}{spaceKey}
-              </td>
-            </tr>
-            <tr>
-              <td>{t('Copy original text to translation')}</td>
-              <td>{ctrlKey}{altKey}<kbd>c</kbd></td>
-            </tr>
+              <tr>
+                <td>{t('Previous unit')}</td>
+                <td>
+                  {modKey}
+                  <kbd>&uarr;</kbd>
+                  {or}
+                  {ctrlKey}
+                  <kbd>,</kbd>
+                </td>
+              </tr>
+              <tr>
+                <td>{t('Next unit')}</td>
+                <td>
+                  {modKey}
+                  <kbd>&darr;</kbd>
+                  {or}
+                  {ctrlKey}
+                  <kbd>.</kbd>
+                </td>
+              </tr>
+              <tr>
+                <td>{t('Submit/suggest + go to next unit')}</td>
+                <td>
+                  {modKey}
+                  {enterKey}
+                </td>
+              </tr>
+              <tr>
+                <td>{t('Toggle submit/suggest mode')}</td>
+                <td>
+                  {modKey}
+                  {shiftKey}
+                  {spaceKey}
+                </td>
+              </tr>
+              <tr>
+                <td>{t('Toggle "Needs work"')}</td>
+                <td>
+                  {modKey}
+                  <kbd>/</kbd>
+                  {or}
+                  {ctrlKey}
+                  {spaceKey}
+                </td>
+              </tr>
+              <tr>
+                <td>{t('Copy original text to translation')}</td>
+                <td>
+                  {ctrlKey}
+                  {altKey}
+                  <kbd>c</kbd>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
 
         <div className="column">
-
           <div className="section">{t('General')}</div>
 
           <table>
@@ -110,9 +130,12 @@ const HelpDialogContent = React.createClass({
               <tr>
                 <td>{t('Search')}</td>
                 <td>
-                  {modKey}{shiftKey}<kbd>S</kbd>
+                  {modKey}
+                  {shiftKey}
+                  <kbd>S</kbd>
                   {or}
-                  {ctrlKey}<kbd>{'`'}</kbd>
+                  {ctrlKey}
+                  <kbd>{'`'}</kbd>
                 </td>
               </tr>
             </tbody>
@@ -121,5 +144,4 @@ const HelpDialogContent = React.createClass({
       </div>
     );
   },
-
 });

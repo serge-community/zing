@@ -12,12 +12,9 @@ import _ from 'underscore';
 
 import AdminAPIMixin from 'mixins/admin_api';
 
-
 const metaUsers = ['nobody', 'default', 'system'];
 
-
 export const User = Backbone.Model.extend({
-
   defaults: {
     username: '',
     is_active: true,
@@ -62,16 +59,12 @@ export const User = Backbone.Model.extend({
   isMeta() {
     return metaUsers.indexOf(this.get('username')) !== -1;
   },
-
 });
-
 
 export const UserSet = Backbone.Collection.extend(
   _.extend({}, AdminAPIMixin, {
-
     model: User,
 
     url: '/xhr/admin/users/',
-
   })
 );

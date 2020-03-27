@@ -8,23 +8,22 @@
 
 import $ from 'jquery';
 
-
 /* Sets background color to table rows when checking delete selects */
 function setDeleteBg(e) {
-  $(this).parents('tr').toggleClass('delete-selected',
-                                    $(e.target).is(':checked'));
+  $(this).parents('tr').toggleClass('delete-selected', $(e.target).is(':checked'));
 }
-
 
 /* Sets background color to table rows when checking standard selects */
 function setSelectedBg(e) {
-  if (!$(this).parent().siblings('td[class!=DELETE]')
-                       .find('input[type=checkbox][checked]').length) {
-    $(this).parents('tr').toggleClass('other-selected',
-                                      $(e.target).is(':checked'));
+  if (
+    !$(this)
+      .parent()
+      .siblings('td[class!=DELETE]')
+      .find('input[type=checkbox][checked]').length
+  ) {
+    $(this).parents('tr').toggleClass('other-selected', $(e.target).is(':checked'));
   }
 }
-
 
 /* Selects all checkboxes */
 function selectAll(e) {
@@ -33,18 +32,17 @@ function selectAll(e) {
   $(`td.${className} input`).change();
 }
 
-
 const formset = {
-
   init() {
     $(document).on('change', 'td.DELETE input[type=checkbox]', setDeleteBg);
-    $(document).on('change', 'td[class!=DELETE] input[type=checkbox]',
-                   setSelectedBg);
+    $(document).on(
+      'change',
+      'td[class!=DELETE] input[type=checkbox]',
+      setSelectedBg
+    );
 
     $(document).on('click', 'th input', selectAll);
   },
-
 };
-
 
 export default formset;

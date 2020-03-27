@@ -12,9 +12,11 @@ import { t } from 'utils/i18n';
 
 import SimilarTranslation from './SimilarTranslation';
 
-
 const SimilarTranslationList = ({
-  originalSource, results, sourceLang, targetLang,
+  originalSource,
+  results,
+  sourceLang,
+  targetLang,
 }) => (
   <div id="tm-results" className="tm-server">
     <div className="extra-item-title">{t('Similar translations')}</div>
@@ -36,6 +38,5 @@ SimilarTranslationList.propTypes = {
   sourceLang: React.PropTypes.string.isRequired,
   targetLang: React.PropTypes.string.isRequired,
 };
-
 
 export default SimilarTranslationList;

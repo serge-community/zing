@@ -11,9 +11,7 @@ import 'jquery-magnific-popup';
 import 'jquery-serializeObject';
 import 'jquery-utils';
 
-
 const agreement = {
-
   init(url) {
     this.url = url;
 
@@ -84,8 +82,6 @@ const agreement = {
       },
     });
   },
-
 };
-
 
 export default agreement;

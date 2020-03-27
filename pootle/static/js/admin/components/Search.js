@@ -12,9 +12,7 @@ import React from 'react';
 import ItemTable from './ItemTable';
 import SearchBox from './SearchBox';
 
-
 const Search = React.createClass({
-
   propTypes: {
     fields: React.PropTypes.array.isRequired,
     onSearch: React.PropTypes.func.isRequired,
@@ -35,7 +33,6 @@ const Search = React.createClass({
     };
   },
 
-
   /* State-changing callbacks */
 
   onResultsFetched() {
@@ -51,7 +48,6 @@ const Search = React.createClass({
     this.fetchResults(this.props.searchQuery);
   },
 
-
   /* Layout */
 
   render() {
@@ -61,10 +57,7 @@ const Search = React.createClass({
 
     if (items.count > 0 && items.length < items.count) {
       loadMoreBtn = (
-        <button
-          className="btn"
-          onClick={this.loadMore}
-        >
+        <button className="btn" onClick={this.loadMore}>
           {gettext('Load More')}
         </button>
       );
@@ -89,26 +82,25 @@ const Search = React.createClass({
             />
           </div>
           <div className={resultsClassNames}>
-          {isLoading && this.props.items.length === 0 ?
-            <div>{gettext('Loading...')}</div> :
-            <div>
-              <ItemTable
-                fields={this.props.fields}
-                items={items}
-                resultsCaption={this.props.resultsCaption}
-                selectedItem={this.props.selectedItem}
-                onSelectItem={this.props.onSelectItem}
-              />
-              {loadMoreBtn}
-            </div>
-          }
+            {isLoading && this.props.items.length === 0 ? (
+              <div>{gettext('Loading...')}</div>
+            ) : (
+              <div>
+                <ItemTable
+                  fields={this.props.fields}
+                  items={items}
+                  resultsCaption={this.props.resultsCaption}
+                  selectedItem={this.props.selectedItem}
+                  onSelectItem={this.props.onSelectItem}
+                />
+                {loadMoreBtn}
+              </div>
+            )}
           </div>
         </div>
       </div>
     );
   },
-
 });
-
 
 export default Search;

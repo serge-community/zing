@@ -10,28 +10,21 @@ import React from 'react';
 
 import TaskItem from './TaskItem';
 
-
 const TaskListItem = ({ importanceFactor, children }) => {
   const style = {
     backgroundColor: `hsl(15, ${Math.round(importanceFactor * 100)}%, 40%)`,
   };
-  return (
-    <li style={style}>{children}</li>
-  );
+  return <li style={style}>{children}</li>;
 };
 TaskListItem.propTypes = {
   children: React.PropTypes.element.isRequired,
   importanceFactor: React.PropTypes.number.isRequired,
 };
 
-
 const TaskList = ({ tasks, canAdmin }) => (
   <ul className="pending-tasks">
     {tasks.map((task, i) => (
-      <TaskListItem
-        key={i}
-        importanceFactor={task.importance_factor}
-      >
+      <TaskListItem key={i} importanceFactor={task.importance_factor}>
         <TaskItem
           canAdmin={canAdmin}
           dueDateId={task.due_date_id}
@@ -49,6 +42,5 @@ TaskList.propTypes = {
   canAdmin: React.PropTypes.bool.isRequired,
   tasks: React.PropTypes.array.isRequired,
 };
-
 
 export default TaskList;

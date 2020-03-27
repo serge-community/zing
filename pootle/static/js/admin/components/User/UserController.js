@@ -13,9 +13,7 @@ import Search from '../Search';
 import UserAdd from './UserAdd';
 import UserEdit from './UserEdit';
 
-
 const UserController = React.createClass({
-
   propTypes: {
     items: React.PropTypes.object.isRequired,
     model: React.PropTypes.func.isRequired,
@@ -56,8 +54,11 @@ const UserController = React.createClass({
 
     let msg;
     if (this.props.searchQuery) {
-      msg = ngettext('%(count)s user matches your query.',
-                     '%(count)s users match your query.', args.count);
+      msg = ngettext(
+        '%(count)s user matches your query.',
+        '%(count)s users match your query.',
+        args.count
+      );
     } else {
       msg = ngettext(
         'There is %(count)s user.',
@@ -83,14 +84,10 @@ const UserController = React.createClass({
           />
         </div>
 
-        <div className="module admin-content">
-          {viewsMap[this.props.view]}
-        </div>
+        <div className="module admin-content">{viewsMap[this.props.view]}</div>
       </div>
     );
   },
-
 });
-
 
 export default UserController;

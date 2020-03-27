@@ -13,9 +13,7 @@ import Search from '../Search';
 import LanguageAdd from './LanguageAdd';
 import LanguageEdit from './LanguageEdit';
 
-
 const LanguageController = React.createClass({
-
   propTypes: {
     items: React.PropTypes.object.isRequired,
     model: React.PropTypes.func.isRequired,
@@ -56,8 +54,11 @@ const LanguageController = React.createClass({
 
     let msg;
     if (this.props.searchQuery) {
-      msg = ngettext('%(count)s language matches your query.',
-                     '%(count)s languages match your query.', args.count);
+      msg = ngettext(
+        '%(count)s language matches your query.',
+        '%(count)s languages match your query.',
+        args.count
+      );
     } else {
       msg = ngettext(
         'There is %(count)s language.',
@@ -83,14 +84,10 @@ const LanguageController = React.createClass({
           />
         </div>
 
-        <div className="module admin-content">
-          {viewsMap[this.props.view]}
-        </div>
+        <div className="module admin-content">{viewsMap[this.props.view]}</div>
       </div>
     );
   },
-
 });
-
 
 export default LanguageController;

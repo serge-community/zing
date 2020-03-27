@@ -10,12 +10,9 @@ import React from 'react';
 
 import CaretButton from './CaretButton';
 
-
 const isInteger = (val) => /^\d+$/.test(val);
 
-
 const PlurrInput = React.createClass({
-
   propTypes: {
     min: React.PropTypes.number,
     name: React.PropTypes.string.isRequired,
@@ -44,9 +41,11 @@ const PlurrInput = React.createClass({
     const prevValue = prevProps.value;
     const { value } = this.props;
     const intValue = parseInt(value, 10);
-    if (isInteger(prevValue) && isInteger(value) &&
-         (this.incr(prevValue) === intValue ||
-          this.decr(prevValue) === intValue)) {
+    if (
+      isInteger(prevValue) &&
+      isInteger(value) &&
+      (this.incr(prevValue) === intValue || this.decr(prevValue) === intValue)
+    ) {
       this.refs.input.select();
     }
   },
@@ -77,16 +76,16 @@ const PlurrInput = React.createClass({
 
   handleKeyDown(e) {
     const value = e.target.value;
-    if (!isInteger(value) || (e.ctrlKey || e.altKey)) {
+    if (!isInteger(value) || e.ctrlKey || e.altKey) {
       return;
     }
 
     switch (e.keyCode) {
-      case 38:  // UP
+      case 38: // UP
         e.preventDefault();
         this.handleIncr(value);
         break;
-      case 40:  // DOWN
+      case 40: // DOWN
         e.preventDefault();
         this.handleDecr(value);
         break;
@@ -113,7 +112,7 @@ const PlurrInput = React.createClass({
 
   render() {
     const { value } = this.props;
-    const caretOpacity = (this.state.hover || this.state.focus) ? '1' : '0.2';
+    const caretOpacity = this.state.hover || this.state.focus ? '1' : '0.2';
 
     const wrapperStyle = {
       position: 'relative',
@@ -150,32 +149,30 @@ const PlurrInput = React.createClass({
           type="text"
           value={value}
         />
-      {isInteger(value) &&
-        <div
-          onMouseOver={this.handleMouseOver}
-          onMouseOut={this.handleMouseOut}
-          style={caretWrapperStyle}
-        >
-          <CaretButton
-            onClick={() => this.handleIncr(value)}
-            direction="up"
-            style={{ padding: '0.3em 0.2em 0.1em', opacity: caretOpacity }}
-            title="Increment value (Up)"
-          />
-          <CaretButton
-            onClick={() => this.handleDecr(value)}
-            direction="down"
-            disabled={value <= this.props.min}
-            style={{ padding: '0.1em 0.2em 0.3em', opacity: caretOpacity }}
-            title="Decrement value (Down)"
-          />
-        </div>
-      }
+        {isInteger(value) && (
+          <div
+            onMouseOver={this.handleMouseOver}
+            onMouseOut={this.handleMouseOut}
+            style={caretWrapperStyle}
+          >
+            <CaretButton
+              onClick={() => this.handleIncr(value)}
+              direction="up"
+              style={{ padding: '0.3em 0.2em 0.1em', opacity: caretOpacity }}
+              title="Increment value (Up)"
+            />
+            <CaretButton
+              onClick={() => this.handleDecr(value)}
+              direction="down"
+              disabled={value <= this.props.min}
+              style={{ padding: '0.1em 0.2em 0.3em', opacity: caretOpacity }}
+              title="Decrement value (Down)"
+            />
+          </div>
+        )}
       </div>
     );
   },
-
 });
-
 
 export default PlurrInput;

@@ -15,9 +15,7 @@ import FormMixin from 'mixins/FormMixin';
 import { gotoScreen, verifySocial } from '../actions';
 import AuthProgress from './AuthProgress';
 
-
 const SocialVerification = React.createClass({
-
   propTypes: {
     dispatch: React.PropTypes.func.isRequired,
     email: React.PropTypes.string.isRequired,
@@ -45,7 +43,6 @@ const SocialVerification = React.createClass({
     }
   },
 
-
   /* Handlers */
 
   handleRequestPasswordReset(e) {
@@ -58,13 +55,11 @@ const SocialVerification = React.createClass({
     this.props.dispatch(verifySocial(this.state.formData));
   },
 
-
   /* Others */
 
   hasData() {
     return this.state.formData.password !== '';
   },
-
 
   /* Layout */
 
@@ -79,9 +74,9 @@ const SocialVerification = React.createClass({
     const verificationMsg = interpolate(
       gettext(
         'We found a user with <span>%s</span> email in our system. Please ' +
-        'provide the password to finish the sign in procedure. This is a ' +
-        'one-off procedure, which will establish a link between your ' +
-        'Pootle and %s accounts.'
+          'provide the password to finish the sign in procedure. This is a ' +
+          'one-off procedure, which will establish a link between your ' +
+          'Pootle and %s accounts.'
       ),
       [this.props.email, this.props.providerName]
     );
@@ -90,10 +85,7 @@ const SocialVerification = React.createClass({
       <div className="actions">
         <p dangerouslySetInnerHTML={{ __html: verificationMsg }} />
         <div>
-          <form
-            method="post"
-            onSubmit={this.handleFormSubmit}
-          >
+          <form method="post" onSubmit={this.handleFormSubmit}>
             <div className="fields">
               <FormElement
                 type="password"
@@ -125,8 +117,6 @@ const SocialVerification = React.createClass({
       </div>
     );
   },
-
 });
-
 
 export default SocialVerification;

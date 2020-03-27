@@ -12,9 +12,7 @@ import React from 'react';
 import RawFontTextarea from '../RawFontTextarea';
 import PlurrPreview from './PlurrPreview';
 
-
 const paramsCache = {
-
   cacheKey: 'plurrParamsCache',
 
   get(key = null) {
@@ -32,12 +30,9 @@ const paramsCache = {
     const newCache = Object.assign({}, currentCache, { [key]: value });
     localStorage.setItem(this.cacheKey, JSON.stringify(newCache));
   },
-
 };
 
-
 const PlurrEditor = React.createClass({
-
   propTypes: {
     autoFocus: React.PropTypes.bool,
     initialValue: React.PropTypes.string,
@@ -113,8 +108,9 @@ const PlurrEditor = React.createClass({
         // Plurr mutates the params object, let's pass a copy around to avoid
         // unexpected rendering surprises (Plurr#10)
         const paramsCopy = Object.assign({}, params);
-        renderedValue = this.plurr.format(value, paramsCopy,
-                                          { locale: this.context.currentLocaleCode });
+        renderedValue = this.plurr.format(value, paramsCopy, {
+          locale: this.context.currentLocaleCode,
+        });
       } catch (e) {
         errorMsg = e.message;
       }
@@ -140,19 +136,17 @@ const PlurrEditor = React.createClass({
           onChange={this.props.onChange}
           style={style.textarea}
         />
-      {shouldDisplayPreview &&
-        <PlurrPreview
-          errorMsg={errorMsg}
-          onChange={this.handleParamChange}
-          params={params}
-          value={renderedValue}
-        />
-      }
+        {shouldDisplayPreview && (
+          <PlurrPreview
+            errorMsg={errorMsg}
+            onChange={this.handleParamChange}
+            params={params}
+            value={renderedValue}
+          />
+        )}
       </div>
     );
   },
-
 });
-
 
 export default PlurrEditor;

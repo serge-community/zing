@@ -9,7 +9,6 @@
 import Backbone from 'backbone';
 import _ from 'underscore';
 
-
 const Message = Backbone.Model.extend({
   defaults: {
     text: '',
@@ -18,11 +17,9 @@ const Message = Backbone.Model.extend({
   },
 });
 
-
 const MessageList = Backbone.Collection.extend({
   model: Message,
 });
-
 
 const MessageView = Backbone.View.extend({
   className: 'alert alert-block',
@@ -35,9 +32,7 @@ const MessageView = Backbone.View.extend({
 
     return this;
   },
-
 });
-
 
 const MessageListView = Backbone.View.extend({
   el: '.js-alerts',
@@ -64,16 +59,12 @@ const MessageListView = Backbone.View.extend({
       currentView.remove();
     });
   },
-
 });
-
 
 const messages = new MessageList();
 let messagesView;
 
-
 const msg = {
-
   show(opts) {
     if (!messagesView) {
       messagesView = new MessageListView({ collection: messages });
@@ -86,8 +77,6 @@ const msg = {
       messages.remove(message);
     }, 2000);
   },
-
 };
-
 
 export default msg;

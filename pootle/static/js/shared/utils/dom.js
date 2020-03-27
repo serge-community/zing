@@ -7,7 +7,6 @@
  * AUTHORS file for copyright and authorship information.
  */
 
-
 /**
  * Queries the DOM for an element matching `selector`.
  *
@@ -17,7 +16,6 @@
 export function q(selector) {
   return document.querySelector(selector);
 }
-
 
 /**
  * Queries the DOM for a collection matching `selector`.

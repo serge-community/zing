@@ -8,9 +8,7 @@
 
 import fetch from 'utils/fetch';
 
-
 const AuthAPI = {
-
   apiRoot: '/accounts/',
 
   fetch(url, body) {
@@ -51,8 +49,6 @@ const AuthAPI = {
 
     return this.fetch(url, reqData);
   },
-
 };
-
 
 export default AuthAPI;

@@ -10,7 +10,6 @@ import $ from 'jquery';
 import 'jquery-magnific-popup';
 import 'jquery-serializeObject';
 
-
 const sel = {
   data: {
     target: '[data-action="contact"]',
@@ -26,9 +25,7 @@ const sel = {
   body: '#js-contact #id_body',
 };
 
-
 const contact = {
-
   url: null,
 
   init(options) {
@@ -150,8 +147,6 @@ const contact = {
 
     $field.after(errorList.join(''));
   },
-
 };
-
 
 export default contact;

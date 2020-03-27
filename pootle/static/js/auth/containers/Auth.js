@@ -23,9 +23,7 @@ import SignUpForm from '../components/SignUpForm';
 import SocialAuthError from '../components/SocialAuthError';
 import SocialVerification from '../components/SocialVerification';
 
-
 const Auth = React.createClass({
-
   propTypes: {
     // Optionally overrides state
     initPasswordReset: React.PropTypes.object,
@@ -48,7 +46,6 @@ const Auth = React.createClass({
     };
   },
 
-
   /* Lifecycle */
 
   componentWillMount() {
@@ -70,7 +67,6 @@ const Auth = React.createClass({
       }
     }
   },
-
 
   /* Layout */
 
@@ -167,8 +163,6 @@ const Auth = React.createClass({
       </AuthWindow>
     );
   },
-
 });
 
-
-export default connect(state => state.auth)(Auth);
+export default connect((state) => state.auth)(Auth);

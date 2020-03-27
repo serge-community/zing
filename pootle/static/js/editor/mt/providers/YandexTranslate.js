@@ -8,9 +8,7 @@
 
 import MTProvider from '../MTProvider';
 
-
 class YandexTranslate extends MTProvider {
-
   constructor(apiKey) {
     super({
       apiKey,
@@ -27,12 +25,70 @@ class YandexTranslate extends MTProvider {
        * assumptions about directionality.
        */
       supportedLanguages: [
-        'af', 'ar', 'az', 'ba', 'be', 'bg', 'bs', 'ca', 'cs', 'cy', 'da', 'de',
-        'el', 'en', 'es', 'et', 'eu', 'fa', 'fi', 'fr', 'ga', 'gl', 'he', 'hr',
-        'ht', 'hu', 'hy', 'id', 'is', 'it', 'ja', 'ka', 'kk', 'ko', 'ky', 'la',
-        'lt', 'lv', 'mg', 'mk', 'mn', 'ms', 'mt', 'nl', 'no', 'pl', 'pt', 'ro',
-        'ru', 'sk', 'sl', 'sq', 'sr', 'sv', 'sw', 'tg', 'th', 'tl', 'tr', 'tt',
-        'uk', 'uz', 'vi', 'zh',
+        'af',
+        'ar',
+        'az',
+        'ba',
+        'be',
+        'bg',
+        'bs',
+        'ca',
+        'cs',
+        'cy',
+        'da',
+        'de',
+        'el',
+        'en',
+        'es',
+        'et',
+        'eu',
+        'fa',
+        'fi',
+        'fr',
+        'ga',
+        'gl',
+        'he',
+        'hr',
+        'ht',
+        'hu',
+        'hy',
+        'id',
+        'is',
+        'it',
+        'ja',
+        'ka',
+        'kk',
+        'ko',
+        'ky',
+        'la',
+        'lt',
+        'lv',
+        'mg',
+        'mk',
+        'mn',
+        'ms',
+        'mt',
+        'nl',
+        'no',
+        'pl',
+        'pt',
+        'ro',
+        'ru',
+        'sk',
+        'sl',
+        'sq',
+        'sr',
+        'sv',
+        'sw',
+        'tg',
+        'th',
+        'tl',
+        'tr',
+        'tt',
+        'uk',
+        'uz',
+        'vi',
+        'zh',
       ],
     });
   }
@@ -50,8 +106,6 @@ class YandexTranslate extends MTProvider {
       translation: response.text[0],
     };
   }
-
 }
-
 
 export default YandexTranslate;

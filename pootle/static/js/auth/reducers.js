@@ -9,7 +9,6 @@
 
 import { combineReducers } from 'redux';
 
-
 function screen(state = 'signIn', action) {
   switch (action.type) {
     case 'GOTO_SCREEN':
@@ -39,7 +38,6 @@ function screen(state = 'signIn', action) {
   }
 }
 
-
 function isLoading(state = false, action) {
   switch (action.type) {
     case 'SIGNIN_REQUEST':
@@ -66,20 +64,21 @@ function isLoading(state = false, action) {
   }
 }
 
-
 function redirectTo(state = null, action) {
   switch (action.type) {
     case 'SIGNIN_SUCCESS': {
       const { nextURL } = action;
-      if (nextURL.indexOf('confirm-email') !== -1 ||
-            nextURL.indexOf('inactive') !== -1) {
+      if (
+        nextURL.indexOf('confirm-email') !== -1 ||
+        nextURL.indexOf('inactive') !== -1
+      ) {
         return state;
       }
       return nextURL;
     }
 
     case 'PW_RESET_SUCCESS':
-        // FIXME: hard-coding redirect path because of django-allauth#735
+      // FIXME: hard-coding redirect path because of django-allauth#735
       return '/';
 
     case 'VERIFY_SOCIAL_SUCCESS':
@@ -89,7 +88,6 @@ function redirectTo(state = null, action) {
       return state;
   }
 }
-
 
 function resetEmail(state = null, action) {
   switch (action.type) {
@@ -101,7 +99,6 @@ function resetEmail(state = null, action) {
   }
 }
 
-
 function signUpEmail(state = null, action) {
   switch (action.type) {
     case 'SIGNUP_REQUEST':
@@ -111,7 +108,6 @@ function signUpEmail(state = null, action) {
       return state;
   }
 }
-
 
 function formErrors(state = {}, action) {
   switch (action.type) {
@@ -139,7 +135,6 @@ function formErrors(state = {}, action) {
   }
 }
 
-
 const authReducer = combineReducers({
   screen,
   redirectTo,
@@ -148,6 +143,5 @@ const authReducer = combineReducers({
   isLoading,
   formErrors,
 });
-
 
 export default authReducer;

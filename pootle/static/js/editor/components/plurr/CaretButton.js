@@ -10,12 +10,9 @@ import React from 'react';
 
 import CaretIcon from './CaretIcon';
 
-
 const CLICK_FREQUENCY = 100;
 
-
 const CaretButton = React.createClass({
-
   propTypes: {
     disabled: React.PropTypes.bool,
     direction: React.PropTypes.oneOf(['up', 'down']).isRequired,
@@ -54,13 +51,17 @@ const CaretButton = React.createClass({
   render() {
     const { direction, disabled } = this.props;
 
-    const wrapperStyle = Object.assign({}, {
-      padding: '0.2em',
-      msUserSelect: 'none',
-      MozUserSelect: 'none',
-      WebkitUserSelect: 'none',
-      userSelect: 'none',
-    }, this.props.style);
+    const wrapperStyle = Object.assign(
+      {},
+      {
+        padding: '0.2em',
+        msUserSelect: 'none',
+        MozUserSelect: 'none',
+        WebkitUserSelect: 'none',
+        userSelect: 'none',
+      },
+      this.props.style
+    );
 
     const iconStyle = {
       fill: '#666',
@@ -81,8 +82,6 @@ const CaretButton = React.createClass({
       </div>
     );
   },
-
 });
-
 
 export default CaretButton;

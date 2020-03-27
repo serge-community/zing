@@ -16,9 +16,7 @@ import { gotoScreen, passwordReset } from '../actions';
 import AuthContent from './AuthContent';
 import AuthProgress from './AuthProgress';
 
-
 const PasswordResetForm = React.createClass({
-
   propTypes: {
     dispatch: React.PropTypes.func.isRequired,
     formErrors: React.PropTypes.object.isRequired,
@@ -47,7 +45,6 @@ const PasswordResetForm = React.createClass({
     }
   },
 
-
   /* Handlers */
 
   handlePasswordReset(e) {
@@ -62,29 +59,31 @@ const PasswordResetForm = React.createClass({
     this.props.dispatch(passwordReset(this.state.formData, url));
   },
 
-
   /* Others */
 
   hasData() {
     const { formData } = this.state;
-    return (formData.password1 !== '' && formData.password2 !== '' &&
-            formData.password1 === formData.password2);
+    return (
+      formData.password1 !== '' &&
+      formData.password2 !== '' &&
+      formData.password1 === formData.password2
+    );
   },
-
 
   /* Layout */
 
   renderTokenFailed() {
     return (
       <AuthContent>
-        <p>{gettext('The password reset link was invalid, possibly because ' +
-                    'it has already been used. Please request a new ' +
-                    'password reset.')}</p>
+        <p>
+          {gettext(
+            'The password reset link was invalid, possibly because ' +
+              'it has already been used. Please request a new ' +
+              'password reset.'
+          )}
+        </p>
         <div className="actions">
-          <button
-            className="btn btn-primary"
-            onClick={this.handlePasswordReset}
-          >
+          <button className="btn btn-primary" onClick={this.handlePasswordReset}>
             {gettext('Reset Password')}
           </button>
         </div>
@@ -105,10 +104,7 @@ const PasswordResetForm = React.createClass({
 
     return (
       <AuthContent>
-        <form
-          method="post"
-          onSubmit={this.handleFormSubmit}
-        >
+        <form method="post" onSubmit={this.handleFormSubmit}>
           <div className="fields">
             <FormElement
               autoFocus
@@ -139,15 +135,17 @@ const PasswordResetForm = React.createClass({
               />
             </div>
             <div>
-              <p>{gettext('After changing your password you will sign in automatically.')}</p>
+              <p>
+                {gettext(
+                  'After changing your password you will sign in automatically.'
+                )}
+              </p>
             </div>
           </div>
         </form>
       </AuthContent>
     );
   },
-
 });
-
 
 export default PasswordResetForm;

@@ -6,9 +6,8 @@
  * AUTHORS file for copyright and authorship information.
  */
 
-
 export function nicePercentage(part, total, noTotalDefault) {
-  const percentage = total ? part / total * 100 : noTotalDefault;
+  const percentage = total ? (part / total) * 100 : noTotalDefault;
   if (percentage > 99 && percentage < 100) {
     return 99;
   }

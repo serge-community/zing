@@ -15,7 +15,6 @@ import cookie from 'utils/cookie';
 
 import utils from './utils';
 
-
 const sel = {
   breadcrumbs: '.js-breadcrumb',
   navigation: '#js-select-navigation',
@@ -23,7 +22,6 @@ const sel = {
   project: '#js-select-project',
   resource: '#js-select-resource',
 };
-
 
 const actionMap = {
   browse: '',
@@ -34,15 +32,15 @@ const actionMap = {
   'admin-terminology': 'terminology',
 };
 
-
 /* Navigates to `languageCode`, `projectCode`, `resource` while
  * retaining the current context when applicable */
 function navigateTo(languageCode, projectCode, resource) {
   const curProject = $(sel.project).data('initial-code');
   const curLanguage = $(sel.language).data('initial-code');
   const $resource = $(sel.resource);
-  const curResource = $resource.length ? $resource.data('initial-code')
-                                                  .replace('ctx-', '') : '';
+  const curResource = $resource.length
+    ? $resource.data('initial-code').replace('ctx-', '')
+    : '';
   const langChanged = languageCode !== curLanguage;
   const projChanged = projectCode !== curProject;
   const resChanged = resource !== curResource;
@@ -54,9 +52,10 @@ function navigateTo(languageCode, projectCode, resource) {
 
   const actionKey = $(sel.navigation).val();
   const action = actionMap[actionKey];
-  const inAdmin = (actionKey.indexOf('admin-') !== -1 &&
-                   ((curLanguage === '' && curProject !== '') ||
-                    (curLanguage !== '' && curProject === '')));
+  const inAdmin =
+    actionKey.indexOf('admin-') !== -1 &&
+    ((curLanguage === '' && curProject !== '') ||
+      (curLanguage !== '' && curProject === ''));
 
   let newLanguageCode = languageCode;
   if (!newLanguageCode && !inAdmin) {
@@ -78,9 +77,10 @@ function navigateTo(languageCode, projectCode, resource) {
 
   const PTL = window.PTL || {};
   if (PTL.hasOwnProperty('editor')) {
-    const hash = utils.getHash()
-          .replace(/&?unit=\d+/, '')
-          .replace(/&?offset=\d+/, '');
+    const hash = utils
+      .getHash()
+      .replace(/&?unit=\d+/, '')
+      .replace(/&?offset=\d+/, '');
     if (hash !== '') {
       newUrl = [newUrl, hash].join('#');
     }
@@ -104,7 +104,6 @@ function navigateTo(languageCode, projectCode, resource) {
 
   window.location.href = newUrl;
 }
-
 
 function handleNavDropDownSelectClick() {
   const $select = $(this);
@@ -132,7 +131,6 @@ function handleNavDropDownSelectClick() {
   navigateTo(langCode, projectCode, resource);
   return true;
 }
-
 
 function handleBeforeNavDropDownResourceSelect(e) {
   const resource = e.val ? e.val.replace('ctx-', '') : '';
@@ -163,7 +161,6 @@ function handleSelectClose(e) {
   }
 }
 
-
 function makeNavDropdown(selector, opts, handleBeforeSelect) {
   const defaults = {
     allowClear: true,
@@ -185,7 +182,6 @@ function makeNavDropdown(selector, opts, handleBeforeSelect) {
   $el.on('select2-close', (e) => handleSelectClose(e));
 }
 
-
 function fixDropdowns() {
   // We can't use `e.persisted` here. See bug 2949 for reference
   const selectors = [sel.navigation, sel.language, sel.project, sel.resource];
@@ -195,7 +191,6 @@ function fixDropdowns() {
   }
   $(sel.breadcrumbs).css('visibility', 'visible');
 }
-
 
 function formatResult(text, term) {
   const match = text.toUpperCase().indexOf(term.toUpperCase());
@@ -221,20 +216,27 @@ function formatResource(path, container, query) {
 
   const t = `/${path.text.trim()}`;
   return [
-    '<span class="', $el.data('icon'), '">',
-    '<i class="icon-', $el.data('icon'), '"></i>',
-    '<span class="text">', formatResult(t, query.term), '</span>',
+    '<span class="',
+    $el.data('icon'),
+    '">',
+    '<i class="icon-',
+    $el.data('icon'),
+    '"></i>',
+    '<span class="text">',
+    formatResult(t, query.term),
+    '</span>',
     '</span>',
   ].join('');
 }
 
-
 function formatProject(path, container, query) {
   const state = path.element[0].dataset.state;
 
-  return `<span class="text project-${state}">${formatResult(path.text, query.term)}</span>`;
+  return `<span class="text project-${state}">${formatResult(
+    path.text,
+    query.term
+  )}</span>`;
 }
-
 
 function formatLanguage(path, container, query) {
   const text = formatResult(path.text, query.term);
@@ -242,9 +244,11 @@ function formatLanguage(path, container, query) {
     return text;
   }
 
-  return `${text} <span class="locale">(${formatResult(path.id, query.term)})</span>`;
+  return `${text} <span class="locale">(${formatResult(
+    path.id,
+    query.term
+  )})</span>`;
 }
-
 
 function removeCtxEntries(results, container, query) {
   if (query.term) {
@@ -253,9 +257,7 @@ function removeCtxEntries(results, container, query) {
   return results;
 }
 
-
 const browser = {
-
   init() {
     $(window).on('pageshow', fixDropdowns);
 
@@ -265,23 +267,24 @@ const browser = {
     makeNavDropdown(sel.language, {
       placeholder: gettext('All Languages'),
       formatResult: formatLanguage,
-      matcher: (term, text, opt) => (
+      matcher: (term, text, opt) =>
         text.toUpperCase().indexOf(term.toUpperCase()) >= 0 ||
-        opt[0].value.toUpperCase().indexOf(term.toUpperCase()) >= 0
-      ),
+        opt[0].value.toUpperCase().indexOf(term.toUpperCase()) >= 0,
     });
     makeNavDropdown(sel.project, {
       placeholder: gettext('All Projects'),
       formatResult: formatProject,
     });
-    makeNavDropdown(sel.resource, {
-      placeholder: gettext('Entire Project'),
-      formatResult: formatResource,
-      sortResults: removeCtxEntries,
-    }, handleBeforeNavDropDownResourceSelect);
+    makeNavDropdown(
+      sel.resource,
+      {
+        placeholder: gettext('Entire Project'),
+        formatResult: formatResource,
+        sortResults: removeCtxEntries,
+      },
+      handleBeforeNavDropDownResourceSelect
+    );
   },
-
 };
-
 
 export default browser;

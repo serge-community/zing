@@ -11,9 +11,7 @@ import React, { PropTypes } from 'react';
 
 import { formatTimeDelta } from 'utils/time';
 
-
 const TimeSince = React.createClass({
-
   propTypes: {
     timestamp: PropTypes.number,
   },
@@ -84,8 +82,6 @@ const TimeSince = React.createClass({
       </time>
     );
   },
-
 });
-
 
 export default TimeSince;

@@ -11,9 +11,7 @@ import React from 'react';
 
 import AuthContent from './AuthContent';
 
-
 const SocialAuthError = React.createClass({
-
   propTypes: {
     socialError: React.PropTypes.object,
   },
@@ -42,19 +40,13 @@ const SocialAuthError = React.createClass({
       <AuthContent style={{ textAlign: 'center' }}>
         <h2 style={errorFace}>{'{õ_õ}'}</h2>
         <p>{errorMsg}</p>
-      {socialError &&
-        <p>{`${socialError.exception.name}: ${socialError.exception.msg} `}</p>
-      }
-      {socialError &&
-        <a href={socialError.retry_url}>
-          {gettext('Try again')}
-        </a>
-      }
+        {socialError && (
+          <p>{`${socialError.exception.name}: ${socialError.exception.msg} `}</p>
+        )}
+        {socialError && <a href={socialError.retry_url}>{gettext('Try again')}</a>}
       </AuthContent>
     );
   },
-
 });
-
 
 export default SocialAuthError;

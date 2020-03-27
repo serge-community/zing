@@ -11,7 +11,6 @@ export const Formats = {
   PLURR: 'PLURR',
 };
 
-
 /**
  * Returns the string format detected for `value`.
  */

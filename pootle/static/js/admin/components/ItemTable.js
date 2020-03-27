@@ -10,9 +10,7 @@ import React from 'react';
 
 import ItemTableRow from './ItemTableRow';
 
-
 const ItemTable = React.createClass({
-
   propTypes: {
     fields: React.PropTypes.array.isRequired,
     items: React.PropTypes.object.isRequired,
@@ -32,20 +30,16 @@ const ItemTable = React.createClass({
           selectedItem={this.props.selectedItem}
           onSelectItem={this.props.onSelectItem}
         />
-        );
+      );
     }
 
     return (
       <table>
         <caption>{this.props.resultsCaption}</caption>
-        <tbody>
-        {this.props.items.map(createRow.bind(this))}
-        </tbody>
+        <tbody>{this.props.items.map(createRow.bind(this))}</tbody>
       </table>
     );
   },
-
 });
-
 
 export default ItemTable;

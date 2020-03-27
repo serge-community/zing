@@ -12,9 +12,12 @@ import { t } from 'utils/i18n';
 
 import TranslationStateTable from './TranslationStateTable';
 
-
 const TranslationState = ({
-  total, translated, fuzzy, canTranslate, pootlePath,
+  total,
+  translated,
+  fuzzy,
+  canTranslate,
+  pootlePath,
 }) => (
   <div>
     <h3 className="top">{t('Translation Statistics')}</h3>

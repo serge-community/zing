@@ -8,9 +8,7 @@
 
 import React from 'react';
 
-
 const CaretIcon = React.createClass({
-
   propTypes: {
     direction: React.PropTypes.oneOf(['up', 'down']).isRequired,
     style: React.PropTypes.object,
@@ -23,14 +21,8 @@ const CaretIcon = React.createClass({
         transform="translate(-553.000000, -9.000000)"
         {...this.props.style}
       >
-        <g
-          id="arrow-drop-up"
-          transform="translate(553.000000, 9.500000)"
-        >
-          <path
-            d="M0,5 L5,0 L10,5 L0,5 Z"
-            id="Shape"
-          />
+        <g id="arrow-drop-up" transform="translate(553.000000, 9.500000)">
+          <path d="M0,5 L5,0 L10,5 L0,5 Z" id="Shape" />
         </g>
       </g>
     );
@@ -43,14 +35,8 @@ const CaretIcon = React.createClass({
         transform="translate(-469.000000, -9.000000)"
         {...this.props.style}
       >
-        <g
-          id="arrow-drop-down"
-          transform="translate(469.000000, 9.500000)"
-        >
-          <path
-            d="M0,0 L5,5 L10,0 L0,0 Z"
-            id="Shape"
-          />
+        <g id="arrow-drop-down" transform="translate(469.000000, 9.500000)">
+          <path d="M0,0 L5,5 L10,0 L0,0 Z" id="Shape" />
         </g>
       </g>
     );
@@ -78,8 +64,6 @@ const CaretIcon = React.createClass({
       </svg>
     );
   },
-
 });
-
 
 export default CaretIcon;

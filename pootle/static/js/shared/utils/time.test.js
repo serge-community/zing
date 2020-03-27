@@ -12,7 +12,6 @@ import { describe, it } from 'mocha';
 
 import { formatTimeDelta } from './time';
 
-
 describe('formatTimeDelta', () => {
   describe('below threshold', () => {
     const tests = [

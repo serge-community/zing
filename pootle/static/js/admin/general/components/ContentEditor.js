@@ -12,7 +12,6 @@ import React from 'react';
 import CodeMirror from 'components/CodeMirror';
 import 'codemirror/mode/htmlmixed/htmlmixed';
 
-
 const propTypes = {
   // Temporarily needed to support submitting forms not controlled by JS
   name: React.PropTypes.string,
@@ -25,10 +24,7 @@ function ContentEditor({ name, onChange, style, value }) {
   const mode = 'htmlmixed';
 
   return (
-    <div
-      className="content-editor"
-      style={style}
-    >
+    <div className="content-editor" style={style}>
       <CodeMirror
         mode={mode}
         name={name}
@@ -40,6 +36,5 @@ function ContentEditor({ name, onChange, style, value }) {
   );
 }
 ContentEditor.propTypes = propTypes;
-
 
 export default ContentEditor;

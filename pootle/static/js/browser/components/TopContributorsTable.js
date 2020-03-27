@@ -12,7 +12,6 @@ import Avatar from 'components/Avatar';
 import { t, nt } from 'utils/i18n';
 import { getScoreText } from 'utils/score';
 
-
 function createRow(item, index) {
   const titleParts = [];
   if (item.suggested > 0) {
@@ -51,26 +50,22 @@ function createRow(item, index) {
         />
       </td>
       <td className="number">
-        <span
-          title={titleParts.join('<br />')}
-        >{getScoreText(item.public_total_score)}</span>
+        <span title={titleParts.join('<br />')}>
+          {getScoreText(item.public_total_score)}
+        </span>
       </td>
     </tr>
   );
 }
 
-
 const TopContributorsTable = ({ items }) => (
   <table className="top-scorers-table">
-    <tbody>
-      {items.map(createRow)}
-    </tbody>
+    <tbody>{items.map(createRow)}</tbody>
   </table>
 );
 
 TopContributorsTable.propTypes = {
   items: React.PropTypes.array.isRequired,
 };
-
 
 export default TopContributorsTable;

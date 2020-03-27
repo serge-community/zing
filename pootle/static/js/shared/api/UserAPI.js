@@ -8,14 +8,11 @@
 
 import fetch from 'utils/fetch';
 
-
 function prepareData(data) {
   return JSON.stringify(data);
 }
 
-
 const UserAPI = {
-
   apiRoot: '/xhr/users/',
 
   update(userId, body) {
@@ -25,8 +22,6 @@ const UserAPI = {
       url: `${this.apiRoot}${userId}`,
     });
   },
-
 };
-
 
 export default UserAPI;

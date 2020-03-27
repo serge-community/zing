@@ -12,9 +12,7 @@ import React from 'react';
 
 import FormElement from 'components/FormElement';
 
-
 const SuggestionFeedBackForm = React.createClass({
-
   propTypes: {
     suggId: React.PropTypes.number.isRequired,
     initialSuggestionText: React.PropTypes.string.isRequired,
@@ -40,22 +38,20 @@ const SuggestionFeedBackForm = React.createClass({
   /* Handlers */
 
   handleAccept(e) {
-    const suggestionChanged = (
-      this.state.formData.translation !== this.props.initialSuggestionText
-    );
+    const suggestionChanged =
+      this.state.formData.translation !== this.props.initialSuggestionText;
     e.preventDefault();
-    this.props.onAcceptSuggestion(
-      this.props.suggId,
-      {
-        requestData: this.state.formData,
-        isSuggestionChanged: suggestionChanged,
-      }
-    );
+    this.props.onAcceptSuggestion(this.props.suggId, {
+      requestData: this.state.formData,
+      isSuggestionChanged: suggestionChanged,
+    });
   },
 
   handleReject(e) {
     e.preventDefault();
-    this.props.onRejectSuggestion(this.props.suggId, { requestData: this.state.formData });
+    this.props.onRejectSuggestion(this.props.suggId, {
+      requestData: this.state.formData,
+    });
   },
 
   handleChange(name, value) {
@@ -72,9 +68,7 @@ const SuggestionFeedBackForm = React.createClass({
     const { formData } = this.state;
 
     return (
-      <form
-        id="suggestion-feedback-form"
-      >
+      <form id="suggestion-feedback-form">
         <div className="fields">
           <FormElement
             id="suggestion-editor"
@@ -98,21 +92,19 @@ const SuggestionFeedBackForm = React.createClass({
           />
         </div>
         <p className="buttons">
-          <button
-            className="btn btn-success"
-            onClick={this.handleAccept}
-          ><i className="icon-accept-white"></i>{gettext('Accept')}</button>
-          <button
-            className="btn btn-danger"
-            onClick={this.handleReject}
-          ><i className="icon-reject-white"></i>{gettext('Reject')}</button>
+          <button className="btn btn-success" onClick={this.handleAccept}>
+            <i className="icon-accept-white"></i>
+            {gettext('Accept')}
+          </button>
+          <button className="btn btn-danger" onClick={this.handleReject}>
+            <i className="icon-reject-white"></i>
+            {gettext('Reject')}
+          </button>
         </p>
         <div className="clear" />
       </form>
     );
   },
-
 });
-
 
 export default SuggestionFeedBackForm;

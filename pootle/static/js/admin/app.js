@@ -20,9 +20,7 @@ import Language from './components/Language';
 import Project from './components/Project';
 import AdminRouter from './AdminRouter';
 
-
 window.PTL = window.PTL || {};
-
 
 const itemTypes = {
   user: User,
@@ -30,9 +28,7 @@ const itemTypes = {
   project: Project,
 };
 
-
 PTL.admin = {
-
   init(opts) {
     if (!itemTypes.hasOwnProperty(opts.itemType)) {
       throw new Error('Invalid `itemType`.');
@@ -48,5 +44,4 @@ PTL.admin = {
       q('.js-admin-app')
     );
   },
-
 };

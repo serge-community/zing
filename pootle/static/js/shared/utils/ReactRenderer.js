@@ -8,9 +8,7 @@
 
 import ReactDOM from 'react-dom';
 
-
 const ReactRenderer = {
-
   nodes: [],
 
   render(component, node) {
@@ -22,8 +20,6 @@ const ReactRenderer = {
     this.nodes.forEach((node) => ReactDOM.unmountComponentAtNode(node));
     this.nodes = [];
   },
-
 };
-
 
 export default ReactRenderer;

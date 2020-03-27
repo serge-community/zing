@@ -11,14 +11,11 @@ import React from 'react';
 
 import AuthContent from './AuthContent';
 
-
 const AccountActivation = React.createClass({
-
   propTypes: {
     onClose: React.PropTypes.func.isRequired,
     signUpEmail: React.PropTypes.string,
   },
-
 
   /* Layout */
 
@@ -27,13 +24,15 @@ const AccountActivation = React.createClass({
 
     if (this.props.signUpEmail) {
       emailLinkMsg = interpolate(
-        gettext('We have sent an email containing the special link to <span>%s</span>'),
+        gettext(
+          'We have sent an email containing the special link to <span>%s</span>'
+        ),
         [this.props.signUpEmail]
       );
     } else {
       emailLinkMsg = gettext(
         'We have sent an email containing the special link to the address ' +
-        'used to register this account.'
+          'used to register this account.'
       );
     }
 
@@ -48,22 +47,17 @@ const AccountActivation = React.createClass({
           <p>{activationWarningMsg}</p>
           <p dangerouslySetInnerHTML={{ __html: emailLinkMsg }} />
           <p>{instructionsMsg}</p>
-          {this.props.signUpEmail &&
+          {this.props.signUpEmail && (
             <div>
-              <button
-                className="btn btn-primary"
-                onClick={this.props.onClose}
-              >
+              <button className="btn btn-primary" onClick={this.props.onClose}>
                 {gettext('Close')}
               </button>
             </div>
-          }
+          )}
         </div>
       </AuthContent>
     );
   },
-
 });
-
 
 export default AccountActivation;

@@ -16,13 +16,10 @@ import AutosizeTextarea from 'components/AutosizeTextarea';
 
 import { RawFontAware } from '../utils/RawFontAware';
 
-
 const UNDO_SHORTCUT = 'mod+z';
 const REDO_SHORTCUT = 'mod+shift+z';
 
-
 const RawFontTextarea = React.createClass({
-
   propTypes: {
     autoFocus: React.PropTypes.bool,
     id: React.PropTypes.string,
@@ -70,9 +67,8 @@ const RawFontTextarea = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     if (this.props.isRawMode !== nextProps.isRawMode) {
-      const isRtlMode = (
-        this.context.currentLocaleDir === 'rtl' && !nextProps.isRawMode
-      );
+      const isRtlMode =
+        this.context.currentLocaleDir === 'rtl' && !nextProps.isRawMode;
       this.rawFont.setMode({ isRtlMode, isRawMode: nextProps.isRawMode });
       this.rawFont.update();
     }
@@ -89,7 +85,7 @@ const RawFontTextarea = React.createClass({
     return (
       this.isRawMode !== nextProps.isRawMode ||
       (!_.isEqual(this.state.done, nextState.done) &&
-       !_.isEqual(this.state.undone, nextState.undone))
+        !_.isEqual(this.state.undone, nextState.undone))
     );
   },
 
@@ -105,12 +101,15 @@ const RawFontTextarea = React.createClass({
   },
 
   saveSnapshot(snapshot) {
-    this.setState((prevState) => ({
-      done: [...prevState.done, snapshot],
-      undone: [],
-    }), () => {
-      this.previousSnapshot = this.rawFont.getSnapshot();
-    });
+    this.setState(
+      (prevState) => ({
+        done: [...prevState.done, snapshot],
+        undone: [],
+      }),
+      () => {
+        this.previousSnapshot = this.rawFont.getSnapshot();
+      }
+    );
   },
 
   handleChange() {
@@ -126,13 +125,16 @@ const RawFontTextarea = React.createClass({
 
     const newSnapshot = this.state.done.slice(-1)[0];
 
-    this.setState((prevState) => ({
-      done: prevState.done.slice(0, -1),
-      undone: [...prevState.undone, this.rawFont.getSnapshot()],
-    }), () => {
-      this.previousSnapshot = this.rawFont.setSnapshot(newSnapshot);
-      this.props.onChange(this.rawFont.getValue());
-    });
+    this.setState(
+      (prevState) => ({
+        done: prevState.done.slice(0, -1),
+        undone: [...prevState.undone, this.rawFont.getSnapshot()],
+      }),
+      () => {
+        this.previousSnapshot = this.rawFont.setSnapshot(newSnapshot);
+        this.props.onChange(this.rawFont.getValue());
+      }
+    );
   },
 
   handleRedo(e) {
@@ -143,21 +145,28 @@ const RawFontTextarea = React.createClass({
 
     const newSnapshot = this.state.undone.slice(-1)[0];
 
-    this.setState((prevState) => ({
-      done: [...prevState.done, this.rawFont.getSnapshot()],
-      undone: prevState.undone.slice(0, -1),
-    }), () => {
-      this.previousSnapshot = this.rawFont.setSnapshot(newSnapshot);
-      this.props.onChange(this.rawFont.getValue());
-    });
+    this.setState(
+      (prevState) => ({
+        done: [...prevState.done, this.rawFont.getSnapshot()],
+        undone: prevState.undone.slice(0, -1),
+      }),
+      () => {
+        this.previousSnapshot = this.rawFont.setSnapshot(newSnapshot);
+        this.props.onChange(this.rawFont.getValue());
+      }
+    );
   },
 
   render() {
-    const style = Object.assign({}, {
-      boxSizing: 'border-box',
-      margin: '0 0 0.5em 0',
-      padding: '0.3em',
-    }, this.props.style);
+    const style = Object.assign(
+      {},
+      {
+        boxSizing: 'border-box',
+        margin: '0 0 0.5em 0',
+        padding: '0.3em',
+      },
+      this.props.style
+    );
 
     return (
       <AutosizeTextarea
@@ -181,8 +190,6 @@ const RawFontTextarea = React.createClass({
       />
     );
   },
-
 });
-
 
 export default RawFontTextarea;

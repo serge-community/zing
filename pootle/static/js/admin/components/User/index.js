@@ -9,7 +9,6 @@
 import { User, UserSet } from 'models/user';
 import UserController from './UserController';
 
-
 export default {
   Controller: UserController,
   Model: User,

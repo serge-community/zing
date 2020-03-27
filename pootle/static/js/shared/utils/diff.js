@@ -10,9 +10,7 @@ import DMP from 'diff-match-patch';
 
 import { highlightRO } from '../../utils';
 
-
 const dmp = new DMP();
-
 
 export default function diff(a, b) {
   const result = dmp.diff_main(a, b);

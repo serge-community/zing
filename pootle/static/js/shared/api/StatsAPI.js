@@ -8,9 +8,7 @@
 
 import fetch from 'utils/fetch';
 
-
 const StatsAPI = {
-
   apiRoot: '/xhr/stats/',
 
   getStats(path) {
@@ -35,8 +33,6 @@ const StatsAPI = {
       url: `${this.apiRoot}contributors/`,
     });
   },
-
 };
-
 
 export default StatsAPI;

@@ -9,7 +9,6 @@
 import React from 'react';
 import UserEvent from 'components/UserEvent';
 
-
 const LastActivity = React.createClass({
   propTypes: {
     mtime: React.PropTypes.number,

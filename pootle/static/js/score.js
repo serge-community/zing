@@ -12,14 +12,9 @@ import ReactDOM from 'react-dom';
 import Score from 'components/Score';
 import { q } from 'utils/dom';
 
-
 function init(value) {
-  ReactDOM.render(
-    <Score value={value} />,
-    q('.js-score')
-  );
+  ReactDOM.render(<Score value={value} />, q('.js-score'));
 }
-
 
 export default {
   init,

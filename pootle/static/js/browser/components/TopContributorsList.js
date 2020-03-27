@@ -12,7 +12,6 @@ import Avatar from 'components/Avatar';
 import { t } from 'utils/i18n';
 import { getScoreText } from 'utils/score';
 
-
 const TopContributorsList = React.createClass({
   propTypes: {
     topContributors: React.PropTypes.array.isRequired,

@@ -14,9 +14,7 @@ import ModelFormMixin from 'mixins/ModelFormMixin';
 
 import ItemDelete from '../ItemDelete';
 
-
 const ProjectForm = React.createClass({
-
   propTypes: {
     collection: React.PropTypes.object.isRequired,
     onDelete: React.PropTypes.func,
@@ -25,17 +23,21 @@ const ProjectForm = React.createClass({
 
   mixins: [ModelFormMixin],
 
-  fields: ['code', 'fullname', 'checkstyle',
-           'source_language', 'report_email',
-           'screenshot_search_prefix', 'disabled'],
-
+  fields: [
+    'code',
+    'fullname',
+    'checkstyle',
+    'source_language',
+    'report_email',
+    'screenshot_search_prefix',
+    'disabled',
+  ],
 
   /* Handlers */
 
   handleSuccess(model) {
     this.props.onSuccess(model);
   },
-
 
   /* Layout */
 
@@ -45,11 +47,7 @@ const ProjectForm = React.createClass({
     const { formData } = this.state;
 
     return (
-      <form
-        method="post"
-        id="item-form"
-        onSubmit={this.handleFormSubmit}
-      >
+      <form method="post" id="item-form" onSubmit={this.handleFormSubmit}>
         <div className="fields">
           <FormElement
             autoFocus
@@ -112,28 +110,34 @@ const ProjectForm = React.createClass({
           />
         </div>
         <div className="buttons">
-          <input type="submit" className="btn btn-primary"
+          <input
+            type="submit"
+            className="btn btn-primary"
             disabled={!this.state.isDirty}
             value={gettext('Save')}
           />
-        {model.id &&
-          <ul className="action-links">
-            <li><a href={model.getAbsoluteUrl()}>{gettext('Overview')}</a></li>
-            <li><a href={model.getPermissionsUrl()}>{gettext('Permissions')}</a></li>
-          </ul>}
+          {model.id && (
+            <ul className="action-links">
+              <li>
+                <a href={model.getAbsoluteUrl()}>{gettext('Overview')}</a>
+              </li>
+              <li>
+                <a href={model.getPermissionsUrl()}>{gettext('Permissions')}</a>
+              </li>
+            </ul>
+          )}
         </div>
-      {this.props.onDelete &&
-        <div>
-          <p className="divider" />
-          <div className="buttons">
-            <ItemDelete item={model} onDelete={this.props.onDelete} />
+        {this.props.onDelete && (
+          <div>
+            <p className="divider" />
+            <div className="buttons">
+              <ItemDelete item={model} onDelete={this.props.onDelete} />
+            </div>
           </div>
-        </div>}
+        )}
       </form>
     );
   },
-
 });
-
 
 export default ProjectForm;

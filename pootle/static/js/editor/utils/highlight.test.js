@@ -11,9 +11,12 @@ import { describe, it } from 'mocha';
 
 import { SYMBOLS } from './font';
 import {
-  highlightPunctuation, highlightEscapes, highlightHtml, highlightSymbols, nl2br,
+  highlightPunctuation,
+  highlightEscapes,
+  highlightHtml,
+  highlightSymbols,
+  nl2br,
 } from './highlight';
-
 
 describe('highlightPunctuation', () => {
   const HL_CLASS = 'highlight-punctuation';
@@ -44,7 +47,6 @@ describe('highlightPunctuation', () => {
   });
 });
 
-
 describe('highlightEscapes', () => {
   const HL_CLASS = 'highlight-escape';
   const HL_START = `<span class="${HL_CLASS} ">`;
@@ -58,11 +60,10 @@ describe('highlightEscapes', () => {
     {
       description: 'mixed escaped sequences',
       input: 'Føó\\n bäŕ\\r\\n băz\\t błah\\.',
-      expected: (
+      expected:
         `Føó${HL_START}\\n${HL_END} ` +
         `bäŕ${HL_START}\\r${HL_END}${HL_START}\\n${HL_END} ` +
-        `băz${HL_START}\\t${HL_END} błah\\.`
-      ),
+        `băz${HL_START}\\t${HL_END} błah\\.`,
     },
   ];
 
@@ -72,7 +73,6 @@ describe('highlightEscapes', () => {
     });
   });
 });
-
 
 describe('nl2br', () => {
   it('does nothing without new line characters', () => {
@@ -87,7 +87,6 @@ describe('nl2br', () => {
     expect(nl2br(input)).toEqual(expected);
   });
 });
-
 
 describe('highlightHtml', () => {
   const HL_CLASS = 'highlight-html';
@@ -122,17 +121,14 @@ describe('highlightHtml', () => {
     {
       description: 'HTML tags with entities',
       input: 'foo<b>&nbsp;</b>',
-      expected: (
-        `foo${HL_START}&lt;b&gt;${HL_END}&amp;nbsp;${HL_START}&lt;/b&gt;${HL_END}`
-      ),
+      expected: `foo${HL_START}&lt;b&gt;${HL_END}&amp;nbsp;${HL_START}&lt;/b&gt;${HL_END}`,
     },
     {
       description: 'nested HTML tags',
       input: 'foo<b><i>&nbsp;</i></b>',
-      expected: (
+      expected:
         `foo${HL_START}&lt;b&gt;${HL_END}${HL_START}&lt;i&gt;${HL_END}` +
-        `&amp;nbsp;${HL_START}&lt;/i&gt;${HL_END}${HL_START}&lt;/b&gt;${HL_END}`
-      ),
+        `&amp;nbsp;${HL_START}&lt;/i&gt;${HL_END}${HL_START}&lt;/b&gt;${HL_END}`,
     },
     {
       description: 'HTML tags which contain $ between delimiters',
@@ -152,7 +148,6 @@ describe('highlightHtml', () => {
     });
   });
 });
-
 
 describe('highlightSymbols', () => {
   const HL_START = '<span class="" data-codepoint="%s">';
@@ -176,15 +171,16 @@ describe('highlightSymbols', () => {
     {
       description: 'multiple newline symbols',
       input: `foo${SYMBOLS.LF}${SYMBOLS.LF}bar`,
-      expected: (
+      expected:
         `foo${HL_START.replace('%s', '\\u000A')}${SYMBOLS.LF}${HL_END}` +
-        `${HL_START.replace('%s', '\\u000A')}${SYMBOLS.LF}${HL_END}bar`
-      ),
+        `${HL_START.replace('%s', '\\u000A')}${SYMBOLS.LF}${HL_END}bar`,
     },
     {
       description: 'non-breaking spaces',
       input: `foo${SYMBOLS.NBSP}bar`,
-      expected: `foo${HL_START.replace('%s', '\\u00A0')}${SYMBOLS.NBSP}${HL_END}bar`,
+      expected: `foo${HL_START.replace('%s', '\\u00A0')}${
+        SYMBOLS.NBSP
+      }${HL_END}bar`,
     },
   ];
 

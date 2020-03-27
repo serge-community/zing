@@ -10,9 +10,7 @@
 import autosize from 'autosize';
 import React from 'react';
 
-
 const AutosizeTextarea = React.createClass({
-
   componentDidMount() {
     autosize(this.refs.textarea);
   },
@@ -26,15 +24,8 @@ const AutosizeTextarea = React.createClass({
   },
 
   render() {
-    return (
-      <textarea
-        ref="textarea"
-        {...this.props}
-      />
-    );
+    return <textarea ref="textarea" {...this.props} />;
   },
-
 });
-
 
 export default AutosizeTextarea;

@@ -17,15 +17,12 @@ import ColoredNumber from './ColoredNumber';
 import NumberPill from './NumberPill';
 import ProgressBar from './ProgressBar';
 
-
 const ITEM_FILE = 0;
 const ITEM_FOLDER = 1;
 const ITEM_PROJECT = 2;
 const ITEM_LANGUAGE = 3;
 
-
 const BrowserTableRow = React.createClass({
-
   propTypes: {
     critical: React.PropTypes.number,
     fuzzy: React.PropTypes.number,
@@ -58,8 +55,18 @@ const BrowserTableRow = React.createClass({
 
   render() {
     const {
-      critical, fuzzy, isDisabled, isDirty, itemType, lastAction, lastUpdated,
-      pootlePath, suggestions, title, total, translated,
+      critical,
+      fuzzy,
+      isDisabled,
+      isDirty,
+      itemType,
+      lastAction,
+      lastUpdated,
+      pootlePath,
+      suggestions,
+      title,
+      total,
+      translated,
     } = this.props;
     const translateUrl = getTranslateUrl(pootlePath);
 
@@ -83,23 +90,20 @@ const BrowserTableRow = React.createClass({
       itemTypeName = 'language';
     }
 
-    const progressBar = total === 0 ? null :
-      <ProgressBar
-        total={total}
-        fuzzy={fuzzy}
-        translated={translated}
-      />;
+    const progressBar =
+      total === 0 ? null : (
+        <ProgressBar total={total} fuzzy={fuzzy} translated={translated} />
+      );
 
     return (
       <tr className={trClasses}>
         <td className={cx('stats-name', itemTypeName)}>
           <a href={pootlePath} title={title}>
-            <i className={`icon-${itemTypeName}`} />{title}
+            <i className={`icon-${itemTypeName}`} />
+            {title}
           </a>
         </td>
-        <td className="stats-graph">
-          {progressBar}
-        </td>
+        <td className="stats-graph">{progressBar}</td>
         <td className="stats-number total">
           <a href={translateUrl} className="stats-data">
             <ColoredNumber n={total} />
@@ -115,10 +119,7 @@ const BrowserTableRow = React.createClass({
           />
         </td>
         <td className="stats-number suggestions">
-          <NumberPill
-            n={suggestions}
-            url={`${translateUrl}#filter=suggestions`}
-          />
+          <NumberPill n={suggestions} url={`${translateUrl}#filter=suggestions`} />
         </td>
         <td className="stats-number need-translation">
           <NumberPill

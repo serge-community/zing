@@ -36,7 +36,6 @@ export const FormMixin = {
     };
   },
 
-
   /* Handlers */
 
   handleChange(name, value) {
@@ -66,8 +65,6 @@ export const FormMixin = {
       this.handleError(xhr);
     }
   },
-
 };
-
 
 export default FormMixin;

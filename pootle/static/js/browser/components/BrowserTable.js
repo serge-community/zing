@@ -13,7 +13,6 @@ import { t } from 'utils/i18n';
 
 import BrowserTableRow from './BrowserTableRow';
 
-
 const COL_TITLE = 0;
 const COL_PROGRESS = 1;
 const COL_TOTAL = 2;
@@ -22,7 +21,6 @@ const COL_CRITICAL = 4;
 const COL_SUGGESTIONS = 5;
 const COL_INCOMPLETE = 6;
 const COL_LASTACTIVITY = 7;
-
 
 function sortFunc(a, b, items, sortColumn) {
   const ia = items[a];
@@ -70,13 +68,14 @@ function sortFunc(a, b, items, sortColumn) {
 }
 
 function isItemDisabled(item) {
-  return (item.hasOwnProperty('is_disabled') && item.is_disabled
-    || !item.hasOwnProperty('total')
-    || item.total < 1);
+  return (
+    (item.hasOwnProperty('is_disabled') && item.is_disabled) ||
+    !item.hasOwnProperty('total') ||
+    item.total < 1
+  );
 }
 
 const BrowserTable = React.createClass({
-
   propTypes: {
     items: React.PropTypes.array.isRequired,
   },
@@ -97,18 +96,18 @@ const BrowserTable = React.createClass({
 
   componentWillMount() {
     this.hasDisabledItems = this.hasAnyDisabledItems(this.props.items);
-    this.sortedKeys = Object.keys(this.props.items).sort((a, b) => (
+    this.sortedKeys = Object.keys(this.props.items).sort((a, b) =>
       sortFunc(a, b, this.props.items, this.state.sortColumn)
-    ));
+    );
   },
 
   componentWillUpdate(nextProps, nextState) {
     this.hasDisabledItems = this.hasAnyDisabledItems(nextProps.items);
 
     if (this.state.sortColumn !== nextState.sortColumn) {
-      this.sortedKeys = this.sortedKeys.sort((a, b) => (
+      this.sortedKeys = this.sortedKeys.sort((a, b) =>
         sortFunc(a, b, nextProps.items, nextState.sortColumn)
-      ));
+      );
       return;
     }
 
@@ -207,85 +206,83 @@ const BrowserTable = React.createClass({
     return (
       <table className="browser-table-component stats">
         <thead>
-        <tr>
-          <th className="stats">
-            <label
-              className={this.getClassName(COL_TITLE)}
-              onClick={() => this.handleHeaderClick(COL_TITLE)}
-            >
-              {t('Name')}
-            </label>
-            &nbsp;
-            {toggle}
-          </th>
+          <tr>
+            <th className="stats">
+              <label
+                className={this.getClassName(COL_TITLE)}
+                onClick={() => this.handleHeaderClick(COL_TITLE)}
+              >
+                {t('Name')}
+              </label>
+              &nbsp;
+              {toggle}
+            </th>
 
-          <th className="stats">
-            <label
-              className={this.getClassName(COL_PROGRESS)}
-              onClick={() => this.handleHeaderClick(COL_PROGRESS)}
-            >
-              {t('Progress')}
-            </label>
-          </th>
+            <th className="stats">
+              <label
+                className={this.getClassName(COL_PROGRESS)}
+                onClick={() => this.handleHeaderClick(COL_PROGRESS)}
+              >
+                {t('Progress')}
+              </label>
+            </th>
 
-          <th className="stats-number">
-            <label
-              className={this.getClassName(COL_TOTAL)}
-              onClick={() => this.handleHeaderClick(COL_TOTAL)}
-            >
-              {t('Total')}
-            </label>
-          </th>
+            <th className="stats-number">
+              <label
+                className={this.getClassName(COL_TOTAL)}
+                onClick={() => this.handleHeaderClick(COL_TOTAL)}
+              >
+                {t('Total')}
+              </label>
+            </th>
 
-          <th className="stats-number">
-            <label
-              className={this.getClassName(COL_LASTUPDATED)}
-              onClick={() => this.handleHeaderClick(COL_LASTUPDATED)}
-            >
-              {t('Last updated')}
-            </label>
-          </th>
+            <th className="stats-number">
+              <label
+                className={this.getClassName(COL_LASTUPDATED)}
+                onClick={() => this.handleHeaderClick(COL_LASTUPDATED)}
+              >
+                {t('Last updated')}
+              </label>
+            </th>
 
-          <th className="stats-number">
-            <label
-              className={this.getClassName(COL_CRITICAL)}
-              onClick={() => this.handleHeaderClick(COL_CRITICAL)}
-            >
-              {t('Critical')}
-            </label>
-          </th>
+            <th className="stats-number">
+              <label
+                className={this.getClassName(COL_CRITICAL)}
+                onClick={() => this.handleHeaderClick(COL_CRITICAL)}
+              >
+                {t('Critical')}
+              </label>
+            </th>
 
-          <th className="stats-number">
-            <label
-              className={this.getClassName(COL_SUGGESTIONS)}
-              onClick={() => this.handleHeaderClick(COL_SUGGESTIONS)}
-            >
-              {t('Suggestions')}
-            </label>
-          </th>
+            <th className="stats-number">
+              <label
+                className={this.getClassName(COL_SUGGESTIONS)}
+                onClick={() => this.handleHeaderClick(COL_SUGGESTIONS)}
+              >
+                {t('Suggestions')}
+              </label>
+            </th>
 
-          <th className="stats-number">
-            <label
-              className={this.getClassName(COL_INCOMPLETE)}
-              onClick={() => this.handleHeaderClick(COL_INCOMPLETE)}
-            >
-              {t('Incomplete')}
-            </label>
-          </th>
+            <th className="stats-number">
+              <label
+                className={this.getClassName(COL_INCOMPLETE)}
+                onClick={() => this.handleHeaderClick(COL_INCOMPLETE)}
+              >
+                {t('Incomplete')}
+              </label>
+            </th>
 
-          <th className="stats">
-            <label
-              className={this.getClassName(COL_LASTACTIVITY)}
-              onClick={() => this.handleHeaderClick(COL_LASTACTIVITY)}
-            >
-              {t('Last Activity')}
-            </label>
-          </th>
-        </tr>
+            <th className="stats">
+              <label
+                className={this.getClassName(COL_LASTACTIVITY)}
+                onClick={() => this.handleHeaderClick(COL_LASTACTIVITY)}
+              >
+                {t('Last Activity')}
+              </label>
+            </th>
+          </tr>
         </thead>
-        <tbody className="stats">
-          {this.sortedKeys.map(this.createRow)}
-        </tbody>
+        <tbody className="stats">{this.sortedKeys.map(this.createRow)}</tbody>
       </table>
     );
   },

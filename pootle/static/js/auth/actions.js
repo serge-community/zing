@@ -8,14 +8,12 @@
 
 import AuthAPI from './utils/AuthAPI';
 
-
 export function gotoScreen(screen) {
   return {
     screen,
     type: 'GOTO_SCREEN',
   };
 }
-
 
 /**
  * Takes care of creating an object which contains errors related to
@@ -36,13 +34,11 @@ function handleErrors(jsonResponse = {}) {
   return errors;
 }
 
-
 function signInRequest() {
   return {
     type: 'SIGNIN_REQUEST',
   };
 }
-
 
 function signInSuccess(nextURL) {
   return {
@@ -51,7 +47,6 @@ function signInSuccess(nextURL) {
   };
 }
 
-
 function signInFailure(jsonResponse) {
   return {
     type: 'SIGNIN_FAILURE',
@@ -59,19 +54,16 @@ function signInFailure(jsonResponse) {
   };
 }
 
-
 export function signIn(formData, nextURL) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(signInRequest());
 
-    return AuthAPI.signIn(formData, nextURL)
-                  .then(
-                    (data) => dispatch(signInSuccess(data.location)),
-                    (data) => dispatch(signInFailure(data.responseJSON))
-                  );
+    return AuthAPI.signIn(formData, nextURL).then(
+      (data) => dispatch(signInSuccess(data.location)),
+      (data) => dispatch(signInFailure(data.responseJSON))
+    );
   };
 }
-
 
 function signUpRequest(email) {
   return {
@@ -80,14 +72,12 @@ function signUpRequest(email) {
   };
 }
 
-
 function signUpSuccess(nextURL) {
   return {
     type: 'SIGNUP_SUCCESS',
     nextURL,
   };
 }
-
 
 function signUpFailure(jsonResponse) {
   return {
@@ -96,19 +86,16 @@ function signUpFailure(jsonResponse) {
   };
 }
 
-
 export function signUp(formData, nextURL) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(signUpRequest(formData.email));
 
-    return AuthAPI.signUp(formData, nextURL)
-                  .then(
-                    (data) => dispatch(signUpSuccess(data.location)),
-                    (data) => dispatch(signUpFailure(data.responseJSON))
-                  );
+    return AuthAPI.signUp(formData, nextURL).then(
+      (data) => dispatch(signUpSuccess(data.location)),
+      (data) => dispatch(signUpFailure(data.responseJSON))
+    );
   };
 }
-
 
 function requestPasswordResetRequest(email) {
   return {
@@ -117,14 +104,12 @@ function requestPasswordResetRequest(email) {
   };
 }
 
-
 function requestPasswordResetSuccess(nextURL) {
   return {
     type: 'REQ_PW_RESET_SUCCESS',
     nextURL,
   };
 }
-
 
 function requestPasswordResetFailure(jsonResponse) {
   return {
@@ -133,19 +118,16 @@ function requestPasswordResetFailure(jsonResponse) {
   };
 }
 
-
 export function requestPasswordReset(formData) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(requestPasswordResetRequest(formData.email));
 
-    return AuthAPI.requestPasswordReset(formData)
-                  .then(
-                    (data) => dispatch(requestPasswordResetSuccess(data.location)),
-                    (data) => dispatch(requestPasswordResetFailure(data.responseJSON))
-                  );
+    return AuthAPI.requestPasswordReset(formData).then(
+      (data) => dispatch(requestPasswordResetSuccess(data.location)),
+      (data) => dispatch(requestPasswordResetFailure(data.responseJSON))
+    );
   };
 }
-
 
 function passwordResetRequest() {
   return {
@@ -153,13 +135,11 @@ function passwordResetRequest() {
   };
 }
 
-
 function passwordResetSuccess() {
   return {
     type: 'PW_RESET_SUCCESS',
   };
 }
-
 
 function passwordResetFailure(jsonResponse) {
   return {
@@ -168,28 +148,24 @@ function passwordResetFailure(jsonResponse) {
   };
 }
 
-
 export function passwordReset(formData, url) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(passwordResetRequest());
 
     // FIXME: ideally we shouldn't be passing in the full URL, but only
     // the necessary bits to construct it
-    return AuthAPI.passwordReset(formData, url)
-                  .then(
-                    () => dispatch(passwordResetSuccess()),
-                    (data) => dispatch(passwordResetFailure(data.responseJSON))
-                  );
+    return AuthAPI.passwordReset(formData, url).then(
+      () => dispatch(passwordResetSuccess()),
+      (data) => dispatch(passwordResetFailure(data.responseJSON))
+    );
   };
 }
-
 
 function verifySocialRequest() {
   return {
     type: 'VERIFY_SOCIAL_REQUEST',
   };
 }
-
 
 function verifySocialSuccess(nextURL) {
   return {
@@ -198,7 +174,6 @@ function verifySocialSuccess(nextURL) {
   };
 }
 
-
 function verifySocialFailure(jsonResponse) {
   return {
     type: 'VERIFY_SOCIAL_FAILURE',
@@ -206,15 +181,13 @@ function verifySocialFailure(jsonResponse) {
   };
 }
 
-
 export function verifySocial(formData) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(verifySocialRequest());
 
-    return AuthAPI.verifySocial(formData)
-                  .then(
-                    (data) => dispatch(verifySocialSuccess(data.location)),
-                    (data) => dispatch(verifySocialFailure(data.responseJSON))
-                  );
+    return AuthAPI.verifySocial(formData).then(
+      (data) => dispatch(verifySocialSuccess(data.location)),
+      (data) => dispatch(verifySocialFailure(data.responseJSON))
+    );
   };
 }

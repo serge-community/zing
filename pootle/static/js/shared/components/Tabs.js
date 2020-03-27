@@ -9,9 +9,7 @@
 
 import React from 'react';
 
-
 const Tabs = React.createClass({
-
   propTypes: {
     children: React.PropTypes.node.isRequired,
     initialTab: React.PropTypes.number,
@@ -32,7 +30,6 @@ const Tabs = React.createClass({
     };
   },
 
-
   /* Handlers */
 
   handleClick(index) {
@@ -43,49 +40,46 @@ const Tabs = React.createClass({
     }
   },
 
-
   /* Layout */
 
   render() {
     let tabContent;
 
     // TODO: move to a function, retrieve values via destructuring assig.
-    const tabList = React.Children.map(this.props.children, (child, index) => {
-      const elementType = child.type.displayName || child.type;
-      // FIXME: validate via custom propTypes
-      if (elementType !== 'Tab') {
-        throw new Error(`
+    const tabList = React.Children.map(
+      this.props.children,
+      (child, index) => {
+        const elementType = child.type.displayName || child.type;
+        // FIXME: validate via custom propTypes
+        if (elementType !== 'Tab') {
+          throw new Error(`
           Invalid children for component 'Tabs'. Expected: 'Tab'.
           Found: '${elementType}'
         `);
-      }
+        }
 
-      const isActive = this.state.selectedTab === index;
-      if (isActive) {
-        tabContent = child.props.children;
-      }
+        const isActive = this.state.selectedTab === index;
+        if (isActive) {
+          tabContent = child.props.children;
+        }
 
-      return React.cloneElement(child, {
-        key: index,
-        onClick: this.handleClick,
-        selected: isActive,
-        tabIndex: index,
-      });
-    }, this);
+        return React.cloneElement(child, {
+          key: index,
+          onClick: this.handleClick,
+          selected: isActive,
+          tabIndex: index,
+        });
+      },
+      this
+    );
 
     return (
       <div className="Tabs">
-        <ul className="Tabs__TabList">
-          {tabList}
-        </ul>
-        <div className="Tabs__TabContent">
-          {tabContent}
-        </div>
+        <ul className="Tabs__TabList">{tabList}</ul>
+        <div className="Tabs__TabContent">{tabContent}</div>
       </div>
     );
   },
-
 });
-
 
 export default Tabs;

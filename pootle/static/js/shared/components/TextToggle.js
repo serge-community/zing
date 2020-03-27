@@ -9,9 +9,7 @@
 
 import React, { PropTypes } from 'react';
 
-
 const TextToggle = React.createClass({
-
   propTypes: {
     defaultChecked: PropTypes.bool,
     labelActive: PropTypes.string,
@@ -43,8 +41,9 @@ const TextToggle = React.createClass({
   },
 
   render() {
-    const label = this.state.isActive ?
-      this.props.labelActive : this.props.labelInactive;
+    const label = this.state.isActive
+      ? this.props.labelActive
+      : this.props.labelInactive;
 
     return (
       <span
@@ -56,8 +55,6 @@ const TextToggle = React.createClass({
       </span>
     );
   },
-
 });
-
 
 export default TextToggle;

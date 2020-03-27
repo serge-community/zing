@@ -44,7 +44,10 @@ import score from '../score';
 import search from '../search';
 import utils from '../utils';
 import {
-  decodeEntities, escapeUnsafeRegexSymbols, getAreaId, makeRegexForMultipleWords,
+  decodeEntities,
+  escapeUnsafeRegexSymbols,
+  getAreaId,
+  makeRegexForMultipleWords,
 } from './utils';
 
 import ReactEditor from './index';
@@ -64,24 +67,24 @@ const filterSelectOpts = {
   dropdownCssClass: 'checks-dropdown',
   width: 'off',
 };
-const sortSelectOpts = Object.assign({
-  minimumResultsForSearch: -1,
-}, filterSelectOpts);
-
+const sortSelectOpts = Object.assign(
+  {
+    minimumResultsForSearch: -1,
+  },
+  filterSelectOpts
+);
 
 const mtProviders = [];
 
-
 function highlightSuggestionsDiff(unit) {
-  qAll('.js-suggestion-text').forEach(
-    (translationTextNode) => {
-      // eslint-disable-next-line no-param-reassign
-      translationTextNode.innerHTML = diff(unit.targetText()[0],
-                                           translationTextNode.dataset.string);
-    }
-  );
+  qAll('.js-suggestion-text').forEach((translationTextNode) => {
+    // eslint-disable-next-line no-param-reassign
+    translationTextNode.innerHTML = diff(
+      unit.targetText()[0],
+      translationTextNode.dataset.string
+    );
+  });
 }
-
 
 function _refreshChecksSnippet(newChecks) {
   const $checks = $('.js-unit-checks');
@@ -92,12 +95,9 @@ function _refreshChecksSnippet(newChecks) {
   focusedArea.focus();
 }
 
-
 window.PTL = window.PTL || {};
 
-
 PTL.editor = {
-
   /* Initializes the editor */
   init(options) {
     /* Default settings */
@@ -141,7 +141,7 @@ PTL.editor = {
     this.lastFilter = null;
 
     this.units = new UnitList({
-      onUnitChange: uid => this.handleUnitChange(uid),
+      onUnitChange: (uid) => this.handleUnitChange(uid),
       onContextData: (uid, ctx) => this.handleContextData(uid, ctx),
       onFetchError: (xhr, status) => this.error(xhr, status),
     });
@@ -174,12 +174,14 @@ PTL.editor = {
     this.$editor.on('click', '.js-dev-img', function displayScreenshot(e) {
       e.preventDefault();
 
-      $(this).magnificPopup({
-        type: 'image',
-        gallery: {
-          enabled: true,
-        },
-      }).magnificPopup('open');
+      $(this)
+        .magnificPopup({
+          type: 'image',
+          gallery: {
+            enabled: true,
+          },
+        })
+        .magnificPopup('open');
     });
 
     /*
@@ -197,22 +199,24 @@ PTL.editor = {
     $('#actions').on('change', '#js-filter-checks', () => this.filterChecks());
 
     /* State changes */
-    this.$editor.on('change', 'input.fuzzycheck',
-      () => this.onStateChange());
-    this.$editor.on('click', 'input.fuzzycheck',
-      () => this.onStateClick());
-    this.$editor.on('input', '#id_translator_comment',
-      () => this.handleTranslationChange());
+    this.$editor.on('change', 'input.fuzzycheck', () => this.onStateChange());
+    this.$editor.on('click', 'input.fuzzycheck', () => this.onStateClick());
+    this.$editor.on('input', '#id_translator_comment', () =>
+      this.handleTranslationChange()
+    );
 
     /* Context row preview */
-    this.$editor.on('mouseover', '.js-show-context-rows',
-      (e) => this.handleContextPreviewMouseover(e));
-    this.$editor.on('mouseout', '.js-show-context-rows',
-      (e) => this.handleContextPreviewMouseout(e));
+    this.$editor.on('mouseover', '.js-show-context-rows', (e) =>
+      this.handleContextPreviewMouseover(e)
+    );
+    this.$editor.on('mouseout', '.js-show-context-rows', (e) =>
+      this.handleContextPreviewMouseout(e)
+    );
 
     /* Suggest / submit */
-    this.$editor.on('click', '.switch-suggest-mode a',
-      (e) => this.toggleSuggestMode(e));
+    this.$editor.on('click', '.switch-suggest-mode a', (e) =>
+      this.toggleSuggestMode(e)
+    );
 
     /* Update focus when appropriate */
     this.$editor.on('focus', '.focusthis', (e) => {
@@ -258,15 +262,19 @@ PTL.editor = {
       e.stopPropagation();
       this.acceptSuggestion(e.currentTarget.dataset.suggId);
     });
-    this.$editor.on('click', '.js-suggestion-toggle',
-      (e) => this.toggleSuggestion(e, { canHide: true }));
+    this.$editor.on('click', '.js-suggestion-toggle', (e) =>
+      this.toggleSuggestion(e, { canHide: true })
+    );
 
     if (this.settings.canReview) {
-      this.$editor.on('click', '.js-user-suggestion',
-        (e) => this.toggleSuggestion(e, { canHide: false }));
+      this.$editor.on('click', '.js-user-suggestion', (e) =>
+        this.toggleSuggestion(e, { canHide: false })
+      );
     }
 
-    this.$editor.on('click', '.js-translate-lightbox', () => this.closeSuggestion());
+    this.$editor.on('click', '.js-translate-lightbox', () =>
+      this.closeSuggestion()
+    );
 
     this.$editor.on('click', '#js-toggle-timeline', (e) => this.toggleTimeline(e));
     this.$editor.on('click', '.js-toggle-check', (e) => {
@@ -393,9 +401,10 @@ PTL.editor = {
     this.settings.mt.forEach((provider) => {
       require.ensure([], () => {
         // Retrieve actual module name: FOO_BAR_BAZ => FooBarBaz
-        const moduleName = provider.name.split('_').map(
-          (x) => x[0] + x.slice(1).toLowerCase()
-        ).join('');
+        const moduleName = provider.name
+          .split('_')
+          .map((x) => x[0] + x.slice(1).toLowerCase())
+          .join('');
         // Webpack doesn't like template strings for now...
         // eslint-disable-next-line prefer-template
         const Module = require('./mt/providers/' + moduleName).default;
@@ -404,161 +413,171 @@ PTL.editor = {
     });
 
     /* History support */
-    $.history.init((hash) => {
-      const params = utils.getParsedHash(hash);
+    $.history.init(
+      (hash) => {
+        const params = utils.getParsedHash(hash);
 
-      if (this.selectedSuggestionId !== undefined) {
-        this.closeSuggestion({ checkIfCanNavigate: false });
-      }
-
-      // get filter criteria (hash without the 'unit' part)
-      const filterHash = utils.updateHashPart(undefined, undefined, ['unit'], hash);
-      if (filterHash === this.lastFilter) {
-        // if filter criteria are the same, first ensure back/forward buttons
-        // work when unit was specified
-        const unit = params.unit ? parseInt(params.unit, 10) : null;
-        if (unit) {
-          this.units.goto(unit);
+        if (this.selectedSuggestionId !== undefined) {
+          this.closeSuggestion({ checkIfCanNavigate: false });
         }
-        // otherwise, if units have already been loaded, exit early...
-        if (this.units.length > 0) {
-          return;
-        }
-      }
-      // ...otherwise, save the filter value for later comparison continue
-      // through the filters and prepare the query to download the units
-      this.lastFilter = filterHash;
 
-      // Reset to defaults
-      this.filter = 'all';
-      this.checks = [];
-      this.category = undefined;
-      this.sortBy = 'default';
-
-      const filterName = params.filter || 'all';
-
-      // Set current state
-      this.filter = filterName;
-
-      if (this.filter === 'checks') {
-        if ('checks' in params) {
-          this.checks = params.checks.split(',');
-        } else if ('category' in params) {
-          this.category = params.category;
-        }
-        this.getCheckOptions();
-      }
-      if ('sort' in params) {
-        const { sort } = params;
-        this.sortBy = ALLOWED_SORTS.indexOf(sort) !== -1 ? sort : 'default';
-      }
-
-      if ('month' in params) {
-        this.month = params.month;
-      } else {
-        this.month = null;
-      }
-
-      // Only accept the user parameter for 'user-*' filters
-      if ('user' in params && this.filter.indexOf('user-') === 0) {
-        this.user = encodeURIComponent(params.user);
-        const user = this.user;
-
-        const values = {
-          'user-suggestions':
-            // Translators: '%s' is a username
-            t("%(user)s's pending suggestions", { user }),
-          'user-suggestions-accepted':
-            // Translators: '%s' is a username
-            t("%(user)s's accepted suggestions", { user }),
-          'user-suggestions-rejected':
-            // Translators: '%s' is a username
-            t("%(user)s's rejected suggestions", { user }),
-          'user-submissions':
-            // Translators: '%s' is a username
-            t("%(user)s's submissions", { user }),
-          'user-submissions-overwritten':
-            // Translators: '%s' is a username, meaning "submissions by %s,
-            // that were overwritten"
-            t("%(user)s's overwritten submissions", { user }),
-        };
-        const newOpts = [];
-        for (const key in values) {
-          if (!values.hasOwnProperty(key)) {
-            continue;
+        // get filter criteria (hash without the 'unit' part)
+        const filterHash = utils.updateHashPart(
+          undefined,
+          undefined,
+          ['unit'],
+          hash
+        );
+        if (filterHash === this.lastFilter) {
+          // if filter criteria are the same, first ensure back/forward buttons
+          // work when unit was specified
+          const unit = params.unit ? parseInt(params.unit, 10) : null;
+          if (unit) {
+            this.units.goto(unit);
           }
-          newOpts.push(`
+          // otherwise, if units have already been loaded, exit early...
+          if (this.units.length > 0) {
+            return;
+          }
+        }
+        // ...otherwise, save the filter value for later comparison continue
+        // through the filters and prepare the query to download the units
+        this.lastFilter = filterHash;
+
+        // Reset to defaults
+        this.filter = 'all';
+        this.checks = [];
+        this.category = undefined;
+        this.sortBy = 'default';
+
+        const filterName = params.filter || 'all';
+
+        // Set current state
+        this.filter = filterName;
+
+        if (this.filter === 'checks') {
+          if ('checks' in params) {
+            this.checks = params.checks.split(',');
+          } else if ('category' in params) {
+            this.category = params.category;
+          }
+          this.getCheckOptions();
+        }
+        if ('sort' in params) {
+          const { sort } = params;
+          this.sortBy = ALLOWED_SORTS.indexOf(sort) !== -1 ? sort : 'default';
+        }
+
+        if ('month' in params) {
+          this.month = params.month;
+        } else {
+          this.month = null;
+        }
+
+        // Only accept the user parameter for 'user-*' filters
+        if ('user' in params && this.filter.indexOf('user-') === 0) {
+          this.user = encodeURIComponent(params.user);
+          const user = this.user;
+
+          const values = {
+            'user-suggestions':
+              // Translators: '%s' is a username
+              t("%(user)s's pending suggestions", { user }),
+            'user-suggestions-accepted':
+              // Translators: '%s' is a username
+              t("%(user)s's accepted suggestions", { user }),
+            'user-suggestions-rejected':
+              // Translators: '%s' is a username
+              t("%(user)s's rejected suggestions", { user }),
+            'user-submissions':
+              // Translators: '%s' is a username
+              t("%(user)s's submissions", { user }),
+            'user-submissions-overwritten':
+              // Translators: '%s' is a username, meaning "submissions by %s,
+              // that were overwritten"
+              t("%(user)s's overwritten submissions", { user }),
+          };
+          const newOpts = [];
+          for (const key in values) {
+            if (!values.hasOwnProperty(key)) {
+              continue;
+            }
+            newOpts.push(`
             <option value="${key}" data-user="${user}" class="js-user-filter">
               ${values[key]}
             </option>
           `);
-        }
-        $('.js-user-filter').remove();
-        this.$filterStatus.append(newOpts.join(''));
-      }
-
-      this.units.setIncludeDisabled('all' in params);
-
-      if ('search' in params) {
-        // Note that currently the search, if provided along with the other
-        // filters, would override them
-        this.filter = 'search';
-
-        const newState = {
-          searchText: params.search,
-        };
-
-        if ('sfields' in params) {
-          newState.searchFields = params.sfields.split(',');
-        }
-        if ('soptions' in params) {
-          newState.searchOptions = params.soptions.split(',');
-        }
-
-        search.setState(newState);
-      }
-
-      // Update the filter UI to match the current filter
-
-      // disable navigation on UI toolbar events to prevent data reload
-      this.preventNavigation = true;
-
-      const filterValue = this.filter === 'search' ? 'all' : this.filter;
-      this.$filterStatus.select2('val', filterValue);
-
-      if (this.filter === 'checks') {
-        this.$filterChecksWrapper.css('display', 'inline-block');
-        const selectedValue = this.category || this.checks[0] || 'all';
-        this.$filterChecks.select2(filterSelectOpts).select2('val', selectedValue);
-      } else {
-        this.$filterChecksWrapper.hide();
-      }
-
-      this.$filterSortBy.select2('val', this.sortBy);
-
-      // re-enable normal event handling
-      this.preventNavigation = false;
-
-      // get all the uids and see if the uId is in the list
-      const reqData = {
-        path: this.settings.pootlePath,
-      };
-      Object.assign(reqData, this.getReqData());
-
-      if (params.unit) {
-        reqData.uid = parseInt(params.unit, 10);
-      }
-      this.units.fetchUids(reqData).done((hasResults) => {
-        if (!hasResults) {
-          this.handleNoMatchingUnitsFound({ filter: this.filter });
-        } else {
-          this.units.goto(reqData.uid || this.units.uids[0]);
-          if (this.units.idx === -1) {
-            this.handleUnitNotFound({ filter: this.filter });
           }
+          $('.js-user-filter').remove();
+          this.$filterStatus.append(newOpts.join(''));
         }
-      });
-    }, { unescape: true });
+
+        this.units.setIncludeDisabled('all' in params);
+
+        if ('search' in params) {
+          // Note that currently the search, if provided along with the other
+          // filters, would override them
+          this.filter = 'search';
+
+          const newState = {
+            searchText: params.search,
+          };
+
+          if ('sfields' in params) {
+            newState.searchFields = params.sfields.split(',');
+          }
+          if ('soptions' in params) {
+            newState.searchOptions = params.soptions.split(',');
+          }
+
+          search.setState(newState);
+        }
+
+        // Update the filter UI to match the current filter
+
+        // disable navigation on UI toolbar events to prevent data reload
+        this.preventNavigation = true;
+
+        const filterValue = this.filter === 'search' ? 'all' : this.filter;
+        this.$filterStatus.select2('val', filterValue);
+
+        if (this.filter === 'checks') {
+          this.$filterChecksWrapper.css('display', 'inline-block');
+          const selectedValue = this.category || this.checks[0] || 'all';
+          this.$filterChecks
+            .select2(filterSelectOpts)
+            .select2('val', selectedValue);
+        } else {
+          this.$filterChecksWrapper.hide();
+        }
+
+        this.$filterSortBy.select2('val', this.sortBy);
+
+        // re-enable normal event handling
+        this.preventNavigation = false;
+
+        // get all the uids and see if the uId is in the list
+        const reqData = {
+          path: this.settings.pootlePath,
+        };
+        Object.assign(reqData, this.getReqData());
+
+        if (params.unit) {
+          reqData.uid = parseInt(params.unit, 10);
+        }
+        this.units.fetchUids(reqData).done((hasResults) => {
+          if (!hasResults) {
+            this.handleNoMatchingUnitsFound({ filter: this.filter });
+          } else {
+            this.units.goto(reqData.uid || this.units.uids[0]);
+            if (this.units.idx === -1) {
+              this.handleUnitNotFound({ filter: this.filter });
+            }
+          }
+        });
+      },
+      { unescape: true }
+    );
   },
 
   /* Stuff to be done when the editor is ready  */
@@ -620,7 +639,8 @@ PTL.editor = {
 
   canNavigate() {
     if (this.isUnitDirty || this.isSuggestionFeedbackFormDirty) {
-      return window.confirm(  // eslint-disable-line no-alert
+      return window.confirm(
+        // eslint-disable-line no-alert
         t(
           'You have unsaved changes in this string. Navigating away will discard those changes.'
         )
@@ -629,7 +649,6 @@ PTL.editor = {
 
     return true;
   },
-
 
   /*
    * Text utils
@@ -653,8 +672,8 @@ PTL.editor = {
     // Build highlighting selector based on chosen search fields
     const selectors = selMap[rowType];
     const sel = searchFields
-      .filter(fieldName => selectors.hasOwnProperty(fieldName))
-      .map(fieldName => selectors[fieldName]);
+      .filter((fieldName) => selectors.hasOwnProperty(fieldName))
+      .map((fieldName) => selectors[fieldName]);
     if (!sel.length) {
       return;
     }
@@ -668,17 +687,15 @@ PTL.editor = {
     $(sel.join(', ')).highlightRegex(hlRegex);
   },
 
-
   /* Copies text into the focused textarea */
   copyText(e) {
     const $el = $(e.currentTarget);
     const action = $el.data('action');
-    const text = (
-      $el.data('codepoint') && JSON.parse(`"${$el.data('codepoint')}"`) ||
+    const text =
+      ($el.data('codepoint') && JSON.parse(`"${$el.data('codepoint')}"`)) ||
       $el.data('string') ||
       $el.data('translation-aid') ||
-      $el.text()
-    );
+      $el.text();
 
     if (action === 'overwrite') {
       ReactEditor.setValueFor(this.focused || 0, text);
@@ -694,7 +711,6 @@ PTL.editor = {
     }
     this.copyText(e);
   },
-
 
   /* Copies source text(s) into the target textarea(s)*/
   copyOriginal(languageCode) {
@@ -729,12 +745,10 @@ PTL.editor = {
     $('tr.edit-row').addClass('fuzzy-unit');
   },
 
-
   /* Unsets the current unit's styling as fuzzy */
   undoFuzzyStyle() {
     $('tr.edit-row').removeClass('fuzzy-unit');
   },
-
 
   /* Checks the current unit's fuzzy checkbox */
   doFuzzyBox() {
@@ -751,14 +765,12 @@ PTL.editor = {
     $checkbox.trigger('change');
   },
 
-
   /* Unchecks the current unit's fuzzy checkbox */
   undoFuzzyBox() {
     const $checkbox = $('input.fuzzycheck');
     $checkbox.prop('checked', false);
     $checkbox.trigger('change');
   },
-
 
   /* Sets the current unit status as fuzzy (both styling and checkbox) */
   goFuzzy() {
@@ -768,7 +780,6 @@ PTL.editor = {
     }
   },
 
-
   /* Unsets the current unit status as fuzzy (both styling and checkbox) */
   ungoFuzzy() {
     if (this.isFuzzy()) {
@@ -776,7 +787,6 @@ PTL.editor = {
       this.undoFuzzyBox();
     }
   },
-
 
   /* Returns whether the current unit is fuzzy or not */
   isFuzzy() {
@@ -815,14 +825,16 @@ PTL.editor = {
 
   handleTranslationChange() {
     const comment = q('#id_translator_comment');
-    const commentChanged = comment !== null ?
-                           comment.value !== comment.defaultValue : false;
+    const commentChanged =
+      comment !== null ? comment.value !== comment.defaultValue : false;
 
     const submit = q('.js-submit');
     const suggest = q('.js-suggest');
-    const suggestions = $('.js-user-suggestion').map(function getSuggestions() {
-      return $(this).data('translation-aid');
-    }).get();
+    const suggestions = $('.js-user-suggestion')
+      .map(function getSuggestions() {
+        return $(this).data('translation-aid');
+      })
+      .get();
     const checkbox = q('#id_state');
     const stateChanged = checkbox.defaultChecked !== checkbox.checked;
 
@@ -877,15 +889,13 @@ PTL.editor = {
     clearTimeout(this.similarityTimer);
     this.similarityTimer = setTimeout(() => {
       this.checkSimilarTranslations();
-      this.similarityTimer = null;  // So we know the code was run
+      this.similarityTimer = null; // So we know the code was run
     }, 200);
   },
 
   isTextareaValueDirty() {
-    return !_.isEqual(ReactEditor.props.initialValues,
-                      ReactEditor.stateValues);
+    return !_.isEqual(ReactEditor.props.initialValues, ReactEditor.stateValues);
   },
-
 
   /*
    * Translation's similarity
@@ -910,8 +920,9 @@ PTL.editor = {
 
       if (similarity > maxSimilarity) {
         maxSimilarity = similarity;
-        boxId = $element.hasClass('js-translation-area') ?
-                null : $element.val('id');
+        boxId = $element.hasClass('js-translation-area')
+          ? null
+          : $element.val('id');
       }
     }
 
@@ -944,18 +955,24 @@ PTL.editor = {
     let simMT = { max: 0, boxId: null };
 
     if ($aidElements.length) {
-      simHuman = this.calculateSimilarity(newTranslation, $aidElements,
-                                          dataSelector);
+      simHuman = this.calculateSimilarity(
+        newTranslation,
+        $aidElements,
+        dataSelector
+      );
     }
     if ($aidElementsMT.length) {
-      simMT = this.calculateSimilarity(newTranslation, $aidElementsMT,
-                                       dataSelectorMT);
+      simMT = this.calculateSimilarity(
+        newTranslation,
+        $aidElementsMT,
+        dataSelectorMT
+      );
     }
 
     this.units.unit.similarityHuman = simHuman.max;
     this.units.unit.similarityMT = simMT.max;
 
-    const similarity = (simHuman.max > simMT.max) ? simHuman : simMT;
+    const similarity = simHuman.max > simMT.max ? simHuman : simMT;
     this.highlightBox(similarity.boxId, similarity.max === 1);
     return true;
   },
@@ -965,20 +982,22 @@ PTL.editor = {
     const bestMatchCls = 'best-match';
     const exactMatchCls = 'exact-match';
 
-    $('.translate-table').find(`.${bestMatchCls}`)
-                         .removeClass(`${bestMatchCls} ${exactMatchCls}`);
+    $('.translate-table')
+      .find(`.${bestMatchCls}`)
+      .removeClass(`${bestMatchCls} ${exactMatchCls}`);
 
     if (boxId === null) {
       return false;
     }
 
-    $(boxId).addClass(cx({
-      [bestMatchCls]: true,
-      [exactMatchCls]: isExact,
-    }));
+    $(boxId).addClass(
+      cx({
+        [bestMatchCls]: true,
+        [exactMatchCls]: isExact,
+      })
+    );
     return true;
   },
-
 
   /*
    * Suggest / submit mode functions
@@ -989,18 +1008,15 @@ PTL.editor = {
     this.editorTableEl.classList.add('suggest-mode');
   },
 
-
   /* Changes the editor into submit mode */
   undoSuggestMode() {
     this.editorTableEl.classList.remove('suggest-mode');
   },
 
-
   /* Returns true if the editor is in suggest mode */
   isSuggestMode() {
     return this.editorTableEl.classList.contains('suggest-mode');
   },
-
 
   /* Toggles suggest/submit modes */
   toggleSuggestMode(e) {
@@ -1038,7 +1054,6 @@ PTL.editor = {
     this.hideActivity();
     msg.show({ text, level: 'error' });
   },
-
 
   /* Handles XHR errors */
   error(xhr, s) {
@@ -1091,7 +1106,6 @@ PTL.editor = {
       reqData.category = this.category;
     }
 
-
     if (this.filter === 'search') {
       const { searchText, searchFields, searchOptions } = search.state;
       reqData.search = searchText;
@@ -1134,11 +1148,9 @@ PTL.editor = {
     };
   },
 
-
   /*
    * Unit navigation, display, submission
    */
-
 
   /* Renders a single row */
   renderHeaderRow(uid) {
@@ -1147,17 +1159,15 @@ PTL.editor = {
     }
 
     const unit = this.units.units[uid];
-    const caption = [
-      unit.targetLanguageName,
-      unit.projectName,
-      unit.file,
-    ].join('</li><li>');
+    const caption = [unit.targetLanguageName, unit.projectName, unit.file].join(
+      '</li><li>'
+    );
 
-    return (`
+    return `
       <tr class="header-row js-header-row">
         <td colspan="2"><div class="unit-path"><ul><li>${caption}</li></ul></div></td>
       </tr>
-    `);
+    `;
   },
 
   renderViewRow(uid, unit, extraClassName, contextMode) {
@@ -1169,33 +1179,31 @@ PTL.editor = {
       [extraClassName]: extraClassName,
     });
 
-    return (`
+    return `
       ${!contextMode && this.renderHeaderRow(uid)}
       <tr id="row${uid}" class="${classNames}">
         ${this.tmpl.vUnit({ unit })}
       </tr>
-    `);
+    `;
   },
 
   renderEditorRow(uid, unit) {
     const eClass = cx('edit-row', {
       'fuzzy-unit': unit.isfuzzy,
-      'context-rows-available': (this.filter !== 'all'),
+      'context-rows-available': this.filter !== 'all',
     });
 
-    return (`
+    return `
       <tr id="row${uid}" class="${eClass}">
         ${this.units.unit.editor}
       </tr>
-    `);
+    `;
   },
-
 
   /* Renders the view rows */
   renderViewRows(uids) {
-    return uids.map(uid => this.renderViewRow(uid, this.units.units[uid]));
+    return uids.map((uid) => this.renderViewRow(uid, this.units.units[uid]));
   },
-
 
   /* Renders the context rows */
   renderContextRows(units, rows) {
@@ -1206,7 +1214,6 @@ PTL.editor = {
     }
   },
 
-
   handleContextPreviewMouseover() {
     if (this.filter === 'all') {
       return;
@@ -1216,7 +1223,6 @@ PTL.editor = {
       this.units.loadContextRows();
     }, SHOW_CONTEXT_ROWS_TIMEOUT);
   },
-
 
   handleContextPreviewMouseout(e) {
     if (this.filter === 'all') {
@@ -1229,7 +1235,6 @@ PTL.editor = {
       }
     }, HIDE_CONTEXT_ROWS_TIMEOUT);
   },
-
 
   /* shows the context rows in place of regular view rows */
   handleContextData(uid, ctx) {
@@ -1282,26 +1287,28 @@ PTL.editor = {
     const leadIn = [];
     const leadOut = [];
 
-    const canShow = (
+    const canShow =
       this.units.uids.length >
-      this.units.visibleRowsBefore + this.units.visibleRowsAfter
-    );
+      this.units.visibleRowsBefore + this.units.visibleRowsAfter;
 
     if (canShow) {
       if (this.units.begin === 0) {
-        leadIn.push(nt(
-          'Found %(total)s unit.',
-          'Found %(total)s units.',
-          this.units.total, { total: this.units.total }
-        ));
+        leadIn.push(
+          nt('Found %(total)s unit.', 'Found %(total)s units.', this.units.total, {
+            total: this.units.total,
+          })
+        );
       } else {
         // there are some units above;
         // this can only happen when filter is set to 'all'
-        leadIn.push(nt(
-          'There are %(count)s more unit above.',
-          'There are %(count)s more units above.',
-          this.units.total, { count: this.units.begin }
-        ));
+        leadIn.push(
+          nt(
+            'There are %(count)s more unit above.',
+            'There are %(count)s more units above.',
+            this.units.total,
+            { count: this.units.begin }
+          )
+        );
 
         leadIn.push(t('Reload the page to see them.'));
       }
@@ -1314,23 +1321,29 @@ PTL.editor = {
       }
     } else {
       if (showCongratulationsMessage) {
-        leadOut.push(t('Congratulations, you went through a good number of units!'));
+        leadOut.push(
+          t('Congratulations, you went through a good number of units!')
+        );
       }
 
       if (canShow) {
         if (this.filter === 'all') {
           leadOut.push(t('Reload the page to see more units.'));
         } else if (this.filter === 'search') {
-          leadOut.push(t(
-            `There were more units that matched your search criteria.
+          leadOut.push(
+            t(
+              `There were more units that matched your search criteria.
           Please refine your search.`
-          ));
+            )
+          );
         } else {
-          leadOut.push(t(
-            `There were more units that matched your filter.
+          leadOut.push(
+            t(
+              `There were more units that matched your filter.
           Reload the page to see if there is more stuff to go through,
           or use search to find specific units.`
-          ));
+            )
+          );
         }
       }
     }
@@ -1342,13 +1355,15 @@ PTL.editor = {
   redrawViewRows({ showCongratulationsMessage = false } = {}) {
     const messages = this.populateLeadInOutMessages({ showCongratulationsMessage });
 
-    const rowsBefore = [`
+    const rowsBefore = [
+      `
       <tr>
         <td colspan="2" class="lead-in-row js-lead-in-row">
           <p>${messages.leadIn.join('</p><p>')}</p>
         </td>
       </tr>
-    `];
+    `,
+    ];
     rowsBefore.push(this.renderViewRows(this.units.visibleUnitsBefore()));
     rowsBefore.push(this.renderHeaderRow(this.units.uid));
 
@@ -1365,7 +1380,6 @@ PTL.editor = {
     this.$viewRowsBefore.html(rowsBefore.join(''));
     this.$viewRowsAfter.html(rowsAfter.join(''));
   },
-
 
   /* redraws the edit row */
   redrawEditRow() {
@@ -1389,7 +1403,10 @@ PTL.editor = {
   /* Updates a `$button` to the `enable` state */
   updateNavButton($button, enable) {
     // Avoid unnecessary actions
-    if ($button.is(':enabled') && enable || $button.is(':disabled') && !enable) {
+    if (
+      ($button.is(':enabled') && enable) ||
+      ($button.is(':disabled') && !enable)
+    ) {
       return;
     }
 
@@ -1402,17 +1419,14 @@ PTL.editor = {
     $button.prop('disabled', !enable);
   },
 
-
   /* Updates the navigation widget */
   updateNavigation() {
-    this.updateNavButton(this.$navPrev,
-                         !this.units.isOnFirstUnit());
+    this.updateNavButton(this.$navPrev, !this.units.isOnFirstUnit());
     this.updateNavButton(this.$navNext, !this.units.isOnLastUnit());
 
     this.unitPositionEl.textContent = this.units.getPosition();
     this.unitCountEl.textContent = this.units.total;
   },
-
 
   /* Update edit row, because currently selected unit has changed */
   handleUnitChange(uid) {
@@ -1423,11 +1437,17 @@ PTL.editor = {
     const hashUid = parseInt(utils.getParsedHash().unit, 10);
 
     if (!hashUid) {
-      history.replaceState(undefined, undefined,
-                           `#${utils.updateHashPart('unit', uid)}`);
+      history.replaceState(
+        undefined,
+        undefined,
+        `#${utils.updateHashPart('unit', uid)}`
+      );
     } else if (uid !== hashUid) {
-      history.pushState(undefined, undefined,
-                        `#${utils.updateHashPart('unit', uid)}`);
+      history.pushState(
+        undefined,
+        undefined,
+        `#${utils.updateHashPart('unit', uid)}`
+      );
     }
     this.updateNavigation();
     this.hideContextRows();
@@ -1437,7 +1457,6 @@ PTL.editor = {
 
     this.ready();
   },
-
 
   /* Handle the 'No units found' case */
   handleEmptyResults({ htmlMessage } = {}) {
@@ -1474,22 +1493,20 @@ PTL.editor = {
 
     if (filter === 'all') {
       htmlMessage = `
-        <p>${
-          t('Unit #%(id)s is no longer available.', { id: this.units.uid })
-        }</p>
-        <p><a class="js-show-first-unit">${
-          t('Show all other units in this translation scope')
-        }</a></p>
+        <p>${t('Unit #%(id)s is no longer available.', { id: this.units.uid })}</p>
+        <p><a class="js-show-first-unit">${t(
+          'Show all other units in this translation scope'
+        )}</a></p>
       `;
     } else {
       htmlMessage = `
-        <p>${
-          t('Unit #%(id)s no longer matches your search criteria or is no longer available.',
-            { id: this.units.uid })
-          }</p>
-        <p><a class="js-show-first-unit">${
-          t('Show all other units matching your search criteria')
-        }</a></p>
+        <p>${t(
+          'Unit #%(id)s no longer matches your search criteria or is no longer available.',
+          { id: this.units.uid }
+        )}</p>
+        <p><a class="js-show-first-unit">${t(
+          'Show all other units matching your search criteria'
+        )}</a></p>
       `;
     }
 
@@ -1510,12 +1527,14 @@ PTL.editor = {
       valueStateData = this.getValueStateData();
     }
     const newTranslation = valueStateData[0];
-    const suggestions = $('.js-user-suggestion').map(function getSuggestions() {
-      return {
-        text: this.dataset.translationAid,
-        id: this.dataset.suggId,
-      };
-    }).get();
+    const suggestions = $('.js-user-suggestion')
+      .map(function getSuggestions() {
+        return {
+          text: this.dataset.translationAid,
+          id: this.dataset.suggId,
+        };
+      })
+      .get();
 
     this.updateUnitDefaultProperties();
 
@@ -1545,8 +1564,11 @@ PTL.editor = {
     }
 
     const body = Object.assign(
-      {}, this.getCheckedStateData(), valueStateData,
-      this.getReqData(), this.getSimilarityData()
+      {},
+      this.getCheckedStateData(),
+      valueStateData,
+      this.getReqData(),
+      this.getSimilarityData()
     );
 
     el.disabled = true;
@@ -1560,11 +1582,10 @@ PTL.editor = {
       Object.assign(body, suggData);
     }
 
-    UnitAPI.addTranslation(this.units.uid, body)
-      .then(
-        (data) => this.processSubmission(data),
-        this.error
-      );
+    UnitAPI.addTranslation(this.units.uid, body).then(
+      (data) => this.processSubmission(data),
+      this.error
+    );
   },
 
   processSubmission(data) {
@@ -1595,14 +1616,17 @@ PTL.editor = {
   handleSuggest() {
     this.updateUnitDefaultProperties();
 
-    const body = Object.assign({}, this.getValueStateData(), this.getReqData(),
-                        this.getSimilarityData());
+    const body = Object.assign(
+      {},
+      this.getValueStateData(),
+      this.getReqData(),
+      this.getSimilarityData()
+    );
 
-    UnitAPI.addSuggestion(this.units.uid, body)
-      .then(
-        (data) => this.processSuggestion(data),
-        this.error
-      );
+    UnitAPI.addSuggestion(this.units.uid, body).then(
+      (data) => this.processSuggestion(data),
+      this.error
+    );
   },
 
   processSuggestion(data) {
@@ -1613,7 +1637,6 @@ PTL.editor = {
     this.gotoNext();
   },
 
-
   /* Loads the previous unit */
   gotoPrev() {
     if (!this.canNavigate()) {
@@ -1621,7 +1644,6 @@ PTL.editor = {
     }
     this.units.gotoPrev();
   },
-
 
   /* Loads the next unit */
   gotoNext(opts = { isSubmission: true }) {
@@ -1641,7 +1663,6 @@ PTL.editor = {
     this.units.gotoNext();
   },
 
-
   /* Loads the editor with a specific unit */
   gotoUnit(e) {
     e.preventDefault();
@@ -1652,9 +1673,8 @@ PTL.editor = {
 
     // Ctrl + click / Alt + click / Cmd + click / Middle click opens a new tab
     if (e.ctrlKey || e.altKey || e.metaKey || e.which === 2) {
-      const $el = e.target.nodeName !== 'TD' ?
-                  $(e.target).parents('td') :
-                  $(e.target);
+      const $el =
+        e.target.nodeName !== 'TD' ? $(e.target).parents('td') : $(e.target);
       window.open($el.data('target'), '_blank');
       return false;
     }
@@ -1671,8 +1691,12 @@ PTL.editor = {
       const uid = parseInt(m[1], 10);
       if ($(this).hasClass('ctx')) {
         $.history.load(
-          utils.updateHashPart('unit', uid,
-                               ['filter', 'search', 'sfields', 'soptions'])
+          utils.updateHashPart('unit', uid, [
+            'filter',
+            'search',
+            'sfields',
+            'soptions',
+          ])
         );
       } else {
         PTL.editor.units.goto(uid, { force: true });
@@ -1687,11 +1711,10 @@ PTL.editor = {
 
   /* Gets the failing check options for the current query */
   getCheckOptions() {
-    StatsAPI.getChecks(this.settings.pootlePath)
-      .then(
-        (data) => this.updateChecksDropdown(data),
-        this.error
-      );
+    StatsAPI.getChecks(this.settings.pootlePath).then(
+      (data) => this.updateChecksDropdown(data),
+      this.error
+    );
   },
 
   /* Loads units based on checks filtering */
@@ -1704,8 +1727,8 @@ PTL.editor = {
     }
 
     const name = this.$filterChecks.val();
-    const isCategory = $(this.$filterChecks.select2('data').element)
-      .data('type') === 'category';
+    const isCategory =
+      $(this.$filterChecks.select2('data').element).data('type') === 'category';
 
     const sortBy = this.$filterSortBy.val();
     const newHash = {
@@ -1786,7 +1809,6 @@ PTL.editor = {
     $.history.load($.param(newHash));
   },
 
-
   /* Loads units based on filtering */
   filterStatus() {
     if (!this.canNavigate()) {
@@ -1823,7 +1845,6 @@ PTL.editor = {
     return true;
   },
 
-
   /* Loads the search view */
   onSearch(searchText) {
     if (!PTL.editor.canNavigate()) {
@@ -1836,13 +1857,15 @@ PTL.editor = {
       const queryString = this.buildSearchQuery();
       newHash = `search=${queryString}`;
     } else {
-      newHash = utils.updateHashPart(undefined, undefined,
-                                     ['search', 'sfields', 'soptions']);
+      newHash = utils.updateHashPart(undefined, undefined, [
+        'search',
+        'sfields',
+        'soptions',
+      ]);
     }
     $.history.load(newHash);
     return true;
   },
-
 
   /*
    * Comments
@@ -1852,11 +1875,10 @@ PTL.editor = {
     e.preventDefault();
     this.updateCommentDefaultProperties();
 
-    UnitAPI.addComment(this.units.uid, $(e.target).serializeObject())
-      .then(
-        (data) => this.processAddComment(data),
-        this.error
-      );
+    UnitAPI.addComment(this.units.uid, $(e.target).serializeObject()).then(
+      (data) => this.processAddComment(data),
+      this.error
+    );
   },
 
   processAddComment(data) {
@@ -1864,12 +1886,17 @@ PTL.editor = {
     $('#editor-comment').fadeOut(200);
 
     if ($('#translator-comment').length) {
-      $(data.comment).hide().prependTo('#translator-comment').delay(200)
+      $(data.comment)
+        .hide()
+        .prependTo('#translator-comment')
+        .delay(200)
         .animate({ height: 'show' }, 1000, 'easeOutQuad');
     } else {
       $(`<div id='translator-comment'>${data.comment}</div>`)
-        .prependTo('#extras-container').delay(200)
-        .hide().animate({ height: 'show' }, 1000, 'easeOutQuad');
+        .prependTo('#extras-container')
+        .delay(200)
+        .hide()
+        .animate({ height: 'show' }, 1000, 'easeOutQuad');
     }
 
     helpers.updateRelativeDates();
@@ -1879,13 +1906,11 @@ PTL.editor = {
   removeComment(e) {
     e.preventDefault();
 
-    UnitAPI.removeComment(this.units.uid)
-      .then(
-        () => $('.js-comment-first').fadeOut(200),
-        this.error
-      );
+    UnitAPI.removeComment(this.units.uid).then(
+      () => $('.js-comment-first').fadeOut(200),
+      this.error
+    );
   },
-
 
   /*
    * Unit timeline
@@ -1904,10 +1929,7 @@ PTL.editor = {
     $node.spin();
 
     UnitAPI.getTimeline(this.units.uid)
-      .then(
-        (data) => this.renderTimeline(data),
-        this.error
-      )
+      .then((data) => this.renderTimeline(data), this.error)
       .always(() => $node.spin(false));
   },
 
@@ -1948,7 +1970,6 @@ PTL.editor = {
     }
   },
 
-
   /*
    * User and TM suggestions
    */
@@ -1974,11 +1995,10 @@ PTL.editor = {
   },
 
   rejectSuggestion(suggId, { requestData = {} } = {}) {
-    UnitAPI.rejectSuggestion(this.units.uid, suggId, requestData)
-      .then(
-        (data) => this.processRejectSuggestion(data, suggId),
-        this.error
-      );
+    UnitAPI.rejectSuggestion(this.units.uid, suggId, requestData).then(
+      (data) => this.processRejectSuggestion(data, suggId),
+      this.error
+    );
   },
 
   processRejectSuggestion(data, suggId) {
@@ -1998,10 +2018,10 @@ PTL.editor = {
     });
   },
 
-
   /* Accepts a suggestion */
   handleAcceptSuggestion(
-    suggId, { requestData = {}, isSuggestionChanged = false } = {}
+    suggId,
+    { requestData = {}, isSuggestionChanged = false } = {}
   ) {
     if (isSuggestionChanged) {
       this.undoFuzzyBox();
@@ -2013,8 +2033,7 @@ PTL.editor = {
   },
 
   acceptSuggestion(suggId, { requestData = {}, skipToNext = false } = {}) {
-    UnitAPI.acceptSuggestion(this.units.uid, suggId, requestData)
-    .then(
+    UnitAPI.acceptSuggestion(this.units.uid, suggId, requestData).then(
       (data) => this.processAcceptSuggestion(data, suggId, skipToNext),
       this.error
     );
@@ -2063,18 +2082,17 @@ PTL.editor = {
     const isFalsePositive = $check.hasClass('false-positive');
 
     const opts = isFalsePositive ? null : { mute: 1 };
-    UnitAPI.toggleCheck(this.units.uid, checkId, opts)
-      .then(
-        () => this.processToggleCheck(checkId, isFalsePositive),
-        this.error
-      );
+    UnitAPI.toggleCheck(this.units.uid, checkId, opts).then(
+      () => this.processToggleCheck(checkId, isFalsePositive),
+      this.error
+    );
   },
 
   processToggleCheck(checkId, isFalsePositive) {
     $(`.js-check-${checkId}`).toggleClass('false-positive', !isFalsePositive);
 
-    const hasError = $('#translate-checks-block .check')
-      .not('.false-positive').size() > 0;
+    const hasError =
+      $('#translate-checks-block .check').not('.false-positive').size() > 0;
 
     $('.translate-container').toggleClass('error', hasError);
   },
@@ -2084,9 +2102,11 @@ PTL.editor = {
    */
 
   runHooks() {
-    mtProviders.forEach((provider) => provider.init({
-      unit: Object.assign({}, this.units.unit),
-    }));
+    mtProviders.forEach((provider) =>
+      provider.init({
+        unit: Object.assign({}, this.units.unit),
+      })
+    );
   },
 
   /* FIXME: provide an alternative to such an ad-hoc entry point */
@@ -2127,10 +2147,7 @@ PTL.editor = {
     editorBody.classList.add('suggestion-expanded');
 
     this.isSuggestionFeedbackFormDirty = false;
-    ReactDOM.render(
-      <SuggestionFeedbackForm {...props} />,
-      feedbackMountPoint
-    );
+    ReactDOM.render(<SuggestionFeedbackForm {...props} />, feedbackMountPoint);
   },
 
   toggleSuggestion(e, { canHide = false } = {}) {
@@ -2151,8 +2168,10 @@ PTL.editor = {
   },
 
   closeSuggestion({ checkIfCanNavigate = true } = {}) {
-    if (this.selectedSuggestionId !== undefined &&
-        (!checkIfCanNavigate || this.canNavigate())) {
+    if (
+      this.selectedSuggestionId !== undefined &&
+      (!checkIfCanNavigate || this.canNavigate())
+    ) {
       const suggestion = q(`#suggestion-${this.selectedSuggestionId}`);
       const editorBody = q('.js-editor-cell');
       const mountSelector = `.js-mnt-suggestion-feedback-${this.selectedSuggestionId}`;
@@ -2193,8 +2212,9 @@ PTL.editor = {
     for (let i = 0; i < viewRowsBefore.length; i++) {
       viewRowsBeforeHeight += viewRowsBefore[i].scrollHeight;
     }
-    const leadInRowHeight = (
-      Math.max(0, topBlockHeight - viewRowsBeforeHeight - headerRowHeight * 2)
+    const leadInRowHeight = Math.max(
+      0,
+      topBlockHeight - viewRowsBeforeHeight - headerRowHeight * 2
     );
     if (leadInRowHeight < 30) {
       leadInRow.hide();
@@ -2237,8 +2257,10 @@ PTL.editor = {
     }
 
     // if the preview link is the same, do nothing
-    if (this.currentPreviewLink &&
-        this.currentPreviewLink.href === clickedPreviewLink) {
+    if (
+      this.currentPreviewLink &&
+      this.currentPreviewLink.href === clickedPreviewLink
+    ) {
       return;
     }
 
@@ -2251,10 +2273,13 @@ PTL.editor = {
 
     // ask the preview server to handle the URL for us (this allows servers that
     // handle this message to navigate gracefully without reloading the page)
-    this.previewWindow.postMessage({
-      navigate: true,
-      url: clickedPreviewLink.href,
-    }, '*');
+    this.previewWindow.postMessage(
+      {
+        navigate: true,
+        url: clickedPreviewLink.href,
+      },
+      '*'
+    );
 
     // set a timeout to force set the new URL
     this.openLinkTimeout = setTimeout(() => {

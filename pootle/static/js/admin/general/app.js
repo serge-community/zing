@@ -11,9 +11,7 @@ import staticpages from './staticpages';
 
 window.PTL = window.PTL || {};
 
-
 PTL.commonAdmin = {
-
   init(opts) {
     switch (opts.page) {
       case 'formset':
@@ -26,5 +24,4 @@ PTL.commonAdmin = {
         break;
     }
   },
-
 };

@@ -9,9 +9,7 @@
 
 import fetch from 'utils/fetch';
 
-
 const UnitAPI = {
-
   apiRoot: '/xhr/units/',
 
   fetchUids(body) {
@@ -111,8 +109,6 @@ const UnitAPI = {
       url: `${this.apiRoot}${uId}/checks/${checkId}/toggle/`,
     });
   },
-
 };
-
 
 export default UnitAPI;

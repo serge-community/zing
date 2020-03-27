@@ -9,7 +9,6 @@
 
 import React from 'react';
 
-
 const AuthContent = React.createClass({
   propTypes: {
     children: React.PropTypes.node,
@@ -18,11 +17,14 @@ const AuthContent = React.createClass({
 
   render() {
     // FIXME: use flexbox when possible
-    const outer = Object.assign({
-      display: 'table',
-      height: '22em',
-      width: '100%',
-    }, this.props.style);
+    const outer = Object.assign(
+      {
+        display: 'table',
+        height: '22em',
+        width: '100%',
+      },
+      this.props.style
+    );
     const style = {
       outer,
       inner: {
@@ -33,14 +35,10 @@ const AuthContent = React.createClass({
 
     return (
       <div style={style.outer}>
-        <div style={style.inner}>
-          {this.props.children}
-        </div>
+        <div style={style.inner}>{this.props.children}</div>
       </div>
     );
   },
-
 });
-
 
 export default AuthContent;

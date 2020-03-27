@@ -8,9 +8,7 @@
 
 import _ from 'underscore';
 
-
 const AdminAPIMixin = {
-
   initialize() {
     this.count = 0;
     this.page = 0;
@@ -27,7 +25,6 @@ const AdminAPIMixin = {
   },
 
   comparator: '-id',
-
 
   /* Methods */
 
@@ -66,8 +63,6 @@ const AdminAPIMixin = {
     this.keywords = keywords;
     this.page = 0;
   },
-
 };
-
 
 export default AdminAPIMixin;

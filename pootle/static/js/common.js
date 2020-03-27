@@ -37,7 +37,6 @@ import stats from './stats';
 import configureStore from './store';
 import utils from './utils';
 
-
 Spinner.defaults = {
   lines: 11,
   length: 2,
@@ -58,7 +57,6 @@ Spinner.defaults = {
   position: 'relative',
 };
 
-
 // Pootle-specifics. These need to be kept here until:
 // 1. they evolve into apps of their own
 // 2. they're only used directly as modules from other apps (and they are
@@ -76,12 +74,9 @@ PTL.stats = stats;
 PTL.utils = utils;
 PTL.utils.diff = diff;
 
-
 PTL.store = configureStore();
 
-
 PTL.common = {
-
   init(opts) {
     PTL.auth.init();
     browser.init();
@@ -111,8 +106,10 @@ PTL.common = {
       crossDomain: false,
       beforeSend(xhr, settings) {
         // Set CSRF token only for local requests.
-        if (!this.crossDomain &&
-            !/^(GET|HEAD|OPTIONS|TRACE)$/.test(settings.type)) {
+        if (
+          !this.crossDomain &&
+          !/^(GET|HEAD|OPTIONS|TRACE)$/.test(settings.type)
+        ) {
           xhr.setRequestHeader('X-CSRFToken', cookie('csrftoken'));
         }
       },
@@ -139,37 +136,29 @@ PTL.common = {
       }
 
       // stop for input, select and textarea
-      return element.tagName === 'INPUT'
-        || element.tagName === 'SELECT'
-        || element.tagName === 'TEXTAREA';
+      return (
+        element.tagName === 'INPUT' ||
+        element.tagName === 'SELECT' ||
+        element.tagName === 'TEXTAREA'
+      );
     };
-
 
     hotkeys.bind(['f1', '?'], (e) => {
       e.preventDefault();
       showKeyboardHelpDialog();
     });
 
-
     /* Setup React components */
 
     if (q('#js-navbar-avatar') !== null) {
       ReactDOM.render(
-        <Avatar
-          size={24}
-          tagName="span"
-          {...opts.user}
-        />,
+        <Avatar size={24} tagName="span" {...opts.user} />,
         q('#js-navbar-avatar')
       );
     }
 
     if (q('.js-welcome-hero') !== null) {
-      ReactDOM.render(
-        <Hero />,
-        q('.js-welcome-hero')
-      );
+      ReactDOM.render(<Hero />, q('.js-welcome-hero'));
     }
   },
-
 };

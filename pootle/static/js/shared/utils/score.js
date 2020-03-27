@@ -8,7 +8,6 @@
 
 import { t } from './i18n';
 
-
 export function getScoreText(score) {
   if (score > 0) {
     return t('+%(score)s', { score });

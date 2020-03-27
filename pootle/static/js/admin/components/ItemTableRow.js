@@ -9,9 +9,7 @@
 import cx from 'classnames';
 import React from 'react';
 
-
 const ItemTableRow = React.createClass({
-
   propTypes: {
     fields: React.PropTypes.array.isRequired,
     item: React.PropTypes.object.isRequired,
@@ -48,8 +46,6 @@ const ItemTableRow = React.createClass({
       </tr>
     );
   },
-
 });
-
 
 export default ItemTableRow;

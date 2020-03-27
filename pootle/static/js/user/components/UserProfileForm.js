@@ -15,9 +15,7 @@ import UserAPI from 'api/UserAPI';
 import Avatar from 'components/Avatar';
 import FormElement from 'components/FormElement';
 
-
 export const UserProfileForm = React.createClass({
-
   propTypes: {
     onSuccess: React.PropTypes.func.isRequired,
     user: React.PropTypes.object.isRequired,
@@ -26,7 +24,11 @@ export const UserProfileForm = React.createClass({
   getInitialState() {
     const formData = _.pick(
       this.props.user,
-      'full_name', 'twitter', 'linkedin', 'website', 'bio'
+      'full_name',
+      'twitter',
+      'linkedin',
+      'website',
+      'bio'
     );
     return {
       formData,
@@ -49,19 +51,17 @@ export const UserProfileForm = React.createClass({
 
   handleSubmit(e) {
     e.preventDefault();
-    UserAPI.update(this.props.user.id, this.state.formData)
-      .then(
-        () => {
-          this.props.onSuccess();
-        },
-        (data) => {
-          this.setState(() => ({
-            errors: data.responseJSON.errors,
-          }));
-        }
-      );
+    UserAPI.update(this.props.user.id, this.state.formData).then(
+      () => {
+        this.props.onSuccess();
+      },
+      (data) => {
+        this.setState(() => ({
+          errors: data.responseJSON.errors,
+        }));
+      }
+    );
   },
-
 
   /* Layout */
 
@@ -71,7 +71,7 @@ export const UserProfileForm = React.createClass({
     const { formData } = this.state;
     const avatarHelpMsg = gettext(
       'To set or change your avatar image for your email address ' +
-      '(%(email)s), please go to gravatar.com.'
+        '(%(email)s), please go to gravatar.com.'
     );
     const avatarHelp = interpolate(avatarHelpMsg, { email: user.email }, true);
 
@@ -132,8 +132,10 @@ export const UserProfileForm = React.createClass({
             type="textarea"
             label={gettext('Short Bio')}
             handleChange={this.handleChange}
-            placeholder={gettext('Why are you part of our translation project? ' +
-                                 'Describe yourself, inspire others!')}
+            placeholder={gettext(
+              'Why are you part of our translation project? ' +
+                'Describe yourself, inspire others!'
+            )}
             name="bio"
             errors={errors.bio}
             value={formData.bio}
@@ -150,8 +152,6 @@ export const UserProfileForm = React.createClass({
       </form>
     );
   },
-
 });
-
 
 export default UserProfileForm;

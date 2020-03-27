@@ -11,13 +11,14 @@ import { describe, it } from 'mocha';
 
 import { split, splitPootlePath, getTranslateUrl } from './url';
 
-
 describe('url', () => {
   describe('split', () => {
     it('returns the remainder after a split', () => {
-      expect(
-        split('/foo/bar/baz/blah/', '/', 2)
-      ).toEqual(['', 'foo', 'bar/baz/blah/']);
+      expect(split('/foo/bar/baz/blah/', '/', 2)).toEqual([
+        '',
+        'foo',
+        'bar/baz/blah/',
+      ]);
     });
   });
 
@@ -57,7 +58,7 @@ describe('url', () => {
           expected: ['ru', 'foo', 'bar/baz/', ''],
         },
       ];
-      tests.forEach(test => {
+      tests.forEach((test) => {
         expect(splitPootlePath(test.path)).toEqual(test.expected);
       });
     });
@@ -73,7 +74,7 @@ describe('url', () => {
           expected: [null, 'foo', 'bar/baz/', ''],
         },
       ];
-      tests.forEach(test => {
+      tests.forEach((test) => {
         expect(splitPootlePath(test.path)).toEqual(test.expected);
       });
     });
@@ -101,7 +102,7 @@ describe('url', () => {
           expected: ['ru', 'foo', 'bar/', 'baz.po'],
         },
       ];
-      tests.forEach(test => {
+      tests.forEach((test) => {
         expect(splitPootlePath(test.path)).toEqual(test.expected);
       });
     });
@@ -129,7 +130,7 @@ describe('url', () => {
           expected: [null, 'foo', 'bar/', 'baz.po'],
         },
       ];
-      tests.forEach(test => {
+      tests.forEach((test) => {
         expect(splitPootlePath(test.path)).toEqual(test.expected);
       });
     });
@@ -162,7 +163,7 @@ describe('url', () => {
         expected: '/projects/foo/translate/bar/baz/blah.po',
       },
     ];
-    tests.forEach(test => {
+    tests.forEach((test) => {
       expect(getTranslateUrl(test.path)).toEqual(test.expected);
     });
   });

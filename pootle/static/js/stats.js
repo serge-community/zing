@@ -21,7 +21,6 @@ import StatsSummary from './browser/components/StatsSummary';
 import PendingTaskContainer from './browser/components/PendingTaskContainer';
 import ActionBar from './browser/components/ActionBar';
 
-
 function provideStatsDefaults(stats) {
   if (!stats.hasOwnProperty('children')) {
     return stats;
@@ -51,15 +50,12 @@ function provideStatsDefaults(stats) {
   return newStats;
 }
 
-
 const stats = {
-
   init(options) {
     this.retries = 0;
-    this.isInitiallyExpanded = (
+    this.isInitiallyExpanded =
       options.isInitiallyExpanded ||
-      window.location.search.indexOf('?details') !== -1
-    );
+      window.location.search.indexOf('?details') !== -1;
     this.state = {};
 
     this.languageCode = options.languageCode;
@@ -92,10 +88,12 @@ const stats = {
 
   setState(newState) {
     this.state = Object.assign(
-      {}, this.state, newState,
-      newState.hasOwnProperty('data') ?
-        { data: provideStatsDefaults(newState.data) } :
-        {}
+      {},
+      this.state,
+      newState,
+      newState.hasOwnProperty('data')
+        ? { data: provideStatsDefaults(newState.data) }
+        : {}
     );
     this.updateUI();
   },
@@ -128,12 +126,16 @@ const stats = {
     const dirtySelector = '#top-stats, #translate-actions, #autorefresh-notice';
     const dirtyStatsRefreshEnabled = this.retries < this.statsRefreshAttemptsCount;
 
-    $(dirtySelector).toggleClass('dirty', !!data.is_dirty && !dirtyStatsRefreshEnabled);
+    $(dirtySelector).toggleClass(
+      'dirty',
+      !!data.is_dirty && !dirtyStatsRefreshEnabled
+    );
     if (!!data.is_dirty) {
       if (dirtyStatsRefreshEnabled) {
         this.dirtyBackoff = Math.pow(2, this.retries);
         this.dirtyBackoffId = setInterval(
-          () => this.updateDirty({ showSpin: false }), 1000
+          () => this.updateDirty({ showSpin: false }),
+          1000
         );
       } else {
         $('.js-stats-refresh').show();
@@ -158,17 +160,14 @@ const stats = {
     if (showSpin) {
       $('body').spin();
     }
-    return StatsAPI
-      .getStats(this.pootlePath)
+    return StatsAPI.getStats(this.pootlePath)
       .done((data) => this.setState({ data }))
       .always(() => $('body').spin(false));
   },
 
   updateTableUI() {
     ReactDOM.render(
-      <BrowserTable
-        items={this.state.data.children}
-      />,
+      <BrowserTable items={this.state.data.children} />,
       q('#js-browsing-table-container')
     );
   },
@@ -209,8 +208,6 @@ const stats = {
 
     this.updateTableUI();
   },
-
 };
-
 
 export default stats;

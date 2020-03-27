@@ -6,15 +6,12 @@
  * AUTHORS file for copyright and authorship information.
  */
 
-global.gettext = string => string;
+global.gettext = (string) => string;
 
-global.ngettext = (singular, plural, count) => (
-  (count === 1) ? singular : plural
-);
+global.ngettext = (singular, plural, count) => (count === 1 ? singular : plural);
 
-global.interpolate = (string, args) => (
-  string.replace(/%\(\w+\)s/g, (match) => String(args[match.slice(2, -2)]))
-);
+global.interpolate = (string, args) =>
+  string.replace(/%\(\w+\)s/g, (match) => String(args[match.slice(2, -2)]));
 
 global.PTL = {
   settings: {

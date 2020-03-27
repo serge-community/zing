@@ -10,7 +10,6 @@ import React from 'react';
 
 import { toLocaleString } from 'utils/i18n';
 
-
 const ColoredNumber = React.createClass({
   propTypes: {
     n: React.PropTypes.number,

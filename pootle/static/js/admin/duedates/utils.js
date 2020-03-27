@@ -9,7 +9,6 @@
 import { t } from 'utils/i18n';
 import { formatTimeDelta, formatTimeMessage } from 'utils/time';
 
-
 function _formatDueTime({ count, unit, isFuture }) {
   const timeMsg = formatTimeMessage(unit, count);
   if (isFuture) {
@@ -17,7 +16,6 @@ function _formatDueTime({ count, unit, isFuture }) {
   }
   return t('Overdue by %(time)s', { time: timeMsg });
 }
-
 
 export function formatDueTime(msEpoch) {
   return formatTimeDelta(msEpoch, { formatFunction: _formatDueTime });

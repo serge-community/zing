@@ -11,9 +11,7 @@ import React from 'react';
 
 import Modal from './Modal';
 
-
 const Dialog = React.createClass({
-
   propTypes: {
     okLabel: React.PropTypes.string,
     cancelLabel: React.PropTypes.string,
@@ -22,7 +20,6 @@ const Dialog = React.createClass({
     header: React.PropTypes.func,
     footer: React.PropTypes.func,
   },
-
 
   /* Lifecycle */
 
@@ -33,23 +30,15 @@ const Dialog = React.createClass({
     };
   },
 
-
   /* Layout */
 
   renderFooter() {
     return (
       <div>
-        <button
-          className="btn btn-primary"
-          onClick={this.props.onAccept}
-        >
+        <button className="btn btn-primary" onClick={this.props.onAccept}>
           {this.props.okLabel}
         </button>
-        <button
-          className="btn"
-          autoFocus
-          onClick={this.props.onCancel}
-        >
+        <button className="btn" autoFocus onClick={this.props.onCancel}>
           {this.props.cancelLabel}
         </button>
       </div>
@@ -57,12 +46,8 @@ const Dialog = React.createClass({
   },
 
   render() {
-    return (
-      <Modal {...this.props} footer={this.renderFooter} />
-    );
+    return <Modal {...this.props} footer={this.renderFooter} />;
   },
-
 });
-
 
 export default Dialog;

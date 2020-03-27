@@ -13,9 +13,7 @@ import { t } from 'utils/i18n';
 
 import { highlightRW } from '../../utils';
 
-
 const UnitSource = React.createClass({
-
   propTypes: {
     id: React.PropTypes.number.isRequired,
     values: React.PropTypes.array.isRequired,
@@ -32,11 +30,11 @@ const UnitSource = React.createClass({
 
     return (
       <div key={`source-value-${index}`}>
-        {this.props.hasPlurals &&
-         <div
-           className="plural-form-label"
-         >{t('Plural form %(index)s', { index })}</div>
-        }
+        {this.props.hasPlurals && (
+          <div className="plural-form-label">
+            {t('Plural form %(index)s', { index })}
+          </div>
+        )}
         <div
           className="translation-text js-translation-text"
           data-string={sourceValue}
@@ -53,15 +51,11 @@ const UnitSource = React.createClass({
     });
 
     return (
-      <div
-        id={`js-unit-${this.props.id}`}
-        className={classNames}
-      >
+      <div id={`js-unit-${this.props.id}`} className={classNames}>
         {this.props.values.map(this.createItem)}
       </div>
     );
   },
 });
-
 
 export default UnitSource;

@@ -12,9 +12,7 @@ import UnitAPI from 'api/UnitAPI';
 
 import Unit from './Unit';
 
-
 class UnitsList {
-
   constructor(props) {
     this.uids = [];
     this.units = {};
@@ -81,7 +79,9 @@ class UnitsList {
   }
 
   fetchFullUnitData(uid) {
-    return UnitAPI.fetchFullUnitData(uid, this.includeDisabled).then(data => data);
+    return UnitAPI.fetchFullUnitData(uid, this.includeDisabled).then(
+      (data) => data
+    );
   }
 
   handleUnitChange(uid) {
@@ -126,10 +126,7 @@ class UnitsList {
       return;
     }
 
-    $.when(
-      this.prefetchUnits(),
-      this.fetchFullUnitData(uid)
-    ).then(
+    $.when(this.prefetchUnits(), this.fetchFullUnitData(uid)).then(
       (noData, fullUnitData) => {
         // Unit wasn't prefetched yet
         if (!this.unit) {
@@ -157,22 +154,28 @@ class UnitsList {
 
         // wrap returned data into Unit objects
         const ctxData = {
-          before: data.before.map(unitData => new Unit({
-            id: unitData.id,
-            isfuzzy: unitData.isfuzzy,
-            source: unitData.source,
-            sourceLang: unitData.source_lang,
-            target: unitData.target,
-            targetLang: unitData.target_lang,
-          })),
-          after: data.after.map(unitData => new Unit({
-            id: unitData.id,
-            isfuzzy: unitData.isfuzzy,
-            source: unitData.source,
-            sourceLang: unitData.source_lang,
-            target: unitData.target,
-            targetLang: unitData.target_lang,
-          })),
+          before: data.before.map(
+            (unitData) =>
+              new Unit({
+                id: unitData.id,
+                isfuzzy: unitData.isfuzzy,
+                source: unitData.source,
+                sourceLang: unitData.source_lang,
+                target: unitData.target,
+                targetLang: unitData.target_lang,
+              })
+          ),
+          after: data.after.map(
+            (unitData) =>
+              new Unit({
+                id: unitData.id,
+                isfuzzy: unitData.isfuzzy,
+                source: unitData.source,
+                sourceLang: unitData.source_lang,
+                target: unitData.target,
+                targetLang: unitData.target_lang,
+              })
+          ),
         };
 
         this.unit.contextData = ctxData;
@@ -229,11 +232,13 @@ class UnitsList {
   }
 
   prefetchUnits() {
-    const start = this.firstUnitInVicinity(this.visibleRowsBefore + this.prefetchRows);
+    const start = this.firstUnitInVicinity(
+      this.visibleRowsBefore + this.prefetchRows
+    );
     const end = this.lastUnitInVicinity(this.visibleRowsAfter + this.prefetchRows);
     const uids = this.uids.slice(start, end + 1);
 
-    const unitsToFetch = uids.filter(uid => !this.units.hasOwnProperty(uid));
+    const unitsToFetch = uids.filter((uid) => !this.units.hasOwnProperty(uid));
 
     if (!unitsToFetch.length) {
       return;
@@ -247,15 +252,15 @@ class UnitsList {
       }
       // In the initial vicinity, don't fetch if we already have the first
       // `prefetchRows` amount of units.
-      const firstUnits = this.uids.slice(0, this.prefetchRows).filter(
-        uid => this.units.hasOwnProperty(uid)
-      );
+      const firstUnits = this.uids
+        .slice(0, this.prefetchRows)
+        .filter((uid) => this.units.hasOwnProperty(uid));
       if (firstUnits.length === this.prefetchRows) {
         return;
       }
     }
 
-    const headersToFetch = unitsToFetch.filter(uid => uid in this.headers);
+    const headersToFetch = unitsToFetch.filter((uid) => uid in this.headers);
 
     const fetchParams = { uids: unitsToFetch, headers: headersToFetch };
     if (this.includeDisabled) {
@@ -291,14 +296,12 @@ class UnitsList {
 
   cleanupUnusedUnits() {
     const aboveStart = 0;
-    const aboveEnd = this.firstUnitInVicinity(
-      this.visibleRowsBefore + this.prefetchRows
-    ) - 1;
+    const aboveEnd =
+      this.firstUnitInVicinity(this.visibleRowsBefore + this.prefetchRows) - 1;
     this.cleanupUnitsInRange(aboveStart, aboveEnd);
 
-    const belowStart = this.lastUnitInVicinity(
-      this.visibleRowsAfter + this.prefetchRows
-    ) + 1;
+    const belowStart =
+      this.lastUnitInVicinity(this.visibleRowsAfter + this.prefetchRows) + 1;
     const belowEnd = this.length - 1;
     this.cleanupUnitsInRange(belowStart, belowEnd);
   }
@@ -311,8 +314,6 @@ class UnitsList {
       }
     }
   }
-
 }
-
 
 export default UnitsList;

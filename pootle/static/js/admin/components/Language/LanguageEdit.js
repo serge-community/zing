@@ -10,9 +10,7 @@ import React from 'react';
 
 import LanguageForm from './LanguageForm';
 
-
 const LanguageEdit = React.createClass({
-
   propTypes: {
     collection: React.PropTypes.object.isRequired,
     model: React.PropTypes.object,
@@ -26,31 +24,31 @@ const LanguageEdit = React.createClass({
       <div className="item-edit">
         <div className="hd">
           <h2>{gettext('Edit Language')}</h2>
-          <button
-            onClick={this.props.onAdd}
-            className="btn btn-primary"
-          >
+          <button onClick={this.props.onAdd} className="btn btn-primary">
             {gettext('Add Language')}
           </button>
         </div>
         <div className="bd">
-        {!this.props.model ?
-          <p>{gettext('Use the search form to find the language, ' +
-                      'then click on a language to edit.')}</p> :
-          <LanguageForm
-            key={this.props.model.id}
-            model={this.props.model}
-            collection={this.props.collection}
-            onSuccess={this.props.onSuccess}
-            onDelete={this.props.onDelete}
-          />
-        }
+          {!this.props.model ? (
+            <p>
+              {gettext(
+                'Use the search form to find the language, ' +
+                  'then click on a language to edit.'
+              )}
+            </p>
+          ) : (
+            <LanguageForm
+              key={this.props.model.id}
+              model={this.props.model}
+              collection={this.props.collection}
+              onSuccess={this.props.onSuccess}
+              onDelete={this.props.onDelete}
+            />
+          )}
         </div>
       </div>
     );
   },
-
 });
-
 
 export default LanguageEdit;

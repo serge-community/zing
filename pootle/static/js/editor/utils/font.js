@@ -9,7 +9,6 @@
 
 import _ from 'underscore';
 
-
 export const CHARACTERS = {
   NULL: '\u0000',
   BELL: '\u0007',
@@ -42,7 +41,6 @@ export const CHARACTERS = {
   FSI: '\u2068',
   PDI: '\u2069',
 };
-
 
 export const SYMBOLS = {
   NULL: '\u2400',
@@ -77,7 +75,6 @@ export const SYMBOLS = {
   PDI: '\uF00F',
 };
 
-
 /* Character mapping/unmapping definitions for the custom font */
 
 export const BASE_MAP = {
@@ -111,7 +108,6 @@ export const FULL_MAP = Object.assign({}, BASE_MAP, {
   [CHARACTERS.PDI]: SYMBOLS.PDI,
 });
 
-
 const BASE_MAP_REV = Object.assign({}, _.invert(BASE_MAP), {
   [SYMBOLS.LF]: '',
   [SYMBOLS.CR]: '',
@@ -123,11 +119,10 @@ export const BASE_MAP_REVERSE_HL = Object.assign({}, BASE_MAP_REV, {
   [SYMBOLS.CR]: CHARACTERS.CR,
 });
 
-
 export const RE_BASE_REVERSE = new RegExp(
-  `[${Object.keys(BASE_MAP_REV).join('')}]`, 'g'
+  `[${Object.keys(BASE_MAP_REV).join('')}]`,
+  'g'
 );
-
 
 const RAW_BASE = Object.keys(BASE_MAP).join('');
 const SYM_BASE = Object.keys(_.invert(BASE_MAP)).join('');
@@ -135,60 +130,50 @@ const SYM_BASE = Object.keys(_.invert(BASE_MAP)).join('');
 const RAW_FULL = Object.keys(FULL_MAP).join('');
 const SYM_FULL = Object.keys(_.invert(FULL_MAP)).join('');
 
-
 const RE_RAW_BASE = new RegExp(`[${RAW_BASE}]`, 'g');
 
 const RE_RAW_FULL = new RegExp(`[${RAW_FULL}]`, 'g');
 const RE_SYM_FULL = new RegExp(`[${SYM_FULL}]`, 'g');
 
-
 function spaceReplacer(match) {
   return Array(match.length + 1).join(SYMBOLS.SPACE);
 }
-
 
 function leadingSpaceReplacer(match) {
   return CHARACTERS.LF + spaceReplacer(match.substring(1));
 }
 
-
 function surroundingSpaceReplacer(match) {
   return match.substring(0).replace(/ +/g, spaceReplacer);
 }
 
-
 function trailingSpaceReplacer(match) {
   return spaceReplacer(match.substring(1)) + CHARACTERS.LF;
 }
-
 
 function mapSymbol(symbol, source, target) {
   const i = source.indexOf(symbol);
   return i >= 0 ? target.charAt(i) : symbol;
 }
 
-
 function replaceFullSymbol(match) {
   return mapSymbol(match, SYM_FULL, RAW_FULL);
 }
-
 
 function replaceFullRawChar(match) {
   return mapSymbol(match, RAW_FULL, SYM_FULL);
 }
 
-
 function replaceBaseRawChar(match) {
   return mapSymbol(match, RAW_BASE, SYM_BASE);
 }
 
-
 export function raw2sym(value, { isRawMode = false } = {}) {
   // in raw mode, replace all spaces;
   // otherwise, replace two or more spaces in a row
-  let newValue = isRawMode ?
-    value.replace(/ +/g, spaceReplacer) :
-    value.replace(/ {2,}/g, spaceReplacer);
+  let newValue = isRawMode
+    ? value.replace(/ +/g, spaceReplacer)
+    : value.replace(/ {2,}/g, spaceReplacer);
   // leading line spaces
   newValue = newValue.replace(/\n /g, leadingSpaceReplacer);
   // trailing line spaces
@@ -204,13 +189,12 @@ export function raw2sym(value, { isRawMode = false } = {}) {
   // regular newlines to LF + newlines
   newValue = newValue.replace(/\n/g, `${SYMBOLS.LF}${CHARACTERS.LF}`);
   // other symbols
-  newValue = isRawMode ?
-    newValue.replace(RE_RAW_FULL, replaceFullRawChar) :
-    newValue.replace(RE_RAW_BASE, replaceBaseRawChar);
+  newValue = isRawMode
+    ? newValue.replace(RE_RAW_FULL, replaceFullRawChar)
+    : newValue.replace(RE_RAW_BASE, replaceBaseRawChar);
 
   return newValue;
 }
-
 
 export function sym2raw(value) {
   // LF + newlines to regular newlines

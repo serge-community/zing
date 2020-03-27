@@ -8,7 +8,6 @@
 
 import React from 'react';
 
-
 const RTL_LANGUAGES = [
   'aao',
   'abh',
@@ -84,7 +83,6 @@ const RTL_LANGUAGES = [
   'yud',
 ];
 
-
 /**
  * Make it possible React components can be added as placeholders.
  *
@@ -120,7 +118,6 @@ function formatComponent(str, ctx) {
   return result;
 }
 
-
 /**
  * Mark a string for localization and optionally replace placeholders with the
  * components provided in the context argument. This is intended to use in the
@@ -141,7 +138,6 @@ export function tct(string, ctx = null) {
   return formatComponent(gettext(string), ctx);
 }
 
-
 /**
  * Mark a string for localization and optionally replace placeholders with the
  * values provided in the context argument.
@@ -160,7 +156,6 @@ export function t(string, ctx = null) {
   }
   return interpolate(gettext(string), ctx, true);
 }
-
 
 /**
  * Mark a plural string for localization and optionally replace placeholders
@@ -184,7 +179,6 @@ export function nt(singular, plural, count, ctx = null) {
   return interpolate(ngettext(singular, plural, count), ctx, true);
 }
 
-
 /**
  * Locale-specific to-string conversion.
  *
@@ -201,29 +195,29 @@ export function toLocaleString(number) {
   return number.toLocaleString(navigator.language);
 }
 
-
 export const dateFormatter = new Intl.DateTimeFormat(PTL.settings.UI_LOCALE, {
   month: 'long',
   day: 'numeric',
 });
 
-
 // Flag needed for Edge as it doesn't support the `timeZone` option
 let isTzSupported = true;
 try {
-  (new Date()).toLocaleString('en', { timeZone: 'Europe/Amsterdam' });
+  new Date().toLocaleString('en', { timeZone: 'Europe/Amsterdam' });
 } catch (e) {
   isTzSupported = !(e instanceof RangeError);
 }
 
-let userTimeZone = (new Intl.DateTimeFormat()).resolvedOptions().timeZone;
+let userTimeZone = new Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 // In older Android+Webkit browsers, the timezone might be reported as an
 // abbreviation (e.g. 'CET'), but Intl formatting functions require timezone
 // names as they appear in the IANA DB. In such cases, fall back to the server
 // timezone to avoid breakage.
-if (userTimeZone.indexOf('/') === -1 &&
-    ['UTC', 'GMT'].indexOf(userTimeZone) === -1) {
+if (
+  userTimeZone.indexOf('/') === -1 &&
+  ['UTC', 'GMT'].indexOf(userTimeZone) === -1
+) {
   // eslint-disable-next-line no-console
   console.log(
     'Intl.timeZone: got a timezone not compliant with the IANA DB: ',
@@ -232,44 +226,59 @@ if (userTimeZone.indexOf('/') === -1 &&
   userTimeZone = PTL.settings.TZ;
 }
 
-const tzOptions = isTzSupported ? {
-  timeZone: userTimeZone,
-  timeZoneName: 'short',
-} : {};
+const tzOptions = isTzSupported
+  ? {
+      timeZone: userTimeZone,
+      timeZoneName: 'short',
+    }
+  : {};
 
 export const dateTimeTzFormatter = new Intl.DateTimeFormat(
   PTL.settings.UI_LOCALE,
-  Object.assign({}, {
-    month: 'long',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-  }, tzOptions)
+  Object.assign(
+    {},
+    {
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+    },
+    tzOptions
+  )
 );
 
-const serverTzOptions = isTzSupported ? {
-  timeZone: PTL.settings.TZ,
-  timeZoneName: 'short',
-} : {};
+const serverTzOptions = isTzSupported
+  ? {
+      timeZone: PTL.settings.TZ,
+      timeZoneName: 'short',
+    }
+  : {};
 
 export const serverDateTimeTzFormatter = new Intl.DateTimeFormat(
   PTL.settings.UI_LOCALE,
-  Object.assign({}, {
-    month: 'long',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-  }, serverTzOptions)
+  Object.assign(
+    {},
+    {
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+    },
+    serverTzOptions
+  )
 );
 
 export const serverTimeTzFormatter = new Intl.DateTimeFormat(
   PTL.settings.UI_LOCALE,
-  Object.assign({}, {
-    hour: 'numeric',
-    minute: 'numeric',
-  }, serverTzOptions)
+  Object.assign(
+    {},
+    {
+      hour: 'numeric',
+      minute: 'numeric',
+    },
+    serverTzOptions
+  )
 );
-
 
 /**
  * Helper to determine the directionality for a language.

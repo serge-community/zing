@@ -14,9 +14,7 @@ import { t } from 'utils/i18n';
 
 import TopContributorsTable from './TopContributorsTable';
 
-
 const TopContributors = React.createClass({
-
   propTypes: {
     topContributors: React.PropTypes.array.isRequired,
     hasMoreContributors: React.PropTypes.bool.isRequired,
@@ -40,8 +38,9 @@ const TopContributors = React.createClass({
 
   loadMoreTopContributors() {
     const params = { offset: this.state.topContributors.length };
-    return StatsAPI.getTopContributors(this.props.pootlePath, params)
-      .done(this.onLoadMoreTopContributors);
+    return StatsAPI.getTopContributors(this.props.pootlePath, params).done(
+      this.onLoadMoreTopContributors
+    );
   },
 
   renderLoadMoreButton() {
@@ -59,14 +58,12 @@ const TopContributors = React.createClass({
   },
 
   render() {
-    const content = (!this.state.topContributors.length) ? (
+    const content = !this.state.topContributors.length ? (
       <label className="placeholder">
         {t('There was no activity here for the past 30 days')}
       </label>
     ) : (
-      <TopContributorsTable
-        items={this.state.topContributors}
-      />
+      <TopContributorsTable items={this.state.topContributors} />
     );
 
     return (
@@ -79,8 +76,6 @@ const TopContributors = React.createClass({
       </div>
     );
   },
-
 });
-
 
 export default TopContributors;

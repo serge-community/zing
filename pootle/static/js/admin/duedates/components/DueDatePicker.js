@@ -17,15 +17,11 @@ import { formatDueTime } from '../utils';
 // XXX: use CSS modules so we only customize what's needed
 import './DueDatePicker.css';
 
-
 class DueDatePicker extends React.Component {
-
   constructor(props) {
     super(props);
 
-    this.committedDay = (
-      this.props.dueOn ? new Date(this.props.dueOn * 1000) : null
-    );
+    this.committedDay = this.props.dueOn ? new Date(this.props.dueOn * 1000) : null;
     this.state = {
       selectedDay: this.committedDay,
     };
@@ -33,9 +29,7 @@ class DueDatePicker extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.dueOn !== nextProps.dueOn) {
-      this.committedDay = (
-        nextProps.dueOn ? new Date(nextProps.dueOn * 1000) : null
-      );
+      this.committedDay = nextProps.dueOn ? new Date(nextProps.dueOn * 1000) : null;
       this.setState({ selectedDay: this.committedDay });
     }
   }
@@ -58,9 +52,7 @@ class DueDatePicker extends React.Component {
       return;
     }
 
-    this.props.onUpdate(
-      this.state.selectedDay.toISOString().slice(0, -14)
-    );
+    this.props.onUpdate(this.state.selectedDay.toISOString().slice(0, -14));
   }
 
   renderHint() {
@@ -110,15 +102,15 @@ class DueDatePicker extends React.Component {
         />
         {this.renderHint()}
         <div className="duedate-picker-buttons">
-        {id > 0 &&
-          <button
-            type="button"
-            className="btn btn-danger"
-            onClick={() => this.props.onRemove(id)}
-          >
-            {t('Remove')}
-          </button>
-        }
+          {id > 0 && (
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={() => this.props.onRemove(id)}
+            >
+              {t('Remove')}
+            </button>
+          )}
           <button
             type="submit"
             className="btn btn-primary"
@@ -131,7 +123,6 @@ class DueDatePicker extends React.Component {
       </div>
     );
   }
-
 }
 
 DueDatePicker.propTypes = {
@@ -144,6 +135,5 @@ DueDatePicker.defaultProps = {
   id: 0,
   dueOn: 0,
 };
-
 
 export default DueDatePicker;

@@ -31,13 +31,16 @@ const AboutDialogContent = React.createClass({
           <h1>Zing</h1>
 
           <p>
-            {tct('This server is powered by %(zing)s — ' +
-            'online translation software developed by %(evernoteLink)s ' +
-            'and based on open-source %(pootleLink)s project.', {
-              zing: <strong>Zing</strong>,
-              evernoteLink: <a href="https://evernote.com/">Evernote</a>,
-              pootleLink: <a href="http://pootle.translatehouse.org/">Pootle</a>,
-            })}
+            {tct(
+              'This server is powered by %(zing)s — ' +
+                'online translation software developed by %(evernoteLink)s ' +
+                'and based on open-source %(pootleLink)s project.',
+              {
+                zing: <strong>Zing</strong>,
+                evernoteLink: <a href="https://evernote.com/">Evernote</a>,
+                pootleLink: <a href="http://pootle.translatehouse.org/">Pootle</a>,
+              }
+            )}
           </p>
 
           <p>
@@ -47,12 +50,12 @@ const AboutDialogContent = React.createClass({
           </p>
 
           <p className="copyright">
-            {t('© %(year)s Zing Contributors', { year: 2016 })}<br />
+            {t('© %(year)s Zing Contributors', { year: 2016 })}
+            <br />
             {t('© 2016 Pootle Contributors')}
           </p>
         </div>
       </div>
     );
   },
-
 });

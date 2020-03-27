@@ -16,7 +16,6 @@ import { q } from 'utils/dom';
 
 import Auth from './containers/Auth';
 
-
 const mountNodeSelector = '.js-auth';
 const commonProps = {
   canContact: PTL.settings.CAN_CONTACT,
@@ -24,9 +23,7 @@ const commonProps = {
   socialAuthProviders: PTL.settings.SOCIAL_AUTH_PROVIDERS,
 };
 
-
 export default {
-
   init(props) {
     $(document).on('click', '.js-login', (e) => {
       e.preventDefault();
@@ -49,5 +46,4 @@ export default {
   close() {
     ReactDOM.unmountComponentAtNode(q(mountNodeSelector));
   },
-
 };

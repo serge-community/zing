@@ -6,11 +6,9 @@
  * AUTHORS file for copyright and authorship information.
  */
 
-import React from 'react';  // eslint-disable-line no-unused-vars
-
+import React from 'react'; // eslint-disable-line no-unused-vars
 
 export const FormValidationMixin = {
-
   getInitialState() {
     return {
       errors: {},
@@ -27,13 +25,11 @@ export const FormValidationMixin = {
     this.setState({ errors: response.errors });
   },
 
-
   /* Layout */
 
   renderSingleError(errorMsg, i) {
     return <li key={i}>{errorMsg}</li>;
   },
-
 
   /* Renders form's global errors. These errors come in a special
    * `__all__` field */
@@ -50,8 +46,6 @@ export const FormValidationMixin = {
 
     return null;
   },
-
 };
-
 
 export default FormValidationMixin;

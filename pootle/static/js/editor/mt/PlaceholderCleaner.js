@@ -13,9 +13,7 @@ const C_PRINTF_PAT = /%%|%(\d+\$)?([-+'#0 ]*)(\*\d+\$|\*|\d+)?(\.(\*\d+\$|\*|\d+
 const C_SHARP_STR_PAT = /{\d+(,\d+)?(:[a-zA-Z ]+)?}/g;
 const PERCENT_NUMBER_PAT = /%\d+/g;
 
-
 class PlaceholderCleaner {
-
   constructor() {
     this.resetState();
   }
@@ -54,19 +52,22 @@ class PlaceholderCleaner {
     for (let i = 0; i < argSubs.length; i++) {
       if (replacedSourceText.match(new RegExp(`\\[${i}\\][^\\s]`))) {
         recoveredTranslation = recoveredTranslation.replace(
-          new RegExp(`\\[${i}\\]\\s+`), `[${i}]`
+          new RegExp(`\\[${i}\\]\\s+`),
+          `[${i}]`
         );
       }
       if (replacedSourceText.match(new RegExp(`[^\\s]\\[${i}\\]`))) {
         recoveredTranslation = recoveredTranslation.replace(
-          new RegExp(`\\s+\\[${i}\\]`), `[${i}]`
+          new RegExp(`\\s+\\[${i}\\]`),
+          `[${i}]`
         );
       }
     }
 
     // Replace temporary [N] placeholders back to their real values
     for (let i = 0; i < argSubs.length; i++) {
-      const value = argSubs[i].replace(/&/g, '&amp;')
+      const value = argSubs[i]
+        .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
       recoveredTranslation = recoveredTranslation.replace(`[${i}]`, value);
@@ -76,8 +77,6 @@ class PlaceholderCleaner {
 
     return recoveredTranslation;
   }
-
 }
-
 
 export default PlaceholderCleaner;

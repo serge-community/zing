@@ -13,7 +13,6 @@ import ReactDOM from 'react-dom';
 import LayeredComponent from './LayeredComponent';
 import ModalContainer from './ModalContainer';
 
-
 export function showModal(props) {
   const div = document.createElement('div');
   document.body.appendChild(div);
@@ -21,43 +20,35 @@ export function showModal(props) {
   return ReactDOM.render(
     <Modal
       {...props}
-      onClose={ () => {
+      onClose={() => {
         ReactDOM.unmountComponentAtNode(div);
         document.body.removeChild(div);
         if ('onClose' in props) {
           props.onClose();
         }
-      } }
+      }}
     />,
     div
   );
 }
 
-
 export const ModalHeader = ({ children }) => (
-  <div className="lightbox-header">
-    {children}
-  </div>
+  <div className="lightbox-header">{children}</div>
 );
 
 ModalHeader.propTypes = {
   children: React.PropTypes.node.isRequired,
 };
 
-
 export const ModalFooter = ({ children }) => (
-  <div className="lightbox-footer">
-    {children}
-  </div>
+  <div className="lightbox-footer">{children}</div>
 );
 
 ModalFooter.propTypes = {
   children: React.PropTypes.node.isRequired,
 };
 
-
 const Modal = React.createClass({
-
   propTypes: {
     children: React.PropTypes.node.isRequired,
     onCanClose: React.PropTypes.func,
@@ -78,7 +69,6 @@ const Modal = React.createClass({
     };
   },
 
-
   /* Handlers */
 
   handleClose() {
@@ -93,22 +83,17 @@ const Modal = React.createClass({
     this.props.onClose();
   },
 
-
   /* Layout */
 
   renderHeader() {
     if (this.props.header) {
-      return (
-        <ModalHeader>
-          {this.props.header()}
-        </ModalHeader>
-      );
+      return <ModalHeader>{this.props.header()}</ModalHeader>;
     }
 
-    const title = (this.props.title &&
+    const title = this.props.title && (
       <div className="lightbox-title">{this.props.title}</div>
     );
-    const closeBtn = (this.props.showClose &&
+    const closeBtn = this.props.showClose && (
       <button
         className="icon-close lightbox-close"
         onClick={this.handleClose}
@@ -125,11 +110,7 @@ const Modal = React.createClass({
 
   renderFooter() {
     if (this.props.footer) {
-      return (
-        <ModalFooter>
-          {this.props.footer()}
-        </ModalFooter>
-      );
+      return <ModalFooter>{this.props.footer()}</ModalFooter>;
     }
 
     return null;
@@ -139,23 +120,15 @@ const Modal = React.createClass({
     return (
       <ModalContainer {...this.props}>
         {this.renderHeader()}
-        <div className="lightbox-content">
-          {this.props.children}
-        </div>
+        <div className="lightbox-content">{this.props.children}</div>
         {this.renderFooter()}
       </ModalContainer>
     );
   },
 
   render() {
-    return (
-      <LayeredComponent>
-        {this.renderLayer()}
-      </LayeredComponent>
-    );
+    return <LayeredComponent>{this.renderLayer()}</LayeredComponent>;
   },
-
 });
-
 
 export default Modal;

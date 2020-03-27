@@ -9,7 +9,6 @@
 import $ from 'jquery';
 import Backbone from 'backbone';
 
-
 const sel = {
   data: {
     toggle: '[data-action="toggle"]',
@@ -25,9 +24,7 @@ const keys = {
   DOWN: 40,
 };
 
-
 const DropdownView = Backbone.View.extend({
-
   events() {
     const events = {
       keydown: 'onKey',
@@ -111,17 +108,12 @@ const DropdownView = Backbone.View.extend({
       this.$toggle.blur();
     }
   },
-
 });
 
-
 const dropdown = {
-
   init(el) {
     return new DropdownView({ el: el instanceof $ ? el : $(el) });
   },
-
 };
-
 
 export default dropdown;

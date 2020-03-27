@@ -8,9 +8,7 @@
 
 import React from 'react';
 
-
 const PlurrHelp = React.createClass({
-
   propTypes: {
     style: React.PropTypes.object,
   },
@@ -34,12 +32,12 @@ const PlurrHelp = React.createClass({
           href="/pages/help/plurr/"
           target="_blank"
           title="Show help on Plurr format (in a new tab)"
-        >(?)</a>
+        >
+          (?)
+        </a>
       </div>
     );
   },
-
 });
-
 
 export default PlurrHelp;

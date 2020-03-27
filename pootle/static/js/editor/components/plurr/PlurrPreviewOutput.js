@@ -10,9 +10,7 @@ import React from 'react';
 
 import { highlightRO } from '../../../utils';
 
-
 const PlurrPreviewOutput = React.createClass({
-
   propTypes: {
     errorMsg: React.PropTypes.string.isRequired,
     value: React.PropTypes.string.isRequired,
@@ -50,17 +48,15 @@ const PlurrPreviewOutput = React.createClass({
         }
       } else {
         style.itemBlock.color = '#999';
-        output = 'Please enter placeholder values above to see the rendered message.';
+        output =
+          'Please enter placeholder values above to see the rendered message.';
       }
     } else {
       output = highlightRO(this.props.value);
     }
 
     return (
-      <div
-        className="live-preview-output"
-        style={style.itemBlock}
-      >
+      <div className="live-preview-output" style={style.itemBlock}>
         <div
           dir={currentLocaleDir}
           lang={currentLocaleCode}
@@ -69,8 +65,6 @@ const PlurrPreviewOutput = React.createClass({
       </div>
     );
   },
-
 });
-
 
 export default PlurrPreviewOutput;

@@ -22,7 +22,6 @@ export function split(value, separator, limit) {
   return parts.splice(0, limit).concat(parts.join(separator));
 }
 
-
 /**
  * Splits an internal path into language, project, directory and file parts.
  * @param {string} path - internal path
@@ -56,7 +55,6 @@ export function splitPootlePath(path) {
   return [languageCode, projectCode, dirPath, filename];
 }
 
-
 /**
  * Retrieves the path to a resource path out of an internal `path`.
  * @param {string} path - internal path
@@ -65,7 +63,6 @@ export function getResourcePath(path) {
   const [, , dirPath, filename] = splitPootlePath(path);
   return dirPath + filename;
 }
-
 
 /**
  * Retrieves a translation URL out of an internal `path`

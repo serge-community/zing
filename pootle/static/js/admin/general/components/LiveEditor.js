@@ -17,14 +17,11 @@ import ContentPreview from './ContentPreview';
 
 import './LiveEditor.css';
 
-
 const SPLIT_WIDTH = 1600;
-const CONTENT_MARGIN = 30;  // ~1.5em+
-const WRAPPER_MARGIN = 40;  // ~2em
-
+const CONTENT_MARGIN = 30; // ~1.5em+
+const WRAPPER_MARGIN = 40; // ~2em
 
 export const LiveEditor = React.createClass({
-
   propTypes: {
     // Temporarily needed to support submitting forms not controlled by JS
     name: React.PropTypes.string.isRequired,
@@ -50,14 +47,12 @@ export const LiveEditor = React.createClass({
   },
 
   getContentHeight() {
-    const topHeight = (
-      outerHeight(q('#navbar')) +
-      outerHeight(q('#header-tabs'))
-    );
+    const topHeight = outerHeight(q('#navbar')) + outerHeight(q('#header-tabs'));
 
     const formFields = qAll('.js-staticpage-non-content');
-    const fieldsHeight = (
-      formFields.reduce((total, fieldEl) => total + outerHeight(fieldEl), 0)
+    const fieldsHeight = formFields.reduce(
+      (total, fieldEl) => total + outerHeight(fieldEl),
+      0
     );
 
     const usedHeight = topHeight + fieldsHeight + WRAPPER_MARGIN;
@@ -89,8 +84,8 @@ export const LiveEditor = React.createClass({
     const contentHeight = Math.max(100, this.getContentHeight());
     const contentStyle = {
       height: contentHeight,
-      minHeight: contentHeight,  // Required for Firefox
-      maxHeight: contentHeight,  // Required for Firefox
+      minHeight: contentHeight, // Required for Firefox
+      maxHeight: contentHeight, // Required for Firefox
     };
 
     return (
@@ -101,15 +96,10 @@ export const LiveEditor = React.createClass({
           style={contentStyle}
           value={value}
         />
-        <ContentPreview
-          style={contentStyle}
-          value={value}
-        />
+        <ContentPreview style={contentStyle} value={value} />
       </div>
     );
   },
-
 });
-
 
 export default LiveEditor;

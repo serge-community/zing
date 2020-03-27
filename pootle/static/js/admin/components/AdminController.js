@@ -13,9 +13,7 @@ import _ from 'underscore';
 
 import msg from '../../msg';
 
-
 const AdminController = React.createClass({
-
   propTypes: {
     adminModule: React.PropTypes.object.isRequired,
     appRoot: React.PropTypes.string.isRequired,
@@ -40,12 +38,13 @@ const AdminController = React.createClass({
   },
 
   componentWillUpdate(nextProps, nextState) {
-    if (nextState.searchQuery !== this.state.searchQuery ||
-        nextState.selectedItem !== this.state.selectedItem) {
+    if (
+      nextState.searchQuery !== this.state.searchQuery ||
+      nextState.selectedItem !== this.state.selectedItem
+    ) {
       this.handleURL(nextState);
     }
   },
-
 
   setupRoutes(router) {
     router.on('route:main', (searchQuery) => {
@@ -83,7 +82,8 @@ const AdminController = React.createClass({
       this.setState({ selectedItem: item, view: 'edit' });
     } else {
       const { items } = this.state;
-      items.search('')
+      items
+        .search('')
         .then(() => {
           /* eslint-disable new-cap */
           const deferred = $.Deferred();
@@ -102,7 +102,8 @@ const AdminController = React.createClass({
           }
 
           return deferred.promise();
-        }).then((newItem) => {
+        })
+        .then((newItem) => {
           items.unshift(newItem, { merge: true });
           this.setState({
             items,
@@ -146,7 +147,6 @@ const AdminController = React.createClass({
     });
   },
 
-
   /* Handlers */
 
   handleURL(newState) {
@@ -162,7 +162,6 @@ const AdminController = React.createClass({
 
     router.navigate(newURL);
   },
-
 
   /* Layout */
 
@@ -197,8 +196,6 @@ const AdminController = React.createClass({
       </div>
     );
   },
-
 });
-
 
 export default AdminController;

@@ -11,20 +11,17 @@ import React from 'react';
 
 import AuthProgress from './AuthProgress';
 
-
 const RequestPasswordResetProgress = React.createClass({
-
   propTypes: {
     email: React.PropTypes.string.isRequired,
   },
 
   render() {
-    const sendingMsg = interpolate(gettext('Sending email to %s...'),
-                                   [this.props.email]);
+    const sendingMsg = interpolate(gettext('Sending email to %s...'), [
+      this.props.email,
+    ]);
     return <AuthProgress msg={sendingMsg} />;
   },
-
 });
-
 
 export default RequestPasswordResetProgress;

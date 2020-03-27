@@ -12,7 +12,6 @@ import { t, tct, dateFormatter, dateTimeTzFormatter } from 'utils/i18n';
 import { formatTimeDelta, formatTimeMessage } from 'utils/time';
 import { getResourcePath, getTranslateUrl } from 'utils/url';
 
-
 function _formatDueTime({ count, unit, isFuture }) {
   if (unit === 'minute' && count < 30) {
     return t('due right now');
@@ -29,24 +28,24 @@ function formatDueTime(msEpoch) {
   return formatTimeDelta(msEpoch, { formatFunction: _formatDueTime });
 }
 
-
 function getDueOnComp(dueOnMsEpoch, { canAdmin = false } = {}) {
   const dueOnMsg = formatDueTime(dueOnMsEpoch);
   if (!canAdmin) {
-    return (
-      <span className="due-on">{dueOnMsg}</span>
-    );
+    return <span className="due-on">{dueOnMsg}</span>;
   }
 
   // TODO: provide editing widget
-  return (
-    <span className="due-on">{dueOnMsg}</span>
-  );
+  return <span className="due-on">{dueOnMsg}</span>;
 }
 
-
 const TaskItem = ({
-  canAdmin, path, projectName, wordsLeft, dueDateId, dueOnMsEpoch, type,
+  canAdmin,
+  path,
+  projectName,
+  wordsLeft,
+  dueDateId,
+  dueOnMsEpoch,
+  type,
 }) => {
   let label;
   let actionUrl = getTranslateUrl(path);
@@ -72,13 +71,12 @@ const TaskItem = ({
   const projectComp = resourcePath ? (
     t('%(projectName)s → %(resourcePath)s', { projectName, resourcePath })
   ) : (
-     <span>{projectName}</span>
+    <span>{projectName}</span>
   );
   const dateComp = (
-    <span
-      className="due-on"
-      title={dueDateTooltip}
-    >{dueDateMsg}</span>
+    <span className="due-on" title={dueDateTooltip}>
+      {dueDateMsg}
+    </span>
   );
 
   return (
@@ -102,6 +100,5 @@ TaskItem.propTypes = {
   type: React.PropTypes.string.isRequired,
   wordsLeft: React.PropTypes.number.isRequired,
 };
-
 
 export default TaskItem;

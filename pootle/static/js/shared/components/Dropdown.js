@@ -10,15 +10,11 @@ import React from 'react';
 
 import './Dropdown.css';
 
-
 const propTypes = {
   children: React.PropTypes.node.isRequired,
   isOpen: React.PropTypes.bool,
   onToggle: React.PropTypes.func.isRequired,
-  tag: React.PropTypes.oneOfType([
-    React.PropTypes.func,
-    React.PropTypes.string,
-  ]),
+  tag: React.PropTypes.oneOfType([React.PropTypes.func, React.PropTypes.string]),
 };
 
 const defaultProps = {
@@ -33,9 +29,7 @@ const childContextTypes = {
   onToggle: React.PropTypes.func.isRequired,
 };
 
-
 class Dropdown extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -99,19 +93,12 @@ class Dropdown extends React.Component {
   render() {
     const Tag = this.props.tag;
 
-    return (
-      <Tag
-        className="dropdown-wrapper"
-      >
-        {this.props.children}
-      </Tag>
-    );
+    return <Tag className="dropdown-wrapper">{this.props.children}</Tag>;
   }
 }
 
 Dropdown.propTypes = propTypes;
 Dropdown.defaultProps = defaultProps;
 Dropdown.childContextTypes = childContextTypes;
-
 
 export default Dropdown;

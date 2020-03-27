@@ -13,23 +13,29 @@ import { getTranslateUrl } from 'utils/url';
 
 import { nicePercentage } from '../utils';
 
-
 const TranslationStateRow = ({
-  code, count, label, canTranslate, percent, pootlePath,
+  code,
+  count,
+  label,
+  canTranslate,
+  percent,
+  pootlePath,
 }) => (
   <tr>
     <td id="stats-name">{label}</td>
     <td className="stats-number">
-    {canTranslate ?
-      <a
-        className="stats-data"
-        href={getTranslateUrl(pootlePath, { filter: code !== 'total' ? code : null })}
-      >
-        {toLocaleString(count)}
-      </a>
-      :
-      <span className="stats-data">{toLocaleString(count)}</span>
-    }
+      {canTranslate ? (
+        <a
+          className="stats-data"
+          href={getTranslateUrl(pootlePath, {
+            filter: code !== 'total' ? code : null,
+          })}
+        >
+          {toLocaleString(count)}
+        </a>
+      ) : (
+        <span className="stats-data">{toLocaleString(count)}</span>
+      )}
     </td>
     <td className="stats-percentage">
       <span>{t('%(percent)s%', { percent })}</span>
@@ -45,9 +51,13 @@ TranslationStateRow.propTypes = {
   pootlePath: React.PropTypes.string.isRequired,
 };
 
-
 const TranslationStateTable = ({
-  total, translated, untranslated, fuzzy, canTranslate, pootlePath,
+  total,
+  translated,
+  untranslated,
+  fuzzy,
+  canTranslate,
+  pootlePath,
 }) => (
   <table className="stats">
     <tbody>

@@ -10,14 +10,11 @@ import React from 'react';
 
 import PlurrInput from './PlurrInput';
 
-
 // XXX: hard-coded tabIndex value that matches translation textarea's value.
 // Allows jumping to parameters before skipping to the submission button.
 const tabIndexValue = 10;
 
-
 const PlurrParamsForm = React.createClass({
-
   propTypes: {
     onChange: React.PropTypes.func.isRequired,
     params: React.PropTypes.object.isRequired,
@@ -44,40 +41,32 @@ const PlurrParamsForm = React.createClass({
       },
       inputWrapper: {
         display: 'inline-block',
-        [`margin${this.context.currentLocaleDir === 'ltr' ? 'Right' : 'Left'}`]: '1.5em',
+        [`margin${
+          this.context.currentLocaleDir === 'ltr' ? 'Right' : 'Left'
+        }`]: '1.5em',
         marginBottom: '0.5em',
       },
     };
 
     return (
-      <div
-        style={style.paramsContainer}
-      >
-      {Object.keys(params).map((key, i) => (
-        <div
-          key={i}
-          style={style.inputWrapper}
-        >
-          <label
-            htmlFor={`param-${key}`}
-            style={style.keyLabel}
-          >
-            {key}:
-          </label>
-          <PlurrInput
-            name={key}
-            onChange={this.props.onChange}
-            style={style.keyInput}
-            tabIndex={tabIndexValue}
-            value={params[key]}
-          />
-        </div>
-      ))}
+      <div style={style.paramsContainer}>
+        {Object.keys(params).map((key, i) => (
+          <div key={i} style={style.inputWrapper}>
+            <label htmlFor={`param-${key}`} style={style.keyLabel}>
+              {key}:
+            </label>
+            <PlurrInput
+              name={key}
+              onChange={this.props.onChange}
+              style={style.keyInput}
+              tabIndex={tabIndexValue}
+              value={params[key]}
+            />
+          </div>
+        ))}
       </div>
     );
   },
-
 });
-
 
 export default PlurrParamsForm;

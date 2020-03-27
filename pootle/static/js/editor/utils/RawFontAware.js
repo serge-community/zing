@@ -16,7 +16,6 @@ const KEY_DELETE = 46;
 const KEY_LETTER_B = 66;
 const KEY_LETTER_F = 70;
 
-
 function triggerEvent(element, eventName) {
   let event;
   try {
@@ -28,14 +27,14 @@ function triggerEvent(element, eventName) {
   element.dispatchEvent(event);
 }
 
-
 function getValue(element) {
   return sym2raw(element.value);
 }
 
-
 export function setValue(
-  element, value, { isRawMode = false, triggerChange = false } = {}
+  element,
+  value,
+  { isRawMode = false, triggerChange = false } = {}
 ) {
   // eslint-disable-next-line no-param-reassign
   element.value = raw2sym(value, { isRawMode });
@@ -47,9 +46,10 @@ export function setValue(
   return getValue(element);
 }
 
-
 function update(
-  element, insertValue = null, { isRawMode = false, triggerChange = false } = {}
+  element,
+  insertValue = null,
+  { isRawMode = false, triggerChange = false } = {}
 ) {
   const start = element.selectionStart;
   const end = element.selectionEnd;
@@ -59,15 +59,13 @@ function update(
   const adjustedStart = insertValue !== null ? start : end;
   const sBefore = value.substring(0, adjustedStart);
   const sAfter = value.substring(end);
-  const sBeforeNormalized = raw2sym(
-    sym2raw(sBefore + valueToInsert),
-    { isRawMode }
-  );
+  const sBeforeNormalized = raw2sym(sym2raw(sBefore + valueToInsert), {
+    isRawMode,
+  });
   const offset = sBeforeNormalized.length - sBefore.length - (end - adjustedStart);
-  const newValue = raw2sym(
-    sym2raw(sBefore + valueToInsert + sAfter),
-    { isRawMode }
-  );
+  const newValue = raw2sym(sym2raw(sBefore + valueToInsert + sAfter), {
+    isRawMode,
+  });
   if (value === newValue) {
     return;
   }
@@ -85,17 +83,16 @@ function update(
   }
 }
 
-
 export function insertAtCaret(
-  element, value, { isRawMode = false, triggerChange = false } = {}
+  element,
+  value,
+  { isRawMode = false, triggerChange = false } = {}
 ) {
   update(element, value, { isRawMode, triggerChange });
   return getValue(element);
 }
 
-
 export class RawFontAware {
-
   constructor(element, { isRawMode = false, isRtlMode = false } = {}) {
     this.element = element;
     this.isRawMode = isRawMode;
@@ -207,15 +204,13 @@ export class RawFontAware {
     let moveForward;
 
     if (this.isRtlMode) {
-      moveForward = (
+      moveForward =
         (e.keyCode === KEY_LEFT && !e.metaKey) ||
-        (e.ctrlKey && e.keyCode === KEY_LETTER_B)
-      );
+        (e.ctrlKey && e.keyCode === KEY_LETTER_B);
     } else {
-      moveForward = (
+      moveForward =
         (e.keyCode === KEY_RIGHT && !e.metaKey) ||
-        (e.ctrlKey && e.keyCode === KEY_LETTER_F)
-      );
+        (e.ctrlKey && e.keyCode === KEY_LETTER_F);
     }
 
     // Request selection adjustment after the keydown event is processed
@@ -326,5 +321,4 @@ export class RawFontAware {
   insertAtCaret(value) {
     return insertAtCaret(this.element, value);
   }
-
 }

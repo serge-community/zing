@@ -11,28 +11,31 @@ import React from 'react';
 import TranslateActions from './TranslateActions';
 import DueDateContainer from '../../admin/duedates/components/DueDateContainer';
 
-
 // TODO: after upgrading React:
 //  1. use React.Fragment
 //  2. load DueDateContainer via React.lazy
 const ActionBar = ({
-  areTranslateActionsEnabled, canAdminDueDates, initialDueDate, pootlePath, totalStats,
+  areTranslateActionsEnabled,
+  canAdminDueDates,
+  initialDueDate,
+  pootlePath,
+  totalStats,
 }) => (
-    <div>
-      <TranslateActions
-        areActionsEnabled={areTranslateActionsEnabled}
-        pootlePath={pootlePath}
-        totalStats={totalStats}
-      />
-      {canAdminDueDates &&
-        <ul>
-          <li>
-            <DueDateContainer initialDueDate={initialDueDate} />
-          </li>
-        </ul>
-      }
-    </div>
-  );
+  <div>
+    <TranslateActions
+      areActionsEnabled={areTranslateActionsEnabled}
+      pootlePath={pootlePath}
+      totalStats={totalStats}
+    />
+    {canAdminDueDates && (
+      <ul>
+        <li>
+          <DueDateContainer initialDueDate={initialDueDate} />
+        </li>
+      </ul>
+    )}
+  </div>
+);
 ActionBar.propTypes = {
   areTranslateActionsEnabled: React.PropTypes.bool,
   canAdminDueDates: React.PropTypes.bool,

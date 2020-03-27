@@ -8,12 +8,17 @@
 
 import { dir } from 'utils/i18n';
 
-
 class Unit {
-
   constructor({
-    id, isfuzzy, source, sourceLang, target, targetLang,
-    targetLanguageName, projectName, file,
+    id,
+    isfuzzy,
+    source,
+    sourceLang,
+    target,
+    targetLang,
+    targetLanguageName,
+    projectName,
+    file,
   }) {
     this.id = id;
     this.isfuzzy = isfuzzy;
@@ -68,6 +73,5 @@ class Unit {
     this.target = values;
   }
 }
-
 
 export default Unit;

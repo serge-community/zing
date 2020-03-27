@@ -14,9 +14,7 @@ import { t } from 'utils/i18n';
 import EditingArea from '../components/EditingArea';
 import { getAreaId } from '../utils';
 
-
 const Editor = React.createClass({
-
   propTypes: {
     initialValues: React.PropTypes.array,
     isDisabled: React.PropTypes.bool,
@@ -45,15 +43,12 @@ const Editor = React.createClass({
       }
 
       editingAreas.push(
-        <EditingArea
-          isDisabled={this.props.isDisabled}
-          key={i}
-        >
-          {(this.props.targetNplurals > 1) &&
+        <EditingArea isDisabled={this.props.isDisabled} key={i}>
+          {this.props.targetNplurals > 1 && (
             <div className="subheader">
-              { t('Plural form %(index)s', { index: i }) }
+              {t('Plural form %(index)s', { index: i })}
             </div>
-          }
+          )}
           <this.props.textareaComponent
             autoFocus={i === 0}
             id={getAreaId(i)}
@@ -66,14 +61,8 @@ const Editor = React.createClass({
         </EditingArea>
       );
     }
-    return (
-      <div>
-        {editingAreas}
-      </div>
-    );
+    return <div>{editingAreas}</div>;
   },
-
 });
-
 
 export default Editor;

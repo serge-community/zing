@@ -13,9 +13,7 @@ import { gotoScreen, signUp } from '../actions';
 import FormElement from 'components/FormElement';
 import FormMixin from 'mixins/FormMixin';
 
-
 const SignUpForm = React.createClass({
-
   propTypes: {
     dispatch: React.PropTypes.func.isRequired,
     formErrors: React.PropTypes.object.isRequired,
@@ -44,7 +42,6 @@ const SignUpForm = React.createClass({
     }
   },
 
-
   /* State-changing handlers */
 
   handleSignUp(e) {
@@ -57,15 +54,17 @@ const SignUpForm = React.createClass({
     this.props.dispatch(signUp(this.state.formData));
   },
 
-
   /* Others */
 
   hasData() {
     const { formData } = this.state;
-    return (formData.username !== '' && formData.email !== '' &&
-            formData.password1 !== '' && formData.password2 !== '');
+    return (
+      formData.username !== '' &&
+      formData.email !== '' &&
+      formData.password1 !== '' &&
+      formData.password2 !== ''
+    );
   },
-
 
   /* Layout */
 
@@ -74,10 +73,7 @@ const SignUpForm = React.createClass({
     const { formData } = this.state;
 
     return (
-      <form
-        method="post"
-        onSubmit={this.handleFormSubmit}
-      >
+      <form method="post" onSubmit={this.handleFormSubmit}>
         <div className="fields">
           <FormElement
             autoFocus
@@ -134,8 +130,6 @@ const SignUpForm = React.createClass({
       </form>
     );
   },
-
 });
-
 
 export default SignUpForm;

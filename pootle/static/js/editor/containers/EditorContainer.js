@@ -16,9 +16,7 @@ import PlurrEditor from '../components/plurr/PlurrEditor';
 import RawFontTextarea from '../components/RawFontTextarea';
 import { detectFormat, Formats } from '../utils';
 
-
 const EditorContainer = React.createClass({
-
   propTypes: {
     currentLocaleCode: React.PropTypes.string.isRequired,
     currentLocaleDir: React.PropTypes.string.isRequired,
@@ -91,9 +89,12 @@ const EditorContainer = React.createClass({
   handleChange(i, value) {
     const newValues = this.state.values.slice();
     newValues[i] = value;
-    this.setState({
-      values: newValues,
-    }, this.props.onChange);
+    this.setState(
+      {
+        values: newValues,
+      },
+      this.props.onChange
+    );
   },
 
   render() {
@@ -111,8 +112,6 @@ const EditorContainer = React.createClass({
       />
     );
   },
-
 });
-
 
 export default EditorContainer;

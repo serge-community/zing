@@ -11,33 +11,29 @@ import React from 'react';
 
 import AuthContent from './AuthContent';
 
-
 const AccountInactive = React.createClass({
-
   propTypes: {
     onClose: React.PropTypes.func.isRequired,
   },
-
 
   /* Layout */
 
   render() {
     return (
       <AuthContent>
-        <p>{gettext('Your account is inactive because an administrator deactivated it.')}</p>
+        <p>
+          {gettext(
+            'Your account is inactive because an administrator deactivated it.'
+          )}
+        </p>
         <div className="actions">
-          <button
-            className="btn btn-primary"
-            onClick={this.props.onClose}
-          >
+          <button className="btn btn-primary" onClick={this.props.onClose}>
             {gettext('Close')}
           </button>
         </div>
       </AuthContent>
     );
   },
-
 });
-
 
 export default AccountInactive;

@@ -10,12 +10,10 @@ import React from 'react';
 
 import Modal from 'components/Modal';
 
-
 const AuthWindow = React.createClass({
   propTypes: {
     canContact: React.PropTypes.bool.isRequired,
   },
-
 
   renderFooter() {
     if (!this.props.canContact) {
@@ -31,15 +29,9 @@ const AuthWindow = React.createClass({
 
   render() {
     return (
-      <Modal
-        className="auth-window"
-        footer={this.renderFooter}
-        {...this.props}
-      />
+      <Modal className="auth-window" footer={this.renderFooter} {...this.props} />
     );
   },
-
 });
-
 
 export default AuthWindow;

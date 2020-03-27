@@ -9,14 +9,16 @@
 
 import $ from 'jquery';
 
-
 const requests = {};
 
-
 function fetch({
-  url, body, method = 'GET', dataType = 'json',
+  url,
+  body,
+  method = 'GET',
+  dataType = 'json',
   contentType = 'application/x-www-form-urlencoded; charset=UTF-8',
-  queue = null, crossDomain = false,
+  queue = null,
+  crossDomain = false,
 }) {
   const queueName = queue || url;
 
@@ -24,19 +26,18 @@ function fetch({
     requests[queueName].abort();
   }
 
-  requests[queueName] = (
-    $.ajax({
-      crossDomain,
-      method,
-      contentType,
-      dataType,
-      url,
-      data: body,
-    })
-  );
-  requests[queueName].done(() => {requests[queueName] = null;});
+  requests[queueName] = $.ajax({
+    crossDomain,
+    method,
+    contentType,
+    dataType,
+    url,
+    data: body,
+  });
+  requests[queueName].done(() => {
+    requests[queueName] = null;
+  });
   return requests[queueName];
 }
-
 
 export default fetch;

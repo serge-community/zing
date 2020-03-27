@@ -13,20 +13,13 @@ import { q } from 'utils/dom';
 
 import LiveEditor from './components/LiveEditor';
 
-
 const staticpages = {
-
   init(opts) {
     ReactDOM.render(
-      <LiveEditor
-        initialValue={opts.initialValue}
-        name={opts.htmlName}
-      />,
+      <LiveEditor initialValue={opts.initialValue} name={opts.htmlName} />,
       q('.js-staticpage-editor')
     );
   },
-
 };
-
 
 export default staticpages;

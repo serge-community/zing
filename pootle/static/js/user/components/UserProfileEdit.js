@@ -13,9 +13,7 @@ import Modal from 'components/Modal';
 
 import UserProfileForm from './UserProfileForm';
 
-
 const UserProfileEdit = React.createClass({
-
   propTypes: {
     appRoot: React.PropTypes.string.isRequired,
     user: React.PropTypes.object.isRequired,
@@ -56,38 +54,30 @@ const UserProfileEdit = React.createClass({
     window.history.pushState({}, '', newURL);
   },
 
-
   /* Layout */
 
   render() {
     return (
       <div>
         <div className="edit-profile-btn">
-          <button
-            className="btn btn-primary"
-            onClick={this.handleEdit}
-          >
+          <button className="btn btn-primary" onClick={this.handleEdit}>
             {gettext('Edit My Public Profile')}
           </button>
         </div>
-      {this.state.editing &&
-        <Modal
-          className="user-edit"
-          onClose={this.handleClose}
-          title={gettext('My Public Profile')}
-        >
-          <div id="user-edit">
-            <UserProfileForm
-              user={this.props.user}
-              onSuccess={this.handleSave}
-            />
-          </div>
-        </Modal>}
+        {this.state.editing && (
+          <Modal
+            className="user-edit"
+            onClose={this.handleClose}
+            title={gettext('My Public Profile')}
+          >
+            <div id="user-edit">
+              <UserProfileForm user={this.props.user} onSuccess={this.handleSave} />
+            </div>
+          </Modal>
+        )}
       </div>
     );
   },
-
 });
-
 
 export default UserProfileEdit;

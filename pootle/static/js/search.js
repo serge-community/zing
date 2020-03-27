@@ -12,12 +12,9 @@ import mousetrap from 'mousetrap';
 
 import cookie from 'utils/cookie';
 
-
 const SEARCH_COOKIE_NAME = 'pootle-search';
 
-
 const search = {
-
   init(options) {
     const that = this;
 
@@ -34,9 +31,12 @@ const search = {
     this.$options = $('.js-search-options');
     this.$input = $('#id_search');
 
-    this.settings = Object.assign({
-      onSearch: this.onSearch,
-    }, options);
+    this.settings = Object.assign(
+      {
+        onSearch: this.onSearch,
+      },
+      options
+    );
 
     /* Shortcuts */
 
@@ -52,17 +52,20 @@ const search = {
       }
     });
 
-    this.$input.mouseup((e) => {
-      e.preventDefault();
-    }).focus(() => {
-      this.$input.select();
-      this.$form.addClass('focused');
-    }).blur(() => {
-      if (this.$input.val() === '') {
-        this.$input.val(this.state.searchText);
-      }
-      this.$form.removeClass('focused');
-    });
+    this.$input
+      .mouseup((e) => {
+        e.preventDefault();
+      })
+      .focus(() => {
+        this.$input.select();
+        this.$form.addClass('focused');
+      })
+      .blur(() => {
+        if (this.$input.val() === '') {
+          this.$input.val(this.state.searchText);
+        }
+        this.$form.removeClass('focused');
+      });
 
     /* Event handlers */
     this.$input.click((e) => {
@@ -81,9 +84,11 @@ const search = {
 
     /* Necessary to detect clicks out of search.$container */
     $(document).mouseup((e) => {
-      if (this.isOpen() &&
-          e.target !== that.$input.get(0) &&
-          !this.$container.find(e.target).length) {
+      if (
+        this.isOpen() &&
+        e.target !== that.$input.get(0) &&
+        !this.$container.find(e.target).length
+      ) {
         this.toggleFields(e);
       }
     });
@@ -184,8 +189,6 @@ const search = {
       $(this).prop('checked', searchOptions.indexOf(this.value) !== -1);
     });
   },
-
 };
-
 
 export default search;

@@ -17,7 +17,6 @@ import { t, serverDateTimeTzFormatter } from 'utils/i18n';
 
 import { formatDueTime } from '../utils';
 
-
 const propTypes = {
   dueOn: React.PropTypes.number,
   id: React.PropTypes.number,
@@ -32,7 +31,6 @@ const defaultProps = {
   id: 0,
 };
 
-
 const DueDateWidget = ({ dueOn, id, isOpen, onRemove, onToggle, onUpdate }) => {
   let dueOnMsg = t('No due date set');
   let dueOnTooltip = null;
@@ -43,9 +41,7 @@ const DueDateWidget = ({ dueOn, id, isOpen, onRemove, onToggle, onUpdate }) => {
 
   return (
     <Dropdown isOpen={isOpen} onToggle={onToggle}>
-      <DropdownToggle title={dueOnTooltip}>
-        {dueOnMsg}
-      </DropdownToggle>
+      <DropdownToggle title={dueOnTooltip}>{dueOnMsg}</DropdownToggle>
       <DropdownMenu>
         <DueDatePicker
           id={id}
@@ -60,6 +56,5 @@ const DueDateWidget = ({ dueOn, id, isOpen, onRemove, onToggle, onUpdate }) => {
 
 DueDateWidget.propTypes = propTypes;
 DueDateWidget.defaultProps = defaultProps;
-
 
 export default DueDateWidget;

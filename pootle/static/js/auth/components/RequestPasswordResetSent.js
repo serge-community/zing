@@ -13,9 +13,7 @@ import { requestPasswordReset } from '../actions';
 import AuthContent from './AuthContent';
 import RequestPasswordResetProgress from './RequestPasswordResetProgress';
 
-
 const RequestPasswordResetSent = React.createClass({
-
   propTypes: {
     dispatch: React.PropTypes.func.isRequired,
     isLoading: React.PropTypes.bool.isRequired,
@@ -25,11 +23,12 @@ const RequestPasswordResetSent = React.createClass({
   /* Handlers */
 
   handleResendEmail() {
-    this.props.dispatch(requestPasswordReset({
-      email: this.props.resetEmail,
-    }));
+    this.props.dispatch(
+      requestPasswordReset({
+        email: this.props.resetEmail,
+      })
+    );
   },
-
 
   /* Layout */
 
@@ -39,7 +38,9 @@ const RequestPasswordResetSent = React.createClass({
     }
 
     const emailLinkMsg = interpolate(
-      gettext('We have sent an email containing the special link to <span>%s</span>'),
+      gettext(
+        'We have sent an email containing the special link to <span>%s</span>'
+      ),
       [this.props.resetEmail]
     );
     const instructionsMsg = gettext(
@@ -47,7 +48,7 @@ const RequestPasswordResetSent = React.createClass({
     );
     const resendMsg = gettext(
       "Didn't receive an email? Check if it was accidentally filtered out as spam, " +
-      'or try requesting another copy of the email.'
+        'or try requesting another copy of the email.'
     );
 
     return (
@@ -58,10 +59,7 @@ const RequestPasswordResetSent = React.createClass({
           <hr />
           <p>{resendMsg}</p>
           <div>
-            <button
-              className="btn btn-primary"
-              onClick={this.handleResendEmail}
-            >
+            <button className="btn btn-primary" onClick={this.handleResendEmail}>
               {gettext('Resend Email')}
             </button>
           </div>
@@ -69,8 +67,6 @@ const RequestPasswordResetSent = React.createClass({
       </AuthContent>
     );
   },
-
 });
-
 
 export default RequestPasswordResetSent;

@@ -16,9 +16,7 @@ import { gotoScreen, requestPasswordReset } from '../actions';
 import AuthContent from './AuthContent';
 import RequestPasswordResetProgress from './RequestPasswordResetProgress';
 
-
 const RequestPasswordResetForm = React.createClass({
-
   propTypes: {
     canRegister: React.PropTypes.bool.isRequired,
     dispatch: React.PropTypes.func.isRequired,
@@ -45,7 +43,6 @@ const RequestPasswordResetForm = React.createClass({
     }
   },
 
-
   /* Handlers */
 
   handleSignIn(e) {
@@ -63,13 +60,11 @@ const RequestPasswordResetForm = React.createClass({
     this.props.dispatch(requestPasswordReset(this.state.formData));
   },
 
-
   /* Others */
 
   hasData() {
     return this.state.formData.email !== '';
   },
-
 
   /* Layout */
 
@@ -83,18 +78,17 @@ const RequestPasswordResetForm = React.createClass({
 
     return (
       <AuthContent>
-        <form
-          method="post"
-          onSubmit={this.handleFormSubmit}
-        >
+        <form method="post" onSubmit={this.handleFormSubmit}>
           <div className="fields">
             {this.renderAllFormErrors()}
             <FormElement
               autoFocus
               type="email"
               label={gettext('Email Address')}
-              help={gettext('Enter your email address, and we will send you a ' +
-                            'message with the special link to reset your password.')}
+              help={gettext(
+                'Enter your email address, and we will send you a ' +
+                  'message with the special link to reset your password.'
+              )}
               handleChange={this.handleChange}
               name="email"
               errors={errors.email}
@@ -115,20 +109,18 @@ const RequestPasswordResetForm = React.createClass({
                 value={gettext('Send Email')}
               />
             </div>
-            {this.props.canRegister &&
+            {this.props.canRegister && (
               <div>
                 <a href="#" onClick={this.handleSignUp}>
                   {gettext('Sign up as a new user')}
                 </a>
               </div>
-            }
+            )}
           </div>
         </form>
       </AuthContent>
     );
   },
-
 });
-
 
 export default RequestPasswordResetForm;

@@ -9,9 +9,7 @@
 import OdometerLib from 'odometer';
 import React from 'react';
 
-
 const Odometer = React.createClass({
-
   propTypes: {
     value: React.PropTypes.number.isRequired,
   },
@@ -28,12 +26,8 @@ const Odometer = React.createClass({
   },
 
   render() {
-    return (
-      <div className="odometer" ref="odometer"></div>
-    );
+    return <div className="odometer" ref="odometer"></div>;
   },
-
 });
-
 
 export default Odometer;

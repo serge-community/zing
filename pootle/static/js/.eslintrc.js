@@ -19,7 +19,7 @@ module.exports = {
     require: false,
   },
   plugins: [
-    'react',
+    'prettier', 'react',
   ],
   rules: {
     'curly': 'error',
@@ -39,5 +39,7 @@ module.exports = {
     "react/jsx-uses-vars": "error",
     'react/prefer-es6-class': 0,
     'react/prefer-stateless-function': 1,
+
+    'prettier/prettier': 'error',
   },
 };

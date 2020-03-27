@@ -11,6 +11,7 @@ module.exports = {
   },
   globals: {
     gettext: false,
+    global: false,
     ngettext: false,
     interpolate: false,
     s: false,

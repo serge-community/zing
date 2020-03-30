@@ -23,7 +23,7 @@ build: docs assets
 
 assets:
 	cd ${JS_DIR} && \
-	npm install && \
+	npm ci && \
 	npm run build -- --display-error-details && \
 	cd ${CWD}
 	${POOTLE_CMD} compilejsi18n
@@ -39,7 +39,7 @@ travis-assets:
 		echo "eating cache - yum!"; \
 	else \
 		cd ${JS_DIR} && \
-		npm install && \
+		npm ci && \
 		npm run dev:nowatch && \
 		cd ${CWD}; \
 		${POOTLE_CMD} compilejsi18n; \
@@ -51,7 +51,7 @@ travis-assets:
 
 docs:
 	cd ${WEBSITE_DIR} && \
-	npm install && \
+	npm ci && \
 	npm run build ${TAIL}
 
 clean:

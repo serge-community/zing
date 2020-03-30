@@ -1,11 +1,10 @@
-# Travis testing https://travis-ci.org/translate/pootle
+# Travis testing https://travis-ci.org/evernote/zing
 
 -r tests.txt
 -r _lint.txt
 
 # Databases
 mysqlclient>=1.4.6
-psycopg2>=2.8.4
 
 # Test coverage
 codecov

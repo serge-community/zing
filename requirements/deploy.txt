@@ -1,11 +1,9 @@
-# Pootle deployment
+# Zing deployment
 
 -r base.txt
 
 # Database
 mysqlclient>=1.4.6
-# Uncomment for PostgreSQL
-# psycopg2>=2.8.4
 
 # Logging
 sentry-sdk==0.14.2

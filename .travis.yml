@@ -2,25 +2,7 @@ jobs:
   include:
     - language: python
       python: 3.7
-      env: TOXENV=sqlite
-      cache:
-        pip: true
-      install: pip install tox===3.0.0
-      script:
-        - tox -e $TOXENV
-
-    - language: python
-      python: 3.7
       env: TOXENV=mysql
-      cache:
-        pip: true
-      install: pip install tox===3.0.0
-      script:
-        - tox -e $TOXENV
-
-    - language: python
-      python: 3.7
-      env: TOXENV=postgres
       cache:
         pip: true
       install: pip install tox===3.0.0
@@ -38,8 +20,7 @@ jobs:
 
     - language: node_js
       node_js: 12
-      before_install:
-        cd pootle/static/js
+      before_install: cd pootle/static/js
       script:
         - npm run lint
         - npm run test
@@ -58,7 +39,6 @@ after_script:
 services:
   - redis-server
   - mysql
-  - postgresql
 notifications:
   email:
     on_failure: always

@@ -55,7 +55,7 @@ class Command(SkipChecksMixin, BaseCommand):
 
         logger.info("using node (%s) and npm (%s)", *versions)
 
-        self._run(["npm", "install", "--quiet"], cwd=self.js_dir)
+        self._run(["npm", "ci", "--quiet"], cwd=self.js_dir)
 
     def _setup_dirs(self):
         try:

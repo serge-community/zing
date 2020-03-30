@@ -20,7 +20,7 @@ jobs:
         - bash -c "DATABASE_BACKEND=sqlite python manage.py makemigrations --noinput --check"
         # Other tasks
         - zing init
-        - make travis-assets
+        - zing build_assets
         - python setup.py sdist
         - make docs
 
@@ -45,7 +45,7 @@ jobs:
         - pip install -e .
       script:
         - zing init
-        - make travis-assets
+        - zing build_assets
         - py.test --cov-report=term --cov=. -v --durations=25
       after_success:
         - codecov

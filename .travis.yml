@@ -57,9 +57,6 @@ jobs:
         - npm run lint
         - npm run test
 
-after_script:
-  # logs might get truncated https://github.com/travis-ci/travis-ci/issues/6018
-  - sleep 1
 notifications:
   email:
     on_failure: always

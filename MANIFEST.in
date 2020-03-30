@@ -6,7 +6,6 @@ include pootle/log/README
 recursive-include docs *
 recursive-include pootle/assets *
 recursive-include pootle/locale *
-prune pootle/locale/*/.translation_index
 recursive-include pootle/translations *
 recursive-include pootle/settings *
 recursive-include pootle/static *

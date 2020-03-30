@@ -2,6 +2,30 @@ jobs:
   include:
     - language: python
       python: 3.7
+      name: Project linting & migrations
+      services:
+        - redis-server
+      env: DB=sqlite
+      cache:
+        pip: true
+      install:
+        - pip install -r requirements/travis.txt
+        - pip install -e .
+      script:
+        # Python code linting
+        - make lint-python
+        # Migrate and initdb
+        - bash -c "DATABASE_BACKEND=sqlite python manage.py migrate --noinput --traceback"
+        - bash -c "DATABASE_BACKEND=sqlite python manage.py initdb --no-projects"
+        - bash -c "DATABASE_BACKEND=sqlite python manage.py makemigrations --noinput --check"
+        # Other tasks
+        - zing init
+        - make travis-assets
+        - python setup.py sdist
+        - make docs
+
+    - language: python
+      python: 3.7
       services:
         - mysql
         - redis-server
@@ -25,30 +49,6 @@ jobs:
         - py.test --cov-report=term --cov=. -v --durations=25
       after_success:
         - codecov
-
-    - language: python
-      python: 3.7
-      name: Project linting & migrations
-      services:
-        - redis-server
-      env: DB=sqlite
-      cache:
-        pip: true
-      install:
-        - pip install -r requirements/travis.txt
-        - pip install -e .
-      script:
-        # Python code linting
-        - make lint-python
-        # Migrate and initdb
-        - bash -c "DATABASE_BACKEND=sqlite python manage.py migrate --noinput --traceback"
-        - bash -c "DATABASE_BACKEND=sqlite python manage.py initdb --no-projects"
-        - bash -c "DATABASE_BACKEND=sqlite python manage.py makemigrations --noinput --check"
-        # Other tasks
-        - zing init
-        - make travis-assets
-        - python setup.py sdist
-        - make docs
 
     - language: node_js
       node_js: 12

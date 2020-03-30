@@ -2,15 +2,28 @@ jobs:
   include:
     - language: python
       python: 3.7
+      services:
+        - mysql
+        - redis-server
       env: TOXENV=mysql
       cache:
         pip: true
+      before_install:
+        - curl -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.5.1-amd64.deb
+        - sudo dpkg -i --force-confnew elasticsearch-7.5.1-amd64.deb
+        - sudo sed -i.old 's/-Xms1g/-Xms128m/' /etc/elasticsearch/jvm.options
+        - sudo sed -i.old 's/-Xmx1g/-Xmx128m/' /etc/elasticsearch/jvm.options
+        - echo -e '-XX:+DisableExplicitGC\n-Djdk.io.permissionsUseCanonicalPath=true\n-Dlog4j.skipJansi=true\n-server\n' | sudo tee -a /etc/elasticsearch/jvm.options
+        - sudo chown -R elasticsearch:elasticsearch /etc/default/elasticsearch
+        - sudo systemctl start elasticsearch
       install: pip install tox===3.0.0
       script:
         - tox -e $TOXENV
 
     - language: python
       python: 3.7
+      services:
+        - redis-server
       env: TOXENV=project
       cache:
         pip: true
@@ -25,20 +38,9 @@ jobs:
         - npm run lint
         - npm run test
 
-before_script:
-  - curl -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.5.1-amd64.deb
-  - sudo dpkg -i --force-confnew elasticsearch-7.5.1-amd64.deb
-  - sudo sed -i.old 's/-Xms1g/-Xms128m/' /etc/elasticsearch/jvm.options
-  - sudo sed -i.old 's/-Xmx1g/-Xmx128m/' /etc/elasticsearch/jvm.options
-  - echo -e '-XX:+DisableExplicitGC\n-Djdk.io.permissionsUseCanonicalPath=true\n-Dlog4j.skipJansi=true\n-server\n' | sudo tee -a /etc/elasticsearch/jvm.options
-  - sudo chown -R elasticsearch:elasticsearch /etc/default/elasticsearch
-  - sudo systemctl start elasticsearch
 after_script:
   # logs might get truncated https://github.com/travis-ci/travis-ci/issues/6018
   - sleep 1
-services:
-  - redis-server
-  - mysql
 notifications:
   email:
     on_failure: always

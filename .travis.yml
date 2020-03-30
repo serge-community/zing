@@ -15,9 +15,8 @@ jobs:
         # Python code linting
         - make lint-python
         # Migrate and initdb
-        - bash -c "DATABASE_BACKEND=sqlite python manage.py migrate --noinput --traceback"
-        - bash -c "DATABASE_BACKEND=sqlite python manage.py initdb --no-projects"
-        - bash -c "DATABASE_BACKEND=sqlite python manage.py makemigrations --noinput --check"
+        - python manage.py initdb --no-projects
+        - python manage.py makemigrations --noinput --check
         # Other tasks
         - zing init
         - zing build_assets

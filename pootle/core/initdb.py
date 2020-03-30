@@ -8,10 +8,12 @@
 # AUTHORS file for copyright and authorship information.
 
 import logging
+import os
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
+from django.core.management import call_command
 from django.utils.translation import gettext_noop as _
 
 from pootle.core.models import Revision
@@ -30,6 +32,8 @@ class InitDB(object):
 
         This creates the default database to get a working Pootle installation.
         """
+        if os.environ.get("TRAVIS"):
+            call_command("migrate")
         self.create_revision()
         self.create_essential_users()
         self.create_root_directories()

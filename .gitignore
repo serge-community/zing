@@ -46,7 +46,6 @@ manifest.json
 /pootle/locale/*/LC_MESSAGES/
 /pootle/log/
 /pootle/static/translations/
-/pootle/templates/help/_ttk_quality_checks.html
 
 /tests/data/po/.tmp
 

@@ -38,7 +38,7 @@ class Command(SkipChecksMixin, BaseCommand):
 
     def _run(self, cmd, **kwargs):
         try:
-            return check_output(cmd, **kwargs)
+            return check_output(cmd, encoding="utf-8", **kwargs)
         except CalledProcessError as e:
             raise CommandError("Could not run %r: %s" % (cmd, e))
 

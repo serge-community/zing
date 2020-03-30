@@ -10,6 +10,7 @@ import logging
 import os
 from subprocess import check_output, CalledProcessError
 
+from django.conf import settings
 from django.core import management
 from django.core.management.base import BaseCommand, CommandError
 
@@ -65,7 +66,8 @@ class Command(SkipChecksMixin, BaseCommand):
 
     def _build(self):
         env = dict(os.environ)
-        env["NODE_ENV"] = "production"
+        if "NODE_ENV" not in env and not settings.DEBUG:
+            env["NODE_ENV"] = "production"
 
         try:
             self._run(["node_modules/.bin/webpack", "--bail"], cwd=self.js_dir, env=env)

@@ -5,7 +5,7 @@ jobs:
       services:
         - mysql
         - redis-server
-      env: TOXENV=mysql
+      env: DB=mysql
       cache:
         pip: true
       before_install:
@@ -16,20 +16,39 @@ jobs:
         - echo -e '-XX:+DisableExplicitGC\n-Djdk.io.permissionsUseCanonicalPath=true\n-Dlog4j.skipJansi=true\n-server\n' | sudo tee -a /etc/elasticsearch/jvm.options
         - sudo chown -R elasticsearch:elasticsearch /etc/default/elasticsearch
         - sudo systemctl start elasticsearch
-      install: pip install tox===3.0.0
+      install:
+        - pip install -r requirements/travis.txt
+        - pip install -e .
       script:
-        - tox -e $TOXENV
+        - zing init
+        - make travis-assets
+        - py.test --cov-report=term --cov=. -v --durations=25
+      after_success:
+        - codecov
 
     - language: python
       python: 3.7
+      name: Project linting & migrations
       services:
         - redis-server
-      env: TOXENV=project
+      env: DB=sqlite
       cache:
         pip: true
-      install: pip install tox===3.0.0
+      install:
+        - pip install -r requirements/travis.txt
+        - pip install -e .
       script:
-        - tox -e $TOXENV
+        # Python code linting
+        - make lint-python
+        # Migrate and initdb
+        - bash -c "DATABASE_BACKEND=sqlite python manage.py migrate --noinput --traceback"
+        - bash -c "DATABASE_BACKEND=sqlite python manage.py initdb --no-projects"
+        - bash -c "DATABASE_BACKEND=sqlite python manage.py makemigrations --noinput --check"
+        # Other tasks
+        - zing init
+        - make travis-assets
+        - python setup.py sdist
+        - make docs
 
     - language: node_js
       node_js: 12

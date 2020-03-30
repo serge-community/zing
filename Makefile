@@ -29,7 +29,7 @@ assets:
 	${POOTLE_CMD} compilejsi18n
 	mkdir -p ${ASSETS_DIR}
 
-	${POOTLE_CMD} collectstatic --noinput --clear -i node_modules -i .tox -i docs ${TAIL}
+	${POOTLE_CMD} collectstatic --noinput --clear -i node_modules -i docs ${TAIL}
 	${POOTLE_CMD} assets build ${TAIL}
 
 	chmod 664 ${ASSETS_DIR}/.webassets-cache/*
@@ -44,7 +44,7 @@ travis-assets:
 		cd ${CWD}; \
 		${POOTLE_CMD} compilejsi18n; \
 		mkdir -p ${ASSETS_DIR}; \
-		${POOTLE_CMD} collectstatic --noinput --clear -i node_modules -i .tox -i docs ${TAIL}; \
+		${POOTLE_CMD} collectstatic --noinput --clear -i node_modules -i docs ${TAIL}; \
 		${POOTLE_CMD} assets build ${TAIL}; \
 		chmod 664 ${ASSETS_DIR}/.webassets-cache/*; \
 	fi

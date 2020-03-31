@@ -1,5 +1,6 @@
 # Travis testing https://travis-ci.org/evernote/zing
 
+-r base.txt
 -r tests.txt
 -r _lint.txt
 

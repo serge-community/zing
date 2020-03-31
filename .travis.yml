@@ -10,7 +10,6 @@ jobs:
         pip: true
       install:
         - pip install -r requirements/travis.txt
-        - pip install -e .
       script:
         # Python code linting
         - make lint-python
@@ -41,10 +40,9 @@ jobs:
         - sudo systemctl start elasticsearch
       install:
         - pip install -r requirements/travis.txt
-        - pip install -e .
       script:
-        - zing init
-        - zing build_assets
+        # Use SQLite to avoid requiring the DB to be setup
+        - bash -c "DB=sqlite python manage.py build_assets"
         - py.test --cov-report=term --cov=. -v --durations=25
       after_success:
         - codecov

@@ -4,7 +4,6 @@ WEBSITE_DIR = ${CWD}/website
 STATIC_DIR = ${SRC_DIR}/static
 JS_DIR = ${STATIC_DIR}/js
 FORMATS=--formats=bztar
-TEST_ENV_NAME = pootle_test_env
 
 POOTLE_CMD = $(shell sh -c "command -v zing")
 ifeq ($(POOTLE_CMD),)
@@ -28,13 +27,6 @@ docs:
 
 clean:
 	npm cache clear
-	rm -rf ${TEST_ENV_NAME}
-
-test: clean assets
-	virtualenv ${TEST_ENV_NAME} && \
-	source ${TEST_ENV_NAME}/bin/activate && \
-	pip install -r requirements/tests.txt && \
-	python setup.py test
 
 pot:
 	@${SRC_DIR}/tools/createpootlepot

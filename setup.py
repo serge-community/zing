@@ -16,7 +16,6 @@ from distutils.command.build import build as DistutilsBuild
 from distutils.errors import DistutilsOptionError
 
 from setuptools import find_packages, setup
-from setuptools.command.test import test as TestCommand
 
 from pootle import __version__
 
@@ -43,20 +42,6 @@ def parse_requirements(file_name):
             requirements.append(line)
 
     return requirements
-
-
-class PyTest(TestCommand):
-    def finalize_options(self):
-        TestCommand.finalize_options(self)
-        self.test_args = ["--tb=short", "tests/"]
-        self.test_suite = True
-
-    def run_tests(self):
-        # import here, cause outside the eggs aren't loaded
-        import pytest
-
-        errno = pytest.main(self.test_args)
-        sys.exit(errno)
 
 
 class PootleBuildMo(DistutilsBuild):
@@ -164,7 +149,6 @@ setup(
     url="https://github.com/evernote/zing",
     download_url="https://github.com/evernote/zing/releases/tag/" + __version__,
     install_requires=parse_requirements("requirements/base.txt"),
-    tests_require=parse_requirements("requirements/tests.txt"),
     platforms=["any"],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
@@ -186,5 +170,5 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     entry_points={"console_scripts": ["zing = pootle.runner:main"]},
-    cmdclass={"build_mo": PootleBuildMo, "test": PyTest},
+    cmdclass={"build_mo": PootleBuildMo},
 )

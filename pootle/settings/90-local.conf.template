@@ -26,7 +26,7 @@ TIME_ZONE = 'UTC'
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = %(default_key)s
 
-# A list of strings representing the host/domain names that this Pootle server
+# A list of strings representing the host/domain names that this server
 # can serve. This is a Django's security measure. More details at
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = [
@@ -59,7 +59,7 @@ DATABASES = {
         # required for Django 1.6 + sqlite
         'ATOMIC_REQUESTS': True,
         'TEST': {
-            'NAME': 'test_pootle',
+            'NAME': 'test_zing',
         }
     }
 }
@@ -93,7 +93,7 @@ DATABASES = {
 #
 
 # Setup for connection to the ElasticSearch server for translation memory based
-# on the projects hosted on Pootle.
+# on the projects hosted on Zing.
 #
 #ZING_TM_SERVER = {
 #    'HOST': 'localhost',
@@ -104,7 +104,7 @@ DATABASES = {
 # Logging
 #
 
-# The directory where Pootle writes its logs
+# The directory where logs will be written to
 ZING_LOG_DIRECTORY = working_path('log')
 
 
@@ -112,14 +112,14 @@ ZING_LOG_DIRECTORY = working_path('log')
 # Site
 #
 
-# This Pootle server admins
+# This server admins
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
 )
 
 # Mail settings
 
-# Default email address to use for messages sent by Pootle.
+# Default email address to use for messages sent by Zing.
 # https://docs.djangoproject.com/en/dev/ref/settings/#default-from-email
 DEFAULT_FROM_EMAIL = 'info@YOUR_DOMAIN.com'
 
@@ -134,7 +134,7 @@ ZING_CONTACT_REPORT_EMAIL = 'string_errors_manager@YOUR_DOMAIN.com'
 
 # Mail server settings
 
-# By default Pootle uses the SMTP server on localhost. If the server is not
+# By default, Zing uses the SMTP server on localhost. If the server is not
 # configured for sending emails, uncomment and use these settings to setup an
 # external outgoing SMTP server.
 

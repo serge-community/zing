@@ -5,7 +5,7 @@
 This file includes the settings that administrators will likely change.
 
 Django and Zing settings apply. All Zing-specific settings can be found at
-https://github.com/evernote/zing/blob/master/docs/server/settings.rst
+https://evernote.github.io/zing/docs/settings
 """
 
 

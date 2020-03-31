@@ -2,9 +2,6 @@ CWD = $(shell pwd)
 SRC_DIR = ${CWD}/pootle
 WEBSITE_DIR = ${CWD}/website
 STATIC_DIR = ${SRC_DIR}/static
-# The ASSETS_DIR is where STATIC_ROOT configuration variable
-# usually points to (see pootle/settings/10-base.conf)
-ASSETS_DIR = ${SRC_DIR}/assets
 JS_DIR = ${STATIC_DIR}/js
 FORMATS=--formats=bztar
 TEST_ENV_NAME = pootle_test_env

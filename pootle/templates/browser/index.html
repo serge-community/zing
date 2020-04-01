@@ -66,6 +66,7 @@ $(function () {
     canTranslateStats: {{ can_translate_stats|yesno:"true,false" }},
     dueDate: {{ due_date|to_js }},
     hasAdminAccess: {{ has_admin_access|yesno:"true,false" }},
+    hasDisabledItems: {{ has_disabled_items|yesno:"true,false" }},
     isInitiallyExpanded: {{ is_store|yesno:"true,false" }},
     initialData: {{ browsing_data|to_js }},
     topContributorsData: {{ top_scorers|to_js }},

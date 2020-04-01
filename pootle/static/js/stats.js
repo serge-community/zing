@@ -65,6 +65,7 @@ const stats = {
     this.canAdminDueDates = options.canAdminDueDates;
     this.canTranslateStats = options.canTranslateStats;
     this.hasAdminAccess = options.hasAdminAccess;
+    this.hasDisabledItems = options.hasDisabledItems;
     this.statsRefreshAttemptsCount = options.statsRefreshAttemptsCount;
 
     $(document).on('click', '.js-stats-refresh', (e) => {
@@ -200,7 +201,10 @@ const stats = {
     );
 
     ReactDOM.render(
-      <BrowserTable items={this.state.data.children} />,
+      <BrowserTable
+        hasDisabledItems={this.hasDisabledItems}
+        items={this.state.data.children}
+      />,
       q('#js-browsing-table-container')
     );
   },

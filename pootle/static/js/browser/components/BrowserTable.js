@@ -77,6 +77,7 @@ function isItemDisabled(item) {
 
 const BrowserTable = React.createClass({
   propTypes: {
+    hasDisabledItems: React.PropTypes.bool.isRequired,
     items: React.PropTypes.array.isRequired,
   },
 
@@ -88,22 +89,19 @@ const BrowserTable = React.createClass({
 
   getInitialState() {
     return {
-      showDisabledRows: this.allItemsAreDisabled(this.props.items),
+      showDisabledRows: false,
       sortColumn: COL_TITLE,
       reverseSort: false,
     };
   },
 
   componentWillMount() {
-    this.hasDisabledItems = this.hasAnyDisabledItems(this.props.items);
     this.sortedKeys = Object.keys(this.props.items).sort((a, b) =>
       sortFunc(a, b, this.props.items, this.state.sortColumn)
     );
   },
 
   componentWillUpdate(nextProps, nextState) {
-    this.hasDisabledItems = this.hasAnyDisabledItems(nextProps.items);
-
     if (this.state.sortColumn !== nextState.sortColumn) {
       this.sortedKeys = this.sortedKeys.sort((a, b) =>
         sortFunc(a, b, nextProps.items, nextState.sortColumn)
@@ -133,26 +131,6 @@ const BrowserTable = React.createClass({
       reverseSort = false;
     }
     this.setState({ reverseSort, sortColumn });
-  },
-
-  // check if there are disabled items
-  hasAnyDisabledItems(items) {
-    for (const key in items) {
-      if (isItemDisabled(items[key])) {
-        return true;
-      }
-    }
-    return false;
-  },
-
-  // check if all items are disabled
-  allItemsAreDisabled(items) {
-    for (const key in items) {
-      if (!isItemDisabled(items[key])) {
-        return false;
-      }
-    }
-    return true;
   },
 
   handleDisabledRowsVisibility({ isActive }) {
@@ -190,7 +168,7 @@ const BrowserTable = React.createClass({
     }
 
     let toggle = null;
-    if (this.hasDisabledItems) {
+    if (this.props.hasDisabledItems) {
       toggle = (
         <TextToggle
           defaultChecked={!this.state.showDisabledRows}

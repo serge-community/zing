@@ -75,6 +75,7 @@
   "export_url": "/projects/export-view/",
   "group": null,
   "has_admin_access": true,
+  "has_disabled_items": true,
   "index": 0,
   "is_disabled": false,
   "language": null,

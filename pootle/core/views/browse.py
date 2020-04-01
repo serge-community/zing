@@ -149,6 +149,15 @@ class PootleBrowseView(BrowseDataViewMixin, PootleDetailView):
             queue = get_queue()
             pending_jobs = queue.count
 
+        has_disabled_items = self.request.user.is_superuser and any(
+            (
+                getattr(item, "disabled", False)
+                or not self.stats["total"]
+                or self.stats["total"] < 1
+            )
+            for item in self.object.children
+        )
+
         ctx.update(
             {
                 "page": "browse",
@@ -157,6 +166,7 @@ class PootleBrowseView(BrowseDataViewMixin, PootleDetailView):
                 "browsing_data": self.get_browsing_data(),
                 "can_translate": can_translate,
                 "can_translate_stats": can_translate_stats,
+                "has_disabled_items": has_disabled_items,
                 "top_scorers": remove_empty_from_dict(top_scorers),
                 "browser_extends": self.template_extends,
                 "can_admin_due_dates": can_admin_due_dates,

@@ -70,6 +70,7 @@
   "export_url": "/language0/export-view/",
   "group": null,
   "has_admin_access": false,
+  "has_disabled_items": false,
   "index": 0,
   "is_disabled": false,
   "language": {

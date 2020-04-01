@@ -68,6 +68,7 @@
   "export_url": "/projects/project0/export-view/",
   "group": null,
   "has_admin_access": true,
+  "has_disabled_items": false,
   "index": 0,
   "is_disabled": false,
   "language": null,

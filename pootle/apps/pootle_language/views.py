@@ -10,7 +10,7 @@
 from functools import lru_cache
 
 from django.http import Http404
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.functional import cached_property
 
@@ -20,7 +20,6 @@ from pootle.core.views import PootleBrowseView, PootleExportView, PootleTranslat
 from pootle.i18n.gettext import tr_lang
 from pootle_app.views.admin.permissions import admin_permissions
 
-from .forms import LanguageSpecialCharsForm
 from .models import Language
 
 
@@ -110,29 +109,3 @@ def language_admin(request, language):
     return admin_permissions(
         request, language.directory, "languages/admin/permissions.html", ctx
     )
-
-
-@get_path_obj
-@permission_required("administrate")
-def language_characters_admin(request, language):
-    form = LanguageSpecialCharsForm(
-        request.POST if request.method == "POST" else None, instance=language
-    )
-    if form.is_valid():
-        form.save()
-        return redirect("pootle-language-browse", language.code)
-
-    ctx = {
-        "page": "admin-characters",
-        "browse_url": reverse(
-            "pootle-language-browse", kwargs={"language_code": language.code}
-        ),
-        "translate_url": reverse(
-            "pootle-language-translate", kwargs={"language_code": language.code}
-        ),
-        "language": language,
-        "directory": language.directory,
-        "form": form,
-    }
-
-    return render(request, "languages/admin/characters.html", ctx)

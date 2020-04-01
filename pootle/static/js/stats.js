@@ -165,13 +165,6 @@ const stats = {
       .always(() => $('body').spin(false));
   },
 
-  updateTableUI() {
-    ReactDOM.render(
-      <BrowserTable items={this.state.data.children} />,
-      q('#js-browsing-table-container')
-    );
-  },
-
   updateUI() {
     this.updateStatsUI();
 
@@ -206,7 +199,10 @@ const stats = {
       q('.js-mnt-stats-summary')
     );
 
-    this.updateTableUI();
+    ReactDOM.render(
+      <BrowserTable items={this.state.data.children} />,
+      q('#js-browsing-table-container')
+    );
   },
 };
 

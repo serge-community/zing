@@ -29,7 +29,6 @@ const Action = ({ caption, count, name, url }) => {
 };
 Action.propTypes = {
   caption: React.PropTypes.string.isRequired,
-  children: React.PropTypes.node.isRequired,
   count: React.PropTypes.number.isRequired,
   name: React.PropTypes.string.isRequired,
   url: React.PropTypes.string,

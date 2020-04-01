@@ -67,8 +67,8 @@
         "treeitem_type": 2
       }
     },
-    "critical": 18,
-    "fuzzy": 740,
+    "critical": 23,
+    "fuzzy": 1005,
     "lastaction": {
       "displayname": "Member",
       "email": "a4fae232e2bfebd9f4dc8d7cb6caecb2",
@@ -79,9 +79,9 @@
       "uid": 134,
       "username": "member"
     },
-    "suggestions": 54,
-    "total": 2602,
-    "translated": 897
+    "suggestions": 69,
+    "total": 3457,
+    "translated": 1187
   },
   "can_admin_due_dates": false,
   "can_translate": true,

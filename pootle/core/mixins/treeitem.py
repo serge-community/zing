@@ -132,19 +132,13 @@ class TreeItem(object):
     def _calc_suggestion_count(self):
         self.initialize_children()
         return self._get_suggestion_count() + sum(
-            [
-                item.get_cached(CachedMethods.SUGGESTIONS)
-                for item in self.children
-                if not getattr(item, "disabled", False)
-            ]
+            [item.get_cached(CachedMethods.SUGGESTIONS) for item in self.children]
         )
 
     def _calc_wordcount_stats(self):
         result = self._get_wordcount_stats()
         self.initialize_children()
         for item in self.children:
-            if getattr(item, "disabled", False):
-                continue
             result = dictsum(result, item.get_cached(CachedMethods.WORDCOUNT_STATS))
 
         return result
@@ -154,11 +148,7 @@ class TreeItem(object):
 
         return max(
             [self._get_last_action()]
-            + [
-                item.get_cached(CachedMethods.LAST_ACTION)
-                for item in self.children
-                if not getattr(item, "disabled", False)
-            ],
+            + [item.get_cached(CachedMethods.LAST_ACTION) for item in self.children],
             key=lambda x: x["mtime"] if "mtime" in x else 0,
         )
 
@@ -167,11 +157,7 @@ class TreeItem(object):
         self.initialize_children()
         return max(
             [self._get_mtime()]
-            + [
-                item.get_cached(CachedMethods.MTIME)
-                for item in self.children
-                if not getattr(item, "disabled", False)
-            ]
+            + [item.get_cached(CachedMethods.MTIME) for item in self.children]
         )
 
     def _calc_last_updated(self):
@@ -179,19 +165,13 @@ class TreeItem(object):
         self.initialize_children()
         return max(
             [self._get_last_updated()]
-            + [
-                item.get_cached(CachedMethods.LAST_UPDATED)
-                for item in self.children
-                if not getattr(item, "disabled", False)
-            ],
+            + [item.get_cached(CachedMethods.LAST_UPDATED) for item in self.children],
         )
 
     def _calc_checks(self):
         result = self._get_checks()
         self.initialize_children()
         for item in self.children:
-            if getattr(item, "disabled", False):
-                continue
             item_res = item.get_cached(CachedMethods.CHECKS)
             result["checks"] = dictsum(result["checks"], item_res["checks"])
             result["unit_critical_error_count"] += item_res["unit_critical_error_count"]

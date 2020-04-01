@@ -20,21 +20,21 @@ import { t } from 'utils/i18n';
 const DetailedStats = ({
   canTranslate,
   failingChecksData,
-  statsData,
+  stats,
   pootlePath,
   hasMoreContributors,
   topContributorsData,
 }) => {
-  const lastUpdated = statsData.lastupdated;
-  const lastAction = statsData.lastaction;
+  const lastUpdated = stats.lastupdated;
+  const lastAction = stats.lastaction;
 
   return (
     <div>
       <div className="summary-1-col">
         <TranslationState
-          total={statsData.total}
-          translated={statsData.translated}
-          fuzzy={statsData.fuzzy}
+          total={stats.total}
+          translated={stats.translated}
+          fuzzy={stats.fuzzy}
           canTranslate={canTranslate}
           pootlePath={pootlePath}
         />
@@ -95,7 +95,7 @@ DetailedStats.propTypes = {
   failingChecksData: React.PropTypes.array,
   hasMoreContributors: React.PropTypes.bool,
   pootlePath: React.PropTypes.string.isRequired,
-  statsData: React.PropTypes.object.isRequired,
+  stats: React.PropTypes.object.isRequired,
   topContributorsData: React.PropTypes.array,
 };
 DetailedStats.defaultProps = {

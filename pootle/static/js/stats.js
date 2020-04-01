@@ -189,7 +189,7 @@ const stats = {
         initialDueDate={this.initialDueDate}
         areTranslateActionsEnabled={areTranslateActionsEnabled}
         pootlePath={this.pootlePath}
-        totalStats={totalStats}
+        stats={totalStats}
       />,
       q('.js-mnt-action-bar')
     );
@@ -200,7 +200,7 @@ const stats = {
         canTranslate={this.canTranslateStats}
         hasMoreContributors={this.state.topContributorsData.has_more_items}
         pootlePath={this.pootlePath}
-        statsData={this.state.data}
+        stats={this.state.data}
         topContributorsData={this.state.topContributorsData.items}
       />,
       q('.js-mnt-stats-summary')

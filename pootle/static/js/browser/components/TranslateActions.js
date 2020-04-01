@@ -35,8 +35,8 @@ Action.propTypes = {
   url: React.PropTypes.string,
 };
 
-const TranslateActions = ({ areActionsEnabled, pootlePath, totalStats }) => {
-  const { critical, suggestions, total, translated } = totalStats;
+const TranslateActions = ({ areActionsEnabled, pootlePath, stats }) => {
+  const { critical, suggestions, total, translated } = stats;
   const translateUrl = areActionsEnabled ? getTranslateUrl(pootlePath) : '';
   return (
     <ul>
@@ -96,7 +96,7 @@ TranslateActions.propTypes = {
   }),
   areActionsEnabled: React.PropTypes.bool,
   pootlePath: React.PropTypes.string.isRequired,
-  totalStats: React.PropTypes.shape({
+  stats: React.PropTypes.shape({
     critical: React.PropTypes.number,
     suggestions: React.PropTypes.number,
     total: React.PropTypes.number.isRequired,

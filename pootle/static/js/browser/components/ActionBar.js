@@ -19,13 +19,13 @@ const ActionBar = ({
   canAdminDueDates,
   initialDueDate,
   pootlePath,
-  totalStats,
+  stats,
 }) => (
   <div>
     <TranslateActions
       areActionsEnabled={areTranslateActionsEnabled}
       pootlePath={pootlePath}
-      totalStats={totalStats}
+      stats={stats}
     />
     {canAdminDueDates && (
       <ul>
@@ -45,7 +45,7 @@ ActionBar.propTypes = {
     pootle_path: React.PropTypes.string,
   }),
   pootlePath: React.PropTypes.string.isRequired,
-  totalStats: React.PropTypes.shape({
+  stats: React.PropTypes.shape({
     critical: React.PropTypes.number,
     suggestions: React.PropTypes.number,
     total: React.PropTypes.number.isRequired,

@@ -85,7 +85,7 @@ class StatsSummary extends React.Component {
 
   render() {
     const { canTranslate } = this.props;
-    const { statsData } = this.props;
+    const { stats } = this.props;
     const { pootlePath } = this.props;
     const { hasMoreContributors } = this.props;
     const { topContributorsData } = this.props;
@@ -106,9 +106,9 @@ class StatsSummary extends React.Component {
         <a href="#" onClick={(e) => this.handleClick(e)}>
           <div id="progressbar">
             <ProgressBar
-              total={statsData.total}
-              fuzzy={statsData.fuzzy}
-              translated={statsData.translated}
+              total={stats.total}
+              fuzzy={stats.fuzzy}
+              translated={stats.translated}
             />
           </div>
         </a>
@@ -124,7 +124,7 @@ class StatsSummary extends React.Component {
                 failingChecksData={failingChecksData}
                 hasMoreContributors={hasMoreContributors}
                 pootlePath={pootlePath}
-                statsData={statsData}
+                stats={stats}
                 topContributorsData={topContributorsData}
               />
             ) : (
@@ -141,7 +141,7 @@ StatsSummary.propTypes = {
   hasMoreContributors: React.PropTypes.bool,
   isInitiallyExpanded: React.PropTypes.bool.isRequired,
   pootlePath: React.PropTypes.string.isRequired,
-  statsData: React.PropTypes.object.isRequired,
+  stats: React.PropTypes.object.isRequired,
   topContributorsData: React.PropTypes.array,
 };
 StatsSummary.defaultProps = {

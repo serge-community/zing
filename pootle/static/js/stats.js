@@ -69,16 +69,7 @@ const stats = {
     this.hasDisabledItems = options.hasDisabledItems;
     this.statsRefreshAttemptsCount = options.statsRefreshAttemptsCount;
 
-    const data = options.initialData;
-    this.initialItem = {
-      total: data.total,
-      translated: data.translated,
-      suggestions: data.suggestions,
-      critical: data.critical,
-      lastaction: data.lastaction,
-      lastupdated: data.lastupdated,
-      is_dirty: data.is_dirty,
-    };
+    this.initialItem = getItem(options.initialData, options.pootlePath);
 
     $(document).on('click', '.js-stats-refresh', (e) => {
       e.preventDefault();

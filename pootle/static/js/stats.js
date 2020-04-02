@@ -201,6 +201,7 @@ const stats = {
       <BrowserTable
         hasDisabledItems={this.hasDisabledItems}
         items={this.state.items}
+        isInitiallyDisabled={this.initialItem.is_disabled}
       />,
       q('#js-browsing-table-container')
     );

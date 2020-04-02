@@ -78,6 +78,7 @@ function isItemDisabled(item) {
 const BrowserTable = React.createClass({
   propTypes: {
     hasDisabledItems: React.PropTypes.bool.isRequired,
+    isInitiallyDisabled: React.PropTypes.bool.isRequired,
     items: React.PropTypes.array.isRequired,
   },
 
@@ -89,7 +90,7 @@ const BrowserTable = React.createClass({
 
   getInitialState() {
     return {
-      showDisabledRows: false,
+      showDisabledRows: this.props.isInitiallyDisabled,
       sortColumn: COL_TITLE,
       reverseSort: false,
     };

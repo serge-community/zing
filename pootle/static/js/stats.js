@@ -21,26 +21,34 @@ import StatsSummary from './browser/components/StatsSummary';
 import PendingTaskContainer from './browser/components/PendingTaskContainer';
 import ActionBar from './browser/components/ActionBar';
 
+function getItem(item, path) {
+  const newItem = {
+    pootle_path: path,
+    title: item.title || '',
+
+    is_dirty: item.is_dirty || false,
+    is_disabled: item.is_disabled || false,
+
+    treeitem_type: item.treeitem_type || 0,
+    critical: item.critical || 0,
+    suggestions: item.suggestions || 0,
+    lastaction: item.lastaction || {},
+    lastupdated: item.lastupdated || 0,
+
+    total: item.total || 0,
+    translated: item.translated || 0,
+    fuzzy: item.fuzzy || 0,
+    progress: item.total > 0 ? item.translated / item.total : 1,
+    incomplete: item.total - item.translated,
+  };
+
+  newItem.lastaction.mtime = newItem.lastaction.mtime || 0;
+
+  return newItem;
+}
+
 function provideItemsDefaultStats(items) {
-  return Object.keys(items).map((path) => {
-    const item = items[path];
-
-    item.pootle_path = path;
-
-    item.treeitem_type = item.treeitem_type || 0;
-    item.critical = item.critical || 0;
-    item.suggestions = item.suggestions || 0;
-    item.lastaction = item.lastaction || {};
-    item.lastaction.mtime = item.lastaction.mtime || 0;
-    item.lastupdated = item.lastupdated || 0;
-
-    item.total = item.total || 0;
-    item.translated = item.translated || 0;
-    item.progress = item.total > 0 ? item.translated / item.total : 1;
-    item.incomplete = item.total - item.translated;
-
-    return item;
-  });
+  return Object.keys(items).map((path) => getItem(items[path], path));
 }
 
 const stats = {

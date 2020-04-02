@@ -55,8 +55,10 @@
       "username": "member"
     },
     "suggestions": 54,
+    "title": "Project 0",
     "total": 2538,
-    "translated": 897
+    "translated": 897,
+    "treeitem_type": 3
   },
   "can_admin_due_dates": false,
   "can_translate": true,

@@ -61,7 +61,8 @@
     },
     "suggestions": 108,
     "total": 5102,
-    "translated": 1727
+    "translated": 1727,
+    "treeitem_type": 2
   },
   "can_admin_due_dates": false,
   "can_translate": false,

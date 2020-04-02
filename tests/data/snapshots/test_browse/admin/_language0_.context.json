@@ -80,8 +80,10 @@
       "username": "member"
     },
     "suggestions": 69,
+    "title": "Language 0",
     "total": 3457,
-    "translated": 1187
+    "translated": 1187,
+    "treeitem_type": 2
   },
   "can_admin_due_dates": false,
   "can_translate": true,

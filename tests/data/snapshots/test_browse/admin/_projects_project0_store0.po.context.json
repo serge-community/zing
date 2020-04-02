@@ -55,8 +55,10 @@
       "username": "member"
     },
     "suggestions": 12,
+    "title": "/projects/project0/store0.po",
     "total": 504,
-    "translated": 172
+    "translated": 172,
+    "treeitem_type": 3
   },
   "can_admin_due_dates": true,
   "can_translate": true,

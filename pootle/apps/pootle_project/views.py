@@ -124,6 +124,12 @@ class ProjectBrowseView(ProjectMixin, PootleBrowseView):
         return ItemTypes.LANGUAGE
 
     def get_item_title(self, path_obj):
+        if isinstance(path_obj, Project):
+            return path_obj.fullname
+
+        if isinstance(path_obj, ProjectResource):
+            return path_obj.pootle_path
+
         if self.kwargs["dir_path"] or self.kwargs["filename"]:
             return path_obj.translation_project.language.name
         return path_obj.language.name
@@ -200,6 +206,8 @@ class ProjectsBrowseView(ProjectsMixin, PootleBrowseView):
         return ItemTypes.PROJECT
 
     def get_item_title(self, path_obj):
+        if isinstance(path_obj, ProjectSet):
+            return ""
         return path_obj.fullname
 
 

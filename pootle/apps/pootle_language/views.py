@@ -81,6 +81,8 @@ class LanguageBrowseView(LanguageMixin, PootleBrowseView):
         return ItemTypes.PROJECT
 
     def get_item_title(self, path_obj):
+        if isinstance(path_obj, Language):
+            return path_obj.fullname
         return path_obj.project.name
 
 

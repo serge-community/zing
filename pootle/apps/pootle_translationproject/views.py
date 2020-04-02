@@ -226,6 +226,14 @@ class TPStoreMixin(TPMixin):
 class TPBrowseBaseView(PootleBrowseView):
     template_extends = "translation_projects/base.html"
 
+    def get_item_type(self, path_obj):
+        if isinstance(path_obj, Directory):
+            return ItemTypes.DIRECTORY
+        return ItemTypes.STORE
+
+    def get_item_title(self, path_obj):
+        return path_obj.name
+
     def get_context_data(self, *args, **kwargs):
         ctx = super().get_context_data(*args, **kwargs)
         ctx.update({"parent": get_parent(self.object)})
@@ -243,13 +251,7 @@ class TPBrowseStoreView(TPStoreMixin, TPBrowseBaseView):
 
 
 class TPBrowseView(TPDirectoryMixin, TPBrowseBaseView):
-    def get_item_type(self, path_obj):
-        if isinstance(path_obj, Directory):
-            return ItemTypes.DIRECTORY
-        return ItemTypes.STORE
-
-    def get_item_title(self, path_obj):
-        return path_obj.name
+    pass
 
 
 class TPTranslateBaseView(PootleTranslateView):

@@ -11,7 +11,9 @@
         "title": "Language 1",
         "treeitem_type": 3
       }
-    }
+    },
+    "title": "/projects/project0/empty_dir1/store6.po",
+    "treeitem_type": 3
   },
   "can_admin_due_dates": true,
   "can_translate": true,

@@ -34,6 +34,21 @@ class BrowseDataViewMixin(object):
         return self.object.get_stats()
 
     def get_item_data(self, path_obj, stats):
+        return {
+            # FIXME: rename to `type`
+            "treeitem_type": self.get_item_type(path_obj),
+            "title": self.get_item_title(path_obj),
+            "is_disabled": getattr(path_obj, "disabled", False),
+            "total": stats.get("total", 0),
+            "translated": stats.get("translated", 0),
+            "fuzzy": stats.get("fuzzy", 0),
+            "critical": stats.get("critical", 0),
+            "suggestions": stats.get("suggestions", 0),
+            "lastaction": stats.get("lastaction", 0),
+            "lastupdated": stats.get("lastupdated", 0),
+        }
+
+    def get_item_data_tuple(self, path_obj, stats):
         """Shapes `path_obj` to be an item usable in the browsing table row.
 
         :param path_obj: Element to retrieve row information for. This can
@@ -43,24 +58,12 @@ class BrowseDataViewMixin(object):
         """
         return (
             path_obj.pootle_path,
-            {
-                # FIXME: rename to `type`
-                "treeitem_type": self.get_item_type(path_obj),
-                "title": self.get_item_title(path_obj),
-                "is_disabled": getattr(path_obj, "disabled", False),
-                "total": stats.get("total", 0),
-                "translated": stats.get("translated", 0),
-                "fuzzy": stats.get("fuzzy", 0),
-                "critical": stats.get("critical", 0),
-                "suggestions": stats.get("suggestions", 0),
-                "lastaction": stats.get("lastaction", 0),
-                "lastupdated": stats.get("lastupdated", 0),
-            },
+            self.get_item_data(path_obj, stats),
         )
 
     def get_browsing_data(self):
         browsing_data = remove_empty_from_dict(
-            {key: value for key, value in iter(self.stats.items()) if key != "children"}
+            self.get_item_data(self.object, self.stats)
         )
 
         has_admin_access = check_user_permission(
@@ -75,7 +78,7 @@ class BrowseDataViewMixin(object):
                 "children": {
                     path: remove_empty_from_dict(data)
                     for path, data in (
-                        self.get_item_data(item, children_stats[i])
+                        self.get_item_data_tuple(item, children_stats[i])
                         for i, item in enumerate(self.items)
                     )
                     if (

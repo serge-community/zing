@@ -91,28 +91,26 @@ class UserMerger(object):
         self.merge_suggestions()
         self.merge_reviews()
 
-    @write_stdout(" * Merging units comments: " "%(src_user)s --> %(target_user)s... ")
+    @write_stdout(" * Merging units comments: %(src_user)s --> %(target_user)s... ")
     def merge_commented(self):
         """Merge commented_by attribute on units
         """
         self.src_user.commented.update(commented_by=self.target_user)
 
-    @write_stdout(" * Merging units reviewed: " "%(src_user)s --> %(target_user)s... ")
+    @write_stdout(" * Merging units reviewed: %(src_user)s --> %(target_user)s... ")
     def merge_reviewed(self):
         """Merge reviewed_by attribute on units
         """
         self.src_user.reviewed.update(reviewed_by=self.target_user)
 
-    @write_stdout(
-        " * Merging suggestion reviews: " "%(src_user)s --> %(target_user)s... "
-    )
+    @write_stdout(" * Merging suggestion reviews: %(src_user)s --> %(target_user)s... ")
     def merge_reviews(self):
         """Merge reviewer attribute on suggestions
         """
         self.src_user.reviews.update(reviewer=self.target_user)
 
     @write_stdout(
-        " * Merging remaining submissions: " "%(src_user)s --> %(target_user)s... "
+        " * Merging remaining submissions: %(src_user)s --> %(target_user)s... "
     )
     def merge_submissions(self):
         """Merge submitter attribute on submissions
@@ -127,15 +125,13 @@ class UserMerger(object):
         # Update submitter on submissions
         self.src_user.submission_set.update(submitter=self.target_user)
 
-    @write_stdout(
-        " * Merging units submitted_by: " "%(src_user)s --> %(target_user)s... "
-    )
+    @write_stdout(" * Merging units submitted_by: %(src_user)s --> %(target_user)s... ")
     def merge_submitted(self):
         """Merge submitted_by attribute on units
         """
         self.src_user.submitted.update(submitted_by=self.target_user)
 
-    @write_stdout(" * Merging suggestions: " "%(src_user)s --> %(target_user)s... ")
+    @write_stdout(" * Merging suggestions: %(src_user)s --> %(target_user)s... ")
     def merge_suggestions(self):
         """Merge user attribute on suggestions
         """

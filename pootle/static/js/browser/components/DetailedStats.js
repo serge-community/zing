@@ -55,9 +55,9 @@ const DetailedStats = ({
         />
       </div>
 
-      {(lastAction || lastUpdated) && (
+      {(lastAction || lastUpdated > 0) && (
         <div className="summary-3-col">
-          {lastUpdated && (
+          {lastUpdated > 0 && (
             <div>
               <h3 className="top">{t('Updates')}</h3>
               <div className="bd">
@@ -70,7 +70,7 @@ const DetailedStats = ({
               </div>
             </div>
           )}
-          {lastAction && lastAction.mtime !== 0 && (
+          {lastAction && lastAction.mtime > 0 && (
             <div>
               <h3 className="top">{t('Translations')}</h3>
               <div className="bd">

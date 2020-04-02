@@ -21,17 +21,11 @@ import StatsSummary from './browser/components/StatsSummary';
 import PendingTaskContainer from './browser/components/PendingTaskContainer';
 import ActionBar from './browser/components/ActionBar';
 
-function provideStatsDefaults(stats) {
-  if (!stats.hasOwnProperty('children')) {
-    return stats;
-  }
+function provideItemsDefaultStats(items) {
+  return Object.keys(items).map((path) => {
+    const item = items[path];
 
-  const newStats = Object.assign({}, stats);
-  newStats.children = [];
-  Object.keys(stats.children).forEach((key) => {
-    const item = stats.children[key];
-
-    item.pootle_path = key;
+    item.pootle_path = path;
 
     item.treeitem_type = item.treeitem_type || 0;
     item.critical = item.critical || 0;
@@ -45,9 +39,8 @@ function provideStatsDefaults(stats) {
     item.progress = item.total > 0 ? item.translated / item.total : 1;
     item.incomplete = item.total - item.translated;
 
-    newStats.children.push(item);
+    return item;
   });
-  return newStats;
 }
 
 const stats = {
@@ -68,6 +61,17 @@ const stats = {
     this.hasDisabledItems = options.hasDisabledItems;
     this.statsRefreshAttemptsCount = options.statsRefreshAttemptsCount;
 
+    const data = options.initialData;
+    this.initialItem = {
+      total: data.total,
+      translated: data.translated,
+      suggestions: data.suggestions,
+      critical: data.critical,
+      lastaction: data.lastaction,
+      lastupdated: data.lastupdated,
+      is_dirty: data.is_dirty,
+    };
+
     $(document).on('click', '.js-stats-refresh', (e) => {
       e.preventDefault();
       this.refreshStats();
@@ -82,7 +86,8 @@ const stats = {
     }
 
     this.setState({
-      data: options.initialData,
+      item: this.initialItem,
+      items: options.initialData.children,
       topContributorsData: options.topContributorsData,
     });
   },
@@ -92,8 +97,8 @@ const stats = {
       {},
       this.state,
       newState,
-      newState.hasOwnProperty('data')
-        ? { data: provideStatsDefaults(newState.data) }
+      newState.hasOwnProperty('items')
+        ? { items: provideItemsDefaultStats(newState.items) }
         : {}
     );
     this.updateUI();
@@ -122,16 +127,16 @@ const stats = {
   },
 
   updateStatsUI() {
-    const { data } = this.state;
+    const { item } = this.state;
 
     const dirtySelector = '#top-stats, #translate-actions, #autorefresh-notice';
     const dirtyStatsRefreshEnabled = this.retries < this.statsRefreshAttemptsCount;
 
     $(dirtySelector).toggleClass(
       'dirty',
-      !!data.is_dirty && !dirtyStatsRefreshEnabled
+      !!item.is_dirty && !dirtyStatsRefreshEnabled
     );
-    if (!!data.is_dirty) {
+    if (!!item.is_dirty) {
       if (dirtyStatsRefreshEnabled) {
         this.dirtyBackoff = Math.pow(2, this.retries);
         this.dirtyBackoffId = setInterval(
@@ -169,13 +174,6 @@ const stats = {
   updateUI() {
     this.updateStatsUI();
 
-    const { data } = this.state;
-    const totalStats = {
-      total: data.total,
-      translated: data.translated,
-      suggestions: data.suggestions,
-      critical: data.critical,
-    };
     const areTranslateActionsEnabled = this.hasAdminAccess || this.languageCode;
     ReactDOM.render(
       <ActionBar
@@ -183,7 +181,7 @@ const stats = {
         initialDueDate={this.initialDueDate}
         areTranslateActionsEnabled={areTranslateActionsEnabled}
         pootlePath={this.pootlePath}
-        stats={totalStats}
+        stats={this.state.item}
       />,
       q('.js-mnt-action-bar')
     );
@@ -194,7 +192,7 @@ const stats = {
         canTranslate={this.canTranslateStats}
         hasMoreContributors={this.state.topContributorsData.has_more_items}
         pootlePath={this.pootlePath}
-        stats={this.state.data}
+        stats={this.state.item}
         topContributorsData={this.state.topContributorsData.items}
       />,
       q('.js-mnt-stats-summary')
@@ -203,7 +201,7 @@ const stats = {
     ReactDOM.render(
       <BrowserTable
         hasDisabledItems={this.hasDisabledItems}
-        items={this.state.data.children}
+        items={this.state.items}
       />,
       q('#js-browsing-table-container')
     );

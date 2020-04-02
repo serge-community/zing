@@ -14,7 +14,6 @@ import pytest
 
 from allauth.account.models import EmailAddress
 
-from tests.fixtures.models.permission_set import _require_permission_set
 from tests.fixtures.models.store import (
     _create_submission_and_suggestion,
     _create_comment_on_unit,
@@ -22,12 +21,8 @@ from tests.fixtures.models.store import (
 
 import accounts
 
-from pootle_app.models.directory import Directory
-from pootle_app.models.permissions import PermissionSet, check_user_permission
-from pootle_language.models import Language
-from pootle_project.models import Project
+from pootle_app.models.permissions import PermissionSet
 from pootle_store.constants import FUZZY, TRANSLATED
-from pootle_translationproject.models import TranslationProject
 
 
 def _make_evil_member_updates(store, evil_member):
@@ -310,24 +305,3 @@ def test_user_has_manager_permissions(no_perms_user, administrate, tp0):
     assert no_perms_user.has_manager_permissions()
     ps.positive_permissions.clear()
     assert not no_perms_user.has_manager_permissions()
-
-
-@pytest.mark.django_db
-def test_get_users_with_permission(default, member, translate):
-    language = Language.objects.get(code="language0")
-    project = Project.objects.get(code="project0")
-    User = get_user_model()
-
-    directory = TranslationProject.objects.get(
-        project=project, language=language
-    ).directory
-
-    _require_permission_set(member, directory, [translate])
-
-    # remove "Can submit translation" permission for default user
-    ps = PermissionSet.objects.filter(user=default, directory=Directory.objects.root)[0]
-    ps.positive_permissions.set(ps.positive_permissions.exclude(id=translate.id))
-    ps.save()
-    users = User.objects.get_users_with_permission("translate", project, language)
-    for user in users:
-        assert check_user_permission(user, "translate", directory)

@@ -48,14 +48,14 @@ const TaskItem = ({
   type,
 }) => {
   let label;
-  let actionUrl = getTranslateUrl(path);
+  let actionUrl;
 
   if (type === 'critical') {
     label = t('Fix critical errors');
-    actionUrl = `${actionUrl}#filter=checks&category=critical`;
+    actionUrl = getTranslateUrl(path, { checksCategory: 'critical' });
   } else {
     label = t('Finish translation');
-    actionUrl = `${actionUrl}#filter=incomplete`;
+    actionUrl = getTranslateUrl(path, { filter: 'incomplete' });
   }
 
   const dueDateMsg = dateFormatter.format(dueOnMsEpoch);

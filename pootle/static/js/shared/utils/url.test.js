@@ -167,4 +167,32 @@ describe('url', () => {
       expect(getTranslateUrl(test.path)).toEqual(test.expected);
     });
   });
+
+  it('constructs translate URLs from internal paths with filters', () => {
+    const tests = [
+      {
+        path: '/ru/',
+        opts: { checks: '', filter: '' },
+        expected: '/ru/translate/',
+      },
+      {
+        path: '/ru/',
+        opts: { checks: '', filter: 'incomplete' },
+        expected: '/ru/translate/#filter=incomplete',
+      },
+      {
+        path: '/ru/',
+        opts: { checks: 'foo', filter: 'incomplete' },
+        expected: '/ru/translate/#filter=incomplete',
+      },
+      {
+        path: '/ru/',
+        opts: { checks: 'linebreaks', filter: '' },
+        expected: '/ru/translate/#filter=checks&checks=linebreaks',
+      },
+    ];
+    tests.forEach((test) => {
+      expect(getTranslateUrl(test.path, test.opts)).toEqual(test.expected);
+    });
+  });
 });

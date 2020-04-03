@@ -84,17 +84,20 @@ export function getTranslateUrl(path, { checks, category, filter } = {}) {
 
   url += `/translate/${dirPath + filename}`;
 
+  var params = new URLSearchParams();
   if (filter) {
-    return `${url}#filter=${filter}`;
+    params.set('filter', filter);
+  } else if (checks) {
+    params.set('filter', 'checks');
+    params.set('checks', checks);
+  } else if (category) {
+    params.set('filter', 'checks');
+    params.set('category', category);
   }
 
-  if (checks) {
-    return `${url}#filter=checks&checks=${checks}`;
+  var qs = params.toString();
+  if (qs) {
+    return url + '#' + qs;
   }
-
-  if (category) {
-    return `${url}#filter=checks&category=${category}`;
-  }
-
   return url;
 }

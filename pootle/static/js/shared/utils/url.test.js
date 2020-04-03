@@ -177,6 +177,11 @@ describe('url', () => {
       },
       {
         path: '/ru/',
+        opts: { checks: '', filter: '', includeDisabled: true },
+        expected: '/ru/translate/#all=',
+      },
+      {
+        path: '/ru/',
         opts: { checks: '', filter: 'incomplete' },
         expected: '/ru/translate/#filter=incomplete',
       },
@@ -194,6 +199,16 @@ describe('url', () => {
         path: '/ru/',
         opts: { checks: '', category: 'critical', filter: '' },
         expected: '/ru/translate/#filter=checks&category=critical',
+      },
+      {
+        path: '/ru/',
+        opts: {
+          checks: '',
+          category: 'critical',
+          filter: '',
+          includeDisabled: true,
+        },
+        expected: '/ru/translate/#filter=checks&category=critical&all=',
       },
     ];
     tests.forEach((test) => {

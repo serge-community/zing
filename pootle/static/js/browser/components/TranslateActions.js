@@ -36,7 +36,6 @@ Action.propTypes = {
 
 const TranslateActions = ({ areActionsEnabled, pootlePath, stats }) => {
   const { critical, suggestions, total, translated } = stats;
-  const translateUrl = areActionsEnabled ? getTranslateUrl(pootlePath) : '';
   return (
     <ul>
       {critical > 0 && (
@@ -47,7 +46,11 @@ const TranslateActions = ({ areActionsEnabled, pootlePath, stats }) => {
               areActionsEnabled ? t('Fix critical errors') : t('Critical errors')
             }
             count={critical}
-            url={translateUrl}
+            url={
+              areActionsEnabled
+                ? getTranslateUrl(pootlePath, { checksCategory: 'critical' })
+                : ''
+            }
           />
         </li>
       )}
@@ -57,7 +60,11 @@ const TranslateActions = ({ areActionsEnabled, pootlePath, stats }) => {
             name="review-suggestions"
             caption={areActionsEnabled ? t('Review suggestions') : t('Suggestions')}
             count={suggestions}
-            url={translateUrl}
+            url={
+              areActionsEnabled
+                ? getTranslateUrl(pootlePath, { filter: 'suggestions' })
+                : ''
+            }
           />
         </li>
       )}
@@ -69,7 +76,11 @@ const TranslateActions = ({ areActionsEnabled, pootlePath, stats }) => {
               areActionsEnabled ? t('Continue translation') : t('Incomplete')
             }
             count={total - translated}
-            url={translateUrl}
+            url={
+              areActionsEnabled
+                ? getTranslateUrl(pootlePath, { filter: 'incomplete' })
+                : ''
+            }
           />
         </li>
       )}
@@ -79,7 +90,7 @@ const TranslateActions = ({ areActionsEnabled, pootlePath, stats }) => {
             name="translation-complete"
             caption={areActionsEnabled ? t('View all') : t('All')}
             count={total}
-            url={translateUrl}
+            url={areActionsEnabled ? getTranslateUrl(pootlePath) : ''}
           />
         </li>
       )}

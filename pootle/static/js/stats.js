@@ -88,6 +88,7 @@ const stats = {
     this.setState({
       item: this.initialItem,
       items: options.initialData.children,
+      showDisabledItems: this.initialItem.is_disabled,
       topContributorsData: options.topContributorsData,
     });
   },
@@ -175,6 +176,7 @@ const stats = {
     if (this.fullItem) {
       this.setState({
         item: showAll ? this.fullItem : this.initialItem,
+        showDisabledItems: showAll,
       });
       return;
     }
@@ -187,6 +189,7 @@ const stats = {
         this.setState({
           item: this.fullItem,
           items: data.children,
+          showDisabledItems: showAll,
         });
       })
       .always(() => {
@@ -204,6 +207,7 @@ const stats = {
         initialDueDate={this.initialDueDate}
         areTranslateActionsEnabled={areTranslateActionsEnabled}
         pootlePath={this.pootlePath}
+        areDisabledItemsShown={this.state.showDisabledItems}
         stats={this.state.item}
       />,
       q('.js-mnt-action-bar')
@@ -211,6 +215,7 @@ const stats = {
 
     ReactDOM.render(
       <StatsSummary
+        areDisabledItemsShown={this.state.showDisabledItems}
         isInitiallyExpanded={this.isInitiallyExpanded}
         canTranslate={this.canTranslateStats}
         hasMoreContributors={this.state.topContributorsData.has_more_items}

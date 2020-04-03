@@ -29,7 +29,7 @@ CheckItem.propTypes = {
   url: React.PropTypes.string.isRequired,
 };
 
-const CheckRow = ({ check, canTranslate, pootlePath }) => {
+const CheckRow = ({ areDisabledItemsShown, check, canTranslate, pootlePath }) => {
   const classNames = cx(
     {
       'category-critical': check.is_critical,
@@ -39,7 +39,10 @@ const CheckRow = ({ check, canTranslate, pootlePath }) => {
 
   let url = '';
   if (canTranslate) {
-    url = getTranslateUrl(pootlePath, { checks: check.code });
+    url = getTranslateUrl(pootlePath, {
+      checks: check.code,
+      includeDisabled: areDisabledItemsShown,
+    });
   }
 
   const props = { canTranslate, url };
@@ -56,13 +59,19 @@ const CheckRow = ({ check, canTranslate, pootlePath }) => {
   );
 };
 CheckRow.propTypes = {
+  areDisabledItemsShown: React.PropTypes.bool.isRequired,
   check: React.PropTypes.object.isRequired,
   canTranslate: React.PropTypes.bool.isRequired,
   pootlePath: React.PropTypes.string.isRequired,
 };
 
-const FailingChecksTable = ({ items, canTranslate, pootlePath }) => {
-  const props = { canTranslate, pootlePath };
+const FailingChecksTable = ({
+  areDisabledItemsShown,
+  items,
+  canTranslate,
+  pootlePath,
+}) => {
+  const props = { areDisabledItemsShown, canTranslate, pootlePath };
   return (
     <table>
       <tbody>
@@ -74,6 +83,7 @@ const FailingChecksTable = ({ items, canTranslate, pootlePath }) => {
   );
 };
 FailingChecksTable.propTypes = {
+  areDisabledItemsShown: React.PropTypes.bool.isRequired,
   items: React.PropTypes.array.isRequired,
   canTranslate: React.PropTypes.bool.isRequired,
   pootlePath: React.PropTypes.string.isRequired,

@@ -120,6 +120,7 @@ class StatsSummary extends React.Component {
           <div className={wrapperClasses}>
             {isExpanded ? (
               <DetailedStats
+                areDisabledItemsShown={this.props.areDisabledItemsShown}
                 canTranslate={canTranslate}
                 failingChecksData={failingChecksData}
                 hasMoreContributors={hasMoreContributors}
@@ -137,6 +138,7 @@ class StatsSummary extends React.Component {
   }
 }
 StatsSummary.propTypes = {
+  areDisabledItemsShown: React.PropTypes.bool.isRequired,
   canTranslate: React.PropTypes.bool.isRequired,
   hasMoreContributors: React.PropTypes.bool,
   isInitiallyExpanded: React.PropTypes.bool.isRequired,

@@ -19,11 +19,13 @@ const ActionBar = ({
   canAdminDueDates,
   initialDueDate,
   pootlePath,
+  areDisabledItemsShown,
   stats,
 }) => (
   <div>
     <TranslateActions
       areActionsEnabled={areTranslateActionsEnabled}
+      areDisabledItemsShown={areDisabledItemsShown}
       pootlePath={pootlePath}
       stats={stats}
     />
@@ -37,6 +39,7 @@ const ActionBar = ({
   </div>
 );
 ActionBar.propTypes = {
+  areDisabledItemsShown: React.PropTypes.bool.isRequired,
   areTranslateActionsEnabled: React.PropTypes.bool,
   canAdminDueDates: React.PropTypes.bool,
   initialDueDate: React.PropTypes.shape({

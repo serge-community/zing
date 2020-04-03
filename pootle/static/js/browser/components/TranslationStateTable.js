@@ -14,6 +14,7 @@ import { getTranslateUrl } from 'utils/url';
 import { nicePercentage } from '../utils';
 
 const TranslationStateRow = ({
+  areDisabledItemsShown,
   code,
   count,
   label,
@@ -29,6 +30,7 @@ const TranslationStateRow = ({
           className="stats-data"
           href={getTranslateUrl(pootlePath, {
             filter: code !== 'total' ? code : null,
+            includeDisabled: areDisabledItemsShown,
           })}
         >
           {toLocaleString(count)}
@@ -43,6 +45,7 @@ const TranslationStateRow = ({
   </tr>
 );
 TranslationStateRow.propTypes = {
+  areDisabledItemsShown: React.PropTypes.bool.isRequired,
   code: React.PropTypes.string.isRequired,
   count: React.PropTypes.number.isRequired,
   canTranslate: React.PropTypes.bool.isRequired,
@@ -52,6 +55,7 @@ TranslationStateRow.propTypes = {
 };
 
 const TranslationStateTable = ({
+  areDisabledItemsShown,
   total,
   translated,
   untranslated,
@@ -62,6 +66,7 @@ const TranslationStateTable = ({
   <table className="stats">
     <tbody>
       <TranslationStateRow
+        areDisabledItemsShown={areDisabledItemsShown}
         code="total"
         label={t('Total')}
         count={total}
@@ -70,6 +75,7 @@ const TranslationStateTable = ({
         pootlePath={pootlePath}
       />
       <TranslationStateRow
+        areDisabledItemsShown={areDisabledItemsShown}
         code="translated"
         label={t('Translated')}
         count={translated}
@@ -78,6 +84,7 @@ const TranslationStateTable = ({
         pootlePath={pootlePath}
       />
       <TranslationStateRow
+        areDisabledItemsShown={areDisabledItemsShown}
         code="fuzzy"
         label={t('Fuzzy')}
         count={fuzzy}
@@ -86,6 +93,7 @@ const TranslationStateTable = ({
         pootlePath={pootlePath}
       />
       <TranslationStateRow
+        areDisabledItemsShown={areDisabledItemsShown}
         code="untranslated"
         label={t('Untranslated')}
         count={untranslated}
@@ -97,6 +105,7 @@ const TranslationStateTable = ({
   </table>
 );
 TranslationStateTable.propTypes = {
+  areDisabledItemsShown: React.PropTypes.bool.isRequired,
   total: React.PropTypes.number.isRequired,
   translated: React.PropTypes.number.isRequired,
   untranslated: React.PropTypes.number.isRequired,

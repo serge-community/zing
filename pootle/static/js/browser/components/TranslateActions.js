@@ -34,7 +34,12 @@ Action.propTypes = {
   url: React.PropTypes.string,
 };
 
-const TranslateActions = ({ areActionsEnabled, pootlePath, stats }) => {
+const TranslateActions = ({
+  areActionsEnabled,
+  areDisabledItemsShown,
+  pootlePath,
+  stats,
+}) => {
   const { critical, suggestions, total, translated } = stats;
   return (
     <ul>
@@ -48,7 +53,10 @@ const TranslateActions = ({ areActionsEnabled, pootlePath, stats }) => {
             count={critical}
             url={
               areActionsEnabled
-                ? getTranslateUrl(pootlePath, { category: 'critical' })
+                ? getTranslateUrl(pootlePath, {
+                    category: 'critical',
+                    includeDisabled: areDisabledItemsShown,
+                  })
                 : ''
             }
           />
@@ -62,7 +70,10 @@ const TranslateActions = ({ areActionsEnabled, pootlePath, stats }) => {
             count={suggestions}
             url={
               areActionsEnabled
-                ? getTranslateUrl(pootlePath, { filter: 'suggestions' })
+                ? getTranslateUrl(pootlePath, {
+                    filter: 'suggestions',
+                    includeDisabled: areDisabledItemsShown,
+                  })
                 : ''
             }
           />
@@ -78,7 +89,10 @@ const TranslateActions = ({ areActionsEnabled, pootlePath, stats }) => {
             count={total - translated}
             url={
               areActionsEnabled
-                ? getTranslateUrl(pootlePath, { filter: 'incomplete' })
+                ? getTranslateUrl(pootlePath, {
+                    filter: 'incomplete',
+                    includeDisabled: areDisabledItemsShown,
+                  })
                 : ''
             }
           />
@@ -90,7 +104,13 @@ const TranslateActions = ({ areActionsEnabled, pootlePath, stats }) => {
             name="translation-complete"
             caption={areActionsEnabled ? t('View all') : t('All')}
             count={total}
-            url={areActionsEnabled ? getTranslateUrl(pootlePath) : ''}
+            url={
+              areActionsEnabled
+                ? getTranslateUrl(pootlePath, {
+                    includeDisabled: areDisabledItemsShown,
+                  })
+                : ''
+            }
           />
         </li>
       )}
@@ -104,6 +124,7 @@ TranslateActions.propTypes = {
     due_on: React.PropTypes.number,
     pootle_path: React.PropTypes.string,
   }),
+  areDisabledItemsShown: React.PropTypes.bool.isRequired,
   areActionsEnabled: React.PropTypes.bool,
   pootlePath: React.PropTypes.string.isRequired,
   stats: React.PropTypes.shape({

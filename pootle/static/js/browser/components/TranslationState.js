@@ -13,6 +13,7 @@ import { t } from 'utils/i18n';
 import TranslationStateTable from './TranslationStateTable';
 
 const TranslationState = ({
+  areDisabledItemsShown,
   total,
   translated,
   fuzzy,
@@ -23,6 +24,7 @@ const TranslationState = ({
     <h3 className="top">{t('Translation Statistics')}</h3>
     <div className="bd">
       <TranslationStateTable
+        areDisabledItemsShown={areDisabledItemsShown}
         total={total}
         translated={translated}
         untranslated={total === null ? null : total - translated - fuzzy}
@@ -34,6 +36,7 @@ const TranslationState = ({
   </div>
 );
 TranslationState.propTypes = {
+  areDisabledItemsShown: React.PropTypes.bool.isRequired,
   total: React.PropTypes.number.isRequired,
   translated: React.PropTypes.number,
   fuzzy: React.PropTypes.number,

@@ -41,6 +41,7 @@ class FailingChecks extends React.Component {
         <h3>{t('Failing Checks')}</h3>
         <div className="bd">
           <FailingChecksTable
+            areDisabledItemsShown={this.props.areDisabledItemsShown}
             canTranslate={canTranslate}
             items={displayItems}
             pootlePath={pootlePath}
@@ -58,6 +59,7 @@ class FailingChecks extends React.Component {
   }
 }
 FailingChecks.propTypes = {
+  areDisabledItemsShown: React.PropTypes.bool.isRequired,
   items: React.PropTypes.array.isRequired,
   canTranslate: React.PropTypes.bool.isRequired,
   pootlePath: React.PropTypes.string.isRequired,

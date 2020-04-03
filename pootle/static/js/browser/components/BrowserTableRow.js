@@ -103,7 +103,10 @@ const BrowserTableRow = React.createClass({
         </td>
         <td className="stats-graph">{progressBar}</td>
         <td className="stats-number total">
-          <a href={getTranslateUrl(pootlePath)} className="stats-data">
+          <a
+            href={getTranslateUrl(pootlePath, { includeDisabled: isDisabled })}
+            className="stats-data"
+          >
             <ColoredNumber n={total} />
           </a>
         </td>
@@ -113,19 +116,28 @@ const BrowserTableRow = React.createClass({
         <td className="stats-number critical">
           <NumberPill
             n={critical}
-            url={getTranslateUrl(pootlePath, { category: 'critical' })}
+            url={getTranslateUrl(pootlePath, {
+              category: 'critical',
+              includeDisabled: isDisabled,
+            })}
           />
         </td>
         <td className="stats-number suggestions">
           <NumberPill
             n={suggestions}
-            url={getTranslateUrl(pootlePath, { filter: 'suggestions' })}
+            url={getTranslateUrl(pootlePath, {
+              filter: 'suggestions',
+              includeDisabled: isDisabled,
+            })}
           />
         </td>
         <td className="stats-number need-translation">
           <NumberPill
             n={total - translated}
-            url={getTranslateUrl(pootlePath, { filter: 'incomplete' })}
+            url={getTranslateUrl(pootlePath, {
+              filter: 'incomplete',
+              includeDisabled: isDisabled,
+            })}
           />
         </td>
         <td className="last-activity">

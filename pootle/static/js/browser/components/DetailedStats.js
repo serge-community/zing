@@ -18,6 +18,7 @@ import TranslationState from './TranslationState';
 import { t } from 'utils/i18n';
 
 const DetailedStats = ({
+  areDisabledItemsShown,
   canTranslate,
   failingChecksData,
   stats,
@@ -32,6 +33,7 @@ const DetailedStats = ({
     <div>
       <div className="summary-1-col">
         <TranslationState
+          areDisabledItemsShown={areDisabledItemsShown}
           total={stats.total}
           translated={stats.translated}
           fuzzy={stats.fuzzy}
@@ -40,6 +42,7 @@ const DetailedStats = ({
         />
         {failingChecksData && failingChecksData.length > 0 && (
           <FailingChecks
+            areDisabledItemsShown={areDisabledItemsShown}
             canTranslate={canTranslate}
             items={failingChecksData}
             pootlePath={pootlePath}
@@ -91,6 +94,7 @@ const DetailedStats = ({
   );
 };
 DetailedStats.propTypes = {
+  areDisabledItemsShown: React.PropTypes.bool.isRequired,
   canTranslate: React.PropTypes.bool.isRequired,
   failingChecksData: React.PropTypes.array,
   hasMoreContributors: React.PropTypes.bool,

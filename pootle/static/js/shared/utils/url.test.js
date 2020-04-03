@@ -190,6 +190,11 @@ describe('url', () => {
         opts: { checks: 'linebreaks', filter: '' },
         expected: '/ru/translate/#filter=checks&checks=linebreaks',
       },
+      {
+        path: '/ru/',
+        opts: { checks: '', checksCategory: 'critical', filter: '' },
+        expected: '/ru/translate/#filter=checks&category=critical',
+      },
     ];
     tests.forEach((test) => {
       expect(getTranslateUrl(test.path, test.opts)).toEqual(test.expected);

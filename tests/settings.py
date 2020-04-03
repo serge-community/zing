@@ -56,13 +56,13 @@ CACHES = {
     "default": {"BACKEND": "pootle.core.cache.DummyCache"},
     "redis": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/15",
+        "LOCATION": "redis://127.0.0.1:6379/10",
         "TIMEOUT": None,
         "OPTIONS": {"REDIS_CLIENT_CLASS": "fakeredis.FakeStrictRedis"},
     },
     "stats": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/15",
+        "LOCATION": "redis://127.0.0.1:6379/10",
         "TIMEOUT": None,
         "OPTIONS": {"REDIS_CLIENT_CLASS": "fakeredis.FakeStrictRedis"},
     },

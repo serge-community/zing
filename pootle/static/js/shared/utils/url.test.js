@@ -192,7 +192,7 @@ describe('url', () => {
       },
       {
         path: '/ru/',
-        opts: { checks: '', checksCategory: 'critical', filter: '' },
+        opts: { checks: '', category: 'critical', filter: '' },
         expected: '/ru/translate/#filter=checks&category=critical',
       },
     ];

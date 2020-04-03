@@ -48,7 +48,7 @@ const TranslateActions = ({ areActionsEnabled, pootlePath, stats }) => {
             count={critical}
             url={
               areActionsEnabled
-                ? getTranslateUrl(pootlePath, { checksCategory: 'critical' })
+                ? getTranslateUrl(pootlePath, { category: 'critical' })
                 : ''
             }
           />

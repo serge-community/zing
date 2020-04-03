@@ -52,7 +52,7 @@ const TaskItem = ({
 
   if (type === 'critical') {
     label = t('Fix critical errors');
-    actionUrl = getTranslateUrl(path, { checksCategory: 'critical' });
+    actionUrl = getTranslateUrl(path, { category: 'critical' });
   } else {
     label = t('Finish translation');
     actionUrl = getTranslateUrl(path, { filter: 'incomplete' });

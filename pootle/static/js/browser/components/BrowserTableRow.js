@@ -113,7 +113,7 @@ const BrowserTableRow = React.createClass({
         <td className="stats-number critical">
           <NumberPill
             n={critical}
-            url={getTranslateUrl(pootlePath, { checksCategory: 'critical' })}
+            url={getTranslateUrl(pootlePath, { category: 'critical' })}
           />
         </td>
         <td className="stats-number suggestions">

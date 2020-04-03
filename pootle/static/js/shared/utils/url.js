@@ -68,7 +68,7 @@ export function getResourcePath(path) {
  * Retrieves a translation URL out of an internal `path`
  * @param {string} path - internal path
  */
-export function getTranslateUrl(path, { checks, checksCategory, filter } = {}) {
+export function getTranslateUrl(path, { checks, category, filter } = {}) {
   const [languageCode, projectCode, dirPath, filename] = splitPootlePath(path);
 
   let url;
@@ -92,8 +92,8 @@ export function getTranslateUrl(path, { checks, checksCategory, filter } = {}) {
     return `${url}#filter=checks&checks=${checks}`;
   }
 
-  if (checksCategory) {
-    return `${url}#filter=checks&category=${checksCategory}`;
+  if (category) {
+    return `${url}#filter=checks&category=${category}`;
   }
 
   return url;

@@ -1,0 +1,64 @@
+{
+  "children": {
+    "/language0/project0/": {
+      "critical": 9,
+      "fuzzy": 370,
+      "lastaction": {
+        "displayname": "Member",
+        "email": "a4fae232e2bfebd9f4dc8d7cb6caecb2",
+        "mtime": 1578661829,
+        "source": "Translated Source /language0/project0/subdir0/sto\u2026",
+        "translation_action_type": 1,
+        "type": 1,
+        "uid": 110,
+        "username": "member"
+      },
+      "suggestions": 27,
+      "title": "Project 0",
+      "total": 1320,
+      "translated": 482,
+      "treeitem_type": 2
+    },
+    "/language0/project1/": {
+      "critical": 9,
+      "fuzzy": 370,
+      "lastaction": {
+        "displayname": "Member",
+        "email": "a4fae232e2bfebd9f4dc8d7cb6caecb2",
+        "mtime": 1578661833,
+        "source": "Translated Source /language0/project1/subdir0/sto\u2026",
+        "translation_action_type": 1,
+        "type": 1,
+        "uid": 134,
+        "username": "member"
+      },
+      "suggestions": 27,
+      "title": "Project 1",
+      "total": 1218,
+      "translated": 415,
+      "treeitem_type": 2
+    },
+    "/language0/terminology/": {
+      "title": "Terminology",
+      "total": 64,
+      "treeitem_type": 2
+    }
+  },
+  "critical": 18,
+  "fuzzy": 740,
+  "lastaction": {
+    "displayname": "Member",
+    "email": "a4fae232e2bfebd9f4dc8d7cb6caecb2",
+    "mtime": 1578661833,
+    "source": "Translated Source /language0/project1/subdir0/sto\u2026",
+    "translation_action_type": 1,
+    "type": 1,
+    "uid": 134,
+    "username": "member"
+  },
+  "suggestions": 54,
+  "title": "Language 0",
+  "total": 2602,
+  "translated": 897,
+  "treeitem_type": 2
+}

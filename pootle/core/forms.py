@@ -163,7 +163,17 @@ class MathCaptchaForm(forms.Form):
 class PathForm(forms.Form):
     """Form used for validating GET queryset parameters in a dispatcher view."""
 
+    def __init__(self, *args, **kwargs):
+        self.request_user = kwargs.pop("user")
+        super().__init__(*args, **kwargs)
+
     path = forms.CharField(max_length=2048, required=True)
+    include_disabled = forms.BooleanField(required=False, initial=False)
 
     def clean_path(self):
         return self.cleaned_data.get("path", "/")
+
+    def clean_include_disabled(self):
+        if not self.request_user.is_superuser:
+            return False
+        return self.cleaned_data["include_disabled"]

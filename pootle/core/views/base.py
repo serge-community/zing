@@ -124,7 +124,7 @@ class BasePathDispatcherView(View):
 
     @never_cache
     def dispatch(self, request, *args, **kwargs):
-        form = self.get_form()
+        form = self.get_form(request)
         if not form.is_valid():
             raise Http404(ValidationError(form.errors))
 
@@ -144,8 +144,10 @@ class BasePathDispatcherView(View):
         view_class = self.get_view_class(lang_code, proj_code, dir_path, filename)
         return view_class.as_view()(request, *args, **kwargs)
 
-    def get_form(self):
-        return self.form_class(self.request.GET)
+    def get_form(self, request):
+        request_params = request.GET.copy()
+        request_params["include_disabled"] = "all" in request.GET
+        return self.form_class(request_params, user=request.user)
 
     def get_view_class(self, lang_code, proj_code, dir_path, filename):
         if lang_code and proj_code:

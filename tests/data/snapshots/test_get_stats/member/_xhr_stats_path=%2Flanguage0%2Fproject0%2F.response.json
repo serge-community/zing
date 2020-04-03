@@ -1,0 +1,99 @@
+{
+  "children": {
+    "/language0/project0/complex.po": {
+      "title": "complex.po",
+      "total": 102,
+      "translated": 67
+    },
+    "/language0/project0/store0.po": {
+      "critical": 2,
+      "fuzzy": 76,
+      "lastaction": {
+        "displayname": "Member",
+        "email": "a4fae232e2bfebd9f4dc8d7cb6caecb2",
+        "mtime": 1578661826,
+        "source": "Translated Source /language0/project0/store0.po 2\u2026",
+        "translation_action_type": 1,
+        "type": 1,
+        "uid": 3,
+        "username": "member"
+      },
+      "suggestions": 6,
+      "title": "store0.po",
+      "total": 252,
+      "translated": 86
+    },
+    "/language0/project0/store1.po": {
+      "critical": 2,
+      "fuzzy": 76,
+      "lastaction": {
+        "displayname": "Member",
+        "email": "a4fae232e2bfebd9f4dc8d7cb6caecb2",
+        "mtime": 1578661827,
+        "source": "Translated Source /language0/project0/store1.po 2\u2026",
+        "translation_action_type": 1,
+        "type": 1,
+        "uid": 11,
+        "username": "member"
+      },
+      "suggestions": 6,
+      "title": "store1.po",
+      "total": 252,
+      "translated": 86
+    },
+    "/language0/project0/store2.po": {
+      "critical": 2,
+      "fuzzy": 76,
+      "lastaction": {
+        "displayname": "Member",
+        "email": "a4fae232e2bfebd9f4dc8d7cb6caecb2",
+        "mtime": 1578661828,
+        "source": "Translated Source /language0/project0/store2.po 2\u2026",
+        "translation_action_type": 1,
+        "type": 1,
+        "uid": 19,
+        "username": "member"
+      },
+      "suggestions": 6,
+      "title": "store2.po",
+      "total": 252,
+      "translated": 86
+    },
+    "/language0/project0/subdir0/": {
+      "critical": 3,
+      "fuzzy": 142,
+      "lastaction": {
+        "displayname": "Member",
+        "email": "a4fae232e2bfebd9f4dc8d7cb6caecb2",
+        "mtime": 1578661829,
+        "source": "Translated Source /language0/project0/subdir0/sto\u2026",
+        "translation_action_type": 1,
+        "type": 1,
+        "uid": 110,
+        "username": "member"
+      },
+      "suggestions": 9,
+      "title": "subdir0",
+      "total": 462,
+      "translated": 157,
+      "treeitem_type": 1
+    }
+  },
+  "critical": 9,
+  "fuzzy": 370,
+  "lastaction": {
+    "displayname": "Member",
+    "email": "a4fae232e2bfebd9f4dc8d7cb6caecb2",
+    "mtime": 1578661829,
+    "source": "Translated Source /language0/project0/subdir0/sto\u2026",
+    "translation_action_type": 1,
+    "type": 1,
+    "uid": 110,
+    "username": "member"
+  },
+  "suggestions": 27,
+  "title": "project0",
+  "total": 1320,
+  "translated": 482,
+  "treeitem_type": 1
+}

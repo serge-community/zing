@@ -102,11 +102,13 @@ class ProjectMixin(object):
 class ProjectBrowseView(ProjectMixin, PootleBrowseView):
     @property
     def stats(self):
-        return self.object.get_stats_for_user(self.request.user)
+        return self.object.get_stats_for_user(self.request.user, include_disabled=True)
 
     @cached_property
     def items(self):
-        return self.object.get_children_for_user(self.request.user)
+        return self.object.get_children_for_user(
+            self.request.user, include_disabled=True
+        )
 
     @property
     def pootle_path(self):
@@ -197,6 +199,14 @@ class ProjectsMixin(object):
 
 
 class ProjectsBrowseView(ProjectsMixin, PootleBrowseView):
+    @property
+    def stats(self):
+        return self.object.get_stats_for_user(self.request.user)
+
+    @cached_property
+    def items(self):
+        return self.object.get_children_for_user(self.request.user)
+
     def get(self, *args, **kwargs):
         response = super().get(*args, **kwargs)
         response.set_cookie("pootle-language", "projects")

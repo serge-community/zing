@@ -186,6 +186,10 @@ class BaseBrowseDataJSON(BrowseDataViewMixin):
     def path(self):
         return self.kwargs["path"]
 
+    @property
+    def include_disabled(self):
+        return self.kwargs["include_disabled"]
+
     def get_context_data(self, *args, **kwargs):
         return self.get_browsing_data()
 

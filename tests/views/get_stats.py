@@ -7,82 +7,50 @@
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
 
-import json
+import urllib.parse
 
 import pytest
 
-from pootle_store.models import Unit
+from tests.utils import as_dir, url_name
+
+users_with_stats = set()
 
 
 @pytest.mark.django_db
-@pytest.mark.xfail(reason="this test needs to be replaced with snapshot-based one")
-def test_get_stats_store(client, request_users, settings):
-
+@pytest.mark.parametrize(
+    "params",
+    [
+        {"path": "/projects/"},
+        {"path": "/projects/", "all": ""},
+        {"path": "/projects/project0/"},
+        {"path": "/projects/project0/", "all": ""},
+        {"path": "/language0/"},
+        {"path": "/language0/", "all": ""},
+        {"path": "/language0/project0/"},
+        {"path": "/language0/project0/", "all": ""},
+    ],
+)
+def test_get_stats(client, request_users, test_name, request, snapshot_stack, params):
+    """Tests the /xhr/stats/ view."""
+    url = "/xhr/stats/"
     user = request_users["user"]
-    if user.username != "nobody":
-        client.force_login(user)
 
-    unit = Unit.objects.get_translatable(user).first()
-    store = unit.store
-    response = client.get(
-        "/xhr/stats/?path=%s" % store.pootle_path,
-        HTTP_X_REQUESTED_WITH="XMLHttpRequest",
-    )
-    result = json.loads(response.content)
+    # stats refreshing boilerplate
+    global users_with_stats
+    if user not in users_with_stats:
+        request.getfixturevalue("refresh_stats")
+        users_with_stats.add(user)
 
-    stats = store.get_stats()
-    for k, v in result.items():
-        assert stats[k] == v
+    qs = urllib.parse.urlencode(params, True)
+    with snapshot_stack.push(
+        [as_dir(test_name), as_dir(user.username), url_name(url + qs)]
+    ):
+        if not user.is_anonymous:
+            client.force_login(user)
+        response = client.get(url, params, HTTP_X_REQUESTED_WITH="XMLHttpRequest")
 
+        with snapshot_stack.push("status_code") as snapshot:
+            snapshot.assert_matches(response.status_code)
 
-@pytest.mark.django_db
-@pytest.mark.xfail(reason="this test needs to be replaced with snapshot-based one")
-def test_get_stats_directory(client, request_users, settings):
-
-    user = request_users["user"]
-    if user.username != "nobody":
-        client.force_login(user)
-    unit = (
-        Unit.objects.get_translatable(user)
-        .filter(store__pootle_path__contains="subdir0")
-        .first()
-    )
-    directory = unit.store.parent
-    response = client.get(
-        "/xhr/stats/?path=%s" % directory.pootle_path,
-        HTTP_X_REQUESTED_WITH="XMLHttpRequest",
-    )
-    result = json.loads(response.content)
-
-    stats = directory.get_stats()
-
-    for k, v in result.items():
-        if isinstance(v, dict):
-            for kk, vv in v.items():
-                assert stats[k][kk] == vv
-        else:
-            assert stats[k] == v
-
-
-@pytest.mark.django_db
-@pytest.mark.xfail(reason="this test needs to be replaced with snapshot-based one")
-def test_get_stats_tp(client, request_users, settings):
-
-    user = request_users["user"]
-    if user.username != "nobody":
-        client.force_login(user)
-    unit = Unit.objects.get_translatable(user).first()
-    tp = unit.store.translation_project
-    response = client.get(
-        "/xhr/stats/?path=%s" % tp.pootle_path, HTTP_X_REQUESTED_WITH="XMLHttpRequest"
-    )
-    result = json.loads(response.content)
-
-    stats = tp.get_stats()
-
-    for k, v in result.items():
-        if isinstance(v, dict):
-            for kk, vv in v.items():
-                assert stats[k][kk] == vv
-        else:
-            assert stats[k] == v
+        with snapshot_stack.push("response") as snapshot:
+            snapshot.assert_matches(response.json())

@@ -242,13 +242,15 @@ class Language(models.Model, TreeItem):
 
     # # # /TreeItem
 
-    def get_stats_for_user(self, user):
-        self.set_children(self.get_children_for_user(user))
+    def get_stats_for_user(self, user, include_disabled=False):
+        self.set_children(
+            self.get_children_for_user(user, include_disabled=include_disabled)
+        )
         return self.get_stats()
 
-    def get_children_for_user(self, user, select_related=None):
+    def get_children_for_user(self, user, include_disabled=False, select_related=None):
         return self.translationproject_set.for_user(
-            user, select_related=select_related
+            user, include_disabled=include_disabled, select_related=select_related
         ).select_related("project")
 
 

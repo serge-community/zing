@@ -512,7 +512,17 @@ class TPStoreBrowseDataJSON(BaseBrowseDataJSON, TPBrowseStoreView):
 
 
 class LanguageBrowseDataJSON(BaseBrowseDataJSON, LanguageBrowseView):
-    pass
+    @property
+    def stats(self):
+        return self.object.get_stats_for_user(
+            self.request.user, include_disabled=self.include_disabled
+        )
+
+    @cached_property
+    def items(self):
+        return self.object.get_children_for_user(
+            self.request.user, include_disabled=self.include_disabled
+        )
 
 
 class ProjectBrowseDataJSON(BaseBrowseDataJSON, ProjectBrowseView):
@@ -520,7 +530,17 @@ class ProjectBrowseDataJSON(BaseBrowseDataJSON, ProjectBrowseView):
 
 
 class ProjectsBrowseDataJSON(BaseBrowseDataJSON, ProjectsBrowseView):
-    pass
+    @property
+    def stats(self):
+        return self.object.get_stats_for_user(
+            self.request.user, include_disabled=self.include_disabled
+        )
+
+    @cached_property
+    def items(self):
+        return self.object.get_children_for_user(
+            self.request.user, include_disabled=self.include_disabled
+        )
 
 
 class BrowseDataDispatcherView(BasePathDispatcherView):

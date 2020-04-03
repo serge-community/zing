@@ -1,0 +1,83 @@
+{
+  "children": {
+    "/projects/disabled_project0/": {
+      "critical": 5,
+      "fuzzy": 265,
+      "is_disabled": true,
+      "lastaction": {
+        "displayname": "Member",
+        "email": "a4fae232e2bfebd9f4dc8d7cb6caecb2",
+        "mtime": 1578661826,
+        "source": "Translated Source /language0/disabled_project0/su\u2026",
+        "translation_action_type": 1,
+        "type": 1,
+        "uid": 162,
+        "username": "member"
+      },
+      "suggestions": 15,
+      "title": "Disabled Project 0",
+      "total": 855,
+      "translated": 290,
+      "treeitem_type": 2
+    },
+    "/projects/project0/": {
+      "critical": 18,
+      "fuzzy": 740,
+      "lastaction": {
+        "displayname": "Member",
+        "email": "a4fae232e2bfebd9f4dc8d7cb6caecb2",
+        "mtime": 1578661837,
+        "source": "Translated Source /language1/project0/subdir0/sub\u2026",
+        "translation_action_type": 1,
+        "type": 1,
+        "uid": 126,
+        "username": "member"
+      },
+      "suggestions": 54,
+      "title": "Project 0",
+      "total": 2538,
+      "translated": 897,
+      "treeitem_type": 2
+    },
+    "/projects/project1/": {
+      "critical": 18,
+      "fuzzy": 740,
+      "lastaction": {
+        "displayname": "Member",
+        "email": "a4fae232e2bfebd9f4dc8d7cb6caecb2",
+        "mtime": 1578661840,
+        "source": "Translated Source /language1/project1/subdir0/sto\u2026",
+        "translation_action_type": 1,
+        "type": 1,
+        "uid": 142,
+        "username": "member"
+      },
+      "suggestions": 54,
+      "title": "Project 1",
+      "total": 2436,
+      "translated": 830,
+      "treeitem_type": 2
+    },
+    "/projects/terminology/": {
+      "title": "Terminology",
+      "total": 128,
+      "treeitem_type": 2
+    }
+  },
+  "critical": 41,
+  "fuzzy": 1745,
+  "lastaction": {
+    "displayname": "Member",
+    "email": "a4fae232e2bfebd9f4dc8d7cb6caecb2",
+    "mtime": 1578661840,
+    "source": "Translated Source /language1/project1/subdir0/sto\u2026",
+    "translation_action_type": 1,
+    "type": 1,
+    "uid": 142,
+    "username": "member"
+  },
+  "suggestions": 123,
+  "total": 5957,
+  "translated": 2017,
+  "treeitem_type": 2
+}

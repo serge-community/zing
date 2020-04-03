@@ -419,15 +419,16 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
 
     # # # /TreeItem
 
-    def get_stats_for_user(self, user):
-        self.set_children(self.get_children_for_user(user))
-
+    def get_stats_for_user(self, user, include_disabled=False):
+        self.set_children(
+            self.get_children_for_user(user, include_disabled=include_disabled)
+        )
         return self.get_stats()
 
-    def get_children_for_user(self, user, select_related=None):
+    def get_children_for_user(self, user, include_disabled=False, select_related=None):
         """Returns children translation projects for a specific `user`."""
         return self.translationproject_set.for_user(
-            user, select_related
+            user, include_disabled=include_disabled, select_related=select_related
         ).select_related("language")
 
     def get_real_path(self):
@@ -449,12 +450,12 @@ class ProjectResource(VirtualResource, ProjectURLMixin):
             self.get_children()
         ) == list(other.get_children())
 
-    def get_children_for_user(self, user, select_related=None):
+    def get_children_for_user(self, user, select_related=None, **kwargs):
         if select_related:
             return self.children.select_related(*select_related)
         return self.children
 
-    def get_stats_for_user(self, user):
+    def get_stats_for_user(self, user, **kwargs):
         return self.get_stats()
 
 
@@ -467,6 +468,25 @@ class ProjectSet(VirtualResource, ProjectURLMixin):
     def __init__(self, resources, *args, **kwargs):
         self.directory = Directory.objects.projects
         super().__init__(resources, self.directory.pootle_path)
+
+    def get_children_for_user(self, user, include_disabled=False, select_related=None):
+        qs = self.children
+        if select_related:
+            return qs.select_related(*select_related)
+
+        if not include_disabled or not user.is_superuser:
+            qs = qs.filter(disabled=False)
+
+        if user.is_superuser:
+            return qs
+
+        return qs.filter(code__in=Project.accessible_by_user(user))
+
+    def get_stats_for_user(self, user, include_disabled=False):
+        self.set_children(
+            self.get_children_for_user(user, include_disabled=include_disabled)
+        )
+        return self.get_stats()
 
 
 @receiver([post_delete, post_save])

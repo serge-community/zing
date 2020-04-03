@@ -109,7 +109,7 @@ class TranslationProjectManager(models.Manager):
         """Filters translation projects that belong to disabled projects."""
         return self.filter(project__disabled=True)
 
-    def for_user(self, user, select_related=None):
+    def for_user(self, user, include_disabled=False, select_related=None):
         """Filters translation projects for a specific user.
 
         - Admins always get all translation projects.
@@ -118,20 +118,29 @@ class TranslationProjectManager(models.Manager):
 
         :param user: The user for whom the translation projects need to be
             retrieved for.
+        :param include_disabled: Whether to include disabled projects or not.
         :return: A filtered queryset with `TranslationProject`s for `user`.
         """
         qs = self.live()
         if select_related is not None:
             qs = qs.select_related(*select_related)
 
+        if not include_disabled or not user.is_superuser:
+            qs = qs.filter(project__disabled=False)
+
         if user.is_superuser:
             return qs
 
-        return qs.filter(
-            project__disabled=False, project__code__in=Project.accessible_by_user(user)
-        )
+        return qs.filter(project__code__in=Project.accessible_by_user(user))
 
-    def get_for_user(self, user, project_code, language_code, select_related=None):
+    def get_for_user(
+        self,
+        user,
+        project_code,
+        language_code,
+        include_disabled=False,
+        select_related=None,
+    ):
         """Gets a `language_code`/`project_code` translation project
         for a specific `user`.
 
@@ -144,10 +153,11 @@ class TranslationProjectManager(models.Manager):
             to be retrieved.
         :param project_code: The code of a project for the TP to retrieve.
         :param language_code: The code of the language fro the TP to retrieve.
+        :param include_disabled: Whether to include disabled projects or not.
         :return: The `TranslationProject` matching the params, raises
             otherwise.
         """
-        return self.for_user(user, select_related).get(
+        return self.for_user(user, include_disabled, select_related).get(
             project__code=project_code, language__code=language_code
         )
 

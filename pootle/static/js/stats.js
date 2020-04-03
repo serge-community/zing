@@ -70,6 +70,7 @@ const stats = {
     this.statsRefreshAttemptsCount = options.statsRefreshAttemptsCount;
 
     this.initialItem = getItem(options.initialData, options.pootlePath);
+    this.fullItem = null;
 
     $(document).on('click', '.js-stats-refresh', (e) => {
       e.preventDefault();
@@ -170,6 +171,29 @@ const stats = {
       .always(() => $('body').spin(false));
   },
 
+  handleToggleAllItems({ showAll }) {
+    if (this.fullItem) {
+      this.setState({
+        item: showAll ? this.fullItem : this.initialItem,
+      });
+      return;
+    }
+
+    const includeDisabled = true;
+    $('body').spin();
+    StatsAPI.getStats(this.pootlePath, includeDisabled)
+      .done((data) => {
+        this.fullItem = getItem(data, this.pootlePath);
+        this.setState({
+          item: this.fullItem,
+          items: data.children,
+        });
+      })
+      .always(() => {
+        $('body').spin(false);
+      });
+  },
+
   updateUI() {
     this.updateStatsUI();
 
@@ -202,6 +226,7 @@ const stats = {
         hasDisabledItems={this.hasDisabledItems}
         items={this.state.items}
         isInitiallyDisabled={this.initialItem.is_disabled}
+        onToggleAllItems={(opts) => this.handleToggleAllItems(opts)}
       />,
       q('#js-browsing-table-container')
     );

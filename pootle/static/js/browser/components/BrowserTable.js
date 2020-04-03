@@ -80,6 +80,7 @@ const BrowserTable = React.createClass({
     hasDisabledItems: React.PropTypes.bool.isRequired,
     isInitiallyDisabled: React.PropTypes.bool.isRequired,
     items: React.PropTypes.array.isRequired,
+    onToggleAllItems: React.PropTypes.func.isRequired,
   },
 
   getDefaultProps() {
@@ -103,8 +104,11 @@ const BrowserTable = React.createClass({
   },
 
   componentWillUpdate(nextProps, nextState) {
-    if (this.state.sortColumn !== nextState.sortColumn) {
-      this.sortedKeys = this.sortedKeys.sort((a, b) =>
+    if (
+      this.state.sortColumn !== nextState.sortColumn ||
+      this.props.items.length !== nextProps.items.length
+    ) {
+      this.sortedKeys = Object.keys(nextProps.items).sort((a, b) =>
         sortFunc(a, b, nextProps.items, nextState.sortColumn)
       );
       return;
@@ -135,6 +139,7 @@ const BrowserTable = React.createClass({
   },
 
   handleDisabledRowsVisibility({ isActive }) {
+    this.props.onToggleAllItems({ showAll: isActive });
     this.setState({ showDisabledRows: isActive });
   },
 

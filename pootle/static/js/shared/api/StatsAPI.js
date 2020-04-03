@@ -11,9 +11,13 @@ import fetch from 'utils/fetch';
 const StatsAPI = {
   apiRoot: '/xhr/stats/',
 
-  getStats(path) {
+  getStats(path, includeDisabled = false) {
+    const body = { path };
+    if (includeDisabled) {
+      body.all = '';
+    }
     return fetch({
-      body: { path },
+      body,
       url: this.apiRoot,
     });
   },

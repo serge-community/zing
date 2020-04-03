@@ -39,7 +39,7 @@ const CheckRow = ({ check, canTranslate, pootlePath }) => {
 
   let url = '';
   if (canTranslate) {
-    url = getTranslateUrl(pootlePath, { check: check.code });
+    url = getTranslateUrl(pootlePath, { checks: check.code });
   }
 
   const props = { canTranslate, url };

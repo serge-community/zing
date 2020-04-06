@@ -113,7 +113,7 @@ export function highlightRO(text) {
   );
 }
 
-export function highlightRW(text) {
+export function highlightRW(text, className = '') {
   return highlightSymbols(
     nl2br(
       highlightPunctuation(
@@ -126,14 +126,14 @@ export function highlightRW(text) {
               // is managed as a component.
               text.replace(/\r\n/g, '\n')
             ),
-            'js-editor-copytext'
+            className
           ),
-          'js-editor-copytext'
+          className
         ),
-        'js-editor-copytext'
+        className
       )
     ),
-    'js-editor-copytext'
+    className
   );
 }
 

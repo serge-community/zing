@@ -38,7 +38,9 @@ const UnitSource = React.createClass({
         <div
           className="translation-text js-translation-text"
           data-string={sourceValue}
-          dangerouslySetInnerHTML={{ __html: highlightRW(sourceValue) }}
+          dangerouslySetInnerHTML={{
+            __html: highlightRW(sourceValue, 'js-editor-copytext'),
+          }}
           {...props}
         ></div>
       </div>

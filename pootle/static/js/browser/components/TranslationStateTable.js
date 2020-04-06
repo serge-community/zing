@@ -13,26 +13,12 @@ import { getTranslateUrl } from 'utils/url';
 
 import { nicePercentage } from '../utils';
 
-const TranslationStateRow = ({
-  areDisabledItemsShown,
-  code,
-  count,
-  label,
-  canTranslate,
-  percent,
-  pootlePath,
-}) => (
+const TranslationStateRow = ({ count, label, canTranslate, percent, url }) => (
   <tr>
     <td id="stats-name">{label}</td>
     <td className="stats-number">
       {canTranslate ? (
-        <a
-          className="stats-data"
-          href={getTranslateUrl(pootlePath, {
-            filter: code !== 'total' ? code : null,
-            includeDisabled: areDisabledItemsShown,
-          })}
-        >
+        <a className="stats-data" href={url}>
           {toLocaleString(count)}
         </a>
       ) : (
@@ -45,13 +31,11 @@ const TranslationStateRow = ({
   </tr>
 );
 TranslationStateRow.propTypes = {
-  areDisabledItemsShown: React.PropTypes.bool.isRequired,
-  code: React.PropTypes.string.isRequired,
   count: React.PropTypes.number.isRequired,
   canTranslate: React.PropTypes.bool.isRequired,
   label: React.PropTypes.string.isRequired,
   percent: React.PropTypes.number.isRequired,
-  pootlePath: React.PropTypes.string.isRequired,
+  url: React.PropTypes.string,
 };
 
 const TranslationStateTable = ({
@@ -66,40 +50,43 @@ const TranslationStateTable = ({
   <table className="stats">
     <tbody>
       <TranslationStateRow
-        areDisabledItemsShown={areDisabledItemsShown}
-        code="total"
         label={t('Total')}
         count={total}
         canTranslate={canTranslate}
         percent={nicePercentage(total, total, 100)}
-        pootlePath={pootlePath}
+        url={getTranslateUrl(pootlePath, {
+          includeDisabled: areDisabledItemsShown,
+        })}
       />
       <TranslationStateRow
-        areDisabledItemsShown={areDisabledItemsShown}
-        code="translated"
         label={t('Translated')}
         count={translated}
         canTranslate={canTranslate}
         percent={nicePercentage(translated, total, 100)}
-        pootlePath={pootlePath}
+        url={getTranslateUrl(pootlePath, {
+          filter: 'translated',
+          includeDisabled: areDisabledItemsShown,
+        })}
       />
       <TranslationStateRow
-        areDisabledItemsShown={areDisabledItemsShown}
-        code="fuzzy"
         label={t('Fuzzy')}
         count={fuzzy}
         canTranslate={canTranslate}
         percent={nicePercentage(fuzzy, total, 0)}
-        pootlePath={pootlePath}
+        url={getTranslateUrl(pootlePath, {
+          filter: 'fuzzy',
+          includeDisabled: areDisabledItemsShown,
+        })}
       />
       <TranslationStateRow
-        areDisabledItemsShown={areDisabledItemsShown}
-        code="untranslated"
         label={t('Untranslated')}
         count={untranslated}
         canTranslate={canTranslate}
         percent={nicePercentage(untranslated, total, 0)}
-        pootlePath={pootlePath}
+        url={getTranslateUrl(pootlePath, {
+          filter: 'untranslated',
+          includeDisabled: areDisabledItemsShown,
+        })}
       />
     </tbody>
   </table>

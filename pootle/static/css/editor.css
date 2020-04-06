@@ -1178,6 +1178,7 @@ html[dir="rtl"] .suggestion-original
     box-shadow: none;
     outline: none;
     color: #999;
+    -webkit-text-fill-color: #999;
 }
 
 .editor-area-wrapper.is-focused

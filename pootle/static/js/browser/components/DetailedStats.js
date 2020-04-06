@@ -13,7 +13,7 @@ import TimeSince from 'components/TimeSince';
 
 import FailingChecks from './FailingChecks';
 import TopContributors from './TopContributors';
-import TranslationState from './TranslationState';
+import TranslationStateTable from './TranslationStateTable';
 
 import { t } from 'utils/i18n';
 
@@ -28,18 +28,23 @@ const DetailedStats = ({
 }) => {
   const lastUpdated = stats.lastupdated;
   const lastAction = stats.lastaction;
+  const { total, translated, fuzzy } = stats;
 
   return (
     <div>
       <div className="summary-1-col">
-        <TranslationState
-          areDisabledItemsShown={areDisabledItemsShown}
-          total={stats.total}
-          translated={stats.translated}
-          fuzzy={stats.fuzzy}
-          canTranslate={canTranslate}
-          pootlePath={pootlePath}
-        />
+        <h3 className="top">{t('Translation Statistics')}</h3>
+        <div className="bd">
+          <TranslationStateTable
+            areDisabledItemsShown={areDisabledItemsShown}
+            total={total}
+            translated={translated}
+            untranslated={total - translated - fuzzy}
+            fuzzy={fuzzy}
+            canTranslate={canTranslate}
+            pootlePath={pootlePath}
+          />
+        </div>
         {failingChecksData && failingChecksData.length > 0 && (
           <FailingChecks
             areDisabledItemsShown={areDisabledItemsShown}

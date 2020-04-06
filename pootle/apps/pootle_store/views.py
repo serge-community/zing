@@ -433,6 +433,12 @@ class UnitEditJSON(PootleUnitJSON):
         sources[self.source_language.code] = self.object.source_f.strings
         return sources
 
+    def get_tm_suggestions(self, ctx):
+        can_edit = ctx["cansuggest"] or ctx["cantranslate"]
+        if not can_edit:
+            return []
+        return self.object.get_tm_suggestions()[:MAX_TM_RESULTS]
+
     def get_context_data(self, *args, **kwargs):
         return {
             "unit": self.object,
@@ -468,7 +474,7 @@ class UnitEditJSON(PootleUnitJSON):
     def get_response_data(self, context):
         return {
             "editor": self.render_edit_template(context),
-            "tm_suggestions": self.object.get_tm_suggestions()[:MAX_TM_RESULTS],
+            "tm_suggestions": self.get_tm_suggestions(context),
             "is_obsolete": self.object.isobsolete(),
             "sources": self.get_sources(),
             "target": self.object.target_f.strings,

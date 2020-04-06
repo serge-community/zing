@@ -152,10 +152,6 @@ export function highlightRONodes(selector) {
   return highlightNodes(selector, highlightRO);
 }
 
-export function highlightRWNodes(selector) {
-  return highlightNodes(selector, highlightRW);
-}
-
 export function blinkClass($elem, className, n, delay) {
   $elem.toggleClass(className);
   if (n > 1) {
@@ -168,7 +164,6 @@ export default {
   highlightRO,
   highlightRW,
   highlightRONodes,
-  highlightRWNodes,
   getHash,
   getParsedHash,
   strCmp,

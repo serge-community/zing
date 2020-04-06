@@ -7,6 +7,7 @@ v.next (unreleased)
 * Browser: disabled projects are taken out from counters by default (#425).
 * Editor: allowed to filter units from enabled/disabled projects (#425).
 * Fixed bug where no overview stats were shown for language pages (#425).
+* Editor: placeables are not actionable in read-only mode (#460).
 
 
 v0.9.1 (2020-03-11)

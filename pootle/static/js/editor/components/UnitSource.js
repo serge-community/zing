@@ -15,6 +15,7 @@ import { highlightRW } from '../../utils';
 
 const UnitSource = React.createClass({
   propTypes: {
+    canEdit: React.PropTypes.bool.isRequired,
     id: React.PropTypes.number.isRequired,
     values: React.PropTypes.array.isRequired,
     hasPlurals: React.PropTypes.bool.isRequired,
@@ -27,6 +28,7 @@ const UnitSource = React.createClass({
       lang: this.props.sourceLocaleCode,
       dir: this.props.sourceLocaleDir,
     };
+    const placeablesExtraClassName = this.props.canEdit ? 'js-editor-copytext' : '';
 
     return (
       <div key={`source-value-${index}`}>
@@ -39,7 +41,7 @@ const UnitSource = React.createClass({
           className="translation-text js-translation-text"
           data-string={sourceValue}
           dangerouslySetInnerHTML={{
-            __html: highlightRW(sourceValue, 'js-editor-copytext'),
+            __html: highlightRW(sourceValue, placeablesExtraClassName),
           }}
           {...props}
         ></div>

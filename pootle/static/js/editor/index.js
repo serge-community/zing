@@ -58,6 +58,7 @@ const ReactEditor = {
     );
     ReactRenderer.render(
       <UnitSource
+        canEdit={this.props.canSuggest || this.props.canTranslate}
         id={this.props.unitId}
         values={this.props.sourceValues}
         hasPlurals={this.props.hasPlurals}
@@ -71,6 +72,7 @@ const ReactEditor = {
       const unit = this.props.alternativeSources[mountNode.dataset.id];
       ReactRenderer.render(
         <UnitSource
+          canEdit={this.props.canSuggest || this.props.canTranslate}
           id={unit.id}
           values={unit.target}
           hasPlurals={unit.has_plurals}

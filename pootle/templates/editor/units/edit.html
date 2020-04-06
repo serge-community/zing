@@ -180,6 +180,8 @@
 
             <script type="text/javascript">
               PTL.reactEditor.init({
+                canSuggest: {{ cansuggest|yesno:'true,false' }},
+                canTranslate: {{ cantranslate|yesno:'true,false' }},
                 initialValues: {{ unit_values|to_jquery_safe_js }},
                 isDisabled: {{ form.target_f.field.widget.attrs.disabled|yesno:'true,false' }},
                 currentLocaleCode: '{{ language.code }}',

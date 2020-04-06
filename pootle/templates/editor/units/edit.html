@@ -43,6 +43,7 @@
       {% endif %}
 
       <!-- Terminology suggestions -->
+      {% if cansuggest or cantranslate %}
       {% with unit.terminology as terms %}
       {% if terms %}
       <div id="tm" class="sidebar" dir="{% locale_dir %}">
@@ -57,6 +58,7 @@
       </div>
       {% endif %}
       {% endwith %}
+      {% endif %}
 
       {% if unit.developer_comment %}
       <!-- Developer comments -->

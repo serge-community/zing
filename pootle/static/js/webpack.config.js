@@ -8,13 +8,8 @@
  */
 
 var webpack = require('webpack');
-// The uglifyjs plugin that comes along with webpack does not support minifying
-// ES2015+ code, so until it does starting in 4.0, we need to use this
-// webpack-contrib module.
-var UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
-var env = process.env.NODE_ENV;
-var DEBUG = env !== 'production';
+var DEBUG = process.env.NODE_ENV !== 'production';
 var mode = DEBUG ? 'development' : 'production';
 
 // XXX: kinda hard-coded, although we should stick to /static/ really
@@ -65,28 +60,12 @@ var resolve = {
     moment: __dirname + '/vendor/moment.js', // FIXME: use npm module
     odometer: __dirname + '/vendor/odometer.js', // FIXME: use npm module
     spin: __dirname + '/vendor/spin.js', // FIXME: use npm module
-  }
+  },
 };
-
 
 /* Plugins */
 
-var plugins = [];
-
-if (!DEBUG) {
-  plugins = [
-    new UglifyJsPlugin({
-      parallel: true,
-    }),
-  ];
-} else {
-  env = 'development';
-}
-
-plugins.push.apply(plugins, [
-  new webpack.DefinePlugin({
-    'process.env': {NODE_ENV: JSON.stringify(env)}
-  }),
+var plugins = [
   new webpack.IgnorePlugin(/^\.\/locale$/, /vendor$/),
   new webpack.ProvidePlugin({
     'window.Backbone': 'backbone',
@@ -95,7 +74,7 @@ plugins.push.apply(plugins, [
     name: 'vendor',
     filename: 'vendor.bundle.js',
   }),
-]);
+];
 
 /* Exported configuration */
 
@@ -137,11 +116,9 @@ var config = {
   plugins: plugins,
 };
 
-
 if (DEBUG) {
   config.devtool = '#source-map';
   config.output.pathinfo = true;
 }
-
 
 module.exports = config;

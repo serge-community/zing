@@ -8,7 +8,6 @@
  */
 
 var webpack = require('webpack');
-var path = require('path');
 // The uglifyjs plugin that comes along with webpack does not support minifying
 // ES2015+ code, so until it does starting in 4.0, we need to use this
 // webpack-contrib module.

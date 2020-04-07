@@ -15,10 +15,10 @@ var UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 var env = process.env.NODE_ENV;
 var DEBUG = env !== 'production';
+var mode = DEBUG ? 'development' : 'production';
 
 // XXX: kinda hard-coded, although we should stick to /static/ really
 var STATIC_URL = (DEBUG ? '/static/' : '/assets/') + '/js/';
-
 
 var entries = {
   'admin/general': './admin/general/app.js',
@@ -97,10 +97,10 @@ plugins.push.apply(plugins, [
   }),
 ]);
 
-
 /* Exported configuration */
 
 var config = {
+  mode,
   context: __dirname,
   entry: entries,
   output: {

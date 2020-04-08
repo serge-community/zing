@@ -1,7 +1,7 @@
 Zing Changelog
 ==============
 
-v.next (unreleased)
+v0.9.2 (2020-04-08)
 -------------------
 
 * Browser: disabled projects are taken out from counters by default (#425).

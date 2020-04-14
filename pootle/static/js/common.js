@@ -81,10 +81,6 @@ PTL.common = {
     PTL.auth.init();
     browser.init();
 
-    $(window).load(() => {
-      $('body').removeClass('preload');
-    });
-
     // Tipsy setup
     $(document).tipsy({
       gravity: $.fn.tipsy.autoBounds2(150, 'n'),

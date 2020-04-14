@@ -22,11 +22,7 @@ var entries = {
   common: ['./common.js'],
   editor: ['./editor/app.js'],
   reports: ['./reports/app.js'],
-  vendor: [
-    'react', 'react-dom', 'jquery', 'underscore', 'backbone',
-  ],
 };
-
 
 var resolve = {
   modules: [
@@ -70,10 +66,6 @@ var plugins = [
   new webpack.ProvidePlugin({
     'window.Backbone': 'backbone',
   }),
-  new webpack.optimize.CommonsChunkPlugin({
-    name: 'vendor',
-    filename: 'vendor.bundle.js',
-  }),
 ];
 
 /* Exported configuration */
@@ -114,6 +106,17 @@ var config = {
   },
   resolve: resolve,
   plugins: plugins,
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]|[\\/]vendor[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+    },
+  },
 };
 
 if (DEBUG) {

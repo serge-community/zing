@@ -1,0 +1,178 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Translate Toolkit 1.2.0 &#8212; Translate Toolkit 2.5.0 documentation</title>
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Translate Toolkit 1.1.1" href="1.1.1.html" />
+    <link rel="prev" title="Translate Toolkit 1.2.1" href="1.2.1.html" /> 
+  </head><body>
+  <div id="navbar" class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <a class="brand" href="../index.html">Translate Toolkit</a>
+        <span class="navbar-text pull-left"><b>2.5.0</b></span>
+          <ul class="nav">
+            <li class="divider-vertical"></li>
+            
+              <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html">Converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html#tools">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html#scripts">Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formats/index.html">Supported formats</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developers/styleguide.html">Translate Styleguide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/styleguide.html#documentation">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/building.html">Building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/testing.html#command-line-functional-testing">Command Line Functional Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/developers.html">Translate Toolkit Developers Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/releasing.html">Making a Translate Toolkit Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/deprecation.html">Deprecation of Features</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History of the Translate Toolkit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API</a></li>
+</ul>
+</ul>
+</li>
+              
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"><ul>
+<li><a class="reference internal" href="#">Translate Toolkit 1.2.0</a><ul>
+<li><a class="reference internal" href="#new-formats">New formats</a></li>
+<li><a class="reference internal" href="#stats-database-change">Stats database change</a></li>
+<li><a class="reference internal" href="#valid-accelerators">Valid accelerators</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#branches">branches</a><ul>
+<li><a class="reference internal" href="#toolkit-c-po">toolkit-C-po</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+            
+            
+              
+  <li><a href="1.2.1.html"
+         title="previous chapter">&laquo; Translate Toolkit 1.2.1</a></li>
+  <li><a href="1.1.1.html"
+         title="next chapter">Translate Toolkit 1.1.1 &raquo;</a></li>
+            
+          </ul>
+          <ul class="nav pull-right">
+            
+              
+            
+          
+            
+<form class="navbar-search pull-right" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="container content">
+   
+  <div class="section" id="translate-toolkit-1-2-0">
+<span id="changelog-1-2"></span><h1>Translate Toolkit 1.2.0<a class="headerlink" href="#translate-toolkit-1-2-0" title="Permalink to this headline">¶</a></h1>
+<p><em>Released on 24 November 2008</em></p>
+<div class="section" id="new-formats">
+<span id="changelog-new-formats"></span><h2>New formats<a class="headerlink" href="#new-formats" title="Permalink to this headline">¶</a></h2>
+<p>The toolkit now supports:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../formats/qt_phrase_book.html"><span class="doc">Qt Phrase Book (.qph)</span></a></li>
+<li><a class="reference internal" href="../formats/ts.html"><span class="doc">Qt .ts</span></a> v1.1</li>
+</ul>
+<p>This allows reading, counting and working on these formats.  The
+<a class="reference internal" href="../commands/ts2po.html"><span class="doc">ts2po</span></a> converter has not been changed so you will not be able
+to benefit from the new .ts support. However, you can use the format for
+translation memory, etc as its is now fully base class compliant.</p>
+</div>
+<div class="section" id="stats-database-change">
+<span id="changelog-stats-database-change"></span><h2>Stats database change<a class="headerlink" href="#stats-database-change" title="Permalink to this headline">¶</a></h2>
+<p>There were some changes in the database used by pocount for storing statistics.
+The location of the database might also have changed, depending on what the
+last version is that you used. Remove the file stats.db from any of
+~/.translate_toolkit, ~/.wordforge (or the corresponding directories on your
+Windows installation.</p>
+</div>
+<div class="section" id="valid-accelerators">
+<span id="changelog-valid-accelerators"></span><h2>Valid accelerators<a class="headerlink" href="#valid-accelerators" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../commands/pofilter.html"><span class="doc">pofilter</span></a> accelerator test is now able to make use of a
+list of valid accelerators.  This allows translators to control the behaviour
+of the test for their language and add or remove characters that can be used as
+accelerators.  Please define the <a class="reference external" href="http://docs.translatehouse.org/projects/localization-guide/en/latest/l10n/valid_accelerators.html#valid-accelerators" title="(in Localization Guide v0.9.0)"><span class="xref std std-ref">valid accelerators</span></a> for your language and these will then be included
+in future releases of the toolkit.  By default the old process is followed so
+that if you take no action then this check will continue to work as expected.</p>
+</div>
+</div>
+<div class="section" id="branches">
+<span id="changelog-branches"></span><h1>branches<a class="headerlink" href="#branches" title="Permalink to this headline">¶</a></h1>
+<p>These are branches that contain quite invasive changes that will most likely be
+merged into the main development and be released sometime in the future.</p>
+<div class="section" id="toolkit-c-po">
+<span id="changelog-toolkit-c-po"></span><h2>toolkit-C-po<a class="headerlink" href="#toolkit-c-po" title="Permalink to this headline">¶</a></h2>
+<p>Converting the current Python based PO parser to the Gettext C based parser for
+PO.  This offers quite a dramatic speed improvement and conformance to the
+output found in Gettext itself.  For most users there will be a number of
+changes in layout of the files as they will now conform fully to Gettext
+layout.  The ‘keep’ option in <code class="docutils literal notranslate"><span class="pre">--duplicatestyle</span></code> will no longer be
+supported as this is not valid Gettext output.</p>
+</div>
+</div>
+
+
+</div>
+<hr>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right"><a href="#">Back to top ↑</a></p>
+    <ul class="unstyled muted">
+      <li><small>
+        &copy; 2002-2020, Translate.<br/>
+      </small></li>
+      <li><small>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </small></li>
+    </ul>
+  </div>
+</footer>
+  </body>
+</html>

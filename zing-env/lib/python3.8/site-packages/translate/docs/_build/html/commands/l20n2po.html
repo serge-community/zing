@@ -1,0 +1,316 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>l20n2po &#8212; Translate Toolkit 2.5.0 documentation</title>
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="yaml2po" href="yaml2po.html" />
+    <link rel="prev" title="xliff2po" href="xliff2po.html" /> 
+  </head><body>
+  <div id="navbar" class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <a class="brand" href="../index.html">Translate Toolkit</a>
+        <span class="navbar-text pull-left"><b>2.5.0</b></span>
+          <ul class="nav">
+            <li class="divider-vertical"></li>
+            
+              <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#tools">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#scripts">Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formats/index.html">Supported formats</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developers/styleguide.html">Translate Styleguide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/styleguide.html#documentation">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/building.html">Building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/testing.html#command-line-functional-testing">Command Line Functional Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/developers.html">Translate Toolkit Developers Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/releasing.html">Making a Translate Toolkit Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/deprecation.html">Deprecation of Features</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../releases/index.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History of the Translate Toolkit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API</a></li>
+</ul>
+</ul>
+</li>
+              
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"><ul>
+<li><a class="reference internal" href="#">l20n2po</a><ul>
+<li><a class="reference internal" href="#usage">Usage</a></li>
+<li><a class="reference internal" href="#examples">Examples</a><ul>
+<li><a class="reference internal" href="#creating-pot-files">Creating POT files</a></li>
+<li><a class="reference internal" href="#creating-po-files-from-existing-work">Creating PO files from existing work</a></li>
+<li><a class="reference internal" href="#creating-ftl-files-from-your-translations">Creating .ftl files from your translations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+            
+            
+              
+  <li><a href="xliff2po.html"
+         title="previous chapter">&laquo; xliff2po</a></li>
+  <li><a href="yaml2po.html"
+         title="next chapter">yaml2po &raquo;</a></li>
+            
+          </ul>
+          <ul class="nav pull-right">
+            
+              
+            
+          
+            
+<form class="navbar-search pull-right" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="container content">
+   
+  <div class="section" id="po2l20n">
+<span id="l20n2po"></span><span id="id1"></span><h1>l20n2po<a class="headerlink" href="#po2l20n" title="Permalink to this headline">¶</a></h1>
+<p>Convert between L20n files (.ftl) and Gettext PO format.</p>
+<div class="section" id="usage">
+<span id="l20n2po-usage"></span><h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">l20n2po</span> <span class="p">[</span><span class="n">options</span><span class="p">]</span> <span class="o">&lt;</span><span class="n">ftl</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">po</span><span class="o">&gt;</span>
+<span class="n">po2l20n</span> <span class="p">[</span><span class="n">options</span><span class="p">]</span> <span class="o">-</span><span class="n">t</span> <span class="o">&lt;</span><span class="n">template</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">po</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">ftl</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Where:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&lt;ftl&gt;</td>
+<td>is a directory containing ftl files or an individual
+ftl file</td>
+</tr>
+<tr class="row-even"><td>&lt;po&gt;</td>
+<td>is a directory containing PO files and an individual
+ftl file</td>
+</tr>
+<tr class="row-odd"><td>&lt;template&gt;</td>
+<td>is a directory of template ftl files or a single
+template ftl file</td>
+</tr>
+</tbody>
+</table>
+<p>Options (l20n2po):</p>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">--version</span></kbd></td>
+<td>show program’s version number and exit</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></td>
+<td>show this help message and exit</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--manpage</span></kbd></td>
+<td>output a manpage based on the help</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--progress=<var>PROGRESS</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>show progress as: <a class="reference internal" href="option_progress.html"><span class="doc">dots, none, bar, names, verbose</span></a></td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--errorlevel=<var>ERRORLEVEL</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>show errorlevel as: <a class="reference internal" href="option_errorlevel.html"><span class="doc">none, message, exception,
+traceback</span></a></td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-i <var>INPUT</var></span>, <span class="option">--input=<var>INPUT</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>read from INPUT in l20n format</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-x <var>EXCLUDE</var></span>, <span class="option">--exclude=<var>EXCLUDE</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>exclude names matching EXCLUDE from input paths</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-o <var>OUTPUT</var></span>, <span class="option">--output=<var>OUTPUT</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>write to OUTPUT in po, pot formats</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-t <var>TEMPLATE</var></span>, <span class="option">--template=<var>TEMPLATE</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>read from TEMPLATE in l20n format</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-S</span>, <span class="option">--timestamp</span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>skip conversion if the output file has newer timestamp</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-P</span>, <span class="option">--pot</span></kbd></td>
+<td>output PO Templates (.pot) rather than PO files (.po)</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--duplicates=<var>DUPLICATESTYLE</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>what to do with duplicate strings (identical source
+text): <a class="reference internal" href="option_duplicates.html"><span class="doc">merge, msgctxt</span></a>
+(default: ‘msgctxt’)</td></tr>
+</tbody>
+</table>
+<p>Options (po2l20n):</p>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">--version</span></kbd></td>
+<td>show program’s version number and exit</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></td>
+<td>show this help message and exit</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--manpage</span></kbd></td>
+<td>output a manpage based on the help</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--progress=<var>PROGRESS</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>show progress as: <a class="reference internal" href="option_progress.html"><span class="doc">dots, none, bar, names, verbose</span></a></td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--errorlevel=<var>ERRORLEVEL</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>show errorlevel as: <a class="reference internal" href="option_errorlevel.html"><span class="doc">none, message, exception,
+traceback</span></a></td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-i <var>INPUT</var></span>, <span class="option">--input=<var>INPUT</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>read from INPUT in po, pot formats</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-x <var>EXCLUDE</var></span>, <span class="option">--exclude=<var>EXCLUDE</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>exclude names matching EXCLUDE from input paths</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-o <var>OUTPUT</var></span>, <span class="option">--output=<var>OUTPUT</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>write to OUTPUT in l20n format</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-t <var>TEMPLATE</var></span>, <span class="option">--template=<var>TEMPLATE</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>read from TEMPLATE in l20n format</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-S</span>, <span class="option">--timestamp</span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>skip conversion if the output file has newer timestamp</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--removeuntranslated</span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>remove key value from output if it is untranslated</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--threshold=<var>PERCENT</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>only convert files where the translation completion is above PERCENT</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--fuzzy</span></kbd></td>
+<td>use translations marked fuzzy</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--nofuzzy</span></kbd></td>
+<td>don’t use translations marked fuzzy (default)</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="examples">
+<span id="l20n2po-examples"></span><h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<p>These examples demonstrate most of the useful invocations of l20n2po:</p>
+<div class="section" id="creating-pot-files">
+<span id="l20n2po-creating-pot-files"></span><h3>Creating POT files<a class="headerlink" href="#creating-pot-files" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">l20n2po</span> <span class="o">-</span><span class="n">P</span> <span class="n">l20n</span> <span class="n">pot</span>
+</pre></div>
+</div>
+<p>Extract messages from <em>l20n</em> directory and place them in a directory
+called <em>pot</em>.  The <code class="docutils literal notranslate"><span class="pre">-P</span></code> option ensures that we create POT files instead of
+PO files.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">l20n2po</span> <span class="o">-</span><span class="n">P</span> <span class="n">file</span><span class="o">.</span><span class="n">ftl</span> <span class="n">file</span><span class="o">.</span><span class="n">pot</span>
+</pre></div>
+</div>
+<p>Extract messages from <em>file.ftl</em> and place them in <em>file.pot</em>.</p>
+</div>
+<div class="section" id="creating-po-files-from-existing-work">
+<span id="l20n2po-creating-po-files-from-existing-work"></span><h3>Creating PO files from existing work<a class="headerlink" href="#creating-po-files-from-existing-work" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">l20n2po</span> <span class="o">--</span><span class="n">duplicates</span><span class="o">=</span><span class="n">msgctxt</span> <span class="o">-</span><span class="n">t</span> <span class="n">reference</span> <span class="n">zu</span> <span class="n">zu</span><span class="o">-</span><span class="n">po</span>
+</pre></div>
+</div>
+<p>Extract all existing Zulu messages from <em>zu</em> directory and place the resultant
+PO files in a directory called <em>zu-po</em>.  If you find duplicate messages in a
+file then use Gettext’s mgsctxt to disambiguate them.  During the merge we use
+the .ftl files in <em>reference</em> as templates and as the source of the
+English text for the msgid.  Once you have your PO files you might want to use
+<a class="reference internal" href="pomigrate2.html"><span class="doc">pomigrate2</span></a> to ensure that your PO files match the latest POT files.</p>
+</div>
+<div class="section" id="creating-ftl-files-from-your-translations">
+<span id="l20n2po-creating-ftl-files-from-your-translations"></span><h3>Creating .ftl files from your translations<a class="headerlink" href="#creating-ftl-files-from-your-translations" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">po2l20n</span> <span class="o">-</span><span class="n">t</span> <span class="n">reference</span> <span class="n">zu</span><span class="o">-</span><span class="n">po</span> <span class="n">zu</span>
+</pre></div>
+</div>
+<p>Using our translations found in <em>zu-po</em> and the templates found in <em>reference</em>
+we create a new set of ftl files in <em>zu</em>.  These new ftl files will
+look exactly like those found in the templates, but with the text changed to
+the translation.  Any fuzzy entry in our PO files will be ignored and any
+untranslated item will be placed in <em>zu</em> in English.</p>
+</div>
+</div>
+</div>
+
+
+</div>
+<hr>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right"><a href="#">Back to top ↑</a></p>
+    <ul class="unstyled muted">
+      <li><small>
+        &copy; 2002-2020, Translate.<br/>
+      </small></li>
+      <li><small>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </small></li>
+    </ul>
+  </div>
+</footer>
+  </body>
+</html>

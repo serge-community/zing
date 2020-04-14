@@ -1,0 +1,258 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Checking for inconsistencies in your translations &#8212; Translate Toolkit 2.5.0 documentation</title>
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Creating a terminology list from your existing translations" href="creating_a_terminology_list_from_your_existing_translations.html" />
+    <link rel="prev" title="Creating OpenOffice.org POT files" href="using_oo2po.html" /> 
+  </head><body>
+  <div id="navbar" class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <a class="brand" href="../index.html">Translate Toolkit</a>
+        <span class="navbar-text pull-left"><b>2.5.0</b></span>
+          <ul class="nav">
+            <li class="divider-vertical"></li>
+            
+              <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html">Converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html#tools">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html#scripts">Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formats/index.html">Supported formats</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developers/styleguide.html">Translate Styleguide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/styleguide.html#documentation">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/building.html">Building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/testing.html#command-line-functional-testing">Command Line Functional Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/developers.html">Translate Toolkit Developers Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/releasing.html">Making a Translate Toolkit Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/deprecation.html">Deprecation of Features</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../releases/index.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History of the Translate Toolkit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API</a></li>
+</ul>
+</ul>
+</li>
+              
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"><ul>
+<li><a class="reference internal" href="#">Checking for inconsistencies in your translations</a><ul>
+<li><a class="reference internal" href="#what-we-won-t-be-able-to-achieve">What we won’t be able to achieve</a></li>
+<li><a class="reference internal" href="#scenario">Scenario</a><ul>
+<li><a class="reference internal" href="#step-1-extracting-conflicting-target-text-translations">Step 1: Extracting conflicting target text translations</a></li>
+<li><a class="reference internal" href="#step-2-merging-our-corrections-back-into-the-original-files">Step 2: Merging our corrections back into the original files</a></li>
+<li><a class="reference internal" href="#step-3-extracting-conflicts-of-meaning">Step 3: Extracting conflicts of meaning</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#conclusion">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+            
+            
+              
+  <li><a href="using_oo2po.html"
+         title="previous chapter">&laquo; Creating OpenOffice.org POT files</a></li>
+  <li><a href="creating_a_terminology_list_from_your_existing_translations.html"
+         title="next chapter">Creating a terminology list from your existing translations &raquo;</a></li>
+            
+          </ul>
+          <ul class="nav pull-right">
+            
+              
+            
+          
+            
+<form class="navbar-search pull-right" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="container content">
+   
+  <div class="section" id="checking-for-inconsistencies-in-your-translations">
+<span id="checking-for-inconsistencies"></span><span id="id1"></span><h1>Checking for inconsistencies in your translations<a class="headerlink" href="#checking-for-inconsistencies-in-your-translations" title="Permalink to this headline">¶</a></h1>
+<p>Over time language changes, hopefully not very quickly.  However, if your
+language is new to computers the change might be rapid.  So now your older
+translations have different text to your new translations.  In this use case we
+look at how you can bring alignment back to your translations.</p>
+<p>Other cases in which you can expect inconsistencies:</p>
+<ul class="simple">
+<li>Multiple translators are involved</li>
+<li>Translations are very old</li>
+<li>You prepared this set of translations with translations from multiple sources</li>
+<li>You changed terminology at some stage in the translation</li>
+<li>You did not do a formal glossary development stage</li>
+</ul>
+<div class="section" id="what-we-won-t-be-able-to-achieve">
+<span id="checking-for-inconsistencies-what-we-wont-be-able-to-achieve"></span><h2>What we won’t be able to achieve<a class="headerlink" href="#what-we-won-t-be-able-to-achieve" title="Permalink to this headline">¶</a></h2>
+<p>We cannot find grammatical errors and we won’t be able to find all cases of
+words, etc</p>
+</div>
+<div class="section" id="scenario">
+<span id="checking-for-inconsistencies-scenario"></span><h2>Scenario<a class="headerlink" href="#scenario" title="Permalink to this headline">¶</a></h2>
+<p>You are translating Mozilla Firefox into Afrikaans.  The files are stored in
+<em>af</em>.  You have the following issues:</p>
+<ul class="simple">
+<li>Your current translator is good but took over from a team of three</li>
+<li>Terminology is well defined but not well used by the old translators</li>
+</ul>
+<p>We’ll look at the translations first from the English, or source text, point of
+view.  Then we will look at it from the Afrikaans point of view.  The first
+will pick up where we have translated the same English word differently in
+Afrikaans i.e. an inconsistency.  While the second will determine if we use the
+same English word for different English words, possibly this will confuse a
+user.</p>
+<div class="section" id="step-1-extracting-conflicting-target-text-translations">
+<span id="checking-for-inconsistencies-step-1-extracting-conflicting-target-text-translations"></span><h3>Step 1: Extracting conflicting target text translations<a class="headerlink" href="#step-1-extracting-conflicting-target-text-translations" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poconflicts</span> <span class="o">-</span><span class="n">I</span> <span class="o">--</span><span class="n">accelerator</span><span class="o">=</span><span class="s2">&quot;&amp;&quot;</span> <span class="n">af</span> <span class="n">af</span><span class="o">-</span><span class="n">conflicts</span>
+</pre></div>
+</div>
+<p>From our existing translation in <em>af</em> we extract conflicts and place them in
+<em>af-conflicts</em>.  We are ignoring case with <code class="docutils literal notranslate"><span class="pre">-I</span></code> so that <code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">as</span></code> is
+considered the same as <code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">As</span></code>.  The <code class="docutils literal notranslate"><span class="pre">--accelerator</span></code> options allows us
+to ignore accelerators so that <code class="docutils literal notranslate"><span class="pre">File</span></code> is the sane as <code class="docutils literal notranslate"><span class="pre">&amp;File</span></code> which is also
+the same as <code class="docutils literal notranslate"><span class="pre">Fi&amp;le</span></code></p>
+<p>If we browse into <em>af-conflicts</em> we will see a flat structure of words with
+conflicts.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd af-conflicts
+$ ls
+change.po         disc.po         functionality.po  letter.po          overwrite.po       restored.po
+changes.po        document.po     gb.po             library.po         page.po            restore.po
+character.po      dots.po         graphic.po        light.po           pager.po           retry.po
+chart.po          double.po       grayscale.po      limit.po           percent.po         return.po
+check.po          down.po         grid.po           line.po            pies.po            right.po
+circle.po         drawing.po      group.po
+etc...
+</pre></div>
+</div>
+<p>These are normal PO files which you can edit in any PO editor or text editor.
+If we look at the first file <code class="docutils literal notranslate"><span class="pre">change.po</span></code> we can see that the source text
+<em>Change</em> was translated as <em>Verander</em> and <em>Wysig</em>.  The translators job is now
+to correct these PO files, ignoring instances where the difference is in fact
+correct.</p>
+<p>Once all fixes have been made we can merge our changes back into the original
+files.</p>
+</div>
+<div class="section" id="step-2-merging-our-corrections-back-into-the-original-files">
+<span id="checking-for-inconsistencies-step-2-merging-our-corrections-back-into-the-original-files"></span><h3>Step 2: Merging our corrections back into the original files<a class="headerlink" href="#step-2-merging-our-corrections-back-into-the-original-files" title="Permalink to this headline">¶</a></h3>
+<p>Our files in <em>af-conflicts</em> are in a flat structure.  We need to structure them
+into the hierarchy of the existing PO files.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">porestructure</span> <span class="n">af</span><span class="o">-</span><span class="n">conflicts</span> <span class="n">af</span><span class="o">-</span><span class="n">restructured</span>
+</pre></div>
+</div>
+<p>The entries that where in the files in <em>af-conflicts</em> have been placed in
+<em>af-restructured</em>, they now appear in the correct place in the directory
+structure and also appear in the correct file.  We are now ready to merge.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pomerge</span> <span class="o">-</span><span class="n">t</span> <span class="n">af</span> <span class="o">-</span><span class="n">i</span> <span class="n">af</span><span class="o">-</span><span class="n">restructure</span> <span class="o">-</span><span class="n">o</span> <span class="n">af</span>
+</pre></div>
+</div>
+<p>Using the existing files in <em>af</em> we merge the corrected and restructured file
+from <em>af-restructure</em> and place them back into <em>af</em>.  Note: use a different
+output directory if you do not want to overwrite your existing files. All your
+conflict corrections are now in the correct PO file in <em>af</em>.</p>
+<p>You might want to run <strong>Step 1</strong> again to make sure you didn’t miss anything or
+introduce yet another problem.</p>
+<p>Next we look at the inverted conflict problem.</p>
+</div>
+<div class="section" id="step-3-extracting-conflicts-of-meaning">
+<span id="checking-for-inconsistencies-step-3-extracting-conflicts-of-meaning"></span><h3>Step 3: Extracting conflicts of meaning<a class="headerlink" href="#step-3-extracting-conflicts-of-meaning" title="Permalink to this headline">¶</a></h3>
+<p>If you have used the same Afrikaans word for two different English words then
+you could have created a conflict of meaning.  For instance in our Xhosa
+translations the word <code class="docutils literal notranslate"><span class="pre">Cima</span></code> was used for both <code class="docutils literal notranslate"><span class="pre">Delete</span></code> and <code class="docutils literal notranslate"><span class="pre">Cancel</span></code>.
+Clearly this is a serious issue.  This step will allow us to find those errors
+and take action.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poconflicts</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">I</span> <span class="o">--</span><span class="n">accelerator</span><span class="o">=</span><span class="s2">&quot;&amp;&quot;</span> <span class="n">af</span> <span class="n">af</span><span class="o">-</span><span class="n">conflicts</span><span class="o">-</span><span class="n">invert</span>
+</pre></div>
+</div>
+<p>We use the same command line as in <strong>Step 1</strong> but add <code class="docutils literal notranslate"><span class="pre">-v</span></code> to allow us to
+invert the match.  We are also now outputting to <em>af-conflicts-invert</em> to make
+things clear.</p>
+<p>This time the PO files that are created have Afrikaans names</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd af-conflicts-invert
+$ ls
+dataveld.po              grys.po             lisensieooreenkoms.po  paragraaf.po        sny.po
+datumgekoop.po           hallo.po            lysinhoud.po           pasmaak.po          soek.po
+datum.po                 hiperboliese.po     maateenheid.po         persentasie.po      sorteer.po
+deaktiveer.po            hoekbeheer.po       maatskappynaam.po      posadres.po         sorteervolgorde.po
+etc...
+</pre></div>
+</div>
+<p>We edit these as usual.  You need to remember that you will see a normal PO
+file but that you are looking at how the translation might be confusing to a
+user.  If you see the same Afrikaans translation for two different English
+terms but there is no conflict of meaning or no alternative then leave it as
+is.  You will find a lot of these instances so the results are less dramatic
+then the results from a normal conflict analysis.</p>
+<p>Lastly follow <strong>Step 2</strong> to restructure and merge these conflicts back into
+your translations</p>
+</div>
+</div>
+<div class="section" id="conclusion">
+<span id="checking-for-inconsistencies-conclusion"></span><h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h2>
+<p>You’ve now gone a long way to improving the quality of your translations.
+Congratulations!  You might want to take some of what you’ve learnt here to
+start building a terminology list that can help prevent some of the issues you
+have seen.</p>
+</div>
+</div>
+
+
+</div>
+<hr>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right"><a href="#">Back to top ↑</a></p>
+    <ul class="unstyled muted">
+      <li><small>
+        &copy; 2002-2020, Translate.<br/>
+      </small></li>
+      <li><small>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </small></li>
+    </ul>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,311 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Stopword file format &#8212; Translate Toolkit 2.5.0 documentation</title>
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="pocount" href="pocount.html" />
+    <link rel="prev" title="poterminology" href="poterminology.html" /> 
+  </head><body>
+  <div id="navbar" class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <a class="brand" href="../index.html">Translate Toolkit</a>
+        <span class="navbar-text pull-left"><b>2.5.0</b></span>
+          <ul class="nav">
+            <li class="divider-vertical"></li>
+            
+              <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#tools">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#scripts">Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formats/index.html">Supported formats</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developers/styleguide.html">Translate Styleguide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/styleguide.html#documentation">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/building.html">Building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/testing.html#command-line-functional-testing">Command Line Functional Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/developers.html">Translate Toolkit Developers Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/releasing.html">Making a Translate Toolkit Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/deprecation.html">Deprecation of Features</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../releases/index.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History of the Translate Toolkit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API</a></li>
+</ul>
+</ul>
+</li>
+              
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"><ul>
+<li><a class="reference internal" href="#">Stopword file format</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a><ul>
+<li><a class="reference internal" href="#case-mapping-specifiers">Case mapping specifiers</a></li>
+<li><a class="reference internal" href="#stoplist-regular-expressions">Stoplist regular expressions</a></li>
+<li><a class="reference internal" href="#stoplist-words">Stoplist words</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#default-file-example">Default file example</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+            
+            
+              
+  <li><a href="poterminology.html"
+         title="previous chapter">&laquo; poterminology</a></li>
+  <li><a href="pocount.html"
+         title="next chapter">pocount &raquo;</a></li>
+            
+          </ul>
+          <ul class="nav pull-right">
+            
+              
+            
+          
+            
+<form class="navbar-search pull-right" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="container content">
+   
+  <div class="section" id="stopword-file-format">
+<span id="poterminology-stopword-file"></span><h1>Stopword file format<a class="headerlink" href="#stopword-file-format" title="Permalink to this headline">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.2.</span></p>
+</div>
+<p>The default stopword file for <a class="reference internal" href="poterminology.html"><span class="doc">poterminology</span></a> describes the syntax of
+these files and provides a good default for most applications using English
+source text.  You can find the location of the default stopword file by looking
+at the output of poterminology <code class="docutils literal notranslate"><span class="pre">--help</span></code>, or using the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poterminology</span> <span class="o">--</span><span class="n">manpage</span> <span class="o">|</span> <span class="n">sed</span> <span class="o">-</span><span class="n">n</span> <span class="s1">&#39;/STOPFILE/s/.*(\(.*\)).*/</span><span class="se">\1</span><span class="s1">/p&#39;</span>
+</pre></div>
+</div>
+<div class="section" id="overview">
+<span id="poterminology-stopword-file-overview"></span><h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The basic syntax of this file is line-oriented, with the first character of
+each line determining its function.  The order of the lines is generally not
+significant (with one exception noted below), and the selection of function
+characters was made so that an ASCII sort of the file would leave it in a
+generally logical order (except for comment lines).</p>
+<p>Apart from comment lines (which begin with ‘#’) and empty lines (which are also
+ignored), there are three general types of lines, which may appear in any
+order:</p>
+<ul class="simple">
+<li>case mapping specifiers</li>
+<li>stoplist regular expressions</li>
+<li>stoplist words</li>
+</ul>
+<div class="section" id="case-mapping-specifiers">
+<span id="poterminology-stopword-file-case-mapping-specifiers"></span><h3>Case mapping specifiers<a class="headerlink" href="#case-mapping-specifiers" title="Permalink to this headline">¶</a></h3>
+<p>A line beginning with a ‘<strong>!</strong>’ specifies upper-/lower-case mapping for words
+or phrases before comparison with this stoplist (no mapping is applied to the
+words or regular expressions in this file, only to the source messages).  The
+second character on this line must be one of the following:</p>
+<ul class="simple">
+<li><strong>C</strong> no uppercase / lowercase mapping is performed</li>
+<li><strong>F</strong> ‘Title Case” words / terms are folded to lower case (default)</li>
+<li><strong>I</strong> all words are mapped to lowercase</li>
+</ul>
+<p>These correspond to the equivalent <code class="docutils literal notranslate"><span class="pre">--preserve-case</span></code> /
+<code class="docutils literal notranslate"><span class="pre">--fold-titlecase</span></code> / <code class="docutils literal notranslate"><span class="pre">--ignore-case</span></code> options to poterminology, but
+are completely independent and only apply to stoplist matching.  You can run
+poterminology with <code class="docutils literal notranslate"><span class="pre">-I</span></code> to map all terms to lowercase, and if the case
+mapping specifier in the stopword file is ‘<strong>!C</strong>’ a stoplist with “pootle” in
+it will not prevent a term containing “Pootle” from passing the stoplist (and
+then being mapped to “pootle”).</p>
+<p>There should only be one case mapping specifier in a stoplist file; if more
+than one are present, the last one will take precedence over the others, and
+its mapping will apply to all entries.  If multiple stoplist files are used,
+the last case mapping specifier processed will apply to all entries <strong>in all
+files</strong>.</p>
+</div>
+<div class="section" id="stoplist-regular-expressions">
+<span id="poterminology-stopword-file-stoplist-regular-expressions"></span><h3>Stoplist regular expressions<a class="headerlink" href="#stoplist-regular-expressions" title="Permalink to this headline">¶</a></h3>
+<p>Lines beginning with a ‘<strong>/</strong>’ are regular expression patterns – any word that
+matches will be ignored by itself, and any phrase containing it will be
+excluded as well.  The regular expression consists of all characters on the
+line following the initial ‘/’ – these are extended regular expressions, so
+grouping, alternation, and such are available.</p>
+<p>Regular expression patterns are only checked if the word itself does not appear
+in the stoplist file as a word entry.  The regular expression patterns are
+always applied to individual words, not phrases, and must match the entire word
+(i.e. they are anchored both at the start and end).</p>
+<p>Use regular expressions sparingly, as evaluating them for every word in the
+source files can be expensive.  In addition to stoplist regular expressions,
+poterminology has precompiled patterns for C and Python format specifiers (e.g.
+%d) and XML/HTML &lt;elements&gt; and &amp;entities; – these are removed before stoplist
+processing and it is not possible to override this.</p>
+</div>
+<div class="section" id="stoplist-words">
+<span id="poterminology-stopword-file-stoplist-words"></span><h3>Stoplist words<a class="headerlink" href="#stoplist-words" title="Permalink to this headline">¶</a></h3>
+<p>All other lines should begin with one of the following characters, which
+indicate whether the word should be <strong>ignored</strong> (as a word alone),
+<strong>disregarded</strong> in a phrase (i.e. a phrase containing it is allowed, and the
+word does not count against the <code class="docutils literal notranslate"><span class="pre">--term-words</span></code> length limit), or any
+phrase containing it should be <strong>excluded</strong>.</p>
+<ul class="simple">
+<li><strong>+</strong> allow word alone, allow phrases containing it</li>
+<li><strong>:</strong> allow word alone, disregarded (for <code class="docutils literal notranslate"><span class="pre">--term-word-length</span></code>) inside
+phrase</li>
+<li><strong>&lt;</strong> allow word alone, but exclude any phrase containing it</li>
+<li><strong>=</strong> ignore word alone, but allow phrases containing it</li>
+<li><strong>&gt;</strong> ignore word alone, disregarded (for <code class="docutils literal notranslate"><span class="pre">--term-word-length</span></code>) inside
+phrase</li>
+<li><strong>&#64;</strong> ignore word alone, and exclude any phrase containing it</li>
+</ul>
+<p>Generally ‘+’ is only needed for exceptions to regular expression patterns, but
+it may also be used to override an entry in a previous stoplist if you are
+using multiple stoplists.</p>
+<p>Note that if a word appears multiple times in a stoplist file with different
+function characters preceding it, the <em>last entry will take precedence</em> over
+the others.  This is the only exception to the general rule that order is not
+important in stopword files.</p>
+</div>
+</div>
+<div class="section" id="default-file-example">
+<span id="poterminology-stopword-file-default-file-example"></span><h2>Default file example<a class="headerlink" href="#default-file-example" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># apply title-case folding to words before comparing with this stoplist
+!F
+</pre></div>
+</div>
+<p>The fold-titlecase setting is the default, even if it were not explicitly
+specified.  This allows capitalized words at the start of a sentence (e.g.
+“Who”) to match a stopword “who” but allows acronyms like WHO (World Health
+Organization) to be included in the terminology.  If you are using
+poterminology with source files that contain large amounts of ALL UPPERCASE
+TEXT you may find the ignore-case setting to be preferable.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># override regex match below for phrases with &#39;no&#39;</span>
+<span class="o">+</span><span class="n">no</span>
+</pre></div>
+</div>
+<p>The regular expression /..? below would normally match the word ‘no’ and both
+ignore it as a term and exclude any phrases containing it.  The above will
+allow it to appear as a term and in phrases.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># ignore all one or two-character words (unless =word appears below)
+/..?
+# ignore words with parenthesis, typically function() calls and the like
+/.*\(.*
+# ignore numbers, both cardinal (e.g. 1,234.0) and ordinal (e.g. 1st, 22nd)
+/[0-9,.]+(st|nd|rd|th)?
+</pre></div>
+</div>
+<p>These regular expressions ignore a lot of uninteresting terms that are
+typically code or other things that shouldn’t be translated anyhow.  There are
+many exceptions to the one or two-character word pattern in the default
+stoplist file, not only with = like ‘=in’ but also ‘+no’ and ‘:on’ and ‘&lt;ok’
+and ‘&gt;of’.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># allow these words by themselves and don&#39;t count against length for phrases</span>
+<span class="p">:</span><span class="n">off</span>
+<span class="p">:</span><span class="n">on</span>
+</pre></div>
+</div>
+<p>These prepositions are common as button text and thus useful to have as terms;
+they also form an important part of phrases so are disregarded for term word
+count to allow for slightly longer phrases including them.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># allow these words by themselves, but ignore any phrases containing them</span>
+<span class="o">&lt;</span><span class="n">first</span>
+<span class="o">&lt;</span><span class="n">hello</span>
+<span class="o">&lt;</span><span class="n">last</span>
+</pre></div>
+</div>
+<p>These are words that are worth including in a terminology, as they are common
+in applications, but which aren’t generally part of idiomatic phrases.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ignore these words by themselves, but allow phrases containing them</span>
+<span class="o">=</span><span class="n">able</span>
+<span class="o">=</span><span class="n">about</span>
+<span class="o">=</span><span class="n">actually</span>
+<span class="o">=</span><span class="n">ad</span>
+<span class="o">=</span><span class="k">as</span>
+<span class="o">=</span><span class="n">at</span>
+</pre></div>
+</div>
+<p>This is the largest category of stoplist words, and these are all just rather
+common words.  The purpose of a terminology list is to provide specific
+translation suggestions for the harder words or phrases, not provide a general
+dictionary, so these words are not of interest by themselves, but may well be
+part of an interesting phrase.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ignore these words by themselves, but allow phrases containing them,   and</span>
+<span class="c1"># don&#39;t count against length for phrases</span>
+<span class="c1">#</span>
+<span class="c1"># (possible additions to this list for multi-lingual text: &gt;di &gt;el &gt;le)</span>
+<span class="c1">#</span>
+<span class="o">&gt;</span><span class="n">a</span>
+<span class="o">&gt;</span><span class="n">an</span>
+<span class="o">&gt;</span><span class="ow">and</span>
+</pre></div>
+</div>
+<p>These very common words aren’t of interest by themselves, but often form an
+important part of phrases so are disregarded for term word count to allow for
+slightly longer phrases including them.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ignore these words and any phrases containing them</span>
+<span class="nd">@ain</span><span class="s1">&#39;t</span>
+<span class="nd">@aint</span>
+<span class="nd">@al</span>
+<span class="nd">@are</span>
+</pre></div>
+</div>
+<p>These are “junk” words that are not only uninteresting by themselves, they
+generally do not contribute anything to the phrases containing them.</p>
+</div>
+</div>
+
+
+</div>
+<hr>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right"><a href="#">Back to top ↑</a></p>
+    <ul class="unstyled muted">
+      <li><small>
+        &copy; 2002-2020, Translate.<br/>
+      </small></li>
+      <li><small>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </small></li>
+    </ul>
+  </div>
+</footer>
+  </body>
+</html>

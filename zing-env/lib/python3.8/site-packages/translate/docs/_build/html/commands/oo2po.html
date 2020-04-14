@@ -1,0 +1,395 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>oo2po &#8212; Translate Toolkit 2.5.0 documentation</title>
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="odf2xliff and xliff2odf" href="odf2xliff.html" />
+    <link rel="prev" title="moz2po" href="moz2po.html" /> 
+  </head><body>
+  <div id="navbar" class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <a class="brand" href="../index.html">Translate Toolkit</a>
+        <span class="navbar-text pull-left"><b>2.5.0</b></span>
+          <ul class="nav">
+            <li class="divider-vertical"></li>
+            
+              <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#tools">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#scripts">Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formats/index.html">Supported formats</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developers/styleguide.html">Translate Styleguide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/styleguide.html#documentation">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/building.html">Building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/testing.html#command-line-functional-testing">Command Line Functional Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/developers.html">Translate Toolkit Developers Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/releasing.html">Making a Translate Toolkit Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/deprecation.html">Deprecation of Features</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../releases/index.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History of the Translate Toolkit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API</a></li>
+</ul>
+</ul>
+</li>
+              
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"><ul>
+<li><a class="reference internal" href="#">oo2po</a><ul>
+<li><a class="reference internal" href="#usage">Usage</a></li>
+<li><a class="reference internal" href="#examples">Examples</a><ul>
+<li><a class="reference internal" href="#creating-pot-files">Creating POT files</a></li>
+<li><a class="reference internal" href="#creating-po-files-from-existing-work">Creating PO files from existing work</a></li>
+<li><a class="reference internal" href="#creating-a-new-gsi-sdf-file">Creating a new GSI/SDF file</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#helpcontent2">helpcontent2</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+            
+            
+              
+  <li><a href="moz2po.html"
+         title="previous chapter">&laquo; moz2po</a></li>
+  <li><a href="odf2xliff.html"
+         title="next chapter">odf2xliff and xliff2odf &raquo;</a></li>
+            
+          </ul>
+          <ul class="nav pull-right">
+            
+              
+            
+          
+            
+<form class="navbar-search pull-right" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="container content">
+   
+  <div class="section" id="xliff2oo">
+<span id="oo2xliff"></span><span id="po2oo"></span><span id="oo2po"></span><span id="id1"></span><h1>oo2po<a class="headerlink" href="#xliff2oo" title="Permalink to this headline">¶</a></h1>
+<p>Convert between OpenOffice.org GSI/SDF files and the PO format.  This tool
+provides a complete roundtrip; it preserves the structure of the GSI file and
+creates completely valid PO files.</p>
+<p>oo2xliff will convert the SDF files to XLIFF format.</p>
+<div class="section" id="usage">
+<span id="oo2po-usage"></span><h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">oo2po</span> <span class="p">[</span><span class="n">options</span><span class="p">]</span> <span class="o">&lt;</span><span class="n">sdf</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">output</span><span class="o">&gt;</span>
+<span class="n">po2oo</span> <span class="p">[</span><span class="n">options</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">t</span> <span class="o">&lt;</span><span class="n">en</span><span class="o">-</span><span class="n">US</span><span class="o">.</span><span class="n">sdf</span><span class="o">&gt;</span><span class="p">]</span> <span class="o">-</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">targetlang</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nb">input</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">sdf</span><span class="o">|</span><span class="n">output</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>or for XLIFF files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">oo2xliff</span> <span class="p">[</span><span class="n">options</span><span class="p">]</span> <span class="o">-</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">targetlang</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">sdf</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">output</span><span class="o">&gt;</span>
+<span class="n">xliff2oo</span> <span class="p">[</span><span class="n">options</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">t</span> <span class="o">&lt;</span><span class="n">en</span><span class="o">-</span><span class="n">US</span><span class="o">.</span><span class="n">sdf</span><span class="o">&gt;</span><span class="p">]</span> <span class="o">-</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">targetlang</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nb">input</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">sdf</span><span class="o">|</span><span class="n">output</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Where:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="81%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&lt;sdf&gt;</td>
+<td>is a valid OpenOffice.org GSI or SDF files</td>
+</tr>
+<tr class="row-even"><td>&lt;output&gt;</td>
+<td>is a directory for the resultant PO/POT/XLIFF files</td>
+</tr>
+<tr class="row-odd"><td>&lt;input&gt;</td>
+<td>is a directory of translated PO/XLIFF files</td>
+</tr>
+<tr class="row-even"><td>&lt;targetlang&gt;</td>
+<td>is the <a class="reference external" href="http://en.wikipedia.org/wiki/ISO_639">ISO 639</a> language code used in the
+sdf file, e.g. af</td>
+</tr>
+</tbody>
+</table>
+<p>Options (oo2po and oo2xliff):</p>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">--version</span></kbd></td>
+<td>show program’s version number and exit</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></td>
+<td>show this help message and exit</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--manpage</span></kbd></td>
+<td>output a manpage based on the help</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--progress=<var>PROGRESS</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>show progress as: <a class="reference internal" href="option_progress.html"><span class="doc">dots, none, bar, names, verbose</span></a></td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--errorlevel=<var>ERRORLEVEL</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>show errorlevel as: <a class="reference internal" href="option_errorlevel.html"><span class="doc">none, message, exception,
+traceback</span></a></td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-i <var>INPUT</var></span>, <span class="option">--input=<var>INPUT</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>read from INPUT in oo, sdf formats</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-x <var>EXCLUDE</var></span>, <span class="option">--exclude=<var>EXCLUDE</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>exclude names matching EXCLUDE from input paths</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-o <var>OUTPUT</var></span>, <span class="option">--output=<var>OUTPUT</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>write to OUTPUT in po, pot, xlf formats</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-S</span>, <span class="option">--timestamp</span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>skip conversion if the output file has newer timestamp</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-P</span>, <span class="option">--pot</span></kbd></td>
+<td>output PO Templates (.pot) rather than PO files (.po) (only available in oo2po</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-l <var>LANG</var></span>, <span class="option">--language=<var>LANG</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>set target language to extract from oo file (e.g. af-ZA) (required for oo2xliff)</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--source-language=<var>LANG</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>set source language code (default en-US)</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--nonrecursiveinput</span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>don’t treat the input oo as a recursive store</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--duplicates=<var>DUPLICATESTYLE</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>what to do with duplicate strings (identical source
+text): <a class="reference internal" href="option_duplicates.html"><span class="doc">merge, msgctxt</span></a>
+(default: ‘msgctxt’)</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--multifile=<var>MULTIFILESTYLE</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>how to split po/pot files (<a class="reference internal" href="option_multifile.html"><span class="doc">single, toplevel or
+onefile</span></a>)</td></tr>
+</tbody>
+</table>
+<p>Options (po2oo and xliff2oo):</p>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">--version</span></kbd></td>
+<td>show program’s version number and exit</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></td>
+<td>show this help message and exit</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--manpage</span></kbd></td>
+<td>output a manpage based on the help</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--progress=<var>PROGRESS</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>show progress as: <a class="reference internal" href="option_progress.html"><span class="doc">dots, none, bar, names, verbose</span></a></td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--errorlevel=<var>ERRORLEVEL</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>show errorlevel as: <a class="reference internal" href="option_errorlevel.html"><span class="doc">none, message, exception,
+traceback</span></a></td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-i <var>INPUT</var></span>, <span class="option">--input=<var>INPUT</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>read from INPUT in po, pot, xlf formats</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-x <var>EXCLUDE</var></span>, <span class="option">--exclude=<var>EXCLUDE</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>exclude names matching EXCLUDE from input paths</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-o <var>OUTPUT</var></span>, <span class="option">--output=<var>OUTPUT</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>write to OUTPUT in oo, sdf formats</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-t <var>TEMPLATE</var></span>, <span class="option">--template=<var>TEMPLATE</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>read from TEMPLATE in oo, sdf formats</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-S</span>, <span class="option">--timestamp</span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>skip conversion if the output file has newer timestamp</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-l <var>LANG</var></span>, <span class="option">--language=<var>LANG</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>set target language code (e.g. af-ZA) [required]</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--source-language=<var>LANG</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>set source language code (default en-US)</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-T</span>, <span class="option">--keeptimestamp</span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>don’t change the timestamps of the strings</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--nonrecursiveoutput</span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>don’t treat the output oo as a recursive store</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--nonrecursivetemplate</span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>don’t treat the template oo as a recursive store</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--skipsource</span></kbd></td>
+<td>don’t output the source language, but fallback to it where needed</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--filteraction=<var>ACTION</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>action on pofilter failure: <a class="reference internal" href="option_filteraction.html"><span class="doc">none (default), warn,
+exclude-serious, exclude-all</span></a></td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--threshold=<var>PERCENT</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>only convert files where the translation completion is above PERCENT</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--fuzzy</span></kbd></td>
+<td>use translations marked fuzzy</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--nofuzzy</span></kbd></td>
+<td>don’t use translations marked fuzzy (default)</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--multifile=<var>MULTIFILESTYLE</var></span></kbd></td>
+</tr>
+<tr><td>&#160;</td><td>how to split po/pot files (<a class="reference internal" href="option_multifile.html"><span class="doc">single, toplevel or
+onefile</span></a>)</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="examples">
+<span id="oo2po-examples"></span><h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<p>These examples demonstrate most of the useful invocations of oo2po:</p>
+<div class="section" id="creating-pot-files">
+<span id="oo2po-creating-pot-files"></span><h3>Creating POT files<a class="headerlink" href="#creating-pot-files" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">oo2po</span> <span class="o">-</span><span class="n">P</span> <span class="n">en</span><span class="o">-</span><span class="n">US</span><span class="o">.</span><span class="n">sdf</span> <span class="n">pot</span>
+</pre></div>
+</div>
+<p>Extract messages from <em>en-US.sdf</em> and place them in a directory called <em>pot</em>.
+The <code class="docutils literal notranslate"><span class="pre">-P</span></code> option ensures that we create POT files instead of PO files.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">oo2po</span> <span class="o">-</span><span class="n">P</span> <span class="o">--</span><span class="n">source</span><span class="o">-</span><span class="n">language</span><span class="o">=</span><span class="n">fr</span> <span class="n">fr</span><span class="o">-</span><span class="n">FR</span><span class="o">.</span><span class="n">sdf</span> <span class="n">french</span><span class="o">-</span><span class="n">pot</span>
+</pre></div>
+</div>
+<p>Instead of creating English POT files we are now creating POT files that
+contain French in the msgid.  This is useful for translators who are not
+English literate.  You will need to have a fully translated sdf in the source
+language.</p>
+</div>
+<div class="section" id="creating-po-files-from-existing-work">
+<span id="oo2po-creating-po-files-from-existing-work"></span><h3>Creating PO files from existing work<a class="headerlink" href="#creating-po-files-from-existing-work" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">oo2po</span> <span class="o">--</span><span class="n">duplicates</span><span class="o">=</span><span class="n">merge</span> <span class="o">-</span><span class="n">l</span> <span class="n">zu</span> <span class="n">zu</span><span class="o">-</span><span class="n">ZA</span><span class="o">.</span><span class="n">sdf</span> <span class="n">zulu</span>
+</pre></div>
+</div>
+<p>Extract all existing Zulu (<em>zu</em>) messages from <em>zu-ZA.sdf</em> and place them in a
+directory called <em>zulu</em>.  If you find duplicate messages in a file then merge
+them into a single message (This is the default behaviour for traditional PO
+files).  You might want to use <a class="reference internal" href="pomigrate2.html"><span class="doc">pomigrate2</span></a> to ensure that your PO files
+match the latest POT files.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cat</span> <span class="n">GSI_af</span><span class="o">.</span><span class="n">sdf</span> <span class="n">GSI_xh</span><span class="o">.</span><span class="n">sdf</span> <span class="o">&gt;</span> <span class="n">GSI_af</span><span class="o">-</span><span class="n">xh</span><span class="o">.</span><span class="n">sdf</span>
+<span class="n">oo2po</span> <span class="o">--</span><span class="n">source</span><span class="o">-</span><span class="n">language</span><span class="o">=</span><span class="n">af</span> <span class="o">-</span><span class="n">l</span> <span class="n">xh</span> <span class="n">GSI_af</span><span class="o">-</span><span class="n">xh</span><span class="o">.</span><span class="n">sdf</span> <span class="n">af</span><span class="o">-</span><span class="n">xh</span><span class="o">-</span><span class="n">po</span>
+</pre></div>
+</div>
+<p>Here we are creating PO files with your existing translations but a different
+source language.  Firstly we combine the two SDF files.  Then oo2po creates a
+set of PO files in <em>af-xh-po</em> using Afrikaans (<em>af</em>) as the source language and
+Xhosa (<em>xh</em>) as the target language from the combined SDF file <em>GSI_af-xh.sdf</em></p>
+</div>
+<div class="section" id="creating-a-new-gsi-sdf-file">
+<span id="oo2po-creating-a-new-gsi-sdf-file"></span><h3>Creating a new GSI/SDF file<a class="headerlink" href="#creating-a-new-gsi-sdf-file" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">po2oo</span> <span class="o">-</span><span class="n">l</span> <span class="n">zu</span> <span class="n">zulu</span> <span class="n">zu_ZA</span><span class="o">.</span><span class="n">sdf</span>
+</pre></div>
+</div>
+<p>Using PO files found in <em>zulu</em> create an SDF files called <em>zu_ZA.sdf</em> for
+language <em>zu</em>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">po2oo</span> <span class="o">-</span><span class="n">l</span> <span class="n">af</span> <span class="o">-</span><span class="n">t</span> <span class="n">en</span><span class="o">-</span><span class="n">US</span><span class="o">.</span><span class="n">sdf</span> <span class="o">--</span><span class="n">nofuzzy</span> <span class="o">--</span><span class="n">keeptimestamp</span> <span class="o">--</span><span class="n">filteraction</span><span class="o">=</span><span class="n">exclude</span><span class="o">-</span><span class="n">serious</span> <span class="n">afrikaans</span> <span class="n">af_ZA</span><span class="o">.</span><span class="n">sdf</span>
+</pre></div>
+</div>
+<p>Create an Afrikaans (<em>af</em>) SDF file called <em>af_ZA.sdf</em> using <em>en-US.sdf</em> as a
+template and preserving the timestamps within the SDF file while also
+eliminating any serious errors in translation.  Using templates ensures that
+the resultant SDF file has exactly the same format as the template SDF file.
+In an SDF file each translated string can have a timestamp attached.  This
+creates a large amount of unuseful traffic when comparing version of the SDF
+file, by preserving the timestamp we ensure that this does not change and can
+therefore see the translation changes clearly.  We have included the <em>nofuzzy</em>
+option (on by default) that prevent fuzzy PO messages from getting into the SDF
+file.  Lastly the <em>filteraction</em> option is set to exclude serious errors:
+variables failures and translated XML will be excluded from the final SDF.</p>
+</div>
+</div>
+<div class="section" id="helpcontent2">
+<span id="oo2po-helpcontent2"></span><h2>helpcontent2<a class="headerlink" href="#helpcontent2" title="Permalink to this headline">¶</a></h2>
+<p>The escaping of <code class="docutils literal notranslate"><span class="pre">helpcontent2</span></code> from SDF files was very confusing,
+<a class="reference external" href="https://github.com/translate/translate/issues/295">issue 295</a> implemented a fix that appeared in version 1.1.0 (All known issues
+were fixed in 1.1.1).  Translators are now able to translate helpcontent2 with
+clean escaping.</p>
+</div>
+</div>
+
+
+</div>
+<hr>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right"><a href="#">Back to top ↑</a></p>
+    <ul class="unstyled muted">
+      <li><small>
+        &copy; 2002-2020, Translate.<br/>
+      </small></li>
+      <li><small>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </small></li>
+    </ul>
+  </div>
+</footer>
+  </body>
+</html>

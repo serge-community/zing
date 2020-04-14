@@ -1,0 +1,18 @@
+{% extends "translation_projects/base.html" %}
+
+{% load i18n assets %}
+
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block css %}
+{{ block.super }}
+{% assets "css_admin" %}
+<link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}" />
+{% endassets %}
+{% endblock css %}
+
+{% block content %}
+<div class="settings-container centered" lang="{{ LANGUAGE_CODE }}">
+  {% block section_body %}{% endblock %}
+</div>
+{% endblock %}

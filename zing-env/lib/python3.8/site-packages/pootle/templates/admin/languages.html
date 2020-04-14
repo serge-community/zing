@@ -1,0 +1,17 @@
+{% extends "admin/base_app.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Languages" %} | {{ block.super }}{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}<li>{% trans "Languages" %}</li>
+{% endblock %}
+
+{% block app_init %}
+<script type="text/javascript">
+$(function () {
+  PTL.admin.init({itemType: 'language',
+                  appRoot: '{% url "pootle-admin-languages" %}'});
+});
+</script>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% load i18n locale profile_tags %}
+<div class="extra-item-block js-comment-first">
+  <div class="extra-item-content">
+    {% if unit.commented_by %}
+    <div class="extra-item-gravatar">
+      {% include 'core/_avatar.html' with user=unit.commented_by %}
+    </div>
+    {% endif %}
+    <div class="extra-item">
+      {% if cansuggest or cantranslate %}
+      <a class="comment-action js-comment-remove">
+        <i class="icon-reject" dir="{% locale_dir %}"
+          title="{% trans 'Remove comment' %}"></i>
+      </a>
+      {% endif %}
+      <span class="sidetitle">{% trans "Last comment:" %}</span>
+      <span class="extra-item-comment">{{ unit.translator_comment }}</span>
+    </div>
+    {% if unit.commented_by and unit.commented_on %}
+    <time class="extra-item-meta js-relative-date" title="{{ unit.commented_on|dateformat }}"
+      datetime="{{ unit.commented_on.isoformat }}">&nbsp;</time>
+    {% endif %}
+  </div>
+</div>

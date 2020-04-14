@@ -1,0 +1,215 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Flat XML &#8212; Translate Toolkit 2.5.0 documentation</title>
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="iCalendar" href="ical.html" />
+    <link rel="prev" title="HTML" href="html.html" /> 
+  </head><body>
+  <div id="navbar" class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <a class="brand" href="../index.html">Translate Toolkit</a>
+        <span class="navbar-text pull-left"><b>2.5.0</b></span>
+          <ul class="nav">
+            <li class="divider-vertical"></li>
+            
+              <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html">Converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html#tools">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html#scripts">Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Supported formats</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developers/styleguide.html">Translate Styleguide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/styleguide.html#documentation">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/building.html">Building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/testing.html#command-line-functional-testing">Command Line Functional Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/developers.html">Translate Toolkit Developers Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/releasing.html">Making a Translate Toolkit Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/deprecation.html">Deprecation of Features</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../releases/index.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History of the Translate Toolkit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API</a></li>
+</ul>
+</ul>
+</li>
+              
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"><ul>
+<li><a class="reference internal" href="#">Flat XML</a><ul>
+<li><a class="reference internal" href="#conformance">Conformance</a></li>
+<li><a class="reference internal" href="#non-conformance">Non-Conformance</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+            
+            
+              
+  <li><a href="html.html"
+         title="previous chapter">&laquo; HTML</a></li>
+  <li><a href="ical.html"
+         title="next chapter">iCalendar &raquo;</a></li>
+            
+          </ul>
+          <ul class="nav pull-right">
+            
+              
+            
+          
+            
+<form class="navbar-search pull-right" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="container content">
+   
+  <div class="section" id="flat-xml">
+<span id="flatxml"></span><h1>Flat XML<a class="headerlink" href="#flat-xml" title="Permalink to this headline">¶</a></h1>
+<p>The Translate Toolkit is able to process flat XML files using the
+<a class="reference internal" href="../commands/flatxml2po.html"><span class="doc">flatxml2po</span></a> converter.</p>
+<p>Flat XML (<a class="reference external" href="http://en.wikipedia.org/wiki/XML">eXtensible Markup Language</a>) is a simple monolingual
+file format similar to a very basic form of the <a class="reference internal" href="android.html"><span class="doc">Android string resources</span></a> format.
+Flat in this context means a single level of elements wrapped in the
+root-element with no other structuring.</p>
+<div class="section" id="conformance">
+<span id="flatxml-conformance"></span><h2>Conformance<a class="headerlink" href="#conformance" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Single-level XML with attributes identifying a resource:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;root&gt;</span>
+  <span class="nt">&lt;str</span> <span class="na">key=</span><span class="s">&quot;hello_world&quot;</span><span class="nt">&gt;</span>Hello World!<span class="nt">&lt;/str&gt;</span>
+  <span class="nt">&lt;str</span> <span class="na">key=</span><span class="s">&quot;resource_key&quot;</span><span class="nt">&gt;</span>Translated value.<span class="nt">&lt;/str&gt;</span>
+<span class="nt">&lt;/root&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Customizable element- and attribute-names (including namespaces):</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;dictionary</span> <span class="na">xmlns=</span><span class="s">&quot;urn:translate-toolkit:flat-xml-dictionary&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;entry</span> <span class="na">name=</span><span class="s">&quot;hello_world&quot;</span><span class="nt">&gt;</span>Hello World!<span class="nt">&lt;/entry&gt;</span>
+  <span class="nt">&lt;entry</span> <span class="na">name=</span><span class="s">&quot;resource_key&quot;</span><span class="nt">&gt;</span>Translated value.<span class="nt">&lt;/entry&gt;</span>
+<span class="nt">&lt;/dictionary&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Value whitespace is assumed to be significant
+(equivalent to setting <code class="docutils literal notranslate"><span class="pre">xml:space=&quot;preserve&quot;</span></code>):</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;root&gt;</span>
+  <span class="nt">&lt;str</span> <span class="na">key=</span><span class="s">&quot;multiline&quot;</span><span class="nt">&gt;</span>The format assumes xml:space=&quot;preserve&quot;.
+There is no need to specify it explicitly.
+
+This assumption only applies to the value element; not the root element.<span class="nt">&lt;/str&gt;</span>
+<span class="nt">&lt;/root&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Non-resource elements and attributes are preserved (assuming the same file
+is also used when converting back to XML):</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;root&gt;</span>
+  <span class="nt">&lt;str</span> <span class="na">key=</span><span class="s">&quot;translate_me&quot;</span><span class="nt">&gt;</span>This needs to be translated<span class="nt">&lt;/str&gt;</span>
+  <span class="nt">&lt;const</span> <span class="na">name=</span><span class="s">&quot;the_answer&quot;</span> <span class="na">hint=</span><span class="s">&quot;this isn&#39;t translated&quot;</span><span class="nt">&gt;</span>42<span class="nt">&lt;/const&gt;</span>
+  <span class="nt">&lt;str</span> <span class="na">key=</span><span class="s">&quot;important&quot;</span> <span class="na">priority=</span><span class="s">&quot;100&quot;</span><span class="nt">&gt;</span>Some important string<span class="nt">&lt;/str&gt;</span>
+<span class="nt">&lt;/root&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Indentation can be customized to match an existing and consistent style:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;root&gt;</span>
+        <span class="nt">&lt;str</span> <span class="na">key=</span><span class="s">&quot;indent&quot;</span><span class="nt">&gt;</span>This file uses 8 spaces for indent<span class="nt">&lt;/str&gt;</span>
+        <span class="nt">&lt;str</span> <span class="na">key=</span><span class="s">&quot;tab_works&quot;</span><span class="nt">&gt;</span>Tabs can also be used; but this is limited to the Python API at this point<span class="nt">&lt;/str&gt;</span>
+        <span class="nt">&lt;str</span> <span class="na">key=</span><span class="s">&quot;linerized&quot;</span><span class="nt">&gt;</span>No indent (all in one line) is also supported<span class="nt">&lt;/str&gt;</span>
+        <span class="nt">&lt;str</span> <span class="na">key=</span><span class="s">&quot;note_on_eof&quot;</span><span class="nt">&gt;</span>End-of-file *always* has a LF to satisfy VCS<span class="nt">&lt;/str&gt;</span>
+<span class="nt">&lt;/root&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">To avoid potential issues and extraneous changes in diffs,
+this format always forces an ending linefeed by default for
+compatibility with various
+<a class="reference external" href="http://en.wikipedia.org/wiki/Version_control_system">Version control systems</a>
+(such as <a class="reference external" href="http://en.wikipedia.org/wiki/Git">Git</a>).</p>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="non-conformance">
+<span id="flatxml-non-conformance"></span><h2>Non-Conformance<a class="headerlink" href="#non-conformance" title="Permalink to this headline">¶</a></h2>
+<p>While the format is flexible, not all features are supported:</p>
+<ul class="simple">
+<li>Mixed element/attribute names (as well as different namespaces for
+root- and value-element) and nested structures additional child elements.
+This format intentionally focuses on a simple structure that can be
+used by other languages (such as <a class="reference external" href="http://en.wikipedia.org/wiki/XSLT">XSLT</a>).</li>
+<li>Comments are preserved on roundtrips, but are not carried over into
+the resulting <a class="reference internal" href="po.html"><span class="doc">PO Files</span></a>.</li>
+<li>XML Fragments and non-wellformed XML.</li>
+</ul>
+</div>
+<div class="section" id="references">
+<span id="flatxml-references"></span><h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="http://www.w3.org/TR/REC-xml/">XML specification</a></li>
+</ul>
+</div>
+</div>
+
+
+</div>
+<hr>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right"><a href="#">Back to top ↑</a></p>
+    <ul class="unstyled muted">
+      <li><small>
+        &copy; 2002-2020, Translate.<br/>
+      </small></li>
+      <li><small>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </small></li>
+    </ul>
+  </div>
+</footer>
+  </body>
+</html>

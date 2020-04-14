@@ -1,0 +1,3084 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: pootle-terms\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-02-27 16:13+0200\n"
+"PO-Revision-Date: 2010-08-03 01:03+0200\n"
+"Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
+"Language-Team: Irish\n"
+"Language: ga\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n==2 ? 1 : 2;\n"
+"X-Generator: Pootle 2.1.0-beta2\n"
+
+# Essential terminology list for general software localisation
+# License: GPL
+# Copyright Youssef Chahibi, Friedel Wolff 2006
+msgid "abort"
+msgstr "tobscoir"
+
+msgid "absolute"
+msgstr "dearbh"
+
+msgid "abstract"
+msgstr "teibí"
+
+# graphics (not keyboard)
+msgid "accelerator"
+msgstr "luasaire"
+
+msgid "accent"
+msgstr "síneadh fada"
+
+msgid "accept"
+msgstr "glac leis"
+
+msgid "access"
+msgstr "rochtain"
+
+msgid "accessibility"
+msgstr "inrochtaineacht"
+
+msgid "accessory"
+msgstr "breiseán"
+
+msgid "account"
+msgstr "cuntas"
+
+msgid "accuracy"
+msgstr "cruinneas"
+
+msgid "acquire"
+msgstr "faigh"
+
+msgid "acronym"
+msgstr "acrainm"
+
+msgid "action"
+msgstr "gníomh"
+
+msgid "activate"
+msgstr "gníomhachtaigh"
+
+msgid "active"
+msgstr "gníomhach"
+
+msgid "activity"
+msgstr "gníomhaíocht"
+
+msgid "adapter"
+msgstr "cuibheoir"
+
+msgid "add"
+msgstr "cuir le"
+
+msgid "address"
+msgstr "seoladh"
+
+msgid "adjust"
+msgstr "coigeartaigh"
+
+msgid "administration"
+msgstr "riarachán"
+
+msgid "administrator"
+msgstr "riarthóir"
+
+msgid "advanced"
+msgstr "ardroghanna"
+
+msgid "agent"
+msgstr "gníomhaire"
+
+msgid "agree"
+msgstr "aontaigh"
+
+msgid "agreement"
+msgstr "comhaontú"
+
+msgid "alarm"
+msgstr "rabhchán"
+
+msgid "alert"
+msgstr "foláireamh"
+
+msgid "algorithm"
+msgstr "algartam"
+
+msgid "alias"
+msgstr "ainm bréige"
+
+msgid "aliasing"
+msgstr "ailiasáil"
+
+msgid "align"
+msgstr "ailínigh"
+
+msgid "alignment"
+msgstr "ailíniú"
+
+msgid "allow"
+msgstr "ceadaigh"
+
+msgid "alphanumeric"
+msgstr "aibítre/uimhriúil"
+
+msgid "alternative"
+msgstr "malartach"
+
+msgid "amount"
+msgstr "méid"
+
+msgid "analysis"
+msgstr "miondealú"
+
+msgid "anchor"
+msgstr "ancaire"
+
+msgid "angle"
+msgstr "uillinn"
+
+msgid "animate"
+msgstr "beoigh"
+
+msgid "animation"
+msgstr "beochan"
+
+msgid "announce"
+msgstr "fógair"
+
+msgid "announcement"
+msgstr "fógairt"
+
+msgid "anonymous"
+msgstr "anaithnid"
+
+msgid "anti-aliasing"
+msgstr "frithailiasáil"
+
+# genitive as adj.
+msgid "anti virus"
+msgstr "frithvíris"
+
+msgid "appear"
+msgstr "nocht"
+
+msgid "append"
+msgstr "iarcheangail"
+
+msgid "applet"
+msgstr "feidhmchláirín"
+
+msgid "application"
+msgstr "feidhmchlár"
+
+msgid "apply"
+msgstr "cur i bhfeidhm"
+
+msgid "approval"
+msgstr "ceadú"
+
+msgid "approve"
+msgstr "ceadaigh"
+
+msgid "approximate"
+msgstr "garbh"
+
+msgid "arbitrary"
+msgstr "treallach"
+
+msgid "archive"
+msgstr "cartlann"
+
+# not a measure of area
+msgid "area"
+msgstr "limistéar"
+
+msgid "argument"
+msgstr "argóint"
+
+msgid "arrangement"
+msgstr "socrú"
+
+msgid "arrow"
+msgstr "saighead"
+
+msgid "article"
+msgstr "alt"
+
+msgid "ascending"
+msgstr "ardaitheach"
+
+msgid "aspect"
+msgstr "gné"
+
+msgid "assign"
+msgstr "sann"
+
+msgid "assignment"
+msgstr "sannachán"
+
+msgid "asynchronous"
+msgstr "aisioncrónach"
+
+msgid "attach"
+msgstr "ceangail"
+
+msgid "attachment"
+msgstr "iatán"
+
+msgid "attempt"
+msgstr "iarracht"
+
+msgid "attribute"
+msgstr "airí"
+
+msgid "audio"
+msgstr "fuaim"
+
+msgid "authenticate"
+msgstr "fíordheimhnigh"
+
+msgid "authentication"
+msgstr "fíordheimhniú"
+
+msgid "authorization"
+msgstr "údarú"
+
+msgid "authorize"
+msgstr "údaraigh"
+
+msgid "auto"
+msgstr "uath"
+
+msgid "automatic"
+msgstr "uathoibríoch"
+
+msgid "availability"
+msgstr "infhaighteacht"
+
+msgid "available"
+msgstr "ar fáil"
+
+msgid "average"
+msgstr "meán"
+
+msgid "axis"
+msgstr "ais"
+
+msgid "backbone"
+msgstr "cnámh droma"
+
+msgid "back-end"
+msgstr "inneall"
+
+msgid "background"
+msgstr "cúlra"
+
+msgid "backup"
+msgstr "cúltaca"
+
+msgid "bandwidth"
+msgstr "leithead croise"
+
+msgid "banner"
+msgstr "meirge"
+
+msgid "bar"
+msgstr "barra"
+
+msgid "base"
+msgstr "bun"
+
+msgid "beep"
+msgstr "bíp"
+
+msgid "begin"
+msgstr "tosaigh"
+
+msgid "behavior"
+msgstr "iompraíocht"
+
+msgid "binary"
+msgstr "dénártha"
+
+msgid "bind"
+msgstr "cuibhrigh"
+
+msgid "bit"
+msgstr "giotán"
+
+msgid "bitmap"
+msgstr "mapa giotán"
+
+msgid "blank"
+msgstr "bán"
+
+msgid "blink"
+msgstr "bobáil"
+
+msgid "block (unit)"
+msgstr "ceap"
+
+msgid "block (verb)"
+msgstr "coisc"
+
+msgid "blog"
+msgstr "blag"
+
+# verb
+msgid "blur"
+msgstr "geamhaigh"
+
+msgid "board"
+msgstr "clár"
+
+msgid "body"
+msgstr "corp"
+
+msgid "bold"
+msgstr "trom"
+
+msgid "bookmarks"
+msgstr "leabharmharcanna"
+
+msgid "boot"
+msgstr "tosaigh"
+
+msgid "border"
+msgstr "imlíne"
+
+msgid "box"
+msgstr "bosca"
+
+msgid "bracket"
+msgstr "lúibín"
+
+msgid "branch"
+msgstr "craobh"
+
+msgid "break"
+msgstr "briseadh"
+
+msgid "break (program)"
+msgstr "sos"
+
+msgid "break point"
+msgstr "brisphointe"
+
+msgid "bridge (verb)"
+msgstr "trasnaigh"
+
+msgid "bridge (noun)"
+msgstr "droichead"
+
+msgid "broken"
+msgstr "briste"
+
+msgid "browse"
+msgstr "brabhsáil"
+
+msgid "browser"
+msgstr "brabhsálaí"
+
+msgid "buffer"
+msgstr "maolán"
+
+msgid "bug"
+msgstr "fabht"
+
+msgid "build"
+msgstr "tóg"
+
+msgid "built-in"
+msgstr "insuite"
+
+msgid "bullet"
+msgstr "urchar"
+
+msgid "bus"
+msgstr "bus"
+
+msgid "button"
+msgstr "cnaipe"
+
+msgid "byte"
+msgstr "beart"
+
+msgid "cable"
+msgstr "sreang"
+
+msgid "cache"
+msgstr "taisce"
+
+msgid "calculate"
+msgstr "áirigh"
+
+msgid "calculator"
+msgstr "áireamhán"
+
+msgid "calendar"
+msgstr "féilire"
+
+msgid "call"
+msgstr "glao"
+
+msgid "camera"
+msgstr "ceamara"
+
+msgid "cancel"
+msgstr "cealaigh"
+
+msgid "capability"
+msgstr "cumas"
+
+msgid "capacity"
+msgstr "toilleadh"
+
+# above picture
+msgid "caption"
+msgstr "ceannscríbhinn"
+
+msgid "capture"
+msgstr "gabh"
+
+msgid "card"
+msgstr "cárta"
+
+msgid "case"
+msgstr "cás"
+
+msgid "case (font)"
+msgstr "cás (clófhoireann)"
+
+msgid "catalog"
+msgstr "catalóg"
+
+msgid "category"
+msgstr "aicme"
+
+msgid "cell"
+msgstr "cillín"
+
+msgid "certificate"
+msgstr "teastas"
+
+msgid "certify"
+msgstr "deimhnigh"
+
+msgid "change"
+msgstr "athraigh"
+
+msgid "channel"
+msgstr "cainéal"
+
+# litir isn't good here
+msgid "character"
+msgstr "carachtar"
+
+msgid "charset"
+msgstr "tacar carachtar"
+
+msgid "chart"
+msgstr "cairt"
+
+msgid "chat"
+msgstr "comhrá"
+
+msgid "check"
+msgstr "dearbhaigh"
+
+msgid "check box"
+msgstr "ticbhosca"
+
+msgid "child"
+msgstr "páiste"
+
+msgid "choice"
+msgstr "rogha"
+
+msgid "choose"
+msgstr "roghnaigh"
+
+msgid "class"
+msgstr "aicme"
+
+msgid "classic"
+msgstr "clasaiceach"
+
+msgid "classify"
+msgstr "aicmigh"
+
+msgid "clean"
+msgstr "glan"
+
+msgid "clear"
+msgstr "glan"
+
+msgid "click (noun)"
+msgstr "clic"
+
+msgid "click (verb)"
+msgstr "cliceáil"
+
+msgid "client"
+msgstr "cliaint"
+
+msgid "clip art"
+msgstr "fáiscealaín"
+
+msgid "clip board"
+msgstr "gearrthaisce"
+
+msgid "clock"
+msgstr "clog"
+
+msgid "close"
+msgstr "dún"
+
+msgid "code (program)"
+msgstr "tagairt (ríomhoideas)"
+
+msgid "code (symbol)"
+msgstr "tagairt"
+
+msgid "codec"
+msgstr "comhbhrú/dí-chomhbhrú"
+
+msgid "collapse"
+msgstr "laghdaigh"
+
+msgid "collect"
+msgstr "bailigh"
+
+msgid "column"
+msgstr "colún"
+
+msgid "combination"
+msgstr "teaglaim"
+
+msgid "comma"
+msgstr "camóg"
+
+msgid "command"
+msgstr "aithne"
+
+msgid "comment"
+msgstr "nóta"
+
+msgid "common"
+msgstr "gnáth"
+
+msgid "communication"
+msgstr "cumarsáid"
+
+msgid "compact"
+msgstr "dlúth"
+
+msgid "compare"
+msgstr "cuir i gcomparáid"
+
+msgid "compatibility"
+msgstr "comhoiriúnacht"
+
+msgid "compatible"
+msgstr "comhoiriúnach"
+
+msgid "compilation"
+msgstr "tiomsú"
+
+msgid "compile"
+msgstr "tiomsaigh"
+
+msgid "compiler"
+msgstr "tiomsaitheoir"
+
+msgid "complete"
+msgstr "críochnaithe"
+
+msgid "component"
+msgstr "comhpháirt"
+
+msgid "compose"
+msgstr "cum"
+
+msgid "composition"
+msgstr "cumadh"
+
+msgid "compress"
+msgstr "comhbhrúigh"
+
+msgid "compression"
+msgstr "comhbhrú"
+
+msgid "computer"
+msgstr "ríomhaire"
+
+msgid "computing"
+msgstr "ríomhaireacht"
+
+msgid "concatenate"
+msgstr "comhchaitéinigh"
+
+msgid "concurrent"
+msgstr "comhreathach"
+
+msgid "condense"
+msgstr "comhdhlúthaigh"
+
+msgid "condition"
+msgstr "coinníoll"
+
+msgid "configuration"
+msgstr "cumraíocht"
+
+msgid "configure"
+msgstr "cumraigh"
+
+msgid "confirm"
+msgstr "deimhnigh"
+
+msgid "confirmation"
+msgstr "deimhniú"
+
+msgid "conflict"
+msgstr "coinbhleacht"
+
+msgid "connect"
+msgstr "ceangail"
+
+msgid "connection"
+msgstr "ceangal"
+
+msgid "console"
+msgstr "consól"
+
+msgid "contact (noun)"
+msgstr "teagmháil"
+
+msgid "contact (verb)"
+msgstr "déan teagmháil"
+
+msgid "content"
+msgstr "inneachar"
+
+msgid "context"
+msgstr "comhthéacs"
+
+msgid "continue"
+msgstr "lean ar aghaidh"
+
+msgid "contrast"
+msgstr "codarsnacht"
+
+msgid "contributor"
+msgstr "cuiditheoir"
+
+msgid "control"
+msgstr "rialú"
+
+msgid "conversion"
+msgstr "tiontú"
+
+msgid "convert"
+msgstr "tiontaigh"
+
+msgid "cookie"
+msgstr "fianán"
+
+msgid "cooperative"
+msgstr "comhoibritheach"
+
+msgid "coordinate"
+msgstr "comhordaigh"
+
+msgid "copy (noun)"
+msgstr "cóip"
+
+msgid "copy (verb)"
+msgstr "cóipeáil"
+
+msgid "copy left"
+msgstr "cóipchlé"
+
+msgid "copy right"
+msgstr "cóipcheart"
+
+# adj. not verb
+msgid "correct"
+msgstr "ceart"
+
+msgid "correspondence"
+msgstr "comhfhreagras"
+
+msgid "correspondent"
+msgstr "comhfhreagraí"
+
+# adj.
+msgid "corrupt"
+msgstr "truaillithe"
+
+msgid "count"
+msgstr "áirigh"
+
+msgid "countable"
+msgstr "ináirithe"
+
+msgid "crash"
+msgstr "cliseadh"
+
+msgid "create"
+msgstr "cruthaigh"
+
+msgid "creation"
+msgstr "cruthú"
+
+msgid "criteria"
+msgstr "slat tomhais"
+
+msgid "crop"
+msgstr "bearr"
+
+# gs. as adj.
+msgid "cross-platform"
+msgstr "trasardáin"
+
+msgid "crypt"
+msgstr "criptiú"
+
+msgid "cryptology"
+msgstr "cripteolaíocht"
+
+msgid "current"
+msgstr "reatha"
+
+msgid "cursor"
+msgstr "cúrsóir"
+
+msgid "curve"
+msgstr "cuar"
+
+msgid "custom"
+msgstr "saincheaptha"
+
+msgid "customization"
+msgstr "saincheapadh"
+
+msgid "customize"
+msgstr "saincheap"
+
+msgid "cut"
+msgstr "gearr"
+
+msgid "cycle"
+msgstr "ciogal"
+
+msgid "daemon"
+msgstr "deamhan"
+
+# noun (or déan ~)
+msgid "damage"
+msgstr "damáiste"
+
+msgid "data"
+msgstr "sonraí"
+
+msgid "database"
+msgstr "bunachar sonraí"
+
+msgid "debug"
+msgstr "dífhabhtaigh"
+
+msgid "debugger"
+msgstr "dífhabhtóir"
+
+msgid "decimal"
+msgstr "deachúil"
+
+msgid "decode"
+msgstr "díchódaigh"
+
+msgid "decompress"
+msgstr "dí-chomhbhrúigh"
+
+msgid "decrease"
+msgstr "laghdaigh"
+
+msgid "decrypt"
+msgstr "díchriptigh"
+
+msgid "decryption"
+msgstr "díchriptiú"
+
+msgid "default"
+msgstr "réamhshocrú"
+
+msgid "defect"
+msgstr "fabht"
+
+msgid "define"
+msgstr "sainigh"
+
+msgid "definition"
+msgstr "sainmhíniú"
+
+msgid "degree"
+msgstr "céim"
+
+msgid "delay"
+msgstr "moill"
+
+msgid "delete"
+msgstr "scrios"
+
+msgid "deletion"
+msgstr "scrios"
+
+msgid "delimiter"
+msgstr "teormharcóir"
+
+msgid "demo"
+msgstr "taispeána"
+
+msgid "deny"
+msgstr "diúltaigh"
+
+msgid "dependence"
+msgstr "spleáchas"
+
+msgid "dependency"
+msgstr "spleáchas"
+
+msgid "depth"
+msgstr "doimhneacht"
+
+msgid "derived"
+msgstr "díorthaithe"
+
+msgid "descending"
+msgstr "íslitheach"
+
+msgid "description"
+msgstr "cur síos"
+
+msgid "deselect"
+msgstr "díroghnaigh"
+
+msgid "design"
+msgstr "dearadh"
+
+msgid "desktop"
+msgstr "deasc"
+
+msgid "destination"
+msgstr "sprioc"
+
+msgid "destroy"
+msgstr "léirscrios"
+
+msgid "detach"
+msgstr "díscoir"
+
+msgid "detect"
+msgstr "aimsigh"
+
+msgid "develop"
+msgstr "forbair"
+
+msgid "development"
+msgstr "forbairt"
+
+msgid "developer"
+msgstr "forbróir"
+
+msgid "device"
+msgstr "gléas"
+
+msgid "diagram"
+msgstr "léaráid"
+
+msgid "dial"
+msgstr "diail"
+
+msgid "dialog"
+msgstr "agallamh"
+
+# gs as adj.
+msgid "dialup"
+msgstr "diailnaisc"
+
+msgid "difference"
+msgstr "difríocht"
+
+# "uimhir" isn't good here
+msgid "digit"
+msgstr "digit"
+
+msgid "digital"
+msgstr "uimhreach"
+
+msgid "dimension"
+msgstr "toise"
+
+# files, not contact info
+msgid "directory"
+msgstr "comhadlann"
+
+msgid "disable"
+msgstr "díchumasaigh"
+
+msgid "disc"
+msgstr "diosca"
+
+msgid "discard"
+msgstr "cuileáil"
+
+msgid "disconnect"
+msgstr "dínasc"
+
+msgid "discussion"
+msgstr "plé"
+
+msgid "disk"
+msgstr "diosca"
+
+# verb
+msgid "dispatch"
+msgstr "seol"
+
+# verb
+msgid "display"
+msgstr "taispeáin"
+
+msgid "distort"
+msgstr "díchum"
+
+msgid "distribute"
+msgstr "dáil"
+
+msgid "distribution"
+msgstr "dáileadh"
+
+msgid "distributor"
+msgstr "dáileoir"
+
+msgid "dock"
+msgstr "duga"
+
+msgid "document"
+msgstr "cáipéis"
+
+msgid "documentation"
+msgstr "doiciméadú"
+
+msgid "domain"
+msgstr "fearann"
+
+# treat as verb
+msgid "double click"
+msgstr "cliceáil faoi dhó"
+
+msgid "download"
+msgstr "íosluchtaigh"
+
+msgid "drag"
+msgstr "tarraing"
+
+msgid "draw"
+msgstr "tarraing"
+
+msgid "driver"
+msgstr "tiománaí"
+
+msgid "dual"
+msgstr "déach"
+
+msgid "dump"
+msgstr "caith amach"
+
+msgid "duplicate"
+msgstr "macasamhlaigh"
+
+msgid "dynamic"
+msgstr "dinimiciúil"
+
+msgid "echo"
+msgstr "macalla"
+
+# verb, short for "cuir in eagar"
+msgid "edit"
+msgstr "eagar"
+
+msgid "edition"
+msgstr "eagrán"
+
+msgid "editor"
+msgstr "eagarthóir"
+
+msgid "effect"
+msgstr "maisíocht"
+
+msgid "eject"
+msgstr "díchuir"
+
+msgid "electronic"
+msgstr "leictreonach"
+
+msgid "element"
+msgstr "ball"
+
+msgid "email"
+msgstr "ríomhphost"
+
+msgid "embed"
+msgstr "leabaigh"
+
+msgid "emoticon"
+msgstr "straoiseog"
+
+# adj. not verb
+msgid "empty"
+msgstr "folamh"
+
+msgid "emulate"
+msgstr "déan aithris ar"
+
+msgid "emulation"
+msgstr "aithris"
+
+msgid "emulator"
+msgstr "aithriseoir"
+
+msgid "enable"
+msgstr "cumasaigh"
+
+msgid "enabled"
+msgstr "cumasaithe"
+
+msgid "encode"
+msgstr "ionchódaigh"
+
+msgid "encoding"
+msgstr "ionchódú"
+
+msgid "encrypt"
+msgstr "criptigh"
+
+msgid "encrypted"
+msgstr "criptithe"
+
+msgid "encryption"
+msgstr "criptiú"
+
+msgid "engine"
+msgstr "inneall"
+
+msgid "enhancement"
+msgstr "breisiú"
+
+msgid "enlarge"
+msgstr "méadaigh"
+
+msgid "enlargement"
+msgstr "méadú"
+
+msgid "enter"
+msgstr "téigh isteach"
+
+msgid "entertainment"
+msgstr "siamsaíocht"
+
+msgid "entry"
+msgstr "iontráil"
+
+msgid "environment"
+msgstr "timpeallacht"
+
+msgid "equalizer"
+msgstr "cothromóir"
+
+msgid "erase"
+msgstr "glan"
+
+msgid "error"
+msgstr "earráid"
+
+# verb
+msgid "escape"
+msgstr "éalaigh"
+
+msgid "evaluation"
+msgstr "luacháil"
+
+# computing, not social event
+msgid "event"
+msgstr "teagmhas"
+
+msgid "exception"
+msgstr "eisceacht"
+
+# adj.
+msgid "executable"
+msgstr "inrite"
+
+msgid "execute"
+msgstr "rith"
+
+msgid "existing"
+msgstr "atá ann cheana"
+
+msgid "exit"
+msgstr "scoir"
+
+msgid "expand"
+msgstr "leathnaigh"
+
+msgid "expansion"
+msgstr "forlíonadh"
+
+msgid "explore"
+msgstr "taiscéal"
+
+msgid "export"
+msgstr "onnmhairigh"
+
+msgid "expression"
+msgstr "slonn"
+
+msgid "extend"
+msgstr "sín"
+
+msgid "extensible"
+msgstr "inbhreisithe"
+
+# addon, not filename extension
+msgid "extension"
+msgstr "eisínteacht"
+
+msgid "external"
+msgstr "seachtrach"
+
+msgid "extra"
+msgstr "breis"
+
+msgid "extract"
+msgstr "bain"
+
+msgid "fail"
+msgstr "teip"
+
+msgid "fatal"
+msgstr "marfach"
+
+msgid "fault"
+msgstr "locht"
+
+msgid "favorite"
+msgstr "ceanán"
+
+msgid "feature"
+msgstr "gné"
+
+# noun
+msgid "feed"
+msgstr "fotha"
+
+msgid "feedback"
+msgstr "aiseolas"
+
+msgid "fetch"
+msgstr "gabh"
+
+msgid "field"
+msgstr "réimse"
+
+msgid "figure"
+msgstr "léaráid"
+
+msgid "file"
+msgstr "comhad"
+
+msgid "fill"
+msgstr "líon"
+
+msgid "filter"
+msgstr "scagaire"
+
+msgid "find"
+msgstr "aimsigh"
+
+msgid "firewall"
+msgstr "balla dóiteáin"
+
+msgid "firmware"
+msgstr "dochtearraí"
+
+msgid "fit"
+msgstr "oiriúnaigh"
+
+msgid "fix"
+msgstr "deisigh"
+
+msgid "flag"
+msgstr "bratach"
+
+msgid "flash"
+msgstr "splanc"
+
+msgid "flat"
+msgstr "cothrom"
+
+msgid "flip"
+msgstr "smeach"
+
+msgid "float (verb)"
+msgstr "snámh"
+
+msgid "flood"
+msgstr "líonadh"
+
+msgid "floppy"
+msgstr "diosca flapach"
+
+msgid "folder"
+msgstr "fillteán"
+
+msgid "font"
+msgstr "clófhoireann"
+
+msgid "footer"
+msgstr "buntásc"
+
+msgid "form"
+msgstr "foirm"
+
+msgid "format (noun)"
+msgstr "formáid"
+
+msgid "format (verb)"
+msgstr "formáidigh"
+
+msgid "formatted"
+msgstr "formáidithe"
+
+msgid "formula"
+msgstr "foirmle"
+
+msgid "forum"
+msgstr "fóram"
+
+msgid "fragment"
+msgstr "blúire"
+
+msgid "frame"
+msgstr "fráma"
+
+msgid "frame set"
+msgstr "frámadán"
+
+msgid "framework"
+msgstr "frámaíocht"
+
+msgid "free software"
+msgstr "saorbhogearra"
+
+msgid "freeze"
+msgstr "reoigh"
+
+msgid "frequency"
+msgstr "minicíocht"
+
+msgid "front end"
+msgstr "comhéadan"
+
+msgid "function"
+msgstr "feidhm"
+
+msgid "gallery"
+msgstr "gailearaí"
+
+msgid "game"
+msgstr "cluiche"
+
+msgid "gateway"
+msgstr "geata"
+
+msgid "generate"
+msgstr "gin"
+
+msgid "generation"
+msgstr "giniúint"
+
+msgid "generator"
+msgstr "gineadóir"
+
+msgid "generic"
+msgstr "ginearálta"
+
+msgid "geometric"
+msgstr "céimseatúil"
+
+msgid "geometry"
+msgstr "céimseata"
+
+msgid "grab"
+msgstr "beir ar"
+
+msgid "gradient"
+msgstr "grádán"
+
+msgid "grain"
+msgstr "gráinne"
+
+msgid "graph"
+msgstr "graf"
+
+msgid "graphic"
+msgstr "grafaic"
+
+msgid "graphical"
+msgstr "grafach"
+
+msgid "graphics"
+msgstr "grafaic"
+
+msgid "gray-scale"
+msgstr "liathscála"
+
+msgid "grid"
+msgstr "greille"
+
+# noun
+msgid "group"
+msgstr "grúpa"
+
+msgid "guess"
+msgstr "buille faoi thuairim"
+
+msgid "guest"
+msgstr "cuairteoir"
+
+msgid "handle (noun)"
+msgstr "hanla"
+
+msgid "handle (verb)"
+msgstr "láimhseáil"
+
+msgid "handler"
+msgstr "láimhseálaí"
+
+msgid "hardware"
+msgstr "crua-earraí"
+
+msgid "hash"
+msgstr "haiseáil"
+
+msgid "head"
+msgstr "ceann"
+
+msgid "header"
+msgstr "ceanntásc"
+
+msgid "height"
+msgstr "airde"
+
+msgid "help"
+msgstr "cuidiú"
+
+msgid "hide"
+msgstr "folaigh"
+
+msgid "hierarchy"
+msgstr "ordlathas"
+
+msgid "high light"
+msgstr "aibhsigh"
+
+msgid "history"
+msgstr "stair"
+
+msgid "host"
+msgstr "óstríomhaire"
+
+msgid "hostname"
+msgstr "óstainm"
+
+msgid "hyperlink"
+msgstr "hipearnasc"
+
+msgid "hypertext"
+msgstr "hipirtéacs"
+
+msgid "icon"
+msgstr "deilbhín"
+
+msgid "identify"
+msgstr "aithin"
+
+msgid "idle"
+msgstr "díomhaoin"
+
+msgid "ignore"
+msgstr "déan neamhshuim ar"
+
+msgid "image"
+msgstr "íomhá"
+
+msgid "implement"
+msgstr "cuir i bhfeidhm"
+
+msgid "import"
+msgstr "iompórtáil"
+
+msgid "inactive"
+msgstr "neamhghníomhach"
+
+msgid "inbox"
+msgstr "bosca isteach"
+
+msgid "inch"
+msgstr "orlach"
+
+msgid "include"
+msgstr "include"
+
+msgid "incoming"
+msgstr "isteach"
+
+msgid "incompatible"
+msgstr "neamh-chomhoiriúnach"
+
+msgid "increase"
+msgstr "méadaigh"
+
+msgid "increment"
+msgstr "incrimintigh"
+
+msgid "indent"
+msgstr "eangaigh"
+
+msgid "index"
+msgstr "innéacs"
+
+msgid "indice"
+msgstr "innéacs"
+
+msgid "infect"
+msgstr "ionfhabhtaigh"
+
+msgid "infinite"
+msgstr "éigríochta"
+
+msgid "information"
+msgstr "eolas"
+
+msgid "infrared"
+msgstr "infridhearg"
+
+msgid "initial"
+msgstr ""
+
+msgid "initialize"
+msgstr "túsaigh"
+
+msgid "input"
+msgstr "ionchur"
+
+msgid "insert"
+msgstr "ionsáigh"
+
+msgid "install"
+msgstr "suiteáil"
+
+msgid "installer"
+msgstr "suiteálaí"
+
+msgid "instance"
+msgstr "ásc"
+
+msgid "instruction"
+msgstr "treoir"
+
+msgid "integer"
+msgstr "slánuimhir"
+
+msgid "integral"
+msgstr "slánuimhreach"
+
+msgid "integrate"
+msgstr "comhtháthaigh"
+
+msgid "integration"
+msgstr "comhtháthú"
+
+msgid "integrity"
+msgstr "sláine"
+
+msgid "intensity"
+msgstr "déine"
+
+msgid "interactivity"
+msgstr "idirghníomhaíocht"
+
+msgid "interface"
+msgstr "comhéadan"
+
+msgid "internal"
+msgstr "inmheánach"
+
+msgid "internet"
+msgstr "Idirlíon"
+
+msgid "interrupt"
+msgstr "idirbhris"
+
+msgid "invalid"
+msgstr "neamhbhailí"
+
+msgid "inverse"
+msgstr "inbhéarta"
+
+msgid "invert"
+msgstr "inbhéartaigh"
+
+msgid "invoke"
+msgstr "gair"
+
+msgid "italic"
+msgstr "iodálach"
+
+msgid "item"
+msgstr "mír"
+
+msgid "iteration"
+msgstr "timthriall"
+
+msgid "jag"
+msgstr ""
+
+msgid "jam"
+msgstr ""
+
+msgid "job"
+msgstr "jab"
+
+# take part, or connect?
+msgid "join"
+msgstr ""
+
+msgid "joy stick"
+msgstr "luamhán stiúrtha"
+
+msgid "jump"
+msgstr "léim"
+
+msgid "junk"
+msgstr "bruscar"
+
+msgid "justify"
+msgstr "comhfhadaigh"
+
+msgid "keep"
+msgstr "coinnigh"
+
+msgid "kernel"
+msgstr "eithne"
+
+msgid "key"
+msgstr "eochair"
+
+msgid "keyboard"
+msgstr "méarchlár"
+
+msgid "key stroke"
+msgstr "eochairbhuille"
+
+msgid "key word"
+msgstr "eochairfhocal"
+
+msgid "label"
+msgstr "lipéad"
+
+msgid "landscape"
+msgstr "tírdhreach"
+
+msgid "language"
+msgstr "teanga"
+
+msgid "laptop"
+msgstr "ríomhaire glúine"
+
+msgid "launch"
+msgstr "tosaigh"
+
+msgid "layer"
+msgstr "sraith"
+
+msgid "layout"
+msgstr "leagan amach"
+
+msgid "length"
+msgstr "fad"
+
+msgid "license"
+msgstr "ceadúnas"
+
+msgid "line"
+msgstr "líne"
+
+msgid "link"
+msgstr "nasc"
+
+msgid "list"
+msgstr "liosta"
+
+# verb, not CPU load
+msgid "load"
+msgstr "luchtaigh"
+
+msgid "local"
+msgstr "logánta"
+
+msgid "localization"
+msgstr "logánú"
+
+msgid "location"
+msgstr "suíomh"
+
+# noun == log file
+msgid "log"
+msgstr "logchomhad"
+
+msgid "lookup"
+msgstr "cuardach"
+
+msgid "lower-case"
+msgstr "cás íochtair"
+
+msgid "machine"
+msgstr "ríomhaire"
+
+msgid "main board"
+msgstr "príomhchlár"
+
+msgid "maintainer"
+msgstr "cothaitheoir"
+
+msgid "maintenance"
+msgstr "cothabháil"
+
+msgid "manage"
+msgstr "bainistigh"
+
+msgid "management"
+msgstr "bainisteoireacht"
+
+msgid "manager"
+msgstr "bainisteoir"
+
+# like a book, not 'by hand'
+msgid "manual"
+msgstr "lámhleabhar"
+
+msgid "margin"
+msgstr "imeall"
+
+msgid "mark"
+msgstr "marc"
+
+msgid "master"
+msgstr "máistir"
+
+msgid "match"
+msgstr "meaitseáil"
+
+msgid "maximize"
+msgstr "uasmhéadaigh"
+
+msgid "memory"
+msgstr "cuimhne"
+
+msgid "menu"
+msgstr "roghchlár"
+
+msgid "merge"
+msgstr "cumaisc"
+
+msgid "message"
+msgstr "scéal"
+
+msgid "method"
+msgstr "modh"
+
+msgid "minimize"
+msgstr "íoslaghdaigh"
+
+msgid "mode"
+msgstr "mód"
+
+msgid "modem"
+msgstr "móideim"
+
+msgid "moderator"
+msgstr "modhnóir"
+
+msgid "modify"
+msgstr "athraigh"
+
+msgid "module"
+msgstr "modúl"
+
+# noun == screen
+msgid "monitor"
+msgstr "scáileán"
+
+msgid "mosaic"
+msgstr "mósáic"
+
+msgid "motion"
+msgstr "gluaiseacht"
+
+msgid "mouse"
+msgstr "luch"
+
+# verb, not move in a game
+msgid "move"
+msgstr "bog"
+
+msgid "multimedia"
+msgstr "ilmheáin"
+
+msgid "multitasking"
+msgstr "iltascáil"
+
+msgid "name"
+msgstr "ainm"
+
+msgid "navigation"
+msgstr "nascleanúint"
+
+msgid "navigator"
+msgstr "nascleantóir"
+
+msgid "network"
+msgstr "líonra"
+
+msgid "news group"
+msgstr "grúpa nuachta"
+
+msgid "next"
+msgstr "ar aghaidh"
+
+msgid "nick name"
+msgstr "leasainm"
+
+msgid "no"
+msgstr "níl"
+
+msgid "node"
+msgstr "nód"
+
+msgid "notation"
+msgstr "nodaireacht"
+
+msgid "note"
+msgstr "nóta"
+
+msgid "notebook"
+msgstr "leabhar nótaí"
+
+msgid "notification"
+msgstr "fógra"
+
+msgid "notify"
+msgstr "fógair"
+
+msgid "null"
+msgstr "nialasach"
+
+msgid "number"
+msgstr "uimhir"
+
+msgid "numbering"
+msgstr "uimhriú"
+
+msgid "object"
+msgstr "réad"
+
+msgid "occurrence"
+msgstr "tarlú"
+
+msgid "octet"
+msgstr "ochtréad"
+
+msgid "offline"
+msgstr "as líne"
+
+msgid "OK"
+msgstr "ceart go leor"
+
+msgid "online"
+msgstr "ar líne"
+
+msgid "ongoing"
+msgstr "leanúnach"
+
+msgid "opacity"
+msgstr "teimhneacht"
+
+msgid "opaque"
+msgstr "teimhneach"
+
+# verb, not adj.
+msgid "open"
+msgstr "oscail"
+
+msgid "operation"
+msgstr "oibríocht"
+
+msgid "option"
+msgstr "rogha"
+
+msgid "optional"
+msgstr "roghnach"
+
+msgid "order"
+msgstr "ord"
+
+msgid "organize"
+msgstr "eagraigh"
+
+msgid "orientation"
+msgstr "treoshuíomh"
+
+msgid "original"
+msgstr "bunúsach"
+
+msgid "outgoing"
+msgstr "amach"
+
+msgid "output"
+msgstr "aschur"
+
+msgid "overflow"
+msgstr "róshreabhadh"
+
+msgid "override"
+msgstr "sáraigh"
+
+msgid "overwrite"
+msgstr "forscríobh"
+
+msgid "owner"
+msgstr "úinéir"
+
+msgid "pack"
+msgstr "pacáil"
+
+msgid "package"
+msgstr "pacáiste"
+
+msgid "packet"
+msgstr "paicéad"
+
+msgid "padding"
+msgstr "stuáil"
+
+msgid "page"
+msgstr "leathanach"
+
+# noun
+msgid "paint"
+msgstr "péint"
+
+msgid "pair"
+msgstr "péire"
+
+msgid "palette"
+msgstr "pailéad"
+
+msgid "panel"
+msgstr "painéal"
+
+msgid "parallel"
+msgstr "comhthreomhar"
+
+msgid "parameter"
+msgstr "paraiméadar"
+
+msgid "parcel"
+msgstr "beart"
+
+msgid "parent"
+msgstr "tuismitheoir"
+
+msgid "parity"
+msgstr "paireacht"
+
+msgid "parse"
+msgstr "parsáil"
+
+msgid "partition"
+msgstr "deighilt"
+
+msgid "pass"
+msgstr ""
+
+msgid "password"
+msgstr "focal faire"
+
+msgid "paste"
+msgstr "greamaigh"
+
+msgid "patch (noun)"
+msgstr "paiste"
+
+msgid "patch (verb)"
+msgstr "cuir paiste i bhfeidhm"
+
+msgid "path"
+msgstr "slí"
+
+msgid "pattern"
+msgstr "patrún"
+
+msgid "pause"
+msgstr "cuir ar shos"
+
+msgid "peripheral"
+msgstr "forimeallach"
+
+msgid "permanent"
+msgstr "buan"
+
+msgid "permission"
+msgstr "cead"
+
+msgid "permutation"
+msgstr "iomalartú"
+
+msgid "physical"
+msgstr "fisiceach"
+
+msgid "picture"
+msgstr "pictiúr"
+
+msgid "pipe"
+msgstr "píopa"
+
+msgid "pixel"
+msgstr "picteilín"
+
+msgid "placement"
+msgstr "ionadú"
+
+msgid "plain"
+msgstr "simplí"
+
+msgid "plot (verb)"
+msgstr "breac"
+
+msgid "plotter"
+msgstr "breacaire"
+
+msgid "plugin"
+msgstr "forlíontán"
+
+msgid "pop up"
+msgstr "preab"
+
+# networking, not port to a new OS
+msgid "port"
+msgstr "port"
+
+msgid "position"
+msgstr "ionad"
+
+msgid "post"
+msgstr "postáil"
+
+msgid "preferences"
+msgstr "sainroghanna"
+
+msgid "prepare"
+msgstr "ullmhaigh"
+
+msgid "presentation"
+msgstr "láithreoireacht"
+
+# verb
+msgid "press"
+msgstr "brúigh"
+
+msgid "prevent"
+msgstr "coisc"
+
+msgid "preview"
+msgstr "réamhamharc"
+
+msgid "primary"
+msgstr "príomh-"
+
+msgid "principal"
+msgstr "príomh-"
+
+msgid "print"
+msgstr "priontáil"
+
+msgid "printer"
+msgstr "printéir"
+
+msgid "priority"
+msgstr "tosaíocht"
+
+msgid "privacy"
+msgstr "príobháideacht"
+
+msgid "private"
+msgstr "príobháideach"
+
+msgid "privilege"
+msgstr "pribhléid"
+
+msgid "procedure"
+msgstr "gnás"
+
+msgid "process"
+msgstr "próiseas"
+
+msgid "processor"
+msgstr "próiseálaí"
+
+# software, not multiplication
+msgid "product"
+msgstr "táirge"
+
+msgid "profile"
+msgstr "próifíl"
+
+msgid "program"
+msgstr "ríomhchlár"
+
+msgid "programmer"
+msgstr "ríomhchláraitheoir"
+
+msgid "project"
+msgstr "tionscadal"
+
+# noun
+msgid "prompt"
+msgstr "leid"
+
+msgid "property"
+msgstr "airí"
+
+msgid "proprietary"
+msgstr "dílsithe"
+
+msgid "protect"
+msgstr "cosain"
+
+msgid "protection"
+msgstr "cosaint"
+
+msgid "protocol"
+msgstr "prótacal"
+
+msgid "provide"
+msgstr "cuir ar fáil"
+
+msgid "provider"
+msgstr "soláthraí"
+
+msgid "proxy"
+msgstr "seachfhreastalaí"
+
+msgid "public"
+msgstr "poiblí"
+
+msgid "publish"
+msgstr "foilsigh"
+
+msgid "pull"
+msgstr "tarraing"
+
+msgid "push"
+msgstr "brúigh"
+
+msgid "quality"
+msgstr "cáilíocht"
+
+msgid "quantity"
+msgstr "líon"
+
+msgid "quarantine"
+msgstr "coraintín"
+
+msgid "query"
+msgstr "iarratas"
+
+# noun
+msgid "queue"
+msgstr "ciú"
+
+msgid "quit"
+msgstr "scoir"
+
+msgid "quota"
+msgstr "cuóta"
+
+msgid "quotation"
+msgstr "athfhriotal"
+
+msgid "quote"
+msgstr "comhartha athfhriotail"
+
+msgid "raise"
+msgstr "ardaigh"
+
+msgid "random"
+msgstr "randamach"
+
+msgid "range"
+msgstr "raon"
+
+msgid "rate"
+msgstr "ráta"
+
+msgid "ratio"
+msgstr "cóimheas"
+
+msgid "raw"
+msgstr "amh"
+
+msgid "ray"
+msgstr "ga"
+
+# verb
+msgid "read"
+msgstr "léigh"
+
+msgid "read only"
+msgstr "inléite amháin"
+
+msgid "ready"
+msgstr "réidh"
+
+msgid "real"
+msgstr "réadúil"
+
+msgid "reboot"
+msgstr "atosaigh"
+
+msgid "receipt"
+msgstr "admháil"
+
+msgid "receive"
+msgstr "faigh"
+
+msgid "recognition"
+msgstr "aitheantas"
+
+msgid "reconnect"
+msgstr "athcheangail"
+
+msgid "record"
+msgstr "taifead"
+
+msgid "record (verb)"
+msgstr "taifead"
+
+msgid "recover"
+msgstr "athshlánaigh"
+
+msgid "recovery"
+msgstr "athshlánú"
+
+msgid "recursion"
+msgstr "athchúrsáil"
+
+msgid "recursive"
+msgstr "athchúrsach"
+
+msgid "redirect"
+msgstr "athdhírigh"
+
+msgid "redo"
+msgstr "athdhéan"
+
+msgid "reduce"
+msgstr "laghdaigh"
+
+msgid "reduction"
+msgstr "laghdú"
+
+msgid "redundant"
+msgstr "iomarcach"
+
+msgid "reference"
+msgstr "tagairt"
+
+msgid "referer"
+msgstr "tagróir"
+
+msgid "referral"
+msgstr "cur ar aghaidh"
+
+msgid "reflexive"
+msgstr "aisfhillteach"
+
+msgid "refresh"
+msgstr "athnuaigh"
+
+msgid "refuse"
+msgstr "diúltaigh"
+
+msgid "regenerate"
+msgstr "athghin"
+
+msgid "register"
+msgstr "cláraigh"
+
+msgid "registration"
+msgstr "clárú"
+
+msgid "registry"
+msgstr "clárlann"
+
+msgid "regular"
+msgstr "rialta"
+
+msgid "regulate"
+msgstr "rialaigh"
+
+msgid "relay"
+msgstr "athsheachaid"
+
+msgid "release"
+msgstr "scaoileadh"
+
+msgid "remaining"
+msgstr "fágtha"
+
+msgid "remind"
+msgstr "meabhraigh"
+
+msgid "remote"
+msgstr "cianda"
+
+msgid "removable"
+msgstr "inbhainte"
+
+msgid "remove"
+msgstr "bain"
+
+msgid "rename"
+msgstr "athainmnigh"
+
+msgid "render"
+msgstr "rindreáil"
+
+msgid "renew"
+msgstr "athnuaigh"
+
+msgid "repair"
+msgstr "deisigh"
+
+msgid "repeat"
+msgstr "déan arís"
+
+msgid "replace"
+msgstr "ionadaigh"
+
+msgid "replicate"
+msgstr "macasamhlaigh"
+
+msgid "replication"
+msgstr "macasamhlú"
+
+msgid "reply"
+msgstr "freagair"
+
+msgid "report"
+msgstr "tuairisc"
+
+msgid "repository"
+msgstr "stórlann"
+
+msgid "request"
+msgstr "iarratas"
+
+msgid "require"
+msgstr "teastaigh"
+
+msgid "requirement"
+msgstr "riachtanas"
+
+msgid "reset"
+msgstr "athshocraigh"
+
+msgid "resize"
+msgstr "athraigh an mhéid"
+
+# on screen
+msgid "resolution"
+msgstr "taifeach"
+
+msgid "resolver"
+msgstr "taifeoir"
+
+msgid "resource"
+msgstr "acmhainn"
+
+msgid "response"
+msgstr "freagra"
+
+msgid "restart"
+msgstr "atosaigh"
+
+msgid "restore"
+msgstr "athchóirigh"
+
+msgid "restrict"
+msgstr "cúngaigh"
+
+msgid "restriction"
+msgstr "cúngú"
+
+msgid "result"
+msgstr "toradh"
+
+msgid "resume"
+msgstr "lean"
+
+msgid "retrieve"
+msgstr "aisghabh"
+
+msgid "retry"
+msgstr "atriail"
+
+msgid "return"
+msgstr "ais-seol"
+
+msgid "reverse"
+msgstr "aisiompaigh"
+
+msgid "revert"
+msgstr "fill"
+
+msgid "revocation"
+msgstr "cúlghairm"
+
+msgid "revoke"
+msgstr "cúlghair"
+
+msgid "root"
+msgstr "fréamh"
+
+msgid "rotate"
+msgstr "rothlaigh"
+
+msgid "route"
+msgstr "ród"
+
+msgid "router"
+msgstr "ródaire"
+
+msgid "routine"
+msgstr "gnáthamh"
+
+msgid "row"
+msgstr "ró"
+
+msgid "rule"
+msgstr "riail"
+
+msgid "run"
+msgstr "rith"
+
+msgid "runtime"
+msgstr "am rite"
+
+msgid "safe"
+msgstr "slán"
+
+msgid "sample"
+msgstr "sampla"
+
+msgid "sans"
+msgstr "sans"
+
+msgid "save"
+msgstr "sábháil"
+
+msgid "scalable"
+msgstr "inscálaithe"
+
+msgid "scale"
+msgstr "scála"
+
+msgid "scan"
+msgstr "scan"
+
+msgid "scanner"
+msgstr "scanóir"
+
+msgid "schedule"
+msgstr "sceideal"
+
+msgid "scheme"
+msgstr "scéim"
+
+msgid "scratch"
+msgstr "scrabh"
+
+msgid "screen"
+msgstr "scáileán"
+
+msgid "screw"
+msgstr "scriú"
+
+msgid "script"
+msgstr "script"
+
+msgid "scroll"
+msgstr "scrollaigh"
+
+# verb
+msgid "search"
+msgstr "cuardaigh"
+
+msgid "section"
+msgstr "rannán"
+
+msgid "sector"
+msgstr "teascóg"
+
+msgid "secure"
+msgstr "slán"
+
+msgid "security"
+msgstr "slándáil"
+
+msgid "seek"
+msgstr "cuardaigh"
+
+msgid "segment"
+msgstr "mírlíne"
+
+msgid "segmentation"
+msgstr "deighilt"
+
+msgid "select"
+msgstr "roghnaigh"
+
+msgid "selection"
+msgstr "roghnúchán"
+
+msgid "semantic"
+msgstr "séimeantach"
+
+msgid "send"
+msgstr "seol"
+
+msgid "sender"
+msgstr "seoltóir"
+
+msgid "sensitive"
+msgstr "íogair"
+
+msgid "sensor"
+msgstr "braiteoir"
+
+msgid "serif"
+msgstr "serif"
+
+msgid "server"
+msgstr "freastalaí"
+
+msgid "session"
+msgstr "seisiún"
+
+# past participle, not noun
+msgid "set"
+msgstr "socraithe"
+
+msgid "settings"
+msgstr "socruithe"
+
+msgid "setup"
+msgstr "socrú"
+
+msgid "shading"
+msgstr "scáthlíniú"
+
+msgid "shadow"
+msgstr "scáth"
+
+msgid "shape"
+msgstr "cruth"
+
+msgid "share"
+msgstr "comhroinn"
+
+msgid "sharp"
+msgstr "géar"
+
+msgid "sheet"
+msgstr "bileog"
+
+msgid "shell"
+msgstr "blaosc"
+
+msgid "shift"
+msgstr "iomlaoid"
+
+msgid "shortcut"
+msgstr "aicearra"
+
+msgid "show"
+msgstr "taispeáin"
+
+msgid "shrink"
+msgstr "laghdaigh"
+
+msgid "shut down"
+msgstr "múch"
+
+msgid "side bar"
+msgstr "barra taoibh"
+
+msgid "sign"
+msgstr "sínigh"
+
+msgid "signal"
+msgstr "comhartha"
+
+msgid "signature"
+msgstr "síniú"
+
+msgid "site"
+msgstr "suíomh"
+
+msgid "size"
+msgstr "méid"
+
+msgid "skew"
+msgstr "sceabha"
+
+msgid "skip"
+msgstr "ná bac leis"
+
+msgid "slave"
+msgstr "sclábhaí"
+
+msgid "sleep"
+msgstr "codail"
+
+# noun
+msgid "slide"
+msgstr "sleamhnán"
+
+msgid "slot"
+msgstr "sliotán"
+
+msgid "smart"
+msgstr "cliste"
+
+msgid "smiley"
+msgstr "straoiseog"
+
+msgid "smooth"
+msgstr "mín"
+
+msgid "socket"
+msgstr "soicéad"
+
+msgid "software"
+msgstr "bogearraí"
+
+msgid "solid"
+msgstr "soladach"
+
+msgid "sort"
+msgstr "sórtáil"
+
+msgid "source"
+msgstr "foinse"
+
+msgid "space"
+msgstr "spás"
+
+msgid "spacing"
+msgstr "spásáil"
+
+msgid "spam"
+msgstr "dramhphost"
+
+msgid "span"
+msgstr ""
+
+msgid "spawn"
+msgstr "sceith"
+
+msgid "specify"
+msgstr "sonraigh"
+
+msgid "speed"
+msgstr "luas"
+
+msgid "spelling"
+msgstr "litriú"
+
+msgid "splash"
+msgstr ""
+
+msgid "split"
+msgstr "roinn"
+
+msgid "spool"
+msgstr "spól"
+
+msgid "spread sheet"
+msgstr "scarbhileog"
+
+msgid "stack"
+msgstr "cruach"
+
+msgid "stand alone"
+msgstr "saorsheasaimh"
+
+# noun
+msgid "standard"
+msgstr "caighdeán"
+
+# verb
+msgid "start"
+msgstr "tosaigh"
+
+# computing, not nation-state
+msgid "state"
+msgstr "staid"
+
+msgid "static"
+msgstr "statach"
+
+msgid "statistics"
+msgstr "staitisticí"
+
+# noun
+msgid "step"
+msgstr "céim"
+
+# verb
+msgid "stop"
+msgstr "stad"
+
+msgid "storage"
+msgstr "stóras"
+
+msgid "store"
+msgstr "stóráil"
+
+msgid "stream"
+msgstr "sruth"
+
+msgid "stretch"
+msgstr "sín"
+
+msgid "strict"
+msgstr "docht"
+
+msgid "string"
+msgstr "teaghrán"
+
+msgid "strip"
+msgstr "struipeáil"
+
+msgid "stroke"
+msgstr "stríoc"
+
+msgid "structure"
+msgstr "struchtúr"
+
+msgid "stub"
+msgstr "smut"
+
+msgid "style"
+msgstr "stíl"
+
+msgid "sub directory"
+msgstr "fochomhadlann"
+
+msgid "sub folder"
+msgstr "fofhillteán"
+
+msgid "submission"
+msgstr "aighneacht"
+
+msgid "submit"
+msgstr "seol"
+
+msgid "subscribe"
+msgstr "liostáil"
+
+msgid "subscription"
+msgstr "síntiús"
+
+msgid "subtract"
+msgstr "dealaigh"
+
+msgid "succeed"
+msgstr ""
+
+msgid "suggest"
+msgstr "mol"
+
+msgid "suggestion"
+msgstr "moladh"
+
+msgid "sum (noun)"
+msgstr "suim"
+
+msgid "sum (verb)"
+msgstr "suimigh"
+
+msgid "summary"
+msgstr "achoimre"
+
+msgid "support"
+msgstr "tacaíocht"
+
+msgid "surface"
+msgstr "dromchla"
+
+msgid "suspend"
+msgstr "cuir ar fionraí"
+
+msgid "suspicious"
+msgstr "amhrasach"
+
+msgid "swap"
+msgstr "babhtáil"
+
+msgid "switch"
+msgstr "lasc"
+
+msgid "symbol"
+msgstr "comhartha"
+
+msgid "synchronize"
+msgstr "sioncrónaigh"
+
+msgid "syntax"
+msgstr "comhréir"
+
+msgid "system"
+msgstr "córas"
+
+# in browser window, not space character (táb)
+msgid "tab"
+msgstr "cluaisín"
+
+msgid "table"
+msgstr "clár"
+
+msgid "tag"
+msgstr "clib"
+
+msgid "target"
+msgstr "sprioc"
+
+msgid "template"
+msgstr "teimpléad"
+
+msgid "temporary"
+msgstr "sealadach"
+
+msgid "terminal"
+msgstr "teirminéal"
+
+msgid "test"
+msgstr "tástáil"
+
+msgid "text"
+msgstr "téacs"
+
+msgid "texture"
+msgstr "uigeacht"
+
+msgid "theme"
+msgstr "téama"
+
+msgid "thread"
+msgstr "snáithe"
+
+msgid "thumbnail"
+msgstr "mionsamhail"
+
+# noun
+msgid "tick"
+msgstr "tic"
+
+# noun
+msgid "tile"
+msgstr "tíl"
+
+msgid "time"
+msgstr "am"
+
+msgid "time out"
+msgstr "teorainn ama"
+
+# = hint
+msgid "tip"
+msgstr "leid"
+
+msgid "title"
+msgstr "teideal"
+
+msgid "toggle"
+msgstr "scoránaigh"
+
+# security only!
+msgid "token"
+msgstr "ceadchomhartha"
+
+msgid "tool"
+msgstr "uirlis"
+
+msgid "tool bar"
+msgstr "barra uirlisí"
+
+msgid "tool box"
+msgstr "bosca uirlisí"
+
+msgid "topic"
+msgstr "ábhar"
+
+msgid "trace"
+msgstr "rianaigh"
+
+msgid "track"
+msgstr "rian"
+
+msgid "traffic"
+msgstr "trácht"
+
+msgid "transfer"
+msgstr "aistrigh"
+
+msgid "transform"
+msgstr "trasfhoirmigh"
+
+msgid "transformation"
+msgstr "trasfhoirmiú"
+
+msgid "trap"
+msgstr "gaiste"
+
+# noun
+msgid "trash"
+msgstr "bruscar"
+
+msgid "trigger"
+msgstr "truicear"
+
+msgid "trouble shoot"
+msgstr "fabhtcheartaigh"
+
+# verb I guess
+msgid "tune"
+msgstr "tiúin"
+
+msgid "tweak"
+msgstr "mionathraigh"
+
+msgid "type (noun)"
+msgstr "cineál"
+
+msgid "type (verb)"
+msgstr "clóscríobh"
+
+msgid "type face"
+msgstr "cló-aghaidh"
+
+msgid "unavailable"
+msgstr "níl ar fáil"
+
+msgid "undelete"
+msgstr "díscrios"
+
+msgid "under line"
+msgstr "cuir líne faoi"
+
+msgid "undo"
+msgstr "cealaigh"
+
+msgid "uninstall"
+msgstr "díshuiteáil"
+
+msgid "unit"
+msgstr "aonad"
+
+msgid "unknown"
+msgstr "anaithnid"
+
+msgid "unload"
+msgstr "díluchtaigh"
+
+msgid "named"
+msgstr "ainmnithe"
+
+msgid "reachable"
+msgstr "insroichte"
+
+msgid "readable"
+msgstr "inléite"
+
+msgid "unspecified"
+msgstr "gan sonrú"
+
+msgid "unsubscribe"
+msgstr "díliostáil"
+
+msgid "unsupported"
+msgstr "gan tacaíocht"
+
+# verb
+msgid "update"
+msgstr "nuashonraigh"
+
+msgid "upgrade"
+msgstr "feabhsaigh"
+
+msgid "upload"
+msgstr "uasluchtaigh"
+
+msgid "upper case"
+msgstr "cás uachtair"
+
+msgid "usage"
+msgstr "úsáid"
+
+msgid "user"
+msgstr "úsáideoir"
+
+msgid "user name"
+msgstr "ainm úsáideora"
+
+msgid "utility"
+msgstr "áirge"
+
+msgid "valid"
+msgstr "bailí"
+
+msgid "validation"
+msgstr "bailíochtú"
+
+msgid "validity"
+msgstr "bailíocht"
+
+msgid "value"
+msgstr "luach"
+
+msgid "variable"
+msgstr "athróg"
+
+msgid "vector"
+msgstr "veicteoir"
+
+msgid "verbose"
+msgstr "foclach"
+
+msgid "verify"
+msgstr "fíoraigh"
+
+msgid "version"
+msgstr "leagan"
+
+# specific video
+msgid "video"
+msgstr "físeán"
+
+msgid "view"
+msgstr "amharc"
+
+msgid "viewer"
+msgstr "breathnóir"
+
+msgid "virtual"
+msgstr "fíorúil"
+
+msgid "virus"
+msgstr "víreas"
+
+msgid "visual"
+msgstr "radharcach"
+
+# loudness
+msgid "volume"
+msgstr "airde"
+
+msgid "wallpaper"
+msgstr "cúlbhrat"
+
+msgid "warn"
+msgstr "tabhair rabhadh"
+
+msgid "web"
+msgstr "gréasán"
+
+msgid "web cam"
+msgstr "ceamara gréasáin"
+
+msgid "web master"
+msgstr "stiúrthóir gréasáin"
+
+msgid "web page"
+msgstr "leathanach gréasáin"
+
+msgid "widget"
+msgstr "giuirléid"
+
+msgid "width"
+msgstr "leithead"
+
+msgid "wi fi"
+msgstr "wifi"
+
+msgid "wild card"
+msgstr "saoróg"
+
+msgid "window"
+msgstr "fuinneog"
+
+msgid "wizard"
+msgstr "treoraí"
+
+msgid "word processor"
+msgstr "próiseálaí focal"
+
+# noun
+msgid "work around"
+msgstr "seift"
+
+msgid "work group"
+msgstr "grúpa oibre"
+
+msgid "work station"
+msgstr "stáisiún oibre"
+
+msgid "wrap"
+msgstr "timfhill"
+
+msgid "yes"
+msgstr "tá"
+
+msgid "zone"
+msgstr "crios"
+
+msgid "zoom"
+msgstr "súmáil"

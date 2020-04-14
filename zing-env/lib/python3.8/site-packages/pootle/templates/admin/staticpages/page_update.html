@@ -1,0 +1,8 @@
+{% extends "admin/staticpages/base_edit.html" %}
+{% load i18n %}
+
+{% block title %}{{ object.title }} | {{ block.super }}{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}<li>{{ object.title }}</li>
+{% endblock %}

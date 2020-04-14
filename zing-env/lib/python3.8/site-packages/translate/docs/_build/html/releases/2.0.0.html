@@ -1,0 +1,381 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Translate Toolkit 2.0.0 &#8212; Translate Toolkit 2.5.0 documentation</title>
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Translate Toolkit 1.13.0" href="1.13.0.html" />
+    <link rel="prev" title="Translate Toolkit 2.1.0" href="2.1.0.html" /> 
+  </head><body>
+  <div id="navbar" class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <a class="brand" href="../index.html">Translate Toolkit</a>
+        <span class="navbar-text pull-left"><b>2.5.0</b></span>
+          <ul class="nav">
+            <li class="divider-vertical"></li>
+            
+              <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html">Converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html#tools">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html#scripts">Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formats/index.html">Supported formats</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developers/styleguide.html">Translate Styleguide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/styleguide.html#documentation">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/building.html">Building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/testing.html#command-line-functional-testing">Command Line Functional Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/developers.html">Translate Toolkit Developers Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/releasing.html">Making a Translate Toolkit Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/deprecation.html">Deprecation of Features</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History of the Translate Toolkit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API</a></li>
+</ul>
+</ul>
+</li>
+              
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"><ul>
+<li><a class="reference internal" href="#">Translate Toolkit 2.0.0</a><ul>
+<li><a class="reference internal" href="#major-changes">Major changes</a></li>
+<li><a class="reference internal" href="#detailed-changes">Detailed changes</a><ul>
+<li><a class="reference internal" href="#python-3-support">Python 3 support</a></li>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+<li><a class="reference internal" href="#formats-and-converters">Formats and Converters</a></li>
+<li><a class="reference internal" href="#filters-and-checks">Filters and Checks</a></li>
+<li><a class="reference internal" href="#tools">Tools</a></li>
+<li><a class="reference internal" href="#languages">Languages</a></li>
+<li><a class="reference internal" href="#setup">Setup</a></li>
+<li><a class="reference internal" href="#api-changes">API changes</a></li>
+<li><a class="reference internal" href="#api-deprecation">API deprecation</a></li>
+<li><a class="reference internal" href="#general">General</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#contributors">Contributors</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+            
+            
+              
+  <li><a href="2.1.0.html"
+         title="previous chapter">&laquo; Translate Toolkit 2.1.0</a></li>
+  <li><a href="1.13.0.html"
+         title="next chapter">Translate Toolkit 1.13.0 &raquo;</a></li>
+            
+          </ul>
+          <ul class="nav pull-right">
+            
+              
+            
+          
+            
+<form class="navbar-search pull-right" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="container content">
+   
+  <div class="section" id="translate-toolkit-2-0-0">
+<h1>Translate Toolkit 2.0.0<a class="headerlink" href="#translate-toolkit-2-0-0" title="Permalink to this headline">¶</a></h1>
+<p><em>Released on 27 January 2017</em></p>
+<p>This release contains many improvements and bug fixes. While it contains many
+general improvements, it also specifically contains needed changes and
+optimizations for the upcoming <a class="reference external" href="http://pootle.translatehouse.org/">Pootle</a>
+2.8.0 and <a class="reference external" href="http://virtaal.translatehouse.org">Virtaal</a> releases.</p>
+<div class="section" id="major-changes">
+<h2>Major changes<a class="headerlink" href="#major-changes" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Python 3 compatibility thanks to Claude Paroz</li>
+<li>Dropped support for Python 2.6</li>
+<li>Support for new l20n format</li>
+<li>Translate Toolkit can now easily be installed on Windows</li>
+<li>Changes in storage API to expose a more standardized API</li>
+</ul>
+</div>
+<div class="section" id="detailed-changes">
+<h2>Detailed changes<a class="headerlink" href="#detailed-changes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="python-3-support">
+<h3>Python 3 support<a class="headerlink" href="#python-3-support" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Translate Toolkit went through a massive code cleanup looking forward Python
+3 compatibility. There might be quirks that need to be fixed, so please test
+and <a class="reference external" href="https://github.com/translate/translate/issues/new">report any issue</a>
+you might find.</li>
+<li>Python 3.3-3.5 is now supported.</li>
+</ul>
+</div>
+<div class="section" id="requirements">
+<h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">lxml</span></code> requirement was raised to 3.5.0 in order to simplify code.</li>
+<li>Updated and pinned requirements</li>
+<li>Removed misleading extra requirements files</li>
+</ul>
+</div>
+<div class="section" id="formats-and-converters">
+<h3>Formats and Converters<a class="headerlink" href="#formats-and-converters" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>PO<ul>
+<li>msgid comments (KDE style) are only parsed from msgid now.</li>
+<li>Fixed parsing of PO files with first entry in unicode</li>
+<li>Fixed parsing of locations with percent char</li>
+</ul>
+</li>
+<li>XLIFF<ul>
+<li>Unaccepted ASCII control characters are now escaped in XLIFF</li>
+</ul>
+</li>
+<li>DTD<ul>
+<li>Newlines are now skipped when parsing (<a class="reference external" href="https://github.com/translate/translate/issues/3390">issue 3390</a>).</li>
+<li>Invalid ampersands are not scrubbed anymore.</li>
+<li>label+accesskey is now only extracted if it is not followed by space.</li>
+</ul>
+</li>
+<li>Properties<ul>
+<li>Keys can contain delimiters if they are properly wrapped (<a class="reference external" href="https://github.com/translate/translate/issues/3275">issue 3275</a>).</li>
+<li>Fix control characters escaping for utf-8 encoding.</li>
+<li><a class="reference internal" href="../commands/prop2po.html#po2prop"><span class="std std-ref">po2prop</span></a> removes fully untranslated units if
+required</li>
+<li><a class="reference internal" href="../commands/prop2po.html#po2prop"><span class="std std-ref">po2prop</span></a> skips first entry in PO file (<a class="reference external" href="https://github.com/translate/translate/issues/3463">issue 3463</a>)</li>
+</ul>
+</li>
+<li>Mozilla .lang<ul>
+<li><code class="docutils literal notranslate"><span class="pre">{ok}</span></code> marker is now more cleanly removed</li>
+<li>Always output last unit followed by trailing newlines</li>
+<li>Added support for headers and tag comments</li>
+<li><code class="docutils literal notranslate"><span class="pre">MAX_LENGTH</span></code> is now parsed into comment</li>
+<li>File line endings are now remembered, defaulting to Unix LF</li>
+</ul>
+</li>
+<li>Mozilla’s l20n<ul>
+<li>Added this new format storage class</li>
+<li>Added variants and traits support</li>
+<li>Added new converters <a class="reference internal" href="../commands/l20n2po.html"><span class="doc">l20n2po</span></a> and
+<a class="reference internal" href="../commands/l20n2po.html#po2l20n"><span class="std std-ref">po2l20n</span></a></li>
+</ul>
+</li>
+<li>Android<ul>
+<li>Unknown locales no longer produce failures.</li>
+<li>Simplify newlines handling as the format now handles n and newline equally
+(<a class="reference external" href="https://github.com/translate/translate/issues/3262">issue 3262</a>)</li>
+<li>Moved all namespaces to &lt;resources&gt; element.</li>
+<li>Simplified newlines handling</li>
+</ul>
+</li>
+<li>ODF<ul>
+<li><a class="reference internal" href="../commands/odf2xliff.html"><span class="doc">odf2xliff</span></a> now extracts all the text
+(<a class="reference external" href="https://github.com/translate/translate/issues/3239">issue 3239</a>).</li>
+</ul>
+</li>
+<li>ts<ul>
+<li>XML declaration is written with double quotes.</li>
+<li>Self-closing for ‘location’ elements are not output anymore.</li>
+</ul>
+</li>
+<li>JSON<ul>
+<li>Output now includes a trailing newline.</li>
+<li>Unit ordering is maintained (<a class="reference external" href="https://github.com/translate/translate/issues/3394">issue 3394</a>).</li>
+<li>Added <code class="docutils literal notranslate"><span class="pre">--removeuntranslated</span></code> option to <a class="reference internal" href="../commands/json2po.html"><span class="doc">po2json</span></a></li>
+</ul>
+</li>
+<li>YAML<ul>
+<li>YAML format support has been added.</li>
+</ul>
+</li>
+<li>txt<ul>
+<li><a class="reference internal" href="../commands/txt2po.html"><span class="doc">po2txt</span></a> works correctly again when <code class="docutils literal notranslate"><span class="pre">--threshold</span></code>
+option is passed (<a class="reference external" href="https://github.com/translate/translate/issues/3499">issue 3499</a>)</li>
+</ul>
+</li>
+<li>ical<ul>
+<li>Enabled this format for Python 3 too.</li>
+</ul>
+</li>
+<li>TermBase eXchange (TBX)<ul>
+<li><a class="reference internal" href="../commands/tbx2po.html"><span class="doc">tbx2po</span></a> converter added</li>
+<li>Added basic support for Parts of Speech and term definitions.</li>
+</ul>
+</li>
+<li>Fixed error when writing back to the same file (<a class="reference external" href="https://github.com/translate/translate/issues/3419">issue 3419</a>).</li>
+</ul>
+</div>
+<div class="section" id="filters-and-checks">
+<h3>Filters and Checks<a class="headerlink" href="#filters-and-checks" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Added the ability to skip some checks for some languages in specific checkers</li>
+<li><code class="docutils literal notranslate"><span class="pre">accelerators</span></code> check reports an error if accelerator is present for several
+Indic languages in <code class="docutils literal notranslate"><span class="pre">MozillaChecker</span></code> checker.</li>
+<li>Added <code class="docutils literal notranslate"><span class="pre">l20nChecker</span></code> to do custom checking for Mozilla’s new l20n format.</li>
+<li>LibreOffice checker no longer checks for Python brace format (<a class="reference external" href="https://github.com/translate/translate/issues/3303">issue 3303</a>).</li>
+<li>LibreOffice validxml check correctly matches self-closing tags.</li>
+<li>Numbers check now handles non latin numbers. Support for non latin numbers
+has been added for Arabic, Assamese, Bengali and Persian languages.</li>
+<li>Fixed issue that prevented standard checks from being used in Pootle with
+default settings.</li>
+<li>Fixed missing attribute warning displayed when using <code class="docutils literal notranslate"><span class="pre">GnomeChecker</span></code>,
+<code class="docutils literal notranslate"><span class="pre">LibreOfficeChecker</span></code> and <code class="docutils literal notranslate"><span class="pre">MozillaChecker</span></code> checkers.</li>
+<li>Added language specific <code class="docutils literal notranslate"><span class="pre">RomanianChecker</span></code>.</li>
+</ul>
+</div>
+<div class="section" id="tools">
+<h3>Tools<a class="headerlink" href="#tools" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference internal" href="../commands/posegment.html"><span class="doc">posegment</span></a> now correctly segments Japanese
+strings with half width punctuation sign (<a class="reference external" href="https://github.com/translate/translate/issues/3280">issue 3280</a>).</li>
+<li><a class="reference internal" href="../commands/pocount.html"><span class="doc">pocount</span></a> now outputs csv header in one line. It
+also outputs using color.</li>
+<li><code class="docutils literal notranslate"><span class="pre">buildxpi</span></code> was adjusted to current Mozilla needs</li>
+</ul>
+</div>
+<div class="section" id="languages">
+<h3>Languages<a class="headerlink" href="#languages" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed plural form for Montenegro, Macedonian, Songhay, Tajik, Slovenian and
+Turkish.</li>
+<li>Added plural forms for Bengali (Bangladesh), Konkani, Kashmiri, Sanskrit,
+Silesian and Yue (Cantonese).</li>
+<li>Added valid accelerators for Polish.</li>
+<li>Renamed Oriya to Odia.</li>
+<li>Altered Manipuri name to include its most common name Meithei.</li>
+<li>Added language settings for Brazilian Portuguese.</li>
+<li>Added Danish valid accelerators characters (<a class="reference external" href="https://github.com/translate/translate/issues/3487">issue 3487</a>).</li>
+<li>Added additional special characters for Scottish Gaelic.</li>
+</ul>
+</div>
+<div class="section" id="setup">
+<h3>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed Inno Setup builds allowing to easily install Translate Toolkit on
+Windows using the <code class="docutils literal notranslate"><span class="pre">pip</span></code> installer. Commands are compiled to .exe files.</li>
+<li>Updated installation instructions for Windows</li>
+</ul>
+</div>
+<div class="section" id="api-changes">
+<h3>API changes<a class="headerlink" href="#api-changes" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Dropped <code class="docutils literal notranslate"><span class="pre">translate.misc.dictutils.ordereddict</span></code> in favor of
+<code class="docutils literal notranslate"><span class="pre">collections.OrderedDict</span></code>.</li>
+<li>Added encoding handling in base <code class="docutils literal notranslate"><span class="pre">TranslationStore</span></code> class exposing a single
+API.</li>
+<li>Encoding detection in <code class="docutils literal notranslate"><span class="pre">TranslationStore</span></code> has been improved.</li>
+<li>Standardized UnitClass definition across <code class="docutils literal notranslate"><span class="pre">TranslationStore</span></code> subclasses.</li>
+<li><code class="docutils literal notranslate"><span class="pre">translate.misc.multistring.multistring</span></code>:<ul>
+<li>Fixed list coercion to text</li>
+<li>Fixed comparison regression with multistrings (<a class="reference external" href="https://github.com/translate/translate/issues/3404">issue 3404</a>).</li>
+<li>Re-added <code class="docutils literal notranslate"><span class="pre">str</span></code> method (<a class="reference external" href="https://github.com/translate/translate/issues/3428">issue 3428</a>).</li>
+<li>Fixed <code class="docutils literal notranslate"><span class="pre">__hash__</span></code> (<a class="reference external" href="https://github.com/translate/translate/issues/3434">issue 3434</a>).</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="api-deprecation">
+<h3>API deprecation<a class="headerlink" href="#api-deprecation" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Passing non-ASCII bytes to the <code class="docutils literal notranslate"><span class="pre">multistring</span></code> class has been deprecated, as
+well as the <code class="docutils literal notranslate"><span class="pre">encoding</span></code> argument to it.
+Applications should always construct <code class="docutils literal notranslate"><span class="pre">multistring</span></code> objects by passing
+characters (<code class="docutils literal notranslate"><span class="pre">unicode</span></code> in Python 2, <code class="docutils literal notranslate"><span class="pre">str</span></code> in Python 3), not bytes. Support
+for passing non-ASCII bytes will be removed in the next version.</li>
+<li><code class="docutils literal notranslate"><span class="pre">TxtFile.getoutput()</span></code> and <code class="docutils literal notranslate"><span class="pre">dtdfile.getoutput()</span></code> have been deprecated.
+Either call <code class="docutils literal notranslate"><span class="pre">bytes(&lt;file_instance&gt;)</span></code> or use the
+<code class="docutils literal notranslate"><span class="pre">file_instance.serialize()</span></code> API if you need to get the serialized store
+content of a <code class="docutils literal notranslate"><span class="pre">TxtFile</span></code> or <code class="docutils literal notranslate"><span class="pre">dtdfile</span></code> instance.</li>
+</ul>
+</div>
+<div class="section" id="general">
+<h3>General<a class="headerlink" href="#general" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Dropped support for Python 2.6 since it is no longer supported by the Python
+Foundation. Sticking to it was making us difficult to maintain code while we
+move to Python 3.</li>
+<li>Misc docs cleanups.</li>
+<li>Added more tests.</li>
+<li>Increased Python code health.</li>
+<li>Legacy, deprecated and unused code cleansing:<ul>
+<li>Dropped code for no longer supported Python versions.</li>
+<li>Removed unused code from various places across codebase.</li>
+<li>The legacy <code class="docutils literal notranslate"><span class="pre">translate.search.indexing.PyLuceneIndexer1</span></code> was removed.</li>
+<li>The deprecated <code class="docutils literal notranslate"><span class="pre">translate.storage.properties.find_delimiter()</span></code> was
+removed and replaced by the
+<code class="docutils literal notranslate"><span class="pre">translate.storage.properties.Dialect.find_delimiter()</span></code> class method.</li>
+<li>Python scripts are now available via <cite>console_scripts</cite> entry point, thus
+allowing to drop dummy files for exposing the scripts.</li>
+</ul>
+</li>
+</ul>
+<p>…and loads of general code cleanups and of course many many bugfixes.</p>
+</div>
+</div>
+<div class="section" id="contributors">
+<h2>Contributors<a class="headerlink" href="#contributors" title="Permalink to this headline">¶</a></h2>
+<p>This release was made possible by the following people:</p>
+<p>Claude Paroz, Leandro Regueiro, Dwayne Bailey, Michal Čihař, Taras Semenenko,
+Ryan Northey, Stuart Prescott, Kai Pastor, Julen Ruiz Aizpuru, Friedel Wolff,
+Hiroshi Miura, Thorbjørn Lindeijer, Melvi Ts, Jobava, Jerome Leclanche, Jakub
+Wilk, Adhika Setya Pramudita, Zibi Braniecki, Zdenek Juran, Yann Diorcet, Nick
+Shaforostoff, Jaka Kranjc, Christian Lohmaier, beernarrd.</p>
+<p>And to all our bug finders and testers, a Very BIG Thank You.</p>
+</div>
+</div>
+
+
+</div>
+<hr>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right"><a href="#">Back to top ↑</a></p>
+    <ul class="unstyled muted">
+      <li><small>
+        &copy; 2002-2020, Translate.<br/>
+      </small></li>
+      <li><small>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </small></li>
+    </ul>
+  </div>
+</footer>
+  </body>
+</html>

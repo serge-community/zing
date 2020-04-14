@@ -1,0 +1,1372 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>misc &#8212; Translate Toolkit 2.5.0 documentation</title>
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="search" href="search.html" />
+    <link rel="prev" title="lang" href="lang.html" /> 
+  </head><body>
+  <div id="navbar" class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <a class="brand" href="../index.html">Translate Toolkit</a>
+        <span class="navbar-text pull-left"><b>2.5.0</b></span>
+          <ul class="nav">
+            <li class="divider-vertical"></li>
+            
+              <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html">Converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html#tools">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html#scripts">Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formats/index.html">Supported formats</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developers/styleguide.html">Translate Styleguide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/styleguide.html#documentation">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/building.html">Building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/testing.html#command-line-functional-testing">Command Line Functional Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/developers.html">Translate Toolkit Developers Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/releasing.html">Making a Translate Toolkit Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/deprecation.html">Deprecation of Features</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../releases/index.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History of the Translate Toolkit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API</a></li>
+</ul>
+</ul>
+</li>
+              
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"><ul>
+<li><a class="reference internal" href="#">misc</a><ul>
+<li><a class="reference internal" href="#module-translate.misc.dictutils">dictutils</a></li>
+<li><a class="reference internal" href="#module-translate.misc.file_discovery">file_discovery</a></li>
+<li><a class="reference internal" href="#module-translate.misc.lru">lru</a></li>
+<li><a class="reference internal" href="#module-translate.misc.multistring">multistring</a></li>
+<li><a class="reference internal" href="#module-translate.misc.optrecurse">optrecurse</a></li>
+<li><a class="reference internal" href="#module-translate.misc.ourdom">ourdom</a></li>
+<li><a class="reference internal" href="#module-translate.misc.progressbar">progressbar</a></li>
+<li><a class="reference internal" href="#module-translate.misc.quote">quote</a></li>
+<li><a class="reference internal" href="#module-translate.misc.wsgi">wsgi</a></li>
+<li><a class="reference internal" href="#module-translate.misc.wStringIO">wStringIO</a></li>
+<li><a class="reference internal" href="#module-translate.misc.xml_helpers">xml_helpers</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+            
+            
+              
+  <li><a href="lang.html"
+         title="previous chapter">&laquo; lang</a></li>
+  <li><a href="search.html"
+         title="next chapter">search &raquo;</a></li>
+            
+          </ul>
+          <ul class="nav pull-right">
+            
+              
+            
+          
+            
+<form class="navbar-search pull-right" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="container content">
+   
+  <div class="section" id="module-translate.misc">
+<span id="misc"></span><h1>misc<a class="headerlink" href="#module-translate.misc" title="Permalink to this headline">¶</a></h1>
+<p>Miscellaneous modules for translate - including modules for backward
+compatibility with pre-2.3 versions of Python</p>
+<div class="section" id="module-translate.misc.dictutils">
+<span id="dictutils"></span><h2>dictutils<a class="headerlink" href="#module-translate.misc.dictutils" title="Permalink to this headline">¶</a></h2>
+<p>Implements a case-insensitive (on keys) dictionary and order-sensitive
+dictionary</p>
+<dl class="class">
+<dt id="translate.misc.dictutils.cidict">
+<em class="property">class </em><code class="descclassname">translate.misc.dictutils.</code><code class="descname">cidict</code><span class="sig-paren">(</span><em>fromdict=None</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.dictutils.cidict" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="translate.misc.dictutils.cidict.clear">
+<code class="descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None.  Remove all items from D.<a class="headerlink" href="#translate.misc.dictutils.cidict.clear" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.dictutils.cidict.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; a shallow copy of D<a class="headerlink" href="#translate.misc.dictutils.cidict.copy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.dictutils.cidict.fromkeys">
+<code class="descname">fromkeys</code><span class="sig-paren">(</span><em>S</em><span class="optional">[</span>, <em>v</em><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; New dict with keys from S and values equal to v.<a class="headerlink" href="#translate.misc.dictutils.cidict.fromkeys" title="Permalink to this definition">¶</a></dt>
+<dd><p>v defaults to None.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.dictutils.cidict.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>k</em><span class="optional">[</span>, <em>d</em><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; D[k] if k in D, else d.  d defaults to None.<a class="headerlink" href="#translate.misc.dictutils.cidict.get" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.dictutils.cidict.has_key">
+<code class="descname">has_key</code><span class="sig-paren">(</span><em>k</em><span class="sig-paren">)</span> &#x2192; True if D has a key k, else False<a class="headerlink" href="#translate.misc.dictutils.cidict.has_key" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.dictutils.cidict.items">
+<code class="descname">items</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; list of D's (key, value) pairs, as 2-tuples<a class="headerlink" href="#translate.misc.dictutils.cidict.items" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.dictutils.cidict.iteritems">
+<code class="descname">iteritems</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; an iterator over the (key, value) items of D<a class="headerlink" href="#translate.misc.dictutils.cidict.iteritems" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.dictutils.cidict.iterkeys">
+<code class="descname">iterkeys</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; an iterator over the keys of D<a class="headerlink" href="#translate.misc.dictutils.cidict.iterkeys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.dictutils.cidict.itervalues">
+<code class="descname">itervalues</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; an iterator over the values of D<a class="headerlink" href="#translate.misc.dictutils.cidict.itervalues" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.dictutils.cidict.keys">
+<code class="descname">keys</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; list of D's keys<a class="headerlink" href="#translate.misc.dictutils.cidict.keys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.dictutils.cidict.pop">
+<code class="descname">pop</code><span class="sig-paren">(</span><em>k</em><span class="optional">[</span>, <em>d</em><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; v, remove specified key and return the corresponding value.<a class="headerlink" href="#translate.misc.dictutils.cidict.pop" title="Permalink to this definition">¶</a></dt>
+<dd><p>If key is not found, d is returned if given, otherwise KeyError is raised</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.dictutils.cidict.popitem">
+<code class="descname">popitem</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; (k, v), remove and return some (key, value) pair as a<a class="headerlink" href="#translate.misc.dictutils.cidict.popitem" title="Permalink to this definition">¶</a></dt>
+<dd><p>2-tuple; but raise KeyError if D is empty.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.dictutils.cidict.setdefault">
+<code class="descname">setdefault</code><span class="sig-paren">(</span><em>k</em><span class="optional">[</span>, <em>d</em><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; D.get(k,d), also set D[k]=d if k not in D<a class="headerlink" href="#translate.misc.dictutils.cidict.setdefault" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.dictutils.cidict.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>E</em><span class="sig-paren">)</span> &#x2192; None.<a class="headerlink" href="#translate.misc.dictutils.cidict.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update D from E: for k in E.keys(): D[k] = E[k]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.dictutils.cidict.values">
+<code class="descname">values</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; list of D's values<a class="headerlink" href="#translate.misc.dictutils.cidict.values" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.dictutils.cidict.viewitems">
+<code class="descname">viewitems</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; a set-like object providing a view on D's items<a class="headerlink" href="#translate.misc.dictutils.cidict.viewitems" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.dictutils.cidict.viewkeys">
+<code class="descname">viewkeys</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; a set-like object providing a view on D's keys<a class="headerlink" href="#translate.misc.dictutils.cidict.viewkeys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.dictutils.cidict.viewvalues">
+<code class="descname">viewvalues</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; an object providing a view on D's values<a class="headerlink" href="#translate.misc.dictutils.cidict.viewvalues" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-translate.misc.file_discovery">
+<span id="file-discovery"></span><h2>file_discovery<a class="headerlink" href="#module-translate.misc.file_discovery" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="translate.misc.file_discovery.get_abs_data_filename">
+<code class="descclassname">translate.misc.file_discovery.</code><code class="descname">get_abs_data_filename</code><span class="sig-paren">(</span><em>path_parts</em>, <em>basedirs=None</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.file_discovery.get_abs_data_filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the absolute path to the given file- or directory name in the
+current running application’s data directory.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path_parts</strong> (<em>list</em>) – The path parts that can be joined by <code class="docutils literal notranslate"><span class="pre">os.path.join()</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-translate.misc.lru">
+<span id="lru"></span><h2>lru<a class="headerlink" href="#module-translate.misc.lru" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="translate.misc.lru.LRUCachingDict">
+<em class="property">class </em><code class="descclassname">translate.misc.lru.</code><code class="descname">LRUCachingDict</code><span class="sig-paren">(</span><em>maxsize</em>, <em>cullsize=2</em>, <em>peakmult=10</em>, <em>aggressive_gc=True</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.lru.LRUCachingDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Caching dictionary like object that discards the least recently
+used objects when number of cached items exceeds maxsize.</p>
+<p>cullsize is the fraction of items that will be discarded when
+maxsize is reached.</p>
+<dl class="method">
+<dt id="translate.misc.lru.LRUCachingDict.cull">
+<code class="descname">cull</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.lru.LRUCachingDict.cull" title="Permalink to this definition">¶</a></dt>
+<dd><p>free memory by deleting old items from cache</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.lru.LRUCachingDict.itervaluerefs">
+<code class="descname">itervaluerefs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.lru.LRUCachingDict.itervaluerefs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an iterator that yields the weak references to the values.</p>
+<p>The references are not guaranteed to be ‘live’ at the time
+they are used, so the result of calling the references needs
+to be checked before being used.  This can be used to avoid
+creating references that will cause the garbage collector to
+keep the values around longer than needed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.lru.LRUCachingDict.valuerefs">
+<code class="descname">valuerefs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.lru.LRUCachingDict.valuerefs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of weak references to the values.</p>
+<p>The references are not guaranteed to be ‘live’ at the time
+they are used, so the result of calling the references needs
+to be checked before being used.  This can be used to avoid
+creating references that will cause the garbage collector to
+keep the values around longer than needed.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-translate.misc.multistring">
+<span id="multistring"></span><h2>multistring<a class="headerlink" href="#module-translate.misc.multistring" title="Permalink to this headline">¶</a></h2>
+<p>Supports a hybrid Unicode string that can also have a list of alternate
+strings in the strings attribute</p>
+<dl class="class">
+<dt id="translate.misc.multistring.multistring">
+<em class="property">class </em><code class="descclassname">translate.misc.multistring.</code><code class="descname">multistring</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.multistring.multistring" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="translate.misc.multistring.multistring.capitalize">
+<code class="descname">capitalize</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; unicode<a class="headerlink" href="#translate.misc.multistring.multistring.capitalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a capitalized version of S, i.e. make the first character
+have upper case and the rest lower case.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.center">
+<code class="descname">center</code><span class="sig-paren">(</span><em>width</em><span class="optional">[</span>, <em>fillchar</em><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; unicode<a class="headerlink" href="#translate.misc.multistring.multistring.center" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return S centered in a Unicode string of length width. Padding is
+done using the specified fill character (default is a space)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.count">
+<code class="descname">count</code><span class="sig-paren">(</span><em>sub</em><span class="optional">[</span>, <em>start</em><span class="optional">[</span>, <em>end</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#translate.misc.multistring.multistring.count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the number of non-overlapping occurrences of substring sub in
+Unicode string S[start:end].  Optional arguments start and end are
+interpreted as in slice notation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.decode">
+<code class="descname">decode</code><span class="sig-paren">(</span><span class="optional">[</span><em>encoding</em><span class="optional">[</span>, <em>errors</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; string or unicode<a class="headerlink" href="#translate.misc.multistring.multistring.decode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decodes S using the codec registered for encoding. encoding defaults
+to the default encoding. errors may be given to set a different error
+handling scheme. Default is ‘strict’ meaning that encoding errors raise
+a UnicodeDecodeError. Other possible values are ‘ignore’ and ‘replace’
+as well as any other name registered with codecs.register_error that is
+able to handle UnicodeDecodeErrors.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.encode">
+<code class="descname">encode</code><span class="sig-paren">(</span><span class="optional">[</span><em>encoding</em><span class="optional">[</span>, <em>errors</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; string or unicode<a class="headerlink" href="#translate.misc.multistring.multistring.encode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encodes S using the codec registered for encoding. encoding defaults
+to the default encoding. errors may be given to set a different error
+handling scheme. Default is ‘strict’ meaning that encoding errors raise
+a UnicodeEncodeError. Other possible values are ‘ignore’, ‘replace’ and
+‘xmlcharrefreplace’ as well as any other name registered with
+codecs.register_error that can handle UnicodeEncodeErrors.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.endswith">
+<code class="descname">endswith</code><span class="sig-paren">(</span><em>suffix</em><span class="optional">[</span>, <em>start</em><span class="optional">[</span>, <em>end</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#translate.misc.multistring.multistring.endswith" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if S ends with the specified suffix, False otherwise.
+With optional start, test S beginning at that position.
+With optional end, stop comparing S at that position.
+suffix can also be a tuple of strings to try.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.expandtabs">
+<code class="descname">expandtabs</code><span class="sig-paren">(</span><span class="optional">[</span><em>tabsize</em><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; unicode<a class="headerlink" href="#translate.misc.multistring.multistring.expandtabs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a copy of S where all tab characters are expanded using spaces.
+If tabsize is not given, a tab size of 8 characters is assumed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.find">
+<code class="descname">find</code><span class="sig-paren">(</span><em>sub</em><span class="optional">[</span>, <em>start</em><span class="optional">[</span>, <em>end</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#translate.misc.multistring.multistring.find" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the lowest index in S where substring sub is found,
+such that sub is contained within S[start:end].  Optional
+arguments start and end are interpreted as in slice notation.</p>
+<p>Return -1 on failure.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.format">
+<code class="descname">format</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; unicode<a class="headerlink" href="#translate.misc.multistring.multistring.format" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a formatted version of S, using substitutions from args and kwargs.
+The substitutions are identified by braces (‘{‘ and ‘}’).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.index">
+<code class="descname">index</code><span class="sig-paren">(</span><em>sub</em><span class="optional">[</span>, <em>start</em><span class="optional">[</span>, <em>end</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#translate.misc.multistring.multistring.index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Like S.find() but raise ValueError when the substring is not found.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.isalnum">
+<code class="descname">isalnum</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#translate.misc.multistring.multistring.isalnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if all characters in S are alphanumeric
+and there is at least one character in S, False otherwise.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.isalpha">
+<code class="descname">isalpha</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#translate.misc.multistring.multistring.isalpha" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if all characters in S are alphabetic
+and there is at least one character in S, False otherwise.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.isdecimal">
+<code class="descname">isdecimal</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#translate.misc.multistring.multistring.isdecimal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if there are only decimal characters in S,
+False otherwise.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.isdigit">
+<code class="descname">isdigit</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#translate.misc.multistring.multistring.isdigit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if all characters in S are digits
+and there is at least one character in S, False otherwise.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.islower">
+<code class="descname">islower</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#translate.misc.multistring.multistring.islower" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if all cased characters in S are lowercase and there is
+at least one cased character in S, False otherwise.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.isnumeric">
+<code class="descname">isnumeric</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#translate.misc.multistring.multistring.isnumeric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if there are only numeric characters in S,
+False otherwise.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.isspace">
+<code class="descname">isspace</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#translate.misc.multistring.multistring.isspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if all characters in S are whitespace
+and there is at least one character in S, False otherwise.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.istitle">
+<code class="descname">istitle</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#translate.misc.multistring.multistring.istitle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if S is a titlecased string and there is at least one
+character in S, i.e. upper- and titlecase characters may only
+follow uncased characters and lowercase characters only cased ones.
+Return False otherwise.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.isupper">
+<code class="descname">isupper</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#translate.misc.multistring.multistring.isupper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if all cased characters in S are uppercase and there is
+at least one cased character in S, False otherwise.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.join">
+<code class="descname">join</code><span class="sig-paren">(</span><em>iterable</em><span class="sig-paren">)</span> &#x2192; unicode<a class="headerlink" href="#translate.misc.multistring.multistring.join" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a string which is the concatenation of the strings in the
+iterable.  The separator between elements is S.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.ljust">
+<code class="descname">ljust</code><span class="sig-paren">(</span><em>width</em><span class="optional">[</span>, <em>fillchar</em><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#translate.misc.multistring.multistring.ljust" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return S left-justified in a Unicode string of length width. Padding is
+done using the specified fill character (default is a space).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.lower">
+<code class="descname">lower</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; unicode<a class="headerlink" href="#translate.misc.multistring.multistring.lower" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a copy of the string S converted to lowercase.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.lstrip">
+<code class="descname">lstrip</code><span class="sig-paren">(</span><span class="optional">[</span><em>chars</em><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; unicode<a class="headerlink" href="#translate.misc.multistring.multistring.lstrip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a copy of the string S with leading whitespace removed.
+If chars is given and not None, remove characters in chars instead.
+If chars is a str, it will be converted to unicode before stripping</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.partition">
+<code class="descname">partition</code><span class="sig-paren">(</span><em>sep) -&gt; (head</em>, <em>sep</em>, <em>tail</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.multistring.multistring.partition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search for the separator sep in S, and return the part before it,
+the separator itself, and the part after it.  If the separator is not
+found, return S and two empty strings.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.replace">
+<code class="descname">replace</code><span class="sig-paren">(</span><em>old</em>, <em>new</em><span class="optional">[</span>, <em>count</em><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; unicode<a class="headerlink" href="#translate.misc.multistring.multistring.replace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a copy of S with all occurrences of substring
+old replaced by new.  If the optional argument count is
+given, only the first count occurrences are replaced.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.rfind">
+<code class="descname">rfind</code><span class="sig-paren">(</span><em>sub</em><span class="optional">[</span>, <em>start</em><span class="optional">[</span>, <em>end</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#translate.misc.multistring.multistring.rfind" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the highest index in S where substring sub is found,
+such that sub is contained within S[start:end].  Optional
+arguments start and end are interpreted as in slice notation.</p>
+<p>Return -1 on failure.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.rindex">
+<code class="descname">rindex</code><span class="sig-paren">(</span><em>sub</em><span class="optional">[</span>, <em>start</em><span class="optional">[</span>, <em>end</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#translate.misc.multistring.multistring.rindex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Like S.rfind() but raise ValueError when the substring is not found.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.rjust">
+<code class="descname">rjust</code><span class="sig-paren">(</span><em>width</em><span class="optional">[</span>, <em>fillchar</em><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; unicode<a class="headerlink" href="#translate.misc.multistring.multistring.rjust" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return S right-justified in a Unicode string of length width. Padding is
+done using the specified fill character (default is a space).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.rpartition">
+<code class="descname">rpartition</code><span class="sig-paren">(</span><em>sep) -&gt; (head</em>, <em>sep</em>, <em>tail</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.multistring.multistring.rpartition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search for the separator sep in S, starting at the end of S, and return
+the part before it, the separator itself, and the part after it.  If the
+separator is not found, return two empty strings and S.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.rsplit">
+<code class="descname">rsplit</code><span class="sig-paren">(</span><span class="optional">[</span><em>sep</em><span class="optional">[</span>, <em>maxsplit</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; list of strings<a class="headerlink" href="#translate.misc.multistring.multistring.rsplit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of the words in S, using sep as the
+delimiter string, starting at the end of the string and
+working to the front.  If maxsplit is given, at most maxsplit
+splits are done. If sep is not specified, any whitespace string
+is a separator.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.rstrip">
+<code class="descname">rstrip</code><span class="sig-paren">(</span><span class="optional">[</span><em>chars</em><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; unicode<a class="headerlink" href="#translate.misc.multistring.multistring.rstrip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a copy of the string S with trailing whitespace removed.
+If chars is given and not None, remove characters in chars instead.
+If chars is a str, it will be converted to unicode before stripping</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.split">
+<code class="descname">split</code><span class="sig-paren">(</span><span class="optional">[</span><em>sep</em><span class="optional">[</span>, <em>maxsplit</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; list of strings<a class="headerlink" href="#translate.misc.multistring.multistring.split" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of the words in S, using sep as the
+delimiter string.  If maxsplit is given, at most maxsplit
+splits are done. If sep is not specified or is None, any
+whitespace string is a separator and empty strings are
+removed from the result.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.splitlines">
+<code class="descname">splitlines</code><span class="sig-paren">(</span><em>keepends=False</em><span class="sig-paren">)</span> &#x2192; list of strings<a class="headerlink" href="#translate.misc.multistring.multistring.splitlines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of the lines in S, breaking at line boundaries.
+Line breaks are not included in the resulting list unless keepends
+is given and true.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.startswith">
+<code class="descname">startswith</code><span class="sig-paren">(</span><em>prefix</em><span class="optional">[</span>, <em>start</em><span class="optional">[</span>, <em>end</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#translate.misc.multistring.multistring.startswith" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if S starts with the specified prefix, False otherwise.
+With optional start, test S beginning at that position.
+With optional end, stop comparing S at that position.
+prefix can also be a tuple of strings to try.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.strip">
+<code class="descname">strip</code><span class="sig-paren">(</span><span class="optional">[</span><em>chars</em><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; unicode<a class="headerlink" href="#translate.misc.multistring.multistring.strip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a copy of the string S with leading and trailing
+whitespace removed.
+If chars is given and not None, remove characters in chars instead.
+If chars is a str, it will be converted to unicode before stripping</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.swapcase">
+<code class="descname">swapcase</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; unicode<a class="headerlink" href="#translate.misc.multistring.multistring.swapcase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a copy of S with uppercase characters converted to lowercase
+and vice versa.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.title">
+<code class="descname">title</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; unicode<a class="headerlink" href="#translate.misc.multistring.multistring.title" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a titlecased version of S, i.e. words start with title case
+characters, all remaining cased characters have lower case.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.translate">
+<code class="descname">translate</code><span class="sig-paren">(</span><em>table</em><span class="sig-paren">)</span> &#x2192; unicode<a class="headerlink" href="#translate.misc.multistring.multistring.translate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a copy of the string S, where all characters have been mapped
+through the given translation table, which must be a mapping of
+Unicode ordinals to Unicode ordinals, Unicode strings or None.
+Unmapped characters are left untouched. Characters mapped to None
+are deleted.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.upper">
+<code class="descname">upper</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; unicode<a class="headerlink" href="#translate.misc.multistring.multistring.upper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a copy of S converted to uppercase.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.multistring.multistring.zfill">
+<code class="descname">zfill</code><span class="sig-paren">(</span><em>width</em><span class="sig-paren">)</span> &#x2192; unicode<a class="headerlink" href="#translate.misc.multistring.multistring.zfill" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pad a numeric string S with zeros on the left, to fill a field
+of the specified width. The string S is never truncated.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-translate.misc.optrecurse">
+<span id="optrecurse"></span><h2>optrecurse<a class="headerlink" href="#module-translate.misc.optrecurse" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="translate.misc.optrecurse.ManPageOption">
+<em class="property">class </em><code class="descclassname">translate.misc.optrecurse.</code><code class="descname">ManPageOption</code><span class="sig-paren">(</span><em>*opts</em>, <em>**attrs</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.ManPageOption" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="translate.misc.optrecurse.ManPageOption.take_action">
+<code class="descname">take_action</code><span class="sig-paren">(</span><em>action</em>, <em>dest</em>, <em>opt</em>, <em>value</em>, <em>values</em>, <em>parser</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.ManPageOption.take_action" title="Permalink to this definition">¶</a></dt>
+<dd><p>take_action that can handle manpage as well as standard actions</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser">
+<em class="property">class </em><code class="descclassname">translate.misc.optrecurse.</code><code class="descname">RecursiveOptionParser</code><span class="sig-paren">(</span><em>formats</em>, <em>usetemplates=False</em>, <em>allowmissingtemplate=False</em>, <em>description=None</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>A specialized Option Parser for recursing through directories.</p>
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.add_option">
+<code class="descname">add_option</code><span class="sig-paren">(</span><em>Option</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.add_option" title="Permalink to this definition">¶</a></dt>
+<dd><p>add_option(opt_str, …, kwarg=val, …)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.check_values">
+<code class="descname">check_values</code><span class="sig-paren">(</span><em>values : Values, args : [string]</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.check_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>-&gt; (values : Values, args : [string])</p>
+<p>Check that the supplied option values and leftover arguments are
+valid.  Returns the option values and leftover arguments
+(possibly adjusted, possibly completely new – whatever you
+like).  Default implementation just returns the passed-in
+values; subclasses may override as desired.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.checkoutputsubdir">
+<code class="descname">checkoutputsubdir</code><span class="sig-paren">(</span><em>options</em>, <em>subdir</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.checkoutputsubdir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks to see if subdir under options.output needs to be created,
+creates if neccessary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.define_option">
+<code class="descname">define_option</code><span class="sig-paren">(</span><em>option</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.define_option" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the given option, replacing an existing one of the same
+short name if neccessary…</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.destroy">
+<code class="descname">destroy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.destroy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Declare that you are done with this OptionParser.  This cleans up
+reference cycles so the OptionParser (and all objects referenced by
+it) can be garbage-collected promptly.  After calling destroy(), the
+OptionParser is unusable.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.disable_interspersed_args">
+<code class="descname">disable_interspersed_args</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.disable_interspersed_args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set parsing to stop on the first non-option. Use this if
+you have a command processor which runs another command that
+has options of its own and you want to make sure these options
+don’t get confused.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.enable_interspersed_args">
+<code class="descname">enable_interspersed_args</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.enable_interspersed_args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set parsing to not stop on the first non-option, allowing
+interspersing switches with command arguments. This is the
+default behavior. See also disable_interspersed_args() and the
+class documentation description of the attribute
+allow_interspersed_args.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.error">
+<code class="descname">error</code><span class="sig-paren">(</span><em>msg : string</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print a usage message incorporating ‘msg’ to stderr and exit.
+If you override this in a subclass, it should not return – it
+should either exit or raise an exception.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.finalizetempoutputfile">
+<code class="descname">finalizetempoutputfile</code><span class="sig-paren">(</span><em>options</em>, <em>outputfile</em>, <em>fulloutputpath</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.finalizetempoutputfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the temp outputfile to its final destination.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.format_manpage">
+<code class="descname">format_manpage</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.format_manpage" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns a formatted manpage</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.getformathelp">
+<code class="descname">getformathelp</code><span class="sig-paren">(</span><em>formats</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.getformathelp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a nice help string for describing formats…</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.getfullinputpath">
+<code class="descname">getfullinputpath</code><span class="sig-paren">(</span><em>options</em>, <em>inputpath</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.getfullinputpath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the absolute path to an input file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.getfulloutputpath">
+<code class="descname">getfulloutputpath</code><span class="sig-paren">(</span><em>options</em>, <em>outputpath</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.getfulloutputpath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the absolute path to an output file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.getfulltemplatepath">
+<code class="descname">getfulltemplatepath</code><span class="sig-paren">(</span><em>options</em>, <em>templatepath</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.getfulltemplatepath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the absolute path to a template file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.getoutputname">
+<code class="descname">getoutputname</code><span class="sig-paren">(</span><em>options</em>, <em>inputname</em>, <em>outputformat</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.getoutputname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets an output filename based on the input filename.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.getoutputoptions">
+<code class="descname">getoutputoptions</code><span class="sig-paren">(</span><em>options</em>, <em>inputpath</em>, <em>templatepath</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.getoutputoptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Works out which output format and processor method to use…</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.getpassthroughoptions">
+<code class="descname">getpassthroughoptions</code><span class="sig-paren">(</span><em>options</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.getpassthroughoptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the options required to pass to the filtermethod…</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.gettemplatename">
+<code class="descname">gettemplatename</code><span class="sig-paren">(</span><em>options</em>, <em>inputname</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.gettemplatename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets an output filename based on the input filename.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.getusageman">
+<code class="descname">getusageman</code><span class="sig-paren">(</span><em>option</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.getusageman" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns the usage string for the given option</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.getusagestring">
+<code class="descname">getusagestring</code><span class="sig-paren">(</span><em>option</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.getusagestring" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns the usage string for the given option</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.isexcluded">
+<code class="descname">isexcluded</code><span class="sig-paren">(</span><em>options</em>, <em>inputpath</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.isexcluded" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if this path has been excluded.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.isrecursive">
+<code class="descname">isrecursive</code><span class="sig-paren">(</span><em>fileoption</em>, <em>filepurpose='input'</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.isrecursive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if fileoption is a recursive file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.isvalidinputname">
+<code class="descname">isvalidinputname</code><span class="sig-paren">(</span><em>inputname</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.isvalidinputname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if this is a valid input filename.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.mkdir">
+<code class="descname">mkdir</code><span class="sig-paren">(</span><em>parent</em>, <em>subdir</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.mkdir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a subdirectory (recursively if neccessary).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.openinputfile">
+<code class="descname">openinputfile</code><span class="sig-paren">(</span><em>options</em>, <em>fullinputpath</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.openinputfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Opens the input file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.openoutputfile">
+<code class="descname">openoutputfile</code><span class="sig-paren">(</span><em>options</em>, <em>fulloutputpath</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.openoutputfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Opens the output file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.opentemplatefile">
+<code class="descname">opentemplatefile</code><span class="sig-paren">(</span><em>options</em>, <em>fulltemplatepath</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.opentemplatefile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Opens the template file (if required).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.opentempoutputfile">
+<code class="descname">opentempoutputfile</code><span class="sig-paren">(</span><em>options</em>, <em>fulloutputpath</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.opentempoutputfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Opens a temporary output file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.parse_args">
+<code class="descname">parse_args</code><span class="sig-paren">(</span><em>args=None</em>, <em>values=None</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.parse_args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses the command line options, handling implicit input/output
+args.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.print_help">
+<code class="descname">print_help</code><span class="sig-paren">(</span><em>file : file = stdout</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.print_help" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print an extended help message, listing all options and any
+help text provided with them, to ‘file’ (default stdout).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.print_manpage">
+<code class="descname">print_manpage</code><span class="sig-paren">(</span><em>file=None</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.print_manpage" title="Permalink to this definition">¶</a></dt>
+<dd><p>outputs a manpage for the program using the help information</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.print_usage">
+<code class="descname">print_usage</code><span class="sig-paren">(</span><em>file : file = stdout</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.print_usage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print the usage message for the current program (self.usage) to
+‘file’ (default stdout).  Any occurrence of the string “%prog” in
+self.usage is replaced with the name of the current program
+(basename of sys.argv[0]).  Does nothing if self.usage is empty
+or not defined.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.print_version">
+<code class="descname">print_version</code><span class="sig-paren">(</span><em>file : file = stdout</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.print_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print the version message for this program (self.version) to
+‘file’ (default stdout).  As with print_usage(), any occurrence
+of “%prog” in self.version is replaced by the current program’s
+name.  Does nothing if self.version is empty or undefined.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.processfile">
+<code class="descname">processfile</code><span class="sig-paren">(</span><em>fileprocessor</em>, <em>options</em>, <em>fullinputpath</em>, <em>fulloutputpath</em>, <em>fulltemplatepath</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.processfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process an individual file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.recurseinputfilelist">
+<code class="descname">recurseinputfilelist</code><span class="sig-paren">(</span><em>options</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.recurseinputfilelist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use a list of files, and find a common base directory for them.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.recurseinputfiles">
+<code class="descname">recurseinputfiles</code><span class="sig-paren">(</span><em>options</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.recurseinputfiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recurse through directories and return files to be processed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.recursiveprocess">
+<code class="descname">recursiveprocess</code><span class="sig-paren">(</span><em>options</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.recursiveprocess" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recurse through directories and process files.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses the arguments, and runs recursiveprocess with the resulting
+options…</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.set_usage">
+<code class="descname">set_usage</code><span class="sig-paren">(</span><em>usage=None</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.set_usage" title="Permalink to this definition">¶</a></dt>
+<dd><p>sets the usage string - if usage not given, uses getusagestring for
+each option</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.seterrorleveloptions">
+<code class="descname">seterrorleveloptions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.seterrorleveloptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the errorlevel options.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.setformats">
+<code class="descname">setformats</code><span class="sig-paren">(</span><em>formats</em>, <em>usetemplates</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.setformats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the format options using the given format dictionary.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>formats</strong> (<em>Dictionary</em>) – <p>The dictionary <em>keys</em> should be:</p>
+<ul class="simple">
+<li>Single strings (or 1-tuples) containing an
+input format (if not <em>usetemplates</em>)</li>
+<li>Tuples containing an input format and
+template format (if <em>usetemplates</em>)</li>
+<li>Formats can be <em>None</em> to indicate what to do
+with standard input</li>
+</ul>
+<p>The dictionary <em>values</em> should be tuples of
+outputformat (string) and processor method.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.setmanpageoption">
+<code class="descname">setmanpageoption</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.setmanpageoption" title="Permalink to this definition">¶</a></dt>
+<dd><p>creates a manpage option that allows the optionparser to generate a
+manpage</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.setprogressoptions">
+<code class="descname">setprogressoptions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.setprogressoptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the progress options.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.splitext">
+<code class="descname">splitext</code><span class="sig-paren">(</span><em>pathname</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.splitext" title="Permalink to this definition">¶</a></dt>
+<dd><p>Splits <em>pathname</em> into name and ext, and removes the extsep.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pathname</strong> (<em>string</em>) – A file path</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">root, ext</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">tuple</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.splitinputext">
+<code class="descname">splitinputext</code><span class="sig-paren">(</span><em>inputpath</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.splitinputext" title="Permalink to this definition">¶</a></dt>
+<dd><p>Splits an <em>inputpath</em> into name and extension.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.splittemplateext">
+<code class="descname">splittemplateext</code><span class="sig-paren">(</span><em>templatepath</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.splittemplateext" title="Permalink to this definition">¶</a></dt>
+<dd><p>Splits a <em>templatepath</em> into name and extension.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.templateexists">
+<code class="descname">templateexists</code><span class="sig-paren">(</span><em>options</em>, <em>templatepath</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.templateexists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether the given template exists…</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.optrecurse.RecursiveOptionParser.warning">
+<code class="descname">warning</code><span class="sig-paren">(</span><em>msg</em>, <em>options=None</em>, <em>exc_info=None</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.optrecurse.RecursiveOptionParser.warning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print a warning message incorporating ‘msg’ to stderr and exit.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-translate.misc.ourdom">
+<span id="ourdom"></span><h2>ourdom<a class="headerlink" href="#module-translate.misc.ourdom" title="Permalink to this headline">¶</a></h2>
+<p>module that provides modified DOM functionality for our needs</p>
+<p>Note that users of ourdom should ensure that no code might still use classes
+directly from minidom, like minidom.Element, minidom.Document or methods such
+as minidom.parseString, since the functionality provided here will not be in
+those objects.</p>
+<dl class="class">
+<dt id="translate.misc.ourdom.ExpatBuilderNS">
+<em class="property">class </em><code class="descclassname">translate.misc.ourdom.</code><code class="descname">ExpatBuilderNS</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.ourdom.ExpatBuilderNS" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="translate.misc.ourdom.ExpatBuilderNS.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.ourdom.ExpatBuilderNS.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Free all data structures used during DOM construction.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="translate.misc.ourdom.getElementsByTagName_helper">
+<code class="descclassname">translate.misc.ourdom.</code><code class="descname">getElementsByTagName_helper</code><span class="sig-paren">(</span><em>parent</em>, <em>name</em>, <em>dummy=None</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.ourdom.getElementsByTagName_helper" title="Permalink to this definition">¶</a></dt>
+<dd><p>A reimplementation of getElementsByTagName as an iterator.</p>
+<p>Note that this is not compatible with getElementsByTagName that returns a
+list, therefore, the class below exposes this through
+yieldElementsByTagName</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="translate.misc.ourdom.getnodetext">
+<code class="descclassname">translate.misc.ourdom.</code><code class="descname">getnodetext</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.ourdom.getnodetext" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns the node’s text by iterating through the child nodes</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="translate.misc.ourdom.parse">
+<code class="descclassname">translate.misc.ourdom.</code><code class="descname">parse</code><span class="sig-paren">(</span><em>file</em>, <em>parser=None</em>, <em>bufsize=None</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.ourdom.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse a file into a DOM by filename or file object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="translate.misc.ourdom.parseString">
+<code class="descclassname">translate.misc.ourdom.</code><code class="descname">parseString</code><span class="sig-paren">(</span><em>string</em>, <em>parser=None</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.ourdom.parseString" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse a file into a DOM from a string.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="translate.misc.ourdom.searchElementsByTagName_helper">
+<code class="descclassname">translate.misc.ourdom.</code><code class="descname">searchElementsByTagName_helper</code><span class="sig-paren">(</span><em>parent</em>, <em>name</em>, <em>onlysearch</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.ourdom.searchElementsByTagName_helper" title="Permalink to this definition">¶</a></dt>
+<dd><p>limits the search to within tags occuring in onlysearch</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="translate.misc.ourdom.writexml_helper">
+<code class="descclassname">translate.misc.ourdom.</code><code class="descname">writexml_helper</code><span class="sig-paren">(</span><em>self</em>, <em>writer</em>, <em>indent=''</em>, <em>addindent=''</em>, <em>newl=''</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.ourdom.writexml_helper" title="Permalink to this definition">¶</a></dt>
+<dd><p>A replacement for writexml that formats it like typical XML files.
+Nodes are intendented but text nodes, where whitespace can be significant,
+are not indented.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-translate.misc.progressbar">
+<span id="progressbar"></span><h2>progressbar<a class="headerlink" href="#module-translate.misc.progressbar" title="Permalink to this headline">¶</a></h2>
+<p>Progress bar utilities for reporting feedback on the progress of an
+application.</p>
+<dl class="class">
+<dt id="translate.misc.progressbar.DotsProgressBar">
+<em class="property">class </em><code class="descclassname">translate.misc.progressbar.</code><code class="descname">DotsProgressBar</code><a class="headerlink" href="#translate.misc.progressbar.DotsProgressBar" title="Permalink to this definition">¶</a></dt>
+<dd><p>An ultra-simple progress indicator that just writes a dot for each
+action</p>
+<dl class="method">
+<dt id="translate.misc.progressbar.DotsProgressBar.show">
+<code class="descname">show</code><span class="sig-paren">(</span><em>verbosemessage</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.progressbar.DotsProgressBar.show" title="Permalink to this definition">¶</a></dt>
+<dd><p>show a dot for progress :-)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="translate.misc.progressbar.HashProgressBar">
+<em class="property">class </em><code class="descclassname">translate.misc.progressbar.</code><code class="descname">HashProgressBar</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.progressbar.HashProgressBar" title="Permalink to this definition">¶</a></dt>
+<dd><p>A ProgressBar which knows how to go back to the beginning of the line.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="translate.misc.progressbar.MessageProgressBar">
+<em class="property">class </em><code class="descclassname">translate.misc.progressbar.</code><code class="descname">MessageProgressBar</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.progressbar.MessageProgressBar" title="Permalink to this definition">¶</a></dt>
+<dd><p>A ProgressBar that just writes out the messages without any progress
+display</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="translate.misc.progressbar.NoProgressBar">
+<em class="property">class </em><code class="descclassname">translate.misc.progressbar.</code><code class="descname">NoProgressBar</code><a class="headerlink" href="#translate.misc.progressbar.NoProgressBar" title="Permalink to this definition">¶</a></dt>
+<dd><p>An invisible indicator that does nothing.</p>
+<dl class="method">
+<dt id="translate.misc.progressbar.NoProgressBar.show">
+<code class="descname">show</code><span class="sig-paren">(</span><em>verbosemessage</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.progressbar.NoProgressBar.show" title="Permalink to this definition">¶</a></dt>
+<dd><p>show nothing for progress :-)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="translate.misc.progressbar.ProgressBar">
+<em class="property">class </em><code class="descclassname">translate.misc.progressbar.</code><code class="descname">ProgressBar</code><span class="sig-paren">(</span><em>minValue=0</em>, <em>maxValue=100</em>, <em>totalWidth=50</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.progressbar.ProgressBar" title="Permalink to this definition">¶</a></dt>
+<dd><p>A plain progress bar that doesn’t know very much about output.</p>
+<dl class="method">
+<dt id="translate.misc.progressbar.ProgressBar.show">
+<code class="descname">show</code><span class="sig-paren">(</span><em>verbosemessage</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.progressbar.ProgressBar.show" title="Permalink to this definition">¶</a></dt>
+<dd><p>displays the progress bar</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-translate.misc.quote">
+<span id="quote"></span><h2>quote<a class="headerlink" href="#module-translate.misc.quote" title="Permalink to this headline">¶</a></h2>
+<p>String processing utilities for extracting strings with various kinds of
+delimiters</p>
+<dl class="function">
+<dt id="translate.misc.quote.entitydecode">
+<code class="descclassname">translate.misc.quote.</code><code class="descname">entitydecode</code><span class="sig-paren">(</span><em>source</em>, <em>name2codepoint</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.quote.entitydecode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode <code class="docutils literal notranslate"><span class="pre">source</span></code> using entities from <code class="docutils literal notranslate"><span class="pre">name2codepoint</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>source</strong> (<em>unicode</em>) – Source string to decode</li>
+<li><strong>name2codepoint</strong> (<code class="xref py py-meth docutils literal notranslate"><span class="pre">dict()</span></code>) – Dictionary mapping entity names (without the
+the leading <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> or the trailing <code class="docutils literal notranslate"><span class="pre">;</span></code>) to code points</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="translate.misc.quote.entityencode">
+<code class="descclassname">translate.misc.quote.</code><code class="descname">entityencode</code><span class="sig-paren">(</span><em>source</em>, <em>codepoint2name</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.quote.entityencode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encode <code class="docutils literal notranslate"><span class="pre">source</span></code> using entities from <code class="docutils literal notranslate"><span class="pre">codepoint2name</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>source</strong> (<em>unicode</em>) – Source string to encode</li>
+<li><strong>codepoint2name</strong> (<code class="xref py py-meth docutils literal notranslate"><span class="pre">dict()</span></code>) – Dictionary mapping code points to entity names
+(without the the leading <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> or the trailing <code class="docutils literal notranslate"><span class="pre">;</span></code>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="translate.misc.quote.escapecontrols">
+<code class="descclassname">translate.misc.quote.</code><code class="descname">escapecontrols</code><span class="sig-paren">(</span><em>source</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.quote.escapecontrols" title="Permalink to this definition">¶</a></dt>
+<dd><p>escape control characters in the given string</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="translate.misc.quote.extract">
+<code class="descclassname">translate.misc.quote.</code><code class="descname">extract</code><span class="sig-paren">(</span><em>source</em>, <em>startdelim</em>, <em>enddelim</em>, <em>escape=None</em>, <em>startinstring=False</em>, <em>allowreentry=True</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.quote.extract" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts a doublequote-delimited string from a string, allowing for
+backslash-escaping returns tuple of (quoted string with quotes, still in
+string at end).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="translate.misc.quote.extractwithoutquotes">
+<code class="descclassname">translate.misc.quote.</code><code class="descname">extractwithoutquotes</code><span class="sig-paren">(</span><em>source</em>, <em>startdelim</em>, <em>enddelim</em>, <em>escape=None</em>, <em>startinstring=False</em>, <em>includeescapes=True</em>, <em>allowreentry=True</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.quote.extractwithoutquotes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts a doublequote-delimited string from a string, allowing for
+backslash-escaping includeescapes can also be a function that takes the
+whole escaped string and returns the replaced version.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="translate.misc.quote.find_all">
+<code class="descclassname">translate.misc.quote.</code><code class="descname">find_all</code><span class="sig-paren">(</span><em>searchin</em>, <em>substr</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.quote.find_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of locations where substr occurs in searchin locations
+are not allowed to overlap</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="translate.misc.quote.htmlentitydecode">
+<code class="descclassname">translate.misc.quote.</code><code class="descname">htmlentitydecode</code><span class="sig-paren">(</span><em>source</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.quote.htmlentitydecode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode source using HTML entities e.g. <code class="docutils literal notranslate"><span class="pre">&amp;copy;</span></code> -&gt; ©.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>source</strong> (<em>unicode</em>) – Source string to decode</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="translate.misc.quote.htmlentityencode">
+<code class="descclassname">translate.misc.quote.</code><code class="descname">htmlentityencode</code><span class="sig-paren">(</span><em>source</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.quote.htmlentityencode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encode <code class="docutils literal notranslate"><span class="pre">source</span></code> using HTML entities e.g. © -&gt; <code class="docutils literal notranslate"><span class="pre">&amp;copy;</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>source</strong> (<em>unicode</em>) – Source string to encode</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="translate.misc.quote.java_utf8_properties_encode">
+<code class="descclassname">translate.misc.quote.</code><code class="descname">java_utf8_properties_encode</code><span class="sig-paren">(</span><em>source</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.quote.java_utf8_properties_encode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encodes source in the escaped-unicode encoding used by java utf-8
+.properties files.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="translate.misc.quote.javapropertiesencode">
+<code class="descclassname">translate.misc.quote.</code><code class="descname">javapropertiesencode</code><span class="sig-paren">(</span><em>source</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.quote.javapropertiesencode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encodes source in the escaped-unicode encoding used by Java
+.properties files</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="translate.misc.quote.mozillaescapemarginspaces">
+<code class="descclassname">translate.misc.quote.</code><code class="descname">mozillaescapemarginspaces</code><span class="sig-paren">(</span><em>source</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.quote.mozillaescapemarginspaces" title="Permalink to this definition">¶</a></dt>
+<dd><p>Escape leading and trailing spaces for Mozilla .properties files.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="translate.misc.quote.propertiesdecode">
+<code class="descclassname">translate.misc.quote.</code><code class="descname">propertiesdecode</code><span class="sig-paren">(</span><em>source</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.quote.propertiesdecode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decodes source from the escaped-unicode encoding used by .properties
+files.</p>
+<p>Java uses Latin1 by default, and Mozilla uses UTF-8 by default.</p>
+<p>Since the .decode(“unicode-escape”) routine decodes everything, and we
+don’t want to we reimplemented the algorithm from Python Objects/unicode.c
+in Python and modify it to retain escaped control characters.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-translate.misc.wsgi">
+<span id="wsgi"></span><h2>wsgi<a class="headerlink" href="#module-translate.misc.wsgi" title="Permalink to this headline">¶</a></h2>
+<p>Wrapper to launch the bundled CherryPy server.</p>
+<dl class="function">
+<dt id="translate.misc.wsgi.launch_server">
+<code class="descclassname">translate.misc.wsgi.</code><code class="descname">launch_server</code><span class="sig-paren">(</span><em>host</em>, <em>port</em>, <em>app</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.wsgi.launch_server" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use cheroot WSGI server, a multithreaded scallable server.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-translate.misc.wStringIO">
+<span id="wstringio"></span><h2>wStringIO<a class="headerlink" href="#module-translate.misc.wStringIO" title="Permalink to this headline">¶</a></h2>
+<p>A thin wrapper around BytesIO that accepts and auto-convert non bytes
+input</p>
+<dl class="class">
+<dt id="translate.misc.wStringIO.CatchStringOutput">
+<em class="property">class </em><code class="descclassname">translate.misc.wStringIO.</code><code class="descname">CatchStringOutput</code><span class="sig-paren">(</span><em>onclose</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.wStringIO.CatchStringOutput" title="Permalink to this definition">¶</a></dt>
+<dd><p>catches the output before it is closed and sends it to an onclose method</p>
+<dl class="method">
+<dt id="translate.misc.wStringIO.CatchStringOutput.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.wStringIO.CatchStringOutput.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>wrap the underlying close method, to pass the value to onclose
+before it goes</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="translate.misc.wStringIO.CatchStringOutput.slam">
+<code class="descname">slam</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.wStringIO.CatchStringOutput.slam" title="Permalink to this definition">¶</a></dt>
+<dd><p>use this method to force the closing of the stream if it isn’t
+closed yet</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="translate.misc.wStringIO.StringIO">
+<em class="property">class </em><code class="descclassname">translate.misc.wStringIO.</code><code class="descname">StringIO</code><span class="sig-paren">(</span><em>buf=''</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.wStringIO.StringIO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-translate.misc.xml_helpers">
+<span id="xml-helpers"></span><h2>xml_helpers<a class="headerlink" href="#module-translate.misc.xml_helpers" title="Permalink to this headline">¶</a></h2>
+<p>Helper functions for working with XML.</p>
+<dl class="function">
+<dt id="translate.misc.xml_helpers.getText">
+<code class="descclassname">translate.misc.xml_helpers.</code><code class="descname">getText</code><span class="sig-paren">(</span><em>node</em>, <em>xml_space='preserve'</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.xml_helpers.getText" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts the plain text content out of the given node.</p>
+<p>This method checks the xml:space attribute of the given node, and takes an
+optional default to use in case nothing is specified in this node.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="translate.misc.xml_helpers.getXMLlang">
+<code class="descclassname">translate.misc.xml_helpers.</code><code class="descname">getXMLlang</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.xml_helpers.getXMLlang" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the xml:lang attribute on node</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="translate.misc.xml_helpers.getXMLspace">
+<code class="descclassname">translate.misc.xml_helpers.</code><code class="descname">getXMLspace</code><span class="sig-paren">(</span><em>node</em>, <em>default=None</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.xml_helpers.getXMLspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the xml:space attribute on node</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="translate.misc.xml_helpers.namespaced">
+<code class="descclassname">translate.misc.xml_helpers.</code><code class="descname">namespaced</code><span class="sig-paren">(</span><em>namespace</em>, <em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.xml_helpers.namespaced" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns name in Clark notation within the given namespace.</p>
+<p>For example namespaced(“source”) in an XLIFF document might return:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="n">urn</span><span class="p">:</span><span class="n">oasis</span><span class="p">:</span><span class="n">names</span><span class="p">:</span><span class="n">tc</span><span class="p">:</span><span class="n">xliff</span><span class="p">:</span><span class="n">document</span><span class="p">:</span><span class="mf">1.1</span><span class="p">}</span><span class="n">source</span>
+</pre></div>
+</div>
+<p>This is needed throughout lxml.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="translate.misc.xml_helpers.normalize_space">
+<code class="descclassname">translate.misc.xml_helpers.</code><code class="descname">normalize_space</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.xml_helpers.normalize_space" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalize the given text for implementation of <code class="docutils literal notranslate"><span class="pre">xml:space=&quot;default&quot;</span></code>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="translate.misc.xml_helpers.normalize_xml_space">
+<code class="descclassname">translate.misc.xml_helpers.</code><code class="descname">normalize_xml_space</code><span class="sig-paren">(</span><em>node</em>, <em>xml_space</em>, <em>remove_start=False</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.xml_helpers.normalize_xml_space" title="Permalink to this definition">¶</a></dt>
+<dd><p>normalize spaces following the nodes xml:space, or alternatively the
+given xml_space parameter.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="translate.misc.xml_helpers.reindent">
+<code class="descclassname">translate.misc.xml_helpers.</code><code class="descname">reindent</code><span class="sig-paren">(</span><em>elem</em>, <em>level=0</em>, <em>indent='  '</em>, <em>max_level=4</em>, <em>skip=None</em>, <em>toplevel=True</em>, <em>leaves=None</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.xml_helpers.reindent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adjust indentation to match specification.</p>
+<p>Each nested tag is identified by indent string, up to
+max_level depth, possibly skipping tags listed in skip.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="translate.misc.xml_helpers.setXMLlang">
+<code class="descclassname">translate.misc.xml_helpers.</code><code class="descname">setXMLlang</code><span class="sig-paren">(</span><em>node</em>, <em>lang</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.xml_helpers.setXMLlang" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the xml:lang attribute on node</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="translate.misc.xml_helpers.setXMLspace">
+<code class="descclassname">translate.misc.xml_helpers.</code><code class="descname">setXMLspace</code><span class="sig-paren">(</span><em>node</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#translate.misc.xml_helpers.setXMLspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the xml:space attribute on node</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="translate.misc.xml_helpers.string_xpath">
+<code class="descclassname">translate.misc.xml_helpers.</code><code class="descname">string_xpath</code><em class="property"> = string()</em><a class="headerlink" href="#translate.misc.xml_helpers.string_xpath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a non-normalized string in the node subtree</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="translate.misc.xml_helpers.string_xpath_normalized">
+<code class="descclassname">translate.misc.xml_helpers.</code><code class="descname">string_xpath_normalized</code><em class="property"> = normalize-space()</em><a class="headerlink" href="#translate.misc.xml_helpers.string_xpath_normalized" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a (space) normalized string in the node subtree</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="translate.misc.xml_helpers.xml_preserve_ancestors">
+<code class="descclassname">translate.misc.xml_helpers.</code><code class="descname">xml_preserve_ancestors</code><em class="property"> = ancestor-or-self::*[attribute::xml:space='preserve']</em><a class="headerlink" href="#translate.misc.xml_helpers.xml_preserve_ancestors" title="Permalink to this definition">¶</a></dt>
+<dd><p>All ancestors with xml:space=’preserve’</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="translate.misc.xml_helpers.xml_space_ancestors">
+<code class="descclassname">translate.misc.xml_helpers.</code><code class="descname">xml_space_ancestors</code><em class="property"> = ancestor-or-self::*/attribute::xml:space</em><a class="headerlink" href="#translate.misc.xml_helpers.xml_space_ancestors" title="Permalink to this definition">¶</a></dt>
+<dd><p>All xml:space attributes in the ancestors</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+</div>
+<hr>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right"><a href="#">Back to top ↑</a></p>
+    <ul class="unstyled muted">
+      <li><small>
+        &copy; 2002-2020, Translate.<br/>
+      </small></li>
+      <li><small>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </small></li>
+    </ul>
+  </div>
+</footer>
+  </body>
+</html>

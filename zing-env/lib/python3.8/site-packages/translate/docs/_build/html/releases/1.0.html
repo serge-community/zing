@@ -1,0 +1,272 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Translate Toolkit 1.0 &#8212; Translate Toolkit 2.5.0 documentation</title>
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Translate Toolkit 0.11" href="0.11.html" />
+    <link rel="prev" title="Translate Toolkit 1.0.1" href="1.0.1.html" /> 
+  </head><body>
+  <div id="navbar" class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <a class="brand" href="../index.html">Translate Toolkit</a>
+        <span class="navbar-text pull-left"><b>2.5.0</b></span>
+          <ul class="nav">
+            <li class="divider-vertical"></li>
+            
+              <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html">Converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html#tools">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html#scripts">Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formats/index.html">Supported formats</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developers/styleguide.html">Translate Styleguide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/styleguide.html#documentation">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/building.html">Building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/testing.html#command-line-functional-testing">Command Line Functional Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/developers.html">Translate Toolkit Developers Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/releasing.html">Making a Translate Toolkit Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/deprecation.html">Deprecation of Features</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History of the Translate Toolkit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API</a></li>
+</ul>
+</ul>
+</li>
+              
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"><ul>
+<li><a class="reference internal" href="#">Translate Toolkit 1.0</a><ul>
+<li><a class="reference internal" href="#improved-xliff-support">Improved XLIFF support</a></li>
+<li><a class="reference internal" href="#pretty-xml-output">Pretty XML output</a></li>
+<li><a class="reference internal" href="#fuzzy-matching-in-pot2po-is-optional">Fuzzy matching in pot2po is optional</a></li>
+<li><a class="reference internal" href="#old-match-levenshtein-py-can-cause-name-clash">Old match/Levenshtein.py* can cause name clash</a></li>
+<li><a class="reference internal" href="#po-file-layout-now-follows-gettext-more-closely">PO file layout now follows Gettext more closely</a></li>
+<li><a class="reference internal" href="#language-awareness">Language awareness</a></li>
+<li><a class="reference internal" href="#new-pofilter-tests-newlines-and-tabs">New pofilter tests: newlines and tabs</a></li>
+<li><a class="reference internal" href="#merging-can-change-fuzzy-status">Merging can change fuzzy status</a></li>
+<li><a class="reference internal" href="#pofilter-will-make-mozilla-accelerators-a-serious-failure">pofilter will make Mozilla accelerators a serious failure</a></li>
+<li><a class="reference internal" href="#po2prop-can-output-mozilla-or-java-style-properties">po2prop can output Mozilla or Java style properties</a></li>
+<li><a class="reference internal" href="#support-for-compressed-files">Support for compressed files</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+            
+            
+              
+  <li><a href="1.0.1.html"
+         title="previous chapter">&laquo; Translate Toolkit 1.0.1</a></li>
+  <li><a href="0.11.html"
+         title="next chapter">Translate Toolkit 0.11 &raquo;</a></li>
+            
+          </ul>
+          <ul class="nav pull-right">
+            
+              
+            
+          
+            
+<form class="navbar-search pull-right" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="container content">
+   
+  <div class="section" id="translate-toolkit-1-0">
+<span id="changelog-1-0"></span><h1>Translate Toolkit 1.0<a class="headerlink" href="#translate-toolkit-1-0" title="Permalink to this headline">¶</a></h1>
+<p><em>Released on 1 June 2007</em></p>
+<div class="section" id="improved-xliff-support">
+<span id="changelog-improved-xliff-support"></span><h2>Improved XLIFF support<a class="headerlink" href="#improved-xliff-support" title="Permalink to this headline">¶</a></h2>
+<p>Many toolkit tools that only worked with PO files before, can now also work
+with XLIFF files. pogrep, pocount, pomerge, and pofilter all work with XLIFF,
+for example.</p>
+</div>
+<div class="section" id="pretty-xml-output">
+<span id="changelog-pretty-xml-output"></span><h2>Pretty XML output<a class="headerlink" href="#pretty-xml-output" title="Permalink to this headline">¶</a></h2>
+<p>All XML formats should now be more human readable, and the converters to Qt .ts
+files should work correctly again.</p>
+</div>
+<div class="section" id="fuzzy-matching-in-pot2po-is-optional">
+<span id="changelog-fuzzy-matching-in-pot2po-is-optional"></span><h2>Fuzzy matching in pot2po is optional<a class="headerlink" href="#fuzzy-matching-in-pot2po-is-optional" title="Permalink to this headline">¶</a></h2>
+<p>Fuzzy matching can now be entirely disabled in <a class="reference internal" href="../commands/pot2po.html"><span class="doc">pot2po</span></a> with the
+<code class="docutils literal notranslate"><span class="pre">--nofuzzymatching</span></code> parameter. This should make it much faster, although
+pot2po is <strong>substantially</strong> faster than earlier versions, especially if
+<a class="reference internal" href="../commands/levenshtein_distance.html"><span class="doc">python-Levenshtein</span></a> is installed.</p>
+</div>
+<div class="section" id="old-match-levenshtein-py-can-cause-name-clash">
+<span id="changelog-old-match-levenshtein-py-can-cause-name-clash"></span><h2>Old match/Levenshtein.py* can cause name clash<a class="headerlink" href="#old-match-levenshtein-py-can-cause-name-clash" title="Permalink to this headline">¶</a></h2>
+<p>The file previously called match/Levenshtein.py was renamed to lshtein.py in
+order to use the python-Levenshtein package mentioned above. If you follow the
+basic installation instructions, the old file will not be overwritten, and can
+cause problems. Ensure that you remove all files starting with Levenshtein.py
+in the installation path of the translate toolkit, usually something like
+/usr/lib/python2.4/site-packages/translate/search/. It could be up to three
+files.</p>
+</div>
+<div class="section" id="po-file-layout-now-follows-gettext-more-closely">
+<span id="changelog-po-file-layout-now-follows-gettext-more-closely"></span><h2>PO file layout now follows Gettext more closely<a class="headerlink" href="#po-file-layout-now-follows-gettext-more-closely" title="Permalink to this headline">¶</a></h2>
+<p>The toolkits output PO format should now resemble Gettext PO files more
+closely.  Long lines are wrapped correctly, messages with long initial lines
+will start with a ‘msgid “”’ entry.  The reason for this change is to ensure
+that differences in files relate to content change not format change, no matter
+what tool you use.</p>
+<p>To understand the problem more clearly.  If a user creates POT files with e.g.
+<a class="reference internal" href="../commands/oo2po.html"><span class="doc">oo2po</span></a>.  She then edits them in a PO editor or manipulate them
+with the Gettext tools.  The layout of the file after manipulation was often
+different from the original produced by the Toolkit.  Thus making it hard to
+tell what where content changes as opposed to layout changes.</p>
+<p>The changes will affect you as follows:</p>
+<ol class="arabic simple">
+<li>They will only impact you when using the Toolkit tools.</li>
+<li>You manipulate your files with a tool that follows Gettext PO layout<ul>
+<li>your experience should now improve as the new PO files will align with
+your existing files</li>
+<li>updates should now only include real content changes not layout changes</li>
+</ul>
+</li>
+<li>You manipulate your files using Toolkit related tools or manual editing<ul>
+<li>your files will go through a re-layout the first time you use any of the
+tools</li>
+<li>subsequent usage should continue as normal</li>
+<li>any manipulation using Gettext tools will leave your files correctly laid
+out.</li>
+</ul>
+</li>
+</ol>
+<p>Our suggestion is that if you are about to suffer a major reflow that your
+initial merge contain only reflow and update changes.  Do content changes in
+subsequent steps.  Once you have gone through the reflow you should see no
+layout changes and only content changes.</p>
+</div>
+<div class="section" id="language-awareness">
+<span id="changelog-language-awareness"></span><h2>Language awareness<a class="headerlink" href="#language-awareness" title="Permalink to this headline">¶</a></h2>
+<p>The toolkit is gradually becoming more aware of the differences between
+languages. Currently this mostly affects pofilter checks (and therefore also
+Pootle) where tests involving punctuation and capitalisation will be more aware
+of the differences between English and some other languages. Provisional
+customisation for the following languages are in place and we will welcome more
+work on the language module: Amharic, Arabic, Greek, Persian, French, Armenian,
+Japanese,  Khmer, Vietnamese, all types of Chinese.</p>
+</div>
+<div class="section" id="new-pofilter-tests-newlines-and-tabs">
+<span id="changelog-new-pofilter-tests-newlines-and-tabs"></span><h2>New pofilter tests: newlines and tabs<a class="headerlink" href="#new-pofilter-tests-newlines-and-tabs" title="Permalink to this headline">¶</a></h2>
+<p>The escapes test has been refined with two new tests, <code class="docutils literal notranslate"><span class="pre">newlines</span></code> and
+<code class="docutils literal notranslate"><span class="pre">tabs</span></code>.  This makes identifying the errors easier and makes it easier to
+control the results of the tests.  You shouldn’t have to change your testing
+behaviour in any way.</p>
+</div>
+<div class="section" id="merging-can-change-fuzzy-status">
+<span id="changelog-merging-can-change-fuzzy-status"></span><h2>Merging can change fuzzy status<a class="headerlink" href="#merging-can-change-fuzzy-status" title="Permalink to this headline">¶</a></h2>
+<p>pomerge now handles fuzzy states:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pomerge</span> <span class="o">-</span><span class="n">t</span> <span class="n">old</span> <span class="o">-</span><span class="n">i</span> <span class="n">merge</span> <span class="o">-</span><span class="n">o</span> <span class="n">new</span>
+</pre></div>
+</div>
+<p>Messages that are fuzzy in <em>merge</em> will now also be fuzzy in <em>new</em>.  Similarly
+if a fuzzy state is present in <em>old</em> but removed in <em>merge</em> then the message in
+<em>new</em> will not be fuzzy.</p>
+<p>Previously no fuzzy states were changed during a merge.</p>
+</div>
+<div class="section" id="pofilter-will-make-mozilla-accelerators-a-serious-failure">
+<span id="changelog-pofilter-will-make-mozilla-accelerators-a-serious-failure"></span><h2>pofilter will make Mozilla accelerators a serious failure<a class="headerlink" href="#pofilter-will-make-mozilla-accelerators-a-serious-failure" title="Permalink to this headline">¶</a></h2>
+<p>If you use <a class="reference internal" href="../commands/pofilter.html"><span class="doc">pofilter</span></a> with the <code class="docutils literal notranslate"><span class="pre">--mozilla</span></code> option then
+accelerator failures will produce a serious filter error, i.e. the message will
+be marked as <code class="docutils literal notranslate"><span class="pre">fuzzy</span></code>.  This has been done because accelerator problems in
+your translations have the potential to break Mozilla applications.</p>
+</div>
+<div class="section" id="po2prop-can-output-mozilla-or-java-style-properties">
+<span id="changelog-po2prop-can-output-mozilla-or-java-style-properties"></span><h2>po2prop can output Mozilla or Java style properties<a class="headerlink" href="#po2prop-can-output-mozilla-or-java-style-properties" title="Permalink to this headline">¶</a></h2>
+<p>We have added the <code class="docutils literal notranslate"><span class="pre">--personality</span></code> option to allow a user to select output
+in either <code class="docutils literal notranslate"><span class="pre">java</span></code>, or <code class="docutils literal notranslate"><span class="pre">mozilla</span></code> style (Java property files use escaped
+Unicode, while Mozilla uses actual Unicode characters).  This functionality was
+always available but was not exposed to the user and we always defaulted to the
+Mozilla style.</p>
+<p>When using <a class="reference internal" href="../commands/moz2po.html"><span class="doc">po2moz</span></a> the behaviour is not changed for
+the user as the programs will ensure that the properties convertor uses Mozilla
+style.</p>
+<p>However, when using <a class="reference internal" href="../commands/prop2po.html"><span class="doc">po2prop</span></a> the default style is now
+<code class="docutils literal notranslate"><span class="pre">java</span></code>, thus if you are converting a single <code class="docutils literal notranslate"><span class="pre">.properties</span></code> file as part of a
+Mozilla conversion you will need to add <code class="docutils literal notranslate"><span class="pre">--personality=mozilla</span></code> to your
+conversion.  Thus:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">po2prop</span> <span class="o">-</span><span class="n">t</span> <span class="n">moz</span><span class="o">.</span><span class="n">properties</span> <span class="n">moz</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">po</span> <span class="n">my</span><span class="o">-</span><span class="n">moz</span><span class="o">.</span><span class="n">properties</span>
+</pre></div>
+</div>
+<p>Would become:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">po2prop</span> <span class="o">--</span><span class="n">personality</span><span class="o">=</span><span class="n">mozilla</span> <span class="o">-</span><span class="n">t</span> <span class="n">moz</span><span class="o">.</span><span class="n">properties</span> <span class="n">moz</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">po</span> <span class="n">my</span><span class="o">-</span><span class="n">moz</span><span class="o">.</span><span class="n">properties</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Output in java style escaped Unicode will still be usable by Mozilla
+but will be harder to read.</p>
+</div>
+</div>
+<div class="section" id="support-for-compressed-files">
+<span id="changelog-support-for-compressed-files"></span><h2>Support for compressed files<a class="headerlink" href="#support-for-compressed-files" title="Permalink to this headline">¶</a></h2>
+<p>There is some initial support for reading from and writing to compressed files.
+Single files compressed with gzip or bzip2 compression is supported, but not
+tarballs.  Most tools don’t support it, but pocount and the <code class="docutils literal notranslate"><span class="pre">--tm</span></code>
+parameter to pot2po will work with it, for example. Naturally it is slower than
+working with uncompressed files. Hopefully more tools can support it in future.</p>
+</div>
+</div>
+
+
+</div>
+<hr>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right"><a href="#">Back to top ↑</a></p>
+    <ul class="unstyled muted">
+      <li><small>
+        &copy; 2002-2020, Translate.<br/>
+      </small></li>
+      <li><small>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </small></li>
+    </ul>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+{% extends "admin/base_app.html" %}
+{% load core i18n %}
+
+{% block title %}{% trans "Projects" %} | {{ block.super }}{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}<li>{% trans "Projects" %}</li>
+{% endblock %}
+
+{% block app_init %}
+<script type="text/javascript">
+$(function () {
+  PTL.admin.init({itemType: 'project',
+                  appRoot: '{% url "pootle-admin-projects" %}',
+                  formChoices: {{ form_choices|to_js }}});
+});
+</script>
+{% endblock %}

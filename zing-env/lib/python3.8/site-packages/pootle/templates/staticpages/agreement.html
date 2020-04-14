@@ -1,0 +1,23 @@
+{% load i18n locale %}
+<div id="agreement" class="form js-agreement-box">
+  <h2>{% trans "Action Required" %}</h2>
+  <p>{% trans "Before continuing, you must read and accept the following documents." %}</p>
+  <form method="post" action="{% url 'pootle-staticpages-legal-agreement' %}"
+    class="js-agreement-form">
+    {% csrf_token %}
+    {% for field in form %}
+    <p>
+      {{ field.errors }}
+      {{ field }}
+      {{ field.label_tag }}
+    </p>
+    {% endfor %}
+    <p class="buttons">
+      <a href="{% url 'account_logout' %}" class="pull-{% locale_align %}">
+        {% trans "No thanks. Sign out" %}
+      </a>
+      <input type="submit" name="continue" class="btn js-agreement-continue"
+        value="{% trans "Continue" %}" />
+    </p>
+  </form>
+</div>

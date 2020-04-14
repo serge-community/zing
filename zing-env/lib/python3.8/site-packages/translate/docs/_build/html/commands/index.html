@@ -1,0 +1,250 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Converters &#8212; Translate Toolkit 2.5.0 documentation</title>
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="General Usage" href="general_usage.html" />
+    <link rel="prev" title="Installation" href="../installation.html" /> 
+  </head><body>
+  <div id="navbar" class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <a class="brand" href="../index.html">Translate Toolkit</a>
+        <span class="navbar-text pull-left"><b>2.5.0</b></span>
+          <ul class="nav">
+            <li class="divider-vertical"></li>
+            
+              <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#tools">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#scripts">Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formats/index.html">Supported formats</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developers/styleguide.html">Translate Styleguide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/styleguide.html#documentation">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/building.html">Building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/testing.html#command-line-functional-testing">Command Line Functional Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/developers.html">Translate Toolkit Developers Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/releasing.html">Making a Translate Toolkit Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/deprecation.html">Deprecation of Features</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../releases/index.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History of the Translate Toolkit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API</a></li>
+</ul>
+</ul>
+</li>
+              
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"><ul>
+<li><a class="reference internal" href="#">Converters</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#tools">Tools</a><ul>
+<li><a class="reference internal" href="#quality-assurance">Quality Assurance</a></li>
+<li><a class="reference internal" href="#other-tools">Other tools</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#scripts">Scripts</a></li>
+</ul>
+</ul>
+</li>
+            
+            
+              
+  <li><a href="../installation.html"
+         title="previous chapter">&laquo; Installation</a></li>
+  <li><a href="general_usage.html"
+         title="next chapter">General Usage &raquo;</a></li>
+            
+          </ul>
+          <ul class="nav pull-right">
+            
+              
+            
+          
+            
+<form class="navbar-search pull-right" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="container content">
+   
+  <div class="section" id="converters">
+<span id="commands-converters"></span><span id="commands"></span><h1>Converters<a class="headerlink" href="#converters" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<p>Converters change many different formats to PO and back again. Sometimes only
+one direction is supported, or conversion is done using non-PO formats.  The
+converters follow a <a class="reference internal" href="general_usage.html"><span class="doc">general pattern of usage</span></a>,
+understanding that will make the converters much easier to use and understand.</p>
+<ul class="simple">
+<li><a class="reference internal" href="moz2po.html"><span class="doc">moz2po</span></a> – Mozilla .properties and .dtd converter.  Works with
+Firefox and Thunderbird</li>
+<li><a class="reference internal" href="oo2po.html"><span class="doc">oo2po</span></a> – OpenOffice.org SDF converter (Also works as
+<code class="docutils literal notranslate"><span class="pre">oo2xliff</span></code>).</li>
+<li><a class="reference internal" href="odf2xliff.html"><span class="doc">odf2xliff</span></a> – Convert OpenDocument (ODF) documents to XLIFF
+and vice-versa.</li>
+<li><a class="reference internal" href="prop2po.html"><span class="doc">prop2po</span></a> – Java property file (.properties) converter</li>
+<li><a class="reference internal" href="php2po.html"><span class="doc">php2po</span></a> – PHP localisable string arrays converter.</li>
+<li><a class="reference internal" href="sub2po.html"><span class="doc">sub2po</span></a> – Converter for various subtitle files</li>
+<li><a class="reference internal" href="txt2po.html"><span class="doc">txt2po</span></a> – Plain text to PO converter</li>
+<li><a class="reference internal" href="po2wordfast.html"><span class="doc">po2wordfast</span></a> – Wordfast Translation Memory converter</li>
+<li><a class="reference internal" href="po2tmx.html"><span class="doc">po2tmx</span></a> – TMX (Translation Memory Exchange) converter</li>
+<li><a class="reference internal" href="pot2po.html"><span class="doc">pot2po</span></a> – initialise PO Template files for translation</li>
+<li><a class="reference internal" href="csv2po.html"><span class="doc">csv2po</span></a> – Comma Separated Value (CSV) converter. Useful for
+doing translations using a spreadsheet.</li>
+<li><a class="reference internal" href="csv2tbx.html"><span class="doc">csv2tbx</span></a> – Create TBX (TermBase eXchange) files from Comma
+Separated Value (CSV) files</li>
+<li><a class="reference internal" href="html2po.html"><span class="doc">html2po</span></a> – HTML converter</li>
+<li><a class="reference internal" href="flatxml2po.html"><span class="doc">flatxml2po</span></a> – Flat XML converter</li>
+<li><a class="reference internal" href="ical2po.html"><span class="doc">ical2po</span></a> – iCalendar file converter</li>
+<li><a class="reference internal" href="ini2po.html"><span class="doc">ini2po</span></a> – Windows INI file converter</li>
+<li><a class="reference internal" href="json2po.html"><span class="doc">json2po</span></a> – JSON file converter</li>
+<li><a class="reference internal" href="web2py2po.html"><span class="doc">web2py2po</span></a> – web2py translation to PO converter</li>
+<li><a class="reference internal" href="rc2po.html"><span class="doc">rc2po</span></a> – Windows Resource .rc (C++ Resource Compiler)
+converter</li>
+<li><a class="reference internal" href="resx2po.html"><span class="doc">resx2po</span></a> – .Net Resource (.resx) file converter</li>
+<li><a class="reference internal" href="symb2po.html"><span class="doc">symb2po</span></a> – Symbian-style translation to PO converter</li>
+<li><a class="reference internal" href="tiki2po.html"><span class="doc">tiki2po</span></a> – <a class="reference external" href="http://tikiwiki.org/">TikiWiki</a> language.php
+converter</li>
+<li><a class="reference internal" href="ts2po.html"><span class="doc">ts2po</span></a> – Qt Linguist .ts converter</li>
+<li><a class="reference internal" href="xliff2po.html"><span class="doc">xliff2po</span></a> – XLIFF (XML Localisation Interchange File
+Format) converter</li>
+<li><a class="reference internal" href="yaml2po.html"><span class="doc">yaml2po</span></a> – YAML (Yet Another Markup Language) converter</li>
+</ul>
+</div>
+<div class="section" id="tools">
+<span id="commands-tools"></span><h1>Tools<a class="headerlink" href="#tools" title="Permalink to this headline">¶</a></h1>
+<p>The PO tools allow you to manipulate and work with PO files</p>
+<div class="section" id="quality-assurance">
+<span id="commands-quality-assurance"></span><h2>Quality Assurance<a class="headerlink" href="#quality-assurance" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<p>These tools are especially useful for measuring and improving translation
+quality.</p>
+<ul class="simple">
+<li><a class="reference internal" href="poconflicts.html"><span class="doc">poconflicts</span></a> – extract messages that have conflicting translation</li>
+<li><a class="reference internal" href="pofilter.html"><span class="doc">pofilter</span></a> – filter PO files to find common errors using a <a class="reference internal" href="pofilter_tests.html"><span class="doc">number
+of tests</span></a></li>
+<li><a class="reference internal" href="pogrep.html"><span class="doc">pogrep</span></a> – find strings in your PO files</li>
+<li><a class="reference internal" href="pomerge.html"><span class="doc">pomerge</span></a> – merge file extracted using pofilter back into the original
+files</li>
+<li><a class="reference internal" href="porestructure.html"><span class="doc">porestructure</span></a> – restructures PO files according to poconflict
+directives</li>
+<li><a class="reference internal" href="junitmsgfmt.html"><span class="doc">junitmsgfmt</span></a> – run msgfmt and provide JUnit type output for use in
+continuous integration systems like Hudson and Jenkins</li>
+</ul>
+</div>
+<div class="section" id="other-tools">
+<span id="commands-other-tools"></span><h2>Other tools<a class="headerlink" href="#other-tools" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<ul class="simple">
+<li><a class="reference internal" href="tmserver.html"><span class="doc">tmserver</span></a> – a Translation Memory server, can be queried over HTTP
+using JSON</li>
+<li><a class="reference internal" href="poterminology.html"><span class="doc">poterminology</span></a> – extracts potential terminology from your translation
+files</li>
+<li><a class="reference internal" href="pocount.html"><span class="doc">pocount</span></a> – Count words and strings in PO, XLIFF and other types of
+translatable files</li>
+<li><a class="reference internal" href="podebug.html"><span class="doc">podebug</span></a> – Add debug strings to messages</li>
+<li><a class="reference internal" href="posegment.html"><span class="doc">posegment</span></a> – Break a PO or XLIFF files into sentence segments, useful
+for creating a segmented translation memory</li>
+<li><a class="reference internal" href="pocompile.html"><span class="doc">pocompile</span></a> – create an MO (Machine Object) file from a PO or XLIFF
+file</li>
+<li><a class="reference internal" href="poswap.html"><span class="doc">poswap</span></a> – uses a translation of another language that you would rather
+use than English as source language</li>
+<li><a class="reference internal" href="poclean.html"><span class="doc">poclean</span></a> – produces a clean file from an unclean file
+(Trados/Wordfast) by stripping out the tw4win indicators</li>
+<li><a class="reference internal" href="pretranslate.html"><span class="doc">pretranslate</span></a> – fill any missing translations from translation memory
+via fuzzy matching.</li>
+<li><a class="reference internal" href="levenshtein_distance.html"><span class="doc">Levenshtein distance</span></a> – edit distance algorithms for translation
+memory matching</li>
+</ul>
+</div>
+</div>
+<div class="section" id="scripts">
+<span id="commands-scripts"></span><h1>Scripts<a class="headerlink" href="#scripts" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p>The scripts are for working with and manipulating PO files.  Unlike the
+<code class="docutils literal notranslate"><span class="pre">tools</span></code> which are written in Python, the scripts are written in <code class="docutils literal notranslate"><span class="pre">bash</span></code>.
+Some of them are packaged since version 1.0 of the Toolkit, but you might need
+to download them from version control and do a manual installation .</p>
+<ul class="simple">
+<li><a class="reference internal" href="moz-l10n-builder.html"><span class="doc">moz-l10n-builder</span></a> – Create Mozilla XPIs and rebuild Windows installers
+from existing translations</li>
+<li><a class="reference internal" href="mozilla_l10n_scripts.html"><span class="doc">Mozilla L10n Scripts</span></a> – Build Mozilla products Firefox and Thunderbird</li>
+<li><a class="reference internal" href="phase.html"><span class="doc">phase</span></a> – Helps manage a project divided into phases of work, including
+sending, checking, etc</li>
+<li><a class="reference internal" href="pocompendium.html"><span class="doc">pocompendium</span></a> – Creates various types of PO compendium (i.e. combines
+many PO files into a single PO file)</li>
+<li><a class="reference internal" href="pocommentclean.html"><span class="doc">pocommentclean</span></a> – Remove all translator comments from a PO file</li>
+<li><a class="reference internal" href="pomigrate2.html"><span class="doc">pomigrate2</span></a> – Migrate older PO files to new POT files</li>
+<li><a class="reference internal" href="popuretext.html"><span class="doc">popuretext</span></a> – Extracts all the source text from a directory of POT
+files</li>
+<li><a class="reference internal" href="poreencode.html"><span class="doc">poreencode</span></a> – Converts PO files to a new character encoding</li>
+<li><a class="reference internal" href="posplit.html"><span class="doc">posplit</span></a> – Split a PO file into translate, untranslated and fuzzy
+files</li>
+</ul>
+</div>
+
+
+</div>
+<hr>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right"><a href="#">Back to top ↑</a></p>
+    <ul class="unstyled muted">
+      <li><small>
+        &copy; 2002-2020, Translate.<br/>
+      </small></li>
+      <li><small>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </small></li>
+    </ul>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+{% extends "browser/base.html"  %}
+
+{% block title %}{{ language.name }} | {{ block.super }}{% endblock %}
+
+{% block breadcrumbs %}
+{% include 'core/_breadcrumbs.html' with nav='languages/_nav.html' %}
+{% endblock %}

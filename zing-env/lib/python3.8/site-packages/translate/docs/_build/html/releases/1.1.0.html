@@ -1,0 +1,200 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Translate Toolkit 1.1.0 &#8212; Translate Toolkit 2.5.0 documentation</title>
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Translate Toolkit 1.0.1" href="1.0.1.html" />
+    <link rel="prev" title="Translate Toolkit 1.1.1" href="1.1.1.html" /> 
+  </head><body>
+  <div id="navbar" class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <a class="brand" href="../index.html">Translate Toolkit</a>
+        <span class="navbar-text pull-left"><b>2.5.0</b></span>
+          <ul class="nav">
+            <li class="divider-vertical"></li>
+            
+              <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html">Converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html#tools">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html#scripts">Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formats/index.html">Supported formats</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developers/styleguide.html">Translate Styleguide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/styleguide.html#documentation">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/building.html">Building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/testing.html#command-line-functional-testing">Command Line Functional Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/developers.html">Translate Toolkit Developers Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/releasing.html">Making a Translate Toolkit Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/deprecation.html">Deprecation of Features</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History of the Translate Toolkit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API</a></li>
+</ul>
+</ul>
+</li>
+              
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"><ul>
+<li><a class="reference internal" href="#">Translate Toolkit 1.1.0</a><ul>
+<li><a class="reference internal" href="#oo2po-help-helpcontent2-escaping-fixed">oo2po Help (helpcontent2) escaping fixed</a></li>
+<li><a class="reference internal" href="#prop2po-uses-developer-comments">prop2po uses developer comments</a></li>
+<li><a class="reference internal" href="#moz2po-no-longer-uses-kde-comments">moz2po no longer uses KDE comments</a></li>
+<li><a class="reference internal" href="#read-and-write-mo-files">Read and Write MO files</a></li>
+<li><a class="reference internal" href="#read-qt-qm-files">Read Qt .qm files</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+            
+            
+              
+  <li><a href="1.1.1.html"
+         title="previous chapter">&laquo; Translate Toolkit 1.1.1</a></li>
+  <li><a href="1.0.1.html"
+         title="next chapter">Translate Toolkit 1.0.1 &raquo;</a></li>
+            
+          </ul>
+          <ul class="nav pull-right">
+            
+              
+            
+          
+            
+<form class="navbar-search pull-right" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="container content">
+   
+  <div class="section" id="translate-toolkit-1-1-0">
+<span id="changelog-1-1"></span><h1>Translate Toolkit 1.1.0<a class="headerlink" href="#translate-toolkit-1-1-0" title="Permalink to this headline">¶</a></h1>
+<p><em>Released on 22 January 2008</em></p>
+<div class="section" id="oo2po-help-helpcontent2-escaping-fixed">
+<span id="changelog-oo2po-help-helpcontent2-escaping-fixed"></span><h2>oo2po Help (helpcontent2) escaping fixed<a class="headerlink" href="#oo2po-help-helpcontent2-escaping-fixed" title="Permalink to this headline">¶</a></h2>
+<p>OpenOffice.org Help (helpcontent2) has notoriously contained some unreadable
+esacping, e.g. <code class="docutils literal notranslate"><span class="pre">\\\\&lt;tag</span> <span class="pre">attr=\\&quot;value\\&quot;\\\\&gt;</span></code>.  The escaping has been fixed
+and oo2po now understands helpcontent2 escaping while leaving the current GUI
+escape handling unaltered.</p>
+<p>If you have not translated helpcontent2 then you are unaffected by this change.
+If you have translated this content then you will need to follow these
+instructions when upgrading.</p>
+<p>If you follow normal procedures of creating POT files and upgrading your PO
+files using pot2po then your strings will not match and you will obtain files
+with many fuzzies.  To avoid this do the following:</p>
+<ol class="arabic simple">
+<li>Make sure your PO files contain no fuzzy entries</li>
+<li>Use po2oo from the previous release to create and SDF file</li>
+<li>Upgrade to the latest Translate Toolkit with new po2oo</li>
+<li>Use <code class="docutils literal notranslate"><span class="pre">po2oo</span> <span class="pre">-l</span> <span class="pre">xx-YY</span> <span class="pre">your.sdf</span> <span class="pre">po</span></code> to create a new set of PO files with
+correct escaping</li>
+</ol>
+<p>You can choose to do this with only your helpcontent2 PO files if needed, this
+will allow you to leave your GUI work in its current state.  Simply do the
+above procedure and discard all PO files except helpcontent2, then move these
+new helpcontent2 files into your current work.</p>
+</div>
+<div class="section" id="prop2po-uses-developer-comments">
+<span id="changelog-prop2po-uses-developer-comments"></span><h2>prop2po uses developer comments<a class="headerlink" href="#prop2po-uses-developer-comments" title="Permalink to this headline">¶</a></h2>
+<p>prop2po used to place comments found in the source .properties file in
+traditional translator comments, they should of course go into developer
+comments.    The reason for this change is twofold, it allows these comments to
+be correctly managed and it is part of the process of cleaning up these formats
+so that they are closer to the base class and can thus work with XLIFF.</p>
+<p>For the user there will be fairly large changes as one comment format moves to
+the next.  It is best to <a class="reference internal" href="../guides/cleanup_translator_comments.html"><span class="doc">cleanup translator comments</span></a> and get your translations into a fit
+state, i.e. no fuzzies, and then proceed with any migrations.</p>
+</div>
+<div class="section" id="moz2po-no-longer-uses-kde-comments">
+<span id="changelog-moz2po-no-longer-uses-kde-comments"></span><h2>moz2po no longer uses KDE comments<a class="headerlink" href="#moz2po-no-longer-uses-kde-comments" title="Permalink to this headline">¶</a></h2>
+<p>moz2po has traditionally used KDE style comments for storing comments aimed at
+translators.  Many translators confuse these and try to translate them.  Thus
+these have been moved into automatic or developer comments.  The result for
+many people migrating Mozilla PO files will be that many strings will become
+fuzzy, you can avoid much of this by using pot2po which should intelligently be
+able to match without considering the KDE comments.</p>
+<p>The best strategy is to get your translations into a relatively good shape
+before migration.  You can then migrate them first to a new set of POT files
+generated from the same source files that the translation is based on.
+Eliminate all fuzzies as these should only relate to the changes in layout.
+Then proceed to migrate to a new set of POT files.  If you cannot work against
+the original source files then the best would be to also first eliminate fuzzy
+matches before proceeding to translation.  Your fuzzies will include changes in
+layout and changes in content so proceed carefully.</p>
+<p>At the end of this you should have PO files that conform to the Gettext
+standard without KDE comments.</p>
+</div>
+<div class="section" id="read-and-write-mo-files">
+<span id="changelog-read-and-write-mo-files"></span><h2>Read and Write MO files<a class="headerlink" href="#read-and-write-mo-files" title="Permalink to this headline">¶</a></h2>
+<p>You can read and write Gettext MO files (compiled PO files).  Thus pocount can
+now count files on your filesystem and you can also compile MO files using
+pocompile.  MO files can be compiled from either PO or XLIFF sources.</p>
+<p>MO will now also produce correct output for msgctxt and plural forms found in
+PO files.</p>
+</div>
+<div class="section" id="read-qt-qm-files">
+<span id="changelog-read-qt-qm-files"></span><h2>Read Qt .qm files<a class="headerlink" href="#read-qt-qm-files" title="Permalink to this headline">¶</a></h2>
+<p>We can now read Qt .qm files, thus pocount can count the contents of compiled
+files.  We cannot however write .qm files at this time.</p>
+</div>
+</div>
+
+
+</div>
+<hr>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right"><a href="#">Back to top ↑</a></p>
+    <ul class="unstyled muted">
+      <li><small>
+        &copy; 2002-2020, Translate.<br/>
+      </small></li>
+      <li><small>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </small></li>
+    </ul>
+  </div>
+</footer>
+  </body>
+</html>

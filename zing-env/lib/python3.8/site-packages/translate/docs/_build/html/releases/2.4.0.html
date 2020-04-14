@@ -1,0 +1,248 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Translate Toolkit 2.4.0 &#8212; Translate Toolkit 2.5.0 documentation</title>
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Translate Toolkit 2.3.1" href="2.3.1.html" />
+    <link rel="prev" title="Translate Toolkit 2.5.0" href="2.5.0.html" /> 
+  </head><body>
+  <div id="navbar" class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <a class="brand" href="../index.html">Translate Toolkit</a>
+        <span class="navbar-text pull-left"><b>2.5.0</b></span>
+          <ul class="nav">
+            <li class="divider-vertical"></li>
+            
+              <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html">Converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html#tools">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html#scripts">Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formats/index.html">Supported formats</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developers/styleguide.html">Translate Styleguide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/styleguide.html#documentation">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/building.html">Building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/testing.html#command-line-functional-testing">Command Line Functional Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/developers.html">Translate Toolkit Developers Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/releasing.html">Making a Translate Toolkit Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developers/deprecation.html">Deprecation of Features</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">History of the Translate Toolkit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API</a></li>
+</ul>
+</ul>
+</li>
+              
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"><ul>
+<li><a class="reference internal" href="#">Translate Toolkit 2.4.0</a><ul>
+<li><a class="reference internal" href="#changes">Changes</a><ul>
+<li><a class="reference internal" href="#formats-and-converters">Formats and Converters</a></li>
+<li><a class="reference internal" href="#tools">Tools</a></li>
+<li><a class="reference internal" href="#languages">Languages</a></li>
+<li><a class="reference internal" href="#placeables">Placeables</a></li>
+<li><a class="reference internal" href="#api-changes">API changes</a></li>
+<li><a class="reference internal" href="#general">General</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#contributors">Contributors</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+            
+            
+              
+  <li><a href="2.5.0.html"
+         title="previous chapter">&laquo; Translate Toolkit 2.5.0</a></li>
+  <li><a href="2.3.1.html"
+         title="next chapter">Translate Toolkit 2.3.1 &raquo;</a></li>
+            
+          </ul>
+          <ul class="nav pull-right">
+            
+              
+            
+          
+            
+<form class="navbar-search pull-right" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="container content">
+   
+  <div class="section" id="translate-toolkit-2-4-0">
+<h1>Translate Toolkit 2.4.0<a class="headerlink" href="#translate-toolkit-2-4-0" title="Permalink to this headline">¶</a></h1>
+<p><em>Released on 24 June 2019</em></p>
+<p>This release contains improvements and bug fixes.</p>
+<div class="section" id="changes">
+<h2>Changes<a class="headerlink" href="#changes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="formats-and-converters">
+<h3>Formats and Converters<a class="headerlink" href="#formats-and-converters" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>PO<ul>
+<li>Allow unicode in PO headers (<a class="reference external" href="https://github.com/translate/translate/issues/3896">issue 3896</a>).</li>
+<li>Improve finding out newline format for a file.</li>
+<li>Strip UTF-8 BOM from input (<a class="reference external" href="https://github.com/translate/translate/issues/1640">issue 1640</a>).</li>
+</ul>
+</li>
+<li>XLIFF<ul>
+<li>Adjustments on how output is indented (<a class="reference external" href="https://github.com/translate/translate/issues/3424">issue 3424</a>).</li>
+</ul>
+</li>
+<li>Properties<ul>
+<li>Do not fail when parsing empty file.</li>
+</ul>
+</li>
+<li>Android resources<ul>
+<li>Multiple adjustments so output is closer to Android Studio’s.</li>
+</ul>
+</li>
+<li>YAML<ul>
+<li>Switched to <cite>ruamel.yaml</cite> to simplify codebase and support YAML 1.2.</li>
+<li>Added support for Ruby plurals.</li>
+<li>Fixed handling dict in list (<a class="reference external" href="https://github.com/translate/translate/issues/3895">issue 3895</a>).</li>
+<li>Fixed parsing of empty YAML file.</li>
+</ul>
+</li>
+<li>JSON<ul>
+<li>Fixed serialization of JSON arrays.</li>
+<li>Placeholders are now kept in WebExtension dialect round trip conversion.</li>
+</ul>
+</li>
+<li>RESX<ul>
+<li>Several improvements on formatting to align with Visual Studio’s output.</li>
+</ul>
+</li>
+<li>TS<ul>
+<li>Improved tags indentation.</li>
+<li>Added support for new <cite>vanished</cite> type.</li>
+</ul>
+</li>
+<li>Flat XML<ul>
+<li>Added support for this new format including <cite>flatxml2po</cite> and <cite>po2flatxml</cite>
+converters (<a class="reference external" href="https://github.com/translate/translate/issues/3776">issue 3776</a>).</li>
+</ul>
+</li>
+<li>CSV<ul>
+<li>No longer hardcode escape character (<a class="reference external" href="https://github.com/translate/translate/issues/3246">issue 3246</a>).</li>
+<li>Rewrote default dialect to make it more flexible.</li>
+</ul>
+</li>
+<li>web2py<ul>
+<li>Updated converters code.</li>
+</ul>
+</li>
+<li>Subtitles<ul>
+<li>Initialize duration on subtitle unit <cite>__init__</cite>.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="tools">
+<h3>Tools<a class="headerlink" href="#tools" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Tmserver: Fixed execution of unit API on Python 3.</li>
+</ul>
+</div>
+<div class="section" id="languages">
+<h3>Languages<a class="headerlink" href="#languages" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Updated plural definitions to CLDR 35.0.</li>
+<li>Removed trailing semicolon in Romanian plural definition.</li>
+</ul>
+</div>
+<div class="section" id="placeables">
+<h3>Placeables<a class="headerlink" href="#placeables" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Allow any character for Python mapping keys in <cite>PythonFormattingPlaceable</cite>.</li>
+</ul>
+</div>
+<div class="section" id="api-changes">
+<h3>API changes<a class="headerlink" href="#api-changes" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Altered storage code to have a consistent API for <cite>removenotes</cite>.</li>
+<li>Removed dependency on diff-match-patch.</li>
+<li>Removed embedded CherryPy wsgi server.</li>
+<li>Removed deprecated <cite>has_key</cite> implementation.</li>
+</ul>
+</div>
+<div class="section" id="general">
+<h3>General<a class="headerlink" href="#general" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Dropped no longer supported Python 3.3 and Python 3.4.</li>
+<li>Minor docs improvements.</li>
+<li>Updated requirements.</li>
+<li>Added and updated tests.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="contributors">
+<h2>Contributors<a class="headerlink" href="#contributors" title="Permalink to this headline">¶</a></h2>
+<p>This release was made possible by the following people:</p>
+<p>Michal Čihař, Leandro Regueiro, Vinyl Darkscratch, Vitaly Novichkov, Stuart
+Prescott, Alex Tomkins, Darío Hereñú, BhaaL.</p>
+<p>And to all our bug finders and testers, a Very BIG Thank You.</p>
+</div>
+</div>
+
+
+</div>
+<hr>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right"><a href="#">Back to top ↑</a></p>
+    <ul class="unstyled muted">
+      <li><small>
+        &copy; 2002-2020, Translate.<br/>
+      </small></li>
+      <li><small>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </small></li>
+    </ul>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,269 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Installation &#8212; Translate Toolkit 2.5.0 documentation</title>
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/bootstrap.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Converters" href="commands/index.html" />
+    <link rel="prev" title="Features" href="features.html" /> 
+  </head><body>
+  <div id="navbar" class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <a class="brand" href="index.html">Translate Toolkit</a>
+        <span class="navbar-text pull-left"><b>2.5.0</b></span>
+          <ul class="nav">
+            <li class="divider-vertical"></li>
+            
+              <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/index.html">Converters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/index.html#tools">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="commands/index.html#scripts">Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/index.html">Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="formats/index.html">Supported formats</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developers/styleguide.html">Translate Styleguide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers/styleguide.html#documentation">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers/building.html">Building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers/testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers/testing.html#command-line-functional-testing">Command Line Functional Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers/contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers/developers.html">Translate Toolkit Developers Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers/releasing.html">Making a Translate Toolkit Release</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers/deprecation.html">Deprecation of Features</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="releases/index.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History of the Translate Toolkit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API</a></li>
+</ul>
+</ul>
+</li>
+              
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"><ul>
+<li><a class="reference internal" href="#">Installation</a><ul>
+<li><a class="reference internal" href="#building">Building</a></li>
+<li><a class="reference internal" href="#download">Download</a></li>
+<li><a class="reference internal" href="#installing-packaged-versions">Installing packaged versions</a></li>
+<li><a class="reference internal" href="#installing-on-windows">Installing on Windows</a></li>
+<li><a class="reference internal" href="#installing-from-git">Installing from Git</a></li>
+<li><a class="reference internal" href="#verify-installed-version">Verify installed version</a></li>
+<li><a class="reference internal" href="#cleaning-up-existing-installation">Cleaning up existing installation</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+            
+            
+              
+  <li><a href="features.html"
+         title="previous chapter">&laquo; Features</a></li>
+  <li><a href="commands/index.html"
+         title="next chapter">Converters &raquo;</a></li>
+            
+          </ul>
+          <ul class="nav pull-right">
+            
+              
+            
+          
+            
+<form class="navbar-search pull-right" action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="container content">
+   
+  <div class="section" id="installation">
+<span id="id1"></span><h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>This is a guide to installing the Translate Toolkit on your system.  If the
+Translate Toolkit is already packaged for your system, this is probably the
+easiest way to install it. For several Linux distributions, the package might
+be available through your package manager.  On Windows, we recommend using a
+virtual environment.</p>
+<p>If your system already has the toolkit prepackaged, then please let us know
+what steps are required to install it.</p>
+<div class="section" id="building">
+<span id="installation-building"></span><h2>Building<a class="headerlink" href="#building" title="Permalink to this headline">¶</a></h2>
+<p>For build instructions, see the <a class="reference internal" href="developers/building.html"><span class="doc">Building</span></a> page.</p>
+</div>
+<div class="section" id="download">
+<span id="installation-download"></span><h2>Download<a class="headerlink" href="#download" title="Permalink to this headline">¶</a></h2>
+<p>Download a stable <a class="reference external" href="https://github.com/translate/translate/releases">released version</a>.  Or
+if you have a python environment, run <cite>pip install translate-toolkit</cite>.  For
+those who need problems fixed, or who want to work on the bleeding edge, get
+the latest source from <a class="reference internal" href="#installation-installing-from-git"><span class="std std-ref">Git</span></a>.</p>
+<p>If you install through your distribution’s package manager, you should
+automatically have all the dependencies you need. If you are installing a
+version from Version Control, or from a source release, you should check the
+README file for information on the dependencies that are needed. Some of the
+dependencies are optional. The README file documents this.</p>
+</div>
+<div class="section" id="installing-packaged-versions">
+<span id="installation-installing-packaged-versions"></span><h2>Installing packaged versions<a class="headerlink" href="#installing-packaged-versions" title="Permalink to this headline">¶</a></h2>
+<p>Get the package for your system:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>RPM</td>
+<td>If you want to install easily on an RPM based system</td>
+</tr>
+<tr class="row-even"><td>.tar.gz</td>
+<td>for source based installing on Linux</td>
+</tr>
+<tr class="row-odd"><td>.deb</td>
+<td>for Debian GNU/Linux (etch version)</td>
+</tr>
+</tbody>
+</table>
+<p>The RPM package can be installed by using the following command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> rpm -Uvh translate-toolkit-1.0.1.rpm
+</pre></div>
+</div>
+<p>To install a tar.bz2:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> tar xvjf translate-toolkit-1.1.0.tar.bz2
+<span class="gp">$</span> <span class="nb">cd</span> translate-toolkit-1.1.0
+<span class="gp">$</span> su
+<span class="gp">$</span> ./setup.py install
+</pre></div>
+</div>
+<p>On Debian (if you are on etch), just type the following command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> aptitude install translate-toolkit
+</pre></div>
+</div>
+<p>If you are using an old Debian stable system, you might want to install the
+.tar.bz2 version. Be sure to install python and python development first with:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> apt-get install python python-dev
+</pre></div>
+</div>
+<p>Alternatively newer packages might be in testing.</p>
+</div>
+<div class="section" id="installing-on-windows">
+<span id="installation-installing-on-windows"></span><h2>Installing on Windows<a class="headerlink" href="#installing-on-windows" title="Permalink to this headline">¶</a></h2>
+<p>On Windows we recommend that you install Translate Toolkit using a virtual
+environment. This makes installation clean and isolated.</p>
+<p>Use the latest Python 2.7 (at least Python 2.7.9 or newer as it bundles the pip
+installer).  Install <a class="reference external" href="https://pypi.python.org/pypi/virtualenvwrapper-win">virtualenvwrapper-win</a> to simplify handling of
+virtualenvs.</p>
+<ol class="arabic simple">
+<li>Install latest <a class="reference external" href="https://www.python.org/downloads/windows/">Python 2.7</a></li>
+<li>Open cmd.exe or similar</li>
+<li><cite>pip install virtualenvwrapper-win</cite></li>
+<li><cite>mkvirtualenv ttk</cite> where “ttk” is the name for the new virtualenv</li>
+<li><cite>pip install translate-toolkit</cite> to install latest stable or <cite>pip install
+–pre translate-toolkit</cite> to try a pre-release</li>
+<li><cite>pip install lxml&gt;=3.5</cite> to be able to use XLIFF or other XML formats</li>
+<li><cite>po2prop –version</cite> to double check you have the right version</li>
+</ol>
+<p>Next times you need to use Translate Toolkit just remember to:</p>
+<ol class="arabic simple">
+<li>Open cmd.exe or similar</li>
+<li><cite>workon ttk</cite> to enable the virtualenv again</li>
+<li>Run the Translate Toolkit commands you want</li>
+</ol>
+</div>
+<div class="section" id="installing-from-git">
+<span id="installation-installing-from-git"></span><h2>Installing from Git<a class="headerlink" href="#installing-from-git" title="Permalink to this headline">¶</a></h2>
+<p>If you want to try the bleeding edge, or just want to have the latest fixes
+from a stabilising branch then you need to use Git to get your sources:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> git clone https://github.com/translate/translate.git
+</pre></div>
+</div>
+<p>This will retrieve the <code class="docutils literal notranslate"><span class="pre">master</span></code> branch of the Toolkit.  Further Git
+<a class="reference external" href="http://git.or.cz/course/svn.html">instructions</a> are also available.</p>
+<p>Once you have the sources you have two options, a full install:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> su
+<span class="gp">$</span> ./setup.py install
+</pre></div>
+</div>
+<p>or, running the tools from the source directory:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> su
+<span class="gp">$</span> pip install -e .
+</pre></div>
+</div>
+</div>
+<div class="section" id="verify-installed-version">
+<span id="installation-verify-installed-version"></span><h2>Verify installed version<a class="headerlink" href="#verify-installed-version" title="Permalink to this headline">¶</a></h2>
+<p>To verify which version of the toolkit you have installed run:</p>
+<pre class="literal-block">
+$ prop2po --version
+prop2po 2.5.0
+</pre>
+</div>
+<div class="section" id="cleaning-up-existing-installation">
+<span id="installation-cleanup"></span><h2>Cleaning up existing installation<a class="headerlink" href="#cleaning-up-existing-installation" title="Permalink to this headline">¶</a></h2>
+<p>To remove old versions of the toolkit which you might have installed without a
+virtual environment or without your package manager.</p>
+<p>The following advice only applies to manual installation from a tarball.</p>
+<ol class="arabic">
+<li><p class="first">Find location of your python packages:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> python -c <span class="s2">&quot;from distutils.sysconfig import get_python_lib; print(get_python_lib())&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Delete toolkit package from your Python site-packages directory e.g.:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> rm -R /usr/local/lib/python2.7/dist-packages/translate
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+
+
+</div>
+<hr>
+
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right"><a href="#">Back to top ↑</a></p>
+    <ul class="unstyled muted">
+      <li><small>
+        &copy; 2002-2020, Translate.<br/>
+      </small></li>
+      <li><small>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.8.5.
+      </small></li>
+    </ul>
+  </div>
+</footer>
+  </body>
+</html>

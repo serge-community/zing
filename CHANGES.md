@@ -1,6 +1,12 @@
 Zing Changelog
 ==============
 
+v.next (unreleased)
+-------------------
+
+* Internal: upgraded to Webpack 4 and Babel 7 (#449).
+
+
 v0.9.2 (2020-04-08)
 -------------------
 

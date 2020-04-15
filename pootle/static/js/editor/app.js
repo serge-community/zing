@@ -20,6 +20,7 @@ import 'jquery-bidi';
 import 'jquery-easing';
 import 'jquery-highlightRegex';
 import 'jquery-history';
+import 'jquery-select2';
 import 'jquery-serializeObject';
 import 'jquery-utils';
 

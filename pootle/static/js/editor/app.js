@@ -400,15 +400,15 @@ PTL.editor = {
 
     /* Load MT providers */
     this.settings.mt.forEach((provider) => {
-      require.ensure([], () => {
-        // Retrieve actual module name: FOO_BAR_BAZ => FooBarBaz
-        const moduleName = provider.name
-          .split('_')
-          .map((x) => x[0] + x.slice(1).toLowerCase())
-          .join('');
-        // Webpack doesn't like template strings for now...
-        // eslint-disable-next-line prefer-template
-        const Module = require('./mt/providers/' + moduleName).default;
+      // Retrieve actual module name: FOO_BAR_BAZ => FooBarBaz
+      const moduleName = provider.name
+        .split('_')
+        .map((x) => x[0] + x.slice(1).toLowerCase())
+        .join('');
+      import(
+        /* webpackChunkName: "mt-[request]" */ `./mt/providers/${moduleName}`
+      ).then((module) => {
+        const Module = module.default;
         mtProviders.push(new Module(provider.key));
       });
     });

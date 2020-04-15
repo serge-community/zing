@@ -95,10 +95,7 @@ var config = {
         options: {
           babelrc: false,
           cacheDirectory: true,
-          presets: [
-            require.resolve('babel-preset-env'),
-            require.resolve('babel-preset-react'),
-          ],
+          presets: ['@babel/preset-env', '@babel/preset-react'],
         },
         exclude: /node_modules|vendor|.*\.test\.js/,
       },

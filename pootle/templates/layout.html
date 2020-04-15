@@ -33,6 +33,9 @@
     };
     </script>
 
+    {% assets "js_runtime" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
     {% assets "js_vendor" %}
     <script type="text/javascript" src="{{ ASSET_URL }}"></script>
     {% endassets %}

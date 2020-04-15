@@ -14,6 +14,11 @@ from django_assets import Bundle, register
 # These are handled by webpack and therefore have no filters applied
 # They're kept here so hash-based cache invalidation can be used
 
+js_runtime = Bundle(
+    "js/runtime/app.bundle.js", output="js/runtime/app.min.%(version)s.js"
+)
+register("js_runtime", js_runtime)
+
 js_vendor = Bundle(
     "js/vendors/app.bundle.js", output="js/vendors/app.min.%(version)s.js"
 )

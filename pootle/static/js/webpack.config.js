@@ -107,6 +107,7 @@ var config = {
   resolve: resolve,
   plugins: plugins,
   optimization: {
+    runtimeChunk: 'single',
     splitChunks: {
       cacheGroups: {
         vendor: {

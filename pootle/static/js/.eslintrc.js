@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
   },
   parserOptions: {
-    ecmaVersion: 6,
+    ecmaVersion: 11,
     ecmaFeatures: {
       jsx: true,
     },

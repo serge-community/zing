@@ -18,6 +18,7 @@
     "printWidth": 84,
     "singleQuote": true
   },
+  "browserslist": "last 2 versions, not IE > 0, not Opera > 0, not dead",
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.5",

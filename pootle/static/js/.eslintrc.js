@@ -18,11 +18,9 @@ module.exports = {
     PTL: false,
     require: false,
   },
-  plugins: [
-    'prettier', 'react',
-  ],
+  plugins: ['prettier', 'react'],
   rules: {
-    'curly': 'error',
+    curly: 'error',
     'no-cond-assign': [2, 'except-parens'],
     'no-console': 'error',
     'no-constant-condition': 'error',
@@ -35,8 +33,8 @@ module.exports = {
     'no-unused-vars': 'error',
     'no-useless-escape': 'error',
 
-    "react/jsx-uses-react": "error",
-    "react/jsx-uses-vars": "error",
+    'react/jsx-uses-react': 'error',
+    'react/jsx-uses-vars': 'error',
     'react/prefer-es6-class': 0,
     'react/prefer-stateless-function': 1,
 

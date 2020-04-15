@@ -25,10 +25,7 @@ var entries = {
 };
 
 var resolve = {
-  modules: [
-    'node_modules',
-    'shared',
-  ],
+  modules: ['node_modules', 'shared'],
   alias: {
     pootle: __dirname,
 
@@ -48,7 +45,8 @@ var resolve = {
     'jquery-history': __dirname + '/vendor/jquery/jquery.history.js',
     'jquery-magnific-popup': __dirname + '/vendor/jquery/jquery.magnific-popup.js',
     'jquery-select2': __dirname + '/vendor/jquery/jquery.select2.js',
-    'jquery-serializeObject': __dirname + '/vendor/jquery/jquery.serializeObject.js',
+    'jquery-serializeObject':
+      __dirname + '/vendor/jquery/jquery.serializeObject.js',
     'jquery-tipsy': __dirname + '/vendor/jquery/jquery.tipsy.js',
     'jquery-utils': __dirname + '/vendor/jquery/jquery.utils.js',
 
@@ -78,16 +76,13 @@ var config = {
     path: __dirname,
     publicPath: STATIC_URL,
     filename: '[name]/app.bundle.js',
-    chunkFilename: '[name]/app.bundle.js'
+    chunkFilename: '[name]/app.bundle.js',
   },
   module: {
     rules: [
       {
         test: /\.css/,
-        use: [
-          'style-loader',
-          'css-loader',
-        ],
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.js$/,

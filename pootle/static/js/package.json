@@ -12,7 +12,7 @@
     "dev:nowatch": "webpack --progress",
     "lint": "eslint .",
     "stylelint": "stylelint --config=stylelint.json ../css/**/*.css **/*.css",
-    "test": "mocha --compilers js:@babel/register --require setup.test.js \"./{,!(node_modules)/**/}*.test.js\""
+    "test": "mocha --require @babel/register --require setup.test.js \"./{,!(node_modules)/**/}*.test.js\""
   },
   "prettier": {
     "printWidth": 84,
@@ -32,7 +32,7 @@
     "eslint-plugin-react": "^4.2.0",
     "expect": "^1.14.0",
     "lolex": "^1.5.1",
-    "mocha": "^3.0.2",
+    "mocha": "^7.1.1",
     "prettier": "2.0.2",
     "style-loader": "^0.19.0",
     "stylelint": "^7.1.0",

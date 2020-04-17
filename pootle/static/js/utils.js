@@ -103,8 +103,8 @@ export function strCmp(a, b) {
 
 
 export function highlightRO(text) {
-  console.log("highlightRO")
-  console.log(text)
+  //console.log("highlightRO")
+  //console.log(text)
   return (
     nl2br(
       highlightEscapes(
@@ -124,7 +124,6 @@ export function highlightRO(text) {
 
 
 export function highlightRW(text) {
-  console.log("highlightRW")
   console.log(text)
   return (
     highlightSymbols(

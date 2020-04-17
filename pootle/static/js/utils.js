@@ -103,7 +103,8 @@ export function strCmp(a, b) {
 
 
 export function highlightRO(text) {
-  console.log("TEST22")
+  console.log("highlightRO")
+  console.log(text)
   return (
     nl2br(
       highlightEscapes(
@@ -123,7 +124,8 @@ export function highlightRO(text) {
 
 
 export function highlightRW(text) {
-  console.log("TEST22")
+  console.log("highlightRW")
+  console.log(text)
   return (
     highlightSymbols(
       nl2br(
@@ -147,7 +149,8 @@ export function highlightRW(text) {
 
 
 function highlightNodes(selector, highlightFn) {
-  console.log("TEST22")
+  console.log("highlightNodes")
+  console.log(selector, highlightFn)
   qAll(selector).forEach(
     (translationTextNode) => {
       const dataString = translationTextNode.dataset.string;
@@ -163,19 +166,19 @@ function highlightNodes(selector, highlightFn) {
 
 
 export function highlightRONodes(selector) {
-  console.log("TEST22")
+  console.log("highlightRONodes")
+  console.log(selector)
   return highlightNodes(selector, highlightRO);
 }
 
 
 export function highlightRWNodes(selector) {
-  console.log("TEST22")
+  console.log("highlightRWNodes")
   return highlightNodes(selector, highlightRW);
 }
 
 
 export function blinkClass($elem, className, n, delay) {
-  console.log("TEST2")
   $elem.toggleClass(className);
   if (n > 1) {
     setTimeout(() => blinkClass($elem, className, n - 1, delay), delay);

@@ -59,7 +59,7 @@ const HTML_RE = /<[^>]+>|[&<>]/gm; // HTML regex rule used by js replace functio
 export function highlightHtml(text, className = '') {
   const htmlHl = `<span class="highlight-html ${className}">&lt;%s&gt;</span>`;
 
-  function replace(match) {
+  function replace(match) { //wouldn't define a function each time the recursion is run be expensive?
 
     //For visualization purposes only(?) since this is HTML syntax. HTML equivalents below
     const submap = {
@@ -69,7 +69,7 @@ export function highlightHtml(text, className = '') {
     };
 
     let replaced = submap[match];
-    if (replaced === undefined) { //If no match is found, then follow with the rest 
+    if (replaced === undefined) { //If no match is found, then follow with the rest, recursive function
       const remainder = match.slice(1, match.length - 1);
       replaced = htmlHl.replace(
         /%s/,

@@ -8,8 +8,8 @@
  */
 
 import { BASE_MAP_REVERSE_HL, RE_BASE_REVERSE } from './font';
-import { escapeRegexReplacementSymbols } from './search';
 
+import { escapeRegexReplacementSymbols } from './search';
 
 /* eslint-disable no-irregular-whitespace */
 const PUNCTUATION_RE = /[™©®]|[℃℉°]|[±πθ×÷−√∞∆Σ′″]|[‘’ʼ‚‛“”„‟]|[«»]|[£¥€]|…|—|–|[ ]/g;
@@ -30,6 +30,8 @@ export function highlightPunctuation(text, className = '') {
 const ESCAPE_RE = /\\r|\\n|\\t/gm;
 
 export function highlightEscapes(text, className = '') {
+  console.log("highlightEscapes")
+  console.log(text)
   const escapeHl = `<span class="highlight-escape ${className}">%s</span>`;
   function replace(match) {
     const submap = {
@@ -52,11 +54,14 @@ export function nl2br(text) {
 }
 
 
-const HTML_RE = /<[^>]+>|[&<>]/gm;
+const HTML_RE = /<[^>]+>|[&<>]/gm; // HTML regex rule used by js replace function
 
 export function highlightHtml(text, className = '') {
   const htmlHl = `<span class="highlight-html ${className}">&lt;%s&gt;</span>`;
+
   function replace(match) {
+
+    //For visualization purposes only(?) since this is HTML syntax. HTML equivalents below
     const submap = {
       '&': '&amp;',
       '<': '&lt;',
@@ -64,8 +69,7 @@ export function highlightHtml(text, className = '') {
     };
 
     let replaced = submap[match];
-
-    if (replaced === undefined) {
+    if (replaced === undefined) { //If no match is found, then follow with the rest 
       const remainder = match.slice(1, match.length - 1);
       replaced = htmlHl.replace(
         /%s/,

@@ -7,16 +7,17 @@
  * AUTHORS file for copyright and authorship information.
  */
 
-import $ from 'jquery';
-
-import { qAll } from 'utils/dom';
-
 import {
-  highlightPunctuation, highlightEscapes, highlightHtml,
-  highlightSymbols, nl2br,
+  highlightEscapes,
+  highlightHtml,
+  highlightPunctuation,
+  highlightSymbols,
+  nl2br,
 } from './editor/utils';
-import { raw2sym } from './editor/utils/font';
 
+import $ from 'jquery';
+import { qAll } from 'utils/dom';
+import { raw2sym } from './editor/utils/font';
 
 /* Gets current URL's hash */
 export function getHash(win) {
@@ -81,7 +82,7 @@ export function updateHashPart(part, newVal, removeArray, hash) {
   // if passed parameter is defined
   if (!ok && part) {
     params.push([encodeURIComponent(part),
-      encodeURIComponent(newVal)].join('='));
+    encodeURIComponent(newVal)].join('='));
   }
   return params.join('&');
 }
@@ -102,6 +103,7 @@ export function strCmp(a, b) {
 
 
 export function highlightRO(text) {
+  console.log("TEST22")
   return (
     nl2br(
       highlightEscapes(
@@ -121,6 +123,7 @@ export function highlightRO(text) {
 
 
 export function highlightRW(text) {
+  console.log("TEST22")
   return (
     highlightSymbols(
       nl2br(
@@ -134,22 +137,23 @@ export function highlightRW(text) {
                 // is managed as a component.
                 text.replace(/\r\n/g, '\n')
               )
+              , 'js-editor-copytext')
             , 'js-editor-copytext')
           , 'js-editor-copytext')
-        , 'js-editor-copytext')
       )
-    , 'js-editor-copytext')
+      , 'js-editor-copytext')
   );
 }
 
 
 function highlightNodes(selector, highlightFn) {
+  console.log("TEST22")
   qAll(selector).forEach(
     (translationTextNode) => {
       const dataString = translationTextNode.dataset.string;
       const textValue = (
         dataString ? JSON.parse(`"${dataString}"`) :
-        translationTextNode.textContent
+          translationTextNode.textContent
       );
       // eslint-disable-next-line no-param-reassign
       translationTextNode.innerHTML = highlightFn(textValue);
@@ -159,16 +163,19 @@ function highlightNodes(selector, highlightFn) {
 
 
 export function highlightRONodes(selector) {
+  console.log("TEST22")
   return highlightNodes(selector, highlightRO);
 }
 
 
 export function highlightRWNodes(selector) {
+  console.log("TEST22")
   return highlightNodes(selector, highlightRW);
 }
 
 
 export function blinkClass($elem, className, n, delay) {
+  console.log("TEST2")
   $elem.toggleClass(className);
   if (n > 1) {
     setTimeout(() => blinkClass($elem, className, n - 1, delay), delay);

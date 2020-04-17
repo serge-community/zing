@@ -192,6 +192,9 @@ class ProjectsMixin(object):
 
 class ProjectsBrowseView(ProjectsMixin, PootleBrowseView):
     def get(self, *args, **kwargs):
+        import os
+        print(os.environ["DJANGO_SETTINGS_MODULE"])
+        print(os.environ.get("ZING_SETTINGS"))
         response = super().get(*args, **kwargs)
         response.set_cookie("pootle-language", "projects")
         return response

@@ -8,11 +8,12 @@
  */
 
 import {
+  highlightEmojis,
   highlightEscapes,
   highlightHtml,
   highlightPunctuation,
   highlightSymbols,
-  nl2br,
+  nl2br
 } from './editor/utils';
 
 import $ from 'jquery';
@@ -103,18 +104,18 @@ export function strCmp(a, b) {
 
 
 export function highlightRO(text) {
-  //console.log("highlightRO")
-  //console.log(text)
   return (
-    nl2br(
-      highlightEscapes(
-        highlightHtml(
-          raw2sym(
-            // FIXME: CRLF => LF replacement happens here because highlighting
-            // currently happens via many DOM sources, and this ensures the less
-            // error-prone behavior. This won't be needed when the entire editor
-            // is managed as a component.
-            text.replace(/\r\n/g, '\n')
+    highlightEmojis(
+      nl2br(
+        highlightEscapes(
+          highlightHtml(
+            raw2sym(
+              // FIXME: CRLF => LF replacement happens here because highlighting
+              // currently happens via many DOM sources, and this ensures the less
+              // error-prone behavior. This won't be needed when the entire editor
+              // is managed as a component.
+              text.replace(/\r\n/g, '\n')
+            )
           )
         )
       )
@@ -124,7 +125,6 @@ export function highlightRO(text) {
 
 
 export function highlightRW(text) {
-  console.log(text)
   return (
     highlightSymbols(
       nl2br(
@@ -148,8 +148,6 @@ export function highlightRW(text) {
 
 
 function highlightNodes(selector, highlightFn) {
-  console.log("highlightNodes")
-  console.log(selector, highlightFn)
   qAll(selector).forEach(
     (translationTextNode) => {
       const dataString = translationTextNode.dataset.string;
@@ -165,14 +163,11 @@ function highlightNodes(selector, highlightFn) {
 
 
 export function highlightRONodes(selector) {
-  console.log("highlightRONodes")
-  console.log(selector)
   return highlightNodes(selector, highlightRO);
 }
 
 
 export function highlightRWNodes(selector) {
-  console.log("highlightRWNodes")
   return highlightNodes(selector, highlightRW);
 }
 

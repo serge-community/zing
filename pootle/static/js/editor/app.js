@@ -7,14 +7,6 @@
  * AUTHORS file for copyright and authorship information.
  */
 
-import $ from 'jquery';
-import _ from 'underscore';
-import React from 'react';
-import ReactDOM from 'react-dom';
-
-import TimeSince from 'components/TimeSince';
-import ReactRenderer from 'utils/ReactRenderer';
-
 // jQuery plugins
 import 'jquery-bidi';
 import 'jquery-easing';
@@ -23,32 +15,38 @@ import 'jquery-history';
 import 'jquery-serializeObject';
 import 'jquery-utils';
 
+import {
+  decodeEntities,
+  escapeUnsafeRegexSymbols,
+  getAreaId,
+  makeRegexForMultipleWords,
+} from './utils';
+import { nt, t } from 'utils/i18n';
+import { q, qAll } from 'utils/dom';
+
+import $ from 'jquery';
+import Levenshtein from 'levenshtein';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import ReactEditor from './index';
+import ReactRenderer from 'utils/ReactRenderer';
+import SimilarTranslationList from './components/SimilarTranslationList';
+import StatsAPI from 'api/StatsAPI';
+import SuggestionFeedbackForm from './components/SuggestionFeedbackForm';
+import TimeSince from 'components/TimeSince';
+import UnitAPI from 'api/UnitAPI';
+import UnitList from './UnitList';
+import _ from 'underscore';
 // Other plugins
 import cx from 'classnames';
-import Levenshtein from 'levenshtein';
-import mousetrap from 'mousetrap';
-
-import StatsAPI from 'api/StatsAPI';
-import UnitAPI from 'api/UnitAPI';
 import diff from 'utils/diff';
-import { q, qAll } from 'utils/dom';
-import { nt, t } from 'utils/i18n';
-import linkHashtags from 'utils/linkHashtags';
-
-import SimilarTranslationList from './components/SimilarTranslationList';
-import SuggestionFeedbackForm from './components/SuggestionFeedbackForm';
-
 import helpers from '../helpers';
+import linkHashtags from 'utils/linkHashtags';
+import mousetrap from 'mousetrap';
 import msg from '../msg';
 import score from '../score';
 import search from '../search';
 import utils from '../utils';
-import {
-  decodeEntities, escapeUnsafeRegexSymbols, getAreaId, makeRegexForMultipleWords,
-} from './utils';
-
-import ReactEditor from './index';
-import UnitList from './UnitList';
 
 // Make the react-based editor available to templates. Long term, `index` would
 // be the actual entry point, entirely superseding the `app` module.
@@ -77,7 +75,7 @@ function highlightSuggestionsDiff(unit) {
     (translationTextNode) => {
       // eslint-disable-next-line no-param-reassign
       translationTextNode.innerHTML = diff(unit.targetText()[0],
-                                           translationTextNode.dataset.string);
+        translationTextNode.dataset.string);
     }
   );
 }
@@ -816,7 +814,7 @@ PTL.editor = {
   handleTranslationChange() {
     const comment = q('#id_translator_comment');
     const commentChanged = comment !== null ?
-                           comment.value !== comment.defaultValue : false;
+      comment.value !== comment.defaultValue : false;
 
     const submit = q('.js-submit');
     const suggest = q('.js-suggest');
@@ -883,7 +881,7 @@ PTL.editor = {
 
   isTextareaValueDirty() {
     return !_.isEqual(ReactEditor.props.initialValues,
-                      ReactEditor.stateValues);
+      ReactEditor.stateValues);
   },
 
 
@@ -911,7 +909,7 @@ PTL.editor = {
       if (similarity > maxSimilarity) {
         maxSimilarity = similarity;
         boxId = $element.hasClass('js-translation-area') ?
-                null : $element.val('id');
+          null : $element.val('id');
       }
     }
 
@@ -945,11 +943,11 @@ PTL.editor = {
 
     if ($aidElements.length) {
       simHuman = this.calculateSimilarity(newTranslation, $aidElements,
-                                          dataSelector);
+        dataSelector);
     }
     if ($aidElementsMT.length) {
       simMT = this.calculateSimilarity(newTranslation, $aidElementsMT,
-                                       dataSelectorMT);
+        dataSelectorMT);
     }
 
     this.units.unit.similarityHuman = simHuman.max;
@@ -966,7 +964,7 @@ PTL.editor = {
     const exactMatchCls = 'exact-match';
 
     $('.translate-table').find(`.${bestMatchCls}`)
-                         .removeClass(`${bestMatchCls} ${exactMatchCls}`);
+      .removeClass(`${bestMatchCls} ${exactMatchCls}`);
 
     if (boxId === null) {
       return false;
@@ -1406,7 +1404,7 @@ PTL.editor = {
   /* Updates the navigation widget */
   updateNavigation() {
     this.updateNavButton(this.$navPrev,
-                         !this.units.isOnFirstUnit());
+      !this.units.isOnFirstUnit());
     this.updateNavButton(this.$navNext, !this.units.isOnLastUnit());
 
     this.unitPositionEl.textContent = this.units.getPosition();
@@ -1424,10 +1422,10 @@ PTL.editor = {
 
     if (!hashUid) {
       history.replaceState(undefined, undefined,
-                           `#${utils.updateHashPart('unit', uid)}`);
+        `#${utils.updateHashPart('unit', uid)}`);
     } else if (uid !== hashUid) {
       history.pushState(undefined, undefined,
-                        `#${utils.updateHashPart('unit', uid)}`);
+        `#${utils.updateHashPart('unit', uid)}`);
     }
     this.updateNavigation();
     this.hideContextRows();
@@ -1475,20 +1473,20 @@ PTL.editor = {
     if (filter === 'all') {
       htmlMessage = `
         <p>${
-          t('Unit #%(id)s is no longer available.', { id: this.units.uid })
+        t('Unit #%(id)s is no longer available.', { id: this.units.uid })
         }</p>
         <p><a class="js-show-first-unit">${
-          t('Show all other units in this translation scope')
+        t('Show all other units in this translation scope')
         }</a></p>
       `;
     } else {
       htmlMessage = `
         <p>${
-          t('Unit #%(id)s no longer matches your search criteria or is no longer available.',
-            { id: this.units.uid })
-          }</p>
+        t('Unit #%(id)s no longer matches your search criteria or is no longer available.',
+          { id: this.units.uid })
+        }</p>
         <p><a class="js-show-first-unit">${
-          t('Show all other units matching your search criteria')
+        t('Show all other units matching your search criteria')
         }</a></p>
       `;
     }
@@ -1596,7 +1594,7 @@ PTL.editor = {
     this.updateUnitDefaultProperties();
 
     const body = Object.assign({}, this.getValueStateData(), this.getReqData(),
-                        this.getSimilarityData());
+      this.getSimilarityData());
 
     UnitAPI.addSuggestion(this.units.uid, body)
       .then(
@@ -1653,8 +1651,8 @@ PTL.editor = {
     // Ctrl + click / Alt + click / Cmd + click / Middle click opens a new tab
     if (e.ctrlKey || e.altKey || e.metaKey || e.which === 2) {
       const $el = e.target.nodeName !== 'TD' ?
-                  $(e.target).parents('td') :
-                  $(e.target);
+        $(e.target).parents('td') :
+        $(e.target);
       window.open($el.data('target'), '_blank');
       return false;
     }
@@ -1672,7 +1670,7 @@ PTL.editor = {
       if ($(this).hasClass('ctx')) {
         $.history.load(
           utils.updateHashPart('unit', uid,
-                               ['filter', 'search', 'sfields', 'soptions'])
+            ['filter', 'search', 'sfields', 'soptions'])
         );
       } else {
         PTL.editor.units.goto(uid, { force: true });
@@ -1837,7 +1835,7 @@ PTL.editor = {
       newHash = `search=${queryString}`;
     } else {
       newHash = utils.updateHashPart(undefined, undefined,
-                                     ['search', 'sfields', 'soptions']);
+        ['search', 'sfields', 'soptions']);
     }
     $.history.load(newHash);
     return true;
@@ -2014,10 +2012,10 @@ PTL.editor = {
 
   acceptSuggestion(suggId, { requestData = {}, skipToNext = false } = {}) {
     UnitAPI.acceptSuggestion(this.units.uid, suggId, requestData)
-    .then(
-      (data) => this.processAcceptSuggestion(data, suggId, skipToNext),
-      this.error
-    );
+      .then(
+        (data) => this.processAcceptSuggestion(data, suggId, skipToNext),
+        this.error
+      );
   },
 
   processAcceptSuggestion(data, suggId, skipToNext) {
@@ -2152,7 +2150,7 @@ PTL.editor = {
 
   closeSuggestion({ checkIfCanNavigate = true } = {}) {
     if (this.selectedSuggestionId !== undefined &&
-        (!checkIfCanNavigate || this.canNavigate())) {
+      (!checkIfCanNavigate || this.canNavigate())) {
       const suggestion = q(`#suggestion-${this.selectedSuggestionId}`);
       const editorBody = q('.js-editor-cell');
       const mountSelector = `.js-mnt-suggestion-feedback-${this.selectedSuggestionId}`;
@@ -2238,7 +2236,7 @@ PTL.editor = {
 
     // if the preview link is the same, do nothing
     if (this.currentPreviewLink &&
-        this.currentPreviewLink.href === clickedPreviewLink) {
+      this.currentPreviewLink.href === clickedPreviewLink) {
       return;
     }
 

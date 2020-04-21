@@ -8,7 +8,7 @@
 
 export { decodeEntities } from './html';
 export {
-  highlightPunctuation, highlightEscapes, highlightHtml, highlightSymbols, nl2br,
+  highlightPunctuation, highlightEscapes, highlightHtml, highlightSymbols, nl2br, highlightEmojis
 } from './highlight';
 export { normalizeCode } from './language';
 export { escapeUnsafeRegexSymbols, makeRegexForMultipleWords } from './search';

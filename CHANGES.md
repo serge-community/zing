@@ -1,6 +1,12 @@
 Zing Changelog
 ==============
 
+v.next (unreleased)
+-------------------
+
+* Internal: upgraded outdated npm packages.
+
+
 v0.9.3 (2020-04-20)
 -------------------
 

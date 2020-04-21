@@ -110,6 +110,9 @@
 .DayPicker-NavButton--prev
 {
     left: 0;
+
+    /* flip horizontally */
+    transform: scale(-1, 1);
 }
 
 .DayPicker-NavButton--next
@@ -121,12 +124,6 @@
 .DayPicker-NavButton--next::before
 {
     content: 'h';
-}
-
-.DayPicker-NavButton--prev
-{
-    /* flip horizontally */
-    transform: scale(-1, 1);
 }
 
 .DayPicker-Caption

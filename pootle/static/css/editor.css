@@ -1058,12 +1058,6 @@ html[dir="rtl"] .extra-item-block .suggestion-feedback .buttons button
     text-align: center;
 }
 
-.translate-full.unit-locked .unit-locked-lightbox,
-.translate-full.suggestion-expanded .translate-lightbox
-{
-    display: block;
-}
-
 #suggestions .extra-item-block.suggestion-expanded.can-review,
 #suggestions .extra-item-block.suggestion-expanded.can-review:hover
 {

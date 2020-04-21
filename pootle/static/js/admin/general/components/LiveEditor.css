@@ -11,12 +11,14 @@
 .content-editor
 {
     border: 1px solid #dadada;
+    margin-bottom: 1.5em;
 }
 
 .content-editor .CodeMirror
 {
     border: 0;
     cursor: text;
+    height: 100%;
 }
 
 
@@ -52,21 +54,7 @@
 .content-preview
 {
     flex: 1;
-}
-
-.content-preview
-{
     overflow-y: scroll;
-}
-
-.content-editor
-{
-    margin-bottom: 1.5em;
-}
-
-.content-editor .CodeMirror
-{
-    height: 100%;
 }
 
 @media screen and (min-width: 1600px)

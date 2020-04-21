@@ -23,6 +23,7 @@
 {
     display: inline-flex;
     white-space: nowrap;
+    padding-left: 1em;
 }
 
 .path-summary-more .top-scorers .top-scorer,
@@ -67,11 +68,6 @@ html[dir="rtl"] .path-summary-more .top-scorer .user-name
     }
 }
 
-.path-summary-more .top-scorers .top-scorer
-{
-    padding-left: 1em;
-}
-
 html[dir="rtl"] .path-summary-more .top-scorers .top-scorer
 {
     padding-right: 1em;
@@ -105,11 +101,6 @@ html[dir="rtl"] .path-summary-more .top-scorers-table tr td.number:first-child
     text-align: right;
     padding-left: 1em;
     padding-right: auto;
-}
-
-html[dir="rtl"] .path-summary-more .top-scorers-table tr td.number:first-child
-{
-    text-align: right;
 }
 
 .top-scorer a

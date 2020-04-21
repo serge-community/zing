@@ -50,11 +50,7 @@
 .header
 {
     background-color: #eee;
-}
-
-#body
-{
-    background: white;
+    padding: 0 1.5em;
 }
 
 html,
@@ -131,6 +127,8 @@ acronym
 {
     border-bottom: 1px dotted #130f30;
     cursor: help;
+    border: 0;
+    font-variant: normal;
 }
 
 p,
@@ -272,13 +270,6 @@ q::before,
 q::after
 {
     content: '';
-}
-
-abbr,
-acronym
-{
-    border: 0;
-    font-variant: normal;
 }
 
 sup
@@ -620,6 +611,7 @@ html[dir="rtl"] #autorefresh-notice .x
 
 #body
 {
+    background: white;
     margin: 0;
     padding: 0;
     position: relative;
@@ -1333,11 +1325,6 @@ html[dir="rtl"] ul.pager li:last-child > *
 /*
  * HEADER
  */
-
-.header
-{
-    padding: 0 1.5em;
-}
 
 #header-tabs
 {

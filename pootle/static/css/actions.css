@@ -190,6 +190,7 @@ body.translate #actions
 
 #translate-actions li
 {
+    display: inline-block;
     margin-left: 2em;
     margin-right: -0.5em;
     font-weight: bold;
@@ -199,11 +200,6 @@ html[dir="rtl"] #translate-actions li
 {
     margin-right: 2em;
     margin-left: -0.5em;
-}
-
-#translate-actions li
-{
-    display: inline-block;
 }
 
 #translate-actions .counter

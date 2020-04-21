@@ -64,6 +64,7 @@ table.stats td
 
 #reports-params
 {
+    display: none;
     white-space: nowrap;
     text-align: center;
 }
@@ -214,11 +215,6 @@ th.number
 html[dir="rtl"] #detailed
 {
     text-align: left;
-}
-
-#reports-params
-{
-    display: none;
 }
 
 #forms

@@ -13,6 +13,7 @@
     "declaration-empty-line-before": null,
     "indentation": 4,
     "max-empty-lines": 2,
+    "no-descending-specificity": null,
     "rule-empty-line-before": ["always", {
         "except": ["after-single-line-comment"],
         "ignore": ["after-comment"]

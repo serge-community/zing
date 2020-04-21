@@ -11,6 +11,9 @@
     "block-opening-brace-space-before": null,
     "block-opening-brace-newline-before": "always",
     "declaration-empty-line-before": null,
+    "font-family-no-missing-generic-family-keyword": [true, {
+      "ignoreFontFamilies": "/Raw|ZingIcons/"
+    }],
     "indentation": 4,
     "max-empty-lines": 2,
     "no-descending-specificity": null,

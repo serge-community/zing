@@ -43,6 +43,7 @@ textarea#view_unit
 /* When browser size is 950px or less, show navigation toolbar below the main toolbar */
 @media screen and (max-width: 950px)
 {
+
     #toolbar
     {
         z-index: 100; /* show below the main toolbar, to hide the shadow top edge */

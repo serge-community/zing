@@ -463,6 +463,7 @@ html[dir="rtl"] #nav-access
 
 @media screen and (min-width: 1200px)
 {
+
     #nav-main .user-name
     {
         display: inline;
@@ -493,6 +494,7 @@ html[dir="rtl"] #nav-access
 
 @media screen and (max-width: 900px)
 {
+
     .brand-name
     {
         display: none;

@@ -54,6 +54,7 @@ html[dir="rtl"] .path-summary-more .top-scorer .user-name
 
 @media screen and (max-width: 700px)
 {
+
     .path-summary-more .path-summary-collapsed .top-scorer .user-name
     {
         display: none;

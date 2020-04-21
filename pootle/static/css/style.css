@@ -693,6 +693,7 @@ html[dir="rtl"] .hd h2
  * last action message */
 @media screen and (max-width: 1440px)
 {
+
     table .last-action .action-text
     {
         display: none;
@@ -1146,6 +1147,7 @@ table.graph
 /* When browser size is 950px or less, show the smaller version of the progressbar */
 @media screen and (max-width: 950px)
 {
+
     table.graph
     {
         width: 100px;
@@ -1489,6 +1491,7 @@ html[dir="rtl"] .summary-3-col
 
 @media screen and (max-width: 1600px)
 {
+
     .path-summary-more .summary-1-col,
     .path-summary-more .summary-2-col
     {

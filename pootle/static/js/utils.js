@@ -105,21 +105,20 @@ export function strCmp(a, b) {
 
 export function highlightRO(text) {
   return (
-    highlightEmojis(
-      nl2br(
-        highlightEscapes(
-          highlightHtml(
-            raw2sym(
-              // FIXME: CRLF => LF replacement happens here because highlighting
-              // currently happens via many DOM sources, and this ensures the less
-              // error-prone behavior. This won't be needed when the entire editor
-              // is managed as a component.
-              text.replace(/\r\n/g, '\n')
-            )
+    nl2br(
+      highlightEscapes(
+        highlightHtml(
+          raw2sym(
+            // FIXME: CRLF => LF replacement happens here because highlighting
+            // currently happens via many DOM sources, and this ensures the less
+            // error-prone behavior. This won't be needed when the entire editor
+            // is managed as a component.
+            text.replace(/\r\n/g, '\n')
           )
         )
       )
     )
+
   );
 }
 

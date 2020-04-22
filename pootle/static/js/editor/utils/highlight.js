@@ -110,6 +110,7 @@ function hasEmoji(str) {
 
 //This function should only run over text to be translated
 export function highlightEmojis(text_input) {
+  console.log("input", text_input)
   var stringOuput = "";
 
   if (hasEmoji(text_input)) {
@@ -119,8 +120,10 @@ export function highlightEmojis(text_input) {
 
     for (var i = 0; i < listOfTokens.length; i++) {
       if (hasEmoji(listOfTokens[i])) {
-        var emoji = listOfTokens[i]
-        stringOuput += '<span class="highlight-html js-editor-copytext">' + emoji + '</span>'  //emoji
+        stringOuput += '<span class="highlight-html js-editor-copytext">' + listOfTokens[i] + '</span>'  //emoji
+      }
+      else {
+        stringOuput += listOfTokens[i] //no emoji
       }
 
     }

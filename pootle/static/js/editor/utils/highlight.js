@@ -120,7 +120,7 @@ export function highlightEmojis(text_input) {
     for (var i = 0; i < listOfTokens.length; i++) {
       if (isEmoji(listOfTokens[i])) {
         var emoji = listOfTokens[i]
-        stringOuput += '<span class="highlight-html js-editor-copytext">' + emoji + '</span>'
+        stringOuput += '<span class="highlight-html js-editor-copytext">' + emoji + '</span>'  //emoji
       }
 
     }

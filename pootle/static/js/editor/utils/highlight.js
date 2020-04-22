@@ -100,7 +100,7 @@ const emojiList = [
 ]
 
 //check if string has emojis
-function isEmoji(str) {
+function hasEmoji(str) {
   if (str.match(emojiList.join('|'))) {
     return true;
   } else {
@@ -112,13 +112,13 @@ function isEmoji(str) {
 export function highlightEmojis(text_input) {
   var stringOuput = "";
 
-  if (isEmoji(text_input)) {
+  if (hasEmoji(text_input)) {
     console.log(text_input)
     var listOfTokens = text_input.split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/)
     console.log(listOfTokens)
 
     for (var i = 0; i < listOfTokens.length; i++) {
-      if (isEmoji(listOfTokens[i])) {
+      if (hasEmoji(listOfTokens[i])) {
         var emoji = listOfTokens[i]
         stringOuput += '<span class="highlight-html js-editor-copytext">' + emoji + '</span>'  //emoji
       }

@@ -108,13 +108,12 @@ export function highlightEmojis(textInput) {
 
   if (hasEmoji(textInput)) {
     const listOfTokens = textInput.split(/([\uD800-\uDBFF][\uDC00-\uDFFF])/);
+    const openTag = '<span class="highlight-html js-editor-copytext">';
+    const closeTag = '</span>';
 
     for (let i = 0; i < listOfTokens.length; i++) {
       if (hasEmoji(listOfTokens[i])) {
-        stringOuput +=
-          '<span class="highlight-html js-editor-copytext">' +
-          listOfTokens[i] +
-          '</span>'; // emoji
+        stringOuput += openTag + listOfTokens[i] + closeTag;
       } else {
         stringOuput += listOfTokens[i]; // no emoji
       }

@@ -80,101 +80,100 @@ export function updateHashPart(part, newVal, removeArray, hash) {
   // if passed parameter is defined
   if (!ok && part) {
     params.push(
-      [encodeURIComponent(part), encodeURIComponent(newVal)].join('='),
-    );
+      [encodeURIComponent(part), encodeURIComponent(newVal)].join('=')
+    )
+    return params.join('&');
   }
-  return params.join('&');
-}
 
-/* Cross-browser comparison function */
-export function strCmp(a, b) {
-  let rv;
-  if (a === b) {
-    rv = 0;
-  } else if (a < b) {
-    rv = -1;
-  } else {
-    rv = 1;
+  /* Cross-browser comparison function */
+  export function strCmp(a, b) {
+    let rv;
+    if (a === b) {
+      rv = 0;
+    } else if (a < b) {
+      rv = -1;
+    } else {
+      rv = 1;
+    }
+    return rv;
   }
-  return rv;
-}
 
-export function highlightRO(text) {
-  return nl2br(
-    highlightEscapes(
-      highlightHtml(
-        raw2sym(
-          // FIXME: CRLF => LF replacement happens here because highlighting
-          // currently happens via many DOM sources, and this ensures the less
-          // error-prone behavior. This won't be needed when the entire editor
-          // is managed as a component.
-          text.replace(/\r\n/g, '\n'),
+  export function highlightRO(text) {
+    return nl2br(
+      highlightEscapes(
+        highlightHtml(
+          raw2sym(
+            // FIXME: CRLF => LF replacement happens here because highlighting
+            // currently happens via many DOM sources, and this ensures the less
+            // error-prone behavior. This won't be needed when the entire editor
+            // is managed as a component.
+            text.replace(/\r\n/g, '\n'),
+          ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 
-export function highlightRW(text) {
-  return highlightEmojis(
-    highlightSymbols(
-      nl2br(
-        highlightPunctuation(
-          highlightEscapes(
-            highlightHtml(
-              raw2sym(
-                // FIXME: CRLF => LF replacement happens here because highlighting
-                // currently happens via many DOM sources, and this ensures the less
-                // error-prone behavior. This won't be needed when the entire editor
-                // is managed as a component.
-                text.replace(/\r\n/g, '\n'),
+  export function highlightRW(text) {
+    return highlightEmojis(
+      highlightSymbols(
+        nl2br(
+          highlightPunctuation(
+            highlightEscapes(
+              highlightHtml(
+                raw2sym(
+                  // FIXME: CRLF => LF replacement happens here because highlighting
+                  // currently happens via many DOM sources, and this ensures the less
+                  // error-prone behavior. This won't be needed when the entire editor
+                  // is managed as a component.
+                  text.replace(/\r\n/g, '\n'),
+                ),
+                'js-editor-copytext',
               ),
               'js-editor-copytext',
             ),
             'js-editor-copytext',
           ),
-          'js-editor-copytext',
         ),
+        'js-editor-copytext',
       ),
-      'js-editor-copytext',
-    ),
-  );
-}
-
-function highlightNodes(selector, highlightFn) {
-  qAll(selector).forEach((translationTextNode) => {
-    const dataString = translationTextNode.dataset.string;
-    const textValue = dataString
-      ? JSON.parse(`"${dataString}"`)
-      : translationTextNode.textContent;
-    // eslint-disable-next-line no-param-reassign
-    translationTextNode.innerHTML = highlightFn(textValue);
-  });
-}
-
-export function highlightRONodes(selector) {
-  return highlightNodes(selector, highlightRO);
-}
-
-export function highlightRWNodes(selector) {
-  return highlightNodes(selector, highlightRW);
-}
-
-export function blinkClass($elem, className, n, delay) {
-  $elem.toggleClass(className);
-  if (n > 1) {
-    setTimeout(() => blinkClass($elem, className, n - 1, delay), delay);
+    );
   }
-}
 
-export default {
-  blinkClass,
-  highlightRO,
-  highlightRW,
-  highlightRONodes,
-  highlightRWNodes,
-  getHash,
-  getParsedHash,
-  strCmp,
-  updateHashPart,
-};
+  function highlightNodes(selector, highlightFn) {
+    qAll(selector).forEach((translationTextNode) => {
+      const dataString = translationTextNode.dataset.string;
+      const textValue = dataString
+        ? JSON.parse(`"${dataString}"`)
+        : translationTextNode.textContent;
+      // eslint-disable-next-line no-param-reassign
+      translationTextNode.innerHTML = highlightFn(textValue);
+    });
+  }
+
+  export function highlightRONodes(selector) {
+    return highlightNodes(selector, highlightRO);
+  }
+
+  export function highlightRWNodes(selector) {
+    return highlightNodes(selector, highlightRW);
+  }
+
+  export function blinkClass($elem, className, n, delay) {
+    $elem.toggleClass(className);
+    if (n > 1) {
+      setTimeout(() => blinkClass($elem, className, n - 1, delay), delay);
+    }
+  }
+
+  export default {
+    blinkClass,
+    highlightRO,
+    highlightRW,
+    highlightRONodes,
+    highlightRWNodes,
+    getHash,
+    getParsedHash,
+    strCmp,
+    updateHashPart,
+  };

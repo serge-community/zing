@@ -13,6 +13,7 @@ export {
   highlightHtml,
   highlightSymbols,
   nl2br,
+  highlightEmojis,
 } from './highlight';
 export { normalizeCode } from './language';
 export { escapeUnsafeRegexSymbols, makeRegexForMultipleWords } from './search';

@@ -17,6 +17,7 @@ import {
   highlightHtml,
   highlightSymbols,
   nl2br,
+  highlightEmojis,
 } from './editor/utils';
 import { raw2sym } from './editor/utils/font';
 
@@ -115,25 +116,27 @@ export function highlightRO(text) {
 
 export function highlightRW(text, className = '') {
   return highlightSymbols(
-    nl2br(
-      highlightPunctuation(
-        highlightEscapes(
-          highlightHtml(
-            raw2sym(
-              // FIXME: CRLF => LF replacement happens here because highlighting
-              // currently happens via many DOM sources, and this ensures the less
-              // error-prone behavior. This won't be needed when the entire editor
-              // is managed as a component.
-              text.replace(/\r\n/g, '\n')
+    highlightEmojis(
+      nl2br(
+        highlightPunctuation(
+          highlightEscapes(
+            highlightHtml(
+              raw2sym(
+                // FIXME: CRLF => LF replacement happens here because highlighting
+                // currently happens via many DOM sources, and this ensures the less
+                // error-prone behavior. This won't be needed when the entire editor
+                // is managed as a component.
+                text.replace(/\r\n/g, '\n')
+              ),
+              className
             ),
             className
           ),
           className
-        ),
-        className
-      )
-    ),
-    className
+        )
+      ),
+      className
+    )
   );
 }
 

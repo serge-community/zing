@@ -70,6 +70,7 @@ const EditorContainer = React.createClass({
   getTextareaComponent() {
     // FIXME: load these on-demand
     const { sourceValues } = this.props;
+    //[0] to extract the only element in the list
     switch (detectFormat(sourceValues[0])) {
       case Formats.PLURR:
         return PlurrEditor;

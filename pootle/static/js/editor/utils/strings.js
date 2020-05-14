@@ -11,11 +11,13 @@ export const Formats = {
   PLURR: 'PLURR',
 };
 
-/**
- * Returns the string format detected for `value`.
- */
 export function detectFormat(value) {
+  // matches placholders with the form {FOO:xxxxx}
   if (value.search(/{[^{}]*:.*?}/) !== -1) {
+    return Formats.PLURR;
+
+    // matches simple placeholders like {FOO}
+  } else if (value.search(/{[^ ]*}/) !== -1) {
     return Formats.PLURR;
   }
   return Formats.TEXT;

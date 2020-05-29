@@ -1,3 +1,14 @@
+{% block css_overrides %}
+
+<style>
+  blockquote {
+    margin: 1em 3em;
+    font-size: 90%;
+    color: #333;
+  }
+</style>
+{% endblock css_overrides %}
+
 <h3 id="broken_entities">Broken HTML Entities</h3>
 <p>The HTML entities must be written as <code>&amp;name;</code>, <code>&amp;#DDDD;</code> or <code>&amp;#xHHHH;</code>
   (where 'name' is a valid entity name, and 'DDDD' and 'HHHH' are the Unicode symbol numbers in decimal or hexadecimal

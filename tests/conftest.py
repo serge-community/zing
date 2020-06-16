@@ -65,14 +65,7 @@ def tests_use_db(request):
 
 @pytest.fixture(scope="session")
 def tests_use_migration(request, tests_use_db):
-    return bool(
-        tests_use_db
-        and [
-            item
-            for item in request.node.items
-            if item.get_closest_marker("django_migration")
-        ]
-    )
+    return True
 
 
 @pytest.fixture(autouse=True, scope="session")

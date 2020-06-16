@@ -4,10 +4,13 @@ jobs:
       python: 3.7
       name: Project linting & migrations
       services:
+        - mysql
         - redis-server
-      env: DB=sqlite
+      env: DB=mysql
       cache:
         pip: true
+      before_install:
+        - mysql -e 'CREATE DATABASE IF NOT EXISTS zing CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;'
       install:
         - pip install -r requirements/travis.txt
       script:
@@ -38,11 +41,11 @@ jobs:
         - echo -e '-XX:+DisableExplicitGC\n-Djdk.io.permissionsUseCanonicalPath=true\n-Dlog4j.skipJansi=true\n-server\n' | sudo tee -a /etc/elasticsearch/jvm.options
         - sudo chown -R elasticsearch:elasticsearch /etc/default/elasticsearch
         - sudo systemctl start elasticsearch
+        - mysql -e 'CREATE DATABASE IF NOT EXISTS zing CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;'
       install:
         - pip install -r requirements/travis.txt
       script:
-        # Use SQLite to avoid requiring the DB to be setup
-        - bash -c "DB=sqlite python manage.py build_assets"
+        - bash -c "python manage.py build_assets"
         - py.test --cov-report=term --cov=. -v --durations=25
       after_success:
         - codecov

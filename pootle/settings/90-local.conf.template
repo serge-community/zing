@@ -57,9 +57,13 @@ DATABASES = {
         'PORT': %(db_port)s,
         # See https://docs.djangoproject.com/en/1.6/topics/db/transactions/
         # required for Django 1.6 + sqlite
+        'CHARSET':'utf8mb4',
+        'COLLATION':'utf8mb4_unicode_ci',
         'ATOMIC_REQUESTS': True,
         'TEST': {
             'NAME': 'test_zing',
+            'CHARSET':'utf8mb4',
+            'COLLATION':'utf8mb4_unicode_ci'
         }
     }
 }

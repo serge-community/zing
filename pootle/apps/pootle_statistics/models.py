@@ -11,6 +11,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import F
+from django.db import connection
 from django.template.defaultfilters import truncatechars
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
@@ -338,7 +339,32 @@ class Submission(models.Model):
         return result
 
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
+        cursor = connection.cursor()
+        try:
+            resulting_id = 0
+            cursor.callproc(
+                "insert_submission",
+                [
+                    self.creation_time.strftime("%Y-%m-%d %H:%M:%S"),
+                    self.field,
+                    self.submitter.id,
+                    self.type,
+                    self.unit.id,
+                    self.store.id,
+                    self.translation_project.id,
+                    self.old_value,
+                    self.new_value,
+                    self.similarity,
+                    self.mt_similarity,
+                    resulting_id,
+                ],
+            )
+            cursor.execute("SELECT @_insert_submission_11")
+            id_query = cursor.fetchall()
+            self.pk = id_query[0][0]
+
+        finally:
+            cursor.close()
 
         if not self.needs_scorelog():
             return

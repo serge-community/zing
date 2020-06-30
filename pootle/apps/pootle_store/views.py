@@ -8,14 +8,12 @@
 # AUTHORS file for copyright and authorship information.
 
 import copy
-import datetime
 from functools import lru_cache
 
 from translate.lang import data
 
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
-from django.db import connection
 from django.http import Http404, QueryDict
 from django.shortcuts import redirect
 from django.template import loader
@@ -600,6 +598,7 @@ def submit(request, unit):
             for field, old_value, new_value in form.updated_fields:
                 if field == SubmissionFields.TARGET and suggestion:
                     old_value = str(suggestion.target_f)
+
                 sub = Submission(
                     creation_time=current_time,
                     translation_project=translation_project,
@@ -613,6 +612,7 @@ def submit(request, unit):
                     similarity=form.cleaned_data["similarity"],
                     mt_similarity=form.cleaned_data["mt_similarity"],
                 )
+
                 sub.save()
 
             # Update current unit instance's attributes

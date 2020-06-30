@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("pootle_store", "0005_auto_20200124_0617"),
+        ("pootle_statistics", "0005_auto_20200124_0617"),
     ]
 
     operations = [
@@ -25,7 +25,10 @@ class Migration(migrations.Migration):
                 old_value longtext,
                 new_value longtext,
                 similarity double,
-                mt_similarity double)
+                mt_similarity double,
+                suggestion_id INT(11),
+                quality_check_id INT(11),
+                OUT new_submission_id INT(11))
 
                 BEGIN
                     DECLARE total_rows INT DEFAULT 0;
@@ -36,7 +39,8 @@ class Migration(migrations.Migration):
                     `pootle_app_submission`.`field` = field_arg AND
                     `pootle_app_submission`.`submitter_id` = submitter_id AND
                     `pootle_app_submission`.`type` = type_arg AND
-                    `pootle_app_submission`.`unit_id` = unit_id FOR UPDATE;
+                    `pootle_app_submission`.`unit_id` = unit_id AND
+                    `pootle_app_submission`.`new_value` = new_value FOR UPDATE;
 
                     IF total_rows = 0 THEN
                         INSERT INTO `pootle_app_submission` (
@@ -50,10 +54,14 @@ class Migration(migrations.Migration):
                             `pootle_app_submission`.`old_value`,
                             `pootle_app_submission`.`new_value`,
                             `pootle_app_submission`.`similarity`,
-                            `pootle_app_submission`.`mt_similarity` )
+                            `pootle_app_submission`.`mt_similarity`,
+                            `pootle_app_submission`.`suggestion_id`,
+                            `pootle_app_submission`.`quality_check_id` )
                             VALUES (creation_time, field_arg, submitter_id,
-                            type_arg,unit_id, store_id, translation_project_id,
-                            old_value, new_value, similarity, mt_similarity);
+                            type_arg, unit_id, store_id, translation_project_id,
+                            old_value, new_value, similarity, mt_similarity,
+                            suggestion_id, quality_check_id );
+                        SET new_submission_id = LAST_INSERT_ID();
                     END IF;
                 END
                 """

@@ -7,6 +7,14 @@ v.next (unreleased)
 * Internal: upgraded outdated npm packages.
 
 
+v0.9.4 (2020-07-01)
+-------------------
+
+* Editor: Emojis are now clickable and can be inserted with a click (#458)
+* Editor: Support Plurr preview for simple placeholders (#468)
+* Help Pages: Add descriptions for line break-related checks(#475)
+
+
 v0.9.3 (2020-04-20)
 -------------------
 

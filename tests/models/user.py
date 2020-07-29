@@ -150,8 +150,8 @@ def _test_user_purging(store, member, evil_member, purge):
     unit = store.units[0]
 
     # Times are back to previous times - by any precision
-    assert unit.submitted_on == initial_submission_time
-    assert unit.commented_on == initial_comment_time
+    assert unit.submitted_on == initial_submission_time.replace(microsecond=0)
+    assert unit.commented_on == initial_comment_time.replace(microsecond=0)
     assert unit.reviewed_on == initial_review_time
 
     # State is be back to how it was before evil user updated.

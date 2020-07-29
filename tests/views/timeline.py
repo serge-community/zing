@@ -332,8 +332,5 @@ def test_timeline_view_unit_with_creation(client, request_users, system, admin, 
     unit = Unit.objects.create(
         state=TRANSLATED, source_f="Foo", target_f="Bar", store=store0, index=index
     )
-    # save and get the unit to deal with mysql's microsecond issues
-    unit.save()
     unit = Unit.objects.get(pk=unit.pk)
-    unit.add_initial_submission(system)
     _timeline_test(client, request_users, unit)

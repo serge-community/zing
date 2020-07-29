@@ -6,12 +6,10 @@
 # This file is a part of the Zing project. It is distributed under the GPL3
 # or later license. See the LICENSE file for a copy of the license and the
 # AUTHORS file for copyright and authorship information.
-
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.db import models
+from django.db import DatabaseError, connection, models
 from django.db.models import F
-from django.db import connection
 from django.template.defaultfilters import truncatechars
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
@@ -339,8 +337,9 @@ class Submission(models.Model):
         return result
 
     def save(self, *args, **kwargs):
-        cursor = connection.cursor()
-        try:
+        suggestion_id = self.suggestion.id if self.suggestion else None
+        quality_check_id = self.quality_check.id if self.quality_check else None
+        with connection.cursor() as cursor:
             resulting_id = 0
             cursor.callproc(
                 "insert_submission",
@@ -356,15 +355,21 @@ class Submission(models.Model):
                     self.new_value,
                     self.similarity,
                     self.mt_similarity,
+                    suggestion_id,
+                    quality_check_id,
                     resulting_id,
                 ],
             )
-            cursor.execute("SELECT @_insert_submission_11")
-            id_query = cursor.fetchall()
-            self.pk = id_query[0][0]
+            # get the value from the OUT variable on position 13 for the newly generated id
+            cursor.execute("SELECT @_insert_submission_13")
+            id_query = cursor.fetchone()[0]
+            if id_query is None:
+                raise DatabaseError(
+                    "Couldn't insert new submission row, might be a duplicate"
+                )
+            self.pk = id_query
 
-        finally:
-            cursor.close()
+        self.refresh_from_db()
 
         if not self.needs_scorelog():
             return

@@ -18,6 +18,7 @@ from .views import (
     admin_permissions,
 )
 
+
 urlpatterns = [
     # Admin views
     url(
@@ -28,38 +29,38 @@ urlpatterns = [
     # Translation
     url(
         r"^(?P<language_code>[^/]*)/(?P<project_code>[^/><]*)/"
-        r"translate/(?P(?P<dir_path>(.*/)*)[^><])?$",
+        r"translate/(?P<dir_path>([^<>]*/)*)?$",
         TPTranslateView.as_view(),
         name="pootle-tp-translate",
     ),
     url(
         r"^(?P<language_code>[^/]*)/(?P<project_code>[^/><]*)/"
-        r"translate/(?P(?P<dir_path>(.*/)*)[^><])(?P<filename>.*\.*)$",
+        r"translate/(?P<dir_path>([^<>]*/)*)(?P<filename>.*\.*)$",
         TPTranslateStoreView.as_view(),
         name="pootle-tp-store-translate",
     ),
     # Export view
     url(
         r"^(?P<language_code>[^/]*)/(?P<project_code>[^/><]*)/"
-        r"export-view/(?P(?P<dir_path>(.*/)*)[^><])?$",
+        r"export-view/(?P<dir_path>([^<>]*/)*)?$",
         TPExportView.as_view(),
         name="pootle-tp-export",
     ),
     url(
         r"^(?P<language_code>[^/]*)/(?P<project_code>[^/><]*)/"
-        r"export-view/(?P(?P<dir_path>(.*/)*)[^><])(?P<filename>.*\.*)$",
+        r"export-view/(?P<dir_path>([^<>]*/)*)(?P<filename>.*\.*)$",
         TPExportStoreView.as_view(),
         name="pootle-tp-store-export",
     ),
     # Browser
     url(
-        r"^(?P<language_code>[^/]*)/(?P<project_code>[^/><]*)/" r"(?P(?P<dir_path>(.*/)*)[^><])?$",
+        r"^(?P<language_code>[^/]*)/(?P<project_code>[^/><]*)/" r"(?P<dir_path>([^<>]*/)*)?$",
         TPBrowseView.as_view(),
         name="pootle-tp-browse",
     ),
     url(
         r"^(?P<language_code>[^/]*)/(?P<project_code>[^/><]*)/"
-        r"(?P(?P<dir_path>(.*/)*)[^><])(?P<filename>.*\.*)?$",
+        r"(?P<dir_path>([^<>]*/)*)(?P<filename>.*\.*)?$",
         TPBrowseStoreView.as_view(),
         name="pootle-tp-store-browse",
     ),

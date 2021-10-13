@@ -120,7 +120,7 @@ class PootleBuildMo(DistutilsBuild):
                     command = ["msgfmt", "--strict", "-o", mo_filename, po_filename]
                 try:
                     subprocess.check_call(command, stderr=subprocess.STDOUT)
-                except subprocess.CalledProcessError as e:
+                except subprocess.CalledProcessError:
                     error_occured = True
                 except Exception as e:
                     log.warn("%s: skipping, running msgfmt failed: %s", lang, e)

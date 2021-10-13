@@ -52,7 +52,7 @@ def log_exception(request, exception, tb):
 
     try:
         request_repr = repr(request)
-    except:
+    except Exception:
         request_repr = "Request repr() unavailable"
 
     msg_args = (str(exception.args[0]), tb, request_repr)
@@ -93,7 +93,7 @@ def handle_exception(request, exception, template_name):
         return HttpResponseServerError(
             render_to_string(template_name, context=ctx, request=request)
         )
-    except:
+    except Exception:
         # Let's not confuse things by throwing an exception here
         pass
 

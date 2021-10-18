@@ -22,45 +22,46 @@ from .views import (
 urlpatterns = [
     # Admin views
     url(
-        r"^(?P<language_code>[^/]*)/(?P<project_code>[^/]*)" r"/admin/permissions/",
+        r"^(?P<language_code>[^/]*)/(?P<project_code>[^/><]*)" r"/admin/permissions/",
         admin_permissions,
         name="pootle-tp-admin-permissions",
     ),
     # Translation
     url(
-        r"^(?P<language_code>[^/]*)/(?P<project_code>[^/]*)/"
-        r"translate/(?P<dir_path>(.*/)*)?$",
+        r"^(?P<language_code>[^/]*)/(?P<project_code>[^/><]*)/"
+        r"translate/(?P<dir_path>([^<>]*/)*)?$",
         TPTranslateView.as_view(),
         name="pootle-tp-translate",
     ),
     url(
-        r"^(?P<language_code>[^/]*)/(?P<project_code>[^/]*)/"
-        r"translate/(?P<dir_path>(.*/)*)(?P<filename>.*\.*)$",
+        r"^(?P<language_code>[^/]*)/(?P<project_code>[^/><]*)/"
+        r"translate/(?P<dir_path>([^<>]*/)*)(?P<filename>.*\.*)$",
         TPTranslateStoreView.as_view(),
         name="pootle-tp-store-translate",
     ),
     # Export view
     url(
-        r"^(?P<language_code>[^/]*)/(?P<project_code>[^/]*)/"
-        r"export-view/(?P<dir_path>(.*/)*)?$",
+        r"^(?P<language_code>[^/]*)/(?P<project_code>[^/><]*)/"
+        r"export-view/(?P<dir_path>([^<>]*/)*)?$",
         TPExportView.as_view(),
         name="pootle-tp-export",
     ),
     url(
-        r"^(?P<language_code>[^/]*)/(?P<project_code>[^/]*)/"
-        r"export-view/(?P<dir_path>(.*/)*)(?P<filename>.*\.*)$",
+        r"^(?P<language_code>[^/]*)/(?P<project_code>[^/><]*)/"
+        r"export-view/(?P<dir_path>([^<>]*/)*)(?P<filename>.*\.*)$",
         TPExportStoreView.as_view(),
         name="pootle-tp-store-export",
     ),
     # Browser
     url(
-        r"^(?P<language_code>[^/]*)/(?P<project_code>[^/]*)/" r"(?P<dir_path>(.*/)*)?$",
+        r"^(?P<language_code>[^/]*)/(?P<project_code>[^/><]*)/"
+        r"(?P<dir_path>([^<>]*/)*)?$",
         TPBrowseView.as_view(),
         name="pootle-tp-browse",
     ),
     url(
-        r"^(?P<language_code>[^/]*)/(?P<project_code>[^/]*)/"
-        r"(?P<dir_path>(.*/)*)(?P<filename>.*\.*)?$",
+        r"^(?P<language_code>[^/]*)/(?P<project_code>[^/><]*)/"
+        r"(?P<dir_path>([^<>]*/)*)(?P<filename>.*\.*)?$",
         TPBrowseStoreView.as_view(),
         name="pootle-tp-store-browse",
     ),

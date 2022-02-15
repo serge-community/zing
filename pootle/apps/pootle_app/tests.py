@@ -374,6 +374,10 @@ class CloneProjectCommandTest(TestCase):
         cloned_project_id = data['projects']['3'];
         
         cloned_project = Project.objects.get(id=cloned_project_id);
+        print("\n*******************************");
+        print("TESTING EQUAL AMOUNT OF TRANSLATION PROJECTS FOR: ", original_project);
+
+
 
         original_translations = TranslationProject.objects.filter(project_id=original_project.id)
         cloned_translations = TranslationProject.objects.filter(project_id=cloned_project.id)
@@ -382,16 +386,27 @@ class CloneProjectCommandTest(TestCase):
         cloned_amounts = cloned_translations.count();
 
         print(f"original: {original_project}: {original_amounts} translation projects");
+        for translation in original_translations:
+            print(translation);
+        print("");
         print(f"clone: {cloned_project}: {cloned_amounts} translation projects");
+        for translation in cloned_translations:
+            print(translation);
 
         self.assertEquals(original_amounts,cloned_amounts);
 
     def test_cloned_project_should_have_equal_amount_of_stores(self):
 
+
+        
+
         data = json.loads(call_command(self.COMMAND,3));
 
         original_project = Project.objects.get(id=3);
         cloned_project_id = data['projects']['3'];
+
+        print("\n*******************************");
+        print("TESTING EQUAL AMOUNT OF STORES FOR: ", original_project);
         
         cloned_project = Project.objects.get(id=cloned_project_id)
         original_translations = TranslationProject.objects.filter(project_id=original_project.id);
@@ -420,6 +435,9 @@ class CloneProjectCommandTest(TestCase):
 
         original_project = Project.objects.get(id=3);
         cloned_project_id = data['projects']['3'];
+
+        print("\n*******************************");
+        print("TESTING EQUAL AMOUNT OF SUBMISSIONS FOR: ", original_project);
         
         cloned_project = Project.objects.get(id=cloned_project_id)
         original_translations = TranslationProject.objects.filter(project_id=original_project.id);
@@ -460,6 +478,11 @@ class CloneProjectCommandTest(TestCase):
         cloned_project_id = data['projects']['3'];
         cloned_project = Project.objects.get(id=cloned_project_id);
 
+        print("\n*******************************");
+        print("TESTING EQUAL AMOUNT OF UNITS FOR: ", original_project);
+
+
+
         original_translations = TranslationProject.objects.filter(project_id=original_project.id);
         cloned_translations = TranslationProject.objects.filter(project_id=cloned_project.id);
         
@@ -497,12 +520,14 @@ class CloneProjectCommandTest(TestCase):
         cloned_project_id = data['projects']['3'];
         cloned_project = Project.objects.get(id=cloned_project_id);
 
+        print("\n*******************************");
+        print("TESTING EQUAL AMOUNT OF SUGGESTIONS FOR: ", original_project);
+
+
         original_translations = TranslationProject.objects.filter(project_id=original_project.id);
         cloned_translations = TranslationProject.objects.filter(project_id=cloned_project.id);
-        
         original_sugg_amount = 0;
         cloned_sugg_amount = 0;
-
         for translation in original_translations:
             print("Counting Suggestions of: "+ str(translation));
             for store in Store.objects.filter(translation_project_id=translation.id):
@@ -512,6 +537,7 @@ class CloneProjectCommandTest(TestCase):
                     print(f"unit {unit}: {amount} suggestions");
 
         print(f"total: {original_sugg_amount}");
+
         for translation in cloned_translations:
             print("Counting Suggestions of: "+ str(translation));
             for store in Store.objects.filter(translation_project_id=translation.id):
@@ -523,8 +549,13 @@ class CloneProjectCommandTest(TestCase):
                 
     def test_cloned_project_should_have_equal_amount_of_scorelogs_for_submissions(self):
 
-
+        
         data = json.loads(call_command(self.COMMAND,3));
+        original_project = Project.objects.get(id=3);
+
+        print("\n*******************************");
+        print("TESTING EQUAL AMOUNT OF SUGGESTIONS FOR: ", original_project);   
+
 
         submissionsid_to_clone = data['submissions'];
         for sub_id in submissionsid_to_clone.keys():
@@ -540,3 +571,116 @@ class CloneProjectCommandTest(TestCase):
             print(f"Comparing original: f{original_sub} and clone: {cloned_sub}");
             print(f"original scorelogs: {original_scorelogs_amount}; cloned scorelogs: {cloned_scorelogs_amount}");
             self.assertEquals(original_scorelogs_amount, cloned_scorelogs_amount);
+
+
+    def test_cloned_translations_should_have_equal_content(self):
+
+        data = json.loads(call_command(self.COMMAND,3));
+        original_project = Project.objects.get(id=3);
+
+        print("\n*******************************");
+        print("TESTING EQUALITY OF CONTENT IN TRANSLATION PROJECTS OF PROJECT: ", original_project);
+
+        translations = data['translations'];
+
+        for translation_id, clone_id in translations.items():
+            translation = TranslationProject.objects.get(id=translation_id);
+            cloned_translation = TranslationProject.objects.get(id=clone_id);
+
+            translation_dict = model_to_dict(translation);
+            cloned_translation_dict = model_to_dict(cloned_translation);
+            
+            print(f"\nOriginal Translation: {translation}");
+            original_language = translation.language;
+            for key, value in translation_dict.items():
+                print(f"{key} => {value}");
+                
+            
+            print(f"\nCloned Translation: {cloned_translation}");
+            cloned_language = cloned_translation.language;
+            for key, value in cloned_translation_dict.items():
+                print(f"{key} => {value}");
+            print("---------------------");
+
+            self.assertEquals(original_language, cloned_language);
+
+    def test_cloned_stores_should_have_equal_content(self):
+
+
+        data = json.loads(call_command(self.COMMAND,3));
+        original_project = Project.objects.get(id=3);
+
+        print("\n*******************************");
+        print("TESTING EQUALITY OF CONTENT IN SOTRES OF PROJECT: ", original_project);
+
+
+        stores = data['stores'];
+
+        for store_id, clone_id in stores.items():
+            store = Store.objects.get(id=store_id);
+            cloned_store = Store.objects.get(id=clone_id);
+
+            store_dict = model_to_dict(store);
+            cloned_store_dict = model_to_dict(cloned_store);
+            print(f"\nOriginal Store: {store}")
+            for key, value in store_dict.items():
+                print(f"{key} => {value}");
+
+            print(f"\nCloned Store: {cloned_store}");
+            for key, value in cloned_store_dict.items():
+                print(f"{key} => {value}");
+
+            print("---------------------");
+            
+    def test_cloned_units_should_have_equal_content(self):
+
+        data = json.loads(call_command(self.COMMAND,3));
+        original_project = Project.objects.get(id=3);
+
+        print("\n*******************************");
+        print("TESTING EQUALITY OF CONTENT IN UNITS OF PROJECT: ", original_project);
+
+        units = data['units'];
+        for unit_id, clone_id in units.items():
+            unit = Unit.objects.get(id=unit_id);
+            clone_unit = Unit.objects.get(id=clone_id);
+
+            print(f"\nOriginal Unit: {unit}");
+            for key, value in model_to_dict(unit).items():
+                print(f"{key} => {value}");
+            
+
+            print(f"\nCloned Unit: {clone_unit}");
+            for key, value in model_to_dict(clone_unit).items():
+                print(f"{key} => {value}");
+            print("-------------------");
+
+    def test_scorelogs_should_have_equal_content(self):
+
+        data = json.loads(call_command(self.COMMAND,3));
+        original_project = Project.objects.get(id=3);
+
+        print("\n*******************************");
+        print("TESTING EQUALITY OF CONTENT IN SCORELOGS OF PROJECT: ", original_project);
+
+
+        submissions = data['submissions'];
+
+        for submission_id, clone_id in submissions.items():
+            submission = Submission.objects.get(id=submission_id);
+            clone_submission = Submission.objects.get(id=clone_id);
+            print(f"\nOriginal scorelogs:");
+
+            for scorelog in ScoreLog.objects.filter(submission_id=submission.id):
+
+                for key,value in model_to_dict(scorelog).items():
+                    print(f"{key} => {value}");
+                print();
+            print(f"\nCloned scorelogs:");
+
+            for scorelog in ScoreLog.objects.filter(submission_id=clone_submission):
+                for key, value in model_to_dict(scorelog).items():
+                    print(f"{key} => {value}");
+                print();
+
+            print("-------------------------");

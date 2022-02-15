@@ -17,8 +17,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         project_id = options['project_id'];
 
-
-
+        #maps an original id to its cloned model
         projectid_to_clone = {};
         directoryid_to_clone = {};
         translationid_to_clone = {};
@@ -27,10 +26,9 @@ class Command(BaseCommand):
         submissionsid_to_clone = {};
         suggestionid_to_clone = {};
         qualityid_to_clone = {};
-        
+        scorelogid_to_clone = {};
         
         project_clone = Project.objects.get(id=project_id);
-
         project_clone.id = None;
         project_clone.code = project_clone.code + "_clone";
         project_clone.fullname += "(CLONE)";
@@ -64,6 +62,7 @@ class Command(BaseCommand):
                 print("init directory", store_clone.parent);
                 print("base directory", base_dir);
                 dirs = [store_clone.parent];
+
                 while True:
                     
                     if(str(store.parent) == str(base_dir)):
@@ -78,8 +77,7 @@ class Command(BaseCommand):
 
                 isBaseDir = 1;
                 if(str(store_clone.parent) != str(base_dir)):
-
-                    #itrate thorugh all directories till base directory 
+                    #iterate thorugh all directories till base directory 
                     while store_clone.parent:
                         if(isBaseDir == 1):   #save the first parent
                             base = store_clone.parent;
@@ -89,6 +87,7 @@ class Command(BaseCommand):
                         dir.pootle_path = str(dir.pootle_path).replace(base_dir.name, base_dir.name + "_clone");
                         print("store_parent:",store_clone.parent);
                         store_clone.parent = store_clone.parent.parent; 
+
                         if(str(store_clone.parent) == str(base_dir)):
                             store_clone.parent.pootle_path = str(store_clone.parent.pootle_path).replace(base_dir.name, base_dir.name + "_clone");
                             break;
@@ -107,7 +106,6 @@ class Command(BaseCommand):
                 store_clone.save();
                 storeid_to_clone[store.id] = store_clone;
 
-
                 #UNITS
                 units = Unit.objects.filter(store_id=store.id);
                 for unit in units:
@@ -118,7 +116,6 @@ class Command(BaseCommand):
                     unitid_to_clone[unit.id] = unit_clone;
                     unitid_to_clone[unit.id] = unit_clone;
                     
-
             #submissions
             submissions = Submission.objects.filter(translation_project_id=translation.id);
             for submission in submissions:
@@ -131,16 +128,15 @@ class Command(BaseCommand):
                     if(sub_store_id in storeid_to_clone.keys()):
                         submission_clone.store = storeid_to_clone[sub_store_id];
                         print("existent clone store: ", submission_clone.store);
-                    
                 
                 submission_clone.translation_project = translation_clone;
                 
-
                 suggestion_id = submission_clone.suggestion_id;
                 if suggestion_id is not None:
                     if suggestion_id in suggestionid_to_clone.keys():
                         suggestion_clone = suggestionid_to_clone[suggestion_id];
                         submission_clone.suggestion = suggestion_clone;
+
                     else:
                         suggestion_clone = Suggestion.objects.get(id=suggestion_id);
                         suggestion_clone.id = None;
@@ -152,9 +148,6 @@ class Command(BaseCommand):
                         suggestion_clone.save();
                         submission_clone.suggestion = suggestion_clone;
                     suggestionid_to_clone[suggestion_id] = suggestion_clone;
-
-                
-
 
                 quality_id = submission_clone.quality_check_id;
                 if quality_id is not None:
@@ -170,9 +163,6 @@ class Command(BaseCommand):
                 submissionsid_to_clone[submission.id] = submission_clone;
                 
 
-                
-
-
         data = {'projects': projectid_to_clone,
                 'directories': directoryid_to_clone,
                 'translations': translationid_to_clone,
@@ -180,7 +170,8 @@ class Command(BaseCommand):
                 'units': unitid_to_clone,
                 'submissions': submissionsid_to_clone,
                 'suggestions': suggestionid_to_clone,
-                'qualities': qualityid_to_clone};
+                'qualities': qualityid_to_clone,
+                'scorelogs': scorelogid_to_clone};
 
         data = self.originalid_to_cloneid(data);
         return json.dumps(data);
@@ -191,3 +182,4 @@ class Command(BaseCommand):
                 data[model][originalid] = data[model][originalid].id;
         
         return data;
+

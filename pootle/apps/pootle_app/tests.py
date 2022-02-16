@@ -6,9 +6,9 @@ from django.test import TestCase;
 from django.test.runner import DiscoverRunner;
 from django.core.management import call_command
 from pytest import fail;
-from accounts.models import User;
+from accounts.models import User
 from pootle_app.models import Directory;
-from pootle_store.models import Store, Unit, Submission, Suggestion;
+from pootle_store.models import Store, Unit, Submission, Suggestion, QualityCheck;
 from pootle_translationproject.models import TranslationProject;
 from pootle_statistics.models import ScoreLog;
 from pootle_language.models import Language;
@@ -18,6 +18,10 @@ from pootle_project.models import Project;
 class CloneProjectCommandTest(TestCase):
 
     COMMAND = "clone_project";
+    PROJECT_ID = 3;
+
+    RECORD_SEPARATOR = "------------------------";
+    TESTING_SEPARATOR = "\n**************************";
     def setUp(self) -> None:
 
 
@@ -341,6 +345,14 @@ class CloneProjectCommandTest(TestCase):
 
         #PROJECT 11 DATA
 
+        user_104983 = User();
+        user_104983.username="user104983";
+        user_104983.email = "user104983@evernote.cl";
+        user_104983.password="123141241";
+        user_104983.full_name="user104983";
+        user_104983.save();
+
+        
         directory_494 = Directory();
         directory_494.id = 494;
         directory_494.name = "web_evernote";
@@ -359,25 +371,142 @@ class CloneProjectCommandTest(TestCase):
         project_11.creation_time = None;
         project_11.disabled = 0;
         project_11.save();
-
-
         
+        directory_70 = Directory();
+        directory_70.id = 70;
+        directory_70.name = "cs";
+        directory_70.parent = directory_1;
+        directory_70.pootle_path = "/cs/";
+        directory_70.obsolete = 0;
+        directory_70.save();
+
+
+        directory_495 = Directory();
+        directory_495.id = 495;
+        directory_495.name = "web_evernote";
+        directory_495.parent = directory_70;
+        directory_495.pootle_path = "/cs/web_evernote/";
+        directory_495.obsolete = 0;
+        directory_495.save();
+
+        language_63 = Language();
+        language_63.id = 63;
+        language_63.code = "cs";
+        language_63.fullname = "Czech";
+        language_63.specialchars = "„“‚‘";
+        language_63.nplurals = 3;
+        language_63.pluralequation = "(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2";
+        language_63.directory = directory_70;
+        language_63.save();
+
+        translation_164 = TranslationProject();
+        translation_164.id = 164;
+        translation_164.language = language_63;
+        translation_164.project = project_11;
+        translation_164.real_path = "web_evernote_cs";
+        translation_164.directory = directory_495;
+        translation_164.pootle_path = "/cs/web_evernote/";
+        translation_164.creation_time = None;
+        translation_164.save();
+
+
+        directory_14732 = Directory();
+        directory_14732.id = 14732;
+        directory_14732.name = "resources";
+        directory_14732.parent = directory_495;
+        directory_14732.pootle_path = "/cs/web_evernote/resources/";
+        directory_14732.obsolete = 0;
+        directory_14732.save();
+
+        directory_14733 = Directory();
+        directory_14733.id = 14733;
+        directory_14733.name = "mail";
+        directory_14733.parent = directory_14732;
+        directory_14733.pootle_path = "/cs/web_evernote/resources/mail/";
+        directory_14733.obsolete = 0;
+        directory_14733.save();
+
+        directory_14772 = Directory();
+        directory_14772.id = 14722;
+        directory_14772.name = "premiumcancelation";
+        directory_14772.parent = directory_14733;
+        directory_14772.pootle_path = "/cs/web_evernote/resources/mail/premiumCancelation/";
+        directory_14772.obsolete = 0;
+        directory_14772.save();
+
+        store_38761 = Store();
+        store_38761.id = 38761;
+        store_38761.file = "web_evernote/cs/resources/mail/premiumCancelation/premiumCancelation.xml.master.po";
+        store_38761.parent = directory_14772;
+        store_38761.translation_project = translation_164;
+        store_38761.pootle_path = "/cs/web_evernote/resources/mail/premiumCancelation/premiumCancelation.xml.master.po";
+        store_38761.name = "premiumCancelation.xml.master.po";
+        store_38761.state = 2;
+        store_38761.last_sync_revision = 1503919;
+        store_38761.obsolete = 0;
+        store_38761.file_mtime = 1611100759;
+        store_38761.save();
+
+        unit_1492265 = Unit();
+        unit_1492265.id = 1492265;
+        unit_1492265.store = store_38761;
+        unit_1492265.index = 12;
+        unit_1492265.unitid = "- You can no longer allow other users to edit your shared notes";
+        unit_1492265.unitid_hash = "60a9e6378b1d19a25b6c2869193b030f";
+        unit_1492265.source_f = "- You can no longer allow other users to edit your shared notes";
+        unit_1492265.source_hash = "60a9e6378b1d19a25b6c2869193b030f";
+        unit_1492265.source_wordcount = 12;
+        unit_1492265.source_length = 64;
+        unit_1492265.target_f = "- Nadále nemůžete ostatním uživatelům povolit úpravu vašich sdílených poznámek";
+        unit_1492265.target_wordcount = 9;
+        unit_1492265.target_length = 78;
+        unit_1492265.developer_comment = "Please wrap the lines so their widths will be under 72 characters";
+        unit_1492265.locations = "File: resources/mail/premiumCancelation/premiumCancelation.xml.master ID: 6663f249cc87a375d6f7c839e723cc76"
+        unit_1492265.state = -100;
+        unit_1492265.mtime = "2017-06-24 16:44:27";
+        unit_1492265.submitted_by = user_104983;
+        unit_1492265.submitted_on = "2017-06-24 16:43:56";
+        unit_1492265.commented_on = "2013-01-22 08:02:36";
+        unit_1492265.commented_by = None;
+        unit_1492265.revision = 1489088;
+        unit_1492265.save();
+
+
+        quality_809005 = QualityCheck();
+        quality_809005.id = 809005;
+        quality_809005.name = "whitespace";
+        quality_809005.unit = unit_1492265;
+        quality_809005.message = "Incorrect whitespace";
+        quality_809005.false_positive = 1;
+        quality_809005.category = 100;
+        quality_809005.save();
+
+        submission_5089807 = Submission();
+        submission_5089807.id = 5089807;
+        submission_5089807.store = store_38761;
+        submission_5089807.creation_time = "2017-06-24 16:44:27";
+        submission_5089807.translation_project = translation_164;
+        submission_5089807.submitter = user_104983;
+        submission_5089807.unit = unit_1492265;
+        submission_5089807.field = 0;
+        submission_5089807.type = 6;
+        submission_5089807.quality_check = quality_809005;
+        submission_5089807.save();
+
+
         return super().setUp();
        
        
 
     def test_cloned_project_should_have_equal_amount_of_translations(self):
-        data = json.loads(call_command(self.COMMAND,3));
+        data = json.loads(call_command(self.COMMAND,self.PROJECT_ID));
 
-
-        original_project = Project.objects.get(id=3);
-        cloned_project_id = data['projects']['3'];
-        
+        original_project = Project.objects.get(id=self.PROJECT_ID);
+        cloned_project_id = data['projects'][str(self.PROJECT_ID)];
         cloned_project = Project.objects.get(id=cloned_project_id);
-        print("\n*******************************");
+
+        print(self.TESTING_SEPARATOR);
         print("TESTING EQUAL AMOUNT OF TRANSLATION PROJECTS FOR: ", original_project);
-
-
 
         original_translations = TranslationProject.objects.filter(project_id=original_project.id)
         cloned_translations = TranslationProject.objects.filter(project_id=cloned_project.id)
@@ -396,19 +525,15 @@ class CloneProjectCommandTest(TestCase):
         self.assertEquals(original_amounts,cloned_amounts);
 
     def test_cloned_project_should_have_equal_amount_of_stores(self):
+        data = json.loads(call_command(self.COMMAND, self.PROJECT_ID));
 
+        original_project = Project.objects.get(id=self.PROJECT_ID);
+        cloned_project_id = data['projects'][str(self.PROJECT_ID)];
+        cloned_project = Project.objects.get(id=cloned_project_id)
 
-        
-
-        data = json.loads(call_command(self.COMMAND,3));
-
-        original_project = Project.objects.get(id=3);
-        cloned_project_id = data['projects']['3'];
-
-        print("\n*******************************");
+        print(self.TESTING_SEPARATOR);
         print("TESTING EQUAL AMOUNT OF STORES FOR: ", original_project);
         
-        cloned_project = Project.objects.get(id=cloned_project_id)
         original_translations = TranslationProject.objects.filter(project_id=original_project.id);
         cloned_translations = TranslationProject.objects.filter(project_id=cloned_project.id);
 
@@ -430,16 +555,15 @@ class CloneProjectCommandTest(TestCase):
 
 
     def test_cloned_project_should_have_equal_amount_of_submissions(self):
+        data = json.loads(call_command(self.COMMAND,self.PROJECT_ID));
 
-        data = json.loads(call_command(self.COMMAND,3));
+        original_project = Project.objects.get(id=self.PROJECT_ID);
+        cloned_project_id = data['projects'][str(self.PROJECT_ID)];
+        cloned_project = Project.objects.get(id=cloned_project_id)
 
-        original_project = Project.objects.get(id=3);
-        cloned_project_id = data['projects']['3'];
-
-        print("\n*******************************");
+        print(self.TESTING_SEPARATOR);
         print("TESTING EQUAL AMOUNT OF SUBMISSIONS FOR: ", original_project);
         
-        cloned_project = Project.objects.get(id=cloned_project_id)
         original_translations = TranslationProject.objects.filter(project_id=original_project.id);
         cloned_translations = TranslationProject.objects.filter(project_id=cloned_project.id);
 
@@ -471,17 +595,14 @@ class CloneProjectCommandTest(TestCase):
 
 
     def test_cloned_project_should_have_equal_amount_of_units(self):
+        data = json.loads(call_command(self.COMMAND,self.PROJECT_ID));
 
-        data = json.loads(call_command(self.COMMAND,3));
-
-        original_project = Project.objects.get(id=3);
-        cloned_project_id = data['projects']['3'];
+        original_project = Project.objects.get(id=self.PROJECT_ID);
+        cloned_project_id = data['projects'][str(self.PROJECT_ID)];
         cloned_project = Project.objects.get(id=cloned_project_id);
 
-        print("\n*******************************");
+        print(self.TESTING_SEPARATOR);
         print("TESTING EQUAL AMOUNT OF UNITS FOR: ", original_project);
-
-
 
         original_translations = TranslationProject.objects.filter(project_id=original_project.id);
         cloned_translations = TranslationProject.objects.filter(project_id=cloned_project.id);
@@ -498,6 +619,7 @@ class CloneProjectCommandTest(TestCase):
                 print(f"Store {store}: {amount} units");
 
         print(f"total: {original_units_amount}");
+
         print("CLONED UNITS");
         for translation in cloned_translations:
             print("Counting units of: "+ str(translation));
@@ -512,20 +634,18 @@ class CloneProjectCommandTest(TestCase):
         self.assertEquals(original_units_amount, cloned_units_amount);
 
     def test_cloned_project_should_have_equal_amount_of_suggestions(self):
+        data = json.loads(call_command(self.COMMAND,self.PROJECT_ID));
 
-
-        data = json.loads(call_command(self.COMMAND,3));
-
-        original_project = Project.objects.get(id=3);
-        cloned_project_id = data['projects']['3'];
+        original_project = Project.objects.get(id=self.PROJECT_ID);
+        cloned_project_id = data['projects'][str(self.PROJECT_ID)];
         cloned_project = Project.objects.get(id=cloned_project_id);
 
-        print("\n*******************************");
+        print(self.TESTING_SEPARATOR);
         print("TESTING EQUAL AMOUNT OF SUGGESTIONS FOR: ", original_project);
-
 
         original_translations = TranslationProject.objects.filter(project_id=original_project.id);
         cloned_translations = TranslationProject.objects.filter(project_id=cloned_project.id);
+
         original_sugg_amount = 0;
         cloned_sugg_amount = 0;
         for translation in original_translations:
@@ -545,17 +665,17 @@ class CloneProjectCommandTest(TestCase):
                     amount = Suggestion.objects.filter(unit_id=unit.id).count();
                     cloned_sugg_amount += amount;
                     print(f"unit {unit}: {amount} suggestions");
+
         print(f"total: {cloned_sugg_amount}");
+
+        self.assertEquals(original_sugg_amount, cloned_sugg_amount);
                 
     def test_cloned_project_should_have_equal_amount_of_scorelogs_for_submissions(self):
+        data = json.loads(call_command(self.COMMAND,self.PROJECT_ID));
+        original_project = Project.objects.get(id=self.PROJECT_ID);
 
-        
-        data = json.loads(call_command(self.COMMAND,3));
-        original_project = Project.objects.get(id=3);
-
-        print("\n*******************************");
+        print(self.TESTING_SEPARATOR);
         print("TESTING EQUAL AMOUNT OF SUGGESTIONS FOR: ", original_project);   
-
 
         submissionsid_to_clone = data['submissions'];
         for sub_id in submissionsid_to_clone.keys():
@@ -574,11 +694,10 @@ class CloneProjectCommandTest(TestCase):
 
 
     def test_cloned_translations_should_have_equal_content(self):
+        data = json.loads(call_command(self.COMMAND,self.PROJECT_ID));
+        original_project = Project.objects.get(id=self.PROJECT_ID);
 
-        data = json.loads(call_command(self.COMMAND,3));
-        original_project = Project.objects.get(id=3);
-
-        print("\n*******************************");
+        print(self.TESTING_SEPARATOR);
         print("TESTING EQUALITY OF CONTENT IN TRANSLATION PROJECTS OF PROJECT: ", original_project);
 
         translations = data['translations'];
@@ -600,18 +719,19 @@ class CloneProjectCommandTest(TestCase):
             cloned_language = cloned_translation.language;
             for key, value in cloned_translation_dict.items():
                 print(f"{key} => {value}");
-            print("---------------------");
+            print(self.RECORD_SEPARATOR);
+
 
             self.assertEquals(original_language, cloned_language);
 
     def test_cloned_stores_should_have_equal_content(self):
 
 
-        data = json.loads(call_command(self.COMMAND,3));
-        original_project = Project.objects.get(id=3);
+        data = json.loads(call_command(self.COMMAND,11));
+        original_project = Project.objects.get(id=11);
 
-        print("\n*******************************");
-        print("TESTING EQUALITY OF CONTENT IN SOTRES OF PROJECT: ", original_project);
+        print(self.TESTING_SEPARATOR);
+        print("TESTING EQUALITY OF CONTENT IN STORES OF PROJECT: ", original_project);
 
 
         stores = data['stores'];
@@ -630,14 +750,15 @@ class CloneProjectCommandTest(TestCase):
             for key, value in cloned_store_dict.items():
                 print(f"{key} => {value}");
 
-            print("---------------------");
+            print(self.RECORD_SEPARATOR);
+
             
     def test_cloned_units_should_have_equal_content(self):
 
-        data = json.loads(call_command(self.COMMAND,3));
-        original_project = Project.objects.get(id=3);
+        data = json.loads(call_command(self.COMMAND,11));
+        original_project = Project.objects.get(id=11);
 
-        print("\n*******************************");
+        print(self.TESTING_SEPARATOR);
         print("TESTING EQUALITY OF CONTENT IN UNITS OF PROJECT: ", original_project);
 
         units = data['units'];
@@ -653,14 +774,15 @@ class CloneProjectCommandTest(TestCase):
             print(f"\nCloned Unit: {clone_unit}");
             for key, value in model_to_dict(clone_unit).items():
                 print(f"{key} => {value}");
-            print("-------------------");
+            print(self.RECORD_SEPARATOR);
+
 
     def test_scorelogs_should_have_equal_content(self):
 
-        data = json.loads(call_command(self.COMMAND,3));
-        original_project = Project.objects.get(id=3);
+        data = json.loads(call_command(self.COMMAND,self.PROJECT_ID));
+        original_project = Project.objects.get(id=self.PROJECT_ID);
 
-        print("\n*******************************");
+        print(self.TESTING_SEPARATOR);
         print("TESTING EQUALITY OF CONTENT IN SCORELOGS OF PROJECT: ", original_project);
 
 
@@ -682,5 +804,57 @@ class CloneProjectCommandTest(TestCase):
                 for key, value in model_to_dict(scorelog).items():
                     print(f"{key} => {value}");
                 print();
+            print(self.RECORD_SEPARATOR);
 
-            print("-------------------------");
+
+    def test_suggestions_should_have_equal_content(self):
+
+        data = json.loads(call_command(self.COMMAND,self.PROJECT_ID));
+        original_project = Project.objects.get(id=self.PROJECT_ID);
+
+        print(self.TESTING_SEPARATOR);
+        print("TESTING EQUALITY OF CONTENT IN SUGGESTIONS OF PROJECT: ", original_project);
+
+        suggestions = data['suggestions'];
+
+        for suggestion_id, clone_id in suggestions.items():
+            suggestion = Suggestion.objects.get(id=suggestion_id);
+            clone = Suggestion.objects.get(id=clone_id);
+
+            print("\nOriginal suggestion: ", suggestion);
+            for key, value in model_to_dict(suggestion).items():
+                print(f"{key} => {value}");
+            
+            
+            print("\nCloned suggestion: ");
+            for key, value in model_to_dict(clone).items():
+                print(f"{key} => {value}");
+
+            print(self.RECORD_SEPARATOR);
+
+        
+        
+    def test_submissions_should_have_equal_content(self):
+        data = json.loads(call_command(self.COMMAND,self.PROJECT_ID));
+        original_project = Project.objects.get(id=self.PROJECT_ID);
+
+        print(self.TESTING_SEPARATOR);
+        print("TESTING EQUALITY OF CONTENT IN SUBMISSIONS OF PROJECT: ", original_project);
+
+
+        submissions = data['submissions'];
+        for submission_id, clone_id in submissions.items():
+            submission = Submission.objects.get(id=submission_id);
+            clone = Submission.objects.get(id=clone_id);
+
+            print("\nOriginal submission: ", submission);
+            for key,value in model_to_dict(submission).items():
+                print(f"{key} => {value}");
+
+            print("\nClone submission: ", clone)
+            for key, value in model_to_dict(clone).items():
+                print(f"{key} => {value}");
+            
+            print(self.RECORD_SEPARATOR);
+
+        

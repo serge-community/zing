@@ -43,7 +43,7 @@ class Command(BaseCommand):
         project_clone.directory = directory;
         project_clone.save();
         projectid_to_clone[project_id] = project_clone;
-
+       
 
         translations = TranslationProject.objects.filter(project_id=project_id);
         for translation in translations:
@@ -61,31 +61,19 @@ class Command(BaseCommand):
                 store_clone.id = None;
                 print("init directory", store_clone.parent);
                 print("base directory", base_dir);
-                dirs = [store_clone.parent];
-
-                while True:
-                    
-                    if(str(store.parent) == str(base_dir)):
-                        store.parent.pootle_path = str(store.parent.pootle_path).replace(base_dir.name,base_dir.name + "_clone");
-                        
-                        break;
-                    else:
-                        store.parent.pootle_path = str(store.parent.pootle_path).replace(base_dir.name,base_dir.name + "_clone");
-                        store.parent = store.parent.parent;
-                        dirs.append(store.parent);
+               
                 base = None;
 
-                isBaseDir = 1;
+                isBaseDir = True;
                 if(str(store_clone.parent) != str(base_dir)):
                     #iterate thorugh all directories till base directory 
                     while store_clone.parent:
-                        if(isBaseDir == 1):   #save the first parent
+                        if(isBaseDir == True):   #save the first parent
                             base = store_clone.parent;
-                            isBaseDir = 0;
+                            isBaseDir = False;
+                            
                         dir = store_clone.parent;
-                        print('dir', dir)
                         dir.pootle_path = str(dir.pootle_path).replace(base_dir.name, base_dir.name + "_clone");
-                        print("store_parent:",store_clone.parent);
                         store_clone.parent = store_clone.parent.parent; 
 
                         if(str(store_clone.parent) == str(base_dir)):
@@ -97,12 +85,7 @@ class Command(BaseCommand):
                 
                 store_clone.translation_project = translation_clone;
                 store_clone.parent = base;
-                print(store_clone.parent);
-                print("new parent ",store_clone.parent);
-                print("parent of parent", store_clone.parent.parent);
-                print("parent of parent of parent", store_clone.parent.parent.parent);
                 store_clone.name =  "clone_" + store_clone.name;
-
                 store_clone.save();
                 storeid_to_clone[store.id] = store_clone;
 
@@ -114,40 +97,42 @@ class Command(BaseCommand):
                     unit_clone.store = store_clone;
                     unit_clone.save();
                     unitid_to_clone[unit.id] = unit_clone;
-                    unitid_to_clone[unit.id] = unit_clone;
+                    
+        
                     
             #submissions
             submissions = Submission.objects.filter(translation_project_id=translation.id);
             for submission in submissions:
                 submission_clone = Submission.objects.get(id=submission.id);
                 submission_clone.id = None;
-                print("sub store");
-                print(submission_clone.store);
                 sub_store_id = submission_clone.store_id;
+
                 if(sub_store_id  is not None):
-                    if(sub_store_id in storeid_to_clone.keys()):
-                        submission_clone.store = storeid_to_clone[sub_store_id];
-                        print("existent clone store: ", submission_clone.store);
+                    submission_clone.store = storeid_to_clone[sub_store_id];
                 
                 submission_clone.translation_project = translation_clone;
                 
                 suggestion_id = submission_clone.suggestion_id;
                 if suggestion_id is not None:
+                    suggestion_clone = None;
+
                     if suggestion_id in suggestionid_to_clone.keys():
                         suggestion_clone = suggestionid_to_clone[suggestion_id];
-                        submission_clone.suggestion = suggestion_clone;
 
                     else:
                         suggestion_clone = Suggestion.objects.get(id=suggestion_id);
                         suggestion_clone.id = None;
-                        sugg_unit_id = suggestion_clone.unit_id;
 
-                        if(sugg_unit_id in unitid_to_clone.keys()):
+                        sugg_unit_id = suggestion_clone.unit_id;
+                        if(sugg_unit_id is not None):
                             suggestion_clone.unit = unitid_to_clone[sugg_unit_id];
 
                         suggestion_clone.save();
-                        submission_clone.suggestion = suggestion_clone;
-                    suggestionid_to_clone[suggestion_id] = suggestion_clone;
+                        suggestionid_to_clone[suggestion_id] = suggestion_clone;
+
+
+                    submission_clone.suggestion = suggestion_clone;
+
 
                 quality_id = submission_clone.quality_check_id;
                 if quality_id is not None:
@@ -156,6 +141,7 @@ class Command(BaseCommand):
                     else:
                         quality_clone = QualityCheck.objects.get(id=quality_id);
                         quality_clone.id = None;
+                        quality_clone.unit = unitid_to_clone[quality_clone.unit_id];
                         quality_clone.save();
                         qualityid_to_clone[quality_id] = quality_clone;
 
@@ -183,3 +169,4 @@ class Command(BaseCommand):
         
         return data;
 
+    

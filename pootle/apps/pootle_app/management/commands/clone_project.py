@@ -43,7 +43,7 @@ class Command(BaseCommand):
         project_clone.directory = directory;
         project_clone.save();
         projectid_to_clone[project_id] = project_clone;
-       
+        
 
         translations = TranslationProject.objects.filter(project_id=project_id);
         for translation in translations:
@@ -59,8 +59,6 @@ class Command(BaseCommand):
             for store in stores:
                 store_clone = Store.objects.get(id=store.id);
                 store_clone.id = None;
-                print("init directory", store_clone.parent);
-                print("base directory", base_dir);
                
                 base = None;
 
@@ -97,7 +95,12 @@ class Command(BaseCommand):
                     unit_clone.store = store_clone;
                     unit_clone.save();
                     unitid_to_clone[unit.id] = unit_clone;
-                    
+
+                    #units with those states (50 == FUZZY, 200 == TRANSLATED) will create a new submission automatically
+                    if(unit_clone.state == 50 or unit_clone.state == 200):
+                        print(f"unit({unit_clone.id}) created this submission");
+                        sub = Submission.objects.get(unit_id=unit_clone.id)
+                        sub.delete();
         
                     
             #submissions
@@ -137,13 +140,14 @@ class Command(BaseCommand):
                 quality_id = submission_clone.quality_check_id;
                 if quality_id is not None:
                     if quality_id in qualityid_to_clone.keys():
-                        submission_clone.quality_check_id = qualityid_to_clone[quality_id];
+                        submission_clone.quality_check = qualityid_to_clone[quality_id];
                     else:
                         quality_clone = QualityCheck.objects.get(id=quality_id);
                         quality_clone.id = None;
                         quality_clone.unit = unitid_to_clone[quality_clone.unit_id];
                         quality_clone.save();
                         qualityid_to_clone[quality_id] = quality_clone;
+                        submission_clone.quality_check = quality_clone;
 
                 submission_clone.save();
                 submissionsid_to_clone[submission.id] = submission_clone;

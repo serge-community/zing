@@ -572,29 +572,6 @@ class Unit(models.Model, base.TranslationUnit):
     def compare(self, other):
         if isinstance(other, Unit):
             isEqual = True
-            # print(f"{self.index} - {other.index}");
-            # print(f"{self.unitid} - {other.unitid}");
-            # print(f"{self.unitid_hash} - {other.unitid_hash}");
-            # print(f"{self.source_f} - {other.source_f}");
-            # print(f"{self.source_wordcount} - {other.source_wordcount}");
-            # print(f"{self.source_length} - {other.source_length}");
-            # print(f"{self.target_f} - {other.target_f}");
-            # print(f"{self.target_wordcount} - {other.target_wordcount}");
-            # print(f"{self.target_length} - {other.target_length}");
-            # print(f"{self.developer_comment} - {other.developer_comment}");
-            # print(f"{self.translator_comment} - {other.translator_comment}");
-            # print(f"{self.locations} - {other.locations}");
-            # print(f"{self.context} - {other.context}");
-            # print(f"{self.state} - {other.state}");
-            # # print(f"{self.mtime} - {other.mtime}");
-            # print(f"{self.submitted_by_id} - {other.submitted_by_id}");
-            # print(f"{self.submitted_on} - {other.submitted_on}");
-            # print(f"{self.commented_by_id} - {other.commented_by_id}");
-            # print(f"{self.commented_on} - {other.commented_on}");
-            # # print(f"{self.creation_time} - {other.creation_time}");
-            # print(f"{self.revision} - {other.revision}");
-            # print(f"{self.reviewed_by_id} - {other.reviewed_by_id}");
-            # print(f"{self.reviewed_on} - {other.reviewed_on}");
 
             if self.index != other.index:
                 isEqual = False
@@ -1589,8 +1566,8 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
                 isEqual = False
             if self.state != other.state:
                 isEqual = False
-            if self.creation_time != other.creation_time:
-                isEqual = False
+            # if self.creation_time != other.creation_time:
+            #     isEqual = False
             if self.last_sync_revision != other.last_sync_revision:
                 isEqual = False
             if self.obsolete != other.obsolete:

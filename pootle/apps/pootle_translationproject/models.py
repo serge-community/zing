@@ -408,15 +408,5 @@ class TranslationProject(models.Model, CachedTreeItem):
 
             if self.language_id != other.language_id:
                 isEqual = False
-            # if self.project_id != other.project_id:
-                # isEqual = False;
-            if self.real_path != other.real_path:
-                isEqual = False
-            if self.directory_id != other.directory_id:
-                isEqual = False
-            if self.pootle_path != other.pootle_path:
-                isEqual = False
-            if self.creation_time != other.creation_time:
-                isEqual = False
             return isEqual
         return False

@@ -16,7 +16,7 @@ class CloneProjectCommandTest(TestCase):
     @classmethod
     def setUpTestData(cls) -> None:
 
-        cls.PROJECT_ID = 11
+        cls.PROJECT_ID = 4
         cls.RECORD_SEPARATOR = "------------------------"
         cls.TESTING_SEPARATOR = "\n**************************"
 

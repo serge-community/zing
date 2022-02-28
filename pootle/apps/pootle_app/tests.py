@@ -567,17 +567,10 @@ class CloneProjectCommandTest(TestCase):
         unit_10665.revision = 0;
         unit_10665.save();
         
-       
-         
-        
-        
+        print(directory_1.is_clone_of(directory_1));
 
         cls.data = json.loads(call_command("clone_project", cls.PROJECT_ID));
 
-
-        
-       
-       
 
     def test_cloned_project_should_have_equal_amount_of_translations(self):
 
@@ -585,22 +578,11 @@ class CloneProjectCommandTest(TestCase):
         cloned_project_id = self.data['projects'][str(self.PROJECT_ID)];
         cloned_project = Project.objects.get(id=cloned_project_id);
 
-        print(self.TESTING_SEPARATOR);
-        print("TESTING EQUAL AMOUNT OF TRANSLATION PROJECTS FOR: ", original_project);
-
         original_translations = TranslationProject.objects.filter(project_id=original_project.id)
         cloned_translations = TranslationProject.objects.filter(project_id=cloned_project.id)
 
         original_amounts = original_translations.count();
         cloned_amounts = cloned_translations.count();
-
-        print(f"original: {original_project}: {original_amounts} translation projects");
-        for translation in original_translations:
-            print(translation);
-        print("");
-        print(f"clone: {cloned_project}: {cloned_amounts} translation projects");
-        for translation in cloned_translations:
-            print(translation);
 
         self.assertEquals(original_amounts,cloned_amounts);
 
@@ -609,9 +591,6 @@ class CloneProjectCommandTest(TestCase):
         original_project = Project.objects.get(id=self.PROJECT_ID);
         cloned_project_id = self.data['projects'][str(self.PROJECT_ID)];
         cloned_project = Project.objects.get(id=cloned_project_id)
-
-        print(self.TESTING_SEPARATOR);
-        print("TESTING EQUAL AMOUNT OF STORES FOR: ", original_project);
         
         original_translations = TranslationProject.objects.filter(project_id=original_project.id);
         cloned_translations = TranslationProject.objects.filter(project_id=cloned_project.id);
@@ -621,17 +600,12 @@ class CloneProjectCommandTest(TestCase):
         for translation in original_translations:
             amount = Store.objects.filter(translation_project_id=translation.id).count();
             original_stores_amount += amount;
-            print(f"translation {translation}: {amount} stores");
-        print("total original stores: ", original_stores_amount);
+
         for translation in cloned_translations:
             amount = Store.objects.filter(translation_project_id=translation.id).count();
             cloned_stores_amount += amount;
-            print(f"translation {translation}: {amount} stores");
-        print("total cloned stores: ", cloned_stores_amount);
         self.assertEquals(original_stores_amount,cloned_stores_amount);
      
-
-
 
     def test_cloned_project_should_have_equal_amount_of_submissions(self):
 
@@ -639,38 +613,21 @@ class CloneProjectCommandTest(TestCase):
         cloned_project_id = self.data['projects'][str(self.PROJECT_ID)];
         cloned_project = Project.objects.get(id=cloned_project_id)
 
-        print(self.TESTING_SEPARATOR);
-        print("TESTING EQUAL AMOUNT OF SUBMISSIONS FOR: ", original_project);
-        
         original_translations = TranslationProject.objects.filter(project_id=original_project.id);
         cloned_translations = TranslationProject.objects.filter(project_id=cloned_project.id);
-
 
         original_submission_amount = 0;
         cloned_submission_amount = 0;
         for translation in original_translations:
             amount = Submission.objects.filter(translation_project_id=translation.id).count();
             original_submission_amount += amount;
-            print(f"translation {translation}: {amount} submissions");
-        print("total submissions: ", original_submission_amount);
 
         for translation in cloned_translations:
             amount = Submission.objects.filter(translation_project_id=translation.id).count();
             cloned_submission_amount += amount;
-            print(f"translation {translation}: {amount} submissions");
-        print("total submissions: ", cloned_submission_amount);
-
-
-
-        print(f"original submissions: {original_submission_amount}");
-        print(f"cloned submissions: {cloned_submission_amount}");
         
         self.assertEquals(original_submission_amount, cloned_submission_amount);
      
-
-
-
-
 
     def test_cloned_project_should_have_equal_amount_of_units(self):
 
@@ -678,34 +635,22 @@ class CloneProjectCommandTest(TestCase):
         cloned_project_id = self.data['projects'][str(self.PROJECT_ID)];
         cloned_project = Project.objects.get(id=cloned_project_id);
 
-        print(self.TESTING_SEPARATOR);
-        print("TESTING EQUAL AMOUNT OF UNITS FOR: ", original_project);
-
         original_translations = TranslationProject.objects.filter(project_id=original_project.id);
         cloned_translations = TranslationProject.objects.filter(project_id=cloned_project.id);
         
-
         original_units_amount = 0;
         cloned_units_amount = 0;
-        print("ORIGINAL UNITS")
         for translation in original_translations:
-            print("Counting units of: "+ str(translation));
             for store in Store.objects.filter(translation_project_id=translation.id):
                 amount = Unit.objects.filter(store_id=store.id).count();
                 original_units_amount += Unit.objects.filter(store_id=store.id).count();
-                print(f"Store {store}: {amount} units");
 
-        print(f"total: {original_units_amount}");
 
-        print("CLONED UNITS");
         for translation in cloned_translations:
-            print("Counting units of: "+ str(translation));
             for store in Store.objects.filter(translation_project_id=translation.id):
                 amount = Unit.objects.filter(store_id=store.id).count();
                 cloned_units_amount += amount;
-                print(f"Store {store}: {amount} units");
 
-        print(f"total: {cloned_units_amount}");
             
         
         self.assertEquals(original_units_amount, cloned_units_amount);
@@ -716,8 +661,6 @@ class CloneProjectCommandTest(TestCase):
         cloned_project_id = self.data['projects'][str(self.PROJECT_ID)];
         cloned_project = Project.objects.get(id=cloned_project_id);
 
-        print(self.TESTING_SEPARATOR);
-        print("TESTING EQUAL AMOUNT OF SUGGESTIONS FOR: ", original_project);
 
         original_translations = TranslationProject.objects.filter(project_id=original_project.id);
         cloned_translations = TranslationProject.objects.filter(project_id=cloned_project.id);
@@ -725,89 +668,44 @@ class CloneProjectCommandTest(TestCase):
         original_sugg_amount = 0;
         cloned_sugg_amount = 0;
         for translation in original_translations:
-            print("Counting Suggestions of: "+ str(translation));
             for store in Store.objects.filter(translation_project_id=translation.id):
                 for unit in Unit.objects.filter(store_id=store.id):
                     amount = Suggestion.objects.filter(unit_id=unit.id).count();
                     original_sugg_amount += amount;
-                    print(f"unit {unit}: {amount} suggestions");
 
-        print(f"total: {original_sugg_amount}");
 
         for translation in cloned_translations:
-            print("Counting Suggestions of: "+ str(translation));
             for store in Store.objects.filter(translation_project_id=translation.id):
                 for unit in Unit.objects.filter(store_id=store.id):
                     amount = Suggestion.objects.filter(unit_id=unit.id).count();
                     cloned_sugg_amount += amount;
-                    print(f"unit {unit}: {amount} suggestions");
 
-        print(f"total: {cloned_sugg_amount}");
 
         self.assertEquals(original_sugg_amount, cloned_sugg_amount);
                 
     def test_cloned_project_should_have_equal_amount_of_scorelogs_for_submissions(self):
-        original_project = Project.objects.get(id=self.PROJECT_ID);
-
-        print(self.TESTING_SEPARATOR);
-        print("TESTING EQUAL AMOUNT OF SCORELOGS FOR: ", original_project);   
-
+  
         submissionsid_to_clone = self.data['submissions'];
         for sub_id in submissionsid_to_clone.keys():
-            
-            original_sub = Submission.objects.get(id=sub_id);
-            original_scorelogs_amount = ScoreLog.objects.filter(submission_id=sub_id).count();
-
             cloned_id = submissionsid_to_clone[sub_id];
-            cloned_sub = Submission.objects.get(id=cloned_id);
+            
+            original_scorelogs_amount = ScoreLog.objects.filter(submission_id=sub_id).count();
             cloned_scorelogs_amount = ScoreLog.objects.filter(submission_id=cloned_id).count();
 
-
-            print(f"Comparing original: {original_sub} and clone: {cloned_sub}");
-            print(f"total original scorelogs: {original_scorelogs_amount}");
-            print(f"total cloned scorelogs: {cloned_scorelogs_amount}");
 
             self.assertEquals(original_scorelogs_amount, cloned_scorelogs_amount);
 
 
     def test_cloned_translations_should_have_equal_content(self):
-        original_project = Project.objects.get(id=self.PROJECT_ID);
-
-        print(self.TESTING_SEPARATOR);
-        print("TESTING EQUALITY OF CONTENT IN TRANSLATION PROJECTS OF PROJECT: ", original_project);
 
         translations = self.data['translations'];
-
         for translation_id, clone_id in translations.items():
             translation = TranslationProject.objects.get(id=translation_id);
             cloned_translation = TranslationProject.objects.get(id=clone_id);
 
-            translation_dict = model_to_dict(translation);
-            cloned_translation_dict = model_to_dict(cloned_translation);
-            
-            print(f"\nOriginal Translation: {translation}");
-            original_language = translation.language;
-            for key, value in translation_dict.items():
-                print(f"{key} => {value}");
-                
-            
-            print(f"\nCloned Translation: {cloned_translation}");
-            cloned_language = cloned_translation.language;
-            for key, value in cloned_translation_dict.items():
-                print(f"{key} => {value}");
-            print(self.RECORD_SEPARATOR);
-
-
-            self.assertEquals(original_language, cloned_language);
+            self.assertTrue(translation.compare(cloned_translation));
 
     def test_cloned_stores_should_have_equal_content(self):
-
-
-        original_project = Project.objects.get(id=self.PROJECT_ID);
-
-        print(self.TESTING_SEPARATOR);
-        print("TESTING EQUALITY OF CONTENT IN STORES OF PROJECT: ", original_project);
-
 
         stores = self.data['stores'];
 
@@ -815,40 +713,17 @@ class CloneProjectCommandTest(TestCase):
             store = Store.objects.get(id=store_id);
             cloned_store = Store.objects.get(id=clone_id);
 
-            store_dict = model_to_dict(store);
-            cloned_store_dict = model_to_dict(cloned_store);
-            print(f"\nOriginal Store: {store}")
-            for key, value in store_dict.items():
-                print(f"{key} => {value}");
-
-            print(f"\nCloned Store: {cloned_store}");
-            for key, value in cloned_store_dict.items():
-                print(f"{key} => {value}");
-
-            print(self.RECORD_SEPARATOR);
+            self.assertTrue(store.compare(cloned_store));
 
             
     def test_cloned_units_should_have_equal_content(self):
-
-        original_project = Project.objects.get(id=self.PROJECT_ID);
-
-        print(self.TESTING_SEPARATOR);
-        print("TESTING EQUALITY OF CONTENT IN UNITS OF PROJECT: ", original_project);
 
         units = self.data['units'];
         for unit_id, clone_id in units.items():
             unit = Unit.objects.get(id=unit_id);
             clone_unit = Unit.objects.get(id=clone_id);
 
-            print(f"\nOriginal Unit: {unit}");
-            for key, value in model_to_dict(unit).items():
-                print(f"{key} => {value}");
-            
-
-            print(f"\nCloned Unit: {clone_unit}");
-            for key, value in model_to_dict(clone_unit).items():
-                print(f"{key} => {value}");
-            print(self.RECORD_SEPARATOR);
+            self.assertTrue(unit.compare(clone_unit));
 
 
     def test_scorelogs_should_have_equal_content(self):
@@ -881,50 +756,23 @@ class CloneProjectCommandTest(TestCase):
 
 
     def test_suggestions_should_have_equal_content(self):
-        original_project = Project.objects.get(id=self.PROJECT_ID);
-
-        print(self.TESTING_SEPARATOR);
-        print("TESTING EQUALITY OF CONTENT IN SUGGESTIONS OF PROJECT: ", original_project);
-
+        
         suggestions = self.data['suggestions'];
 
         for suggestion_id, clone_id in suggestions.items():
             suggestion = Suggestion.objects.get(id=suggestion_id);
             clone = Suggestion.objects.get(id=clone_id);
 
-            print("\nOriginal suggestion: ", suggestion);
-            for key, value in model_to_dict(suggestion).items():
-                print(f"{key} => {value}");
-            
-            
-            print("\nCloned suggestion: ");
-            for key, value in model_to_dict(clone).items():
-                print(f"{key} => {value}");
-
-            print(self.RECORD_SEPARATOR);
-
+            self.assertTrue(suggestion.compare(clone));
         
         
     def test_submissions_should_have_equal_content(self):
-        original_project = Project.objects.get(id=self.PROJECT_ID);
-
-        print(self.TESTING_SEPARATOR);
-        print("TESTING EQUALITY OF CONTENT IN SUBMISSIONS OF PROJECT: ", original_project);
-
 
         submissions = self.data['submissions'];
         for submission_id, clone_id in submissions.items():
             submission = Submission.objects.get(id=submission_id);
             clone = Submission.objects.get(id=clone_id);
 
-            print("\nOriginal submission: ", submission);
-            for key,value in model_to_dict(submission).items():
-                print(f"{key} => {value}");
-
-            print("\nClone submission: ", clone)
-            for key, value in model_to_dict(clone).items():
-                print(f"{key} => {value}");
-            
-            print(self.RECORD_SEPARATOR);
+            self.assertTrue(submission.compare(clone));
 
         

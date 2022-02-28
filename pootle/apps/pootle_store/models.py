@@ -106,6 +106,22 @@ class QualityCheck(models.Model):
         unknown_checks.delete()
 
 
+    def compare(self, other):
+        if isinstance(other, QualityCheck):
+            isEqual = True;
+
+            if self.name != other.name:
+                isEqual = False;
+            if self.message != other.message:
+                isEqual = False;
+            if self.false_positive != other.false_positive:
+                isEqual = False;
+            if self.category != other.category:
+                isEqual = False;
+            return isEqual;
+        return False;
+
+
 # # # # # # # # # Suggestion # # # # # # # #
 
 
@@ -188,6 +204,26 @@ class Suggestion(models.Model, base.TranslationUnit):
         else:
             string = self.target_f
         self.target_hash = md5(string.encode("utf-8")).hexdigest()
+
+    def compare(self, other):
+        if isinstance(other, Suggestion):
+            isEqual = True;
+
+            if self.target_f != other.target_f:
+                isEqual = False;
+            if self.target_hash != other.target_hash:
+                isEqual = False;
+            if self.translator_comment != other.translator_comment:
+                isEqual = False;
+            if self.state != other.state:
+                isEqual = False;
+            if self.creation_time != other.creation_time:
+                isEqual = False;
+            if self.review_time != other.review_time:
+                isEqual = False;
+            
+            return isEqual;
+        return False;
 
 
 # # # # # # # # Unit # # # # # # # # # #
@@ -534,6 +570,88 @@ class Unit(models.Model, base.TranslationUnit):
                 field=SubmissionFields.TARGET,
                 new_value=self.target,
             )
+
+    def compare(self, other):
+        if isinstance(other, Unit):
+            isEqual = True;
+            # print(f"{self.index} - {other.index}");
+            # print(f"{self.unitid} - {other.unitid}");
+            # print(f"{self.unitid_hash} - {other.unitid_hash}");
+            # print(f"{self.source_f} - {other.source_f}");
+            # print(f"{self.source_wordcount} - {other.source_wordcount}");
+            # print(f"{self.source_length} - {other.source_length}");
+            # print(f"{self.target_f} - {other.target_f}");
+            # print(f"{self.target_wordcount} - {other.target_wordcount}");
+            # print(f"{self.target_length} - {other.target_length}");
+            # print(f"{self.developer_comment} - {other.developer_comment}");
+            # print(f"{self.translator_comment} - {other.translator_comment}");
+            # print(f"{self.locations} - {other.locations}");
+            # print(f"{self.context} - {other.context}");
+            # print(f"{self.state} - {other.state}");
+            # # print(f"{self.mtime} - {other.mtime}");
+            # print(f"{self.submitted_by_id} - {other.submitted_by_id}");
+            # print(f"{self.submitted_on} - {other.submitted_on}");
+            # print(f"{self.commented_by_id} - {other.commented_by_id}");
+            # print(f"{self.commented_on} - {other.commented_on}");
+            # # print(f"{self.creation_time} - {other.creation_time}");
+            # print(f"{self.revision} - {other.revision}");
+            # print(f"{self.reviewed_by_id} - {other.reviewed_by_id}");
+            # print(f"{self.reviewed_on} - {other.reviewed_on}");
+
+
+
+
+            if self.index != other.index:
+                isEqual = False;
+            if self.unitid != other.unitid:
+                isEqual = False;
+            if self.unitid_hash != other.unitid_hash:
+                isEqual = False;
+            if self.source_f != other.source_f:
+                isEqual = False;
+            if self.source_hash != other.source_hash:
+                isEqual = False;
+            if self.source_wordcount != other.source_wordcount:
+                isEqual = False;
+            if self.source_length != other.source_length:
+                isEqual = False;
+            if self.target_f != other.target_f:
+                isEqual = False;
+            if self.target_wordcount != other.target_wordcount:
+                isEqual = False;
+            if self.target_length != other.target_length:
+                isEqual = False;
+            if self.developer_comment != other.developer_comment:
+                isEqual = False;
+            if self.translator_comment != other.translator_comment:
+                isEqual = False;
+            if self.locations != other.locations:
+                isEqual = False;
+            if self.context != other.context:
+                isEqual = False;
+            if self.state != other.state:
+                isEqual = False;
+            # if self.mtime != other.mtime:
+                # isEqual = False;
+            if self.submitted_by_id != other.submitted_by_id:
+                isEqual = False;
+            if self.submitted_on != other.submitted_on:
+                isEqual = False;
+            if self.commented_by_id != other.commented_by_id:
+                isEqual = False;
+            if self.commented_on != other.commented_on:
+                isEqual = False;
+            # if self.creation_time != other.creation_time:
+            #     isEqual = False;
+            if self.revision != other.revision:
+                isEqual = False;
+            if self.reviewed_by_id != other.reviewed_by_id:
+                isEqual = False;
+            if self.reviewed_on != other.reviewed_on:
+                isEqual = False;
+
+            return isEqual;
+        return False;
 
     @cached_property
     def unit_syncer(self):
@@ -1468,6 +1586,25 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
             only_newer=only_newer,
         )
 
+    def compare(self, other):
+        if isinstance(other, Store):
+            isEqual = True;
+
+            if self.file != other.file:
+                isEqual = False;
+            if self.state != other.state:
+                isEqual = False;
+            if self.creation_time != other.creation_time:
+                isEqual = False;
+            if self.last_sync_revision != other.last_sync_revision:
+                isEqual = False;
+            if self.obsolete != other.obsolete:
+                isEqual = False;
+            if self.file_mtime != other.file_mtime:
+                isEqual = False;
+            return isEqual;
+
+        return False;
     # # # # # # # # # # # #  TranslationStore # # # # # # # # # # # # #
 
     suggestions_in_format = True

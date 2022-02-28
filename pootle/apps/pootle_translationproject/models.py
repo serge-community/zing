@@ -8,6 +8,7 @@
 # AUTHORS file for copyright and authorship information.
 
 import logging
+from xml.etree.ElementTree import iselement
 
 from translate.misc.lru import LRUCachingDict
 
@@ -403,3 +404,33 @@ class TranslationProject(models.Model, CachedTreeItem):
             self.non_db_state.termmatchermtime = mtime
 
         return self.non_db_state.termmatcher
+
+    def compare(self, other):
+        if isinstance(other, TranslationProject):
+            isEqual = True;
+            
+            print(f"{self.language_id} - {other.language_id}");
+            # print(f"{self.project_id} - {other.project_id}");
+            print(f"{self.real_path} - {other.real_path}");
+            print(f"{self.directory_id} - {other.directory_id}");
+            print(f"{self.pootle_path} - {other.pootle_path}");
+            print(f"{self.creation_time} - {other.creation_time}");
+            
+
+            if self.language_id != other.language_id:
+                isEqual = False;
+            # if self.project_id != other.project_id:
+                # isEqual = False;
+            if self.real_path != other.real_path:
+                isEqual = False;
+            if self.directory_id != other.directory_id:
+                isEqual = False;
+            if self.pootle_path != other.pootle_path:
+                isEqual = False;
+            if self.creation_time != other.creation_time:
+                isEqual = False;
+
+            return isEqual;
+        
+        
+        return False;

@@ -350,6 +350,30 @@ class Submission(models.Model):
         if scorelogs_created:
             self.scorelog_set.add(*scorelogs_created, bulk=False)
 
+    def compare(self, other):
+        if isinstance(other, Submission):
+            isEqual = True;
+
+            if self.creation_time != other.creation_time:
+                isEqual = False;
+            if self.submitter_id != other.submitter_id:
+                isEqual = False;
+            if self.field != other.field:
+                isEqual = False;
+            if self.type != other.type:
+                isEqual = False;
+            if self.old_value != other.old_value:
+                isEqual = False;
+            if self.new_value != other.new_value:
+                isEqual = False;
+            if self.similarity != other.similarity:
+                isEqual = False;
+            if self.mt_similarity != other.mt_similarity:
+                isEqual = False;
+            
+            return isEqual;
+        return False;
+
 
 class TranslationActionCodes(object):
     NEW = 0  # 'TA' unit translated
@@ -732,3 +756,29 @@ class ScoreLog(models.Model):
             TranslationActionCodes.SUGG_ACCEPTED: get_sugg_accepted,
             TranslationActionCodes.SUGG_REVIEWED_ACCEPTED: get_sugg_reviewed_accepted,
         }.get(self.action_code, lambda: (None, None))()
+    
+
+    def compare(self, other):
+        if isinstance(other, ScoreLog):
+            isEqual = False;
+
+            if self.creation_time != other.creation_time:
+                isEqual = False;
+            if self.rate != other.rate:
+                isEqual = False;
+            if self.wordcount != other.wordcount:
+                isEqual = False;
+            if self.similarity != other.similarity:
+                isEqual = False;
+            if self.score_delta != other.score_delta:
+                isEqual = False;
+            if self.action_code != other.action_code:
+                isEqual = False;
+            if self.review_rate != other.review_rate:
+                isEqual = False;
+            if self.translated_wordcount != other.translated_wordcount:
+                isEqual = False;
+
+            return isEqual;
+        return False;
+    

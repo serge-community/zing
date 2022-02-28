@@ -270,3 +270,19 @@ def invalidate_language_list_cache(**kwargs):
         return
 
     clear_language_list_cache()
+
+
+def compare(self, other):
+    if isinstance(other, Language):
+        isEqual = True;
+        if self.code != other.code:
+            isEqual = False;
+        if self.fullname != other.fullname:
+            isEqual = False;
+        if self.specialchars != other.specialchars:
+            isEqual = False;
+        if self.nplurals != other.nplurals:
+            isEqual = False;
+        return isEqual;
+    else:
+        return False;

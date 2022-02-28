@@ -105,21 +105,20 @@ class QualityCheck(models.Model):
         unknown_checks = QualityCheck.objects.exclude(name__in=list(check_names.keys()))
         unknown_checks.delete()
 
-
     def compare(self, other):
         if isinstance(other, QualityCheck):
-            isEqual = True;
+            isEqual = True
 
             if self.name != other.name:
-                isEqual = False;
+                isEqual = False
             if self.message != other.message:
-                isEqual = False;
+                isEqual = False
             if self.false_positive != other.false_positive:
-                isEqual = False;
+                isEqual = False
             if self.category != other.category:
-                isEqual = False;
-            return isEqual;
-        return False;
+                isEqual = False
+            return isEqual
+        return False
 
 
 # # # # # # # # # Suggestion # # # # # # # #
@@ -207,23 +206,22 @@ class Suggestion(models.Model, base.TranslationUnit):
 
     def compare(self, other):
         if isinstance(other, Suggestion):
-            isEqual = True;
+            isEqual = True
 
             if self.target_f != other.target_f:
-                isEqual = False;
+                isEqual = False
             if self.target_hash != other.target_hash:
-                isEqual = False;
+                isEqual = False
             if self.translator_comment != other.translator_comment:
-                isEqual = False;
+                isEqual = False
             if self.state != other.state:
-                isEqual = False;
+                isEqual = False
             if self.creation_time != other.creation_time:
-                isEqual = False;
+                isEqual = False
             if self.review_time != other.review_time:
-                isEqual = False;
-            
-            return isEqual;
-        return False;
+                isEqual = False
+            return isEqual
+        return False
 
 
 # # # # # # # # Unit # # # # # # # # # #
@@ -573,7 +571,7 @@ class Unit(models.Model, base.TranslationUnit):
 
     def compare(self, other):
         if isinstance(other, Unit):
-            isEqual = True;
+            isEqual = True
             # print(f"{self.index} - {other.index}");
             # print(f"{self.unitid} - {other.unitid}");
             # print(f"{self.unitid_hash} - {other.unitid_hash}");
@@ -598,60 +596,57 @@ class Unit(models.Model, base.TranslationUnit):
             # print(f"{self.reviewed_by_id} - {other.reviewed_by_id}");
             # print(f"{self.reviewed_on} - {other.reviewed_on}");
 
-
-
-
             if self.index != other.index:
-                isEqual = False;
+                isEqual = False
             if self.unitid != other.unitid:
-                isEqual = False;
+                isEqual = False
             if self.unitid_hash != other.unitid_hash:
-                isEqual = False;
+                isEqual = False
             if self.source_f != other.source_f:
-                isEqual = False;
+                isEqual = False
             if self.source_hash != other.source_hash:
-                isEqual = False;
+                isEqual = False
             if self.source_wordcount != other.source_wordcount:
-                isEqual = False;
+                isEqual = False
             if self.source_length != other.source_length:
-                isEqual = False;
+                isEqual = False
             if self.target_f != other.target_f:
-                isEqual = False;
+                isEqual = False
             if self.target_wordcount != other.target_wordcount:
-                isEqual = False;
+                isEqual = False
             if self.target_length != other.target_length:
-                isEqual = False;
+                isEqual = False
             if self.developer_comment != other.developer_comment:
-                isEqual = False;
+                isEqual = False
             if self.translator_comment != other.translator_comment:
-                isEqual = False;
+                isEqual = False
             if self.locations != other.locations:
-                isEqual = False;
+                isEqual = False
             if self.context != other.context:
-                isEqual = False;
+                isEqual = False
             if self.state != other.state:
-                isEqual = False;
+                isEqual = False
             # if self.mtime != other.mtime:
                 # isEqual = False;
             if self.submitted_by_id != other.submitted_by_id:
-                isEqual = False;
+                isEqual = False
             if self.submitted_on != other.submitted_on:
-                isEqual = False;
+                isEqual = False
             if self.commented_by_id != other.commented_by_id:
-                isEqual = False;
+                isEqual = False
             if self.commented_on != other.commented_on:
-                isEqual = False;
+                isEqual = False
             # if self.creation_time != other.creation_time:
             #     isEqual = False;
             if self.revision != other.revision:
-                isEqual = False;
+                isEqual = False
             if self.reviewed_by_id != other.reviewed_by_id:
-                isEqual = False;
+                isEqual = False
             if self.reviewed_on != other.reviewed_on:
-                isEqual = False;
+                isEqual = False
 
-            return isEqual;
-        return False;
+            return isEqual
+        return False
 
     @cached_property
     def unit_syncer(self):
@@ -1588,23 +1583,23 @@ class Store(models.Model, CachedTreeItem, base.TranslationStore):
 
     def compare(self, other):
         if isinstance(other, Store):
-            isEqual = True;
+            isEqual = True
 
             if self.file != other.file:
-                isEqual = False;
+                isEqual = False
             if self.state != other.state:
-                isEqual = False;
+                isEqual = False
             if self.creation_time != other.creation_time:
-                isEqual = False;
+                isEqual = False
             if self.last_sync_revision != other.last_sync_revision:
-                isEqual = False;
+                isEqual = False
             if self.obsolete != other.obsolete:
-                isEqual = False;
+                isEqual = False
             if self.file_mtime != other.file_mtime:
-                isEqual = False;
-            return isEqual;
+                isEqual = False
+            return isEqual
 
-        return False;
+        return False
     # # # # # # # # # # # #  TranslationStore # # # # # # # # # # # # #
 
     suggestions_in_format = True

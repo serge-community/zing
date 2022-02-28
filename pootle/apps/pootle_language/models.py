@@ -253,6 +253,21 @@ class Language(models.Model, TreeItem):
             user, include_disabled=include_disabled, select_related=select_related
         ).select_related("project")
 
+    def compare(self, other):
+        if isinstance(other, Language):
+            isEqual = True
+            if self.code != other.code:
+                isEqual = False
+            if self.fullname != other.fullname:
+                isEqual = False
+            if self.specialchars != other.specialchars:
+                isEqual = False
+            if self.nplurals != other.nplurals:
+                isEqual = False
+            return isEqual
+        else:
+            return False
+
 
 def clear_language_list_cache():
     key = make_method_key("LiveLanguageManager", "cached_dict", "*")
@@ -268,21 +283,4 @@ def invalidate_language_list_cache(**kwargs):
     # XXX: maybe use custom signals or simple function calls?
     if instance.__class__.__name__ not in ["Language", "TranslationProject"]:
         return
-
     clear_language_list_cache()
-
-
-def compare(self, other):
-    if isinstance(other, Language):
-        isEqual = True;
-        if self.code != other.code:
-            isEqual = False;
-        if self.fullname != other.fullname:
-            isEqual = False;
-        if self.specialchars != other.specialchars:
-            isEqual = False;
-        if self.nplurals != other.nplurals:
-            isEqual = False;
-        return isEqual;
-    else:
-        return False;

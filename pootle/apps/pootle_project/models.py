@@ -440,34 +440,30 @@ class Project(models.Model, CachedTreeItem, ProjectURLMixin):
         """
         if user.is_superuser:
             return True
-
         return self.code in Project.accessible_by_user(user)
-    
-    def compare(self, other):
 
+    def compare(self, other):
         if isinstance(other, Project):
-            isEqual = True;
+            isEqual = True
             if self.code != other.code:
-                isEqual = False;
+                isEqual = False
             if self.fullname != other.fullname:
-                isEqual = False;
+                isEqual = False
             if self.checkstyle != other.checkstyle:
-                isEqual = False;
+                isEqual = False
             if self.source_language_id != other.source_language_id:
-                isEqual = False;
+                isEqual = False
             if self.directory_id != other.directory_id:
-                isEqual = False;
+                isEqual = False
             if self.creation_time != other.creation_time:
-                isEqual = False;
+                isEqual = False
             if self.disabled != other.disabled:
-                isEqual = False;
+                isEqual = False
             if self.report_email != other.report_email:
-                isEqual = False;
-                
-            return isEqual;
+                isEqual = False
+            return isEqual
         else:
-            return False;
-    
+            return False
 
 
 class ProjectResource(VirtualResource, ProjectURLMixin):

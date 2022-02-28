@@ -299,17 +299,15 @@ class Directory(models.Model, CachedTreeItem):
         self.save()
         self.clear_cache()
 
-    def is_clone_of(self,other):
+    def is_clone_of(self, other):
         if isinstance(other, Directory):
-            isEqual = True;
+            isEqual = True
             if self.name != other.name:
-                isEqual = False;
-
+                isEqual = False
             if self.pootle_path != other.pootle_path:
-                isEqual = False;
+                isEqual = False
             if self.obsolete != other.obsolete:
-                isEqual = False;
-
-            return isEqual;
+                isEqual = False
+            return isEqual
         else:
-            return False;
+            return False

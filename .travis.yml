@@ -37,6 +37,7 @@ jobs:
         - sudo sed -i.old 's/-Xmx1g/-Xmx128m/' /etc/elasticsearch/jvm.options
         - echo -e '-XX:+DisableExplicitGC\n-Djdk.io.permissionsUseCanonicalPath=true\n-Dlog4j.skipJansi=true\n-server\n' | sudo tee -a /etc/elasticsearch/jvm.options
         - sudo chown -R elasticsearch:elasticsearch /etc/default/elasticsearch
+        - systemctl status elasticsearch.service
         - sudo systemctl start elasticsearch
       install:
         - pip install -r requirements/travis.txt

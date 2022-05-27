@@ -1,5 +1,7 @@
 Django==3.1.12
 
+# importlib_metadata==4.11.4
+
 # Django apps
 django-allauth==0.41.0
 django-assets==2.0

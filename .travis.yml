@@ -9,6 +9,7 @@ jobs:
       cache:
         pip: true
       install:
+        - pip install -U importlib_metadata
         - pip install -r requirements/travis.txt
       script:
         # Python code linting

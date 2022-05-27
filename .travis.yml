@@ -39,6 +39,7 @@ jobs:
         - sudo chown -R elasticsearch:elasticsearch /etc/default/elasticsearch
         - sudo systemctl enable elasticsearch.service
       install:
+        - pip install -U importlib_metadata
         - pip install -r requirements/travis.txt
       script:
         # Use SQLite to avoid requiring the DB to be setup

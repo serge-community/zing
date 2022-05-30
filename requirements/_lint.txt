@@ -1,6 +1,7 @@
 # Linting tools
 
-black==22.3.0
+click==8.0.2
+black==19.10b0
 flake8==4.0.1
 isort==4.3.21
 pylint==2.4.4

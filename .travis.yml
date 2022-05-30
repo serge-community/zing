@@ -1,13 +1,5 @@
 jobs:
   include:
-
-    - language: node_js
-      node_js: 12
-      before_install: cd pootle/static/js
-      script:
-        - npm run lint
-        - npm run test
-
     - language: python
       python: 3.7
       name: Project linting & migrations
@@ -19,6 +11,7 @@ jobs:
       install:
         - pip install -U importlib_metadata
         - pip install -r requirements/travis.txt
+        - nvm install 12
       script:
         # Python code linting
         - make lint-python
@@ -56,6 +49,13 @@ jobs:
         - py.test --cov-report=term --cov=. -v --durations=25
       after_success:
         - codecov
+
+    - language: node_js
+      node_js: 12
+      before_install: cd pootle/static/js
+      script:
+        - npm run lint
+        - npm run test
 
 notifications:
   email:

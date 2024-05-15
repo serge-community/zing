@@ -101,7 +101,7 @@ WORDCOUNT_TESTS["numeric_xml_entities"] = {
     "pootle": 0,
 }
 WORDCOUNT_TESTS["product_names"] = {
-    "string": ("Evernote International"),
+    "string": ("Serge International"),
     "ttk": 2,
     "pootle": 0,
 }

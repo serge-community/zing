@@ -33,11 +33,10 @@ const AboutDialogContent = React.createClass({
           <p>
             {tct(
               'This server is powered by %(zing)s — ' +
-                'online translation software developed by %(evernoteLink)s ' +
-                'and based on open-source %(pootleLink)s project.',
+              'online translation software and based ' +
+              'on open-source %(pootleLink)s project.',
               {
                 zing: <strong>Zing</strong>,
-                evernoteLink: <a href="https://evernote.com/">Evernote</a>,
                 pootleLink: <a href="http://pootle.translatehouse.org/">Pootle</a>,
               }
             )}
@@ -45,7 +44,7 @@ const AboutDialogContent = React.createClass({
 
           <p>
             {tct('Source code and bug tracker: %(githubLink)s', {
-              githubLink: <a href="https://github.com/evernote/zing">GitHub</a>,
+              githubLink: <a href="https://github.com/serge-community/zing">GitHub</a>,
             })}
           </p>
 

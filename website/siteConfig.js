@@ -1,6 +1,6 @@
 'use strict';
 
-const ORGANIZATION_NAME = 'evernote'
+const ORGANIZATION_NAME = 'serge-community'
 const PROJECT_NAME = 'zing';
 const GH_URL = `https://github.com/${ORGANIZATION_NAME}/${PROJECT_NAME}/`;
 const GH_EDIT_URL = `${GH_URL}edit/master/docs/`;
@@ -8,7 +8,7 @@ const GH_EDIT_URL = `${GH_URL}edit/master/docs/`;
 const siteConfig = {
   title: 'Zing',
   tagline: 'Opinionated translation server for continuous localization.',
-  url: 'https://evernote.github.io/zing/',
+  url: 'https://serge-community.github.io/zing/',
   baseUrl: '/zing/',
   cleanUrl: true,
   projectName: PROJECT_NAME,
@@ -49,7 +49,6 @@ const siteConfig = {
 
   // Custom config keys
   repoURL: GH_URL,
-  gitterURL: 'https://gitter.im/evernote-serge/general',
 };
 
 module.exports = siteConfig;

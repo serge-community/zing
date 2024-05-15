@@ -3011,9 +3011,9 @@ msgstr "顶尖贡献者"
 #~ msgstr "第 %d 页"
 
 #~ msgid ""
-#~ "Cannot link: your Evernote account is already linked with another Pootle "
+#~ "Cannot link: your Serge account is already linked with another Pootle "
 #~ "account."
-#~ msgstr "无法链接：您的 Evernote 帐号已经连接到另外一个 Pootle 帐号。"
+#~ msgstr "无法链接：您的 Serge 帐号已经连接到另外一个 Pootle 帐号。"
 
 #~ msgid "Translate Toolkit version %s installed."
 #~ msgstr "Translate Toolkit 的 %s 版本已经安装。"
@@ -3162,20 +3162,20 @@ msgstr "顶尖贡献者"
 #~ msgid "No news yet."
 #~ msgstr "当前没有新闻。"
 
-#~ msgid "Link with Evernote"
-#~ msgstr "与 Evernote 连接"
+#~ msgid "Link with Serge"
+#~ msgstr "与 Serge 连接"
 
 #~ msgid "My Account"
 #~ msgstr "我的帐户"
 
-#~ msgid "Evernote account"
-#~ msgstr "Evernote 账号"
+#~ msgid "Serge account"
+#~ msgstr "Serge 账号"
 
 #~ msgid ""
 #~ "This Pootle account is linked with \"<strong>%(username)s</strong>\" "
-#~ "Evernote account."
+#~ "Serge account."
 #~ msgstr ""
-#~ "此 Pootle 账号已与 Evernote 账号“<strong>%(username)s</strong>”连接。"
+#~ "此 Pootle 账号已与 Serge 账号“<strong>%(username)s</strong>”连接。"
 
 #~ msgid "Profile"
 #~ msgstr "个人资料"

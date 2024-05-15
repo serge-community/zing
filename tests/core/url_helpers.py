@@ -18,7 +18,7 @@ from pootle.core.url_helpers import (
 
 def test_urljoin():
     """Tests URL parts are properly joined with a base."""
-    base = "https://www.evernote.com/"
+    base = "https://serge.io/"
     assert urljoin(base) == base
     assert urljoin(base, "/foo/bar", "baz/blah") == base + "foo/bar/baz/blah"
     assert urljoin(base, "/foo/", "/bar/", "/baz/") == base + "foo/bar/baz/"

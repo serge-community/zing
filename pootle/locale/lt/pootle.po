@@ -3024,10 +3024,10 @@ msgstr "Aktyviausi talkininkai"
 #~ msgstr "%d-tinklalapis"
 
 #~ msgid ""
-#~ "Cannot link: your Evernote account is already linked with another Pootle "
+#~ "Cannot link: your Serge account is already linked with another Pootle "
 #~ "account."
 #~ msgstr ""
-#~ "Neįmanoma susieti: Jūsų Evernote paskyra jau susieta su kitų Pootle "
+#~ "Neįmanoma susieti: Jūsų Serge paskyra jau susieta su kitų Pootle "
 #~ "vartotoju"
 
 #~ msgid "Translate Toolkit version %s installed."

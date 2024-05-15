@@ -33,9 +33,9 @@ def trim_url(link):
     Trimming is done by always keeping the scheme part, and replacing
     everything up to the last path part with three dots. Example::
 
-    https://www.evernote.com/shard/s12/sh/f6f3eb18-c11c/iPhone5_AppStore_01_Overview.png?resizeSmall&width=832
+    https://serge.io/this/is/a/very/very/but/very/long/url?with=a&lot=of&query=parameters
     becomes
-    https://.../iPhone5_AppStore_01_Overview.png?resizeSmall&width=832
+    https://.../this/is/a/very/very/but/very/long/url?with=a&lot=of&query=parameters
     """
     link_text = link
 

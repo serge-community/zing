@@ -87,7 +87,7 @@ check_names = {
     "variables": _(u"Placeholders"),
     "validxml": _(u"Valid XML"),
     "xmltags": _(u"XML tags"),
-    # Evernote checks (excludes duplicates)
+    # Checks (excludes duplicates)
     "broken_entities": _(u"Broken HTML Entities"),
     "java_format": _(u"Java format"),
     "template_format": _(u"Template format"),

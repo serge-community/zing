@@ -32,7 +32,7 @@ def to_jquery_safe_js(value):
     """Returns a string which leaves the value readily available for JS
     consumption; escapes closing tags to avoid '</script> inside JS string'
     problem; breaks HTML tags into concatenated strings to avoid jQuery `html()`
-    rendering problem (see https://github.com/evernote/zing/issues/105).
+    rendering problem (see https://github.com/serge-community/zing/issues/105).
 
     This template tag needs to be removed once the editor is moved into a native
     React component

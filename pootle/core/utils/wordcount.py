@@ -35,10 +35,6 @@ newline_regex = re.compile(r"({\\\n})")
 # escaping_sqc_regex = re.compile(u'(\\\+[rnt])')
 escaping_sqc_regex = re.compile(r"(\\\+[rnt])")
 xml_entities_regex = re.compile(r"(&#\d+;|&\w+;)")
-product_names_regex = re.compile(
-    u"(Evernote International|Evernote Food|Evernote Hello|Evernote Clearly|"
-    u"Evernote Business|Skitch|Evernote®?|Food|^Hello$|Clearly)"
-)
 shortcuts_regex = re.compile(r"(Ctrl\+\w$|Shift\+\w$|Alt\+\w$)")
 shortcuts_modifier_regex = re.compile(r"(Ctrl\+$|Shift\+$|Alt\+$)")
 hanging_symbols_regex = re.compile(r"(^[^\w&]\s|\s[^\w&]\s|\s[^\w&]$|^[^\w&]$)")
@@ -68,7 +64,7 @@ def find_placeholders(aref, regex, cls=""):
 def wordcount(string):
     string = re.sub("\n", "{\\n}", string)
 
-    chunks = [{"translate": 1, "string": u"%s" % string}]
+    chunks = [{"translate": 1, "string": "%s" % string}]
 
     # FIXME: provide line continuations to fit lines below 80 chars
 
@@ -96,8 +92,6 @@ def wordcount(string):
     find_placeholders(chunks, escaping_sqc_regex)
     # XML entities
     find_placeholders(chunks, xml_entities_regex)
-    # Product names
-    find_placeholders(chunks, product_names_regex)
     # Shortcuts
     find_placeholders(chunks, shortcuts_regex)
     # Shortcut modifiers
@@ -121,16 +115,16 @@ def _count_words(aref):
             # word)
             s = english_date.sub(r"\g<1>\g<2>\g<3>", s)
 
-            s = remove.sub(u"", s)
-            s = delimiters_begin.sub(u"", s)
-            s = delimiters_end.sub(u"", s)
+            s = remove.sub("", s)
+            s = delimiters_begin.sub("", s)
+            s = delimiters_end.sub("", s)
 
             a = delimiters.split(s)
 
-            if len(a) > 1 and a[-1] == u"":
+            if len(a) > 1 and a[-1] == "":
                 a.pop()
 
-            if len(a) == 1 and a[0] == u"":
+            if len(a) == 1 and a[0] == "":
                 a.pop()
 
             n += len(a)

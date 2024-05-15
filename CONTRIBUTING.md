@@ -5,7 +5,7 @@ Reporting Issues
 ----------------
 
 Before creating a new report, please make sure [the issue is not already on
-file](https://github.com/evernote/zing/issues/).
+file](https://github.com/serge-community/zing/issues/).
 
 Write your report so that you ensure developers are fixing the issue rather than
 spending time trying to understand it.  If we can't see it or replicate it,
@@ -19,7 +19,6 @@ Checklist:
 * Full traceback if one occurred.
 * Links to the actual issue.
 
-
 Common Sense
 ------------
 
@@ -28,10 +27,9 @@ Before contributing any code, please:
 * Do not write any line of code without consulting about it first, trivial fixes
   being an exception. Note the project might not be interested in some changes,
   especially when these are substantial or not in line with the [goals and
-  vision](https://github.com/evernote/zing/blob/master/GOALS.md).
+  vision](https://github.com/serge-community/zing/blob/master/GOALS.md).
 * Think if any code is needed at all: [The Best Code is No Code At
   All](http://blog.codinghorror.com/the-best-code-is-no-code-at-all/).
-
 
 Commits
 -------
@@ -43,7 +41,6 @@ contributors will look at the project.
   which are unrelated to its message.
 * Follow [these conventions](http://chris.beams.io/posts/git-commit/) when
   writing the commit message.
-
 
 Pull Requests
 -------------

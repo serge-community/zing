@@ -24,20 +24,18 @@ source zing-env/bin/activate
 This will prepend `(zing-env)` to your shell prompt, indicating the virtual
 environment is active.
 
-
 ## Installing Zing
 
 Use `pip` to install Zing into the virtual environment:
 
 ```shell
-pip install https://github.com/evernote/zing/archive/v|version|.zip
+pip install https://github.com/serge-community/zing/archive/v|version|.zip
 ```
 
 This will also fetch and install Zing's dependencies.
 
 To verify that everything is installed correctly, you should be able to access
 the `zing` command line tool within your environment.
-
 
 ```shell
 zing --version

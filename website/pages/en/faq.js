@@ -19,18 +19,6 @@ const contents = [
     answer: `Please file an issue [on GitHub](${siteConfig.repoURL + "issues/new"}).`,
   },
   {
-    question: 'Who maintains and develops Zing?',
-    answer: `Zing is built by the localization team at [Evernote](https://www.evernote.com/).`,
-  },
-  {
-    question: 'Is Zing actively developed?',
-    answer: 'While the current feature set already fulfills the needs of Evernote, Zing is actively supported by fixing bugs and upgrading to newer versions of libraries.',
-  },
-  {
-    question: 'Is Zing production-ready?',
-    answer: `Yes. The [Evernote Translation Server](https://translate.evernote.com/) runs Zing, and it's an important part of the day-to-day business.`,
-  },
-  {
     question: 'Is Zing stable across versions?',
     answer: `Zing adheres to [Semantic Versioning](https://semver.org/), and because **it hasn't reached a 1.0 version yet, anything might change anytime and there can be backwards incompatible changes** between releases.`,
   },

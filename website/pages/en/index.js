@@ -71,7 +71,6 @@ class HomeSplash extends React.Component {
           </h2>
           <PromoSection>
             <Button href={docUrl('introduction', language)}>Documentation</Button>
-            <Button href="https://translate.evernote.com/">See it Live</Button>
           </PromoSection>
         </div>
       </SplashContainer>

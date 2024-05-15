@@ -2946,17 +2946,17 @@ msgstr "Изявени сътрудници"
 #~ msgid "No news yet."
 #~ msgstr "Още няма новини."
 
-#~ msgid "Link with Evernote"
-#~ msgstr "Свързване с Evernote"
+#~ msgid "Link with Serge"
+#~ msgstr "Свързване с Serge"
 
 #~ msgid "My Account"
 #~ msgstr "Моят профил"
 
-#~ msgid "Evernote account"
-#~ msgstr "Evernote профил"
+#~ msgid "Serge account"
+#~ msgstr "Serge профил"
 
-#~ msgid "Unlink from Evernote"
-#~ msgstr "Разкачане от Evernote"
+#~ msgid "Unlink from Serge"
+#~ msgstr "Разкачане от Serge"
 
 #~ msgid "Profile"
 #~ msgstr "Профил"

@@ -1,15 +1,13 @@
 Zing Authors
 ============
 
-Zing development is actively maintained by [Evernote](https://www.evernote.com)
-developers [Igor Afanasyev](https://github.com/iafan) and [Julen Ruiz
-Aizpuru](https://github.com/julen).
+Zing development has been developed by [Igor Afanasyev](https://github.com/iafan)
+and [Julen Ruiz Aizpuru](https://github.com/julen).
 
 The project is [open to external
-contributions](https://github.com/evernote/zing/blob/master/CONTRIBUTING.md)
+contributions](https://github.com/serge-community/zing/blob/master/CONTRIBUTING.md)
 and, as such, the GitHub project page contains the [full list of
-contributors](https://github.com/evernote/zing/contributors).
-
+contributors](https://github.com/serge-community/zing/contributors).
 
 Acknowledgements
 ----------------
